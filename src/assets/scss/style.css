@@ -1,0 +1,29 @@
+.mainDiv {
+    padding: 0px !important;
+}
+
+.mainDiv .MuiBox-root {
+    padding: 0px !important;
+}
+
+.MuiBox-root.css-vaywbt {
+    background-image: url("../images/coming.webp");
+    background-size: cover;
+    /* background: linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%) !important; */
+    /* background: linear-gradient(to bottom, gray 0%, white 100%) !important; */
+
+}
+
+.commingSoonImg p,
+.commingSoonImg h2 {
+    color: black;
+}
+
+.commingSoonImg .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+    border-color: black;
+    color: black;
+}
+
+.commingSoonImg form {
+    margin: 0 auto;
+}
