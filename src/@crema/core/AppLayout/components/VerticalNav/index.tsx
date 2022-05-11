@@ -32,8 +32,8 @@ const VerticalNav = () => {
       }}
       component="div"
     >
-    {user?.userType==="admin"?(
-       routesConfig.map((item: any) => (
+    {/* {user?.userType==="admin"?( */}
+       {routesConfig.map((item: any) => (
         
        <React.Fragment key={item.id}>
          {item.type === "group" && <NavVerticalGroup item={item} level={0} />}
@@ -45,25 +45,8 @@ const VerticalNav = () => {
          {item.type === "item" && <VerticalItem item={item} level={0} />}
        </React.Fragment>
      
-    ))):
-    <>
-     {/* <VerticalItem item={routesConfig[0]} level={0} /> */}
-
-    {routesConfig?.map((item: any) => (
-      user?.permissions?.map((list, index) =>
-      list?.includes(item.messageId) ? (
-     <React.Fragment key={item.id}>
-       {item.type === "group" && <NavVerticalGroup item={item} level={0} />}
-
-       {item.type === "collapse" && (
-         <VerticalCollapse item={item} level={0} />
-       )}
-
-       {item.type === "item" && <VerticalItem item={item} level={0} />}
-     </React.Fragment>):null)
-   ))}</>
-   }
-      
+    ))}
+  
     </List>
   );
 };

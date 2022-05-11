@@ -19,14 +19,17 @@ function* loginRequestSaga({ payload }: any): any {
     password: payload.password,
   };
   try {
-    const response = yield axios.post(`/auth/login`, data);
+    const response = yield axios.post(`user/login`, data);
     console.log("response", response);
+    yield put(push("/dashboard"));
     toast.success("Login Successfully");
-    yield put(loginRequestSuccess(response.data));
+    yield put(loginRequestSuccess(response.data.data));
     yield put(setLoader(false));
+
+    
   } catch (error: any) {
     console.log("error", error.response)
-    yield sagaErrorHandler(error.response);
+    yield sagaErrorHandler(error.response.data);
   }
 }
 
@@ -39,10 +42,10 @@ function* forgetRequestSaga({ payload }: any): any {
     email: payload.email,
   };
   try {
-    const response = yield axios.post(`/auth/admin/forgot-password`, data);
+    const response = yield axios.post(`/user/admin/forgot-password`, data);
     console.log("response", response.data.reset_token);
     yield put(resetPasswordSuccess(response.data.reset_token));
-    yield put(push("/reset-password"));
+    yield put(push("/forget-password"));
   } catch (error: any) {
     console.log("error", error.response)
     yield sagaErrorHandler(error.response.data);
@@ -58,7 +61,7 @@ function* resetRequestSaga({ payload }: any): any {
     token: payload.token,
   };
   try {
-    const response = yield axios.post(`/auth/admin/reset-password`, data);
+    const response = yield axios.post(`/user/admin/reset-password`, data);
     console.log("response", response);
     toast.success("Password reset Successfully");
     yield put(push("/signin"));

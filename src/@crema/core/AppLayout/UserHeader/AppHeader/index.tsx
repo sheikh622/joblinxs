@@ -86,6 +86,7 @@ const AppHeader = () => {
                 fontWeight: Fonts.BOLD,
                 fontSize: 25,
                 mb: 1 ,
+                // marginLeft:150,
               }}
             >
              Tanza Admin Panel

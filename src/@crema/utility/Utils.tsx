@@ -87,7 +87,7 @@ export const checkPermission = (routeAuth: any, userRole: any) => {
   if (userRole && Array.isArray(userRole) && Array.isArray(routeAuth)) {
     return routeAuth.some((r) => userRole.indexOf(r) >= 0);
   }
-  return routeAuth.indexOf(userRole) >= 0;
+  return routeAuth?.indexOf(userRole) >= 0;
 };
 
 export const generateUniqueID = () => {

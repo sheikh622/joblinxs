@@ -34,7 +34,7 @@ const AppContentView: React.FC<AppContentViewProps> = ({ sxStyle }) => {
           p: { xs: 5, md: 7.5, xl: 12.5 },
           ...sxStyle,
         }}
-        className={location.pathname == "/error-pages/coming-soon" ? "mainDiv" : "app-content"}
+        className={location.pathname === "/error-pages/coming-soon" ? "mainDiv" : "app-content"}
       // className="app-content"
       >
         <AppSuspense>

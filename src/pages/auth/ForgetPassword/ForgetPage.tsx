@@ -28,13 +28,13 @@ const ForgetPage = () => {
       email: "",
     },
     validationSchema: ForgetSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values , {resetForm}) => {
    
       await dispatch(
         forgotPassword({
           email: values.email,
         })
-      );
+      );resetForm();
     },
   });
   return (

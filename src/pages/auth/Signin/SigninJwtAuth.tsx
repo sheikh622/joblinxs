@@ -3,7 +3,6 @@ import Button from "@mui/material/Button";
 import { Checkbox } from "@mui/material";
 import { Form, Formik } from "formik";
 import * as yup from "yup";
-
 import AppInfoView from "@crema/core/AppInfoView";
 import { Link, useHistory } from "react-router-dom";
 import Box from "@mui/material/Box";

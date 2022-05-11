@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { useHistory } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import AppInfoView from "../../../@crema/core/AppInfoView";
+// import AppInfoView from "../../../@crema/core/AppInfoView";
 import { Fonts } from "../../../shared/constants/AppEnums";
 import { TextField } from "@mui/material";
 import { loginRequest } from "../../../redux/auth/actions";
@@ -251,7 +251,7 @@ const LoginPage = () => {
         </form>
       </Box>
 
-      <AppInfoView />
+      {/* <AppInfoView /> */}
     </Box>
   );
 };

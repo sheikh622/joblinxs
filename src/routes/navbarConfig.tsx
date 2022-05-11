@@ -20,37 +20,41 @@ export interface RouterConfigData {
 const routesConfig: RouterConfigData[] = [
   {
     id: "app",
-    title:  <IntlMessages id="sideNav.Dashboard" />,
+    title: <IntlMessages id="sideNav.Dashboard" />,
     messageId: "Dashboard",
     type: "item",
     url: "/dashboard",
-  
+
   },
-  // {
-  //   id: "chatManagement",
-  //   title: "chatManagement",
-  //   messageId: "ChatManagement",
-  //   type: "item",
-  //   url: "/chatManagement",
-  // },
-  // {
-  //   id: "battles",
-  //   title:  <IntlMessages id="sideNav.Battles" />,
-  //   messageId: "Battles",
-  //   type: "item",
-  //   url: "/battles",
-  // },
+  {
+    id: "Users",
+    title: "Users",
+    messageId: "Users Management",
+    type: "item",
+    url: "/Users",
+  },
+  {
+    id: "Categories",
+    title: "Categories",
+    messageId: "Categories Management",
+    type: "item",
+    url: "/Categories",
+  },
+  {
+    id: "JobManagement",
+    title: "JobManagement",
+    messageId: "Job Management",
+    type: "item",
+    url: "/JobManagement",
+  },
+  {
+    id: "Invoice",
+    title: <IntlMessages id="sideNav.Invoice" />,
+    messageId: "Invoice",
+    type: "item",
+    url: "/Invoice",
+  },
 
-  // {
-  //   id: "Collection",
-  //   title:  <IntlMessages id="sideNav.Collection" />,
-  //   messageId: "Collection",
-  //   type: "item",
-  //   url: "/collections",
-   
-  // },
 
-
- 
 ];
 export default routesConfig;

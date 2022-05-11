@@ -5,17 +5,17 @@ import React from "react";
 import { errorPagesConfigs } from "./errorPagesRoutes";
 import { authorizedRouteConfigs } from "./authorizedRoutes";
 
-const authorizedStructure = {
-  fallbackPath: "/signin",
-  unAuthorizedComponent: <Error403 />,
-  routes: [...authorizedRouteConfigs],
-};
 
 const unAuthorizedStructure = {
   fallbackPath: initialUrl,
   routes: unauthorizedRouteConfigs,
 };
 
+const authorizedStructure = {
+  fallbackPath: "/signin",
+  unAuthorizedComponent: <Error403 />,
+  routes: [...authorizedRouteConfigs],
+};
 const anonymousStructure = {
   routes: errorPagesConfigs,
 };

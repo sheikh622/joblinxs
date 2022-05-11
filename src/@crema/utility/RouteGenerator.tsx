@@ -1,9 +1,9 @@
 import React from 'react';
-import {Redirect, Route} from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 
 // @ts-ignore
 import _extends from '@babel/runtime/helpers/esm/extends';
-import {authRole, RoutePermittedRole} from 'shared/constants/AppConst';
+import { authRole, RoutePermittedRole } from 'shared/constants/AppConst';
 
 /**
  * @param {Object} structure - The passed object that defines the routes.
@@ -19,7 +19,7 @@ import {authRole, RoutePermittedRole} from 'shared/constants/AppConst';
 
 const generateRoutes = (structure: any) => {
   const {
-    isAuthenticated = false,
+    isAuthenticated = true,
     anonymousStructure = {},
     authorizedStructure = {},
     unAuthorizedStructure = {},
@@ -122,6 +122,10 @@ const routesGenerator = (
               const renderCondition = isAuthorized
                 ? isAuthenticated
                 : !isAuthenticated;
+
+              console.log(userRole)
+              console.log(userRole?.role)
+              console.log(permittedRole)
               return generatedRoutes.push(
                 <Route
                   exact
@@ -129,7 +133,7 @@ const routesGenerator = (
                   path={route.path}
                   render={(props) => {
                     return renderCondition ? (
-                      userRole.role.indexOf(permittedRole) > -1 ? (
+                      permittedRole?.indexOf(userRole) > -1 ? (
                         React.createElement(
                           component,
                           _extends(

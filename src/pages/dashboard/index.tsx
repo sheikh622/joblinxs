@@ -8,14 +8,17 @@ import Admin from "../../assets/images/Admin.png";
 import FlaggedMedia from "../../assets/images/FlaggedMedia.png";
 import FlaggedUsers from "../../assets/images/FlaggedUsers.png";
 import revenue from "../../assets/images/revenue.png";
-import image from "../../assets/icon/coming.webp"
+import image from "../../assets/icon/landing.png"
+import Typography from "@mui/material/Typography";
+import IntlMessages from "@crema/utility/IntlMessages";
+import { grey } from "@mui/material/colors";
+import { Fonts } from "shared/constants/AppEnums";
 const DashboardStatistics = [
   {
     id: 1,
     category: "Total Users",
     name: "20k",
     bgColor: "#0A8FDC",
-    time: "9 AM",
     icon: player,
   },
   {
@@ -23,7 +26,6 @@ const DashboardStatistics = [
     category: "Flagged Users",
     name: "915",
     bgColor: "#00B59C",
-    time: "10 AM",
     icon: player,
   },
 
@@ -32,23 +34,22 @@ const DashboardStatistics = [
     category: "Total Admins",
     name: "20",
     bgColor: "#FFA940",
-    time: "11 AM",
     icon: revenue,
   },
 ];
 const Activitydata = [
-  { name: "Jan",   FlaggedUsers: 27, Admin: 20 },
-  { name: "Feb",  FlaggedUsers: 20, Admin: 23 },
-  { name: "Mar",   FlaggedUsers: 28, Admin: 24 },
-  { name: "Apr",  FlaggedUsers: 25, Admin: 26 },
-  { name: "May",   FlaggedUsers: 30, Admin: 23 },
-  { name: "Jun",   FlaggedUsers: 25, Admin: 29 },
-  { name: "Jul",   FlaggedUsers: 30, Admin: 22 },
-  { name: "Aug",   FlaggedUsers: 24, Admin: 28 },
-  { name: "Sep",   FlaggedUsers: 30, Admin: 27 },
-  { name: "Oct",   FlaggedUsers: 27, Admin: 28 },
-  { name: "Nov",   FlaggedUsers: 24, Admin: 23 },
-  { name: "Dec",   FlaggedUsers: 27, Admin: 37 },
+  { name: "Jan", FlaggedUsers: 27, Admin: 20 },
+  { name: "Feb", FlaggedUsers: 20, Admin: 23 },
+  { name: "Mar", FlaggedUsers: 28, Admin: 24 },
+  { name: "Apr", FlaggedUsers: 25, Admin: 26 },
+  { name: "May", FlaggedUsers: 30, Admin: 23 },
+  { name: "Jun", FlaggedUsers: 25, Admin: 29 },
+  { name: "Jul", FlaggedUsers: 30, Admin: 22 },
+  { name: "Aug", FlaggedUsers: 24, Admin: 28 },
+  { name: "Sep", FlaggedUsers: 30, Admin: 27 },
+  { name: "Oct", FlaggedUsers: 27, Admin: 28 },
+  { name: "Nov", FlaggedUsers: 24, Admin: 23 },
+  { name: "Dec", FlaggedUsers: 27, Admin: 37 },
 ];
 const Home = () => {
   return (
@@ -60,7 +61,6 @@ const Home = () => {
               {data.id < 4 ? (
                 <Grid item xs={12} sm={12} lg={4} mr={6} mb={6} key={index}>
                   {/* <StatisticsCard data={data} /> */}
-                  <img src={image}/>
 
                 </Grid>
               ) : (
@@ -68,6 +68,44 @@ const Home = () => {
               )}
             </>
           ))}
+        </div>
+        <Box
+          sx={{
+            py: { xl: 6 },
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+          }}
+        >
+          <Box
+            component="h1"
+            sx={{
+              mb: { xs: 3, xl: 4 },
+              fontSize: { xs: 22, md: 30, marginTop: 0, },
+              fontWeight: Fonts.MEDIUM,
+              textDecorationColor: "whitesmoke"
+            }}
+          >
+            <IntlMessages id="error.underConstruction" />!
+          </Box>
+
+          <Box
+            sx={{
+              mb: { xs: 4, xl: 5 },
+              color: grey[600],
+            }}
+          >
+            <Typography style={{ fontSize: 18, marginTop: 0, fontWeight: "bold" }}>
+              <IntlMessages id="error.comingSoonMessage1" />
+            </Typography>
+          </Box>
+        </Box>
+        <div style={{ display:"flex", justifyContent:"center" }}>
+
+          <img src={image} width="550px" height="200px" />
         </div>
 
         <Grid container spacing={{ xs: 4, md: 8 }}>

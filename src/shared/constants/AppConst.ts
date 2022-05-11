@@ -14,7 +14,7 @@ export const defaultUser: AuthUser = {
   uid: "john-alex",
   displayName: "John Alex",
   email: "demo@example.com",
-  token: "access-token",
+  token: "access_token",
   role: "user",
   photoURL: "/assets/images/placeholder.jpg",
 };

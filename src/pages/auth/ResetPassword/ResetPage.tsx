@@ -13,8 +13,20 @@ import { Icon } from "@iconify/react";
 import { TextField } from "@mui/material";
 import {resetPassword} from "../../../redux/auth/actions"
 import IntlMessages from "@crema/utility/IntlMessages";
+import { useHistory} from "react-router-dom";
+import { Console } from "console";
+
 const ResetPassword = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  console.log("----------",history);
+  // const onGoToResetPassword = () => {
+  //   history.push("/reset-password", { tab: "firebase" });
+  // };
+  let Array = history.location.search;
+  const newToken=Array.split("=")[1];
+  console.log("newToken",newToken);
+
   const token = useSelector((state: any) => state.auth.resetPasswordToken);
   const [showPassword, setShowPassword] = useState("password");
   const changePasswordState = () => {
@@ -52,7 +64,7 @@ const ResetPassword = () => {
         resetPassword({
           password: values.password, 
           confirmPassword: values.confirmPassword, 
-          token: token, 
+          token: newToken, 
         })
       );
     },
@@ -167,6 +179,7 @@ const ResetPassword = () => {
                 textTransform: "capitalize",
                 padding: "4px 16px 8px",
               }}
+              // onClick={onGoToResetPassword}
             >
            <IntlMessages id="common.reset" />
             </Button>

@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { useHistory } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import AppInfoView from "../../../@crema/core/AppInfoView";
+// import AppInfoView from "../../../@crema/core/AppInfoView";
 import { Fonts } from "../../../shared/constants/AppEnums";
 import { TextField } from "@mui/material";
 import { loginRequest } from "../../../redux/auth/actions";
@@ -41,18 +41,18 @@ const LoginPage = () => {
       remember: true,
     },
     validationSchema: LoginSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       await dispatch(
         loginRequest({
           // name: values.name,
           email: values.email,
           password: values.password,
         })
-      );
+      );resetForm();
     },
   });
   return (
-    <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+    // <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
       <Box sx={{ flex: 1, display: "flex", flexDirection: "column", mb: 5 }}>
         <form
           style={{ textAlign: "center" }}
@@ -60,23 +60,6 @@ const LoginPage = () => {
           autoComplete="off"
           onSubmit={loginFormik.handleSubmit}
         >
-           {/* <Box sx={{ mb: { xs: 5, xl: 8 } }}>
-            <TextField
-              name="name"
-              fullWidth
-              type="name"
-              placeholder="Enter your name"
-              label="name"
-              value={loginFormik.values.name}
-              onChange={(e: any) => {
-                loginFormik.setFieldValue("name", e.target.value);
-              }}
-            />
-            {loginFormik.touched.name && loginFormik.errors.name ? (
-              <div style={{ color: "red" }}>{loginFormik.errors.name}</div>
-            ) : null}
-          </Box> */}
-
           <Box sx={{ mb: { xs: 5, xl: 8 } }}>
             <TextField
               name="email"
@@ -141,7 +124,6 @@ const LoginPage = () => {
               Forget Your Password?
             </Box>
           </Box>
-
           <div style={{ textAlign: "center", marginTop: "30px" }}>
             <Button
               variant="contained"
@@ -161,9 +143,7 @@ const LoginPage = () => {
           </div>
         </form>
       </Box>
-
-      <AppInfoView />
-    </Box>
+    // </Box>
   );
 };
 

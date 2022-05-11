@@ -19,14 +19,14 @@ const Signin = () => {
   return (
     <AuthWrapper>
       <Box sx={{ width: "70%" }}>
-        <Box sx={{ mb: { xs: 6, xl: 8 } }}>
+      <Box sx={{ mb: { xs: 6, xl: 8 } }}>
           <Box
             sx={{
               justifyContent: "center",
               display: "flex",
               alignItems: "center",
             }}
-          > 
+          >
             <Typography
               component="h2"
               sx={{
@@ -35,15 +35,17 @@ const Signin = () => {
                 alignItems: "center",
                 justifyContent: "center",
                 justifySelf: "center",
-                paddingTop:10,
+                paddingTop: 1,
               }}
             >
-              <IntlMessages id="common.SignIn" />
+              <IntlMessages id="common.logintitle" />
             </Typography>
 
           </Box>
         </Box>
-        <div style={{
+        <LoginPage />
+        
+        {/* <div style={{
           display: "flex",
           alignItems: "center",
           justifySelf: "center",
@@ -57,7 +59,7 @@ const Signin = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                padding: 4, 
+                padding: 4,
                 paddingLeft: 0,
 
               }}
@@ -77,22 +79,6 @@ const Signin = () => {
               paddingLeft: 10,
             }}
           >
-            <Tooltip title="IOS">
-              <span onClick={() => window.open(`https://myaccount.google.com/`, "_blank")} style={{ border: "1px solid #E2E8F0", padding: "10px", borderRadius: "8%" }}>
-                <AppleIcon />
-              </span>
-            </Tooltip>
-          </div>
-          <div
-            style={{
-              display: "flex",
-
-              alignItems: "center",
-              padding: 4,
-
-              paddingLeft: 10,
-            }}
-          >
             <Tooltip title="Google">
               <span onClick={() => window.open(`https://myaccount.google.com/`, "_blank")} style={{ border: "1px solid #E2E8F0", padding: "10px", borderRadius: "8%" }}>
                 <GoogleIcon />
@@ -100,47 +86,13 @@ const Signin = () => {
             </Tooltip>
           </div>
         </div>
-        <div style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          paddingBottom: 12,
-          //  padding:"4",
-          //  fontSize:"20",
-          //  textAlign:"center",
-          //  paddingBottom:20,
-          //  paddingTop:20,
-        }}>
-          <h4 >
-            or
-          </h4>
-        </div> 
-        <LoginPage />
-        <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        ml: -3,
-                      }}
-                    >
-                      <Checkbox />
-                    </Box>
-                    <Box component="span" sx={{ fontSize: 14 }}>
-                      <IntlMessages id="common.rememberMe" />
-                    </Box>
-                  </Box>
         <Box
           sx={{
             color: "grey.500",
             mb: { xs: 5, md: 7 },
-            justifyContent:"center",
-            justifySelf:"center",
-            justifyItems:"center",
+            justifyContent: "center",
+            justifySelf: "center",
+            justifyItems: "center",
           }}
         >
           <span style={{ marginRight: 4 }}>
@@ -160,7 +112,8 @@ const Signin = () => {
               <IntlMessages id="common.signup" />
             </Link>
           </Box>
-        </Box>
+
+        </Box> */}
       </Box>
     </AuthWrapper >
   );

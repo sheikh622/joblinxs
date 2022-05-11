@@ -1,3 +1,4 @@
+// export{}
 import axios from "../../routes/axiosConfig";
 import { all, put, call, fork, takeLatest, select } from "redux-saga/effects";
 import { push } from "connected-react-router";
@@ -8,12 +9,9 @@ import { SUBMIT_EMAIL } from "./constant";
 function* getEmailSaga({ payload }: any): any {
     console.log("payload of login", payload);
     let formData = new FormData()
-    formData.append("email", payload.email)
-    let data = {
-        email: payload.email,
-    };
+    formData.append("email", payload)
     try {
-        const response = yield axios.post(`/user`,formData);
+        const response = yield axios.post(`/user`, formData);
         console.log(response)
     } catch (error: any) {
         yield sagaErrorHandler(error.response);

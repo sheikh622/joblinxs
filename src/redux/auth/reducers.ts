@@ -19,11 +19,11 @@ const Auth = produce((state = initialState, action: any) => {
   switch (action.type) {
     case LOGIN_SUCCESS:
       state.user = action.payload.user;
-      state.token = action.payload.accessToken;
+      state.token = action.payload.access_token;
       break;
       case REGISTER_SUCCESS:
         state.user = action.payload.user;
-        state.token = action.payload.accessToken;
+        state.token = action.payload.access_token;
         break;
     case RESET_PASSWORD_SUCCESS:
       state.resetPasswordToken = action.payload;

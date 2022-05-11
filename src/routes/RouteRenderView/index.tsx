@@ -22,7 +22,8 @@ interface AppContentViewProps {
 
 const AppContentView: React.FC<AppContentViewProps> = ({ sxStyle }) => {
   const { user, isAuthenticated } = useAuthUser();
-
+console.log("isAuthentics",isAuthenticated)
+console.log("role",user)
   return (
     <RouteRenderViewWrapper>
       <Box
@@ -39,7 +40,7 @@ const AppContentView: React.FC<AppContentViewProps> = ({ sxStyle }) => {
             <Switch>
               {generateRoutes({
                 isAuthenticated: isAuthenticated,
-                userRole: user,
+                userRole: "user",
                 unAuthorizedStructure,
                 authorizedStructure,
                 anonymousStructure,
