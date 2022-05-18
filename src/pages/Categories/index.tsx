@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
-// import Box from '@mui/material/Box';
 import { Box, Grid, Link, TableContainer, TextField } from "@mui/material";
 import { height } from '@mui/system';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -18,20 +17,20 @@ import TableCell from "@mui/material/TableCell";
 import { useHistory } from "react-router-dom";
 import AppAnimate from "../../@crema/core/AppAnimate";
 import { AppCard, AppGridContainer } from "../../@crema";
+// import {Add} from "./add";
 
 
 export default function RecipeReviewCard() {
   const history = useHistory();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-
   const [openDel, setOpenDel] = useState(false);
   const handleDelete = () => setOpenDel(false);
-
   const [request, setRequest] = useState(false);
   const handleClick = () => setRequest(false);
   return (
     <>
+
       <AppAnimate animation="transition.slideUpIn" delay={200}>
         <Box>
           <AppGridContainer>
@@ -43,10 +42,10 @@ export default function RecipeReviewCard() {
                   sx={{ display: "inline-block", marginLeft: 6 }}
                   placeholder="Search Text"
                   label="Search"
-                  // value={search}
-                  // onChange={(event: any) => {
-                  //   // setSearch(event.target.value);
-                  // }}
+                // value={search}
+                // onChange={(event: any) => {
+                //   // setSearch(event.target.value);
+                // }}
                 />
               </AppCard>
             </Grid>
@@ -74,7 +73,7 @@ export default function RecipeReviewCard() {
             <Grid item xs={12} md={12}>
               <Card sx={{
                 maxWidth: 295,
-                mt:10,
+                mt: 10,
                 height: 142
               }}>
                 <Box>
@@ -91,14 +90,13 @@ export default function RecipeReviewCard() {
                   borderRadius: "0px"
                 }}></div>
                 <TableCell align="center" className="tableCell" style={{ marginTop: "10px", paddingTop: "0px" }} >
-
                   <Tooltip title="Delete">
                     <IconButton>
                       <DeleteIcon
                         htmlColor="#dc3545"
                         sx={{
-                          alignContent: "center",
-                          marginRight: "168px",
+                          alignContent: "flex-start",
+                          // marginRight: "168px",
                           padding: "0px",
                           marginTop: "8px",
                         }}
@@ -107,8 +105,10 @@ export default function RecipeReviewCard() {
                       ></DeleteIcon>
                     </IconButton>
                   </Tooltip>
-                  <Tooltip title="Edit">
-                    <IconButton onClick={() => setShow(true)}
+                  <Tooltip title="Edit" >
+                    <IconButton
+                      style={{ marginLeft: "166px" }}
+                      onClick={() => setShow(true)}
                     >
                       <EditIcon >
                       </EditIcon>
@@ -118,7 +118,9 @@ export default function RecipeReviewCard() {
                 <AddCategory show={show} onHide={handleClose} />
               </Card>
             </Grid>
+            
           </AppGridContainer>
+          
         </Box>
       </AppAnimate>
       <Modal

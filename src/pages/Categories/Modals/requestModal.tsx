@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux"
 import TableContainer from "@mui/material/TableContainer";
 import { Grid, TableBody, TextField, Card } from "@mui/material";
 import Table from "./tableItem";
-// import TableHeading from "pages/Users/LeaderBoardTable/TableHeading";
+
 import TableHead from "@mui/material/TableHead";
 // import TableBody from "@mui/material/TableBody";
 interface FuncProp {

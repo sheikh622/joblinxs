@@ -7,7 +7,7 @@ import { Box, Grid, Link, TableContainer } from "@mui/material";
 import TextareaAutosize from '@mui/base/TextareaAutosize';
 // import AppAnimate from "../../@crema/core/AppAnimate";
 import IntlMessages from "../../../@crema/utility/IntlMessages";
-// import PlayerTable from "./LeaderBoardTable";
+
 import { Button } from "@mui/material";
 import { useFormik } from "formik";
 import { useHistory } from "react-router-dom";

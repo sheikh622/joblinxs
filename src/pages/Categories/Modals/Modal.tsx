@@ -3,7 +3,6 @@ import Modal from "@mui/material/Modal";
 import React, { FC } from "react";
 import Button from "@mui/material/Button";
 import IntlMessages from "@crema/utility/IntlMessages";
-
 import { useDispatch, useSelector } from "react-redux"
 interface FuncProp {
   className?: string;
@@ -18,7 +17,6 @@ interface FuncProp {
   page?: any;
   search?: any;
 }
-
 const BasicModal: FC<FuncProp> = ({
   show,
   onHide,

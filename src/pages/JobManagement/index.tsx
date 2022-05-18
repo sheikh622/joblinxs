@@ -120,15 +120,15 @@ const User = () => {
                   }}
                   renderInput={(params) => <TextField {...params} label='Job Status' />}
                 />
-                {/* {userList &&
-                  userList?.Users?.users?.length > 0 && ( */}
+                {userList &&
+                  userList?.Users?.users?.length > 0 && (
                   <PlayerTable
                     userTableData={
                       userList &&
                       userList.Users
                     }
                   />
-                {/* )
+                )
                   // : 
                   // <div
                   //   style={{
@@ -139,7 +139,7 @@ const User = () => {
                   // >
                   //   <img src={images} alt={""} />
                   // </div>
-                } */}
+                }
               </AppCard>
             </Grid>
           </AppGridContainer>

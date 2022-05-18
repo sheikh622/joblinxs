@@ -1,5 +1,4 @@
 import produce from "immer";
-
 import {
   GET_USERS_LIST_SUCCESS,
   CHANGE_USERS_ACTIVE_PAGE,
@@ -7,7 +6,6 @@ import {
   GET_USER_PROFILE_SUCCESS,
   GET_USER_DETAILS_SUCCESS
 } from "./constants";
-
 const initialState = {
   Users: [],
   UserActivePage: 0,
@@ -15,7 +13,6 @@ const initialState = {
   UserProfile:[],
   UserDetails:[],
 };
-
 const User = produce((state = initialState, action: any) => {
   console.log("action", action)
   switch (action.type) {

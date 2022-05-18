@@ -21,4 +21,5 @@ export const unauthorizedRouteConfigs = [
     path: "/reset-password",
     component: React.lazy(() => import("../pages/auth/ResetPassword/ResetPage")),
   },
+ 
 ];

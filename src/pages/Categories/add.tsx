@@ -3,47 +3,22 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Grid, Link, TableContainer } from "@mui/material";
 import TextareaAutosize from '@mui/base/TextareaAutosize';
-import IntlMessages from "../../../@crema/utility/IntlMessages";
+import IntlMessages from "@crema/utility/IntlMessages";
 import { Button } from "@mui/material";
 import { useFormik } from "formik";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import Modal from "@mui/material/Modal";
+import Card from "react-bootstrap/Card";
 import TextField from "@mui/material/TextField";
-// import { getNotification, sendNotification, changeNotificationActivePage } from "../../redux/notificationManagement/actions";
-interface FuncProp {
-    className?: string;
-    show?: any;
-    onHide?: any;
-    onDelete?: any;
-    Header?: any;
-    size?: any;
-    scrollable?: any;
-    width?: number;
-    id?: any;
-    page?: any;
-    search?: any;
-}
-const AddCategory: FC<FuncProp> = ({
-    show,
-    onHide,
-    onDelete,
-    children,
-    width,
-    className,
-    Header,
-    size,
-    scrollable,
-    id,
-    page,
-    search,
-}) => {
+import AppTextField from "@crema/core/AppFormComponents/AppTextField";
+const Add = () => {
     const style = {
         position: "absolute" as "absolute",
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        width: { lg: width, xs: 400 },
+        width: { xs: 400 },
         bgcolor: "background.paper",
         border: "2px solid gray",
         borderRadius: "10px",
@@ -62,27 +37,27 @@ const AddCategory: FC<FuncProp> = ({
     // const [page, setPage] = useState<number>(0);
     const [rowsPerPage, setRowsPerPage] = useState<number>(10);
     // const [show, setShow] = useState(false);
-    const [UserName, setUserName] = useState("");
+    const [title, setTitle] = useState("");
     const [notification, setNotification] = useState("");
     const addCategorySchema: any = Yup.object({
-        UserName: Yup.string().
+        title: Yup.string().
             required("Please enter the required field")
             .matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed "),
-        Email: Yup.string()
+        description: Yup.string()
             .required("Please enter the required field")
             .matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed "),
     });
     const CategoryFormik = useFormik({
         initialValues: {
-            UserName: "",
-            Email: "",
+            title: "",
+            description: "",
         },
         validationSchema: addCategorySchema,
         onSubmit: async (values, { resetForm }) => {
             console.log("values===", values)
             // dispatch(sendNotification({
             //   data: {
-            //     UserName: values.UserName,
+            //     title: values.title,
             //     notification: values.notification,
             //   }, postNotificationAfter: () => { resetForm(); setShow(false) }
             // }));
@@ -101,12 +76,8 @@ const AddCategory: FC<FuncProp> = ({
     };
     return (
         <>
-            <Modal
-                open={show}
-                // onClose={() => setShow(false)}
-                aria-labelledby="modal-modal-UserName"
-                aria-describedby="modal-modal-Email"
-            >
+            <Card style={{ width: '18rem' }}>
+
                 <Grid item lg={3} sm={6} xs={9} mb={6} ml={2}>
                     <Box
                         sx={{
@@ -120,68 +91,88 @@ const AddCategory: FC<FuncProp> = ({
                             borderRadius: "10px",
                             boxShadow: 24,
                             p: 6,
+
                         }}
                     >
                         <Box component="h2" sx={{ p: 2, color: "text.primary", fontSize: 24 }}>
-                            <IntlMessages id="common.profile" />
+                            <IntlMessages id="common.addCategory" />
                         </Box>
                         <Box
                             sx={{
                                 // "& .MuiTextField-root": { ml: 30, width: "40ch" },
                             }}
                         >
+
                             <Box>
                                 <TextField
                                     sx={{ width: "95%", mt: 2, }}
                                     id="outlined-basic"
-                                    label="UserName"
+                                    label="Category Name"
                                     variant="outlined"
-                                    name="UserName"
-                                    value={CategoryFormik.values && CategoryFormik.values.UserName}
+                                    name="title"
+                                    value={CategoryFormik.values && CategoryFormik.values.title}
                                     onChange={CategoryFormik.handleChange}
                                 />
-                                {CategoryFormik.touched.UserName && CategoryFormik.errors.UserName ? (
+                                {CategoryFormik.touched.title && CategoryFormik.errors.title ? (
                                     <div className="Namefield" style={{ color: "#dc3545" }}>
-                                        {CategoryFormik.errors.UserName}
+                                        {CategoryFormik.errors.title}
                                     </div>
                                 ) : null}
                             </Box>
                             <Box>
-                                <TextField
+                                <textarea
                                     style={{ display: "flex", width: 380, height: 90, marginTop: 13, borderRadius: 10 }}
                                     id="outlined-basic"
-                                    placeholder="  Email"
-                                    minRows={10}
+                                    placeholder="  Category Details"
+                                    // minRows={10}
                                     // variant="outlined"
-                                    name="Email"
-                                    value={CategoryFormik.values && CategoryFormik.values.Email}
+                                    name="description"
+                                    value={CategoryFormik.values && CategoryFormik.values.description}
                                     onChange={CategoryFormik.handleChange}
                                 />
-                                {CategoryFormik.touched.Email && CategoryFormik.errors.Email ? (
+                                {CategoryFormik.touched.description && CategoryFormik.errors.description ? (
                                     <div className="Namefield" style={{ color: "#dc3545" }}>
-                                        {CategoryFormik.errors.Email}
+                                        {CategoryFormik.errors.description}
                                     </div>
-
                                 ) : null}
+                                <div className="selected" style={{ paddingTop: "15px" }}>
+                                    <input
+                                        accept="image/*"
+                                        type="file"
+                                        onChange={imageChange}
+                                    />
+                                    {selectedImage && (
+                                        <div >
+                                            <img
+                                                src={URL.createObjectURL(selectedImage)}
+                                                alt="Thumb"
+                                            />
+
+                                        </div>
+                                    )}
+                                </div>
+
                             </Box>
                             <Box display="flex" sx={{ ml: 55, mt: 6 }}>
                                 <Button variant="contained" type="submit"
                                     onClick={() => {
-                                        onHide()
-                                        onDelete()
+                                        // onHide()
+                                        // onDelete()
                                     }}
                                 >
                                     <IntlMessages id="common.add" />
                                 </Button>
-                                <Button variant="contained" onClick={onHide} sx={{ ml: 4 }}>
+                                <Button variant="contained"
+                                    //  onClick={onHide} 
+                                    sx={{ ml: 4 }}>
                                     <IntlMessages id="common.cancel" />
                                 </Button>
                             </Box>
                         </Box>
                     </Box>
                 </Grid>
-            </Modal>
+            </Card>
         </>
     );
 };
-export default AddCategory;
+export default Add;

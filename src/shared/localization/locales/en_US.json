@@ -19,7 +19,7 @@
   "users.table.phone #": "phone #",
   "users.table.Profile":"User Profile",
   "users.table.Status": "block/unblock",
-  "users.table.Profile": "Profile",
+  "users.table.Profile": "User Status",
   "Chat.mainHeading":"Chat Listing",
   "chats.table.UserName": "UserName",
   "chats.table.data": "Data",

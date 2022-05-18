@@ -8,7 +8,6 @@ export const authorizedRouteConfigs = [
     
     // isAuthenticated: true
   },
-
   {
     path: '/Users',
     component: React.lazy(() => import('../pages/Users')),
@@ -16,12 +15,15 @@ export const authorizedRouteConfigs = [
   },
 
   {
-    path: '/Categories',
-    component: React.lazy(() => import('../pages/Categories')),
+    path: '/Users/userDetails',
+    component: React.lazy(() => import('../pages/Users/userDetails/Index')),
     permittedRole: ["user", "admin"],
   },
-  {
-    path: '/JobManagement',
+  {path: '/Categories',
+  component: React.lazy(() => import('../pages/Categories')),
+  permittedRole: ["user", "admin"],
+  },  
+{    path: '/JobManagement',
     component: React.lazy(() => import('../pages/JobManagement')),
     permittedRole: ["user", "admin"],
   },

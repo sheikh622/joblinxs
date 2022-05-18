@@ -1,13 +1,9 @@
 import { FC, useState } from "react";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { AppCard, AppGridContainer } from "../../@crema";
-// import { Fonts } from "../../shared/constants/AppEnums";
 import { Box, Grid, Link, TableContainer } from "@mui/material";
 import TextareaAutosize from '@mui/base/TextareaAutosize';
-// import AppAnimate from "../../@crema/core/AppAnimate";
 import IntlMessages from "../../../@crema/utility/IntlMessages";
-// import PlayerTable from "./LeaderBoardTable";
 import { Button } from "@mui/material";
 import { useFormik } from "formik";
 import { useHistory } from "react-router-dom";
@@ -153,13 +149,12 @@ const AddCategory: FC<FuncProp> = ({
                                     </div>
                                 ) : null}
                             </Box>
-
                             <Box>
-                                <TextareaAutosize
+                                <textarea 
                                     style={{ display: "flex", width: 380, height: 90, marginTop: 13, borderRadius: 10 }}
                                     id="outlined-basic"
-                                    placeholder="  Description"
-                                    minRows={10}
+                                    placeholder="  Category Details"
+                                    // minRows={10}
                                     // variant="outlined"
                                     name="description"
                                     value={CategoryFormik.values && CategoryFormik.values.description}
@@ -169,10 +164,8 @@ const AddCategory: FC<FuncProp> = ({
                                     <div className="Namefield" style={{ color: "#dc3545" }}>
                                         {CategoryFormik.errors.description}
                                     </div>
-
                                 ) : null}
-
-                                {/* <div className="selected" style={{ paddingTop: "15px" }}>
+                                <div className="selected" style={{ paddingTop: "15px" }}>
                                     <input
                                         accept="image/*"
                                         type="file"
@@ -187,7 +180,7 @@ const AddCategory: FC<FuncProp> = ({
 
                                         </div>
                                     )}
-                                </div> */}
+                                </div>
 
                             </Box>
                             <Box display="flex" sx={{ ml: 55, mt: 6 }}>

@@ -34,6 +34,11 @@
   JobCategory:any,
   Job:any,
   JobStatus:any,
+  page:any,
+  limit:any,
+  adminId:any,
+  type:any,
+  search:any,
 
   }
  

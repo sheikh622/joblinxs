@@ -13,14 +13,14 @@ import { toast } from "react-toastify";
 
 
 function* loginRequestSaga({ payload }: any): any {
-  console.log("payload of login", payload);
+ 
   let data = {
     email: payload.email,
     password: payload.password,
   };
   try {
     const response = yield axios.post(`user/login`, data);
-    console.log("response", response);
+  
     yield put(push("/dashboard"));
     toast.success("Login Successfully");
     yield put(loginRequestSuccess(response.data.data));
@@ -28,7 +28,7 @@ function* loginRequestSaga({ payload }: any): any {
 
     
   } catch (error: any) {
-    console.log("error", error.response)
+ 
     yield sagaErrorHandler(error.response.data);
   }
 }
@@ -37,17 +37,16 @@ function* watchLogin() {
   yield takeLatest(LOGIN, loginRequestSaga);
 }
 function* forgetRequestSaga({ payload }: any): any {
-  console.log("payload of login", payload);
   let data = {
     email: payload.email,
   };
   try {
     const response = yield axios.post(`/user/admin/forgot-password`, data);
-    console.log("response", response.data.reset_token);
+  
     yield put(resetPasswordSuccess(response.data.reset_token));
     yield put(push("/forget-password"));
   } catch (error: any) {
-    console.log("error", error.response)
+    
     yield sagaErrorHandler(error.response.data);
   }
 }
@@ -55,14 +54,14 @@ function* watchForget() {
   yield takeLatest(FORGOT_PASSWORD, forgetRequestSaga);
 }
 function* resetRequestSaga({ payload }: any): any {
-  console.log("payload of reset password", payload);
+
   let data = {
     password: payload.confirmPassword,
     token: payload.token,
   };
   try {
     const response = yield axios.post(`/user/admin/reset-password`, data);
-    console.log("response", response);
+  
     toast.success("Password reset Successfully");
     yield put(push("/signin"));
   } catch (error: any) {
@@ -74,29 +73,29 @@ function* watchReset() {
   yield takeLatest(RESET_PASSWORD, resetRequestSaga);
 }
 
-function* registerRequestSaga({ payload }: any): any {
-  console.log("payload of login", payload);
-  let data = {
-    BusinessName:payload.BusinessName,
-    Description:payload.Description,
-    Preference:payload.Preference,
-    name:payload.name,
-    email: payload.email,
-    phone:payload.phone,
-    password: payload.password,
-  };
-  try {
-    const response = yield axios.post(`/auth/login`, data);
-    toast.success("Login Successfully");
-    yield put(registerSuccess(response.data));
-    yield put(setLoader(false));
-  } catch (error: any) {
-    yield sagaErrorHandler(error.response);
-  }
-}
-function* watchRegister() {
-  yield takeLatest(REGISTER, registerRequestSaga);
-}
+// function* registerRequestSaga({ payload }: any): any {
+
+//   let data = {
+//     BusinessName:payload.BusinessName,
+//     Description:payload.Description,
+//     Preference:payload.Preference,
+//     name:payload.name,
+//     email: payload.email,
+//     phone:payload.phone,
+//     password: payload.password,
+//   };
+//   try {
+//     const response = yield axios.post(`/auth/login`, data);
+//     toast.success("Login Successfully");
+//     yield put(registerSuccess(response.data));
+//     yield put(setLoader(false));
+//   } catch (error: any) {
+//     yield sagaErrorHandler(error.response);
+//   }
+// }
+// function* watchRegister() {
+//   yield takeLatest(REGISTER, registerRequestSaga);
+// }
 export default function* AuthSaga() {
-  yield all([fork(watchLogin), fork(watchForget), fork(watchReset), fork(watchRegister)]);
+  yield all([fork(watchLogin), fork(watchForget), fork(watchReset)]);
 }

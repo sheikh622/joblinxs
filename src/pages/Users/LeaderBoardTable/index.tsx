@@ -21,12 +21,18 @@ import Paper from "@mui/material/Paper";
 import { useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { Grid, TextField } from "@mui/material";
+import images from "../../../assets/images/noData.png";
 import {
   getUsersList,
   changeUsersActivePage,
 } from "../../../redux/userManagement/actions";
 interface PlayerTableProps {
   userTableData: any;
+  pageCount: any;
+  limit: any;
+  adminId: any;
+  usertype: any;
+  searchBar: any;
 }
 interface TablePaginationActionsProps {
   count: number;
@@ -103,6 +109,13 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 }
 const PlayerTable: React.FC<PlayerTableProps> = ({
   userTableData,
+
+  pageCount,
+  limit,
+  adminId,
+  usertype,
+  searchBar,
+
 }) => {
   const page = useSelector((state: any) => state.User.UserActivePage);
   const dispatch = useDispatch();
@@ -144,9 +157,33 @@ const PlayerTable: React.FC<PlayerTableProps> = ({
           <TableHeading />
         </TableHead>
         <TableBody>
-          {userTableData?.users?.map((row: any) => (
-            <TableItem key={row.id} row={row} />
-          ))}
+
+          {userTableData?.users?.length > 0 ? (
+            userTableData?.users.map((row: any) => (
+              <TableItem key={row.id} row={row} page={pageCount} limit={limit} adminId={adminId} type={usertype} search={searchBar} />
+            ))
+          )
+
+            :
+
+            <div
+              style={{
+                display: "flex",
+                width: "30%",
+                justifyContent: "center",
+                alignItems: "center",
+
+              }}
+            >
+              <img src={images} alt={""} style={{
+                //  justifyContent: "center",
+                //  alignItems: "center",
+                marginLeft: "770%",
+                marginTop: "20px"
+
+              }} />
+            </div>
+          }
         </TableBody>
         <TableFooter>
           <TableRow>
