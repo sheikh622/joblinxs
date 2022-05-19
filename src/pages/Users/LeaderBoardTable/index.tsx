@@ -165,8 +165,7 @@ const PlayerTable: React.FC<PlayerTableProps> = ({
       </Table>
 
       {userTableData?.users?.length > 0 && (
-        <TableFooter>
-        <TableRow>
+       
           <TablePagination
             rowsPerPageOptions={[5, 10, 25, 50]}
             colSpan={7}
@@ -189,8 +188,7 @@ const PlayerTable: React.FC<PlayerTableProps> = ({
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
-        </TableRow>
-      </TableFooter>
+      
       )}
 
 

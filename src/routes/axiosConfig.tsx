@@ -2,7 +2,7 @@ import axios from "axios";
 // import { API_URL as BASE_URL_API } from "../utils/AppUtils"; 
 // const BASE_URL_API = "http://192.168.0.151:3004/api/v1" local
 // const BASE_URL_API = "http://192.168.1.170:5000"
-const BASE_URL_API = "http://192.168.0.164:8000/api/v1/"
+const BASE_URL_API = "http://ec2-18-218-54-53.us-east-2.compute.amazonaws.com:8000/api/v1"
 
 const axiosConfig = axios.create({
   baseURL: BASE_URL_API,
