@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import IntlMessages from "@crema/utility/IntlMessages";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import TableContainer from "@mui/material/TableContainer";
 import { Grid, TableBody, TextField, Card } from "@mui/material";
 import Table from "./tableItem";
@@ -27,13 +27,17 @@ interface FuncProp {
   UserName?: any;
   Service?: any;
   Action?: any;
+  row?:any,
 }
 
 const BasicModal: FC<FuncProp> = ({
   show,
   onHide,
   onDelete,
-  UserName,Service,Action
+  UserName,
+  Service,
+  Action,
+  row,
 }) => {
   const style = {
     // position: "absolute" as "absolute",
@@ -47,7 +51,7 @@ const BasicModal: FC<FuncProp> = ({
     // boxShadow: 24,
     // p: 4,
   };
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   return (
     <div>
       <Modal
@@ -59,11 +63,11 @@ const BasicModal: FC<FuncProp> = ({
           padding: 15,
           mt: 25,
           marginLeft: 135,
-          p:4,
+          p: 4,
         }}
       >
-        <Grid item lg={6} sm={6} xs={9} mb={6} ml={2} >
-          <TableContainer >
+        <Grid item lg={6} sm={6} xs={9} mb={6} ml={2}>
+          <TableContainer>
             <Box>
               <Box
                 component="h2"
@@ -74,14 +78,10 @@ const BasicModal: FC<FuncProp> = ({
                   fontSize: 22,
                   display: { lg: "inline-block", xs: "block" },
                   mt: 20,
-                  
                 }}
-              >
-              </Box>
-              <Grid item xs={12}
-              >
-
-                <Card sx={{ width: 364, paddingTop:11 }}>
+              ></Box>
+              <Grid item xs={12}>
+                <Card sx={{ width: 364, paddingTop: 11 }}>
                   <TableHead>
                     <Table />
                   </TableHead>
@@ -90,9 +90,8 @@ const BasicModal: FC<FuncProp> = ({
                       sx={{
                         bgcolor: "white",
                         width: "100%",
-                        mt:10,
+                        mt: 10,
                       }}
-
                     >
                       <TableCell align="center" className="tableCell">
                         {UserName ? UserName : "Sunny"}
@@ -101,22 +100,44 @@ const BasicModal: FC<FuncProp> = ({
                         {Service ? Service : "092345678"}
                       </TableCell>
                       <TableCell align="center" className="tableCell">
-                        {Action ? Action : "098"}
+                        <Button
+                          variant="outlined"
+                          color={row?.isApproved === true ? "success" : "error"}
+                          style={{ marginLeft: "10px" }}
+                          // onClick={() => {
+                          //   dispatch(
+                          //     getUserProfile({
+                          //       userId: row.id,
+                          //       page: page,
+                          //       limit: limit,
+                          //       adminId: "",
+                          //       type: type,
+                          //       search: search,
+                          //     })
+                          //   );
+                          // }}
+                        >
+                          {row?.isApproved === true ? (
+                            <span>Approved</span>
+                          ) : (
+                            <span>Pending</span>
+                          )}
+                        </Button>
                       </TableCell>
-
                     </TableRow>
-
                   </TableBody>
                   <Box sx={{ mt: 10 }}>
-                    <Button variant="contained" onClick={onHide} sx={{ ml: 70 , mb:5 }}>
-                      <IntlMessages id="common.close" ></IntlMessages></Button>
+                    <Button
+                      variant="contained"
+                      onClick={onHide}
+                      sx={{ ml: 70, mb: 5 }}
+                    >
+                      <IntlMessages id="common.close"></IntlMessages>
+                    </Button>
                   </Box>
                 </Card>
-
-
               </Grid>
             </Box>
-
           </TableContainer>
         </Grid>
       </Modal>

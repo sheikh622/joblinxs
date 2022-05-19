@@ -16,6 +16,7 @@ interface FuncProp {
   id?: any;
   page?: any;
   search?: any;
+  
 }
 const BasicModal: FC<FuncProp> = ({
   show,

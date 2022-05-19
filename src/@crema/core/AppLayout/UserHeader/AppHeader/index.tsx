@@ -1,25 +1,18 @@
-import React from "react";
+import MenuIcon from "@mui/icons-material/Menu";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Typography } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import AppLngSwitcher from "@crema/core/AppLngSwitcher";
 import Box from "@mui/material/Box";
-import AppSearchBar from "@crema/core/AppSearchBar";
 import Hidden from "@mui/material/Hidden";
 import IconButton from "@mui/material/IconButton";
-import { toggleNavCollapsed } from "../../../../../redux/actions";
-import MenuIcon from "@mui/icons-material/Menu";
-import { useDispatch } from "react-redux";
-import AppMessages from "../../../AppMessages";
-import AppNotifications from "../../../AppNotifications";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import AppTooltip from "../../../AppTooltip";
 import { alpha } from "@mui/material/styles";
-import AppLogo from "../../components/AppLogo";
-import UserInfo from "../../components/UserInfo";
-import { Typography } from "@mui/material";
+import Toolbar from "@mui/material/Toolbar";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { toggleNavCollapsed } from "../../../../../redux/actions";
 import { Fonts } from "../../../../../shared/constants/AppEnums";
+import AppTooltip from "../../../AppTooltip";
+import UserInfo from "../../components/UserInfo";
 const AppHeader = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -81,7 +74,7 @@ const AppHeader = () => {
           }}
         >
             <Typography
-              component="h2"
+              component="h1"
               sx={{
                 fontWeight: Fonts.BOLD,
                 fontSize: 25,
@@ -89,7 +82,7 @@ const AppHeader = () => {
                 // marginLeft:150,
               }}
             >
-             Tanza Admin Panel
+             Joblinxs
             </Typography>
           {/* <AppLogo /> */}
         </Box>

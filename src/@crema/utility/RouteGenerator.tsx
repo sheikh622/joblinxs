@@ -123,9 +123,7 @@ const routesGenerator = (
                 ? isAuthenticated
                 : !isAuthenticated;
 
-              console.log(userRole)
-              console.log(userRole?.role)
-              console.log(permittedRole)
+             
               return generatedRoutes.push(
                 <Route
                   exact

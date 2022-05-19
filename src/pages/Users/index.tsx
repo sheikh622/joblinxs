@@ -1,64 +1,55 @@
-import { FC, useState } from "react";
-import React, { useEffect } from "react";
+import AppCard from "@crema/core/AppCard";
+import { Box, Grid, TextField } from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppGridContainer } from "../../@crema";
-import { Fonts } from "../../shared/constants/AppEnums";
-import { Box, Grid, TextField } from "@mui/material";
 import AppAnimate from "../../@crema/core/AppAnimate";
 import IntlMessages from "../../@crema/utility/IntlMessages";
+import {
+  changeUsersActivePage,
+  getUsersList,
+} from "../../redux/userManagement/actions";
+import { Fonts } from "../../shared/constants/AppEnums";
 import PlayerTable from "./LeaderBoardTable";
-import AppCard from "@crema/core/AppCard";
 import "./style.css";
-import MenuItem from '@mui/material/MenuItem';
-import { getUsersList, changeUsersActivePage } from "../../redux/userManagement/actions";
-import images from "../../assets/images/noData.png";
-import Autocomplete from '@mui/material/Autocomplete';
-import AppSelect from "@crema/core/AppSelect";
 const User = () => {
   const dispatch = useDispatch();
   const userList = useSelector((state: any) => state.User);
   const [search, setSearch] = useState<string>("");
   const [page, setPage] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(5);
   const [adminId, setAdminId] = useState<number>(0);
 
-  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
-  const [type, setType] = React.useState('provider');
+  const [type, setType] = React.useState("provider");
   const handleChange = (event) => {
     setType(event.target.value);
   };
   useEffect(() => {
     if (search != undefined) {
       dispatch(changeUsersActivePage(0));
-      // dispatch(
-      //   getUsersList({
-      //     page: 1, limit: 5,
-
-      //   })
-      // )
     }
-  }, [search])
+  }, [search]);
   useEffect(() => {
     dispatch(
       getUsersList({
-        page: 1, limit: 5,
-        adminId: "",
+        page: page,
+        limit: limit,
         type: type,
         search: search,
       })
-    )
-  }, [type, search, page])
+    );
+  }, [type, search, page,limit]);
   const currencies = [
     {
-      value: 'provider',
-      label: 'service provider',
+      value: "provider",
+      label: "service provider",
     },
     {
-      value: 'seeker',
-      label: 'service seeker',
+      value: "seeker",
+      label: "service seeker",
     },
   ];
-  console.log("type", type)
   const [profile, setProfile] = useState(false);
   return (
     <>
@@ -78,9 +69,7 @@ const User = () => {
           </Box>
           <AppGridContainer>
             <Grid item xs={12} md={12}>
-              <AppCard
-                contentStyle={{ px: 0 }}
-              >
+              <AppCard contentStyle={{ px: 0 }}>
                 <TextField
                   sx={{ display: "inline-block", marginLeft: 6 }}
                   placeholder="Search Text"
@@ -91,9 +80,9 @@ const User = () => {
                   }}
                 />
                 <TextField
-                  id='outlined-select-type'
+                  id="outlined-select-type"
                   select
-                  label='Select'
+                  label="Select"
                   value={type}
                   onChange={handleChange}
                   // helperText='Please select your type'
@@ -106,25 +95,24 @@ const User = () => {
                   ))}
                 </TextField>
                 <PlayerTable
-                  userTableData={
-                    userList &&
-                    userList?.Users
-                  }
-                  pageCount={page}
-                  usertype={type}
-                  searchBar={search}
+                  userTableData={userList && userList?.Users}
+                  page={page}
+                  setPage={setPage}
                   limit={limit}
+                  setLimit={setLimit}
+                  search={search}
+                  setSearch={setSearch}
+                  usertype={type}
                   adminId={adminId}
+                  setAdminId={setAdminId}
                 />
               </AppCard>
             </Grid>
           </AppGridContainer>
         </Box>
       </AppAnimate>
-
     </>
   );
 };
 
 export default User;
-

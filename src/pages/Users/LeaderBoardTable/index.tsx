@@ -28,11 +28,15 @@ import {
 } from "../../../redux/userManagement/actions";
 interface PlayerTableProps {
   userTableData: any;
-  pageCount: any;
+  page: any;
+  setPage: any;
   limit: any;
-  adminId: any;
+  setLimit: any;
+  search: any;
+  setSearch: any;
   usertype: any;
-  searchBar: any;
+  adminId: any;
+  setAdminId: any;
 }
 interface TablePaginationActionsProps {
   count: number;
@@ -109,107 +113,94 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 }
 const PlayerTable: React.FC<PlayerTableProps> = ({
   userTableData,
-
-  pageCount,
+  page,
+  setPage,
   limit,
+  setLimit,
+  search,
+  setSearch,
   adminId,
+  setAdminId,
   usertype,
-  searchBar,
-
 }) => {
-  const page = useSelector((state: any) => state.User.UserActivePage);
   const dispatch = useDispatch();
 
-  const [search, setSearch] = React.useState("");
-
-
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    dispatch(changeUsersActivePage(newPage));
-    dispatch(
-      getUsersList({
-        page: newPage + 1, limit: 5,
-        search: search,
-      })
-    )
+    setPage(newPage);
   };
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    dispatch(
-      getUsersList({
-        page: 1, limit: parseInt(event.target.value, 10), search: search,
-      })
-    )
-    dispatch(changeUsersActivePage(0));
+    setLimit(parseInt(event.target.value, 10));
   };
   const { messages } = useIntl();
   return (
     <TableContainer>
-      <Grid item xs={12} style={{ padding: 20 }}>
-      </Grid>
+      <Grid item xs={12} style={{ padding: 20 }}></Grid>
       <Table>
         <TableHead>
           <TableHeading />
         </TableHead>
-        <TableBody>
 
-          {userTableData?.users?.length > 0 ? (
-            userTableData?.users.map((row: any) => (
-              <TableItem key={row.id} row={row} page={pageCount} limit={limit} adminId={adminId} type={usertype} search={searchBar} />
-            ))
-          )
-
-            :
-
-            <div
-              style={{
-                display: "flex",
-                width: "30%",
-                justifyContent: "center",
-                alignItems: "center",
-
-              }}
-            >
-              <img src={images} alt={""} style={{
-                //  justifyContent: "center",
-                //  alignItems: "center",
-                marginLeft: "770%",
-                marginTop: "20px"
-
-              }} />
-            </div>
-          }
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25, 50]}
-              colSpan={7}
-              count={userTableData?.totalUsers}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              sx={{
-                borderBottom: "0 none",
-                marginBottom: 0,
-                paddingBottom: 0,
-              }}
-              SelectProps={{
-                inputProps: {
-                  "aria-label": "rows per page",
-                },
-                native: true,
-              }}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </TableRow>
-        </TableFooter>
+        {userTableData?.users?.length > 0 &&
+          userTableData?.users.map((row: any) => (
+            <>
+              <TableBody>
+                <TableItem
+                  key={row.id}
+                  row={row}
+                  page={page}
+                  limit={limit}
+                  adminId={adminId}
+                  setAdminId={setAdminId}
+                  type={usertype}
+                  search={search}
+                />
+              </TableBody>
+            </>
+          ))}
       </Table>
+
+      {userTableData?.users?.length > 0 && (
+        <TableFooter>
+        <TableRow>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25, 50]}
+            colSpan={7}
+            count={userTableData?.totalUsers}
+            rowsPerPage={limit}
+            page={page}
+            sx={{
+              marginLeft:"auto",
+              width:"100%",
+              borderBottom: "0 none",
+              marginBottom: 0,
+              paddingBottom: 0,
+            }}
+            SelectProps={{
+              inputProps: {
+                "aria-label": "rows per page",
+              },
+              native: true,
+            }}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </TableRow>
+      </TableFooter>
+      )}
+
+
+    
+
+      {userTableData?.users?.length == 0 && (
+        <div style={{ textAlign: "center" }}>
+          <img src={images} alt={""} />
+        </div>
+      )}
     </TableContainer>
   );
 };

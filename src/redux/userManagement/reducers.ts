@@ -17,7 +17,7 @@ const initialState = {
 };
 
 const User = produce((state = initialState, action: any) => {
-  console.log("action", action)
+  
   switch (action.type) {
     case GET_USERS_LIST_SUCCESS:
       state.Users = action.payload;

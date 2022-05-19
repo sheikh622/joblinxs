@@ -1,8 +1,21 @@
 import axios from "../../routes/axiosConfig";
 import { all, put, call, fork, takeLatest, select } from "redux-saga/effects";
 import { push } from "connected-react-router";
-import { getUsersListSuccess, getUserBlockSuccess, getUserProfileSuccess, deleteUser, getUsersList, getUserDetailsSuccess } from "./actions";
-import { GET_USERS_LIST, GET_USER_BLOCK, GET_USER_PROFILE, DELETE_USER, GET_USER_DETAILS } from "./constants";
+import {
+  getUsersListSuccess,
+  getUserBlockSuccess,
+  getUserProfileSuccess,
+  deleteUser,
+  getUsersList,
+  getUserDetailsSuccess,
+} from "./actions";
+import {
+  GET_USERS_LIST,
+  GET_USER_BLOCK,
+  GET_USER_PROFILE,
+  DELETE_USER,
+  GET_USER_DETAILS,
+} from "./constants";
 import { sagaErrorHandler } from "../../shared/helperMethods/sagaErrorHandler";
 import { makeSelectAuthToken } from "../store/selectors";
 import { toast } from "react-toastify";
@@ -12,11 +25,15 @@ function* userListRequest({ payload }: any): any {
   try {
     // const headers = { headers: { 'authorization': yield select(makeSelectAuthToken()) } };
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.get(`user/admin/user-list?page=${payload.page}&count=${payload.limit}&keyword=${payload.search}&usertype=${payload.type}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
+    const response = yield axios.get(
+      `user/admin/user-list?page=${payload.page + 1}&count=${
+        payload.limit
+      }&keyword=${payload.search}&usertype=${payload.type}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     yield put(getUsersListSuccess(response.data.data));
   } catch (error: any) {
@@ -27,12 +44,23 @@ function* userListRequest({ payload }: any): any {
 function* userBlockSaga({ payload }: any): any {
   try {
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.get(`/user/admin/change-userStatus/${payload.userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = yield axios.get(
+      `/user/admin/change-userStatus/${payload.userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     toast.success(response.data.message);
+    yield put(
+      getUsersList({
+        page: payload.page,
+        limit: payload.limit,
+        type: payload.type,
+        search: payload.search,
+      })
+    );
     yield put(getUserBlockSuccess());
   } catch (error: any) {
     yield sagaErrorHandler(error.response);
@@ -41,22 +69,25 @@ function* userBlockSaga({ payload }: any): any {
 function* userProfileSaga({ payload }: any): any {
   try {
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.get(`/user/admin/approve-request/${payload.userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = yield axios.get(
+      `/user/admin/approve-request/${payload.userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     toast.success(response.data.message);
     yield put(getUserProfileSuccess());
     yield put(
       getUsersList({
-      page:payload.page,
-      limit:payload.limit,
-      type: payload.type,
-      search:payload.Search,
-    })
-    )
-  } catch (error: any) {  
+        page: payload.page,
+        limit: payload.limit,
+        type: payload.type,
+        search: payload.search,
+      })
+    );
+  } catch (error: any) {
     yield sagaErrorHandler(error.response);
   }
 }
@@ -69,32 +100,18 @@ function* deleteUserSaga({ payload }: any): any {
       },
     });
     toast.success(response.data.message);
-    yield put(getUsersList({
-      page: 1, limit: 5,
-      search: Search,
-
-
-    })
-    )
+    yield put(
+      getUsersList({
+        page: payload.page,
+        limit: payload.limit,
+        type: payload.type,
+        search: payload.search,
+      })
+    );
   } catch (error: any) {
     yield sagaErrorHandler(error.response);
   }
 }
-// function* userDetailRequest({ payload }: any): any {
-//   try {
-//     // const headers = { headers: { 'authorization': yield select(makeSelectAuthToken()) } };
-//     const token = yield select(makeSelectAuthToken());
-//     const response = yield axios.get(``, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     }
-//     );
-//     yield put(getUserDetailsSuccess());
-//   } catch (error: any) {
-//     yield sagaErrorHandler(error.response);
-//   }
-// }
 function* watchGetUsers() {
   yield takeLatest(GET_USERS_LIST, userListRequest);
 }

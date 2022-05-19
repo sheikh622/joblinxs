@@ -1,69 +1,68 @@
-import React, { useState, useEffect } from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import { Button, Link } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import Switch from "@mui/material/Switch";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
-import { PlayerTableData } from "types/models/PlayerTable";
-import Switch from '@mui/material/Switch';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { getUserBlock, getUserProfile, deleteUser } from "../../../redux/userManagement/actions";
-import { useDispatch, useSelector } from "react-redux";
 import Tooltip from "@mui/material/Tooltip";
-import DeleteIcon from "@mui/icons-material/Delete";
-import IconButton from "@mui/material/IconButton";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  deleteUser,
+  getUserBlock,
+  getUserProfile,
+} from "../../../redux/userManagement/actions";
 import Modal from "../../Categories/Modals/Modal";
-import { Box, Button, Grid, Link, TableContainer, TextField } from "@mui/material";
+import { useHistory } from "react-router-dom";
 
 interface TableItemProps {
   row: any;
   page: any;
   limit: any;
-  adminId: any;
   type: any;
   search: any;
+  adminId: any;
+  setAdminId: any;
 }
-const label = { inputProps: { 'aria-label': 'Switch demo' } };
-const TableItem: React.FC<TableItemProps> = ({ row, page,
+const label = { inputProps: { "aria-label": "Switch demo" } };
+const TableItem: React.FC<TableItemProps> = ({
+  row,
+  page,
   limit,
-  adminId,
   type,
   search,
+  adminId,
+  setAdminId
 }) => {
   const dispatch = useDispatch();
+  const history: any = useHistory();
   const [blockUser, setBlockUser] = useState(row.isActive);
   useEffect(() => {
     setBlockUser(row.isActive);
-  }, [row.isActive])
+  }, [row.isActive]);
   const [ProfileUser, setProfileUser] = useState(row.isApproved);
   useEffect(() => {
     setBlockUser(row.isApproved);
-  }, [row.isApproved])
+  }, [row.isApproved]);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const [open, setOpen] = useState(false);
   const handleClick = () => setOpen(false);
-  const handleDelete = () => dispatch(
-    deleteUser({
-      userId: row.id,
-    })
-  )
-  console.log("open------------", open)
+  const handleDelete = () =>
+    dispatch(
+      deleteUser({
+        userId: row.id,
+        page: page,
+        limit: limit,
+        type: type,
+        search: search,
+      })
+    );
+
   return (
     <>
-      <TableRow
-        sx={{
-          "& .tableCell": {
-            fontSize: 13,
-            padding: 2,
-            whiteSpace: "nowrap",
-            "&:first-of-type": {
-              pl: 5,
-            },
-            "&:last-of-type": {
-              pr: 5,
-            },
-          },
-        }}
-        className="item-hover"
-      >
+      <TableRow className="item-hover">
         <TableCell align="center" className="tableCell">
           {row.fullName ? row.fullName : "Sunny"}
         </TableCell>
@@ -76,22 +75,19 @@ const TableItem: React.FC<TableItemProps> = ({ row, page,
         <TableCell align="center" className="tableCell">
           <Button
             variant="outlined"
-            color={row?.isApproved === true ? (
-              "success"
-            ) : (
-              "error"
-            )}
+            color={row?.isApproved === true ? "success" : "error"}
             style={{ marginLeft: "10px" }}
-
             onClick={() => {
-              dispatch(getUserProfile({
-                userId: row.id,
-                page: page,
-                limit: limit,
-                adminId: "",
-                type: type,
-                search: search,
-              }))
+              dispatch(
+                getUserProfile({
+                  userId: row.id,
+                  page: page,
+                  limit: limit,
+                  adminId: "",
+                  type: type,
+                  search: search,
+                })
+              );
             }}
           >
             {row?.isApproved === true ? (
@@ -100,13 +96,23 @@ const TableItem: React.FC<TableItemProps> = ({ row, page,
               <span>Pending</span>
             )}
           </Button>
-
         </TableCell>
         <TableCell align="center" className="tableCell">
           <Switch
             {...label}
-            checked={blockUser}
-            onChange={(e) => { setBlockUser(!blockUser); dispatch(getUserBlock({ userId: row.id, })) }}
+            checked={row.isActive}
+            onChange={(e) => {
+
+              dispatch(getUserBlock({
+                userId: row.id,
+                page: page,
+                limit: limit,
+                adminId: "",
+                type: type,
+                search: search,
+
+              }));
+            }}
           />
         </TableCell>
         <TableCell align="center" className="tableCell">
@@ -118,16 +124,28 @@ const TableItem: React.FC<TableItemProps> = ({ row, page,
               ></DeleteIcon>
             </IconButton>
           </Tooltip>
-          <Link href="/Users/userDetails">
-            <Tooltip title="Profile">
-              <IconButton>
-                <RemoveRedEyeIcon onClick={() => setOpen(true)} />
-              </IconButton>
-            </Tooltip>
-          </Link>
+
+          <Tooltip title="Profile">
+            <IconButton>
+              <RemoveRedEyeIcon
+                onClick={() => {
+                  history.push({
+                    pathname: `/Users/userDetails`,
+                    state: { item: type,detail:row },
+                  });
+                }}
+              />
+            </IconButton>
+          </Tooltip>
         </TableCell>
       </TableRow>
-      <Modal id={row.id} show={show} onHide={handleClose} onDelete={handleDelete} />
+      <Modal
+        id={row.id}
+        show={show}
+        onHide={handleClose}
+        onDelete={handleDelete}
+        
+      />
     </>
   );
 };
