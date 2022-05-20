@@ -1,31 +1,22 @@
-import React, { useEffect } from "react";
-import Table from "@mui/material/Table";
-import TableHead from "@mui/material/TableHead";
-import TableBody from "@mui/material/TableBody";
-import TableHeading from "./TableHeading";
-import TableItem from "./TableItem";
-import AppTableContainer from "@crema/core/AppTableContainer";
-import { PlayerTableData } from "types/models/PlayerTable";
-import TableFooter from "@mui/material/TableFooter";
-import TablePagination from "@mui/material/TablePagination";
-import { useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
-import TableRow from "@mui/material/TableRow";
+import { Grid } from "@mui/material";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import { useTheme } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
-import Paper from "@mui/material/Paper";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import React from "react";
 import { useIntl } from "react-intl";
-import { useDispatch, useSelector } from "react-redux";
-import { Grid, TextField } from "@mui/material";
+import { useDispatch } from "react-redux";
 import images from "../../../assets/images/noData.png";
-import {
-  getUsersList,
-  changeUsersActivePage,
-} from "../../../redux/userManagement/actions";
+import TableHeading from "./TableHeading";
+import TableItem from "./TableItem";
 interface PlayerTableProps {
   userTableData: any;
   page: any;
@@ -138,68 +129,64 @@ const PlayerTable: React.FC<PlayerTableProps> = ({
   };
   const { messages } = useIntl();
   return (
-    <TableContainer>
-      <Grid item xs={12} style={{ padding: 20 }}></Grid>
-      <Table>
-        <TableHead>
-          <TableHeading />
-        </TableHead>
+    <>
+      <TableContainer>
+        <Grid item xs={12} style={{ padding: 20 }}></Grid>
+        <Table>
+          <TableHead>
+            <TableHeading />
+          </TableHead>
 
-        {userTableData?.users?.length > 0 &&
-          userTableData?.users.map((row: any) => (
-            <>
-              <TableBody>
-                <TableItem
-                  key={row.id}
-                  row={row}
-                  page={page}
-                  limit={limit}
-                  adminId={adminId}
-                  setAdminId={setAdminId}
-                  type={usertype}
-                  search={search}
-                />
-              </TableBody>
-            </>
-          ))}
-      </Table>
-
+          {userTableData?.users?.length > 0 &&
+            userTableData?.users.map((row: any) => (
+              <>
+                <TableBody>
+                  <TableItem
+                    key={row.id}
+                    row={row}
+                    page={page}
+                    limit={limit}
+                    adminId={adminId}
+                    setAdminId={setAdminId}
+                    type={usertype}
+                    search={search}
+                  />
+                </TableBody>
+              </>
+            ))}
+        </Table>
+      </TableContainer>
       {userTableData?.users?.length > 0 && (
-       
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25, 50]}
-            colSpan={7}
-            count={userTableData?.totalUsers}
-            rowsPerPage={limit}
-            page={page}
-            sx={{
-              marginLeft:"auto",
-              width:"100%",
-              borderBottom: "0 none",
-              marginBottom: 0,
-              paddingBottom: 0,
-            }}
-            SelectProps={{
-              inputProps: {
-                "aria-label": "rows per page",
-              },
-              native: true,
-            }}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-      
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25, 50]}
+          colSpan={7}
+          count={userTableData?.totalUsers}
+          rowsPerPage={limit}
+          page={page}
+          sx={{
+            marginLeft: "auto",
+            width: "100%",
+            borderBottom: "0 none",
+            marginBottom: 0,
+            paddingBottom: 0,
+          }}
+          SelectProps={{
+            inputProps: {
+              "aria-label": "rows per page",
+            },
+            native: true,
+          }}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       )}
 
-
-    
-
       {userTableData?.users?.length == 0 && (
-        <div style={{ textAlign: "center" }}>
+        <div style={{ textAlign: "center", marginTop: "24px" }}>
           <img src={images} alt={""} />
         </div>
       )}
-    </TableContainer>
+    </>
   );
 };
 

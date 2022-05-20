@@ -124,13 +124,10 @@ function* watchUserProfile() {
 function* watchDeleteUser() {
   yield takeLatest(DELETE_USER, deleteUserSaga);
 }
-// function* watchDetailUser() {
-//   yield takeLatest(DELETE_USER, userDetailRequest);
-// }
+
 export default function* UserSaga() {
   yield all([fork(watchGetUsers)]);
   yield all([fork(watchUserBlock)]);
   yield all([fork(watchUserProfile)]);
   yield all([fork(watchDeleteUser)]);
-  // yield all([fork(watchDetailUser)]);
 }

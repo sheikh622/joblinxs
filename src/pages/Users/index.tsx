@@ -39,7 +39,7 @@ const User = () => {
         search: search,
       })
     );
-  }, [type, search, page,limit]);
+  }, [type, search, page, limit]);
   const currencies = [
     {
       value: "provider",

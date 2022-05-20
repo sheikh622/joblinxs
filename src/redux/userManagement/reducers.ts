@@ -5,19 +5,18 @@ import {
   CHANGE_USERS_ACTIVE_PAGE,
   GET_USER_BLOCK_SUCCESS,
   GET_USER_PROFILE_SUCCESS,
-  GET_USER_DETAILS_SUCCESS
+  GET_USER_DETAILS_SUCCESS,
 } from "./constants";
 
 const initialState = {
   Users: [],
   UserActivePage: 0,
   UserBlock: [],
-  UserProfile:[],
-  UserDetails:[],
+  UserProfile: [],
+  UserDetails: [],
 };
 
 const User = produce((state = initialState, action: any) => {
-  
   switch (action.type) {
     case GET_USERS_LIST_SUCCESS:
       state.Users = action.payload;
@@ -28,12 +27,12 @@ const User = produce((state = initialState, action: any) => {
     case GET_USER_BLOCK_SUCCESS:
       state.UserBlock = action.payload;
       break;
-      case GET_USER_PROFILE_SUCCESS:
-        state.UserProfile = action.payload;
-        break;
-        case GET_USER_DETAILS_SUCCESS:
-        state.UserDetails = action.payload;
-        break;
+    case GET_USER_PROFILE_SUCCESS:
+      state.UserProfile = action.payload;
+      break;
+    case GET_USER_DETAILS_SUCCESS:
+      state.UserDetails = action.payload;
+      break;
     default:
   }
 }, initialState);

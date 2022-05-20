@@ -1,16 +1,11 @@
-import { Grid, Link } from "@mui/material";
+import { Link } from "@mui/material";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
-import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import React from "react";
-import { AppCard, AppGridContainer } from "../../../@crema";
-import images from "../../../assets/icon/coming.webp";
 import { useHistory } from "react-router-dom";
-import SeekerDetail from "./seekerDetail";
 import ProviderDetail from "./providerDetail";
-const UserDetails = ({
-  
-}) => {
+import SeekerDetail from "./seekerDetail";
+const UserDetails = ({}) => {
   const history: any = useHistory();
   const {
     location: { state },
@@ -45,7 +40,11 @@ const UserDetails = ({
       >
         User Details
       </Typography>
-      {userType === "provider" ? <ProviderDetail detail={detail} /> : <SeekerDetail detail={detail}/>}
+      {userType === "provider" ? (
+        <ProviderDetail detail={detail} />
+      ) : (
+        <SeekerDetail detail={detail} />
+      )}
     </>
   );
 };

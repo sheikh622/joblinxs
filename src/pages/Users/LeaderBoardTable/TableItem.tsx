@@ -33,7 +33,7 @@ const TableItem: React.FC<TableItemProps> = ({
   type,
   search,
   adminId,
-  setAdminId
+  setAdminId,
 }) => {
   const dispatch = useDispatch();
   const history: any = useHistory();
@@ -102,16 +102,16 @@ const TableItem: React.FC<TableItemProps> = ({
             {...label}
             checked={row.isActive}
             onChange={(e) => {
-
-              dispatch(getUserBlock({
-                userId: row.id,
-                page: page,
-                limit: limit,
-                adminId: "",
-                type: type,
-                search: search,
-
-              }));
+              dispatch(
+                getUserBlock({
+                  userId: row.id,
+                  page: page,
+                  limit: limit,
+                  adminId: "",
+                  type: type,
+                  search: search,
+                })
+              );
             }}
           />
         </TableCell>
@@ -131,7 +131,7 @@ const TableItem: React.FC<TableItemProps> = ({
                 onClick={() => {
                   history.push({
                     pathname: `/Users/userDetails`,
-                    state: { item: type,detail:row },
+                    state: { item: type, detail: row },
                   });
                 }}
               />
@@ -144,7 +144,6 @@ const TableItem: React.FC<TableItemProps> = ({
         show={show}
         onHide={handleClose}
         onDelete={handleDelete}
-        
       />
     </>
   );

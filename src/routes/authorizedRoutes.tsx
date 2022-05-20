@@ -5,7 +5,7 @@ export const authorizedRouteConfigs = [
   {
     path: '/dashboard',
     component: React.lazy(() => import('../pages/dashboard')),
-    
+    permittedRole: ["user", "admin"],
     // isAuthenticated: true
   },
   {
@@ -21,21 +21,17 @@ export const authorizedRouteConfigs = [
   },
   {path: '/Categories',
   component: React.lazy(() => import('../pages/Categories')),
-  permittedRole: ["user", "admin"],
+  // permittedRole: ["user", "admin"],
   },  
   {    path: '/JobManagement',
   component: React.lazy(() => import('../pages/JobManagement')),
-  permittedRole: ["user", "admin"],
+  // permittedRole: ["user", "admin"],
 },
   {
     path: '/Invoice',
     component: React.lazy(() => import('../pages/Invoice')),
-    permittedRole: ["user", "admin"],
+    // permittedRole: ["user", "admin"],
   },
-  // {
-  //   path: '/players',
-  //   component: React.lazy(() => import('../pages/users')),
-  // },
   {
     path: '/my-account',
     component: React.lazy(() => import('../pages/Account')),

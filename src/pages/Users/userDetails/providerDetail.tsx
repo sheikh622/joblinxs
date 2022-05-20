@@ -1,13 +1,10 @@
-import ReactContentLoaderFacebook from "react-content-loader/dist/web/presets/FacebookStyle";
+import { Grid } from "@mui/material";
+import Divider from "@mui/material/Divider";
+import Typography from "@mui/material/Typography";
 import React from "react";
 import { AppCard, AppGridContainer } from "../../../@crema";
 import images from "../../../assets/icon/coming.webp";
-import { Grid, Link } from "@mui/material";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
-import Divider from "@mui/material/Divider";
-import Typography from "@mui/material/Typography";
 const ProviderDetail = ({ detail }) => {
-
   return (
     <AppCard>
       <div>
@@ -19,7 +16,7 @@ const ProviderDetail = ({ detail }) => {
               ></h2>
             </Typography>
             <img
-              src={detail.profileImg}
+              src={detail?.profileImg ? detail?.profileImg : images}
               width="100px"
               height="20px"
               style={{ marginRight: "15px" }}
@@ -67,6 +64,23 @@ const ProviderDetail = ({ detail }) => {
               <Grid item xs={12} md={8}>
                 <Typography id="modal-modal-title" variant="h3" sx={{}}>
                   {detail?.fullName ? detail?.fullName : "----"}
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography
+                  id="modal-modal-title"
+                  variant="h3"
+                  sx={{
+                    fontWeight: "bold",
+                    color: "#0A8FDC",
+                  }}
+                >
+                  Email
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={8}>
+                <Typography id="modal-modal-title" variant="h3" sx={{}}>
+                  {detail?.email ? detail?.email : "----"}
                 </Typography>
               </Grid>
               <Grid
@@ -357,7 +371,7 @@ const ProviderDetail = ({ detail }) => {
                   variant="h3"
                   sx={{
                     fontWeight: "bold",
-                    color: "#0A8FDC",
+                    color: "Black",
                     alignContent: "center",
                   }}
                 >
@@ -365,182 +379,194 @@ const ProviderDetail = ({ detail }) => {
                 </Typography>
               </Grid>
               <Grid
-                item
-                xs={12}
-                md={8}
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <Typography id="modal-modal-title" variant="h3" sx={{}}>
-                  <h2></h2>
-                  {/* {collectionData?.email ? collectionData?.email : "----"} */}
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={4}
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <Typography
-                  id="modal-modal-title"
-                  variant="h3"
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#0A8FDC",
-                  }}
-                >
-                  Job Title
-                </Typography>
-              </Grid>
+                      item
+                      xs={12}
+                      md={8}
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <Typography id="modal-modal-title" variant="h3" sx={{}}>
+                        <h2></h2>
+                      </Typography>
+                    </Grid>
+              {detail?.workExperience.map((item: any) => {
+                return (
+                  <>
+                   
+                    <Grid
+                      item
+                      xs={12}
+                      md={4}
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <Typography
+                        id="modal-modal-title"
+                        variant="h3"
+                        sx={{
+                          fontWeight: "bold",
+                          color: "#0A8FDC",
+                        }}
+                      >
+                        Job Title
+                      </Typography>
+                    </Grid>
 
-              <Grid
-                item
-                xs={12}
-                md={8}
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <Typography id="modal-modal-title" variant="h3" sx={{}}>
-                  {detail?.jobtitle ? detail?.jobtitle : "----"}
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={4}
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <Typography
-                  id="modal-modal-title"
-                  variant="h3"
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#0A8FDC",
-                  }}
-                >
-                  Employment Type
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={8}
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <Typography id="modal-modal-title" variant="h3" sx={{}}>
-                  {detail?.employmentType ? detail?.employmentType : "----"}
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={4}
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <Typography
-                  id="modal-modal-title"
-                  variant="h3"
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#0A8FDC",
-                  }}
-                >
-                  Location
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={8}
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <Typography id="modal-modal-title" variant="h3" sx={{}}>
-                  {detail?.location ? detail?.location : "----"}
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={4}
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <Typography
-                  id="modal-modal-title"
-                  variant="h3"
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#0A8FDC",
-                  }}
-                >
-                  Start Date
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={8}
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <Typography id="modal-modal-title" variant="h3" sx={{}}>
-                  {detail?.startdate ? detail?.startdate : "----"}
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={4}
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <Typography
-                  id="modal-modal-title"
-                  variant="h3"
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#0A8FDC",
-                  }}
-                >
-                  End Date
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={8}
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <Typography id="modal-modal-title" variant="h3" sx={{}}>
-                  {detail?.updatedDate ? detail?.updatedDate : "----"}
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={4}
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <Typography
-                  id="modal-modal-title"
-                  variant="h3"
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#0A8FDC",
-                  }}
-                >
-                  Share Your Experience
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={8}
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <Typography id="modal-modal-title" variant="h3" sx={{}}>
-                  {/* {collectionData?.email ? collectionData?.email : "----"} */}
-                </Typography>
-              </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      md={8}
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <Typography id="modal-modal-title" variant="h3" sx={{}}>
+                        {item?.jobTitle ? item?.jobTitle : "----"}
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      md={4}
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <Typography
+                        id="modal-modal-title"
+                        variant="h3"
+                        sx={{
+                          fontWeight: "bold",
+                          color: "#0A8FDC",
+                        }}
+                      >
+                        Employment Type
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      md={8}
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <Typography id="modal-modal-title" variant="h3" sx={{}}>
+                        {item?.employement
+                          ? item?.employement
+                          : "----"}
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      md={4}
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <Typography
+                        id="modal-modal-title"
+                        variant="h3"
+                        sx={{
+                          fontWeight: "bold",
+                          color: "#0A8FDC",
+                        }}
+                      >
+                        Location
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      md={8}
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <Typography id="modal-modal-title" variant="h3" sx={{}}>
+                        {item?.location ? item?.location : "----"}
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      md={4}
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <Typography
+                        id="modal-modal-title"
+                        variant="h3"
+                        sx={{
+                          fontWeight: "bold",
+                          color: "#0A8FDC",
+                        }}
+                      >
+                        Start Date
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      md={8}
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <Typography id="modal-modal-title" variant="h3" sx={{}}>
+                        {item?.startDate ? item?.startDate : "----"}
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      md={4}
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <Typography
+                        id="modal-modal-title"
+                        variant="h3"
+                        sx={{
+                          fontWeight: "bold",
+                          color: "#0A8FDC",
+                        }}
+                      >
+                        End Date
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      md={8}
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <Typography id="modal-modal-title" variant="h3" sx={{}}>
+                        {item?.endDate ? item?.endDate : "----"}
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      md={4}
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <Typography
+                        id="modal-modal-title"
+                        variant="h3"
+                        sx={{
+                          fontWeight: "bold",
+                          color: "#0A8FDC",
+                        }}
+                      >
+                        Details
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      md={8}
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <Typography id="modal-modal-title" variant="h3" sx={{}}>
+                        {item?.details ? item?.details : "----"}
+                      </Typography>
+                    </Grid>
+                  </>
+                 
+                  
+                );
+              })}
+              <Divider orientation="horizontal" flexItem />
+
+              
             </AppGridContainer>
           </Grid>
-
         </AppGridContainer>
       </div>
     </AppCard>
