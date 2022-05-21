@@ -33,27 +33,27 @@ const routesConfig: RouterConfigData[] = [
     type: "item",
     url: "/Users",
   },
-  {
-    id: "Categories",
-    title: "Categories",
-    messageId: "Categories Management",
-    type: "item",
-    url: "/Categories",
-  },
-  {
-    id: "JobManagement",
-    title: "JobManagement",
-    messageId: "Job Management",
-    type: "item",
-    url: "/JobManagement",
-  },
-  {
-    id: "Invoice",
-    title: <IntlMessages id="sideNav.Invoice" />,
-    messageId: "Invoice",
-    type: "item",
-    url: "/Invoice",
-  },
+  // {
+  //   id: "Categories",
+  //   title: "Categories",
+  //   messageId: "Categories Management",
+  //   type: "item",
+  //   url: "/Categories",
+  // },
+  // {
+  //   id: "JobManagement",
+  //   title: "JobManagement",
+  //   messageId: "Job Management",
+  //   type: "item",
+  //   url: "/JobManagement",
+  // },
+  // {
+  //   id: "Invoice",
+  //   title: <IntlMessages id="sideNav.Invoice" />,
+  //   messageId: "Invoice",
+  //   type: "item",
+  //   url: "/Invoice",
+  // },
 
 
 ];

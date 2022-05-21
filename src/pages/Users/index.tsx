@@ -20,8 +20,7 @@ const User = () => {
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [adminId, setAdminId] = useState<number>(0);
-
-  const [type, setType] = React.useState("provider");
+  const [type, setType] = React.useState("");
   const handleChange = (event) => {
     setType(event.target.value);
   };
@@ -41,6 +40,10 @@ const User = () => {
     );
   }, [type, search, page, limit]);
   const currencies = [
+    {
+      value: "",
+      label: "All Users",
+    },
     {
       value: "provider",
       label: "service provider",
@@ -85,8 +88,7 @@ const User = () => {
                   label="Select"
                   value={type}
                   onChange={handleChange}
-                  // helperText='Please select your type'
-                  sx={{ width: 200, display: "inline-block", marginLeft: 172 }}
+                  sx={{  display: "inline-block", marginLeft: 19 }}
                 >
                   {currencies.map((option) => (
                     <MenuItem key={option.value} value={option.value}>

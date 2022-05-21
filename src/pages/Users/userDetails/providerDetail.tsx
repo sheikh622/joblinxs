@@ -3,8 +3,22 @@ import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import { AppCard, AppGridContainer } from "../../../@crema";
+import moment from "moment";
 import images from "../../../assets/icon/coming.webp";
+import { DataGrid } from "@mui/x-data-grid";
 const ProviderDetail = ({ detail }) => {
+  let arr = detail?.workExperience.map((item, index) => {
+    return {
+        id: index,
+        JobTitle: item?.jobTitle ? item?.jobTitle : '----',
+        employmenttype: item?.employmentType ? item?.employmentType:'----',
+        Location: item?.location ? item?.location : '----',
+        StartDate: item?.startDate ? moment(item?.startDate).format('DD-MM-YYYY') : '----',
+        EndDate: item?.endDate ? moment(item?.endDate).format('DD-MM-YYYY') : '----',
+        Detail: item?.details ? item?.details : '----'
+    };
+});
+console.log("arr",arr)
   return (
     <AppCard>
       <div>
@@ -378,193 +392,28 @@ const ProviderDetail = ({ detail }) => {
                   Work Experience
                 </Typography>
               </Grid>
-              <Grid
-                      item
-                      xs={12}
-                      md={8}
-                      style={{ display: "flex", alignItems: "center" }}
-                    >
-                      <Typography id="modal-modal-title" variant="h3" sx={{}}>
-                        <h2></h2>
-                      </Typography>
-                    </Grid>
-              {detail?.workExperience.map((item: any) => {
-                return (
-                  <>
-                   
-                    <Grid
-                      item
-                      xs={12}
-                      md={4}
-                      style={{ display: "flex", alignItems: "center" }}
-                    >
-                      <Typography
-                        id="modal-modal-title"
-                        variant="h3"
-                        sx={{
-                          fontWeight: "bold",
-                          color: "#0A8FDC",
-                        }}
-                      >
-                        Job Title
-                      </Typography>
-                    </Grid>
 
-                    <Grid
-                      item
-                      xs={12}
-                      md={8}
-                      style={{ display: "flex", alignItems: "center" }}
-                    >
-                      <Typography id="modal-modal-title" variant="h3" sx={{}}>
-                        {item?.jobTitle ? item?.jobTitle : "----"}
-                      </Typography>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      md={4}
-                      style={{ display: "flex", alignItems: "center" }}
-                    >
-                      <Typography
-                        id="modal-modal-title"
-                        variant="h3"
-                        sx={{
-                          fontWeight: "bold",
-                          color: "#0A8FDC",
-                        }}
-                      >
-                        Employment Type
-                      </Typography>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      md={8}
-                      style={{ display: "flex", alignItems: "center" }}
-                    >
-                      <Typography id="modal-modal-title" variant="h3" sx={{}}>
-                        {item?.employement
-                          ? item?.employement
-                          : "----"}
-                      </Typography>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      md={4}
-                      style={{ display: "flex", alignItems: "center" }}
-                    >
-                      <Typography
-                        id="modal-modal-title"
-                        variant="h3"
-                        sx={{
-                          fontWeight: "bold",
-                          color: "#0A8FDC",
-                        }}
-                      >
-                        Location
-                      </Typography>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      md={8}
-                      style={{ display: "flex", alignItems: "center" }}
-                    >
-                      <Typography id="modal-modal-title" variant="h3" sx={{}}>
-                        {item?.location ? item?.location : "----"}
-                      </Typography>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      md={4}
-                      style={{ display: "flex", alignItems: "center" }}
-                    >
-                      <Typography
-                        id="modal-modal-title"
-                        variant="h3"
-                        sx={{
-                          fontWeight: "bold",
-                          color: "#0A8FDC",
-                        }}
-                      >
-                        Start Date
-                      </Typography>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      md={8}
-                      style={{ display: "flex", alignItems: "center" }}
-                    >
-                      <Typography id="modal-modal-title" variant="h3" sx={{}}>
-                        {item?.startDate ? item?.startDate : "----"}
-                      </Typography>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      md={4}
-                      style={{ display: "flex", alignItems: "center" }}
-                    >
-                      <Typography
-                        id="modal-modal-title"
-                        variant="h3"
-                        sx={{
-                          fontWeight: "bold",
-                          color: "#0A8FDC",
-                        }}
-                      >
-                        End Date
-                      </Typography>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      md={8}
-                      style={{ display: "flex", alignItems: "center" }}
-                    >
-                      <Typography id="modal-modal-title" variant="h3" sx={{}}>
-                        {item?.endDate ? item?.endDate : "----"}
-                      </Typography>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      md={4}
-                      style={{ display: "flex", alignItems: "center" }}
-                    >
-                      <Typography
-                        id="modal-modal-title"
-                        variant="h3"
-                        sx={{
-                          fontWeight: "bold",
-                          color: "#0A8FDC",
-                        }}
-                      >
-                        Details
-                      </Typography>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      md={8}
-                      style={{ display: "flex", alignItems: "center" }}
-                    >
-                      <Typography id="modal-modal-title" variant="h3" sx={{}}>
-                        {item?.details ? item?.details : "----"}
-                      </Typography>
-                    </Grid>
-                  </>
-                 
-                  
-                );
-              })}
-              <Divider orientation="horizontal" flexItem />
+              <div style={{ height: 400, width: "100%", marginTop:"5%" }}>
+                {detail?.workExperience.map((item: any) => {
+                  return (
+                    <>
+                      <DataGrid
+                        columns={[
+                          { field: "JobTitle" },
+                          { field: "employmenttype" },
+                          { field: "Location" },
+                          { field: "StartDate" },
+                          { field: "EndDate" },
+                          { field: "Detail" },
+                        ]}
+                        rows={arr}
+                      />
+                    </>
+                  );
+                })}
+              </div>
 
-              
+             
             </AppGridContainer>
           </Grid>
         </AppGridContainer>

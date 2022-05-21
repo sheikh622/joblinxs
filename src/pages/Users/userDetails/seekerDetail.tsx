@@ -4,14 +4,14 @@ import React from "react";
 import { AppCard, AppGridContainer } from "../../../@crema";
 import images from "../../../assets/icon/coming.webp";
 const SeekerDetail = ({ detail }) => {
-  console.log("image", detail?.businessInformation?.businessLicense);
   return (
     <AppCard>
       <div>
         <AppGridContainer sx={{ p: 6 }}>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={12}>
             <AppGridContainer>
               <Grid item xs={12} md={12}>
+                <Grid item xs={12} md={4}>
                 <Typography variant="h5">
                   <h2
                     style={{
@@ -19,8 +19,14 @@ const SeekerDetail = ({ detail }) => {
                       marginTop: "5%",
                       display: "flex",
                     }}
-                  ></h2>
+                  >
+                    Profile Picture
+                  </h2>
+                  
                 </Typography>
+                </Grid>
+                <Grid item xs={12} md={4}>
+
                 <img
                   src={detail?.profileImg ? detail?.profileImg : images}
                   width="100px"
@@ -28,8 +34,9 @@ const SeekerDetail = ({ detail }) => {
                   style={{ marginRight: "15px" }}
                   alt=""
                 />
-              </Grid>
-              <Grid item xs={12} md={6}>
+                </Grid>
+              
+              <Grid item xs={12} md={4}>
                 <Typography variant="h5">
                   <h2 style={{ color: "#0A8FDC", marginTop: "5%" }}>frontID</h2>
                 </Typography>
@@ -41,7 +48,8 @@ const SeekerDetail = ({ detail }) => {
                   alt=""
                 />
               </Grid>
-              <Grid item xs={12} md={6}>
+
+              <Grid item xs={12} md={4}>
                 <Typography variant="h5">
                   <h2 style={{ color: "#0A8FDC", marginTop: "5%" }}>backID</h2>
                 </Typography>
@@ -52,6 +60,7 @@ const SeekerDetail = ({ detail }) => {
                   style={{ marginRight: "15px" }}
                   alt=""
                 />
+              </Grid>
               </Grid>
               <Grid item xs={12} md={4}>
                 <Typography
@@ -272,18 +281,10 @@ const SeekerDetail = ({ detail }) => {
                 md={8}
                 style={{ display: "flex", alignItems: "center" }}
               >
-                {detail?.category.map((item: any) => {
-                  return (
-                    <Typography
-                      id="modal-modal-title"
-                      variant="h3"
-                      sx={{ display: "block" }}
-                    >
-                      {item} {" , "}
-                    </Typography>
-                  );
-                })}
-              </Grid>{" "}
+                <Typography id="modal-modal-title" variant="h3" sx={{}}>
+                  {detail?.category ? detail?.category : "----"}
+                </Typography>
+              </Grid>
               <Grid
                 item
                 xs={12}

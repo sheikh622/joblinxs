@@ -42,8 +42,9 @@ function* forgetRequestSaga({ payload }: any): any {
   };
   try {
     const response = yield axios.post(`/user/admin/forgot-password`, data);
-  
+   
     yield put(resetPasswordSuccess(response.data.reset_token));
+    toast.success("Email sent successfully");
     yield put(push("/forget-password"));
   } catch (error: any) {
     
