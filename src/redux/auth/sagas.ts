@@ -63,7 +63,8 @@ function* resetRequestSaga({ payload }: any): any {
   try {
     const response = yield axios.post(`/user/admin/reset-password`, data);
   
-    toast.success("Password reset Successfully");
+    toast.success("Password Reset Successfully");
+    toast.success("Password is old.Kindly enter new password ");
     yield put(push("/signin"));
   } catch (error: any) {
     yield sagaErrorHandler(error.response);
