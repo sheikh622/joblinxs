@@ -70,7 +70,7 @@ const TableItem: React.FC<TableItemProps> = ({
           {row.email ? row.email : "Sunny"}
         </TableCell>
         <TableCell align="center" className="tableCell">
-          {row.phone ? row.phone : "092345678"}
+          {row.phoneNumber ? row.phoneNumber : "092345678"}
         </TableCell>
         <TableCell align="center" className="tableCell">
           <Button

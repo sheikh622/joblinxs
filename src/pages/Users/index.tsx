@@ -20,7 +20,7 @@ const User = () => {
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [adminId, setAdminId] = useState<number>(0);
-  const [type, setType] = React.useState("");
+  const [type, setType] = React.useState("all");
   const handleChange = (event) => {
     setType(event.target.value);
   };
@@ -41,7 +41,7 @@ const User = () => {
   }, [type, search, page, limit]);
   const currencies = [
     {
-      value: "",
+      value: "all",
       label: "All Users",
     },
     {
@@ -88,7 +88,12 @@ const User = () => {
                   label="Select"
                   value={type}
                   onChange={handleChange}
-                  sx={{  display: "inline-block", marginLeft: 19 }}
+                  sx={{
+                    marginLeft: 19, width: '22ch'
+                  }}
+                 
+                  autoComplete='on'
+                  
                 >
                   {currencies.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
