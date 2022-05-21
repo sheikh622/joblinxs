@@ -36,7 +36,7 @@ const SeekerDetail = ({ detail }) => {
                 />
                 </Grid>
               
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={6}>
                 <Typography variant="h5">
                   <h2 style={{ color: "#0A8FDC", marginTop: "5%" }}>frontID</h2>
                 </Typography>
@@ -49,7 +49,7 @@ const SeekerDetail = ({ detail }) => {
                 />
               </Grid>
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={6}>
                 <Typography variant="h5">
                   <h2 style={{ color: "#0A8FDC", marginTop: "5%" }}>backID</h2>
                 </Typography>

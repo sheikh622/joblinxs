@@ -6,19 +6,25 @@ import { AppCard, AppGridContainer } from "../../../@crema";
 import moment from "moment";
 import images from "../../../assets/icon/coming.webp";
 import { DataGrid } from "@mui/x-data-grid";
+import { style } from "@mui/system";
+import { Table } from "reactstrap";
 const ProviderDetail = ({ detail }) => {
   let arr = detail?.workExperience.map((item, index) => {
     return {
-        id: index,
-        JobTitle: item?.jobTitle ? item?.jobTitle : '----',
-        employmenttype: item?.employmentType ? item?.employmentType:'----',
-        Location: item?.location ? item?.location : '----',
-        StartDate: item?.startDate ? moment(item?.startDate).format('DD-MM-YYYY') : '----',
-        EndDate: item?.endDate ? moment(item?.endDate).format('DD-MM-YYYY') : '----',
-        Detail: item?.details ? item?.details : '----'
+      id: index,
+      JobTitle: item?.jobTitle ? item?.jobTitle : "----",
+      employmenttype: item?.employmentType ? item?.employmentType : "----",
+      Location: item?.location ? item?.location : "----",
+      StartDate: item?.startDate
+        ? moment(item?.startDate).format("DD-MM-YYYY")
+        : "----",
+      EndDate: item?.endDate
+        ? moment(item?.endDate).format("DD-MM-YYYY")
+        : "----",
+      Detail: item?.details ? item?.details : "----",
     };
-});
-console.log("arr",arr)
+  });
+
   return (
     <AppCard>
       <div>
@@ -27,7 +33,9 @@ console.log("arr",arr)
             <Typography variant="h5">
               <h2
                 style={{ color: "#0A8FDC", marginTop: "5%", display: "flex" }}
-              ></h2>
+              >
+                Profile Picture
+              </h2>
             </Typography>
             <img
               src={detail?.profileImg ? detail?.profileImg : images}
@@ -393,26 +401,21 @@ console.log("arr",arr)
                 </Typography>
               </Grid>
 
-              <div style={{ height: 400, width: "100%", marginTop:"5%" }}>
-                {detail?.workExperience.map((item: any) => {
-                  return (
-                    <>
-                      <DataGrid
-                        columns={[
-                          { field: "JobTitle" },
-                          { field: "employmenttype" },
-                          { field: "Location" },
-                          { field: "StartDate" },
-                          { field: "EndDate" },
-                          { field: "Detail" },
-                        ]}
-                        rows={arr}
-                      />
-                    </>
-                  );
-                })}
-              </div>
-
+              <Grid style={{ height: 400, width: "100%", marginTop: "5%" }}>
+              
+                    <DataGrid 
+                      columns={[
+                        { field: "JobTitle" },
+                        { field: "employmenttype" },
+                        { field: "Location" },
+                        { field: "StartDate" },
+                        { field: "EndDate" },
+                        { field: "Detail" },
+                      ]}
+                      rows={arr}
+                    />
+                
+              </Grid>
              
             </AppGridContainer>
           </Grid>
