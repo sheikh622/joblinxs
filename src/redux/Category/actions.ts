@@ -1,6 +1,6 @@
 import {
-  GET_USERS_LIST,
-  GET_USERS_LIST_SUCCESS,
+  ADD_CATEGORY,
+  ADD_CATEGORY_SUCCESS,
   CHANGE_USERS_ACTIVE_PAGE,
   GET_USER_BLOCK,
   GET_USER_BLOCK_SUCCESS,
@@ -11,12 +11,12 @@ import {
   GET_USER_DETAILS_SUCCESS
 } from "./constants";
 
-export const getUsersList = (data: any) => ({
-  type: GET_USERS_LIST,
+export const addCategory = (data: any) => ({
+  type: ADD_CATEGORY,
   payload: data,
 });
-export const getUsersListSuccess = (data: any) => ({
-  type: GET_USERS_LIST_SUCCESS,
+export const addCategorySuccess = (data: any) => ({
+  type: ADD_CATEGORY_SUCCESS,
   payload: data,
 });
 export const changeUsersActivePage = (data: any) => ({

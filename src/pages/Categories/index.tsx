@@ -1,4 +1,5 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import Vector from "../../assets/icon/Vector.png";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Box, Button, Grid, TextField } from "@mui/material";
@@ -15,8 +16,15 @@ import AddCategory from "./Modals/addCategory";
 import Modal from "./Modals/Modal";
 import RequestModal from "./Modals/requestModal";
 import Divider from "@mui/material/Divider";
+import Category from "./add";
+import { useDispatch, useSelector } from "react-redux";
+
 export default function RecipeReviewCard() {
-  const history = useHistory();
+  // const history = useHistory();
+  const CategoryData:any = useSelector(
+    (state: any) => state?.addCategory?.CategoryData
+  );
+  console.log("CategoryData",CategoryData)
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const [search, setSearch] = useState<string>("");
@@ -31,113 +39,99 @@ export default function RecipeReviewCard() {
           <AppGridContainer>
             <Grid item xs={12} md={12}>
               <AppCard contentStyle={{ px: 0 }}>
-              <TextField
+                <TextField
                   sx={{ display: "inline-block", marginLeft: 6 }}
                   placeholder="Search Text"
                   label="Search"
-                  value={search}
-                  onChange={(event: any) => {
-                    setSearch(event.target.value);
-                  }}
+                  // value={search}
+                  // onChange={(event: any) => {
+                  //   setSearch(event.target.value);
+                  // }}
                 />
               </AppCard>
             </Grid>
-          </AppGridContainer>
-          <Box
-            display="flex"
-            flexDirection="row"
-            alignItems="center" 
-            sx={{
-              position: "absolute",
-              right: 20,
-              top: 20,
-              color: "gray",
-            }}
-          >
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => setRequest(true)}
+            <Box
+              display="flex"
+              flexDirection="row"
+              alignItems="center"
+              sx={{
+                position: "absolute",
+                right: 20,
+                top: 20,
+                color: "gray",
+              }}
             >
-              Users Request
-            </Button>
-          </Box>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => setRequest(true)}
+              >
+                Users Request
+              </Button>
+            </Box>
+          </AppGridContainer>
+
           <AppGridContainer>
             <Grid item xs={12} md={12}>
-              <Card
-                sx={{
-                  maxWidth: 305,
-                  mt: 10,
-                  height: 122,
-                  display: "flex",
-                }}
-              >
-                <Grid item xs={4} md={3}>
-                  <Box>
-                    <AddCircleIcon
-                      sx={{
-                        marginLeft: "20px",
-                        display: "flex",
-                        fontSize: "bold",
-                        marginTop: "40px",
-                      }}
-                      onClick={() => setShow(true)}
-                    />
-                  </Box>
-                </Grid>
-                <Divider orientation="vertical" flexItem />
-                <Grid item xs={8} md={8}>
-                  <div
-                    className="category"
-                    style={{
-                      justifyContent: "center",
-                      marginTop: "40px",
-                      marginLeft: "20px",
+              <AppGridContainer>
+                {" "}
+                {CategoryData?.map((value: any, index: any) => {
+                  return (
+                    <Grid item xs={12} md={4}>
+                      <Category />
+                    </Grid>
+                  );
+                })}
+                <Grid item xs={12} md={4}>
+                  <Card
+                    sx={{
+                      maxWidth: 305,
+                      mt: 10,
+                      height: 122,
+                      display: "flex",
                     }}
                   >
-                    <h4>Add New Categories</h4>
-                  </div>
-                </Grid>
-                {/* <div
-                  className="deltebtn"
-                  style={{
-                    borderTop: "1px solid black",
-                    borderRadius: "0px",
-                  }}
-                ></div> */}
-                {/* <TableCell
-                  align="center"
-                  className="tableCell"
-                  style={{ marginTop: "10px", paddingTop: "0px" }}
-                >
-                  <Tooltip title="Delete">
-                    <IconButton>
-                      <DeleteIcon
-                        htmlColor="#dc3545"
-                        sx={{
-                          alignContent: "flex-start",
-                          // marginRight: "168px",
-                          padding: "0px",
-                          marginTop: "8px",
+                    <Grid item xs={4} md={3}>
+                      <Box>
+                        <img
+                          src={Vector}
+                          alt=""
+                          style={{
+                            marginLeft: "20px",
+                            display: "flex",
+                            fontSize: "bold",
+                            marginTop: "35px",
+                          }}
+                          onClick={() => setShow(true)}
+                        />
+                      </Box>
+                    </Grid>
+                    <Divider orientation="vertical" flexItem />
+                    <Grid item xs={8} md={8}>
+                      <div
+                        className="category"
+                        style={{
+                          justifyContent: "center",
+                          marginTop: "40px",
+                          marginLeft: "20px",
                         }}
-                        // onClick={() => setShow(true)}
-                        onClick={() => setOpenDel(true)}
-                      ></DeleteIcon>
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Edit">
-                    <IconButton
-                      style={{ marginLeft: "166px" }}
-                      onClick={() => setShow(true)}
-                    >
-                      <EditIcon></EditIcon>
-                    </IconButton>
-                  </Tooltip>
-                </TableCell> */}
-                <AddCategory show={show} onHide={handleClose} />
-              </Card>
+                      >
+                        <h4>Add New Categories</h4>
+                      </div>
+                    </Grid>
+                    <div
+                      className="deltebtn"
+                      style={{
+                        borderTop: "1px solid black",
+                        borderRadius: "0px",
+                      }}
+                    ></div>
+
+                    <AddCategory show={show} onHide={handleClose} />
+                  </Card>
+                </Grid>
+              </AppGridContainer>
             </Grid>
-            {/* <Add/> */}
           </AppGridContainer>
         </Box>
       </AppAnimate>

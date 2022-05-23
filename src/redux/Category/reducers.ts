@@ -1,13 +1,13 @@
 import produce from "immer";
 import {
-  GET_USERS_LIST_SUCCESS,
+  ADD_CATEGORY_SUCCESS,
   CHANGE_USERS_ACTIVE_PAGE,
   GET_USER_BLOCK_SUCCESS,
   GET_USER_PROFILE_SUCCESS,
   GET_USER_DETAILS_SUCCESS
 } from "./constants";
 const initialState = {
-  Users: [],
+  addCategory: [],
   UserActivePage: 0,
   UserBlock: [],
   UserProfile:[],
@@ -16,7 +16,7 @@ const initialState = {
 const User = produce((state = initialState, action: any) => {
   
   switch (action.type) {
-    case GET_USERS_LIST_SUCCESS:
+    case ADD_CATEGORY_SUCCESS:
       state.Users = action.payload;
       break;
     case CHANGE_USERS_ACTIVE_PAGE:

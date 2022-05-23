@@ -33,13 +33,13 @@ const routesConfig: RouterConfigData[] = [
     type: "item",
     url: "/Users",
   },
-  // {
-  //   id: "Categories",
-  //   title: "Categories",
-  //   messageId: "Categories Management",
-  //   type: "item",
-  //   url: "/Categories",
-  // },
+  {
+    id: "Categories",
+    title: "Categories",
+    messageId: "Categories Management",
+    type: "item",
+    url: "/Categories",
+  },
   // {
   //   id: "JobManagement",
   //   title: "JobManagement",
