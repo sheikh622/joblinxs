@@ -1,104 +1,107 @@
 import axios from "../../routes/axiosConfig";
 import { all, put, call, fork, takeLatest, select } from "redux-saga/effects";
 import { push } from "connected-react-router";
-import { addCategorySuccess, getUserBlockSuccess,getUserProfileSuccess,deleteUser,getUserDetailsSuccess } from "./actions";
-import { ADD_CATEGORY, GET_USER_BLOCK,GET_USER_PROFILE, DELETE_USER,GET_USER_DETAILS } from "./constants";
+import {
+  addCategorySuccess,
+  getCategoryListSuccess,
+  updateCategorySuccess,
+  // deleteCategory,
+} from "./actions";
+import {
+  ADD_CATEGORY,
+  GET_CATEGORY_LIST,
+  UPDATE_CATEGORY,
+  DELETE_CATEGORY,
+} from "./constants";
 import { sagaErrorHandler } from "../../shared/helperMethods/sagaErrorHandler";
 import { makeSelectAuthToken } from "../store/selectors";
 import { toast } from "react-toastify";
-function* addCategory({ payload }: any): any {
-  console.log("addCategory", addCategory)
+
+function* addCategoryRequest({ payload }: any): any {
+  console.log("addCategory============", payload);
+  const formData = new FormData();
+  formData.append("categoryImg", payload.categoryImg);
+  formData.append("title", payload.title);
+  formData.append("details", payload.details);
+
   try {
-   
+    console.log("values====>>>>>>", payload);
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.post(`category/add/admin`,payload.data,{
+    const response = yield axios.post(`category/add/admin`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
-    );
+    });
+    payload.setReset();
+    payload.setSelectedImage("");
     yield put(addCategorySuccess(response.data.data));
   } catch (error: any) {
     yield sagaErrorHandler(error.response);
   }
 }
-
-function* userBlockSaga({ payload }: any): any {
+function* getcategory({ payload }: any): any {
   try {
+    console.log("values====>>>>>>", payload);
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.get(`/user/admin/change-userStatus/${payload.userId}`,  {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    toast.success(response.data.message);
-    yield put(getUserBlockSuccess());
-  } catch (error: any) {
-    yield sagaErrorHandler(error.response);
-  }
-}
-function* userProfileSaga({ payload }: any): any {
-  try {
-    const token = yield select(makeSelectAuthToken());
-    const response = yield axios.get(`/user/admin/approve-request/${payload.userId}`,  {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    toast.success(response.data.message);
-    yield put(getUserProfileSuccess());
-  } catch (error: any) {
-    yield sagaErrorHandler(error.response);
-  }
-}
-function* deleteUserSaga({ payload }: any): any {
-  try {
-    const token = yield select(makeSelectAuthToken());
-    const response = yield axios.get(`user/admin/delete/${payload.userId}`,  {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    toast.success(response.data.message);
-   
-  } catch (error: any) {
-    yield sagaErrorHandler(error.response);
-  }
-}
-function* userDetailRequest({ payload }: any): any {
-  try {
-    // const headers = { headers: { 'authorization': yield select(makeSelectAuthToken()) } };
-    const token = yield select(makeSelectAuthToken());
-    const response = yield axios.get(``,{
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
+    const response = yield axios.get(
+      `category/list?page=1&count=20&keyword=all`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
-    yield put(getUserDetailsSuccess());
+    yield put(getCategoryListSuccess(response.data.data));
   } catch (error: any) {
     yield sagaErrorHandler(error.response);
   }
 }
+function* updateCategorySaga({ payload }: any): any {
+  try {
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.patch(`category/update`, payload.data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    toast.success(response.data.message);
+    payload.history.push("/Categories");
+    yield put(updateCategorySuccess(response.data));
+  } catch (error: any) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* deleteCategory({ payload }: any): any {
+  try {
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.delete(`category/delete/:id`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    toast.success(response.data.message);
+
+    // yield put(updateCategorySuccess(response.data));
+  } catch (error: any) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchUpdateCategory() {
+  yield takeLatest(UPDATE_CATEGORY, updateCategorySaga);
+}
+
 function* watchAddCategory() {
-  yield takeLatest(ADD_CATEGORY, addCategory);
+  yield takeLatest(ADD_CATEGORY, addCategoryRequest);
 }
-function* watchUserBlock() {
-  yield takeLatest(GET_USER_BLOCK, userBlockSaga);
+function* watchGetCategory() {
+  yield takeLatest(GET_CATEGORY_LIST, getcategory);
 }
-function* watchUserProfile() {
-  yield takeLatest(GET_USER_PROFILE, userProfileSaga);
-}
-function* watchDeleteUser() {
-  yield takeLatest(DELETE_USER, deleteUserSaga);
-}
-function* watchDetailUser() {
-  yield takeLatest(DELETE_USER, userDetailRequest);
+function* watchDeleteCategory() {
+  yield takeLatest(DELETE_CATEGORY, deleteCategory);
 }
 export default function* UserSaga() {
   yield all([fork(watchAddCategory)]);
-  yield all([fork(watchUserBlock)]);
-  yield all([fork(watchUserProfile)]);
-  yield all([fork(watchDeleteUser)]);
-  yield all([fork(watchDetailUser)]);
+  yield all([fork(watchGetCategory)]);
+  yield all([fork(watchUpdateCategory)]);
+  yield all([fork(watchDeleteCategory)]);
 }

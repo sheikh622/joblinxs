@@ -1,18 +1,15 @@
-import { FC, useState } from "react";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Box, Grid, Link, TableContainer } from "@mui/material";
-import TextareaAutosize from "@mui/base/TextareaAutosize";
-import IntlMessages from "../../../@crema/utility/IntlMessages";
-import { Button } from "@mui/material";
-import { useFormik } from "formik";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
+import { Box, Button, Grid } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
-import AppTextField from "@crema/core/AppFormComponents/AppTextField";
-import { addCategory } from "redux/Category/actions";
-// import { addCategory } from "../";
+import { useFormik } from "formik";
+import React, { FC, useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { addCategory, updateCategory } from "redux/Category/actions";
+import * as Yup from "yup";
+import IntlMessages from "../../../@crema/utility/IntlMessages";
+import { Form, FormGroup, Label, Input, FormText } from "reactstrap";
+
 interface FuncProp {
   className?: string;
   show?: any;
@@ -26,11 +23,15 @@ interface FuncProp {
   page?: any;
   search?: any;
   data?: any;
+  activeButton?: any;
+  selectedItem?: any;
   //   selectedImage?:any;
 }
 const AddCategory: FC<FuncProp> = ({
   show,
   onHide,
+  activeButton,
+  selectedItem,
   onDelete,
   children,
   width,
@@ -61,15 +62,16 @@ const AddCategory: FC<FuncProp> = ({
     location: { state },
   } = history;
   const item: any = history?.location?.state?.item;
-  // const NotificationList = useSelector((state: any) => state?.Notification?.NotificationList);
-  // const [search, setSearch] = useState<string>("");
+  const forAction: any = history?.location?.state?.from;
+
   const [value, setValue] = useState<any>("value");
-  // const [page, setPage] = useState<number>(0);
+
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
-  // const [show, setShow] = useState(false);
+
   const [title, setTitle] = useState("");
   const [Description, setDescription] = useState("");
   const [selectedImage, setSelectedImage] = useState<any>("");
+
   const imageChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(e.target.files[0]);
@@ -79,38 +81,51 @@ const AddCategory: FC<FuncProp> = ({
     title: Yup.string()
       .required("Please enter the required field")
       .matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed "),
-    description: Yup.string()
+    details: Yup.string()
       .required("Please enter the required field")
       .matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed "),
   });
-  
+//   useEffect(() => {
+//       if(selectedItem){
+//           CategoryFormik.setFieldValue("title", selectedItem.title?selectedItem.title:"");
+//       }
+
+//     }, [selectedItem]);
   const CategoryFormik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      title: "",
-      description: "",
+      title: selectedItem.title,
+      details: selectedItem.details,
     },
     validationSchema: addCategorySchema,
-    onSubmit: async (values, { resetForm }) => {
-      console.log("values===", values);
-      const formData = new FormData();
-
-      formData.append("image", selectedImage);
-      formData.append("title", data.title);
-      formData.append("description", data.description);
-      dispatch(
-        addCategory({
-          data: 
-            formData,
-            // setReset:action.resetForm,
-          
-        })
-      );
+    onSubmit: async (values, action) => {
+      forAction === "edit"
+        ? await dispatch(
+            updateCategory({    
+              data: {
+                title: values.title,
+                categoryImg: selectedImage,
+                details: values.details,
+                setReset: action.resetForm,
+                setSelectedImage: setSelectedImage,
+              },
+              history: history,
+            })
+          )
+        : await dispatch(
+            addCategory({
+              title: values.title,
+              categoryImg: selectedImage,
+              details: values.details,
+              setReset: action.resetForm,
+              setSelectedImage: setSelectedImage,
+            })
+          );
     },
   });
+  console.log("CategoryFormik", CategoryFormik);
+  console.log("selectedItem <><><>", selectedItem.title);
 
- 
-
-  const removeSelectedImage = () => {};
   return (
     <>
       <Modal
@@ -140,82 +155,94 @@ const AddCategory: FC<FuncProp> = ({
             >
               <IntlMessages id="common.addCategory" />
             </Box>
-            <Box
-              sx={
-                {
-                  // "& .MuiTextField-root": { ml: 30, width: "40ch" },
-                }
-              }
-            >
+            <form onSubmit={CategoryFormik.handleSubmit}>
               <Box>
-                <TextField
-                  sx={{ width: "95%", mt: 2 }}
-                  id="outlined-basic"
-                  label="Category Name"
-                  variant="outlined"
-                  name="title"
-                  value={CategoryFormik.values && CategoryFormik.values.title}
-                  onChange={CategoryFormik.handleChange}
-                />
-                {CategoryFormik.touched.title && CategoryFormik.errors.title ? (
-                  <div className="Namefield" style={{ color: "#dc3545" }}>
-                    {CategoryFormik.errors.title}
-                  </div>
-                ) : null}
-              </Box>
-              <Box>
-                <textarea
-                  style={{
-                    display: "flex",
-                    width: 380,
-                    height: 90,
-                    marginTop: 13,
-                    borderRadius: 10,
-                  }}
-                  id="outlined-basic"
-                  placeholder="  Category Details"
-                  // minRows={10}
-                  // variant="outlined"
-                  name="description"
-                  value={
-                    CategoryFormik.values && CategoryFormik.values.description
-                  }
-                  onChange={CategoryFormik.handleChange}
-                />
-                {CategoryFormik.touched.description &&
-                CategoryFormik.errors.description ? (
-                  <div className="Namefield" style={{ color: "#dc3545" }}>
-                    {CategoryFormik.errors.description}
-                  </div>
-                ) : null}
-                <div className="selected" style={{ paddingTop: "15px" }}>
-                  <input accept="image/*" type="file" onChange={imageChange} />
-                  {selectedImage && (
-                    <div>
-                      <img
-                        src={URL.createObjectURL(selectedImage)}
-                        alt="Thumb"
-                      />
+                <Box>
+                  <TextField
+                    sx={{ width: "100%", mt: 2 }}
+                    id="Category Name"
+                    label="Category Name"
+                    variant="outlined"
+                    name="title"
+                    value={CategoryFormik.values && CategoryFormik.values.title}
+                    onChange={CategoryFormik.handleChange}
+                  />
+                  {CategoryFormik.touched.title &&
+                  CategoryFormik.errors.title ? (
+                    <div className="Namefield" style={{ color: "#dc3545" }}>
+                      {CategoryFormik.errors.title}
                     </div>
-                  )}
-                </div>
+                  ) : null}
+                </Box>
+                <Box>
+                  <TextField
+                    multiline
+                    rows={4}
+                    style={{
+                      display: "flex",
+                      //   width: 380,
+                      //   height: 90,
+                      marginTop: 13,
+                      borderRadius: 10,
+                    }}
+                    id="outlined-basic"
+                    placeholder=" Details"
+                    // minRows={10}
+                    // variant="outlined"
+                    name="details"
+                    value={
+                      CategoryFormik.values && CategoryFormik.values.details
+                    }
+                    onChange={CategoryFormik.handleChange}
+                  />
+                  {CategoryFormik.touched.details &&
+                  CategoryFormik.errors.details ? (
+                    <div className="Namefield" style={{ color: "#dc3545" }}>
+                      {CategoryFormik.errors.details}
+                    </div>
+                  ) : null}
+                  <div className="selected" style={{ paddingTop: "15px" }}>
+                    <input
+                      accept="image/*"
+                      type="file"
+                      onChange={imageChange}
+                    />
+                    {selectedImage && (
+                      <div
+                        style={{
+                          height: "100px",
+                          width: "130px",
+
+                          marginTop: "10px",
+                        }}
+                      >
+                        <img
+                          style={{
+                            height: "100%",
+                            width: "100%",
+                            objectFit: "contain",
+                          }}
+                          src={URL.createObjectURL(selectedImage)}
+                          alt="Thumb"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </Box>
+                <Box display="flex" sx={{ ml: 55, mt: 6 }}>
+                  <Button variant="contained" type="submit">
+                    {activeButton === "edit" ? (
+                      <IntlMessages id="admin.update" />
+                    ) : (
+                      <IntlMessages id="common.addAdmin" />
+                    )}
+                  </Button>
+                  <Button variant="contained" onClick={onHide} sx={{ ml: 4 }}>
+                    <IntlMessages id="common.cancel" />
+                  </Button>
+                </Box>
               </Box>
-              <Box display="flex" sx={{ ml: 55, mt: 6 }}>
-                <Button
-                  variant="contained"
-                  type="submit"
-                  onClick={() => {
-                    onHide();
-                    onDelete();
-                  }}
-                >
-                  <IntlMessages id="common.add" />
-                </Button>
-                <Button variant="contained" onClick={onHide} sx={{ ml: 4 }}>
-                  <IntlMessages id="common.cancel" />
-                </Button>
-              </Box>
-            </Box>
+            </form>
           </Box>
         </Grid>
       </Modal>

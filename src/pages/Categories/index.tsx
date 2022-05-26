@@ -7,7 +7,7 @@ import Card from "@mui/material/Card";
 import IconButton from "@mui/material/IconButton";
 import TableCell from "@mui/material/TableCell";
 import Tooltip from "@mui/material/Tooltip";
-import * as React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { AppCard, AppGridContainer } from "../../@crema";
@@ -18,20 +18,46 @@ import RequestModal from "./Modals/requestModal";
 import Divider from "@mui/material/Divider";
 import Category from "./add";
 import { useDispatch, useSelector } from "react-redux";
+import { getCategoryList, deleteCategory } from "../../redux/Category/actions";
 
 export default function RecipeReviewCard() {
   // const history = useHistory();
-  const CategoryData:any = useSelector(
-    (state: any) => state?.addCategory?.CategoryData
+  const dispatch = useDispatch();
+  const CategoryData: any = useSelector(
+    (state: any) => state?.Category.getCategoryList?.categories
   );
-  console.log("CategoryData",CategoryData)
+
+  console.log("CategoryData", CategoryData);
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
   const [search, setSearch] = useState<string>("");
+  const [totalCategories, settotalCategories] = useState<string>("");
+  const [page, setPage] = useState<string>("");
+  const [listingId, setListingId] = useState<string>("");
+
   const [openDel, setOpenDel] = useState(false);
-  const handleDelete = () => setOpenDel(false);
   const [request, setRequest] = useState(false);
+  const [activeButton, setActiveButton] = useState<string>("");
+  const [selectedItem, setSelectedItem] = useState<any>({
+    title: "",
+    details: "",
+  });
+
+  const handleClose = () => setShow(false);
+  // const handleDelete = () => setOpenDel(false);
   const handleClick = () => setRequest(false);
+  // const handleDelete = () =>
+  //   dispatch(
+  //     deleteCategory({
+  //       id: listingId,
+  //     })
+  //   );
+  useEffect(() => {
+    dispatch(
+      getCategoryList({
+        search: search,
+      })
+    );
+  }, [search]);
   return (
     <>
       <AppAnimate animation="transition.slideUpIn" delay={200}>
@@ -43,10 +69,10 @@ export default function RecipeReviewCard() {
                   sx={{ display: "inline-block", marginLeft: 6 }}
                   placeholder="Search Text"
                   label="Search"
-                  // value={search}
-                  // onChange={(event: any) => {
-                  //   setSearch(event.target.value);
-                  // }}
+                  value={search}
+                  onChange={(event: any) => {
+                    setSearch(event.target.value);
+                  }}
                 />
               </AppCard>
             </Grid>
@@ -75,17 +101,22 @@ export default function RecipeReviewCard() {
             <Grid item xs={12} md={12}>
               <AppGridContainer>
                 {" "}
-                {CategoryData?.map((value: any, index: any) => {
+                {CategoryData?.map((value: any, index: any, row: any) => {
                   return (
                     <Grid item xs={12} md={4}>
-                      <Category />
+                      <Category
+                        item={value}
+                        setShow={setShow}
+                        setActiveButton={setActiveButton}
+                        setSelectedItem={setSelectedItem}
+                        // setListingId={setListingId}
+                      />
                     </Grid>
                   );
                 })}
                 <Grid item xs={12} md={4}>
                   <Card
                     sx={{
-                      maxWidth: 305,
                       mt: 10,
                       height: 122,
                       display: "flex",
@@ -101,13 +132,18 @@ export default function RecipeReviewCard() {
                             display: "flex",
                             fontSize: "bold",
                             marginTop: "35px",
+                            cursor: "pointer",
                           }}
-                          onClick={() => setShow(true)}
+                          onClick={() => {
+                            setShow(true);
+                            setSelectedItem("");
+                            setActiveButton("add");
+                          }}
                         />
                       </Box>
                     </Grid>
                     <Divider orientation="vertical" flexItem />
-                    <Grid item xs={8} md={8}>
+                    <Grid item xs={8} md={9}>
                       <div
                         className="category"
                         style={{
@@ -126,8 +162,14 @@ export default function RecipeReviewCard() {
                         borderRadius: "0px",
                       }}
                     ></div>
+                    <Divider orientation="horizontal" flexItem />
 
-                    <AddCategory show={show} onHide={handleClose} />
+                    <AddCategory
+                      show={show}
+                      onHide={handleClose}
+                      activeButton={activeButton}
+                      selectedItem={selectedItem}
+                    />
                   </Card>
                 </Grid>
               </AppGridContainer>
@@ -135,11 +177,10 @@ export default function RecipeReviewCard() {
           </AppGridContainer>
         </Box>
       </AppAnimate>
-      <Modal
-        show={openDel}
-        onHide={handleDelete}
-        // onDelete={handleDelete}
-      />
+      <Modal show={openDel} 
+      // onHide={handleDelete}
+      //  onDelete={handleDelete}
+        />
       <RequestModal show={request} onHide={handleClick} />
     </>
   );

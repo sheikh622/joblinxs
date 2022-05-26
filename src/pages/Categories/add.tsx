@@ -1,25 +1,27 @@
-import IntlMessages from "@crema/utility/IntlMessages";
-import { Box, Button, Grid, TableRow } from "@mui/material";
-import TextField from "@mui/material/TextField";
-import { useFormik } from "formik";
-import React, { useState } from "react";
+import { Box, Grid } from "@mui/material";
 import Card from "@mui/material/Card";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
 import Divider from "@mui/material/Divider";
+import Typography from "@mui/material/Typography";
+import React, { useState } from "react";
+import { AppGridContainer } from "../../@crema";
+import Modal from "./Modals/Modal";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import TableCell from "@mui/material/TableCell";
 import Tooltip from "@mui/material/Tooltip";
-import Modal from "./Modals/Modal";
-import DeleteIcon from "@mui/icons-material/Delete";
-// import TextField from "@mui/material/TextField";
-import EditIcon from "@mui/icons-material/Edit";
-import { AppCard, AppGridContainer } from "../../@crema";
-import RecipeReviewCard from "./index";
-const Category = () => {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+import { styled } from "@mui/material/styles";
+import { useHistory } from "react-router-dom";
+
+const   Category = ({
+  item,
+  setShow,
+  setActiveButton,
+  setSelectedItem,
+//   setListingId,
+}) => {
+  const history = useHistory();
+
   const [search, setSearch] = useState<string>("");
   const [openDel, setOpenDel] = useState(false);
   const handleDelete = () => setOpenDel(false);
@@ -29,92 +31,108 @@ const Category = () => {
   return (
     <>
       {/* <AppAnimate animation="transition.slideUpIn" delay={200}> */}
-      <AppGridContainer>
-        <Box>
-          <Grid item xs={12} md={12}>
-            <Card
+      {/* <AppGridContainer>
+        <Box sx={{ width: "100%", px: "10px" }}>
+          <Grid item xs={12} md={12}> */}
+
+      <Card
+        sx={{
+          mt: 10,
+          height: 122,
+          display: "flex",
+        }}
+      >
+        <Grid item xs={12} md={3}>
+          <div
+            style={{
+              padding: "25px",
+              height: "120px",
+              width: "100px",
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
+            }}
+          >
+            <img
+              src={item?.categoryImg ? item?.categoryImg : "----"}
+              style={{ objectFit: "contain" }}
+              alt=""
+            />
+          </div>
+          <Divider orientation="vertical" flexItem />
+          <div>
+            <Tooltip title="Delete">
+              <DeleteIcon htmlColor="#dc3545" />
+            </Tooltip>
+            <Tooltip title="Edit">
+              <IconButton style={{}} onClick={() => setShow(true)}>
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+          </div>
+        </Grid>
+        <Divider orientation="vertical" flexItem />
+
+        <Grid
+          item
+          xs={12}
+          md={9}
+          sx={{
+            width: 30,
+            marginTop: 3,
+          }}
+        >
+          <div>
+            <Typography
+              id="modal-modal-title"
+              variant="h3"
               sx={{
-                width: 305,
-                mt: 18,
-                height: 122,
-                display: "flex",
+                fontWeight: "bold",
+                color: "#0A8FDC",
+                fontSize: "16px",
               }}
             >
-              <Grid item xs={12} md={4}>
-                <TableRow className="item-hover">
-                  <TableCell>
-                    <Box>
-                      <Tooltip title="Delete">
-                        <DeleteIcon
-                          htmlColor="#dc3545"
-                          sx={{
-                            marginLeft: "15px",
-                            display: "flex",
-                            fontSize: "bold",
-                            marginTop: "70%",
-                          }}
-                          // onClick={() => setShow(true)}
-                          onClick={() => setOpenDel(true)}
-                        />
-                      </Tooltip>
-                      <Tooltip title="Edit">
-                        <IconButton style={{}} onClick={() => setShow(true)}>
-                          <EditIcon
-                            sx={{
-                              marginLeft: "15px",
-                              //   marginRight: "12px",
-                              display: "flex",
-                              fontSize: "bold",
-                              // mt:22,
-                            }}
-                          />
-                        </IconButton>
-                      </Tooltip>
-                    </Box>
-                  </TableCell>
-                </TableRow>
-              </Grid>
-              <Divider
-                orientation="vertical"
-                flexItem
-                // style={{ display: "flex" }}
-              />
-              {/* <Divider orientation="vertical" flexItem /> */}
-              <Grid
-                item
-                xs={12}
-                md={8}
-                sx={{
-                  width: 30,
-                  marginTop: 3,
-                }}
-              >
-                <div>
-                  {/* <input type="text" className="form-control" id="usr" name="username" aria-label="cetagory"/> */}
+              {item?.title ? item?.title : "----"}
+            </Typography>
 
-                  <h4 style={{ marginLeft: "20px" }}>fjgafjag</h4>
-                  <h5 style={{ marginLeft: "20px" }}>fjkfgjkef</h5>
-                </div>
-              </Grid>
-            </Card>
-
-            {/* <TableCell
-              align="center"
-              className="tableCell"
-              style={{ marginTop: "10px", paddingTop: "0px" }}
+            <Typography
+              id="modal-modal-title"
+              variant="h3"
+              sx={{
+                fontSize: "14px",
+              }}
             >
-              
-                <IconButton></IconButton>
-              </Tooltip>
-            
-            </TableCell> */}
-          </Grid>
-          {/* </AppCard> */}
-        </Box>
-      </AppGridContainer>
-      {/* </AppAnimate> */}
-      {/* <RecipeReviewCard /> */}  
+              {item?.details ? `${item?.details.slice(0, 100)}......` : "----"}
+            </Typography>
+          </div>
+        </Grid>
 
+        <div>
+          <Tooltip title="Delete">
+            <IconButton>
+              <DeleteIcon
+                htmlColor="#dc3545"
+                onClick={() => {
+                  setOpenDel(true);
+                //   setListingId(item.id);
+                }}
+              />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Edit">
+            <IconButton
+              style={{}}
+              onClick={() => {
+                setSelectedItem(item);
+                setActiveButton("edit");
+                setShow(true);
+              }}
+            >
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
+        </div>
+      </Card>
       <Modal show={openDel} onHide={handleDelete} onDelete={handleDelete} />
     </>
   );
