@@ -1,0 +1,96 @@
+.profileView {
+    box-shadow: 0px 4px 5px #ddd !important;
+
+    .starIcon {
+        color: #E3B336 !important;
+    }
+
+    .reviews {
+        font-size: 13px;
+    }
+}
+
+.profileView.info {
+    p {
+        font-weight: 600;
+    }
+}
+
+.radioButton {
+    .radio1 {
+        margin-right: 20px !important;
+    }
+}
+
+.headerBorder {
+    border-bottom: $border-bottom;
+
+    p {
+        color: $gray;
+    }
+}
+
+.detail {
+    display: flex;
+    align-items: center;
+
+    .detailImg {
+        height: 150px;
+    }
+
+    .detailImg.sm {
+        height: 110px;
+    }
+
+    .starIcon {
+        color: #E3B336 !important;
+
+        svg {
+            font-size: 16px;
+            margin: 5px 4px;
+        }
+
+        svg:first-child {
+            margin-left: 0px;
+        }
+    }
+
+    .right {
+        padding-left: 20px;
+    }
+}
+
+.detailSec{
+    p{
+        margin-left: 20px;
+        margin-bottom: 0px;
+    }
+    h5{
+        margin-bottom: 4.5px;
+    }
+}
+
+.card-box-shadow{
+    box-shadow: 0px 4px 5px #ddd !important;
+}
+
+.border_bottom{
+    border-bottom: $border-bottom;
+}
+
+@media (min-width: 992px) {
+    .col-lg-2 {
+        width: 19.6%;
+    }
+}
+
+.btn:focus {
+    outline: 0;
+    box-shadow: none !important;
+}
+
+.bottom_div{
+    position: absolute;
+    padding-bottom: 22px;
+    left: 48vw;
+}
