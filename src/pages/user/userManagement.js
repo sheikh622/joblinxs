@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Col,
   Row,
@@ -26,21 +26,66 @@ import {
   faAngleDoubleRight,
 } from "@fortawesome/free-solid-svg-icons";
 import transactions from "../../data/transactions";
-
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { deleteUser, getUserBlock, getUserProfile } from "../../Redux/userManagement/actions";
 const UserManagement = () => {
   const totalTransactions = transactions.length;
+  const label = { inputProps: { "aria-label": "Switch demo" } };
 
   const TableRow = (props) => {
-    const { invoiceNumber, subscription, price, issueDate, dueDate, status } =
+    const dispatch = useDispatch();
+    const history = useHistory();
+    // const [blockUser, setBlockUser] = useState(row.isActive);
+    // useEffect(() => {
+    //   setBlockUser(row.isActive);
+    // }, [row.isActive]); 
+    // const [ProfileUser, setProfileUser] = useState(row.isApproved);
+    // useEffect(() => {
+    //   setBlockUser(row.isApproved);
+    // }, [row.isApproved]);
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const [open, setOpen] = useState(false);
+    const handleClick = () => setOpen(false);
+    const handleDelete = () =>
+      dispatch(
+        deleteUser({
+          // userId: row.id,
+          // page: page,
+          // limit: limit,
+          // type: type,
+          // search: search,
+        })
+      );
+    const [type, setType] = React.useState("all");
+    const handleChange = (event) => {
+      setType(event.target.value);
+    };
+    const currencies = [
+      {
+        value: "all",
+        label: "All Users",
+      },
+      {
+        value: "provider",
+        label: "service provider",
+      },
+      {
+        value: "seeker",
+        label: "service seeker",
+      },
+    ];
+    const { invoiceNumber, subscription, price, issueDate, dueDate, status, row } =
       props;
     const statusVariant =
       status === "Paid"
         ? "success"
         : status === "Due"
-        ? "warning"
-        : status === "Canceled"
-        ? "danger"
-        : "primary";
+          ? "warning"
+          : status === "Canceled"
+            ? "danger"
+            : "primary";
 
     return (
       <tr>
@@ -54,11 +99,32 @@ const UserManagement = () => {
           <span className="fw-normal">{dueDate}</span>
         </td>
         <td>
-          <span className="fw-normal">
-            <Button variant="outline-danger" className="px-2 py-1">
-              Pending
-            </Button>
-          </span>
+          <Button
+            variant="outlined"
+            // color={row?.isApproved === true ? "success" : "error"}
+            style={{ marginLeft: "10px" }}
+            onClick={() => {
+              dispatch(
+                getUserProfile({
+                  // userId: row.id,
+                  // page: page,
+                  // limit: limit,
+                  // adminId: "",
+                  // type: type,
+                  // search: search,
+                })
+              );
+            }}
+          >
+            {
+              // row?.isApproved === true ? (
+              //   <span>Approved</span>
+              // ) : 
+              (
+                <span>Pending</span>
+              )
+            }
+          </Button>
         </td>
         <td>
           <span>
@@ -68,6 +134,20 @@ const UserManagement = () => {
               label=""
               className="text-center"
               name="paymentType"
+              {...label}
+              // checked={row.isActive}
+              onChange={(e) => {
+                dispatch(
+                  getUserBlock({
+                    // userId: row.id,
+                    // page: page,
+                    // limit: limit,
+                    // adminId: "",
+                    // type: type,
+                    // search: search,
+                  })
+                );
+              }}
             />
           </span>
         </td>
@@ -115,10 +195,13 @@ const UserManagement = () => {
                 </Col>
                 <Col lg={3} md={5}>
                   <Form.Group className="mt-3">
-                    <Form.Select defaultValue="1">
-                      <option value="1">All User</option>
+                    <Form.Select defaultValue="1" label="Select"
+                      // value={type}
+                      // onChange={handleChange}
+                      >
+                      {/* <option value="1">All User</option>
                       <option value="2">Service Provider</option>
-                      <option value="3">Service Seeker</option>
+                      <option value="3">Service Seeker</option> */}
                     </Form.Select>
                   </Form.Group>
                 </Col>
@@ -164,6 +247,7 @@ const UserManagement = () => {
           </Col>
         </Row>
       </Container>
+      
     </>
   );
 };

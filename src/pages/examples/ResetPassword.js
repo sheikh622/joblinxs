@@ -1,14 +1,64 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faEnvelope, faUnlockAlt } from "@fortawesome/free-solid-svg-icons";
 import { Col, Row, Form, Card, Button, Container, InputGroup } from '@themesberg/react-bootstrap';
 import { Link } from 'react-router-dom';
-
+import * as Yup from "yup";
+import { useFormik } from "formik";
 import { Routes } from "../../routes";
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { resetPassword } from "../../Redux/auth/actions";
 
+const ResetPassword = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  let Array = history.location.search;
+  const newToken = Array.split("=")[1];
 
-export default () => {
+  const token = useSelector((state) => state.auth.resetPasswordToken);
+  const [showPassword, setShowPassword] = useState("password");
+  const changePasswordState = () => {
+    if (showPassword === "password") {
+      setShowPassword("text");
+    } else {
+      setShowPassword("password");
+    }
+  };
+  const [showConfirmPassword, setShowConfirmPassword] = useState("password");
+  const changeConfirmPasswordState = () => {
+    if (showConfirmPassword === "password") {
+      setShowConfirmPassword("text");
+    } else {
+      setShowConfirmPassword("password");
+    }
+  };
+  const ResetPasswordSchema = Yup.object().shape({
+    password: Yup.string().required("Password is required")
+      .oneOf([Yup.ref('confirmPassword'), null], 'Passwords must match'),
+    confirmPassword: Yup.string()
+      .required("Confirm Password is required")
+      .oneOf([Yup.ref('password'), null], 'Passwords must match')
+  });
+  const resetPasswordFormik = useFormik({
+    initialValues: {
+      password: "",
+      confirmPassword: "",
+      showPasswordToken: ""
+    },
+    validationSchema: ResetPasswordSchema,
+    onSubmit: async (values) => {
+
+      await dispatch(
+        resetPassword({
+          password: values.password,
+          confirmPassword: values.confirmPassword,
+          token: newToken,
+        })
+      );
+    },
+  });
   return (
     <main>
       <section className="bg-soft d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
@@ -22,14 +72,24 @@ export default () => {
             <Col xs={12} className="d-flex align-items-center justify-content-center">
               <div className="bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
                 <h3 className="mb-4">Reset password</h3>
-                <Form>
+                <Form onSubmit={resetPasswordFormik.handleSubmit}>
                   <Form.Group id="password" className="mb-4">
                     <Form.Label>Your Password</Form.Label>
                     <InputGroup>
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faUnlockAlt} />
                       </InputGroup.Text>
-                      <Form.Control required type="password" placeholder="Password" />
+                      <Form.Control required type="password" placeholder="Password"
+                        value={resetPasswordFormik.values.password}
+                        label="Password"
+                        name="password"
+                        onChange={(e) => {
+                          resetPasswordFormik.setFieldValue("password", e.target.value);
+                        }}
+                      />
+                      {resetPasswordFormik.touched.password && resetPasswordFormik.errors.password ? (
+                        <div style={{ color: "red" }}>{resetPasswordFormik.errors.password}</div>
+                      ) : null}
                     </InputGroup>
                   </Form.Group>
                   <Form.Group id="confirmPassword" className="mb-4">
@@ -38,7 +98,17 @@ export default () => {
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faUnlockAlt} />
                       </InputGroup.Text>
-                      <Form.Control required type="password" placeholder="Confirm Password" />
+                      <Form.Control required type="password" placeholder="Confirm Password"
+                        name="confirmPassword"
+                        label="Retype Password"
+                        value={resetPasswordFormik.values.confirmPassword}
+                        onChange={(e) => {
+                          resetPasswordFormik.setFieldValue("confirmPassword", e.target.value);
+                        }}
+                      />
+                      {resetPasswordFormik.touched.confirmPassword && resetPasswordFormik.errors.confirmPassword ? (
+                        <div style={{ color: "red" }}>{resetPasswordFormik.errors.confirmPassword}</div>
+                      ) : null}
                     </InputGroup>
                   </Form.Group>
                   <Button variant="primary" type="submit" className="w-100">
@@ -53,3 +123,5 @@ export default () => {
     </main>
   );
 };
+export default ResetPassword;
+

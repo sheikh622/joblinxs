@@ -273,7 +273,7 @@ export default (props = {}) => {
                 link={Routes.Categories_Management.path}
               />
 
-              <NavItem title="Sign In" link={Routes.Signin.path} />
+              {/* <NavItem title="Sign In" link={Routes.Signin.path} />
               <NavItem title="Sign Up" link={Routes.Signup.path} />
               <NavItem
                 title="Forgot password"
@@ -288,7 +288,7 @@ export default (props = {}) => {
               <NavItem
                 title="500 Server Error"
                 link={Routes.ServerError.path}
-              />
+              /> */}
               <NavItem title="Accordion" link={Routes.Accordions.path} />
               <NavItem title="Alerts" link={Routes.Alerts.path} />
               <NavItem title="Badges" link={Routes.Badges.path} />
