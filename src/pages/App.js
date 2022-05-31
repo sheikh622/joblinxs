@@ -112,11 +112,11 @@ export default () => (
       <PrivateRoute exact path={Routes.Job.path} component={Job} />
 
       <PrivateRoute exact path={Routes.CreateJob.path} component={CreateJob} />
-      <PrivateRoute
+      {/* <PrivateRoute
         exact
         path={Routes.Favourites.path}
         component={Favourites}
-      />
+      /> */}
 
       <PrivateRoute
         exact

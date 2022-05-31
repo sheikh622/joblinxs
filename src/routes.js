@@ -2,7 +2,7 @@
 export const Routes = {
     // pages
     
-    DashboardOverview: { path: "/" },
+    DashboardOverview: { path: "/dashboard" },
     Profile: { path: "/profile" },
     CreateJob: {path: '/createJob'},
     DetailJob: {path: '/detailJob'},
@@ -23,7 +23,7 @@ export const Routes = {
     BootstrapTables: { path: "/tables" },
     Billing: { path: "/billing" },
     Invoice: { path: "/invoice" },
-    Signin: { path: "/sign-in" },
+    Signin: { path: "/" },
     Signup: { path: "/sign-up" },
     ForgotPassword: { path: "/forgot-password" },
     ResetPassword: { path: "/reset-password" },
