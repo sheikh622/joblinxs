@@ -32,6 +32,9 @@ import BgImage from "../../assets/img/illustrations/signin.svg";
 
 const LoginPage = () => {
   const history = useHistory();
+  const {
+    location: { state },
+  } = history;
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState("password");
   const changePasswordState = () => {
@@ -56,10 +59,12 @@ const LoginPage = () => {
     },
     validationSchema: LoginSchema,
     onSubmit: async (values, { resetForm }) => {
+      console.log(values, "email")
       await dispatch(
         loginRequest({
           email: values.email,
           password: values.password,
+          history:history,
         })
       );resetForm();
     },
@@ -138,8 +143,6 @@ const LoginPage = () => {
                     </div>
                   </Form.Group>
                   <Card.Link
-                    as={Link}
-                    to={Routes.DashboardOverview.path}
                     className="text-gray-700"
                   >
                     <Button variant="primary" type="submit" className="w-100">

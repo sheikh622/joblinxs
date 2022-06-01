@@ -48,11 +48,4 @@ import {
       payload: data
     };
   };
-  export const registerRequest = (data) => ({
-    type: LOGIN,
-    payload: data,
-  });                    
-  export const registerSuccess = (data) => ({
-    type: LOGIN_SUCCESS,
-    payload: data,
-  });
+ 

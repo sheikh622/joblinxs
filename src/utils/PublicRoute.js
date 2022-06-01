@@ -11,20 +11,20 @@ const PublicRoute = ({ component: Component, restricted, ...rest }) => {
     const timer = setTimeout(() => setLoaded(true), 100);
     return () => clearTimeout(timer);
   }, []);
-//   return (
-//     <Route
-//       {...rest}
-//       render={(props) =>
-//         isLogin() && restricted ? (
-//           <Redirect to="/" />
-//         ) : (
-//           <>
-//             <Preloader show={loaded ? false : true} /> <Component {...props} />{" "}
-//           </>
-//         )
-//       }
-//     />
-//   );
+  // return (
+  //   <Route
+  //     {...rest}
+  //     render={(props) =>
+  //       isLogin() && restricted ? (
+  //         <Redirect to="/" />
+  //       ) : (
+  //         <>
+  //           <Preloader show={loaded ? false : true} /> <Component {...props} />{" "}
+  //         </>
+  //       )
+  //     }
+  //   />
+  // );
 return (
     <Route
       {...rest}

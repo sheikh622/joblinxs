@@ -10,7 +10,7 @@ import { routerMiddleware } from "connected-react-router";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["Auth"],
+  // whitelist: ["Auth"],
   blacklist: [],
 };
 

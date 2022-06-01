@@ -1,4 +1,4 @@
-import axios from "../../routes/axiosConfig";
+import axios from "../../Routes/axiosConfig";
 import { all, put, call, fork, takeLatest, select } from "redux-saga/effects";
 import { push } from "connected-react-router";
 import {
@@ -16,24 +16,26 @@ import {
   DELETE_USER,
   GET_USER_DETAILS,
 } from "./constants";
-import { sagaErrorHandler } from "../../shared/helperMethods/sagaErrorHandler";
-import { makeSelectAuthToken } from "../store/selectors";
+import { sagaErrorHandler } from "../../Shared/shared";
+import { makeSelectAuthToken } from "../../Store/selector";
 import { toast } from "react-toastify";
-import Search from "@mui/icons-material/Search";
+// import Search from "@mui/icons-material/Search";
 import { type } from "os";
 function* userListRequest({ payload }) {
+  console.log("=======++", payload)
   try {
     // const headers = { headers: { 'authorization': yield select(makeSelectAuthToken()) } };
+    // const headers = { headers: { 'auth-token': yield select(makeSelectAuthToken()) } };
+
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      `user/admin/user-list?page=${payload.page + 1}&count=${
-        payload.limit
-      }&keyword=${payload.search}&usertype=${payload.type}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      `user/admin/user-list?page=${payload.page + 1}&count=${payload.limit
+      }&keyword=${payload.search}&usertype=${payload.type}`
+      // {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // }
     );
     yield put(getUsersListSuccess(response.data.data));
   } catch (error) {

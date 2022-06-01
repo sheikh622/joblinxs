@@ -21,7 +21,7 @@ const Auth = produce((state = initialState, action) => {
       state.user = action.payload.user;
       state.token = action.payload.access_token;
       break;
-      case REGISTER_SUCCESS:
+    case REGISTER_SUCCESS:
         state.user = action.payload.user;
         state.token = action.payload.access_token;
         break;

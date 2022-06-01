@@ -26,16 +26,18 @@ import {
   faAngleDoubleRight,
 } from "@fortawesome/free-solid-svg-icons";
 import transactions from "../../data/transactions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { deleteUser, getUserBlock, getUserProfile } from "../../Redux/userManagement/actions";
+import { deleteUser, getUserBlock, getUserProfile,getUsersList } from "../../Redux/userManagement/actions";
 const UserManagement = () => {
   const totalTransactions = transactions.length;
   const label = { inputProps: { "aria-label": "Switch demo" } };
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const userList = useSelector((state) => state.User);
+console.log("userList",userList)
+const [search, setSearch] = useState("");
 
-  const TableRow = (props) => {
-    const dispatch = useDispatch();
-    const history = useHistory();
     // const [blockUser, setBlockUser] = useState(row.isActive);
     // useEffect(() => {
     //   setBlockUser(row.isActive);
@@ -58,10 +60,26 @@ const UserManagement = () => {
           // search: search,
         })
       );
+      useEffect(() => {
+        console.log("getuserList==========")
+        dispatch(
+          getUsersList({
+            page: 1,
+            limit: 10,
+            type: 'service provider',
+            search: '',
+          })
+        );
+      }, 
+      []
+      );
     const [type, setType] = React.useState("all");
     const handleChange = (event) => {
       setType(event.target.value);
     };
+  const TableRow = (props) => {
+   
+
     const currencies = [
       {
         value: "all",
@@ -105,6 +123,7 @@ const UserManagement = () => {
             style={{ marginLeft: "10px" }}
             onClick={() => {
               dispatch(
+               
                 getUserProfile({
                   // userId: row.id,
                   // page: page,
@@ -112,8 +131,8 @@ const UserManagement = () => {
                   // adminId: "",
                   // type: type,
                   // search: search,
-                })
-              );
+                }) 
+              ); 
             }}
           >
             {
@@ -190,7 +209,13 @@ const UserManagement = () => {
               <Card.Header className="pt-0 d-flex justify-content-between">
                 <Col lg={3} md={5}>
                   <Form.Group className="mt-3">
-                    <Form.Control type="text" placeholder="Search" />
+                    <Form.Control type="text" placeholder="Search" 
+                    label="Search"
+                    value={search}
+                    onChange={(event) => {
+                      setSearch(event.target.value);
+                    }}
+                    />
                   </Form.Group>
                 </Col>
                 <Col lg={3} md={5}>

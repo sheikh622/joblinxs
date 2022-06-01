@@ -90,8 +90,8 @@ const ForgetPage = () => {
                   </p>
 
                   <Card.Link
-                    as={Link}
-                    to={Routes.ResetPassword.path}
+                    // as={Link}
+                    // to={Routes.ResetPassword.path}
                     className="text-gray-700"
                   >
                     <Button variant="primary" type="submit" className="w-100">
