@@ -5,5 +5,3 @@ export const FORGOT_PASSWORD = 'forgot_password';
 export const RESET_PASSWORD = 'reset_password';
 export const RESET_PASSWORD_SUCCESS = 'reset_password_success';
 export const SET_LOADER ="set_loader";
-export const REGISTER = "register";
-export const REGISTER_SUCCESS ="register_success"

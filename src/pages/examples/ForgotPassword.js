@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -18,6 +18,9 @@ import { forgotPassword } from "../../Redux/auth/actions"
 import * as Yup from "yup";
 import { useFormik } from "formik";
 const ForgetPage = () => {
+  useEffect(() => {
+    localStorage.clear()
+  }, [])
   const history = useHistory();
   const dispatch = useDispatch();
 

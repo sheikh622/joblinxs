@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faEnvelope, faUnlockAlt } from "@fortawesome/free-solid-svg-icons";
 import { Col, Row, Form, Card, Button, Container, InputGroup } from '@themesberg/react-bootstrap';
@@ -14,8 +14,15 @@ import { resetPassword } from "../../Redux/auth/actions";
 const ResetPassword = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const {
+    location: { state },
+  } = history;
   let Array = history.location.search;
   const newToken = Array.split("=")[1];
+
+  useEffect(()=>{
+    localStorage.clear()
+  }, [])
 
   const token = useSelector((state) => state.auth.resetPasswordToken);
   const [showPassword, setShowPassword] = useState("password");
@@ -54,6 +61,7 @@ const ResetPassword = () => {
         resetPassword({
           password: values.password,
           confirmPassword: values.confirmPassword,
+          history: history,
           token: newToken,
         })
       );

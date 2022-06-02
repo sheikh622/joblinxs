@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { Route, Redirect } from "react-router-dom";
-import { isLogin } from "./logCheck";
+import { isLogin } from "../Redux/auth/sagas";
 import Sidebar from "../components/Sidebar";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
@@ -23,7 +23,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
               </main>
             </>
           ) : (
-            <Redirect to="/signin" />
+            <Redirect to="/" />
           )
         }
       />

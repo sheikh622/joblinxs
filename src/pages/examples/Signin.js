@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleLeft,
@@ -31,6 +31,11 @@ import { Routes } from "../../routes";
 import BgImage from "../../assets/img/illustrations/signin.svg";
 
 const LoginPage = () => {
+
+  useEffect(()=>{
+    localStorage.clear()
+  }, [])
+
   const history = useHistory();
   const {
     location: { state },
@@ -64,9 +69,9 @@ const LoginPage = () => {
         loginRequest({
           email: values.email,
           password: values.password,
-          history:history,
+          history: history,
         })
-      );resetForm();
+      ); resetForm();
     },
   });
   return (
@@ -151,7 +156,7 @@ const LoginPage = () => {
                   </Card.Link>
                 </Form>
 
-                {/* <div className="mt-3 mb-4 text-center">
+                <div className="mt-3 mb-4 text-center">
                   <span className="fw-normal">or login with</span>
                 </div>
                 <div className="d-flex justify-content-center my-4">
@@ -167,7 +172,7 @@ const LoginPage = () => {
                   >
                     <FontAwesomeIcon icon={faGoogle} />
                   </Button>
-                </div> */}
+                </div>
               </div>
             </Col>
           </Row>

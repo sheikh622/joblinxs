@@ -5,9 +5,8 @@ import {
   loginRequestSuccess,
   resetPasswordSuccess,
   setLoader,
-  registerSuccess,
 } from "./actions";
-import { LOGIN, FORGOT_PASSWORD, RESET_PASSWORD, REGISTER } from "./constants";
+import { LOGIN, FORGOT_PASSWORD, RESET_PASSWORD } from "./constants";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { toast } from "react-toastify";
 
@@ -19,14 +18,10 @@ function* loginRequestSaga({ payload }) {
   };
   try {
     const response = yield axios.post(`user/login`, data);
-    console.log("respoonse===00000000000000",response.data.data)
-  
+    localStorage.setItem("Token", response.data.data.access_token)
     // toast.success("Login Successfully");
     yield put(loginRequestSuccess(response.data.data));
-    // yield put(setLoader(false));
-    // yield put(push("/dashboard"));
     payload.history.push("/dashboard");
-console.log("history",payload.history)
 
   } catch (error) {
     // yield sagaErrorHandler(error.response.data);
@@ -65,9 +60,19 @@ function* resetRequestSaga({ payload }) {
   
     toast.success("Password Reset Successfully");
     toast.success("Password is old.Kindly enter new password ");  
-    yield put(push("/signin"));
+    payload.history.push("/");
   } catch (error) {
     yield sagaErrorHandler(error.response);
+  }
+}
+
+export const isLogin = () => {
+  let User = localStorage.getItem("Token")
+  if (User) {
+      return true;
+  }
+  else{
+      return false;
   }
 }
 

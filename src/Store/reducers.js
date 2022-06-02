@@ -6,14 +6,12 @@ import Auth from "../Redux/auth/reducers";
 import User from '../Redux/userManagement/reducers';
 // import Category from 'redux/Category/reducers'
 
-const rootReducer = (history) =>
-  combineReducers({
-    router: connectRouter(history),
+const rootReducer = (history) => {
+  return combineReducers({
     auth: Auth,
-    // settings: Settings,
-    // common: Common,
     User: User,
-    // Category: Category,
+    router: connectRouter(history),
   });
 
+}
 export default rootReducer;

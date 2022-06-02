@@ -5,7 +5,7 @@ import {
   SET_LOADER,
   LOGOUT,
   RESET_PASSWORD_SUCCESS,
-  REGISTER_SUCCESS,
+
 } from "./constants";
 
 const initialState = {
@@ -21,10 +21,6 @@ const Auth = produce((state = initialState, action) => {
       state.user = action.payload.user;
       state.token = action.payload.access_token;
       break;
-    case REGISTER_SUCCESS:
-        state.user = action.payload.user;
-        state.token = action.payload.access_token;
-        break;
     case RESET_PASSWORD_SUCCESS:
       state.resetPasswordToken = action.payload;
       break;
