@@ -110,15 +110,15 @@ export default (props = {}) => {
           <div className="sidebar-inner px-4 pt-3">
             <div className="user-card d-flex align-items-center justify-content-between justify-content-md-center pb-3">
               <div className="d-flex align-items-center">
-                <div className="user-avatar lg-avatar me-4">
+                {/* <div className="user-avatar lg-avatar me-4">
                   <Image
                     src={ProfilePicture}
                     className="card-img-top rounded-circle border-white"
                   />
-                </div>
+                </div> */}
                 <div className="d-block">
-                  <h6>Hi, Jane</h6>
-                  <h6>Plumber</h6>
+                  <h4>JOBLIXS</h4>
+                  {/* <h4>Admin Panel</h4> */}
                 </div>
               </div>
               <Nav.Link
@@ -147,7 +147,7 @@ export default (props = {}) => {
                   </svg>
                 }
               />
-
+{/* 
               <NavItem
                 title="My Jobs"
                 SVG={
@@ -165,9 +165,9 @@ export default (props = {}) => {
                   </svg>
                 }
                 link={Routes.Job.path}
-              />
+              /> */}
 
-              <NavItem
+              {/* <NavItem
                 title="Profile"
                 SVG={
                   <svg
@@ -185,9 +185,9 @@ export default (props = {}) => {
                   </svg>
                 }
                 link={Routes.Profile.path}
-              />
+              /> */}
 
-              <NavItem
+              {/* <NavItem
                 title="My Users"
                 SVG={
                   <svg
@@ -204,9 +204,9 @@ export default (props = {}) => {
                   </svg>
                 }
                 link={Routes.Users.path}
-              />
+              /> */}
 
-              <NavItem
+              {/* <NavItem
                 title="Favourites"
                 SVG={
                   <svg
@@ -227,7 +227,7 @@ export default (props = {}) => {
                   </svg>
                 }
                 link={Routes.Favourites.path}
-              />
+              /> */}
 
               <NavItem
                 title="User Management"
@@ -273,7 +273,7 @@ export default (props = {}) => {
                 link={Routes.Categories_Management.path}
               />
 
-              <NavItem title="Sign In" link={Routes.Signin.path} />
+              {/* <NavItem title="Sign In" link={Routes.Signin.path} />
               <NavItem title="Sign Up" link={Routes.Signup.path} />
               <NavItem
                 title="Forgot password"
@@ -288,7 +288,7 @@ export default (props = {}) => {
               <NavItem
                 title="500 Server Error"
                 link={Routes.ServerError.path}
-              />
+              /> */}
               <NavItem title="Accordion" link={Routes.Accordions.path} />
               <NavItem title="Alerts" link={Routes.Alerts.path} />
               <NavItem title="Badges" link={Routes.Badges.path} />

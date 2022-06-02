@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleLeft,
@@ -20,12 +20,60 @@ import {
   Container,
   InputGroup,
 } from "@themesberg/react-bootstrap";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { loginRequest } from "../../Redux/auth/actions";
+import { useDispatch } from "react-redux";
 
 import { Routes } from "../../routes";
 import BgImage from "../../assets/img/illustrations/signin.svg";
 
-export default () => {
+const LoginPage = () => {
+
+  useEffect(()=>{
+    localStorage.clear()
+  }, [])
+
+  const history = useHistory();
+  const {
+    location: { state },
+  } = history;
+  const dispatch = useDispatch();
+  const [showPassword, setShowPassword] = useState("password");
+  const changePasswordState = () => {
+    if (showPassword === "password") {
+      setShowPassword("text");
+    } else {
+      setShowPassword("password");
+    }
+  };
+  const LoginSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Email must be a valid email address")
+      .required("Email is required"),
+    password: Yup.string().required("Password is required"),
+  });
+  const loginFormik = useFormik({
+    initialValues: {
+
+      email: "",
+      password: "",
+      remember: true,
+    },
+    validationSchema: LoginSchema,
+    onSubmit: async (values, { resetForm }) => {
+      console.log(values, "email")
+      await dispatch(
+        loginRequest({
+          email: values.email,
+          password: values.password,
+          history: history,
+        })
+      ); resetForm();
+    },
+  });
   return (
     <main>
       <section className="d-flex align-items-center mt-5 mb-2">
@@ -42,7 +90,7 @@ export default () => {
                 <div className="text-center text-md-center mb-4 mt-md-0">
                   <h3 className="mb-0">Sign in</h3>
                 </div>
-                <Form className="mt-4">
+                <Form className="mt-4" onSubmit={loginFormik.handleSubmit}>
                   <Form.Group id="email" className="mb-4">
                     <Form.Label>Your Email</Form.Label>
                     <InputGroup>
@@ -53,8 +101,17 @@ export default () => {
                         autoFocus
                         required
                         type="email"
+                        value={loginFormik.values.email}
+                        name="email"
+                        label="Email"
+                        onChange={(e) => {
+                          loginFormik.setFieldValue("email", e.target.value);
+                        }}
                         placeholder="example@company.com"
                       />
+                      {loginFormik.touched.email && loginFormik.errors.email ? (
+                        <div style={{ color: "red" }}>{loginFormik.errors.email}</div>
+                      ) : null}
                     </InputGroup>
                   </Form.Group>
                   <Form.Group>
@@ -66,9 +123,18 @@ export default () => {
                         </InputGroup.Text>
                         <Form.Control
                           required
+                          name="password"
                           type="password"
                           placeholder="Password"
+                          label="Password"
+                          value={loginFormik.values.password}
+                          onChange={(e) => {
+                            loginFormik.setFieldValue("password", e.target.value);
+                          }}
                         />
+                        {loginFormik.touched.password && loginFormik.errors.password ? (
+                          <div style={{ color: "red" }}>{loginFormik.errors.password}</div>
+                        ) : null}
                       </InputGroup>
                     </Form.Group>
                     <div className="d-flex justify-content-end align-items-center mb-4">
@@ -82,8 +148,6 @@ export default () => {
                     </div>
                   </Form.Group>
                   <Card.Link
-                    as={Link}
-                    to={Routes.DashboardOverview.path}
                     className="text-gray-700"
                   >
                     <Button variant="primary" type="submit" className="w-100">
@@ -117,3 +181,5 @@ export default () => {
     </main>
   );
 };
+export default LoginPage;
+

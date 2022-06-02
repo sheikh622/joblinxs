@@ -1,41 +1,24 @@
-import React,{useEffect, useState} from "react";
-import { Route, Redirect } from "react-router-dom";
-import { isLogin } from "./logCheck";
-import Preloader from "../components/Preloader";
+import React, { useEffect, useState } from "react";
+import { Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const PublicRoute = ({ component: Component, restricted, ...rest }) => {
-  const [loaded, setLoaded] = useState(false);
+const PublicRoute = ({ component: Component, restricted, ...props }) => {
+  const userDetail = useSelector((state) => state.auth);
 
   useEffect(() => {
-      console.log('islog', isLogin())
-    const timer = setTimeout(() => setLoaded(true), 100);
-    return () => clearTimeout(timer);
+    console.log('90pojk', userDetail.token)
   }, []);
-//   return (
-//     <Route
-//       {...rest}
-//       render={(props) =>
-//         isLogin() && restricted ? (
-//           <Redirect to="/" />
-//         ) : (
-//           <>
-//             <Preloader show={loaded ? false : true} /> <Component {...props} />{" "}
-//           </>
-//         )
-//       }
-//     />
-//   );
-return (
-    <Route
-      {...rest}
-      render={(props) => (
-        <>
-          {" "}
-          <Preloader show={loaded ? false : true} /> <Component {...props} />{" "}
-        </>
-      )}
-    />
-  );
+
+  if (userDetail.token) {
+    return <Redirect to="/dashboard" />;
+  } 
+  else {
+    return (
+      <>
+         <Component {...props} />
+      </>
+    );
+  }
 };
 
 export default PublicRoute;

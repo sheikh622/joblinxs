@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -11,10 +11,39 @@ import {
   InputGroup,
 } from "@themesberg/react-bootstrap";
 import { Link } from "react-router-dom";
-
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { Routes } from "../../routes";
+import { forgotPassword } from "../../Redux/auth/actions"
+import * as Yup from "yup";
+import { useFormik } from "formik";
+const ForgetPage = () => {
+  useEffect(() => {
+    localStorage.clear()
+  }, [])
+  const history = useHistory();
+  const dispatch = useDispatch();
 
-export default () => {
+  const ForgetSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Email must be a valid email address")
+      .required("Email is required"),
+  });
+
+  const forgetFormik = useFormik({
+    initialValues: {
+      email: "",
+    },
+    validationSchema: ForgetSchema,
+    onSubmit: async (values, { resetForm }) => {
+
+      await dispatch(
+        forgotPassword({
+          email: values.email,
+        })
+      ); resetForm();
+    },
+  });
   return (
     <main>
       <section className="vh-lg-100 mt-4 mt-lg-0 bg-soft d-flex align-items-center">
@@ -30,7 +59,7 @@ export default () => {
                   Don't fret! Just type in your email and we will send you a
                   code to reset your password!
                 </p>
-                <Form>
+                <Form onSubmit={forgetFormik.handleSubmit}>
                   <div className="mb-3">
                     <Form.Label htmlFor="email">Your Email</Form.Label>
                     <InputGroup id="email">
@@ -38,8 +67,19 @@ export default () => {
                         required
                         autoFocus
                         type="email"
+                        name="email"
+                        label="Email"
+                        value={forgetFormik.values.email}
+                        onChange={(e) => {
+                          forgetFormik.setFieldValue("email", e.target.value);
+                        }}
                         placeholder="john@company.com"
                       />
+                      {forgetFormik.touched.email && forgetFormik.errors.email ? (
+                        <div style={{ color: "red" }}>
+                          {forgetFormik.errors.email}
+                        </div>
+                      ) : null}
                     </InputGroup>
                   </div>
                   <p className="d-flex justify-content-end my-3">
@@ -53,8 +93,8 @@ export default () => {
                   </p>
 
                   <Card.Link
-                    as={Link}
-                    to={Routes.ResetPassword.path}
+                    // as={Link}
+                    // to={Routes.ResetPassword.path}
                     className="text-gray-700"
                   >
                     <Button variant="primary" type="submit" className="w-100">
@@ -70,3 +110,4 @@ export default () => {
     </main>
   );
 };
+export default ForgetPage;

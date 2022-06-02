@@ -1,33 +1,23 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { isLogin } from "./logCheck";
+import { useSelector } from "react-redux";
 import Sidebar from "../components/Sidebar";
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setLoaded(true), 100);
-    return () => clearTimeout(timer);
-  }, []);
-
+const PrivateRoute = ({ component: Component, ...props }) => {
+  const userDetail = useSelector((state) => state.auth);
+  if (userDetail.token) {
     return (
-      <Route
-        {...rest}
-        render={(props) =>
-          isLogin() ? (
-            <>
-              <Sidebar />
-              <main className="content">
-                <Component {...props} />
-              </main>
-            </>
-          ) : (
-            <Redirect to="/signin" />
-          )
-        }
-      />
+      <Route>
+        <Sidebar />
+        <main className="content">
+          <Component {...props} />
+        </main>
+      </Route>
     );
+  } 
+  else {
+    return <Redirect to="/" />;
+  }
 };
 
 export default PrivateRoute;

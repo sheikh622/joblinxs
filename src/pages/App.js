@@ -51,46 +51,46 @@ export default () => (
   <BrowserRouter>
     <Switch>
       <PublicRoute
-        restricted={true}
+        // restricted={true}
         exact
         path={Routes.ServerError.path}
         component={ServerError}
       />
       <PublicRoute
-        restricted={true}
+        // restricted={true}
         exact
         path={Routes.Lock.path}
         component={Lock}
       />
-      <PublicRoute
-        restricted={true}
-        path={Routes.Signin.path}
-        component={Signin}
-        exact
-      />
-      <PublicRoute
+      {/* <PublicRoute
         restricted={false}
         exact
         path={Routes.Signup.path}
         component={Signup}
-      />
+      /> */}
       <PublicRoute
-        restricted={false}
+        // restricted={false}
         exact
         path={Routes.ForgotPassword.path}
         component={ForgotPassword}
       />
       <PublicRoute
-        restricted={false}
+        // restricted={false}
         exact
         path={Routes.ResetPassword.path}
         component={ResetPassword}
       />
       <PublicRoute
-        restricted={true}
+        // restricted={true}
         exact
         path={Routes.NotFound.path}
         component={NotFoundPage}
+      />
+      <PublicRoute
+        // restricted={true}
+        exact
+        path={Routes.Signin.path}
+        component={Signin}
       />
 
       <PrivateRoute
@@ -113,11 +113,11 @@ export default () => (
       <PrivateRoute exact path={Routes.Job.path} component={Job} />
 
       <PrivateRoute exact path={Routes.CreateJob.path} component={CreateJob} />
-      <PrivateRoute
+      {/* <PrivateRoute
         exact
         path={Routes.Favourites.path}
         component={Favourites}
-      />
+      /> */}
 
       <PrivateRoute
         exact
