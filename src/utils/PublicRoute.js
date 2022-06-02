@@ -1,32 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import Preloader from "../components/Preloader";
-import { isLogin } from "../Redux/auth/sagas";
-
-const PublicRoute = ({ component: Component, restricted, ...rest }) => {
-  const [loaded, setLoaded] = useState(false);
+const PublicRoute = ({ component: Component, restricted, ...props }) => {
+  const userDetail = useSelector((state) => state.auth);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoaded(true), 100);
-    return () => clearTimeout(timer);
-
+    console.log('90pojk', userDetail.token)
   }, []);
 
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        isLogin() && restricted ? (
-          <Redirect to="/dashboard" />
-        ) : (
-          <>
-            <Preloader show={loaded ? false : true} /> <Component {...props} />{" "}
-          </>
-        )
-      }
-    />
-  );
+  if (userDetail.token) {
+    return <Redirect to="/dashboard" />;
+  } 
+  else {
+    return (
+      <>
+         <Component {...props} />
+      </>
+    );
+  }
 };
 
 export default PublicRoute;

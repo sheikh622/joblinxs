@@ -67,16 +67,6 @@ function* resetRequestSaga({ payload }) {
   }
 }
 
-export const isLogin = () => {
-  let User = localStorage.getItem("Token")
-  if (User) {
-      return true;
-  }
-  else{
-      return false;
-  }
-}
-
 function* watchReset() {
   yield takeLatest(RESET_PASSWORD, resetRequestSaga);
 }

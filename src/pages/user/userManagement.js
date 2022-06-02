@@ -34,7 +34,7 @@ const UserManagement = (row) => {
   const label = { inputProps: { "aria-label": "Switch demo" } };
   const dispatch = useDispatch();
   const history = useHistory();
-  const userList = useSelector((state) => state.auth. Auther);
+  const userList = useSelector((state) => state.User.Users);
 console.log("userList",userList)
 const [search, setSearch] = useState("");
 
@@ -66,7 +66,7 @@ const [search, setSearch] = useState("");
           getUsersList({
             page: 1,
             limit: 10,
-            type: 'service provider',
+            type: 'provider',
             search: '',
           })
         );
@@ -93,7 +93,7 @@ const [search, setSearch] = useState("");
         label: "service seeker",
       },
     ];
-    const { invoiceNumber, subscription, price, issueDate, dueDate, status, } =
+    const { invoiceNumber, subscription, price, issueDate, dueDate, status, item} =
       props;
     const statusVariant =
       status === "Paid"
@@ -107,37 +107,38 @@ const [search, setSearch] = useState("");
     return (
       <tr>
         <td>
-          <span className="fw-normal">{subscription}</span>
+          <span className="fw-normal">{item.fullName}</span>
         </td>
         <td>
-          <span className="fw-normal">{issueDate}</span>
+          <span className="fw-normal">{item.email}</span>
         </td>
         <td>
-          <span className="fw-normal">{dueDate}</span>
+          <span className="fw-normal">{item.phoneNumber}</span>
         </td>
         <td>
           <Button
-            variant="outlined"
-            // color={row?.isApproved === true ? "success" : "error"}
+            // variant="outlined"
+            color={item?.isApproved === true ? "success" : "error"}
             style={{ marginLeft: "10px" }}
+
             onClick={() => {
               dispatch(
-               
                 getUserProfile({
-                  // userId: row.id,
-                  // page: page,
-                  // limit: limit,
-                  // adminId: "",
-                  // type: type,
-                  // search: search,
+                  userId: item.id,
+                  // userId: item.id,
+                    page: 1,
+                    limit: 10,
+                    adminId: "",
+                    type: 'provider',
+                    search: '',
                 }) 
               ); 
             }}
           >
             {
-              // row?.isApproved === true ? (
-              //   <span>Approved</span>
-              // ) : 
+              item?.isApproved === true ? (
+                <span>Approved</span>
+              ) : 
               (
                 <span>Pending</span>
               )
@@ -153,16 +154,16 @@ const [search, setSearch] = useState("");
               className="text-center"
               name="paymentType"
               {...label}
-              checked={row.isActive}
+              checked={item.isActive}
               onChange={(e) => {
                 dispatch(
                   getUserBlock({
-                    // userId: row.id,
-                    // page: page,
-                    // limit: limit,
-                    // adminId: "",
-                    // type: type,
-                    // search: search,
+                    userId: item.id,
+                    page: 1,
+                    limit: 10,
+                    adminId: "",
+                    type: 'provider',
+                    search: '',
                   })
                 );
               }}
@@ -243,9 +244,9 @@ const [search, setSearch] = useState("");
                     </tr>
                   </thead>
                   <tbody>
-                    {/* {userList?.map((t) => (
-                      <TableRow key={`transaction-${t.invoiceNumber}`} {...t} />
-                    ))} */}
+                    {userList?.users.map((t,index) => (
+                      <TableRow key={index} item={t} />
+                    ))}
                   </tbody>
                 </Table>
                 <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">

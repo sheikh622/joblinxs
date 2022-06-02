@@ -46,6 +46,7 @@ import Categories from "./category/categories";
 import CategoryManagement from "./category/categoryManagement";
 import Users from "./user/users";
 
+// changes merge 
 export default () => (
   <BrowserRouter>
     <Switch>

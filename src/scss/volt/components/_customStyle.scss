@@ -94,3 +94,19 @@
     padding-bottom: 22px;
     left: 48vw;
 }
+
+.locationInput{
+    .input-group{
+        border: 2px solid $primary
+    }
+    .input-group-text{
+        padding: 10px;
+        border: 0px !important;
+    }
+
+
+    input{
+        padding-bottom: 6px;
+        border: 0px !important;
+    }
+}

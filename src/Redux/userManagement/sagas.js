@@ -29,13 +29,13 @@ function* userListRequest({ payload }) {
 
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      `user/admin/user-list?page=${payload.page + 1}&count=${payload.limit
-      }&keyword=${payload.search}&usertype=${payload.type}`,headers,
-      // {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      // }
+      `user/admin/user-list?page=${payload.page }&count=${payload.limit
+      }&keyword=${payload.search}&usertype=${payload.type}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     yield put(getUsersListSuccess(response.data.data));
   } catch (error) {
