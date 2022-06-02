@@ -26,13 +26,12 @@ import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { loginRequest } from "../../Redux/auth/actions";
 import { useDispatch } from "react-redux";
-
 import { Routes } from "../../routes";
 import BgImage from "../../assets/img/illustrations/signin.svg";
 
 const LoginPage = () => {
 
-  useEffect(()=>{
+  useEffect(() => {
     localStorage.clear()
   }, [])
 
@@ -57,7 +56,6 @@ const LoginPage = () => {
   });
   const loginFormik = useFormik({
     initialValues: {
-
       email: "",
       password: "",
       remember: true,

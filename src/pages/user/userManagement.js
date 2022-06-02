@@ -29,19 +29,19 @@ import transactions from "../../data/transactions";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { deleteUser, getUserBlock, getUserProfile,getUsersList } from "../../Redux/userManagement/actions";
-const UserManagement = () => {
+const UserManagement = (row) => {
   const totalTransactions = transactions.length;
   const label = { inputProps: { "aria-label": "Switch demo" } };
   const dispatch = useDispatch();
   const history = useHistory();
-  const userList = useSelector((state) => state.User);
+  const userList = useSelector((state) => state.auth. Auther);
 console.log("userList",userList)
 const [search, setSearch] = useState("");
 
-    // const [blockUser, setBlockUser] = useState(row.isActive);
-    // useEffect(() => {
-    //   setBlockUser(row.isActive);
-    // }, [row.isActive]); 
+    const [blockUser, setBlockUser] = useState(row.isActive);
+    useEffect(() => {
+      setBlockUser(row.isActive);
+    }, [row.isActive]); 
     // const [ProfileUser, setProfileUser] = useState(row.isApproved);
     // useEffect(() => {
     //   setBlockUser(row.isApproved);
@@ -79,7 +79,6 @@ const [search, setSearch] = useState("");
     };
   const TableRow = (props) => {
    
-
     const currencies = [
       {
         value: "all",
@@ -94,7 +93,7 @@ const [search, setSearch] = useState("");
         label: "service seeker",
       },
     ];
-    const { invoiceNumber, subscription, price, issueDate, dueDate, status, row } =
+    const { invoiceNumber, subscription, price, issueDate, dueDate, status, } =
       props;
     const statusVariant =
       status === "Paid"
@@ -154,7 +153,7 @@ const [search, setSearch] = useState("");
               className="text-center"
               name="paymentType"
               {...label}
-              // checked={row.isActive}
+              checked={row.isActive}
               onChange={(e) => {
                 dispatch(
                   getUserBlock({
@@ -244,9 +243,9 @@ const [search, setSearch] = useState("");
                     </tr>
                   </thead>
                   <tbody>
-                    {transactions.map((t) => (
+                    {/* {userList?.map((t) => (
                       <TableRow key={`transaction-${t.invoiceNumber}`} {...t} />
-                    ))}
+                    ))} */}
                   </tbody>
                 </Table>
                 <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
