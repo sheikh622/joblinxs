@@ -29,6 +29,8 @@ import transactions from "../../data/transactions";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { deleteUser, getUserBlock, getUserProfile, getUsersList } from "../../Redux/userManagement/actions";
+import { Routes } from "../../routes";
+import { Link } from "react-router-dom";
 const UserManagement = (row) => {
   const totalTransactions = transactions.length;
   const label = { inputProps: { "aria-label": "Switch demo" } };
@@ -104,10 +106,10 @@ const UserManagement = (row) => {
       status === "Paid"
         ? "success"
         : status === "Due"
-          ? "warning"
-          : status === "Canceled"
-            ? "danger"
-            : "primary";
+        ? "warning"
+        : status === "Canceled"
+        ? "danger"
+        : "primary";
 
     return (
       <tr>
@@ -185,7 +187,7 @@ const UserManagement = (row) => {
               </span>
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item>
+              <Dropdown.Item as={Link} to={Routes.UserDetail.path}>
                 <FontAwesomeIcon icon={faEye} className="me-2" /> View Details
               </Dropdown.Item>
               <Dropdown.Item className="text-danger" onClick={() => { handleDelete(item) }}>
@@ -300,7 +302,6 @@ const UserManagement = (row) => {
           </Col>
         </Row>
       </Container>
-
     </>
   );
 };
