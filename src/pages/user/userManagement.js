@@ -28,72 +28,77 @@ import {
 import transactions from "../../data/transactions";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { deleteUser, getUserBlock, getUserProfile,getUsersList } from "../../Redux/userManagement/actions";
+import { deleteUser, getUserBlock, getUserProfile, getUsersList } from "../../Redux/userManagement/actions";
 const UserManagement = (row) => {
   const totalTransactions = transactions.length;
   const label = { inputProps: { "aria-label": "Switch demo" } };
   const dispatch = useDispatch();
   const history = useHistory();
   const userList = useSelector((state) => state.User.Users);
-console.log("userList",userList)
-const [search, setSearch] = useState("");
+  console.log("userList", userList)
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit] = useState("5");
+  const [adminId, setAdminId] = useState(0);
+  const [type, setType] = React.useState("all");
+  const handleChange = (event) => {
+    setType(event.target.value);
+  };
+  const [blockUser, setBlockUser] = useState(row.isActive);
+  useEffect(() => {
+    setBlockUser(row.isActive);
+  }, [row.isActive]);
+  const [ProfileUser, setProfileUser] = useState(row.isApproved);
+  useEffect(() => {
+    setBlockUser(row.isApproved);
+  }, [row.isApproved]);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const [open, setOpen] = useState(false);
+  const handleClick = () => setOpen(false);
+  const handleDelete = () =>
+    dispatch(
+      deleteUser({
+        // userId: row.id,
+        // page: page,
+        // limit: limit,
+        // type: type,
+        // search: search,
+      })
+    );
+  useEffect(() => {
+    console.log("getuserList==========")
+    dispatch(
+      getUsersList({
+        page: page,
+        limit: limit,
+        type: type,
+        search: search
+      })
+    );
+  },
+    [type, search, page, limit]
+  );
 
-    const [blockUser, setBlockUser] = useState(row.isActive);
-    useEffect(() => {
-      setBlockUser(row.isActive);
-    }, [row.isActive]); 
-    // const [ProfileUser, setProfileUser] = useState(row.isApproved);
-    // useEffect(() => {
-    //   setBlockUser(row.isApproved);
-    // }, [row.isApproved]);
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const [open, setOpen] = useState(false);
-    const handleClick = () => setOpen(false);
-    const handleDelete = () =>
-      dispatch(
-        deleteUser({
-          // userId: row.id,
-          // page: page,
-          // limit: limit,
-          // type: type,
-          // search: search,
-        })
-      );
-      useEffect(() => {
-        console.log("getuserList==========")
-        dispatch(
-          getUsersList({
-            page: 1,
-            limit: 10,
-            type: 'provider',
-            search: '',
-          })
-        );
-      }, 
-      []
-      );
-    const [type, setType] = React.useState("all");
-    const handleChange = (event) => {
-      setType(event.target.value);
-    };
+  const currencies = [
+    {
+      value: "all",
+      label: "All Users",
+    },
+    {
+      value: "provider",
+      label: "service provider",
+    },
+    {
+      value: "seeker",
+      label: "service seeker",
+    },
+  ];
+
   const TableRow = (props) => {
-   
-    const currencies = [
-      {
-        value: "all",
-        label: "All Users",
-      },
-      {
-        value: "provider",
-        label: "service provider",
-      },
-      {
-        value: "seeker",
-        label: "service seeker",
-      },
-    ];
-    const { invoiceNumber, subscription, price, issueDate, dueDate, status, item} =
+
+
+    const { invoiceNumber, subscription, price, issueDate, dueDate, status, item } =
       props;
     const statusVariant =
       status === "Paid"
@@ -125,23 +130,21 @@ const [search, setSearch] = useState("");
               dispatch(
                 getUserProfile({
                   userId: item.id,
-                  // userId: item.id,
-                    page: 1,
-                    limit: 10,
-                    adminId: "",
-                    type: 'provider',
-                    search: '',
-                }) 
-              ); 
+                  page: 1,
+                  limit: limit,
+                  type: type,
+                  search: search
+                })
+              );
             }}
           >
             {
               item?.isApproved === true ? (
                 <span>Approved</span>
-              ) : 
-              (
-                <span>Pending</span>
-              )
+              ) :
+                (
+                  <span>Pending</span>
+                )
             }
           </Button>
         </td>
@@ -160,9 +163,9 @@ const [search, setSearch] = useState("");
                   getUserBlock({
                     userId: item.id,
                     page: 1,
-                    limit: 10,
+                    limit: 5,
                     adminId: "",
-                    type: 'provider',
+                    type: 'all',
                     search: '',
                   })
                 );
@@ -196,6 +199,32 @@ const [search, setSearch] = useState("");
     );
   };
 
+  const nextPage = () => {
+    if (page < userList?.pages) {
+      setPage(page + 1);
+    }
+  };
+  const previousPage = () => {
+    if (1 < page) {
+      setPage(page - 1);
+    }
+  };
+
+  const paginationItems = () => {
+    let items = [];
+    for (let number = 1; number <= userList?.pages; number++) {
+      items.push(
+        <Pagination.Item key={number} active={number === page} onClick={() => {
+          setPage(number)
+        }}>
+          {number}
+        </Pagination.Item>,
+      );
+    }
+    return items
+  }
+
+
   return (
     <>
       <Navbar module={"User Management"} />
@@ -209,24 +238,26 @@ const [search, setSearch] = useState("");
               <Card.Header className="pt-0 d-flex justify-content-between">
                 <Col lg={3} md={5}>
                   <Form.Group className="mt-3">
-                    <Form.Control type="text" placeholder="Search" 
-                    label="Search"
-                    value={search}
-                    onChange={(event) => {
-                      setSearch(event.target.value);
-                    }}
+                    <Form.Control type="text" select placeholder="Search"
+                      label="Search"
+                      value={search}
+                      onChange={(event) => {
+                        setSearch(event.target.value);
+                      }}
                     />
                   </Form.Group>
                 </Col>
                 <Col lg={3} md={5}>
                   <Form.Group className="mt-3">
                     <Form.Select defaultValue="1" label="Select"
-                      // value={type}
-                      // onChange={handleChange}
-                      >
-                      {/* <option value="1">All User</option>
-                      <option value="2">Service Provider</option>
-                      <option value="3">Service Seeker</option> */}
+                      value={type}
+                      onChange={handleChange}
+                    >
+                      {currencies.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
                     </Form.Select>
                   </Form.Group>
                 </Col>
@@ -244,7 +275,7 @@ const [search, setSearch] = useState("");
                     </tr>
                   </thead>
                   <tbody>
-                    {userList?.users.map((t,index) => (
+                    {userList?.users?.map((t, index) => (
                       <TableRow key={index} item={t} />
                     ))}
                   </tbody>
@@ -252,19 +283,17 @@ const [search, setSearch] = useState("");
                 <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
                   <Nav>
                     <Pagination size={"sm"} className="mb-2 mb-lg-0">
-                      <Pagination.Prev>
+                      <Pagination.Prev onClick={() => previousPage()}>
                         <FontAwesomeIcon icon={faAngleDoubleLeft} />
                       </Pagination.Prev>
-                      <Pagination.Item active>1</Pagination.Item>
-                      <Pagination.Item>2</Pagination.Item>
-                      <Pagination.Item>3</Pagination.Item>
-                      <Pagination.Next>
+                      {paginationItems()}
+                      <Pagination.Next onClick={() => nextPage()}>
                         <FontAwesomeIcon icon={faAngleDoubleRight} />
                       </Pagination.Next>
                     </Pagination>
                   </Nav>
                   <small className="fw-bold">
-                    Showing <b>{totalTransactions}</b> out of <b>25</b> entries
+                    Showing <b>{userList?.users?.length}</b> out of <b>{userList?.totalUsers}</b> entries
                   </small>
                 </Card.Footer>
               </Card.Body>
@@ -272,7 +301,7 @@ const [search, setSearch] = useState("");
           </Col>
         </Row>
       </Container>
-      
+
     </>
   );
 };
