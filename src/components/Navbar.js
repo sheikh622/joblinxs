@@ -1,29 +1,17 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBell,
-  faPlusCircles,
-  faEnvelopeOpen,
-  faSearch,
-  faSignOutAlt,
-  faUserShield,
-} from "@fortawesome/free-solid-svg-icons";
-import { faPlusSquare } from "@fortawesome/free-regular-svg-icons";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
 import {
   Row,
   Col,
   Nav,
-  Form,
   Image,
   Navbar,
   Dropdown,
   Container,
   ListGroup,
-  InputGroup,
 } from "@themesberg/react-bootstrap";
-import { Link } from "react-router-dom";
 import NOTIFICATIONS_DATA from "../data/notifications";
-import { Routes } from "../routes";
 
 export default (props) => {
   const [notifications, setNotifications] = useState(NOTIFICATIONS_DATA);

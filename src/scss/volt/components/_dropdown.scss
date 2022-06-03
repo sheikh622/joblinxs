@@ -28,7 +28,7 @@
 
     .show & {
         animation: show-dropdown .2s ease forwards;
-        transform: translate(-55px, 21px) !important;
+        // transform: translate(-55px, 21px) !important;
     }
 
     &.dropdown-menu-xs {
