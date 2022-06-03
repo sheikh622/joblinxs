@@ -5,7 +5,7 @@ import { CSSTransition } from "react-transition-group";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
-  faCog,
+  faSignOutAlt,
   faTimes,
   faThList,
 } from "@fortawesome/free-solid-svg-icons";
@@ -147,7 +147,7 @@ export default (props = {}) => {
                   </svg>
                 }
               />
-{/* 
+
               <NavItem
                 title="My Jobs"
                 SVG={
@@ -165,9 +165,9 @@ export default (props = {}) => {
                   </svg>
                 }
                 link={Routes.Job.path}
-              /> */}
+              />
 
-              {/* <NavItem
+              <NavItem
                 title="Profile"
                 SVG={
                   <svg
@@ -185,9 +185,9 @@ export default (props = {}) => {
                   </svg>
                 }
                 link={Routes.Profile.path}
-              /> */}
+              />
 
-              {/* <NavItem
+              <NavItem
                 title="My Users"
                 SVG={
                   <svg
@@ -204,9 +204,9 @@ export default (props = {}) => {
                   </svg>
                 }
                 link={Routes.Users.path}
-              /> */}
+              />
 
-              {/* <NavItem
+              <NavItem
                 title="Favourites"
                 SVG={
                   <svg
@@ -227,7 +227,7 @@ export default (props = {}) => {
                   </svg>
                 }
                 link={Routes.Favourites.path}
-              /> */}
+              />
 
               <NavItem
                 title="User Management"
@@ -271,6 +271,29 @@ export default (props = {}) => {
                   </svg>
                 }
                 link={Routes.Categories_Management.path}
+              />
+
+              <NavItem
+                title="Logout"
+                SVG={
+                  <svg
+                    width="17"
+                    height="19"
+                    viewBox="0 0 20 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1.625 24H11.375C11.8058 23.9995 12.2189 23.8188 12.5236 23.4974C12.8282 23.176 12.9996 22.7402 13 22.2857V19.7143H11.375V22.2857H1.625V1.71429H11.375V4.28571H13V1.71429C12.9996 1.25977 12.8282 0.823996 12.5236 0.502604C12.2189 0.181211 11.8058 0.000453837 11.375 0H1.625C1.19416 0.000453837 0.78108 0.181211 0.476427 0.502604C0.171773 0.823996 0.0004302 1.25977 0 1.71429V22.2857C0.0004302 22.7402 0.171773 23.176 0.476427 23.4974C0.78108 23.8188 1.19416 23.9995 1.625 24Z"
+                      fill="white"
+                    />
+                    <path
+                      d="M13.8217 15.8217L16.81 12.8333H5V11.1667H16.81L13.8217 8.17833L15 7L20 12L15 17L13.8217 15.8217Z"
+                      fill="white"
+                    />
+                  </svg>
+                }
+                // link={Routes.Categories_Management.path}
               />
 
               {/* <NavItem title="Sign In" link={Routes.Signin.path} />
