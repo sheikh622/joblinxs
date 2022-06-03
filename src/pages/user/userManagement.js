@@ -28,58 +28,62 @@ import {
 import transactions from "../../data/transactions";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { deleteUser, getUserBlock, getUserProfile,getUsersList } from "../../Redux/userManagement/actions";
+import {
+  deleteUser,
+  getUserBlock,
+  getUserProfile,
+  getUsersList,
+} from "../../Redux/userManagement/actions";
+import { Routes } from "../../routes";
+import { Link } from "react-router-dom";
+
 const UserManagement = () => {
   const totalTransactions = transactions.length;
   const label = { inputProps: { "aria-label": "Switch demo" } };
   const dispatch = useDispatch();
   const history = useHistory();
   const userList = useSelector((state) => state.User);
-console.log("userList",userList)
-const [search, setSearch] = useState("");
+  console.log("userList", userList);
+  const [search, setSearch] = useState("");
 
-    // const [blockUser, setBlockUser] = useState(row.isActive);
-    // useEffect(() => {
-    //   setBlockUser(row.isActive);
-    // }, [row.isActive]); 
-    // const [ProfileUser, setProfileUser] = useState(row.isApproved);
-    // useEffect(() => {
-    //   setBlockUser(row.isApproved);
-    // }, [row.isApproved]);
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const [open, setOpen] = useState(false);
-    const handleClick = () => setOpen(false);
-    const handleDelete = () =>
-      dispatch(
-        deleteUser({
-          // userId: row.id,
-          // page: page,
-          // limit: limit,
-          // type: type,
-          // search: search,
-        })
-      );
-      useEffect(() => {
-        console.log("getuserList==========")
-        dispatch(
-          getUsersList({
-            page: 1,
-            limit: 10,
-            type: 'service provider',
-            search: '',
-          })
-        );
-      }, 
-      []
-      );
-    const [type, setType] = React.useState("all");
-    const handleChange = (event) => {
-      setType(event.target.value);
-    };
+  // const [blockUser, setBlockUser] = useState(row.isActive);
+  // useEffect(() => {
+  //   setBlockUser(row.isActive);
+  // }, [row.isActive]);
+  // const [ProfileUser, setProfileUser] = useState(row.isApproved);
+  // useEffect(() => {
+  //   setBlockUser(row.isApproved);
+  // }, [row.isApproved]);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const [open, setOpen] = useState(false);
+  const handleClick = () => setOpen(false);
+  const handleDelete = () =>
+    dispatch(
+      deleteUser({
+        // userId: row.id,
+        // page: page,
+        // limit: limit,
+        // type: type,
+        // search: search,
+      })
+    );
+  useEffect(() => {
+    console.log("getuserList==========");
+    dispatch(
+      getUsersList({
+        page: 1,
+        limit: 10,
+        type: "service provider",
+        search: "",
+      })
+    );
+  }, []);
+  const [type, setType] = React.useState("all");
+  const handleChange = (event) => {
+    setType(event.target.value);
+  };
   const TableRow = (props) => {
-   
-
     const currencies = [
       {
         value: "all",
@@ -94,16 +98,23 @@ const [search, setSearch] = useState("");
         label: "service seeker",
       },
     ];
-    const { invoiceNumber, subscription, price, issueDate, dueDate, status, row } =
-      props;
+    const {
+      invoiceNumber,
+      subscription,
+      price,
+      issueDate,
+      dueDate,
+      status,
+      row,
+    } = props;
     const statusVariant =
       status === "Paid"
         ? "success"
         : status === "Due"
-          ? "warning"
-          : status === "Canceled"
-            ? "danger"
-            : "primary";
+        ? "warning"
+        : status === "Canceled"
+        ? "danger"
+        : "primary";
 
     return (
       <tr>
@@ -123,7 +134,6 @@ const [search, setSearch] = useState("");
             style={{ marginLeft: "10px" }}
             onClick={() => {
               dispatch(
-               
                 getUserProfile({
                   // userId: row.id,
                   // page: page,
@@ -131,17 +141,15 @@ const [search, setSearch] = useState("");
                   // adminId: "",
                   // type: type,
                   // search: search,
-                }) 
-              ); 
+                })
+              );
             }}
           >
             {
               // row?.isApproved === true ? (
               //   <span>Approved</span>
-              // ) : 
-              (
-                <span>Pending</span>
-              )
+              // ) :
+              <span>Pending</span>
             }
           </Button>
         </td>
@@ -183,7 +191,7 @@ const [search, setSearch] = useState("");
               </span>
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item>
+              <Dropdown.Item as={Link} to={Routes.UserDetail.path}>
                 <FontAwesomeIcon icon={faEye} className="me-2" /> View Details
               </Dropdown.Item>
               <Dropdown.Item className="text-danger">
@@ -209,21 +217,25 @@ const [search, setSearch] = useState("");
               <Card.Header className="pt-0 d-flex justify-content-between">
                 <Col lg={3} md={5}>
                   <Form.Group className="mt-3">
-                    <Form.Control type="text" placeholder="Search" 
-                    label="Search"
-                    value={search}
-                    onChange={(event) => {
-                      setSearch(event.target.value);
-                    }}
+                    <Form.Control
+                      type="text"
+                      placeholder="Search"
+                      label="Search"
+                      value={search}
+                      onChange={(event) => {
+                        setSearch(event.target.value);
+                      }}
                     />
                   </Form.Group>
                 </Col>
                 <Col lg={3} md={5}>
                   <Form.Group className="mt-3">
-                    <Form.Select defaultValue="1" label="Select"
+                    <Form.Select
+                      defaultValue="1"
+                      label="Select"
                       // value={type}
                       // onChange={handleChange}
-                      >
+                    >
                       {/* <option value="1">All User</option>
                       <option value="2">Service Provider</option>
                       <option value="3">Service Seeker</option> */}
@@ -272,7 +284,6 @@ const [search, setSearch] = useState("");
           </Col>
         </Row>
       </Container>
-      
     </>
   );
 };

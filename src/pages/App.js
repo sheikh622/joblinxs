@@ -45,19 +45,18 @@ import UserManagement from "./user/userManagement";
 import Categories from "./category/categories";
 import CategoryManagement from "./category/categoryManagement";
 import Users from "./user/users";
+import userDetail from "./user/userDetail";
 
 // changes merge 
 export default () => (
   <BrowserRouter>
     <Switch>
       <PublicRoute
-        // restricted={true}
         exact
         path={Routes.ServerError.path}
         component={ServerError}
       />
       <PublicRoute
-        // restricted={true}
         exact
         path={Routes.Lock.path}
         component={Lock}
@@ -69,25 +68,21 @@ export default () => (
         component={Signup}
       /> */}
       <PublicRoute
-        // restricted={false}
         exact
         path={Routes.ForgotPassword.path}
         component={ForgotPassword}
       />
       <PublicRoute
-        // restricted={false}
         exact
         path={Routes.ResetPassword.path}
         component={ResetPassword}
       />
       <PublicRoute
-        // restricted={true}
         exact
         path={Routes.NotFound.path}
         component={NotFoundPage}
       />
       <PublicRoute
-        // restricted={true}
         exact
         path={Routes.Signin.path}
         component={Signin}
@@ -113,11 +108,11 @@ export default () => (
       <PrivateRoute exact path={Routes.Job.path} component={Job} />
 
       <PrivateRoute exact path={Routes.CreateJob.path} component={CreateJob} />
-      {/* <PrivateRoute
+      <PrivateRoute
         exact
         path={Routes.Favourites.path}
         component={Favourites}
-      /> */}
+      />
 
       <PrivateRoute
         exact
@@ -157,6 +152,7 @@ export default () => (
         path={Routes.Breadcrumbs.path}
         component={Breadcrumbs}
       />
+      <PrivateRoute exact path={Routes.UserDetail.path} component={userDetail}/>
       <PrivateRoute exact path={Routes.Buttons.path} component={Buttons} />
       <PrivateRoute exact path={Routes.Forms.path} component={Forms} />
       <PrivateRoute exact path={Routes.Modals.path} component={Modals} />

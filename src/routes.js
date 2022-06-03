@@ -7,6 +7,7 @@ export const Routes = {
     CreateJob: {path: '/createJob'},
     DetailJob: {path: '/detailJob'},
     DetailProvider: {path: '/detailProvider'},
+    UserDetail: {path: '/userDetail'},
     Favourites:{path:'/favourites'},
     Job: {path: '/job'},
     EditProfile: { path: "/editProfile" },
