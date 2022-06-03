@@ -58,18 +58,18 @@ const UserManagement = (row) => {
   const handleClose = () => setShow(false);
   const [open, setOpen] = useState(false);
   const handleClick = () => setOpen(false);
-  const handleDelete = () =>
+  const handleDelete = (item) => {
     dispatch(
       deleteUser({
-        // userId: row.id,
-        // page: page,
-        // limit: limit,
-        // type: type,
-        // search: search,
+        userId: item.id,
+        page: page,
+        limit: limit,
+        type: type,
+        search: search,
       })
     );
+  }
   useEffect(() => {
-    console.log("getuserList==========")
     dispatch(
       getUsersList({
         page: page,
@@ -132,10 +132,10 @@ const UserManagement = (row) => {
               dispatch(
                 getUserProfile({
                   userId: item.id,
-                  page: 1,
+                  page: page,
                   limit: limit,
                   type: type,
-                  search: search
+                  search: search,
                 })
               );
             }}
@@ -164,11 +164,10 @@ const UserManagement = (row) => {
                 dispatch(
                   getUserBlock({
                     userId: item.id,
-                    page: 1,
-                    limit: 5,
-                    adminId: "",
-                    type: 'all',
-                    search: '',
+                    page: page,
+                    limit: limit,
+                    type: type,
+                    search: search,
                   })
                 );
               }}
@@ -191,8 +190,8 @@ const UserManagement = (row) => {
               <Dropdown.Item as={Link} to={Routes.UserDetail.path}>
                 <FontAwesomeIcon icon={faEye} className="me-2" /> View Details
               </Dropdown.Item>
-              <Dropdown.Item className="text-danger">
-                <FontAwesomeIcon icon={faTrashAlt} className="me-2" /> Remove
+              <Dropdown.Item className="text-danger" onClick={() => { handleDelete(item) }}>
+                <FontAwesomeIcon icon={faTrashAlt} className="me-2" />  Remove
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
