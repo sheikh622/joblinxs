@@ -24,18 +24,18 @@ import { type } from "os";
 function* userListRequest({ payload }) {
   console.log("=======++", payload)
   try {
-    // const headers = { headers: { 'authorization': yield select(makeSelectAuthToken()) } };
+    const headers = { headers: { 'authorization': yield select(makeSelectAuthToken()) } };
     // const headers = { headers: { 'auth-token': yield select(makeSelectAuthToken()) } };
 
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      `user/admin/user-list?page=${payload.page + 1}&count=${payload.limit
-      }&keyword=${payload.search}&usertype=${payload.type}`
-      // {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      // }
+      `user/admin/user-list?page=${payload.page }&count=${payload.limit
+      }&keyword=${payload.search}&usertype=${payload.type}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     yield put(getUsersListSuccess(response.data.data));
   } catch (error) {

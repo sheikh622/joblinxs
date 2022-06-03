@@ -5,20 +5,20 @@ import {
   SET_LOADER,
   LOGOUT,
   RESET_PASSWORD_SUCCESS,
-
 } from "./constants";
 
 const initialState = {
-  user: null,
+  Auther: null,
   token: null,
   loader: false,
   resetPasswordToken: null,
 };
 
 const Auth = produce((state = initialState, action) => {
+  console.log(action.payload, "here is actioan data call now")
   switch (action.type) {
     case LOGIN_SUCCESS:
-      state.user = action.payload.user;
+      state.Auther = action.payload.user;
       state.token = action.payload.access_token;
       break;
     case RESET_PASSWORD_SUCCESS:
@@ -28,7 +28,7 @@ const Auth = produce((state = initialState, action) => {
       state.loader = action.payload;
       break;
     case LOGOUT:
-      state.user = null;
+      state.Auther = null;
       state.token = null;
       break;
     default:

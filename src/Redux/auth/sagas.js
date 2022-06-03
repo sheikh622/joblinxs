@@ -18,12 +18,14 @@ function* loginRequestSaga({ payload }) {
   };
   try {
     const response = yield axios.post(`user/login`, data);
-    // toast.success("Login Successfully");
+    localStorage.setItem("Token", response.data.data.access_token)
+    toast.success("Login Successfully");
+    console.log(response.data.data, "logindara")
     yield put(loginRequestSuccess(response.data.data));
     payload.history.push("/dashboard");
 
   } catch (error) {
-    // yield sagaErrorHandler(error.response.data);
+    yield sagaErrorHandler(error.response.data);
   }
 }
 
