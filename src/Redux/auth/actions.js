@@ -6,8 +6,6 @@ import {
     RESET_PASSWORD,
     SET_LOADER,
     RESET_PASSWORD_SUCCESS,
-    REGISTER,
-    REGISTER_SUCCESS,
   } from "./constants";
   
   export const logoutRequest = () => ({

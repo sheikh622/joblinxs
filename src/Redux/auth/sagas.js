@@ -17,7 +17,7 @@ function* loginRequestSaga({ payload }) {
     password: payload.password,
   };
   try {
-    const response = yield axios.post(`user/login`, data);
+    const response = yield axios.post(`user/web/login`, data);
     localStorage.setItem("Token", response.data.data.access_token)
     toast.success("Login Successfully");
     console.log(response.data.data, "logindara")

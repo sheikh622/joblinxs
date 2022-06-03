@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SimpleBar from "simplebar-react";
 import { useLocation } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
@@ -11,16 +11,19 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Nav, Badge, Image, Button, Navbar } from "@themesberg/react-bootstrap";
 import { Link } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
+import { logoutRequest } from "../Redux/auth/actions";
 import { Routes } from "../routes";
 import ReactHero from "../assets/img/technologies/react-hero-logo.svg";
 import ProfilePicture from "../assets/img/team/profile-picture-3.jpg";
+import { style } from "@mui/system";
 
 export default (props = {}) => {
   const location = useLocation();
   const { pathname } = location;
   const [show, setShow] = useState(false);
   const showClass = show ? "show" : "";
+  const dispatch = useDispatch();
 
   const onCollapse = () => setShow(!show);
 
@@ -42,7 +45,9 @@ export default (props = {}) => {
       : "";
     const navItemClassName = link === pathname ? "active" : "";
     const linkProps = external ? { href: link } : { as: Link, to: link };
-
+    const logout = () => {
+      dispatch(logoutRequest());
+    };
     return (
       <Nav.Item className={navItemClassName} onClick={() => setShow(false)}>
         <Nav.Link {...linkProps} target={target} className={classNames}>
@@ -272,30 +277,42 @@ export default (props = {}) => {
                 }
                 link={Routes.Categories_Management.path}
               />
+              <button style={{
+                background: "none",
+                border: "none",
+                textAlign:"left"
+              }}
+                onClick={() => {
+                  dispatch(
+                    logoutRequest({
 
-              <NavItem
-                title="Logout"
-                SVG={
-                  <svg
-                    width="17"
-                    height="19"
-                    viewBox="0 0 20 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M1.625 24H11.375C11.8058 23.9995 12.2189 23.8188 12.5236 23.4974C12.8282 23.176 12.9996 22.7402 13 22.2857V19.7143H11.375V22.2857H1.625V1.71429H11.375V4.28571H13V1.71429C12.9996 1.25977 12.8282 0.823996 12.5236 0.502604C12.2189 0.181211 11.8058 0.000453837 11.375 0H1.625C1.19416 0.000453837 0.78108 0.181211 0.476427 0.502604C0.171773 0.823996 0.0004302 1.25977 0 1.71429V22.2857C0.0004302 22.7402 0.171773 23.176 0.476427 23.4974C0.78108 23.8188 1.19416 23.9995 1.625 24Z"
-                      fill="white"
-                    />
-                    <path
-                      d="M13.8217 15.8217L16.81 12.8333H5V11.1667H16.81L13.8217 8.17833L15 7L20 12L15 17L13.8217 15.8217Z"
-                      fill="white"
-                    />
-                  </svg>
-                }
+                    })
+                  );
+                }}>
+                <NavItem
+                  title="Logout"
+                  SVG={
+                    <svg
+                      width="17"
+                      height="19"
+                      viewBox="0 0 20 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1.625 24H11.375C11.8058 23.9995 12.2189 23.8188 12.5236 23.4974C12.8282 23.176 12.9996 22.7402 13 22.2857V19.7143H11.375V22.2857H1.625V1.71429H11.375V4.28571H13V1.71429C12.9996 1.25977 12.8282 0.823996 12.5236 0.502604C12.2189 0.181211 11.8058 0.000453837 11.375 0H1.625C1.19416 0.000453837 0.78108 0.181211 0.476427 0.502604C0.171773 0.823996 0.0004302 1.25977 0 1.71429V22.2857C0.0004302 22.7402 0.171773 23.176 0.476427 23.4974C0.78108 23.8188 1.19416 23.9995 1.625 24Z"
+                        fill="white"
+                      />
+                      <path
+                        d="M13.8217 15.8217L16.81 12.8333H5V11.1667H16.81L13.8217 8.17833L15 7L20 12L15 17L13.8217 15.8217Z"
+                        fill="white"
+                      />
+                    </svg>
+                  }
+
                 // link={Routes.Categories_Management.path}
-              />
-
+                ></NavItem>
+              </button>
               {/* <NavItem title="Sign In" link={Routes.Signin.path} />
               <NavItem title="Sign Up" link={Routes.Signup.path} />
               <NavItem
@@ -329,6 +346,7 @@ export default (props = {}) => {
               <NavItem title="Toasts" link={Routes.Toasts.path} />
               <NavItem title="Tooltips" link={Routes.Tooltips.path} />
             </Nav>
+
           </div>
         </SimpleBar>
       </CSSTransition>
