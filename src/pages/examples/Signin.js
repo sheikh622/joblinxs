@@ -56,8 +56,8 @@ const LoginPage = () => {
   });
   const loginFormik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: "admin@getnada.com",
+      password: "Password@123",
       remember: true,
     },
     validationSchema: LoginSchema,
