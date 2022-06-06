@@ -40,7 +40,7 @@ const UserManagement = (row) => {
   console.log("userList", userList)
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [limit] = useState("5");
+  const [limit] = useState("10");
   const [adminId, setAdminId] = useState(0);
   const [type, setType] = React.useState("all");
   const handleChange = (event) => {
@@ -106,21 +106,21 @@ const UserManagement = (row) => {
       status === "Paid"
         ? "success"
         : status === "Due"
-        ? "warning"
-        : status === "Canceled"
-        ? "danger"
-        : "primary";
+          ? "warning"
+          : status === "Canceled"
+            ? "danger"
+            : "primary";
 
     return (
       <tr>
         <td>
-          <span className="fw-normal">{item.fullName}</span>
+          <span className="fw-normal">{item?.fullName ? item?.fullName : "N/A"}</span>
         </td>
         <td>
-          <span className="fw-normal">{item.email}</span>
+          <span className="fw-normal">{item?.email ? item?.email : "N/A"}</span>
         </td>
         <td>
-          <span className="fw-normal">{item.phoneNumber}</span>
+          <span className="fw-normal">{item?.phoneNumber ?item?.phoneNumber :" N/A"}</span>
         </td>
         <td>
           <Button
@@ -187,7 +187,7 @@ const UserManagement = (row) => {
               </span>
             </Dropdown.Toggle>
             <Dropdown.Menu className="custom_menu">
-              <Dropdown.Item as={Link} to={Routes.UserDetail.path}>
+              <Dropdown.Item as={Link} to={{ pathname: Routes.UserDetail.path, state: { item } }} >
                 <FontAwesomeIcon icon={faEye} className="me-2" /> View Details
               </Dropdown.Item>
               <Dropdown.Item className="text-danger" onClick={() => { handleDelete(item) }}>
