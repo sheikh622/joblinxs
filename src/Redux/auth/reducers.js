@@ -12,14 +12,16 @@ const initialState = {
   token: null,
   loader: false,
   resetPasswordToken: null,
+  userRole:"",
 };
 
 const Auth = produce((state = initialState, action) => {
   console.log(action.payload, "here is actioan data call now")
-  switch (action.type) {
+  switch (action.type)  {
     case LOGIN_SUCCESS:
       state.Auther = action.payload.user;
       state.token = action.payload.access_token;
+      state.userRole=action.payload.user?.userRole
       break;
     case RESET_PASSWORD_SUCCESS:
       state.resetPasswordToken = action.payload;

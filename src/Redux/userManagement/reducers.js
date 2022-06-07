@@ -14,6 +14,7 @@ const initialState = {
   UserBlock: [],
   UserProfile: [],
   UserDetails: [],
+
 };
 
 const User = produce((state = initialState, action) => {
