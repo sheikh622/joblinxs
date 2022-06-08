@@ -82,9 +82,6 @@ const Categories = () => {
     },
     validationSchema: CategorySchema,
     onSubmit: async (values, action, { resetForm }) => {
-
-      alert(1)
-
       forAction === "edit"
         ? dispatch(
           updateCategory({
@@ -115,12 +112,11 @@ const Categories = () => {
       setSelectedImage(e.target.files[0]);
     }
   };
-  useEffect(() => {
-    console.log("categoryFormik", CategoryFormik.values)
-  }, [CategoryFormik.values])
+  // useEffect(() => {
+  //   console.log("categoryFormik", CategoryFormik.values)
+  // }, [CategoryFormik.values])
   const addCategoryModal = () => {
     setSelectedItem(null);
-    // Formik.resetForm();
     setShowDefault(true);
   }
   return (

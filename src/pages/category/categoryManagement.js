@@ -43,18 +43,18 @@ const CategoryManagement = (row) => {
   );
   console.log("categoryList", CategoryList)
 
-  useEffect(() => {
-    dispatch(
-      getCategoryList({
-        page: page,
-        limit: limit,
+  // useEffect(() => {
+  //   dispatch(
+  //     getCategoryList({
+  //       page: page,
+  //       limit: limit,
 
-        search: search
-      })
-    );
-  },
-    [search, page, limit]
-  );
+  //       search: search
+  //     })
+  //   );
+  // },
+  //   [search, page, limit]
+  // );
   const [ProfileUser, setProfileUser] = useState(row.isApproved);
   useEffect(() => {
     setProfileUser(row.isApproved);
