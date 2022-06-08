@@ -16,14 +16,13 @@ import {
   faEdit,
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Navbar from "../../components/Navbar";
 import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
 import ReactHero1 from "../../assets/img/team/profile-picture-1.jpg";
 import Profile from "../../assets/img/team/profile.png";
 import * as Yup from "yup";
-import { useFormik } from "formik";
+import { Formik, useFormik } from "formik";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addCategory, getCategoryList, deleteCategory, updateCategory } from "../../Redux/Category/actions"
@@ -37,27 +36,30 @@ const Categories = () => {
     (state) => state?.Category?.getCategoryList
   );
   const forAction = history?.location?.state?.from;
-
   useEffect(() => {
     dispatch(
       getCategoryList({
-
       })
     );
   }, []);
   const [showDefault, setShowDefault] = useState(false);
   const handleClose = () => setShowDefault(false);
   const [selectedImage, setSelectedImage] = useState("");
-  const [title, setTitle] = useState("");
+  const [isEdit, setEdit] = useState(false);
   const [Description, setDescription] = useState("");
   const [search, setSearch] = useState("");
-  const [selectedItem, setSelectedItem] = useState("");
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [getState, setState] = useState({
+    title: selectedItem?.title,
+    details: selectedItem?.details,
+    remember: true,
+  });
 
-
-  const activeButton =(id)=>{
+  const activeButton = (value) => {
+    setEdit(true)
     setShowDefault(true)
-    console.log("id",id)
-  } 
+    setSelectedItem(value)
+  }
   const handleDelete = (value) => {
     dispatch(
       deleteCategory({
@@ -74,14 +76,17 @@ const Categories = () => {
   const CategoryFormik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      title: selectedItem.title,
-      details: selectedItem.details,
+      title: selectedItem?.title ? selectedItem?.title : '',
+      details: selectedItem?.details ? selectedItem?.details : '',
       remember: true,
     },
     validationSchema: CategorySchema,
     onSubmit: async (values, action, { resetForm }) => {
+
+      alert(1)
+
       forAction === "edit"
-        ? await dispatch(
+        ? dispatch(
           updateCategory({
             data: {
               title: values.title,
@@ -94,31 +99,30 @@ const Categories = () => {
           })
         )
         :
-        await dispatch(
+        dispatch(
           addCategory({
             title: values.title,
             details: values.details,
             categoryImg: selectedImage,
             setReset: action.resetForm,
             setSelectedImage: setSelectedImage,
-
-
           })
         ); resetForm();
     },
   });
-
   const imageChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(e.target.files[0]);
     }
   };
-
-  useEffect(()=>{
-console.log("categoryFormik",CategoryFormik.values)
-  },[CategoryFormik.values])
-
-
+  useEffect(() => {
+    console.log("categoryFormik", CategoryFormik.values)
+  }, [CategoryFormik.values])
+  const addCategoryModal = () => {
+    setSelectedItem(null);
+    // Formik.resetForm();
+    setShowDefault(true);
+  }
   return (
     <>
       <Navbar module={"Categories"} />
@@ -139,7 +143,7 @@ console.log("categoryFormik",CategoryFormik.values)
             <Button
               variant="primary"
               className="mx-2"
-              onClick={() => setShowDefault(true)}
+              onClick={() => { addCategoryModal(); setEdit(false) }}
             >
               <svg
                 width="17"
@@ -202,8 +206,8 @@ console.log("categoryFormik",CategoryFormik.values)
                             </span>
                           </Dropdown.Toggle>
                           <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => activeButton(value.id) } 
-                             >
+                            <Dropdown.Item onClick={() => activeButton(value)}
+                            >
                               <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit
                             </Dropdown.Item>
                             <Dropdown.Item className="text-danger" onClick={() => { handleDelete(value) }}>
@@ -287,14 +291,14 @@ console.log("categoryFormik",CategoryFormik.values)
                 <Button
                   variant="primary"
                   color="dark"
-                  onClick={handleClose}
+                  // onClick={handleClose}
                   size="sm"
                   type="submit"
                 >
-                  {activeButton === "edit" ? (
-                    <h6>Update
-                    </h6>) : (
-                    <h6>Save</h6>
+                  {isEdit ? (
+                    "Update"
+                  ) : (
+                    "Save"
                   )}
                 </Button>
               </div>

@@ -52,7 +52,7 @@ const UserManagement = (row) => {
   }, [row.isActive]);
   const [ProfileUser, setProfileUser] = useState(row.isApproved);
   useEffect(() => {
-    setBlockUser(row.isApproved);
+    setProfileUser(row.isApproved);
   }, [row.isApproved]);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
