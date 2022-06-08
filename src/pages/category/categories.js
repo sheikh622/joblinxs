@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Col,
   Row,
@@ -22,10 +22,103 @@ import Navbar from "../../components/Navbar";
 import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
 import ReactHero1 from "../../assets/img/team/profile-picture-1.jpg";
 import Profile from "../../assets/img/team/profile.png";
-
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addCategory, getCategoryList, deleteCategory, updateCategory } from "../../Redux/Category/actions"
 const Categories = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const {
+    location: { state },
+  } = history;
+  const CategoryData = useSelector(
+    (state) => state?.Category?.getCategoryList
+  );
+  const forAction = history?.location?.state?.from;
+
+  useEffect(() => {
+    dispatch(
+      getCategoryList({
+
+      })
+    );
+  }, []);
   const [showDefault, setShowDefault] = useState(false);
   const handleClose = () => setShowDefault(false);
+  const [selectedImage, setSelectedImage] = useState("");
+  const [title, setTitle] = useState("");
+  const [Description, setDescription] = useState("");
+  const [search, setSearch] = useState("");
+  const [selectedItem, setSelectedItem] = useState("");
+
+
+  const activeButton =(id)=>{
+    setShowDefault(true)
+    console.log("id",id)
+  } 
+  const handleDelete = (value) => {
+    dispatch(
+      deleteCategory({
+        userId: value.id,
+        search: search,
+      })
+    );
+  }
+  const CategorySchema = Yup.object().shape({
+    title: Yup.string()
+      .required("Category Name is required"),
+    details: Yup.string().required("Password is required"),
+  });
+  const CategoryFormik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      title: selectedItem.title,
+      details: selectedItem.details,
+      remember: true,
+    },
+    validationSchema: CategorySchema,
+    onSubmit: async (values, action, { resetForm }) => {
+      forAction === "edit"
+        ? await dispatch(
+          updateCategory({
+            data: {
+              title: values.title,
+              categoryImg: selectedImage,
+              details: values.details,
+              setReset: action.resetForm,
+              setSelectedImage: setSelectedImage,
+            },
+            history: history,
+          })
+        )
+        :
+        await dispatch(
+          addCategory({
+            title: values.title,
+            details: values.details,
+            categoryImg: selectedImage,
+            setReset: action.resetForm,
+            setSelectedImage: setSelectedImage,
+
+
+          })
+        ); resetForm();
+    },
+  });
+
+  const imageChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedImage(e.target.files[0]);
+    }
+  };
+
+  useEffect(()=>{
+console.log("categoryFormik",CategoryFormik.values)
+  },[CategoryFormik.values])
+
+
   return (
     <>
       <Navbar module={"Categories"} />
@@ -33,7 +126,13 @@ const Categories = () => {
         <Row className="py-2 justify-content-between align-items-baseline">
           <Col lg={3} md={5}>
             <Form.Group className="mt-3">
-              <Form.Control type="text" placeholder="Search" />
+              <Form.Control type="text" select placeholder="Search"
+                label="Search"
+                value={search}
+                onChange={(event) => {
+                  setSearch(event.target.value);
+                }}
+              />
             </Form.Group>
           </Col>
           <Col lg={3} md={5} className="justify-content-end d-flex">
@@ -65,102 +164,64 @@ const Categories = () => {
               Add Category
             </Button>
           </Col>
-         
+
           <Col lg={12} md={12} sm={12} xs={12} className="pt-4 pb-1">
             <div className="d-flex justify-content-between">
               <h4>What kind of work are you interested in?</h4>
             </div>
           </Col>
         </Row>
+
         <Row className="pb-1">
-          <Col lg={4} md={12} xs={12} sm={12} className="pb-3">
-            <Card border="light" className="shadow-sm introCard">
-              <Image src={Profile} className="navbar-brand-light" />
-              <div className="detailSection">
-                <span className="left">
-                  <h3>Teacher</h3>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipiscing elit
-                    Aliquam laoreet Lorem ipsum dolor sit amet consectetur
-                    adipiscing elit Aliquam laoreet
-                  </p>
-                </span>
-                <span className="right">
-                  <Dropdown as={ButtonGroup} className="me-3 mt-1">
-                    <Dropdown.Toggle
-                      as={Button}
-                      split
-                      variant="link"
-                      className="text-dark m-0 p-0"
-                    >
-                      <span className="icon icon-sm">
-                        <FontAwesomeIcon
-                          icon={faEllipsisV}
-                          className="icon-dark"
-                        />
+          {CategoryData?.map((value, index, row,) => {
+            return (
+              <>
+                <Col lg={4} md={12} xs={12} sm={12} className="pb-3">
+                  <Card border="light" className="shadow-sm introCard">
+                    <Image src={value.categoryImg} className="navbar-brand-light" />
+                    <div className="detailSection">
+                      <span className="left">
+                        <h3>{value.title}</h3>
+                        <p>
+                          {value.details}
+                        </p>
                       </span>
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      <Dropdown.Item>
-                        <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit
-                      </Dropdown.Item>
-                      <Dropdown.Item className="text-danger">
-                        <FontAwesomeIcon icon={faTrashAlt} className="me-2" />{" "}
-                        Remove
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </span>
-              </div>
-            </Card>
-          </Col>
-          <Col lg={4} md={12} xs={12} sm={12} className="pb-3">
-            <Card border="light" className="shadow-sm introCard">
-              <Image src={ReactHero} className="navbar-brand-light" />
-              <div className="detailSection">
-                <span className="left">
-                  <h3>Student</h3>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipiscing elit
-                    Aliquam laoreet
-                  </p>
-                </span>
-                <span className="right">
-                  <Form.Check
-                    type="checkbox"
-                    defaultValue="oneTime"
-                    label=""
-                    name="jobNature"
-                    className="radio1 me-3 mt-1"
-                  />
-                </span>
-              </div>
-            </Card>
-          </Col>
-          <Col lg={4} md={12} xs={12} sm={12} className="pb-3">
-            <Card border="light" className="shadow-sm introCard">
-              <Image src={ReactHero1} className="navbar-brand-light" />
-              <div className="detailSection">
-                <span className="left">
-                  <h3>Developer</h3>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipiscing elit
-                    Aliquam laoreet
-                  </p>
-                </span>
-                <span className="right">
-                  <Form.Check
-                    type="checkbox"
-                    defaultValue="oneTime"
-                    label=""
-                    name="jobNature"
-                    className="radio1 me-3 mt-1"
-                  />
-                </span>
-              </div>
-            </Card>
-          </Col>
+                      <span className="right">
+                        <Dropdown as={ButtonGroup} className="me-3 mt-1">
+                          <Dropdown.Toggle
+                            as={Button}
+                            split
+                            variant="link"
+                            className="text-dark m-0 p-0"
+                          >
+                            <span className="icon icon-sm">
+                              <FontAwesomeIcon
+                                icon={faEllipsisV}
+                                className="icon-dark"
+                              />
+                            </span>
+                          </Dropdown.Toggle>
+                          <Dropdown.Menu>
+                            <Dropdown.Item onClick={() => activeButton(value.id) } 
+                             >
+                              <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit
+                            </Dropdown.Item>
+                            <Dropdown.Item className="text-danger" onClick={() => { handleDelete(value) }}>
+                              <FontAwesomeIcon icon={faTrashAlt} className="me-2" />{" "}
+                              Remove
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </span>
+                    </div>
+                  </Card>
+                </Col>
+              </>
+            );
+          })}
+
         </Row>
+
         <Row className="py-2 justify-content-between">
           <div class="d-grid gap-2 col-3 text-center  mx-auto">
             <span className="text-gray">
@@ -174,40 +235,72 @@ const Categories = () => {
       </Container>
 
       {/* Modal */}
-      <Modal as={Modal.Dialog} centered show={showDefault} onHide={handleClose}>
+      <Modal as={Modal.Dialog} centered show={showDefault} onHide={handleClose} >
         <Modal.Header>
           <Modal.Title className="h5">Add Category</Modal.Title>
           <Button variant="close" aria-label="Close" onClick={handleClose} />
         </Modal.Header>
         <Modal.Body>
-          <Form.Group>
-            <Form.Label>Category Name</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="Enter category Name"
-            />
-          </Form.Group>
-          <Form.Group className="mt-3">
-            <Form.Label>Description</Form.Label>
-            <Form.Control as="textarea" rows="3" />
-          </Form.Group>
+          <Form onSubmit={CategoryFormik.handleSubmit}>
+            <Form.Group>
+              <Form.Label>Category Name</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Enter category Name"
+                value={CategoryFormik.values.title}
+                name="title"
+                label="title"
+                onChange={(e) => {
+                  CategoryFormik.setFieldValue("title", e.target.value);
+                }}
+              />
+              {CategoryFormik.touched.title && CategoryFormik.errors.title ? (
+                <div style={{ color: "red" }}>{CategoryFormik.errors.title}</div>
+              ) : null}
+            </Form.Group>
+            <Form.Group className="mt-3">
+              <Form.Label>Description</Form.Label>
+              <Form.Control as="textarea" rows="3"
+                required
+                type="text"
+                placeholder="Description"
+                value={CategoryFormik.values.details}
+                name="details"
+                label="details"
+                onChange={(e) => {
+                  CategoryFormik.setFieldValue("details", e.target.value);
+                }}
+              />
+              {CategoryFormik.touched.details && CategoryFormik.errors.details ? (
+                <div style={{ color: "red" }}>{CategoryFormik.errors.details}</div>
+              ) : null}
+            </Form.Group>
 
-          <Form.Group className="mt-3">
-            <Form.Label>Upload Image</Form.Label>
-            <Form.Control type="file" />
-          </Form.Group>
+            <Form.Group className="mt-3">
+              <Form.Label>Upload Image</Form.Label>
+              <Form.Control type="file"
+                onChange={imageChange}
 
-          <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
-            <Button
-              variant="primary"
-              color="dark"
-              onClick={handleClose}
-              size="sm"
-            >
-              Save
-            </Button>
-          </div>
+              />
+              <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
+                <Button
+                  variant="primary"
+                  color="dark"
+                  onClick={handleClose}
+                  size="sm"
+                  type="submit"
+                >
+                  {activeButton === "edit" ? (
+                    <h6>Update
+                    </h6>) : (
+                    <h6>Save</h6>
+                  )}
+                </Button>
+              </div>
+            </Form.Group>
+          </Form>
+
         </Modal.Body>
       </Modal>
     </>

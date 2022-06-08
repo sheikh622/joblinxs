@@ -79,19 +79,6 @@ const UserDetails = ({ }) => {
 
 
                     </div>
-
-                    <div className="">
-                      <Card.Title>Description</Card.Title>
-                      <Card.Text className="text-gray mb-2">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Suspendisse eu interdum felis, sit amet sagittis diam.
-                        In suscipit tortor eget nunc bibendum, ac ullamcorper
-                        mauris vehicula. Donec vehicula mi ligula, id dictum
-                        ante malesuada ac. Aliquam porttitor placerat lorem id
-                        vestibulum. Nullam vitae est id felis vehicula
-                        ullamcorper eu vel lacus. Sed sagittis tincidunt rutrum.
-                      </Card.Text>
-                    </div>
                   </Card.Body>
                 </Card>
               </Col>
@@ -186,65 +173,86 @@ const UserDetails = ({ }) => {
                         Other Information
                       </Card.Title>
                       <Card.Text className="text-gray mb-2">
-                        Tools Available <span className="text-black">
+                        Tools Available: <span className="text-black">
                           {userData?.toolsAvailable ? userData?.toolsAvailable : " n/a"}
                         </span>
                       </Card.Text>
-                      <Card.Text className="text-gray mb-2">
-                        Carrier Overview <span className="text-black">
-                          {userData?.carrierOverview ? userData?.carrierOverview : " n/a"}
-                        </span>
-                      </Card.Text>
-                      <Card.Text className="text-gray mb-2">
-                        Personal Attributes<span className="text-black">
-                          {userData?.personalAttributes ? userData?.personalAttributes : " n/a"}
-                        </span>
-                      </Card.Text>
-                      <Card.Text className="text-gray mb-2">
-                        Criminal Record <span className="text-black"><Card.Img
-                          // src={Profile1}
-                          src={userData?.criminalRecord ? userData?.criminalRecord : "--"}
-                          alt="Neil Portrait"
-                          className="user-avatar large-avatar rounded-circle mx-auto mb-2"
-                        /></span>
-                      </Card.Text>
-                      <Card.Text className="text-gray mb-2">
-                        frontId <span className="text-black"><Card.Img
-                          // src={Profile1}
-                          src={userData?.frontId ? userData?.frontId : "--"}
-                          alt="Neil Portrait"
-                          className="user-avatar large-avatar rounded-circle mx-auto mb-2"
-                        /></span>
-                      </Card.Text>
-
-                      <Card.Text className="text-gray mb-2">
-                        Back Id <span className="text-black"><Card.Img
-                          
-                          src={userData?.backId ? userData?.backId : "--"}
-                          alt="Neil Portrait"
-                          className="user-avatar large-avatar rounded-circle mx-auto mb-2"
-                        /></span>
-                      </Card.Text>
+                      {userData.account_type === 'provider' && (
+                        <>
+                          <Card.Text className="text-gray mb-2">
+                            Carrier Overview: <span className="text-black">
+                              {userData?.carrierOverview ? userData?.carrierOverview : " n/a"}
+                            </span>
+                          </Card.Text>
+                        </>
+                      )}
+                      {userData.account_type === 'provider' && (
+                        <>
+                          <Card.Text className="text-gray mb-2">
+                            Personal Attributes:<span className="text-black">
+                              {userData?.personalAttributes ? userData?.personalAttributes : " n/a"}
+                            </span>
+                          </Card.Text>
+                        </>
+                      )}
+                      {userData.account_type === 'provider' && (
+                        <>
+                          <Card.Text className="text-gray mb-2">
+                            Criminal Record <span className="text-black"><Card.Img
+                              // src={Profile1}
+                              src={userData?.criminalRecord ? userData?.criminalRecord : "--"}
+                              alt="Neil Portrait"
+                              className="user-avatar large-avatar rounded-circle mx-auto mb-2"
+                            /></span>
+                          </Card.Text>
+                          <Card.Text className="text-gray mb-2">
+                            frontId <span className="text-black"><Card.Img
+                              // src={Profile1}
+                              src={userData?.frontId ? userData?.frontId : "--"}
+                              alt="Neil Portrait"
+                              className="user-avatar large-avatar rounded-circle mx-auto mb-2"
+                            /></span>
+                          </Card.Text>
+                          <Card.Text className="text-gray mb-2">
+                            Back Id <span className="text-black"><Card.Img
+                              src={userData?.backId ? userData?.backId : "--"}
+                              alt="Neil Portrait"
+                              className="user-avatar large-avatar rounded-circle mx-auto mb-2"
+                            /></span>
+                          </Card.Text>
+                        </>
+                      )}
                     </div>
-                    <Card.Title className="text-primary">
-                      Business Information
-                    </Card.Title>
-                    <Card.Text className="text-gray mb-2">
-                    businessLicense <span className="text-black"><Card.Img
-                        
-                        src={userData?.businessLicense ? userData?.businessLicense : "--"}
-                        alt="Neil Portrait"
-                        className="user-avatar large-avatar rounded-circle mx-auto mb-2"
-                      /></span>
-                    </Card.Text>
-                    <Card.Text className="text-gray mb-2">
-                    businessLogo<span className="text-black"><Card.Img
-                        
-                        src={userData?.businessLogo ? userData?.businessLogo : "--"}
-                        alt="Neil Portrait"
-                        className="user-avatar large-avatar rounded-circle mx-auto mb-2"
-                      /></span>
-                    </Card.Text>
+                    {userData.account_type === 'provider' && (
+                      <>
+                        <Card.Title className="text-primary">
+                          Business Information
+                        </Card.Title>
+                        <Card.Text className="text-gray mb-2">
+                           <span className="text-black">
+                            <a
+                              href={userData?.businessInformation?.businessLicense}
+                              target="_blank"
+                            >
+                              {" "}
+                              business License{" "}
+                            </a>
+                          </span>
+                        </Card.Text>
+                        <Card.Text className="text-gray mb-2">
+                          businessLogo<span className="text-black"><Card.Img
+
+                            src={
+                              userData?.businessInformation?.businessLogo
+                                ? userData?.businessInformation?.businessLogo
+                                : "images"
+                            }
+                            alt=""
+                            className="user-avatar large-avatar rounded-circle mx-auto mb-2"
+                          /></span>
+                        </Card.Text>
+                      </>
+                    )}
                     <div className="pb-2 mb-4">
                       <Card.Title className="text-primary">
                         Categories
@@ -253,26 +261,31 @@ const UserDetails = ({ }) => {
                         <span className="text-black">Plumber</span>
                       </Card.Text>
                     </div>
-                    <div className="pb-2 mb-4">
-                      <Card.Title className="text-primary">
-                        Work Experience
-                      </Card.Title>
-                      <Grid style={{ height: 400, width: "100%", marginTop: "5%" }}>
+                    {userData.account_type === 'provider' && (
+                      <>
+                        <div className="pb-2 mb-4">
 
-                        <DataGrid
-                          columns={[
-                            { field: "JobTitle" },
-                            { field: "employmenttype" },
-                            { field: "Location" },
-                            { field: "StartDate" },
-                            { field: "EndDate" },
-                            { field: "Detail" },
-                          ]}
-                          rows={tabelRow()}
-                        />
+                          <Card.Title className="text-primary">
+                            Work Experience
+                          </Card.Title>
+                          <Grid style={{ height: 400, width: "100%", marginTop: "5%" }}>
 
-                      </Grid>
-                    </div>
+                            <DataGrid
+                              columns={[
+                                { field: "JobTitle" },
+                                { field: "employmenttype" },
+                                { field: "Location" },
+                                { field: "StartDate" },
+                                { field: "EndDate" },
+                                { field: "Detail" },
+                              ]}
+                              rows={tabelRow()}
+                            />
+
+                          </Grid>
+                        </div>
+                      </>
+                    )}
                   </Card.Body>
                 </Card>
               </Col>
