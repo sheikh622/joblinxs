@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Col,
   Row,
@@ -25,29 +25,61 @@ import {
   faAngleDoubleRight,
 } from "@fortawesome/free-solid-svg-icons";
 import transactions from "../../data/transactions";
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategoryList, getCategoryProfile } from "../../Redux/categoryManagement/actions"
 
-const CategoryManagement = () => {
+const CategoryManagement = (row) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const {
+    location: { state },
+  } = history;
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit] = useState("10");
+  const CategoryList = useSelector(
+    (state) => state?.Category?.getCategoryList
+  );
+  console.log("categoryList", CategoryList)
+
+  useEffect(() => {
+    dispatch(
+      getCategoryList({
+        page: page,
+        limit: limit,
+
+        search: search
+      })
+    );
+  },
+    [search, page, limit]
+  );
+  const [ProfileUser, setProfileUser] = useState(row.isApproved);
+  useEffect(() => {
+    setProfileUser(row.isApproved);
+  }, [row.isApproved]);
   const totalTransactions = transactions.length;
 
   const TableRow = (props) => {
-    const { invoiceNumber, subscription, price, issueDate, dueDate, status } =
+    const { invoiceNumber, subscription, price, issueDate, dueDate, status, item } =
       props;
     const statusVariant =
       status === "Paid"
         ? "success"
         : status === "Due"
-        ? "warning"
-        : status === "Canceled"
-        ? "danger"
-        : "primary";
+          ? "warning"
+          : status === "Canceled"
+            ? "danger"
+            : "primary";
 
     return (
       <tr>
         <td>
-          <span className="fw-normal">{subscription}</span>
+          <span className="fw-normal">{item?.title ? item?.title : "N/A"}</span>
         </td>
         <td>
-          <span className="fw-normal">{issueDate}</span>
+          <span className="fw-normal">{item?.details ? item?.details : "N/A"}</span>
         </td>
         <td>
           <span className="fw-normal">Pending</span>
@@ -65,7 +97,26 @@ const CategoryManagement = () => {
               </span>
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item className="text-success">
+              <Dropdown.Item className="text-success" onClick={() => {
+                dispatch(
+                  getCategoryList({
+                    userId: item.id,
+                    page: page,
+                    limit: limit,
+
+                    search: search,
+                  })
+                );
+              }}
+              >
+                {
+                  item?.isApproved === true ? (
+                    <span>Approved</span>
+                  ) :
+                    (
+                      <span>Pending</span>
+                    )
+                }
                 <FontAwesomeIcon icon={faCheck} className="me-2" /> Accept
               </Dropdown.Item>
               <Dropdown.Item className="text-danger">
@@ -77,6 +128,30 @@ const CategoryManagement = () => {
       </tr>
     );
   };
+  const nextPage = () => {
+    if (page < CategoryList?.pages) {
+      setPage(page + 1);
+    }
+  };
+  const previousPage = () => {
+    if (1 < page) {
+      setPage(page - 1);
+    }
+  };
+
+  const paginationItems = () => {
+    let items = [];
+    for (let number = 1; number <= CategoryList?.pages; number++) {
+      items.push(
+        <Pagination.Item key={number} active={number === page} onClick={() => {
+          setPage(number)
+        }}>
+          {number}
+        </Pagination.Item>,
+      );
+    }
+    return items
+  }
 
   return (
     <>
@@ -91,7 +166,13 @@ const CategoryManagement = () => {
               <Card.Header className="pt-0 d-flex justify-content-between">
                 <Col lg={3} md={5}>
                   <Form.Group className="mt-3">
-                    <Form.Control type="text" placeholder="Search" />
+                    <Form.Control type="text" placeholder="Search"
+                      label="Search"
+                      value={search}
+                      onChange={(event) => {
+                        setSearch(event.target.value);
+                      }}
+                    />
                   </Form.Group>
                 </Col>
               </Card.Header>
@@ -114,19 +195,17 @@ const CategoryManagement = () => {
                 <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
                   <Nav>
                     <Pagination size={"sm"} className="mb-2 mb-lg-0">
-                      <Pagination.Prev>
+                      <Pagination.Prev onClick={() => previousPage()}>
                         <FontAwesomeIcon icon={faAngleDoubleLeft} />
                       </Pagination.Prev>
-                      <Pagination.Item active>1</Pagination.Item>
-                      <Pagination.Item>2</Pagination.Item>
-                      <Pagination.Item>3</Pagination.Item>
-                      <Pagination.Next>
+                      {paginationItems()}
+                      <Pagination.Next onClick={() => nextPage()}>
                         <FontAwesomeIcon icon={faAngleDoubleRight} />
                       </Pagination.Next>
                     </Pagination>
                   </Nav>
                   <small className="fw-bold">
-                    Showing <b>{totalTransactions}</b> out of <b>25</b> entries
+                    Showing <b>{CategoryList?.categroies?.length}</b> out of <b>{CategoryList?.categories}</b> entries
                   </small>
                 </Card.Footer>
               </Card.Body>

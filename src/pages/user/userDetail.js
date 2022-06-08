@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Col, Row, Card, Button, Container } from "@themesberg/react-bootstrap";
+import { Col, Row, Card, Button, Container, Image, } from "@themesberg/react-bootstrap";
 import { Link } from "react-router-dom";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../../components/Navbar";
@@ -107,13 +107,8 @@ const UserDetails = ({ }) => {
                       </Card.Text>
 
                       <Card.Text className="text-gray mb-2">
-                        Description: <span className="text-black">
-                          {userData?.description ? userData?.description : " n/a"}
-                        </span>
-                      </Card.Text>
-                      <Card.Text className="text-gray mb-2">
-                        DOB: <span className="text-black">
-                          {userData?.dateofBirth ? userData?.dateofBirth : " n/a"}
+                        Date of Birth: <span className="text-black">
+                          {userData?.dateOfBirth ?  moment(userData?.dateOfBirth).format("DD-MM-YYYY") : " n/a"}
                         </span>
                       </Card.Text>
                     </div>
@@ -198,12 +193,13 @@ const UserDetails = ({ }) => {
                       {userData.account_type === 'provider' && (
                         <>
                           <Card.Text className="text-gray mb-2">
-                            Criminal Record <span className="text-black"><Card.Img
-                              // src={Profile1}
-                              src={userData?.criminalRecord ? userData?.criminalRecord : "--"}
-                              alt="Neil Portrait"
-                              className="user-avatar large-avatar rounded-circle mx-auto mb-2"
-                            /></span>
+                            Criminal Record: <span className="text-black"> <a
+                              href={userData?.criminalRecord}
+                              target="_blank"
+                            >
+                              {" "}
+                              business License{" "}
+                            </a></span>
                           </Card.Text>
                           <Card.Text className="text-gray mb-2">
                             frontId <span className="text-black"><Card.Img
@@ -223,13 +219,13 @@ const UserDetails = ({ }) => {
                         </>
                       )}
                     </div>
-                    {userData.account_type === 'provider' && (
+                    {userData.account_type === 'seeker' && (
                       <>
                         <Card.Title className="text-primary">
                           Business Information
                         </Card.Title>
                         <Card.Text className="text-gray mb-2">
-                           <span className="text-black">
+                          <span className="text-black">
                             <a
                               href={userData?.businessInformation?.businessLicense}
                               target="_blank"
@@ -261,6 +257,29 @@ const UserDetails = ({ }) => {
                         <span className="text-black">Plumber</span>
                       </Card.Text>
                     </div>
+                    <Card.Title className="text-primary">
+                      Categories
+                    </Card.Title>
+                    {userData?.category?.map((value, index, row,) => {
+                      let category = value?.category
+                      console.log("value",value)
+                      return (
+                        <Col lg={4} md={12} xs={12} sm={12} className="pb-3">
+                          <Card border="light" className="shadow-sm introCard">
+                            <Image src={category.categoryImg} className="navbar-brand-light" />
+                            <div className="detailSection">
+                              <span className="left">
+                                <h3>{category.title}</h3>
+                                <p>
+                                  {category.details}
+                                </p>
+                              </span>
+                            </div>
+                          </Card>
+                        </Col>
+                      );
+                    })}
+
                     {userData.account_type === 'provider' && (
                       <>
                         <div className="pb-2 mb-4">
