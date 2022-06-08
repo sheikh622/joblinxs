@@ -22,7 +22,7 @@ import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
 import ReactHero1 from "../../assets/img/team/profile-picture-1.jpg";
 import Profile from "../../assets/img/team/profile.png";
 import * as Yup from "yup";
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addCategory, getCategoryList, deleteCategory, updateCategory } from "../../Redux/Category/actions"
@@ -49,14 +49,10 @@ const Categories = () => {
   const [Description, setDescription] = useState("");
   const [search, setSearch] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
-  const [getState, setState] = useState({
-    title: selectedItem?.title,
-    details: selectedItem?.details,
-    remember: true,
-  });
+
 
   const activeButton = (value) => {
-    setEdit(true)
+    setEdit(!isEdit)
     setShowDefault(true)
     setSelectedItem(value)
   }
@@ -76,20 +72,23 @@ const Categories = () => {
   const CategoryFormik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      title: selectedItem?.title ? selectedItem?.title : '',
-      details: selectedItem?.details ? selectedItem?.details : '',
+      title: selectedItem?.title?selectedItem?.title:"",
+      details: selectedItem?.details?selectedItem?.details:"",
       remember: true,
     },
     validationSchema: CategorySchema,
-    onSubmit: async (values, action, { resetForm }) => {
-      forAction === "edit"
-        ? dispatch(
+    onSubmit: async (values, action) =>
+    {
+       console.log("values", values)
+       selectedItem
+        ?  dispatch( 
           updateCategory({
             data: {
               title: values.title,
               categoryImg: selectedImage,
               details: values.details,
               setReset: action.resetForm,
+              setShowDefault:setShowDefault,
               setSelectedImage: setSelectedImage,
             },
             history: history,
@@ -102,9 +101,11 @@ const Categories = () => {
             details: values.details,
             categoryImg: selectedImage,
             setReset: action.resetForm,
+            setShowDefault: setShowDefault,
+            showDefault:showDefault,
             setSelectedImage: setSelectedImage,
           })
-        ); resetForm();
+        );
     },
   });
   const imageChange = (e) => {
@@ -112,12 +113,12 @@ const Categories = () => {
       setSelectedImage(e.target.files[0]);
     }
   };
-  // useEffect(() => {
-  //   console.log("categoryFormik", CategoryFormik.values)
-  // }, [CategoryFormik.values])
-  const addCategoryModal = () => {
-    setSelectedItem(null);
-    setShowDefault(true);
+  useEffect(() => {
+    console.log("categoryFormik", CategoryFormik.values)
+  }, [CategoryFormik.values])
+  const addCategories = ()=>{
+    setSelectedItem(null); 
+    setShowDefault(true); 
   }
   return (
     <>
@@ -139,7 +140,7 @@ const Categories = () => {
             <Button
               variant="primary"
               className="mx-2"
-              onClick={() => { addCategoryModal(); setEdit(false) }}
+              onClick={() => addCategories()}
             >
               <svg
                 width="17"
@@ -201,7 +202,7 @@ const Categories = () => {
                               />
                             </span>
                           </Dropdown.Toggle>
-                          <Dropdown.Menu className="custom_menu">
+                          <Dropdown.Menu>
                             <Dropdown.Item onClick={() => activeButton(value)}
                             >
                               <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit
@@ -235,7 +236,7 @@ const Categories = () => {
       </Container>
 
       {/* Modal */}
-      <Modal as={Modal.Dialog} centered show={showDefault} onHide={handleClose} >
+      <Modal as={Modal.Dialog} centered show={showDefault} >
         <Modal.Header>
           <Modal.Title className="h5">Add Category</Modal.Title>
           <Button variant="close" aria-label="Close" onClick={handleClose} />
@@ -286,8 +287,8 @@ const Categories = () => {
               <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
                 <Button
                   variant="primary"
+                  // onHide={handleClose}
                   color="dark"
-                  // onClick={handleClose}
                   size="sm"
                   type="submit"
                 >
