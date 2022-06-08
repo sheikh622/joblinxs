@@ -9,11 +9,11 @@ import {
 } from "@themesberg/react-bootstrap";
 import Navbar from "./Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Profile from "../assets/img/team/profile.png";
 import { Routes } from "../routes";
+import DetailHeading from "./DetailHeading";
 
 const JobDetail = () => {
   return (
@@ -58,24 +58,19 @@ const JobDetail = () => {
                 faucibus.
               </p>
             </Col>
-            <Col lg={12} xs={12} className="pb-3 detailSec">
-              <span className="d-flex align-items-baseline">
-                <div>
-                  <h5>Task Size:</h5>
-                  <h5>Basic tools:</h5>
-                  <h5>Task Address:</h5>
-                </div>
-                <div className="ms-3">
-                  <p className="p-0 m-0">Medium - Est. 2-3hrs</p>
-                  <p className="p-0 m-0">Tasker will bring tools</p>
-                  <p className="p-0 m-0">ABC, XYZ, CA 12345</p>
-                </div>
-              </span>
+            <Col lg={6} md={8} xs={12} className="pb-3">
+              <DetailHeading
+                heading={"Task Size"}
+                value={"Medium - Est. 2-3hrs"}
+              />
+              <DetailHeading
+                heading={"Basic tools"}
+                value={"Tasker will bring tools"}
+              />
+              <DetailHeading heading={"Task Address"} value={"Address"} />
             </Col>
           </Row>
-          {/* </Card>
 
-        <Card border="light" className="card-box-shadow py-3 px-4 pb-1 mb-3"> */}
           <Row className="border-top">
             <Col lg={12} xs={12} className="pb-3 mt-3">
               <div className="detail">
