@@ -96,7 +96,7 @@ const CategoryManagement = (row) => {
                 <FontAwesomeIcon icon={faEllipsisH} className="icon-dark" />
               </span>
             </Dropdown.Toggle>
-            <Dropdown.Menu>
+            <Dropdown.Menu className="custom_menu">
               <Dropdown.Item className="text-success" onClick={() => {
                 dispatch(
                   getCategoryList({
