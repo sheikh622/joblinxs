@@ -205,7 +205,7 @@ const Categories = () => {
                               />
                             </span>
                           </Dropdown.Toggle>
-                          <Dropdown.Menu>
+                          <Dropdown.Menu className="custom_menu">
                             <Dropdown.Item onClick={() => activeButton(value)}
                             >
                               <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit
