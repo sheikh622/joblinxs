@@ -6,6 +6,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../../components/Navbar";
 import Profile1 from "../../assets/img/team/profile-picture-1.jpg";
 import { Routes } from "../../routes";
+import DetailHeading from "../../components/DetailHeading";
 
 export default () => {
   return (
@@ -104,48 +105,31 @@ export default () => {
                       <Card.Title className="text-primary">
                         Basic Information
                       </Card.Title>
-                      <Card.Text className="text-gray mb-2">
-                        Full Name: <span className="text-black">Swet LLC</span>
-                      </Card.Text>
-                      <Card.Text className="text-gray mb-2">
-                        Member Since:{" "}
-                        <span className="text-black">24/02/2022</span>
-                      </Card.Text>
-                      <Card.Text className="text-gray mb-2">
-                        Work Status:{" "}
-                        <span className="text-black">Full-time</span>
-                      </Card.Text>
-                      <Card.Text className="text-gray mb-2">
-                        No. of Job Done: <span className="text-black">25</span>
-                      </Card.Text>
+                      <DetailHeading heading={"Full Name"} value={"Swet LLC"} />
+                      <DetailHeading
+                        heading={"Member Since"}
+                        value={"24/02/2022"}
+                      />
+                      <DetailHeading
+                        heading={"Work Status"}
+                        value={"Full-time"}
+                      />
+                      <DetailHeading heading={"No. of Job Done"} value={"25"} />
                     </div>
                     <div className="border_bottom pb-2 mb-4">
                       <Card.Title className="text-primary">
                         Contact Information
                       </Card.Title>
-                      <Card.Text className="text-gray mb-2">
-                        Email: <span className="text-black">abc@xyz.com</span>
-                      </Card.Text>
-                      <Card.Text className="text-gray mb-2">
-                        Phone: <span className="text-black">000-1234-567</span>
-                      </Card.Text>
-                      <Card.Text className="text-gray mb-2">
-                        Address:{" "}
-                        <span className="text-black">
-                          house 01, street 00, New York, USA
-                        </span>
-                      </Card.Text>
+                      <DetailHeading heading={"Email"} value={"abc@xyz.com"} />
+                      <DetailHeading heading={"Phone"} value={"000-1234-567"} />
+                      <DetailHeading heading={"Address"} value={"Address"} />
                     </div>
                     <div className="border_bottom pb-2 mb-4">
                       <Card.Title className="text-primary">
                         Other Information
                       </Card.Title>
-                      <Card.Text className="text-gray mb-2">
-                        Can Drive: <span className="text-black">Yes</span>
-                      </Card.Text>
-                      <Card.Text className="text-gray mb-2">
-                        Have Tools: <span className="text-black">Yes</span>
-                      </Card.Text>
+                      <DetailHeading heading={"Can Drive"} value={"Yes"} />
+                      <DetailHeading heading={"Have Tools"} value={"Yes"} />
                     </div>
                     <div className="pb-2 mb-4">
                       <Card.Title className="text-primary">
