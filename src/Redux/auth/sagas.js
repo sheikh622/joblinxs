@@ -10,7 +10,6 @@ import { LOGIN, FORGOT_PASSWORD, RESET_PASSWORD } from "./constants";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { toast } from "react-toastify";
 
-
 function* loginRequestSaga({ payload }) {
   let data = {
     email: payload.email,
@@ -18,12 +17,14 @@ function* loginRequestSaga({ payload }) {
   };
   try {
     const response = yield axios.post(`user/web/login`, data);
-    localStorage.setItem("Token", response.data.data.access_token)
+    localStorage.setItem("Token", response.data.data.access_token);
     toast.success("Login Successfully");
-    console.log(response.data.data, "logindara")
     yield put(loginRequestSuccess(response.data.data));
-    payload.history.push("/dashboard");
-
+    let path =
+      response.data.data.user.userRole == "Admin"
+        ? "/user_management"
+        : "/dashboard";
+    payload.history.push(path);
   } catch (error) {
     yield sagaErrorHandler(error.response.data);
   }
@@ -38,12 +39,11 @@ function* forgetRequestSaga({ payload }) {
   };
   try {
     const response = yield axios.post(`/user/admin/forgot-password`, data);
-   
+
     yield put(resetPasswordSuccess(response.data.reset_token));
     toast.success("Email sent successfully");
     yield put(push("/forget-password"));
   } catch (error) {
-    
     yield sagaErrorHandler(error.response.data);
   }
 }
@@ -51,16 +51,15 @@ function* watchForget() {
   yield takeLatest(FORGOT_PASSWORD, forgetRequestSaga);
 }
 function* resetRequestSaga({ payload }) {
-
   let data = {
     password: payload.confirmPassword,
     token: payload.token,
   };
   try {
     const response = yield axios.post(`/user/admin/reset-password`, data);
-  
+
     toast.success("Password Reset Successfully");
-    toast.success("Password is old.Kindly enter new password ");  
+    toast.success("Password is old.Kindly enter new password ");
     payload.history.push("/");
   } catch (error) {
     yield sagaErrorHandler(error.response);
