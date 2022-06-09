@@ -179,7 +179,7 @@ const CategoryManagement = (row) => {
                 </Col>
               </Card.Header>
               <Card.Body className="pt-0">
-                <Table hover className="user-table align-items-center">
+                <Table hover className="user-table align-items-center management_table">
                   <thead>
                     <tr>
                       <th className="border-bottom">Category Name</th>
