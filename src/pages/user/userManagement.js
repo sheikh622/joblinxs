@@ -96,7 +96,6 @@ const UserManagement = (row) => {
       label: "service seeker",
     },
   ];
-
   const TableRow = (props) => {
 
 

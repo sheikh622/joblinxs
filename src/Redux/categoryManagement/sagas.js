@@ -20,11 +20,14 @@ import { toast } from "react-toastify";
 
 
 function* getcategory({ payload }) {
+  console.log("=======++", payload)
+
   try {
 
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      `category/partial/list?keyword=all&page=1&count=5`,
+      `category/partial/list?keyword=${payload.search}&page=${payload.page }&count=${payload.limit
+      }`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

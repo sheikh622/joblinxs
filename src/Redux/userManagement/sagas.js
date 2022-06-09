@@ -22,7 +22,7 @@ import { toast } from "react-toastify";
 // import Search from "@mui/icons-material/Search";
 import { type } from "os";
 function* userListRequest({ payload }) {
-  console.log("=======++", payload)
+
   try {
     const headers = { headers: { 'authorization': yield select(makeSelectAuthToken()) } };
     // const headers = { headers: { 'auth-token': yield select(makeSelectAuthToken()) } };

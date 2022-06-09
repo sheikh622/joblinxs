@@ -85,6 +85,34 @@ const CategoryManagement = (row) => {
           <span className="fw-normal">Pending</span>
         </td>
         <td>
+          <span
+            // variant="outlined"
+            // color={item?.isApproved === true ? "success" : "error"}
+            // style={{ marginLeft: "10px" }}
+
+            onClick={() => {
+              dispatch(
+                getCategoryListing({
+                  userId: item.id,
+                  page: page,
+                  limit: limit,
+                
+                  search: search,
+                })
+              );
+            }}
+          >
+            {
+              item?.isApproved === true ? (
+                <span>Approved</span>
+              ) :
+                (
+                  <span>Pending</span>
+                )
+            }
+          </span>
+          </td>
+        <td>
           <Dropdown as={ButtonGroup}>
             <Dropdown.Toggle
               as={Button}
