@@ -28,6 +28,7 @@ import transactions from "../../data/transactions";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategoryListing, getCategoryProfile } from "../../Redux/categoryManagement/actions"
+import { idID } from "@mui/material/locale";
 
 const CategoryManagement = (row) => {
   const dispatch = useDispatch();
@@ -43,12 +44,12 @@ const CategoryManagement = (row) => {
     (state) => state?.Category?.getCategoryList
   );
   console.log("categoryList", CategoryList)
-  const handleCategoryAction = () => {
+  const handleCategoryAction = (id) => {
   console.log("cvbjk")
 
     dispatch(
       getCategoryProfile({
-     
+        categoryId:id
       })
     );
   }
@@ -62,7 +63,7 @@ const CategoryManagement = (row) => {
       })
     );
   },
-    [search, page, limit]
+    []
   );
   const [ProfileUser, setProfileUser] = useState(row.isApproved);
   useEffect(() => {
@@ -109,7 +110,7 @@ const CategoryManagement = (row) => {
             <Dropdown.Menu className="custom_menu">
               {(item?.categoryStatus == 'Pending' || item?.categoryStatus == 'Rejected') && (
                 <Dropdown.Item className="text-success" onClick={() => {
-                  handleCategoryAction()
+                  handleCategoryAction(item?.id)
                 }}
                 >
 
@@ -119,7 +120,7 @@ const CategoryManagement = (row) => {
               {(item?.categoryStatus == 'Pending' || item?.categoryStatus == 'Accepted') && (
 
                 <Dropdown.Item className="text-danger" onClick={() => {
-                  handleCategoryAction()
+                  handleCategoryAction(item?.id)
                 }}>
                   <FontAwesomeIcon icon={faMinus} className="me-2" /> Decline
                 </Dropdown.Item>

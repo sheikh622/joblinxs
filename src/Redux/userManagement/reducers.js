@@ -17,7 +17,7 @@ const initialState = {
 
 };
 
-const User = produce((state = initialState, action) => {
+const CategoryListing = produce((state = initialState, action) => {
   switch (action.type) {
     case GET_USERS_LIST_SUCCESS:
       state.Users = action.payload;
@@ -38,4 +38,4 @@ const User = produce((state = initialState, action) => {
   }
 }, initialState);
 
-export default User;
+export default CategoryListing;

@@ -20,9 +20,10 @@ import { toast } from "react-toastify";
 
 
 function* getcategory({ payload }) {
-  console.log("=======++", payload)
+  console.log("====000000000000===++", payload)
 
   try {
+    console.log("chjk")
 
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
@@ -40,10 +41,11 @@ function* getcategory({ payload }) {
   }
 }
 function* CategoryProfileSaga({ payload }) {
+  console.log("chjk")
   try {
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.get(
-      `/user/admin/approve-request/${payload.userId}`,
+    const response = yield axios.patch(
+      `category/approve/${payload.categoryId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -68,9 +70,9 @@ function* watchGetCategory() {
   yield takeLatest(GET_CATEGORY_LISTING, getcategory);
 }
 function* watchCategoryProfile() {
-  yield takeLatest(GET_USER_PROFILE, CategoryProfileSaga);
+  yield takeLatest(GET_CATEGORY_PROFILE, CategoryProfileSaga);
 }
-export default function* CategorySaga() {
+export default function* CategoryManagementSaga() {
   
   yield all([fork(watchGetCategory)]);
   yield all([fork(watchCategoryProfile)]);
