@@ -7,7 +7,6 @@ import Navbar from "../../components/Navbar";
 import Profile1 from "../../assets/img/team/profile-picture-1.jpg";
 import { Routes } from "../../routes";
 import DetailHeading from "../../components/DetailHeading";
-
 export default () => {
   return (
     <>

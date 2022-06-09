@@ -35,6 +35,7 @@ const Categories = () => {
   const CategoryData = useSelector(
     (state) => state?.Category?.getCategoryList
   );
+  const auth = useSelector((state) => state.auth);
   const forAction = history?.location?.state?.from;
   useEffect(() => {
     dispatch(
@@ -226,6 +227,7 @@ const Categories = () => {
 
         </Row>
 
+        {auth.Auther.userRole != "Admin" && (
         <Row className="py-2 justify-content-between">
           <div class="d-grid gap-2 col-3 text-center  mx-auto">
             <span className="text-gray">
@@ -236,6 +238,7 @@ const Categories = () => {
             </Button>
           </div>
         </Row>
+        )}
       </Container>
 
       {/* Modal */}
