@@ -4,7 +4,14 @@ import { useLocation } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faThList } from "@fortawesome/free-solid-svg-icons";
-import { Nav, Badge, Image, Button, Navbar } from "@themesberg/react-bootstrap";
+import {
+  Nav,
+  Badge,
+  Image,
+  Button,
+  Navbar,
+  Modal,
+} from "@themesberg/react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutRequest } from "../Redux/auth/actions";
@@ -17,6 +24,11 @@ export default (props = {}) => {
   const [show, setShow] = useState(false);
   const showClass = show ? "show" : "";
   const dispatch = useDispatch();
+
+  const [showDefaultCategory, setShowDefaultCategory] = useState(false);
+  const handleClosesCategory = () => {
+    setShowDefaultCategory(false);
+  };
 
   const auth = useSelector((state) => state.auth);
 
@@ -282,6 +294,7 @@ export default (props = {}) => {
                 }}
                 onClick={() => {
                   dispatch(logoutRequest({}));
+                  // setShowDefaultCategory(true);
                 }}
               >
                 <NavItem
@@ -310,6 +323,48 @@ export default (props = {}) => {
           </div>
         </SimpleBar>
       </CSSTransition>
+
+      <Modal
+        as={Modal.Dialog}
+        centered
+        show={showDefaultCategory}
+        onHide={handleClosesCategory}
+      >
+        <Modal.Body className="pt-3">
+          <Modal.Title className="text-center">
+            <h2>Confirmation</h2>
+          </Modal.Title>
+          <Modal.Title className="h5 text-center">
+            Are you sure you want to logout?
+          </Modal.Title>
+
+          <div class="d-flex justify-content-between mt-5">
+            <Button
+              variant="primary"
+              color="dark"
+              type="button"
+              onClick={() => {
+                dispatch(logoutRequest({}));
+              }}
+              size="sm"
+            >
+              Logout
+            </Button>
+
+            <Button
+              variant="white"
+              color="dark"
+              onClick={() => {
+                handleClosesCategory();
+              }}
+              type="button"
+              size="sm"
+            >
+              Cancel
+            </Button>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };
