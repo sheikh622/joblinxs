@@ -124,6 +124,7 @@ const UserManagement = (row) => {
         <td>
           <Button
             // variant="outlined"
+            className="btn-sm"
             color={item?.isApproved === true ? "success" : "error"}
             style={{ marginLeft: "10px" }}
 

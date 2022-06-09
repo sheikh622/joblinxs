@@ -38,15 +38,24 @@ const CategoryManagement = (row) => {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [limit] = useState("10");
+
   const CategoryList = useSelector(
     (state) => state?.Category?.getCategoryList
   );
   console.log("categoryList", CategoryList)
+  const handleCategoryAction = () => {
+  console.log("cvbjk")
 
+    dispatch(
+      getCategoryProfile({
+     
+      })
+    );
+  }
   useEffect(() => {
     dispatch(
       getCategoryListing({
-      
+
         page: page,
         limit: limit,
         search: search
@@ -82,36 +91,9 @@ const CategoryManagement = (row) => {
           <span className="fw-normal">{item?.details ? item?.details : "N/A"}</span>
         </td>
         <td>
-          <span className="fw-normal">Pending</span>
+          <span className="fw-normal">{item?.categoryStatus ? item?.categoryStatus : "N/A"}</span>
         </td>
-        <td>
-          <span
-            // variant="outlined"
-            // color={item?.isApproved === true ? "success" : "error"}
-            // style={{ marginLeft: "10px" }}
 
-            onClick={() => {
-              dispatch(
-                getCategoryListing({
-                  userId: item.id,
-                  page: page,
-                  limit: limit,
-                
-                  search: search,
-                })
-              );
-            }}
-          >
-            {
-              item?.isApproved === true ? (
-                <span>Approved</span>
-              ) :
-                (
-                  <span>Pending</span>
-                )
-            }
-          </span>
-          </td>
         <td>
           <Dropdown as={ButtonGroup}>
             <Dropdown.Toggle
@@ -125,23 +107,23 @@ const CategoryManagement = (row) => {
               </span>
             </Dropdown.Toggle>
             <Dropdown.Menu className="custom_menu">
-              <Dropdown.Item className="text-success" onClick={() => {
-                dispatch(
-                  getCategoryListing({
-                    // userId: item.id,
-                    page: page,
-                    limit: limit,
-                    search: search,
-                  })
-                );
-              }}
-              >
-               
-                <FontAwesomeIcon icon={faCheck} className="me-2" /> Accept
-              </Dropdown.Item>
-              <Dropdown.Item className="text-danger">
-                <FontAwesomeIcon icon={faMinus} className="me-2" /> Decline
-              </Dropdown.Item>
+              {(item?.categoryStatus == 'Pending' || item?.categoryStatus == 'Rejected') && (
+                <Dropdown.Item className="text-success" onClick={() => {
+                  handleCategoryAction()
+                }}
+                >
+
+                  <FontAwesomeIcon icon={faCheck} className="me-2" /> Accept
+                </Dropdown.Item>
+              )}
+              {(item?.categoryStatus == 'Pending' || item?.categoryStatus == 'Accepted') && (
+
+                <Dropdown.Item className="text-danger" onClick={() => {
+                  handleCategoryAction()
+                }}>
+                  <FontAwesomeIcon icon={faMinus} className="me-2" /> Decline
+                </Dropdown.Item>
+              )}
             </Dropdown.Menu>
           </Dropdown>
         </td>
