@@ -27,7 +27,7 @@ import {
 import transactions from "../../data/transactions";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getCategoryList, getCategoryProfile } from "../../Redux/categoryManagement/actions"
+import { getCategoryListing, getCategoryProfile } from "../../Redux/categoryManagement/actions"
 
 const CategoryManagement = (row) => {
   const dispatch = useDispatch();
@@ -43,18 +43,18 @@ const CategoryManagement = (row) => {
   );
   console.log("categoryList", CategoryList)
 
-  // useEffect(() => {
-  //   dispatch(
-  //     getCategoryList({
-  //       page: page,
-  //       limit: limit,
-
-  //       search: search
-  //     })
-  //   );
-  // },
-  //   [search, page, limit]
-  // );
+  useEffect(() => {
+    dispatch(
+      getCategoryListing({
+      
+        page: page,
+        limit: limit,
+        search: search
+      })
+    );
+  },
+    [search, page, limit]
+  );
   const [ProfileUser, setProfileUser] = useState(row.isApproved);
   useEffect(() => {
     setProfileUser(row.isApproved);
@@ -99,24 +99,16 @@ const CategoryManagement = (row) => {
             <Dropdown.Menu className="custom_menu">
               <Dropdown.Item className="text-success" onClick={() => {
                 dispatch(
-                  getCategoryList({
-                    userId: item.id,
+                  getCategoryListing({
+                    // userId: item.id,
                     page: page,
                     limit: limit,
-
                     search: search,
                   })
                 );
               }}
               >
-                {
-                  item?.isApproved === true ? (
-                    <span>Approved</span>
-                  ) :
-                    (
-                      <span>Pending</span>
-                    )
-                }
+               
                 <FontAwesomeIcon icon={faCheck} className="me-2" /> Accept
               </Dropdown.Item>
               <Dropdown.Item className="text-danger">
@@ -187,8 +179,8 @@ const CategoryManagement = (row) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {transactions.map((t) => (
-                      <TableRow key={`transaction-${t.invoiceNumber}`} {...t} />
+                    {CategoryList?.map((t, index) => (
+                      <TableRow key={index} item={t} />
                     ))}
                   </tbody>
                 </Table>
@@ -205,7 +197,7 @@ const CategoryManagement = (row) => {
                     </Pagination>
                   </Nav>
                   <small className="fw-bold">
-                    Showing <b>{CategoryList?.categroies?.length}</b> out of <b>{CategoryList?.categories}</b> entries
+                    Showing <b>{CategoryList?.length}</b> out of <b>{CategoryList.totalUsers}</b> entries
                   </small>
                 </Card.Footer>
               </Card.Body>

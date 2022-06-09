@@ -3,14 +3,14 @@ import { all, put, call, fork, takeLatest, select } from "redux-saga/effects";
 import { push } from "connected-react-router";
 import {
 
-  getCategoryListSuccess,
+  getCategoryListingSuccess,
 getCategoryProfileSuccess,
-  getCategoryList
+  getCategoryListing
  
 } from "./actions";
 import {
   
-  GET_CATEGORY_LIST,
+  GET_CATEGORY_LISTING,
   GET_CATEGORY_PROFILE,
   
 } from "./constants";
@@ -31,7 +31,7 @@ function* getcategory({ payload }) {
         },
       }
     );
-    yield put(getCategoryListSuccess(response.data.data));
+    yield put(getCategoryListingSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -49,20 +49,20 @@ function* CategoryProfileSaga({ payload }) {
     );
     toast.success(response.data.message);
     yield put(getCategoryProfileSuccess());
-    yield put(
-      getUsersList({
-        page: payload.page,
-        limit: payload.limit,
-        type: payload.type,
-        search: payload.search,
-      })
-    );
+    // yield put(
+    //   getUsersList({
+    //     page: payload.page,
+    //     limit: payload.limit,
+    //     type: payload.type,
+    //     search: payload.search,
+    //   })
+    // );
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
 }
 function* watchGetCategory() {
-  yield takeLatest(GET_CATEGORY_LIST, getcategory);
+  yield takeLatest(GET_CATEGORY_LISTING, getcategory);
 }
 function* watchCategoryProfile() {
   yield takeLatest(GET_USER_PROFILE, CategoryProfileSaga);

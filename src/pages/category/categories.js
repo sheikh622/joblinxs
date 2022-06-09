@@ -52,6 +52,7 @@ const Categories = () => {
 
 
   const activeButton = (value) => {
+    console.log(value,"fdb")
     setEdit(!isEdit)
     setShowDefault(true)
     setSelectedItem(value)
@@ -72,25 +73,27 @@ const Categories = () => {
   const CategoryFormik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      title: selectedItem?.title?selectedItem?.title:"",
-      details: selectedItem?.details?selectedItem?.details:"",
+      id:selectedItem?.id? selectedItem?.id:"",
+      title: selectedItem?.title ? selectedItem?.title : "",
+      details: selectedItem?.details ? selectedItem?.details : "",
       remember: true,
     },
     validationSchema: CategorySchema,
-    onSubmit: async (values, action) =>
-    {
-       console.log("values", values)
-       selectedItem
-        ?  dispatch( 
+    onSubmit: async (values, action) => {
+      console.log("values", values)
+      selectedItem
+        ? dispatch(
           updateCategory({
-            data: {
+            
+            id: values.id,
               title: values.title,
               categoryImg: selectedImage,
               details: values.details,
               setReset: action.resetForm,
-              setShowDefault:setShowDefault,
+              setShowDefault: setShowDefault, 
+              // showDefault: showDefault,
               setSelectedImage: setSelectedImage,
-            },
+            
             history: history,
           })
         )
@@ -102,7 +105,7 @@ const Categories = () => {
             categoryImg: selectedImage,
             setReset: action.resetForm,
             setShowDefault: setShowDefault,
-            showDefault:showDefault,
+            showDefault: showDefault,
             setSelectedImage: setSelectedImage,
           })
         );
@@ -116,9 +119,9 @@ const Categories = () => {
   useEffect(() => {
     console.log("categoryFormik", CategoryFormik.values)
   }, [CategoryFormik.values])
-  const addCategories = ()=>{
-    setSelectedItem(null); 
-    setShowDefault(true); 
+  const addCategories = () => {
+    setSelectedItem(null);
+    setShowDefault(true);
   }
   return (
     <>

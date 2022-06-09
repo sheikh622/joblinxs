@@ -40,7 +40,7 @@ const UserManagement = (row) => {
   console.log("userList", userList)
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [limit] = useState("10");
+  const [limit] = useState("5");
   const [adminId, setAdminId] = useState(0);
   const [type, setType] = React.useState("all");
   const handleChange = (event) => {

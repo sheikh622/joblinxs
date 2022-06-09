@@ -19,7 +19,7 @@ import { makeSelectAuthToken } from "../../Store/selector";
 import { toast } from "react-toastify";
 
 function* addCategoryRequest({ payload }) {
-  alert(3)
+
   console.log(payload.showDefault, "here is state")
   const formData = new FormData();
   formData.append("categoryImg", payload.categoryImg);
@@ -35,7 +35,7 @@ function* addCategoryRequest({ payload }) {
       },
     });
     payload.setShowDefault(false);
-    // payload.setReset();
+    payload.setReset();
     payload.setSelectedImage("");
     yield put(addCategorySuccess(response.data.data));
     yield put( getCategoryList({
@@ -66,19 +66,32 @@ function* getcategory({ payload }) {
   }
 }
 function* updateCategorySaga({ payload }) {
-  alert(2)
+  console.log(payload.showDefault, "here is state")
+  const formData = new FormData();
+  formData.append("id", payload.id);
+
+  formData.append("categoryImg", payload.categoryImg);
+  formData.append("title", payload.title);
+  formData.append("details", payload.details);
+
   try {
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.patch(`category/update`, payload.data, {
+    const response = yield axios.patch(`category/update`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log("hvjbk0",payload)
     payload.setShowDefault(false);
+    payload.setReset();
 
     toast.success(response.data.message);
     payload.history.push("/Categories");
     yield put(updateCategorySuccess(response.data));
+    yield put( getCategoryList({
+      search: payload.search,
+       })
+     );
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
