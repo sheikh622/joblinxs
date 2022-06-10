@@ -12,6 +12,7 @@ import {
   GET_CATEGORY_LISTING,
   GET_CATEGORY_PROFILE
 } from "./constants";
+import { CapitalizeFirstLetter } from "../../utils/Global";
 
 
 function* getcategory({ payload }) {
@@ -42,7 +43,7 @@ function* CategoryProfileSaga({ payload }) {
         },
       }
     );
-    toast.success(response.data.message);
+    toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getCategoryProfileSuccess());
     yield put(
       getCategoryListing({

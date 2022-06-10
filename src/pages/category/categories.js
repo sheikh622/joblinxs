@@ -17,6 +17,7 @@ import { addCategory, deleteCategory, getCategoryList, updateCategory } from "..
 const Categories = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [search, setSearch] = useState("");
   const {
     location: { state },
   } = history;
@@ -28,9 +29,10 @@ const Categories = () => {
   useEffect(() => {
     dispatch(
       getCategoryList({
+        search: search
       })
     );
-  }, []);
+  }, [search]);
   const [showDefault, setShowDefault] = useState(false);
   const handleClose = () => {
     setEdit(false)
@@ -39,7 +41,6 @@ const Categories = () => {
   const [selectedImage, setSelectedImage] = useState("");
   const [isEdit, setEdit] = useState(false);
   const [Description, setDescription] = useState("");
-  const [search, setSearch] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
 
 

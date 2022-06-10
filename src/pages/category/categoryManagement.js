@@ -22,7 +22,7 @@ const CategoryManagement = (row) => {
   } = history;
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [limit] = useState("10");
+  const [limit] = useState("5");
 
   const CategoryList = useSelector(
     (state) => state?.CategoryListing?.getCategoryListing
@@ -32,17 +32,19 @@ const CategoryManagement = (row) => {
 
     dispatch(
       getCategoryProfile({
-        categoryId:id
+        categoryId:id,
+        page: page,
+        limit: limit,
+        search: search,
       })
     );
   }
   useEffect(() => {
     dispatch(
       getCategoryListing({
-
         page: page,
         limit: limit,
-        search: search
+        search: search,
       })
     );
   },
@@ -191,7 +193,7 @@ const CategoryManagement = (row) => {
                     </Pagination>
                   </Nav>
                   <small className="fw-bold">
-                    Showing <b>{CategoryList?.categroies.length}</b> out of <b>{CategoryList?.total_categories}</b> entries
+                    Showing <b>{CategoryList?.categroies?.length}</b> out of <b>{CategoryList?.total_categories}</b> entries
                   </small>
                 </Card.Footer>
               </Card.Body>

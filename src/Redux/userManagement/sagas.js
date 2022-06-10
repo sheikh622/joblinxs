@@ -12,13 +12,15 @@ import {
   GET_USER_BLOCK,
   GET_USER_PROFILE
 } from "./constants";
+import { CapitalizeFirstLetter } from "../../utils/Global";
+
 function* userListRequest({ payload }) {
 
   try {
     const headers = { headers: { 'authorization': yield select(makeSelectAuthToken()) } };
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      `user/admin/user-list?page=${payload.page }&count=${payload.limit
+      `user/admin/user-list?page=${payload.page}&count=${payload.limit
       }&keyword=${payload.search}&usertype=${payload.type}`,
       {
         headers: {
@@ -26,6 +28,7 @@ function* userListRequest({ payload }) {
         },
       }
     );
+
     yield put(getUsersListSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -43,7 +46,7 @@ function* userBlockSaga({ payload }) {
         },
       }
     );
-    toast.success(response.data.message);
+    toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(
       getUsersList({
         page: payload.page,
@@ -68,7 +71,7 @@ function* userProfileSaga({ payload }) {
         },
       }
     );
-    toast.success(response.data.message);
+    toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getUserProfileSuccess());
     yield put(
       getUsersList({
@@ -90,7 +93,7 @@ function* deleteUserSaga({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     });
-    toast.success(response.data.message);
+    toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(
       getUsersList({
         page: payload.page,

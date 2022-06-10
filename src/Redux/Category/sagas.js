@@ -3,12 +3,11 @@ import { all, fork, put, select, takeLatest } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
+import { CapitalizeFirstLetter } from "../../utils/Global";
 import {
   addCategorySuccess, getCategoryList
   // deleteCategory,
-  ,
-
-  getCategoryListSuccess,
+  , getCategoryListSuccess,
   updateCategorySuccess
 } from "./actions";
 import {
@@ -35,17 +34,16 @@ function* addCategoryRequest({ payload }) {
     payload.setReset();
     payload.setSelectedImage("");
     yield put(addCategorySuccess(response.data.data));
-    yield put( getCategoryList({
+    yield put(getCategoryList({
       search: payload.search,
-       })
-     );
+    })
+    );
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
 }
 function* getcategory({ payload }) {
   try {
-
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
       `category/list?keyword=${payload.search}`,
@@ -55,6 +53,7 @@ function* getcategory({ payload }) {
         },
       }
     );
+    // toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getCategoryListSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -78,13 +77,13 @@ function* updateCategorySaga({ payload }) {
     payload.setShowDefault(false);
     payload.setReset();
 
-    toast.success(response.data.message);
+    toast.success(CapitalizeFirstLetter(response.data.message));
     payload.history.push("/Categories");
     yield put(updateCategorySuccess(response.data));
-    yield put( getCategoryList({
+    yield put(getCategoryList({
       search: payload.search,
-       })
-     );
+    })
+    );
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -98,10 +97,11 @@ function* deleteCategory({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     });
-    toast.success(response.data.message);
-    yield put( getCategoryList({
-     search: payload.search,
-      })
+
+    toast.success(CapitalizeFirstLetter(response.data.message));
+    yield put(getCategoryList({
+      search: payload.search,
+    })
     );
   } catch (error) {
     yield sagaErrorHandler(error.response);
