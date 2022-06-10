@@ -9,10 +9,10 @@ import Categories from "./category/categories";
 import CategoryManagement from "./category/categoryManagement";
 //routes here
 import DashboardOverview from "./dashboard/DashboardOverview";
-import ForgotPassword from "./examples/ForgotPassword";
-import NotFoundPage from "./examples/NotFound";
-import ResetPassword from "./examples/ResetPassword";
-import Signin from "./examples/Signin";
+import ForgotPassword from "./auths/ForgotPassword";
+import NotFoundPage from "./auths/NotFound";
+import ResetPassword from "./auths/ResetPassword";
+import Signin from "./auths/Signin";
 import Favourites from "./favourite/favourites";
 import CreateJob from "./jobs/CreateJob";
 import Job from "./jobs/Job";
