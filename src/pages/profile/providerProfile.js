@@ -9,17 +9,17 @@ import {
   Dropdown,
   ButtonGroup,
 } from "@themesberg/react-bootstrap";
-import Navbar from "./Navbar";
+import Navbar from "../../components/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faStar,
   faChevronRight,
   faEllipsisV,
 } from "@fortawesome/free-solid-svg-icons";
-import Profile from "../assets/img/team/profile.png";
-import ReactHero from "../assets/img/team/profile-picture-3.jpg";
-import RecommendCard from "../components/RecommendCard";
-import DetailHeading from "./DetailHeading";
+import Profile from "../../assets/img/team/profile.png";
+import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
+import RecommendCard from "../../components/RecommendCard";
+import DetailHeading from "../../components/DetailHeading";
 
 const ProviderProfile = () => {
   return (

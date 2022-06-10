@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Redirect, Switch } from "react-router-dom";
 import JobDetail from "../components/JobDetail";
-import ProviderProfile from "../components/providerProfile";
+import ProviderProfile from "./profile/providerProfile";
 import { Routes } from "../routes";
 import PrivateRoute from "../utils/PrivateRoute";
 import PublicRoute from "../utils/PublicRoute";

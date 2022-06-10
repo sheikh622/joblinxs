@@ -1,7 +1,7 @@
 import { Button, Col, Container, Row } from "@themesberg/react-bootstrap";
 import React from "react";
 import { Link } from "react-router-dom";
-import { GeneralInfoForm } from "../../components/Forms";
+import { GeneralInfoForm } from "./Forms";
 import Navbar from "../../components/Navbar";
 import { Routes } from "../../routes";
 const CreateJob = () => {
