@@ -25,8 +25,6 @@ function* userListRequest({ payload }) {
 
   try {
     const headers = { headers: { 'authorization': yield select(makeSelectAuthToken()) } };
-    // const headers = { headers: { 'auth-token': yield select(makeSelectAuthToken()) } };
-
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
       `user/admin/user-list?page=${payload.page }&count=${payload.limit

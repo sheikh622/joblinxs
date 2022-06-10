@@ -46,7 +46,7 @@ function* getcategory({ payload }) {
 
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      `category/list?keyword=all`,
+      `category/list?keyword=${payload.search}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
