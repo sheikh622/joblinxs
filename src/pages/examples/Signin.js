@@ -62,7 +62,6 @@ const LoginPage = () => {
     },
     validationSchema: LoginSchema,
     onSubmit: async (values, { resetForm }) => {
-      console.log(values, "email")
       await dispatch(
         loginRequest({
           email: values.email,

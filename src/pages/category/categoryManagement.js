@@ -41,11 +41,10 @@ const CategoryManagement = (row) => {
   const [limit] = useState("10");
 
   const CategoryList = useSelector(
-    (state) => state?.Category?.getCategoryList
+    (state) => state?.CategoryListing?.getCategoryListing
   );
-  console.log("categoryList", CategoryList)
+
   const handleCategoryAction = (id) => {
-  console.log("cvbjk")
 
     dispatch(
       getCategoryProfile({
@@ -190,7 +189,7 @@ const CategoryManagement = (row) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {CategoryList?.map((t, index) => (
+                    {CategoryList?.categroies?.map((t, index) => (
                       <TableRow key={index} item={t} />
                     ))}
                   </tbody>
@@ -208,7 +207,7 @@ const CategoryManagement = (row) => {
                     </Pagination>
                   </Nav>
                   <small className="fw-bold">
-                    Showing <b>{CategoryList?.length}</b> out of <b>{CategoryList.totalUsers}</b> entries
+                    Showing <b>{CategoryList?.categroies.length}</b> out of <b>{CategoryList?.total_categories}</b> entries
                   </small>
                 </Card.Footer>
               </Card.Body>

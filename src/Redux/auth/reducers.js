@@ -16,7 +16,6 @@ const initialState = {
 };
 
 const Auth = produce((state = initialState, action) => {
-  console.log(action.payload, "here is actioan data call now")
   switch (action.type)  {
     case LOGIN_SUCCESS:
       state.Auther = action.payload.user;

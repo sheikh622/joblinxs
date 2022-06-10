@@ -1,26 +1,21 @@
+import { toast } from "react-toastify";
+import { all, fork, put, select, takeLatest } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
-import { all, put, call, fork, takeLatest, select } from "redux-saga/effects";
-import { push } from "connected-react-router";
-import {
-  addCategorySuccess,
-  getCategoryListSuccess,
-  updateCategorySuccess,
-  getCategoryList
-  // deleteCategory,
-} from "./actions";
-import {
-  ADD_CATEGORY,
-  GET_CATEGORY_LIST,
-  UPDATE_CATEGORY,
-  DELETE_CATEGORY,
-} from "./constants";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
-import { toast } from "react-toastify";
+import {
+  addCategorySuccess, getCategoryList
+  // deleteCategory,
+  , getCategoryListSuccess,
+  updateCategorySuccess
+} from "./actions";
+import {
+  ADD_CATEGORY, DELETE_CATEGORY, GET_CATEGORY_LIST,
+  UPDATE_CATEGORY
+} from "./constants";
 
 function* addCategoryRequest({ payload }) {
 
-  console.log(payload.showDefault, "here is state")
   const formData = new FormData();
   formData.append("categoryImg", payload.categoryImg);
   formData.append("title", payload.title);
@@ -47,8 +42,6 @@ function* addCategoryRequest({ payload }) {
   }
 }
 function* getcategory({ payload }) {
-  console.log("values=>", payload);
-
   try {
 
     const token = yield select(makeSelectAuthToken());
@@ -66,7 +59,6 @@ function* getcategory({ payload }) {
   }
 }
 function* updateCategorySaga({ payload }) {
-  console.log(payload.showDefault, "here is state")
   const formData = new FormData();
   formData.append("id", payload.id);
 
@@ -81,7 +73,6 @@ function* updateCategorySaga({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log("hvjbk0",payload)
     payload.setShowDefault(false);
     payload.setReset();
 

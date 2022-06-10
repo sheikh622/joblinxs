@@ -37,7 +37,6 @@ const UserManagement = (row) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const userList = useSelector((state) => state.User.Users);
-  console.log("userList", userList)
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [limit] = useState("5");

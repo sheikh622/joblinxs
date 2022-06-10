@@ -1,31 +1,19 @@
-import React, { useEffect, useState } from "react";
 import {
-  Col,
-  Row,
-  Container,
-  Button,
-  Card,
-  Form,
-  Image,
-  Modal,
-  Dropdown,
-  ButtonGroup,
-} from "@themesberg/react-bootstrap";
-import {
-  faEllipsisV,
-  faEdit,
-  faTrashAlt,
+  faEdit, faEllipsisV, faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Navbar from "../../components/Navbar";
-import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
-import ReactHero1 from "../../assets/img/team/profile-picture-1.jpg";
-import Profile from "../../assets/img/team/profile.png";
-import * as Yup from "yup";
+import {
+  Button, ButtonGroup, Card, Col, Container, Dropdown, Form,
+  Image,
+  Modal, Row
+} from "@themesberg/react-bootstrap";
 import { useFormik } from "formik";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addCategory, getCategoryList, deleteCategory, updateCategory } from "../../Redux/Category/actions"
+import { useHistory } from "react-router-dom";
+import * as Yup from "yup";
+import Navbar from "../../components/Navbar";
+import { addCategory, deleteCategory, getCategoryList, updateCategory } from "../../Redux/Category/actions";
 const Categories = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -44,7 +32,10 @@ const Categories = () => {
     );
   }, []);
   const [showDefault, setShowDefault] = useState(false);
-  const handleClose = () => setShowDefault(false);
+  const handleClose = () => {
+    setEdit(false)
+    setShowDefault(false)
+  };
   const [selectedImage, setSelectedImage] = useState("");
   const [isEdit, setEdit] = useState(false);
   const [Description, setDescription] = useState("");
@@ -53,7 +44,6 @@ const Categories = () => {
 
 
   const activeButton = (value) => {
-    console.log(value,"fdb")
     setEdit(!isEdit)
     setShowDefault(true)
     setSelectedItem(value)
@@ -74,27 +64,27 @@ const Categories = () => {
   const CategoryFormik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      id:selectedItem?.id? selectedItem?.id:"",
+      id: selectedItem?.id ? selectedItem?.id : "",
       title: selectedItem?.title ? selectedItem?.title : "",
       details: selectedItem?.details ? selectedItem?.details : "",
       remember: true,
     },
     validationSchema: CategorySchema,
     onSubmit: async (values, action) => {
-      console.log("values", values)
+
       selectedItem
         ? dispatch(
           updateCategory({
-            
+
             id: values.id,
-              title: values.title,
-              categoryImg: selectedImage,
-              details: values.details,
-              setReset: action.resetForm,
-              setShowDefault: setShowDefault, 
-              // showDefault: showDefault,
-              setSelectedImage: setSelectedImage,
-            
+            title: values.title,
+            categoryImg: selectedImage,
+            details: values.details,
+            setReset: action.resetForm,
+            setShowDefault: setShowDefault,
+            // showDefault: showDefault,
+            setSelectedImage: setSelectedImage,
+
             history: history,
           })
         )
@@ -118,7 +108,6 @@ const Categories = () => {
     }
   };
   useEffect(() => {
-    console.log("categoryFormik", CategoryFormik.values)
   }, [CategoryFormik.values])
   const addCategories = () => {
     setSelectedItem(null);
@@ -206,7 +195,7 @@ const Categories = () => {
                               />
                             </span>
                           </Dropdown.Toggle>
-                          <Dropdown.Menu>
+                          <Dropdown.Menu className="custom_menu">
                             <Dropdown.Item onClick={() => activeButton(value)}
                             >
                               <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit
@@ -228,23 +217,29 @@ const Categories = () => {
         </Row>
 
         {auth.Auther.userRole != "Admin" && (
-        <Row className="py-2 justify-content-between">
-          <div class="d-grid gap-2 col-3 text-center  mx-auto">
-            <span className="text-gray">
-              You can select multiple categories
-            </span>
-            <Button variant="primary" color="dark" size="sm">
-              Save
-            </Button>
-          </div>
-        </Row>
+          <Row className="py-2 justify-content-between">
+            <div class="d-grid gap-2 col-3 text-center  mx-auto">
+              <span className="text-gray">
+                You can select multiple categories
+              </span>
+              <Button variant="primary" color="dark" size="sm">
+                Save
+              </Button>
+            </div>
+          </Row>
         )}
       </Container>
 
       {/* Modal */}
       <Modal as={Modal.Dialog} centered show={showDefault} >
         <Modal.Header>
-          <Modal.Title className="h5">Add Category</Modal.Title>
+          <Modal.Title className="h5">
+            {isEdit ? (
+              "Edit Category"
+            ) : (
+              "Add Category"
+            )}
+          </Modal.Title>
           <Button variant="close" aria-label="Close" onClick={handleClose} />
         </Modal.Header>
         <Modal.Body>

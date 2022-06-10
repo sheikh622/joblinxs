@@ -284,7 +284,6 @@ const UserDetails = ({}) => {
                     <Row>
                     {userData?.category?.map((value, index, row) => {
                       let category = value?.category;
-                      console.log("value", value);
                       return (
                         <Col lg={4} md={12} xs={12} sm={12} className="pb-3">
                           <Card border="light" className="shadow-sm introCard">
