@@ -10,7 +10,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import transactions from "../../data/transactions";
 import { getCategoryListing, getCategoryProfile } from "../../Redux/categoryManagement/actions";
 
 
@@ -54,7 +53,6 @@ const CategoryManagement = (row) => {
   useEffect(() => {
     setProfileUser(row.isApproved);
   }, [row.isApproved]);
-  const totalTransactions = transactions.length;
 
   const TableRow = (props) => {
     const { invoiceNumber, subscription, price, issueDate, dueDate, status, item } =

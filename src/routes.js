@@ -19,43 +19,4 @@ export const Routes = {
     ForgotPassword: { path: "/forgot-password" },
     ResetPassword: { path: "/reset-password" },
     NotFound: { path: "/404" },
-    
-    
-    
-    // Upgrade: { path: "/upgrade" },
-    // BootstrapTables: { path: "/tables" },
-    // Billing: { path: "/billing" },
-    // Invoice: { path: "/invoice" },
-    // Lock: { path: "/lock" },
-    // ServerError: { path: "/500" },
-    // Signup: { path: "/sign-up" },
-
-    // docs
-    // DocsOverview: { path: "/overview" },
-    // DocsDownload: { path: "/download" },
-    // DocsQuickStart: { path: "/quick-start" },
-    // DocsLicense: { path: "/license" },
-    // DocsFolderStructure: { path: "/folder-structure" },
-    // DocsBuild: { path: "/build-tools" },
-    // DocsChangelog: { path: "/changelog" },
-
-    // components
-    // Accordions: { path: "/accordions" },
-    // Alerts: { path: "/alerts" },
-    // Badges: { path: "/badges" },
-    // Widgets: { path: "/widgets" },
-    // Breadcrumbs: { path: "/breadcrumbs" },
-    // Buttons: { path: "/buttons" },
-    // Forms: { path: "/forms" },
-    // Modals: { path: "/modals" },
-    // Navs: { path: "/navs" },
-    // Navbars: { path: "/navbars" },
-    // Pagination: { path: "/pagination" },
-    // Popovers: { path: "/popovers" },
-    // Progress: { path: "/progress" },
-    // Tables: { path: "/tables" },
-    // Tabs: { path: "/tabs" },
-    // Tooltips: { path: "/tooltips" },
-    // Toasts: { path: "/toasts" },
-    // WidgetsComponent: { path: "/widgets" }
 };

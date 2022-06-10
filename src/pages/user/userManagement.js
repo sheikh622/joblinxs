@@ -12,12 +12,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import transactions from "../../data/transactions";
 import { deleteUser, getUserBlock, getUserProfile, getUsersList } from "../../Redux/userManagement/actions";
 import { Routes } from "../../routes";
 
 const UserManagement = (row) => {
-  const totalTransactions = transactions.length;
   const label = { inputProps: { "aria-label": "Switch demo" } };
   const dispatch = useDispatch();
   const history = useHistory();

@@ -22,32 +22,6 @@ import userDetail from "./user/userDetail";
 import UserManagement from "./user/userManagement";
 import Users from "./user/users";
 
-
-
-
-// import Upgrade from "./Upgrade";
-// import Transactions from "./Transactions";
-// import BootstrapTables from "./tables/BootstrapTables";
-// import Signup from "./examples/Signup";
-// import Lock from "./examples/Lock";
-// import ServerError from "./examples/ServerError";
-// import Accordion from "./components/Accordion";
-// import Alerts from "./components/Alerts";
-// import Badges from "./components/Badges";
-// import Breadcrumbs from "./components/Breadcrumbs";
-// import Buttons from "./components/Buttons";
-// import Forms from "./components/Forms";
-// import Modals from "./components/Modals";
-// import Navs from "./components/Navs";
-// import Navbars from "./components/Navbars";
-// import Pagination from "./components/Pagination";
-// import Popovers from "./components/Popovers";
-// import Progress from "./components/Progress";
-// import Tables from "./components/Tables";
-// import Tabs from "./components/Tabs";
-// import Tooltips from "./components/Tooltips";
-// import Toasts from "./components/Toasts";
-
 // changes merge
 export default () => (
   <BrowserRouter>
@@ -117,56 +91,6 @@ export default () => (
         component={userDetail}
       />
       <Redirect to={Routes.NotFound.path} />
-
-      {/* <PrivateRoute
-        exact
-        path={Routes.BootstrapTables.path}
-        component={BootstrapTables}
-      />
-      <PrivateRoute exact path={Routes.Upgrade.path} component={Upgrade} />
-
-      <PrivateRoute
-        exact
-        path={Routes.Transactions.path}
-        component={Transactions}
-      />
-      <PublicRoute
-        exact
-        path={Routes.ServerError.path}
-        component={ServerError}
-      />
-      <PublicRoute exact path={Routes.Lock.path} component={Lock} />
-      <PublicRoute
-        restricted={false}
-        exact
-        path={Routes.Signup.path}
-        component={Signup}
-      />
-      <PrivateRoute exact path={Routes.Accordions.path} component={Accordion} />
-      <PrivateRoute exact path={Routes.Alerts.path} component={Alerts} />
-      <PrivateRoute exact path={Routes.Badges.path} component={Badges} />
-      <PrivateRoute
-        exact
-        path={Routes.Breadcrumbs.path}
-        component={Breadcrumbs}
-      />
-      <PrivateRoute exact path={Routes.Buttons.path} component={Buttons} />
-      <PrivateRoute exact path={Routes.Forms.path} component={Forms} />
-      <PrivateRoute exact path={Routes.Modals.path} component={Modals} />
-      <PrivateRoute exact path={Routes.Navs.path} component={Navs} />
-      <PrivateRoute exact path={Routes.Navbars.path} component={Navbars} />
-      <PrivateRoute
-        exact
-        path={Routes.Pagination.path}
-        component={Pagination}
-      />
-      <PrivateRoute exact path={Routes.Popovers.path} component={Popovers} />
-      <PrivateRoute exact path={Routes.Progress.path} component={Progress} />
-      <PrivateRoute exact path={Routes.Tables.path} component={Tables} />
-      <PrivateRoute exact path={Routes.Tabs.path} component={Tabs} />
-      <PrivateRoute exact path={Routes.Tooltips.path} component={Tooltips} />
-      <PrivateRoute exact path={Routes.Toasts.path} component={Toasts} /> */}
-
     </Switch>
   </BrowserRouter>
 );
