@@ -40,7 +40,6 @@ const Categories = () => {
   };
   const [selectedImage, setSelectedImage] = useState("");
   const [isEdit, setEdit] = useState(false);
-  const [Description, setDescription] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
 
 
@@ -48,6 +47,7 @@ const Categories = () => {
     setEdit(!isEdit)
     setShowDefault(true)
     setSelectedItem(value)
+    setSelectedImage(value.categoryImg)
   }
   const handleDelete = (value) => {
     dispatch(

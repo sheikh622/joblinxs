@@ -79,11 +79,11 @@ function* updateCategorySaga({ payload }) {
 
     toast.success(CapitalizeFirstLetter(response.data.message));
     payload.history.push("/Categories");
-    yield put(updateCategorySuccess(response.data));
     yield put(getCategoryList({
-      search: payload.search,
+      search: '',
     })
     );
+    yield put(updateCategorySuccess(response.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
