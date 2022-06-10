@@ -127,8 +127,8 @@ export default (props = {}) => {
                   />
                 </div>
                 <div className="d-block">
-                  <h4>{auth.Auther.fullName}</h4>
-                  <span>{auth.Auther.userRole}</span>
+                  <h4>{auth?.Auther?.fullName}</h4>
+                  <span>{auth?.Auther?.userRole}</span>
                 </div>
               </div>
               <Nav.Link
@@ -139,7 +139,7 @@ export default (props = {}) => {
               </Nav.Link>
             </div>
             <Nav className="flex-column pt-3 pt-md-0 mt-4">
-              {auth.Auther.userRole != "Admin" && (
+              {auth?.Auther?.userRole != "Admin" && (
                 <>
                   <NavItem
                     title="Home"

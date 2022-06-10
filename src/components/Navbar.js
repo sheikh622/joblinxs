@@ -62,9 +62,9 @@ export default (props) => {
       <Container fluid className="px-0">
         <div className="d-flex justify-content-between w-100">
           <div className="d-flex align-items-center">
-            <h2>{props.module}</h2>
+            <h2>{props?.module}</h2>
           </div>
-          {auth.Auther.userRole != "Admin" && (
+          {auth?.Auther?.userRole != "Admin" && (
             <>
               <Nav className="align-items-center">
                 <Dropdown as={Nav.Item} onToggle={markNotificationsAsRead}>

@@ -63,7 +63,7 @@ const CategoryManagement = (row) => {
       })
     );
   },
-    []
+    [page,limit,search]
   );
   const [ProfileUser, setProfileUser] = useState(row.isApproved);
   useEffect(() => {

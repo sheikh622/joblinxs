@@ -54,14 +54,13 @@ function* CategoryProfileSaga({ payload }) {
     );
     toast.success(response.data.message);
     yield put(getCategoryProfileSuccess());
-    // yield put(
-    //   getUsersList({
-    //     page: payload.page,
-    //     limit: payload.limit,
-    //     type: payload.type,
-    //     search: payload.search,
-    //   })
-    // );
+    yield put(
+      getCategoryListing({
+        page: payload.page,
+        limit: payload.limit,
+        search: payload.search,
+      })
+    );
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
