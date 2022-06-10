@@ -1,12 +1,12 @@
+import { Button, Col, Container, Row } from "@themesberg/react-bootstrap";
 import React from "react";
-import { Col, Row, Container, Button } from "@themesberg/react-bootstrap";
-import Navbar from "../../components/Navbar";
-import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
 import { Link } from "react-router-dom";
-import { Routes } from "../../routes";
+import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
 import Profile from "../../assets/img/team/profile.png";
-import RecommendCard from "../../components/RecommendCard";
 import CommonCard from "../../components/CommonCard";
+import Navbar from "../../components/Navbar";
+import RecommendCard from "../../components/RecommendCard";
+import { Routes } from "../../routes";
 
 const Job = () => {
   return (

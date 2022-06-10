@@ -1,23 +1,16 @@
-import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  Col,
-  Row,
-  Card,
-  Button,
-  Container,
-  Image,
-} from "@themesberg/react-bootstrap";
-import { Link } from "react-router-dom";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import Navbar from "../../components/Navbar";
-import Profile1 from "../../assets/img/team/profile-picture-1.jpg";
-import { Routes } from "../../routes";
-import { useHistory, useLocation } from "react-router-dom";
-import { DataGrid } from "@mui/x-data-grid";
 import { Grid } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import {
+  Button, Card, Col, Container,
+  Image, Row
+} from "@themesberg/react-bootstrap";
 import moment from "moment";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import Profile1 from "../../assets/img/team/profile-picture-1.jpg";
 import DetailHeading from "../../components/DetailHeading";
+import Navbar from "../../components/Navbar";
+import { Routes } from "../../routes";
 
 const UserDetails = ({}) => {
   // const history = useHistory();

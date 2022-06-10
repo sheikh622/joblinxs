@@ -1,10 +1,10 @@
+import { Col, Container, Row } from "@themesberg/react-bootstrap";
 import React from "react";
-import { Col, Row, Container } from "@themesberg/react-bootstrap";
-import Navbar from "../../components/Navbar";
 import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
 import Profile from "../../assets/img/team/profile.png";
-import RecommendCard from "../../components/RecommendCard";
 import CommonCard from "../../components/CommonCard";
+import Navbar from "../../components/Navbar";
+import RecommendCard from "../../components/RecommendCard";
 
 const DashboardOverview = () => {
   return (

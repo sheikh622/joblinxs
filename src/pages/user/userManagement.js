@@ -1,36 +1,21 @@
-import React, { useState, useEffect } from "react";
-import {
-  Col,
-  Row,
-  Nav,
-  Card,
-  Button,
-  Table,
-  Dropdown,
-  Pagination,
-  ButtonGroup,
-  Container,
-  Form,
-} from "@themesberg/react-bootstrap";
-import Navbar from "../../components/Navbar";
-import {
-  faEdit,
-  faEllipsisH,
-  faEye,
-  faTrashAlt,
-} from "@fortawesome/free-solid-svg-icons";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDoubleLeft,
-  faAngleDoubleRight,
+  faAngleDoubleRight, faEllipsisH,
+  faEye,
+  faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
-import transactions from "../../data/transactions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  Button, ButtonGroup, Card, Col, Container, Dropdown, Form, Nav, Pagination, Row, Table
+} from "@themesberg/react-bootstrap";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import Navbar from "../../components/Navbar";
+import transactions from "../../data/transactions";
 import { deleteUser, getUserBlock, getUserProfile, getUsersList } from "../../Redux/userManagement/actions";
 import { Routes } from "../../routes";
-import { Link } from "react-router-dom";
+
 const UserManagement = (row) => {
   const totalTransactions = transactions.length;
   const label = { inputProps: { "aria-label": "Switch demo" } };

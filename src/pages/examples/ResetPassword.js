@@ -1,15 +1,14 @@
 
-import React, { useState, useEffect } from "react";
+import { faAngleLeft, faUnlockAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft, faEnvelope, faUnlockAlt } from "@fortawesome/free-solid-svg-icons";
-import { Col, Row, Form, Card, Button, Container, InputGroup } from '@themesberg/react-bootstrap';
-import { Link } from 'react-router-dom';
-import * as Yup from "yup";
+import { Button, Card, Col, Container, Form, InputGroup, Row } from '@themesberg/react-bootstrap';
 import { useFormik } from "formik";
-import { Routes } from "../../routes";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from 'react-router-dom';
+import * as Yup from "yup";
 import { resetPassword } from "../../Redux/auth/actions";
+import { Routes } from "../../routes";
 
 const ResetPassword = () => {
   const dispatch = useDispatch();

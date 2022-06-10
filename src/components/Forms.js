@@ -1,13 +1,7 @@
-import React, { useState } from "react";
 import {
-  Col,
-  Row,
-  Card,
-  Form,
-  Button,
-  Modal,
-  InputGroup,
+  Button, Card, Col, Form, InputGroup, Modal, Row
 } from "@themesberg/react-bootstrap";
+import React, { useState } from "react";
 
 export const GeneralInfoForm = () => {
   // Add location

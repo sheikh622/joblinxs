@@ -1,26 +1,17 @@
+import { toast } from "react-toastify";
+import { all, fork, put, select, takeLatest } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
-import { all, put, call, fork, takeLatest, select } from "redux-saga/effects";
-import { push } from "connected-react-router";
-import {
-  getUsersListSuccess,
-  getUserBlockSuccess,
-  getUserProfileSuccess,
-  deleteUser,
-  getUsersList,
-  getUserDetailsSuccess,
-} from "./actions";
-import {
-  GET_USERS_LIST,
-  GET_USER_BLOCK,
-  GET_USER_PROFILE,
-  DELETE_USER,
-  GET_USER_DETAILS,
-} from "./constants";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
-import { toast } from "react-toastify";
-// import Search from "@mui/icons-material/Search";
-import { type } from "os";
+import {
+  getUserBlockSuccess,
+  getUserProfileSuccess, getUsersList, getUsersListSuccess
+} from "./actions";
+import {
+  DELETE_USER, GET_USERS_LIST,
+  GET_USER_BLOCK,
+  GET_USER_PROFILE
+} from "./constants";
 function* userListRequest({ payload }) {
 
   try {

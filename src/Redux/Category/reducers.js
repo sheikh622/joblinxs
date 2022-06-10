@@ -3,7 +3,7 @@ import {
   ADD_CATEGORY_SUCCESS,
   CHANGE_USERS_ACTIVE_PAGE,
   GET_CATEGORY_LIST_SUCCESS,
-UPDATE_CATEGORY_SUCCESS
+  UPDATE_CATEGORY_SUCCESS
 } from "./constants";
 const initialState = {
   addCategory: [],

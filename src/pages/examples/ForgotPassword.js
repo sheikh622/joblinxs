@@ -1,22 +1,13 @@
-import React, { useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import {
-  Col,
-  Row,
-  Form,
-  Card,
-  Button,
-  Container,
-  InputGroup,
+  Button, Card, Col, Container, Form, InputGroup, Row
 } from "@themesberg/react-bootstrap";
-import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { Routes } from "../../routes";
-import { forgotPassword } from "../../Redux/auth/actions"
-import * as Yup from "yup";
 import { useFormik } from "formik";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import * as Yup from "yup";
+import { forgotPassword } from "../../Redux/auth/actions";
+import { Routes } from "../../routes";
 const ForgetPage = () => {
   useEffect(() => {
     localStorage.clear()

@@ -1,34 +1,18 @@
-import React, { useState, useEffect } from "react";
-import {
-  Col,
-  Row,
-  Nav,
-  Card,
-  Button,
-  Table,
-  Dropdown,
-  Pagination,
-  ButtonGroup,
-  Container,
-  Form,
-} from "@themesberg/react-bootstrap";
-import Navbar from "../../components/Navbar";
-import {
-  faEllipsisH,
-  faCheck,
-  faMinus,
-} from "@fortawesome/free-solid-svg-icons";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDoubleLeft,
-  faAngleDoubleRight,
+  faAngleDoubleRight, faCheck, faEllipsisH, faMinus
 } from "@fortawesome/free-solid-svg-icons";
-import transactions from "../../data/transactions";
-import { useHistory } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  Button, ButtonGroup, Card, Col, Container, Dropdown, Form, Nav, Pagination, Row, Table
+} from "@themesberg/react-bootstrap";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCategoryListing, getCategoryProfile } from "../../Redux/categoryManagement/actions"
-import { idID } from "@mui/material/locale";
+import { useHistory } from "react-router-dom";
+import Navbar from "../../components/Navbar";
+import transactions from "../../data/transactions";
+import { getCategoryListing, getCategoryProfile } from "../../Redux/categoryManagement/actions";
+
 
 const CategoryManagement = (row) => {
   const dispatch = useDispatch();
