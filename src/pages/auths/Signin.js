@@ -20,7 +20,6 @@ import { loginRequest } from "../../Redux/auth/actions";
 import { Routes } from "../../routes";
 
 const LoginPage = () => {
-
   useEffect(() => {
     localStorage.clear()
   }, [])
