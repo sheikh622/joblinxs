@@ -6,7 +6,6 @@ import {
   UPDATE_CATEGORY,
   UPDATE_CATEGORY_SUCCESS
 } from "./constants";
-
 export const addCategory = (data) => ({
   type: ADD_CATEGORY,
   payload: data,
