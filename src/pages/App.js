@@ -1,28 +1,28 @@
 import React from "react";
-import { BrowserRouter, Switch, Redirect } from "react-router-dom";
-import { Routes } from "../routes";
-
-import Signin from "./examples/Signin";
-import ForgotPassword from "./examples/ForgotPassword";
-import ResetPassword from "./examples/ResetPassword";
-import NotFoundPage from "./examples/NotFound";
-import Job from "./jobs/Job";
-import CreateJob from "./jobs/CreateJob";
-
-//routes here
-import DashboardOverview from "./dashboard/DashboardOverview";
-import Profile from "./profile/Profile";
-import PrivateRoute from "../utils/PrivateRoute";
-import PublicRoute from "../utils/PublicRoute";
-import Favourites from "./favourite/favourites";
-import EditProfile from "./profile/editProfile";
+import { BrowserRouter, Redirect, Switch } from "react-router-dom";
 import JobDetail from "../components/JobDetail";
 import ProviderProfile from "../components/providerProfile";
-import UserManagement from "./user/userManagement";
+import { Routes } from "../routes";
+import PrivateRoute from "../utils/PrivateRoute";
+import PublicRoute from "../utils/PublicRoute";
 import Categories from "./category/categories";
 import CategoryManagement from "./category/categoryManagement";
-import Users from "./user/users";
+//routes here
+import DashboardOverview from "./dashboard/DashboardOverview";
+import ForgotPassword from "./examples/ForgotPassword";
+import NotFoundPage from "./examples/NotFound";
+import ResetPassword from "./examples/ResetPassword";
+import Signin from "./examples/Signin";
+import Favourites from "./favourite/favourites";
+import CreateJob from "./jobs/CreateJob";
+import Job from "./jobs/Job";
+import EditProfile from "./profile/editProfile";
+import Profile from "./profile/Profile";
 import userDetail from "./user/userDetail";
+import UserManagement from "./user/userManagement";
+import Users from "./user/users";
+
+
 
 
 // import Upgrade from "./Upgrade";

@@ -1,19 +1,12 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Col,
-  Row,
-  Card,
-  Button,
-  Form,
-  Container,
+  Button, Card, Col, Container, Form, Row
 } from "@themesberg/react-bootstrap";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import Navbar from "../../components/Navbar";
-import Profile1 from "../../assets/img/team/profile-picture-1.jpg";
-import ProfileCover from "../../assets/img/profile-cover.jpg";
-import { Routes } from "../../routes";
+import React from "react";
 import { Link } from "react-router-dom";
+import ProfileCover from "../../assets/img/profile-cover.jpg";
+import Profile1 from "../../assets/img/team/profile-picture-1.jpg";
+import Navbar from "../../components/Navbar";
+import { Routes } from "../../routes";
 export default () => {
   return (
     <>

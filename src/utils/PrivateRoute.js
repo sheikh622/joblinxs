@@ -1,6 +1,6 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Redirect, Route } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 
 const PrivateRoute = ({ component: Component, ...props }) => {

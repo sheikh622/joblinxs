@@ -1,19 +1,12 @@
-import React, { useState } from "react";
-import {
-  Col,
-  Row,
-  Container,
-  Image,
-  Card,
-  Button,
-  Form,
-  Modal,
-} from "@themesberg/react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import Navbar from "../../components/Navbar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  Button, Card, Col, Container, Form, Image, Modal, Row
+} from "@themesberg/react-bootstrap";
+import React, { useState } from "react";
 import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
 import Profile from "../../assets/img/team/profile.png";
+import Navbar from "../../components/Navbar";
 
 const Users = () => {
   const [showDefault, setShowDefault] = useState(false);

@@ -1,12 +1,7 @@
 import {
-    LOGOUT,
-    LOGIN,
-    LOGIN_SUCCESS,
-    FORGOT_PASSWORD,
-    RESET_PASSWORD,
-    SET_LOADER,
-    RESET_PASSWORD_SUCCESS,
-  } from "./constants";
+  FORGOT_PASSWORD, LOGIN,
+  LOGIN_SUCCESS, LOGOUT, RESET_PASSWORD, RESET_PASSWORD_SUCCESS, SET_LOADER
+} from "./constants";
   
   export const logoutRequest = () => ({
     type: LOGOUT,

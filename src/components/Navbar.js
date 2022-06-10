@@ -1,16 +1,9 @@
-import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Row,
-  Col,
-  Nav,
-  Image,
-  Navbar,
-  Dropdown,
-  Container,
-  ListGroup,
+  Col, Container, Dropdown, Image, ListGroup, Nav, Navbar, Row
 } from "@themesberg/react-bootstrap";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import NOTIFICATIONS_DATA from "../data/notifications";
 

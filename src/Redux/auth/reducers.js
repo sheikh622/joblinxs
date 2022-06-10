@@ -1,11 +1,9 @@
 import produce from "immer";
-
 import {
-  LOGIN_SUCCESS,
-  SET_LOADER,
-  LOGOUT,
-  RESET_PASSWORD_SUCCESS,
+  LOGIN_SUCCESS, LOGOUT,
+  RESET_PASSWORD_SUCCESS, SET_LOADER
 } from "./constants";
+
 
 const initialState = {
   Auther: null,

@@ -1,9 +1,9 @@
+import { Button, Col, Container, Row } from "@themesberg/react-bootstrap";
 import React from "react";
-import { Col, Row, Container, Button } from "@themesberg/react-bootstrap";
-import Navbar from "../../components/Navbar";
 import { Link } from "react-router-dom";
-import { Routes } from "../../routes";
 import { GeneralInfoForm } from "../../components/Forms";
+import Navbar from "../../components/Navbar";
+import { Routes } from "../../routes";
 const CreateJob = () => {
   return (
     <>

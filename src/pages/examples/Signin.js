@@ -1,33 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAngleLeft,
-  faEnvelope,
-  faUnlockAlt,
-} from "@fortawesome/free-solid-svg-icons";
 import {
   faFacebookF,
-  faGoogle,
-  faTwitter,
+  faGoogle
 } from "@fortawesome/free-brands-svg-icons";
 import {
-  Col,
-  Row,
-  Form,
-  Card,
-  Button,
-  FormCheck,
-  Container,
-  InputGroup,
+  faEnvelope,
+  faUnlockAlt
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  Button, Card, Col, Container, Form, InputGroup, Row
 } from "@themesberg/react-bootstrap";
-import * as Yup from "yup";
 import { useFormik } from "formik";
-import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { loginRequest } from "../../Redux/auth/actions";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Routes } from "../../routes";
+import { Link, useHistory } from "react-router-dom";
+import * as Yup from "yup";
 import BgImage from "../../assets/img/illustrations/signin.svg";
+import { loginRequest } from "../../Redux/auth/actions";
+import { Routes } from "../../routes";
 
 const LoginPage = () => {
 

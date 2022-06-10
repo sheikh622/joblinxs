@@ -6,7 +6,9 @@ import { makeSelectAuthToken } from "../../Store/selector";
 import {
   addCategorySuccess, getCategoryList
   // deleteCategory,
-  , getCategoryListSuccess,
+  ,
+
+  getCategoryListSuccess,
   updateCategorySuccess
 } from "./actions";
 import {

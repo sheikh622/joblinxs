@@ -1,8 +1,8 @@
+import { Col, Container, Row } from "@themesberg/react-bootstrap";
 import React from "react";
-import { Col, Row, Container } from "@themesberg/react-bootstrap";
-import Navbar from "../../components/Navbar";
 import Profile from "../../assets/img/team/profile.png";
 import CommonCard from "../../components/CommonCard";
+import Navbar from "../../components/Navbar";
 
 const Favourites = () => {
   return (

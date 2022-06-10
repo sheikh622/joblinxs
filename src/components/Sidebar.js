@@ -1,22 +1,16 @@
-import React, { useState } from "react";
-import SimpleBar from "simplebar-react";
-import { useLocation } from "react-router-dom";
-import { CSSTransition } from "react-transition-group";
+import { faThList, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faThList } from "@fortawesome/free-solid-svg-icons";
 import {
-  Nav,
-  Badge,
-  Image,
-  Button,
-  Navbar,
-  Modal,
+  Badge, Button, Image, Modal, Nav, Navbar
 } from "@themesberg/react-bootstrap";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { CSSTransition } from "react-transition-group";
+import SimpleBar from "simplebar-react";
+import ReactHero from "../assets/img/technologies/react-hero-logo.svg";
 import { logoutRequest } from "../Redux/auth/actions";
 import { Routes } from "../routes";
-import ReactHero from "../assets/img/technologies/react-hero-logo.svg";
 
 export default (props = {}) => {
   const location = useLocation();
