@@ -41,9 +41,7 @@ const Categories = () => {
   const [selectedImage, setSelectedImage] = useState("");
   const [isEdit, setEdit] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-
-
-  const activeButton = (value) => {
+const activeButton = (value) => {
     setEdit(!isEdit)
     setShowDefault(true)
     setSelectedItem(value)
@@ -162,7 +160,7 @@ const Categories = () => {
 
           <Col lg={12} md={12} sm={12} xs={12} className="pt-4 pb-1">
             <div className="d-flex justify-content-between">
-          
+
             </div>
           </Col>
         </Row>
@@ -283,7 +281,9 @@ const Categories = () => {
             <Form.Group className="mt-3">
               <Form.Label>Upload Image</Form.Label>
               <Form.Control type="file"
+                accept="image/png, image/gif, image/jpeg"
                 onChange={imageChange}
+
 
               />
               <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
