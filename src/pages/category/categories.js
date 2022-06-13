@@ -162,7 +162,7 @@ const Categories = () => {
 
           <Col lg={12} md={12} sm={12} xs={12} className="pt-4 pb-1">
             <div className="d-flex justify-content-between">
-              <h4>What kind of work are you interested in?</h4>
+          
             </div>
           </Col>
         </Row>

@@ -4,12 +4,14 @@ import auth from "../Redux/auth/reducers";
 import Category from '../Redux/Category/reducers';
 import CategoryListing from "../Redux/categoryManagement/reducers";
 import User from '../Redux/userManagement/reducers';
+import Job from "../Redux/JobManagement/reducers";
 const rootReducer = (history) => {
   return combineReducers({
     User,
     auth,
     Category,
     CategoryListing,
+    Job,
     router: connectRouter(history),
   });
 

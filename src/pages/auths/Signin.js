@@ -56,9 +56,10 @@ const LoginPage = () => {
           email: values.email,
           password: values.password,
           history: history,
+          resetForm: resetForm,
+
         })
-      ); resetForm();
-    },
+      );     },
   });
   return (
     <main>
