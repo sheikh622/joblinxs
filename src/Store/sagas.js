@@ -6,5 +6,5 @@ import JobManagementSaga from "../Redux/JobManagement/sagas";
 // import CommonSaga from 'redux/common/saga';
 import UserSaga from "../Redux/userManagement/sagas";
 export default function* rootSaga() {
-  yield all([AuthSaga(), UserSaga(), CategorySaga(), CategoryManagementSaga(),CategoryManagementSaga()]);
+  yield all([AuthSaga(), UserSaga(), CategorySaga(), CategoryManagementSaga(), JobManagementSaga()]);
 }

@@ -5,7 +5,7 @@ import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
 import {
   getJobListing, getJobListingSuccess,
-  getCategoryProfileSuccess
+ 
 } from "./actions";
 import {
 
@@ -19,7 +19,7 @@ function* getJobList({ payload }) {
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      `category/partial/list?keyword=${payload.search}&page=${payload.page }&count=${payload.limit
+      `job/seeker/:userId?page=${payload.page}&count=${payload.limit
       }`,
       {
         headers: {
@@ -32,39 +32,13 @@ function* getJobList({ payload }) {
     yield sagaErrorHandler(error.response);
   }
 }
-// function* CategoryProfileSaga({ payload }) {
-//   try {
-//     const token = yield select(makeSelectAuthToken());
-//     const response = yield axios.patch(
-//       `category/approve/${payload.categoryId}`,
-//       {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       }
-//     );
-//     toast.success(CapitalizeFirstLetter(response.data.message));
-//     yield put(getCategoryProfileSuccess());
-//     yield put(
-//       getCategoryListing({
-//         page: payload.page,
-//         limit: payload.limit,
-//         search: payload.search,
-//       })
-//     );
-//   } catch (error) {
-//     yield sagaErrorHandler(error.response);
-//   }
-// }
 function* watchGetJob() {
   yield takeLatest(GET_JOB_LISTING, getJobList);
 }
-// function* watchCategoryProfile() {
-//   yield takeLatest(GET_CATEGORY_PROFILE, CategoryProfileSaga);
-// }
+
 export default function* JobManagementSaga() {
   
   yield all([fork(watchGetJob)]);
-  // yield all([fork(watchCategoryProfile)]);
+ 
 
 }

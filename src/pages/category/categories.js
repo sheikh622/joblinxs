@@ -162,7 +162,7 @@ const Categories = () => {
 
           <Col lg={12} md={12} sm={12} xs={12} className="pt-4 pb-1">
             <div className="d-flex justify-content-between">
-          
+
             </div>
           </Col>
         </Row>
@@ -248,7 +248,7 @@ const Categories = () => {
             <Form.Group>
               <Form.Label>Category Name</Form.Label>
               <Form.Control
-                required
+                // required
                 type="text"
                 placeholder="Enter category Name"
                 value={CategoryFormik.values.title}
@@ -265,7 +265,7 @@ const Categories = () => {
             <Form.Group className="mt-3">
               <Form.Label>Description</Form.Label>
               <Form.Control as="textarea" rows="3"
-                required
+                // required
                 type="text"
                 placeholder="Description"
                 value={CategoryFormik.values.details}
@@ -284,6 +284,7 @@ const Categories = () => {
               <Form.Label>Upload Image</Form.Label>
               <Form.Control type="file"
                 onChange={imageChange}
+                accept="image/png, image/gif, image/jpeg"
 
               />
               <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
