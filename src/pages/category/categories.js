@@ -60,7 +60,7 @@ const Categories = () => {
   const CategorySchema = Yup.object().shape({
     title: Yup.string()
       .required("Category Name is required"),
-    details: Yup.string().required("Password is required"),
+    details: Yup.string().required("description is required"),
   });
   const CategoryFormik = useFormik({
     enableReinitialize: true,
@@ -248,7 +248,7 @@ const Categories = () => {
             <Form.Group>
               <Form.Label>Category Name</Form.Label>
               <Form.Control
-                required
+                // required
                 type="text"
                 placeholder="Enter category Name"
                 value={CategoryFormik.values.title}
@@ -265,7 +265,7 @@ const Categories = () => {
             <Form.Group className="mt-3">
               <Form.Label>Description</Form.Label>
               <Form.Control as="textarea" rows="3"
-                required
+                // required
                 type="text"
                 placeholder="Description"
                 value={CategoryFormik.values.details}
