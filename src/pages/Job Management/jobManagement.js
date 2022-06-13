@@ -19,6 +19,9 @@ import { getJobListing } from "../../Redux/JobManagement/actions";
     const {
       location: { state },
     } = history;
+    const  JobList = useSelector(
+      (state) => state?.jobs
+    );
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const [limit] = useState("5");
@@ -40,9 +43,7 @@ import { getJobListing } from "../../Redux/JobManagement/actions";
         label: "service seeker",
       },
     ];
-    const JobList = useSelector(
-      (state) => state?.Job?.getJobListing?.jobs
-    );
+  
     console.log("dfvb",JobList)
     useEffect(() => {
       dispatch(
@@ -55,10 +56,10 @@ import { getJobListing } from "../../Redux/JobManagement/actions";
     },
       [page,limit,search]
     );
-    const [ProfileUser, setProfileUser] = useState(row.isApproved);
-    useEffect(() => {
-      setProfileUser(row.isApproved);
-    }, [row.isApproved]);
+    // const [ProfileUser, setProfileUser] = useState(row.isApproved);
+    // useEffect(() => {
+    //   setProfileUser(row.isApproved);
+    // }, [row.isApproved]);
   
     const TableRow = (props) => {
       const { invoiceNumber, subscription, price, issueDate, dueDate, status, item } =
@@ -80,9 +81,9 @@ import { getJobListing } from "../../Redux/JobManagement/actions";
           <td>
             <span className="fw-normal">{item?.details ? item?.details : "N/A"}</span>
           </td>
-          <td>
+          {/* <td>
             <span className="fw-normal">{item?.categoryStatus ? item?.categoryStatus : "N/A"}</span>
-          </td>
+          </td> */}
   
           <td>
             <Dropdown as={ButtonGroup}>
