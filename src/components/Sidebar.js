@@ -1,7 +1,12 @@
 import { faThList, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Badge, Button, Image, Modal, Nav, Navbar
+  Badge,
+  Button,
+  Image,
+  Modal,
+  Nav,
+  Navbar,
 } from "@themesberg/react-bootstrap";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +16,7 @@ import SimpleBar from "simplebar-react";
 import ReactHero from "../assets/img/technologies/react-hero-logo.svg";
 import { logoutRequest } from "../Redux/auth/actions";
 import { Routes } from "../routes";
+import { CapitalizeFirstLetter } from "../utils/Global";
 
 export default (props = {}) => {
   const location = useLocation();
@@ -122,7 +128,11 @@ export default (props = {}) => {
                 </div>
                 <div className="d-block">
                   <h4>{auth?.Auther?.fullName}</h4>
-                  <span>{auth?.Auther?.userRole}</span>
+                  <span>
+                    {auth?.Auther?.userRole == "Admin"
+                      ? CapitalizeFirstLetter(auth?.Auther?.userRole)
+                      : CapitalizeFirstLetter(auth?.Auther?.profileType)}
+                  </span>
                 </div>
               </div>
               <Nav.Link
@@ -133,7 +143,7 @@ export default (props = {}) => {
               </Nav.Link>
             </div>
             <Nav className="flex-column pt-3 pt-md-0 mt-4">
-              {auth?.Auther?.userRole != "Admin" && (
+              {auth?.Auther?.userRole == "User" && (
                 <>
                   <NavItem
                     title="Home"
@@ -237,11 +247,13 @@ export default (props = {}) => {
                 </>
               )}
 
+              {auth?.Auther?.userRole == "Admin" && (
               <NavItem
                 title="User Management"
                 icon={faThList}
                 link={Routes.UserManagement.path}
               />
+              )}
 
               <NavItem
                 title="Categories"
@@ -280,6 +292,7 @@ export default (props = {}) => {
                 }
                 link={Routes.Categories_Management.path}
               />
+              
               <button
                 style={{
                   background: "none",
