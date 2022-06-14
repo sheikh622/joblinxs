@@ -14,14 +14,15 @@ function* getJobList({ payload }) {
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      `job/seeker/:userId?page=1&count=5`,
+      `job/seeker/:userId?page=${payload.page}&count=${payload.limit
+}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-    yield put(getJobListingSuccess(response.data));
+    yield put(getJobListingSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
