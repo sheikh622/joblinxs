@@ -31,12 +31,12 @@ export const getUserProfile = (data) => ({
 export const getUserProfileSuccess = () => ({
   type: GET_USER_PROFILE_SUCCESS,
 });
-export const deleteUser = (data) => {
-  return {
-    type: DELETE_USER,
-    payload: data,
-  };
-};
+export const deleteUser = (data) => ({
+
+  type: DELETE_USER,
+  payload: data,
+
+});
 export const getUserDetails = (data) => ({
   type: GET_USER_DETAILS_SUCCESS,
   payload: data,

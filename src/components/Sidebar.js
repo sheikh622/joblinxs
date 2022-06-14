@@ -323,8 +323,8 @@ export default (props = {}) => {
                   textAlign: "left",
                 }}
                 onClick={() => {
-                  dispatch(logoutRequest({}));
-                  // setShowDefaultCategory(true);
+                  // dispatch(logoutRequest({}));
+                  setShowDefaultCategory(true);
                 }}
               >
                 <NavItem
