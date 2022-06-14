@@ -30,7 +30,6 @@ pipeline {
   }
   stage("Create Release Build") {
     steps {
-      sh "ls -al /home/jenkins/$IMAGE_NAME"
       sh "mkdir -p /home/jenkins/$IMAGE_NAME"
       sh "ls -al /home/jenkins/$IMAGE_NAME"
       sh "docker stop appcon_$GIT_COMMIT || true"
