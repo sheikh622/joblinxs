@@ -12,7 +12,7 @@ import DetailHeading from "../../components/DetailHeading";
 import Navbar from "../../components/Navbar";
 import { Routes } from "../../routes";
 
-const UserDetails = ({}) => {
+const UserDetails = ({ }) => {
   // const history = useHistory();
   const location = useLocation();
   const [userData] = useState(location.state.item);
@@ -265,35 +265,30 @@ const UserDetails = ({}) => {
                         </Card.Text>
                       </>
                     )}
-                    <div className="pb-2 mb-4">
-                      <Card.Title className="text-primary">
-                        Categories
-                      </Card.Title>
-                      <Card.Text className="text-gray mb-2">
-                        <span className="text-black">Plumber</span>
-                      </Card.Text>
-                    </div>
-                    <Card.Title className="text-primary">Categories</Card.Title>
+
+
                     <Row>
-                    {userData?.category?.map((value, index, row) => {
-                      let category = value?.category;
-                      return (
-                        <Col lg={4} md={12} xs={12} sm={12} className="pb-3">
-                          <Card border="light" className="shadow-sm introCard">
-                            <Image
-                              src={category.categoryImg}
-                              className="navbar-brand-light"
-                            />
-                            <div className="detailSection">
-                              <span className="left">
-                                <h3>{category.title}</h3>
-                                <p>{category.details}</p>
-                              </span>
-                            </div>
-                          </Card>
-                        </Col>
-                      );
-                    })}
+                      <Card.Title className="text-primary">Categories</Card.Title>
+                      {userData?.category?.map((value, index, row) => {
+                        let category = value?.category;
+                        return (
+                          <Col lg={12} md={12} xs={12} sm={12} className="pb-3">
+                            <Card border="light" className="shadow-sm introCard"
+                            >
+                              <Image
+                                src={category.categoryImg}
+                                className="navbar-brand-light"
+                              />
+                              <div className="detailSection">
+                                <span className="left">
+                                  <h3>{category.title}</h3>
+                                  <p>{category.details}</p>
+                                </span>
+                              </div>
+                            </Card>
+                          </Col>
+                        );
+                      })}
 
                     </Row>
 
@@ -331,7 +326,7 @@ const UserDetails = ({}) => {
             </Row>
           </Col>
         </Row>
-      </Container>
+      </Container >
     </>
   );
 };

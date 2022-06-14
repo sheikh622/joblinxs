@@ -86,7 +86,7 @@ const LoginPage = () => {
                       </InputGroup.Text>
                       <Form.Control
                         autoFocus
-                        // required
+                       
                         type="email"
                         value={loginFormik.values.email}
                         name="email"
@@ -109,7 +109,7 @@ const LoginPage = () => {
                           <FontAwesomeIcon icon={faUnlockAlt} />
                         </InputGroup.Text>
                         <Form.Control
-                          // required
+                         
                           name="password"
                           type="password"
                           placeholder="Password"

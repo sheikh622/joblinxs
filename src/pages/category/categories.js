@@ -41,9 +41,7 @@ const Categories = () => {
   const [selectedImage, setSelectedImage] = useState("");
   const [isEdit, setEdit] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-
-
-  const activeButton = (value) => {
+const activeButton = (value) => {
     setEdit(!isEdit)
     setShowDefault(true)
     setSelectedItem(value)
@@ -60,7 +58,7 @@ const Categories = () => {
   const CategorySchema = Yup.object().shape({
     title: Yup.string()
       .required("Category Name is required"),
-    details: Yup.string().required("Password is required"),
+    details: Yup.string().required("description is required"),
   });
   const CategoryFormik = useFormik({
     enableReinitialize: true,
@@ -283,8 +281,10 @@ const Categories = () => {
             <Form.Group className="mt-3">
               <Form.Label>Upload Image</Form.Label>
               <Form.Control type="file"
-                onChange={imageChange}
                 accept="image/png, image/gif, image/jpeg"
+                onChange={imageChange}
+                // accept="image/png, image/gif, image/jpeg"
+
 
               />
               <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
