@@ -28,7 +28,7 @@ pipeline {
       sh "docker build -t $IMAGE_NAME:$TAG_NAME -f Dockerfile ."
     }
   }
-  stage("Create Release Build") {
+  stage("Create Release") {
     steps {
       sh "mkdir -p /home/jenkins/$IMAGE_NAME"
       sh "ls -al /home/jenkins/$IMAGE_NAME"
@@ -46,7 +46,7 @@ pipeline {
        sh "scp -r /home/jenkins/$IMAGE_NAME/$BUILD_FOLDER/* ubuntu@ec2-52-14-121-20.us-east-2.compute.amazonaws.com:/var/www/html/servic_app_tanza_frontend/"
     }
   }
-    stage("Remove Images") {
+    stage("Remove Images & Cleanup") {
      steps {
        sh "docker stop appcon_$GIT_COMMIT"
        sh "docker rm appcon_$GIT_COMMIT"
