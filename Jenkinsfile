@@ -22,19 +22,14 @@ pipeline {
         echo "${BUILD_FOLDER}"
       }
   }
-    stage("Run SSH") {
-     steps {
-       sh 'ssh -p3450 argon-jenkins@182.176.118.101 "pm2 restart all || true"'
-    }
-  }
-    stage("Build Image") {
-     steps {
+  stage("Build Image") {
+    steps {
       sh "docker image rm $IMAGE_NAME:$TAG_NAME|| true"
       sh "docker build -t $IMAGE_NAME:$TAG_NAME -f Dockerfile ."
     }
-      }
-    stage("Create Release Build") {
-     steps {
+  }
+  stage("Create Release Build") {
+    steps {
       sh "ls -al /home/jenkins/$IMAGE_NAME"
       sh "mkdir -p /home/jenkins/$IMAGE_NAME"
       sh "ls -al /home/jenkins/$IMAGE_NAME"
@@ -47,7 +42,7 @@ pipeline {
   }
   stage("Publish Artifacts") {
      steps {
-       sh "scp -P3450 -r /home/jenkins/$IMAGE_NAME/$BUILD_FOLDER/* argon-jenkins@182.176.118.101:/var/www/html/."
+       sh "scp -P3450 -r /home/jenkins/$IMAGE_NAME/$BUILD_FOLDER/* ubuntu@ec2-52-14-121-20.us-east-2.compute.amazonaws.com:/var/www/html/servic_app_tanza_frontend/"
     }
   }
     stage("Remove Images") {
@@ -55,7 +50,6 @@ pipeline {
        sh "docker stop appcon_$GIT_COMMIT"
        sh "docker rm appcon_$GIT_COMMIT"
        sh "docker rmi -f $IMAGE_NAME:$TAG_NAME"
-      //  sh 'docker rm $(docker ps -a -f status=exited -q)'
     }
     }
 }
