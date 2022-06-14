@@ -12,7 +12,7 @@ export default () => (
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <PersistGate persistor={persistor}>
-      <ToastContainer autoClose={8000} />
+      <ToastContainer autoClose={4000} pauseOnHover={false} pauseOnFocusLoss />
         <App />
       </PersistGate>
     </ConnectedRouter>

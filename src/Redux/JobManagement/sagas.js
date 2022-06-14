@@ -5,6 +5,10 @@ import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
 import {getJobListing, getJobListingSuccess,} from "./actions";
 import {
+  getJobListing, getJobListingSuccess,
+  getCategoryProfileSuccess
+} from "./actions";
+import {
   GET_JOB_LISTING,
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";

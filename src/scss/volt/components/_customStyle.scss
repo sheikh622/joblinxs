@@ -169,3 +169,14 @@
 .table td{
     font-size: 13px;
 }
+
+.cursorPointer{
+    cursor: pointer !important;
+  
+    input{
+        cursor: pointer !important;
+    }
+}
+.table thead th {
+ text-transform:none
+}

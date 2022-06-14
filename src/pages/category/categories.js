@@ -14,10 +14,12 @@ import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import Navbar from "../../components/Navbar";
 import { addCategory, deleteCategory, getCategoryList, updateCategory } from "../../Redux/Category/actions";
-const Categories = () => {
+const Categories = (item  ) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [search, setSearch] = useState("");
+  const [adminId, setAdminId] = useState(0);
+  const [delCategory, setDelCategory]=useState(false)
   const {
     location: { state },
   } = history;
@@ -34,15 +36,17 @@ const Categories = () => {
     );
   }, [search]);
   const [showDefault, setShowDefault] = useState(false);
+  
   const handleClose = () => {
     setEdit(false)
     setShowDefault(false)
+    setDelCategory(false)
   };
   const [selectedImage, setSelectedImage] = useState("");
   const [isEdit, setEdit] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-const activeButton = (value) => {
-    setEdit(!isEdit)
+  const activeButton = (value) => {
+    setEdit(true)
     setShowDefault(true)
     setSelectedItem(value)
     setSelectedImage(value.categoryImg)
@@ -50,7 +54,7 @@ const activeButton = (value) => {
   const handleDelete = (value) => {
     dispatch(
       deleteCategory({
-        userId: value.id,
+        userId: adminId,
         search: search,
       })
     );
@@ -109,6 +113,7 @@ const activeButton = (value) => {
   useEffect(() => {
   }, [CategoryFormik.values])
   const addCategories = () => {
+    setEdit(false)
     setSelectedItem(null);
     setShowDefault(true);
   }
@@ -199,7 +204,11 @@ const activeButton = (value) => {
                             >
                               <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit
                             </Dropdown.Item>
-                            <Dropdown.Item className="text-danger" onClick={() => { handleDelete(value) }}>
+                            <Dropdown.Item className="text-danger" onClick={() => {
+                              setDelCategory(true);
+                              setAdminId(value.id)
+                            }}
+                            >
                               <FontAwesomeIcon icon={faTrashAlt} className="me-2" />{" "}
                               Remove
                             </Dropdown.Item>
@@ -228,6 +237,39 @@ const activeButton = (value) => {
           </Row>
         )}
       </Container>
+      <Modal as={Modal.Dialog} centered show={delCategory} onHide={handleClose}>
+        <Modal.Header>
+          <Modal.Title className="h5">
+            Delete User
+          </Modal.Title>
+          <Button variant="close" aria-label="Close" onClick={handleClose} />
+        </Modal.Header>
+        <Modal.Body>
+          <Form >
+            <Form.Group>
+              Are you sure you want to delete this Category?
+            </Form.Group>
+            <Form.Group>
+              <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
+                <Button
+                  variant="primary"
+                  // onHide={handleClose}
+                  color="dark"
+                  size="sm"
+                  // type="submit"
+                  onClick={() => {
+                    handleDelete();
+                    handleClose();
+                  }}
+                >
+                  Delete
+                </Button>
+              </div>
+            </Form.Group>
+          </Form>
+
+        </Modal.Body>
+      </Modal>
 
       {/* Modal */}
       <Modal as={Modal.Dialog} centered show={showDefault} >
@@ -283,9 +325,6 @@ const activeButton = (value) => {
               <Form.Control type="file"
                 accept="image/png, image/gif, image/jpeg"
                 onChange={imageChange}
-                // accept="image/png, image/gif, image/jpeg"
-
-
               />
               <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
                 <Button

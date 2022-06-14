@@ -12,6 +12,7 @@ import {
   GET_USER_BLOCK,
   GET_USER_PROFILE
 } from "./constants";
+import images from "../../assets/img/noData.png"
 import { CapitalizeFirstLetter } from "../../utils/Global";
 
 function* userListRequest({ payload }) {
@@ -86,6 +87,7 @@ function* userProfileSaga({ payload }) {
   }
 }
 function* deleteUserSaga({ payload }) {
+ 
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(`user/admin/delete/${payload.userId}`, {
