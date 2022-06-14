@@ -53,10 +53,5 @@ pipeline {
        sh "docker rmi -f $IMAGE_NAME:$TAG_NAME"
     }
     }
-    stage("Cleanup") {
-     steps {
-       sh "rm -rf /home/jenkins/$IMAGE_NAME"
-    }
-    }
 }
 }
