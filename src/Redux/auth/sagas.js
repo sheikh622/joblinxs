@@ -24,8 +24,9 @@ function* loginRequestSaga({ payload }) {
         ? "/user_management"
         : "/dashboard";
     payload.history.push(path);
+    payload.resetForm()
   } catch (error) {
-    yield sagaErrorHandler(error.response.data);
+    yield sagaErrorHandler(error.response);
   }
 }
 
