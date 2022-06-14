@@ -1,18 +1,36 @@
 import {
   faAngleDoubleLeft,
-  faAngleDoubleRight, faEllipsisH,
+  faAngleDoubleRight,
+  faEllipsisH,
   faEye,
   faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Button, ButtonGroup, Card, Col, Container, Dropdown, Form, Nav, Pagination, Row, Table
+  Button,
+  ButtonGroup,
+  Card,
+  Col,
+  Container,
+  Dropdown,
+  Form,
+  Nav,
+  Pagination,
+  Row,
+  Table,
+  Modal,
+  FormGroup
 } from "@themesberg/react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import { deleteUser, getUserBlock, getUserProfile, getUsersList } from "../../Redux/userManagement/actions";
+import {
+  deleteUser,
+  getUserBlock,
+  getUserProfile,
+  getUsersList
+} from "../../Redux/userManagement/actions";
 import { Routes } from "../../routes";
 
 const UserManagement = (row) => {
@@ -25,6 +43,15 @@ const UserManagement = (row) => {
   const [limit] = useState("5");
   const [adminId, setAdminId] = useState(0);
   const [type, setType] = React.useState("all");
+  const [showDefault, setShowDefault] = useState(false);
+  const addUsers = () => {
+
+    setShowDefault(true);
+  }
+  const handlefalse = () => {
+ 
+    setShowDefault(false)
+  };
   const handleChange = (event) => {
     setType(event.target.value);
   };
@@ -37,32 +64,30 @@ const UserManagement = (row) => {
     setProfileUser(row.isApproved);
   }, [row.isApproved]);
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  // const handleClose = () => setShow(false);
   const [open, setOpen] = useState(false);
   const handleClick = () => setOpen(false);
-  const handleDelete = (item) => {
+  const handleDelete = () => {
     dispatch(
       deleteUser({
-        userId: item.id,
+        userId: adminId,
         page: page,
         limit: limit,
         type: type,
         search: search,
       })
     );
-  }
+  };
   useEffect(() => {
     dispatch(
       getUsersList({
         page: page,
         limit: limit,
         type: type,
-        search: search
+        search: search,
       })
     );
-  },
-    [type, search, page, limit]
-  );
+  }, []);
 
   const currencies = [
     {
@@ -71,18 +96,23 @@ const UserManagement = (row) => {
     },
     {
       value: "provider",
-      label: "service provider",
+      label: "Service Provider",
     },
     {
       value: "seeker",
-      label: "service seeker",
+      label: "Service Seeker",
     },
   ];
   const TableRow = (props) => {
-
-
-    const { invoiceNumber, subscription, price, issueDate, dueDate, status, item } =
-      props;
+    const {
+      invoiceNumber,
+      subscription,
+      price,
+      issueDate,
+      dueDate,
+      status,
+      item,
+    } = props;
     const statusVariant =
       status === "Paid"
         ? "success"
@@ -95,25 +125,28 @@ const UserManagement = (row) => {
     return (
       <tr>
         <td>
-          <span className="fw-normal">{item?.fullName ? item?.fullName : "N/A"}</span>
+          <span className="fw-normal">
+            {item?.fullName ? item?.fullName : "N/A"}
+          </span>
         </td>
         <td>
           <span className="fw-normal">{item?.email ? item?.email : "N/A"}</span>
         </td>
         <td>
-          <span className="fw-normal">{item?.phoneNumber ?item?.phoneNumber :" N/A"}</span>
+          <span className="fw-normal">
+            {item?.phoneNumber ? item?.phoneNumber : " N/A"}
+          </span>
         </td>
         <td>
           <Button
             // variant="outlined"
-            className="btn-sm"
+            className="btn-sm cursorPointer"
             color={item?.isApproved === true ? "success" : "error"}
             style={{ marginLeft: "10px" }}
-
             onClick={() => {
               dispatch(
                 getUserProfile({
-                  userId: item.id,
+                  userId: adminId,
                   page: page,
                   limit: limit,
                   type: type,
@@ -122,14 +155,11 @@ const UserManagement = (row) => {
               );
             }}
           >
-            {
-              item?.isApproved === true ? (
-                <span>Approved</span>
-              ) :
-                (
-                  <span>Pending</span>
-                )
-            }
+            {item?.isApproved === true ? (
+              <span>Approved</span>
+            ) : (
+              <span>Pending</span>
+            )}
           </Button>
         </td>
         <td>
@@ -138,14 +168,14 @@ const UserManagement = (row) => {
               type="switch"
               defaultValue="fixed"
               label=""
-              className="text-center"
+              className="text-center cursorPointer"
               name="paymentType"
               {...label}
               checked={item.isActive}
               onChange={(e) => {
                 dispatch(
                   getUserBlock({
-                    userId: item.id,
+                    userId: adminId,
                     page: page,
                     limit: limit,
                     type: type,
@@ -169,11 +199,19 @@ const UserManagement = (row) => {
               </span>
             </Dropdown.Toggle>
             <Dropdown.Menu className="custom_menu">
-              <Dropdown.Item as={Link} to={{ pathname: Routes.UserDetail.path, state: { item } }} >
+              <Dropdown.Item
+                as={Link}
+                to={{ pathname: Routes.UserDetail.path, state: { item } }}
+              >
                 <FontAwesomeIcon icon={faEye} className="me-2" /> View Details
               </Dropdown.Item>
-              <Dropdown.Item className="text-danger" onClick={() => { handleDelete(item) }}>
-                <FontAwesomeIcon icon={faTrashAlt} className="me-2" />  Remove
+              <Dropdown.Item
+                className="text-danger"
+                onClick={() => {
+                  setShowDefault(true);
+                  setAdminId(item.id)}}
+              >
+                <FontAwesomeIcon icon={faTrashAlt} className="me-2" /> Remove
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
@@ -197,16 +235,19 @@ const UserManagement = (row) => {
     let items = [];
     for (let number = 1; number <= userList?.pages; number++) {
       items.push(
-        <Pagination.Item key={number} active={number === page} onClick={() => {
-          setPage(number)
-        }}>
+        <Pagination.Item
+          key={number}
+          active={number === page}
+          onClick={() => {
+            setPage(number);
+          }}
+        >
           {number}
-        </Pagination.Item>,
+        </Pagination.Item>
       );
     }
-    return items
-  }
-
+    return items;
+  };
 
   return (
     <>
@@ -221,7 +262,10 @@ const UserManagement = (row) => {
               <Card.Header className="pt-0 d-flex justify-content-between">
                 <Col lg={3} md={5}>
                   <Form.Group className="mt-3">
-                    <Form.Control type="text" select placeholder="Search"
+                    <Form.Control
+                      type="text"
+                      select
+                      placeholder="Search"
                       label="Search"
                       value={search}
                       onChange={(event) => {
@@ -232,7 +276,9 @@ const UserManagement = (row) => {
                 </Col>
                 <Col lg={3} md={5}>
                   <Form.Group className="mt-3">
-                    <Form.Select defaultValue="1" label="Select"
+                    <Form.Select
+                      defaultValue="1"
+                      label="Select"
                       value={type}
                       onChange={handleChange}
                     >
@@ -249,19 +295,23 @@ const UserManagement = (row) => {
                 <Table hover className="user-table align-items-center">
                   <thead>
                     <tr>
-                      <th className="border-bottom">Full Name</th>
+                      <th className="border-bottom">Fullname</th>
                       <th className="border-bottom">Email</th>
-                      <th className="border-bottom">Phone Number</th>
-                      <th className="border-bottom">User Status</th>
+                      <th className="border-bottom">Phone number</th>
+                      <th className="border-bottom">User status</th>
                       <th className="border-bottom">Block / Unblock</th>
                       <th className="border-bottom">Action</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {userList?.users?.map((t, index) => (
-                      <TableRow key={index} item={t} />
-                    ))}
-                  </tbody>
+                  {userList?.users?.length > 0 ? (
+                    <tbody>
+                      {userList?.users?.map((t, index) => (
+                        <TableRow key={index} item={t} />
+                      ))}
+                    </tbody>
+                  ) : (
+                    <tbody>no data avaialable</tbody>
+                  )}
                 </Table>
                 <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
                   <Nav>
@@ -275,15 +325,52 @@ const UserManagement = (row) => {
                       </Pagination.Next>
                     </Pagination>
                   </Nav>
+                  .
                   <small className="fw-bold">
-                    Showing <b>{userList?.users?.length}</b> out of <b>{userList?.totalUsers}</b> entries
+                    Showing <b>{userList?.users?.length}</b> out of{" "}
+                    <b>{userList?.totalUsers}</b> entries
                   </small>
                 </Card.Footer>
               </Card.Body>
             </Card>
           </Col>
+          <Modal as={Modal.Dialog} centered show={showDefault} onHide={handlefalse} >
+        <Modal.Header>
+          <Modal.Title className="h5">
+            Delete User
+          </Modal.Title>
+          <Button variant="close" aria-label="Close" onClick={handlefalse} />
+        </Modal.Header>
+        <Modal.Body>
+          <Form >
+            <Form.Group>
+              Are you sure you want to delete this User?
+            </Form.Group>
+            <Form.Group>
+              <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
+                <Button
+                  variant="primary"
+                  onHide={handlefalse}
+                  color="dark"
+                  size="sm"
+                  // type="submit"
+                  onClick={() => {
+                    handleDelete();
+                    handlefalse();
+                  }}
+                >
+                  Delete
+                </Button>
+              </div>
+            </Form.Group>
+          </Form>
+
+        </Modal.Body>
+      </Modal>
         </Row>
+     
       </Container>
+  
     </>
   );
 };

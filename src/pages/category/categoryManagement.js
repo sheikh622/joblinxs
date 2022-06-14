@@ -172,11 +172,18 @@ const CategoryManagement = (row) => {
                       <th className="border-bottom">Action</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {CategoryList?.categroies?.map((t, index) => (
-                      <TableRow key={index} item={t} />
-                    ))}
-                  </tbody>
+              
+                   
+                     {CategoryList?.categroies?.length > 0 ? (
+                    <tbody>
+                      {CategoryList?.categroies?.map((t, index) => (
+                        <TableRow key={index} item={t} />
+                      ))}
+                    </tbody>
+                  ) : (
+                    <tbody>no data avaialable</tbody>
+                  )}
+                  
                 </Table>
                 <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
                   <Nav>

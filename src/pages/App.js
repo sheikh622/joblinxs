@@ -6,6 +6,7 @@ import { Routes } from "../routes";
 import PrivateRoute from "../utils/PrivateRoute";
 import PublicRoute from "../utils/PublicRoute";
 import Categories from "./category/categories";
+import JobManagement from "./Job Management/jobManagement"
 import CategoryManagement from "./category/categoryManagement";
 //routes here
 import DashboardOverview from "./dashboard/DashboardOverview";
@@ -70,6 +71,11 @@ export default () => (
         exact
         path={Routes.Categories_Management.path}
         component={CategoryManagement}
+      />
+      <PrivateRoute
+        exact
+        path={Routes.Job_Management.path}
+        component={JobManagement}
       />
 
       <PrivateRoute exact path={Routes.Users.path} component={Users} />

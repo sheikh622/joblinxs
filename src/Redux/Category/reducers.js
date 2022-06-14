@@ -9,10 +9,10 @@ const initialState = {
   addCategory: [],
   UserActivePage: 0,
   getCategoryList: [],
-updateCategory:[],
+  updateCategory: [],
 };
 const Category = produce((state = initialState, action) => {
-  
+
   switch (action.type) {
     case ADD_CATEGORY_SUCCESS:
       state.addCategory = action.payload;
@@ -23,9 +23,9 @@ const Category = produce((state = initialState, action) => {
     case GET_CATEGORY_LIST_SUCCESS:
       state.getCategoryList = action.payload;
       break;
-      case UPDATE_CATEGORY_SUCCESS:
-        state.updateCategory = action.payload;
-        break;
+    case UPDATE_CATEGORY_SUCCESS:
+      state.updateCategory = action.payload;
+      break;
     default:
   }
 }, initialState);
