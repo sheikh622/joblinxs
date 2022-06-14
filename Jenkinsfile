@@ -42,6 +42,7 @@ pipeline {
   }
 
   stage("Publish Artifacts") {
+     when { branch "staging" }
      steps {
        sh "scp -r /home/jenkins/$IMAGE_NAME/$BUILD_FOLDER/* ubuntu@ec2-52-14-121-20.us-east-2.compute.amazonaws.com:/var/www/html/servic_app_tanza_frontend/"
     }
