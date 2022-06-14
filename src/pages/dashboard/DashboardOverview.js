@@ -1,52 +1,77 @@
+import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "@themesberg/react-bootstrap";
-import React from "react";
 import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
 import Profile from "../../assets/img/team/profile.png";
 import CommonCard from "../../components/CommonCard";
 import Navbar from "../../components/Navbar";
 import RecommendCard from "../../components/RecommendCard";
+import { useDispatch, useSelector } from "react-redux";
+import { getSeekerListing } from "../../Redux/Dashboard/actions";
+import NoRecordFound from "../../components/NoRecordFound";
 
 const DashboardOverview = () => {
+  const dispatch = useDispatch();
+  const SeekerList = useSelector((state) => state?.Seeker?.getSeekerListing);
+  const [page] = useState(1);
+  const [limit] = useState("5");
+  useEffect(() => {
+    dispatch(
+      getSeekerListing({
+        page: page,
+        limit: limit,
+      })
+    );
+  }, [page, limit]);
+
   return (
     <>
+      {console.log("SeekerList", SeekerList)}
       <Navbar module={"Dashboard"} />
       <Container>
         {/* Recommended */}
         <Row className="pt-2 pb-4">
           <div className="d-flex justify-content-between mt-0 mb-4 headerBorder">
             <h4>Recommended for you</h4>
-            <p>view all</p>
+            {SeekerList?.job?.lenght && <p>view all</p>}
           </div>
-          <Col lg={4} md={12} xs={12} sm={12} className="pb-3">
-            <RecommendCard
-              img={ReactHero}
-              name={"Seni"}
-              type={"IT"}
-              rate={"30"}
-              completed={"10"}
-              star={"3.6"}
-            />
-          </Col>
-          <Col lg={4} md={12} xs={12} sm={12} className="pb-3">
-            <RecommendCard
-              img={ReactHero}
-              name={"Seni"}
-              type={"IT"}
-              rate={"30"}
-              completed={"10"}
-              star={"3.6"}
-            />
-          </Col>
-          <Col lg={4} md={12} xs={12} sm={12} className="pb-3">
-            <RecommendCard
-              img={ReactHero}
-              name={"Seni"}
-              type={"IT"}
-              rate={"30"}
-              completed={"10"}
-              star={"3.6"}
-            />
-          </Col>
+          {SeekerList?.job?.lenght ? (
+            <>
+              <Col lg={4} md={12} xs={12} sm={12} className="pb-3">
+                <RecommendCard
+                  img={ReactHero}
+                  name={"Seni"}
+                  type={"IT"}
+                  rate={"30"}
+                  completed={"10"}
+                  star={"3.6"}
+                />
+              </Col>
+              <Col lg={4} md={12} xs={12} sm={12} className="pb-3">
+                <RecommendCard
+                  img={ReactHero}
+                  name={"Seni"}
+                  type={"IT"}
+                  rate={"30"}
+                  completed={"10"}
+                  star={"3.6"}
+                />
+              </Col>
+              <Col lg={4} md={12} xs={12} sm={12} className="pb-3">
+                <RecommendCard
+                  img={ReactHero}
+                  name={"Seni"}
+                  type={"IT"}
+                  rate={"30"}
+                  completed={"10"}
+                  star={"3.6"}
+                />
+              </Col>
+            </>
+          ) : (
+            <>
+              <NoRecordFound />
+            </>
+          )}
         </Row>
 
         {/* Featured */}
