@@ -5,7 +5,7 @@ def REPO_URL = "https://github.com/CodeArgon/servic_app_tanza_frontend.git"
 pipeline {
   agent any
   stages {
-  stage("Clone repository && Initialize") {
+  stage("Clone & Initialize repository") {
      steps {
         script {
           COMMIT_HASH = sh(script: "git log -n 1 --pretty=format:'%H'", returnStdout: true)
@@ -52,6 +52,11 @@ pipeline {
        sh "docker stop appcon_$GIT_COMMIT"
        sh "docker rm appcon_$GIT_COMMIT"
        sh "docker rmi -f $IMAGE_NAME:$TAG_NAME"
+    }
+    }
+    stage("Cleanup") {
+     steps {
+       sh "rm -rf /home/jenkins/$IMAGE_NAME"
     }
     }
 }
