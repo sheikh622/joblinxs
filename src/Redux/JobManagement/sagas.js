@@ -3,10 +3,7 @@ import { all, fork, put, select, takeLatest } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
-import {
-  getJobListing, getJobListingSuccess,
- 
-} from "./actions";
+import {getJobListing, getJobListingSuccess,} from "./actions";
 import {
   GET_JOB_LISTING,
 } from "./constants";
@@ -17,15 +14,14 @@ function* getJobList({ payload }) {
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      `job/seeker/:userId?page=${payload.page}&count=${payload.limit
-      }`,
+      `job/seeker/:userId?page=1&count=5`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-    yield put(getJobListingSuccess(response.data.data));
+    yield put(getJobListingSuccess(response.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -33,10 +29,6 @@ function* getJobList({ payload }) {
 function* watchGetJob() {
   yield takeLatest(GET_JOB_LISTING, getJobList);
 }
-
 export default function* JobManagementSaga() {
-  
   yield all([fork(watchGetJob)]);
- 
-
 }

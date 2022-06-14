@@ -71,11 +71,11 @@ const UserManagement = (row) => {
     },
     {
       value: "provider",
-      label: "service provider",
+      label: "Service Provider",
     },
     {
       value: "seeker",
-      label: "service seeker",
+      label: "Service Seeker",
     },
   ];
   const TableRow = (props) => {

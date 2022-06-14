@@ -20,7 +20,7 @@ const JobManagement = (row) => {
     location: { state },
   } = history;
   const JobList = useSelector(
-    (state) => state?.jobs
+    (state) => state?.Jobs?.Jobs
   );
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -43,9 +43,8 @@ const JobManagement = (row) => {
       label: "service seeker",
     },
   ];
-
-  console.log("dfvb", JobList)
   useEffect(() => {
+     console.log("dfvb")
     dispatch(
       getJobListing({
         page: page,
@@ -72,7 +71,6 @@ const JobManagement = (row) => {
           : status === "Canceled"
             ? "danger"
             : "primary";
-
     return (
       <tr>
         <td>
@@ -188,14 +186,14 @@ const JobManagement = (row) => {
                 <Table hover className="user-table align-items-center management_table">
                   <thead>
                     <tr>
-                      <th className="border-bottom">Category Name</th>
-                      <th className="border-bottom">Description</th>
-                      <th className="border-bottom">Status</th>
+                      <th className="border-bottom">Full Name</th>
+                      <th className="border-bottom">Email</th>
+                      <th className="border-bottom">Job Name</th>
                       <th className="border-bottom">Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {JobList?.Job?.getJobListing?.jobs?.map((t, index) => (
+                    {JobList?.jobs?.map((t, index) => (
                       <TableRow key={index} item={t} />
                     ))}
                   </tbody>
@@ -213,7 +211,7 @@ const JobManagement = (row) => {
                     </Pagination>
                   </Nav>
                   <small className="fw-bold">
-                    Showing <b>{JobList?.Job?.getJobListinglength}</b> out of <b>{JobList?.total_categories}</b> entries
+                    Showing <b>{JobList?.jobs?.length}</b> out of <b>{JobList?.total_categories}</b> entries
                   </small>
                 </Card.Footer>
               </Card.Body>
