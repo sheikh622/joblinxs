@@ -3,7 +3,7 @@ import { all, fork, put, select, takeLatest } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
-import {getJobListing, getJobListingSuccess,} from "./actions";
+// import {getJobListing, getJobListingSuccess,} from "./actions";
 import {
   getJobListing, getJobListingSuccess,
   getCategoryProfileSuccess
