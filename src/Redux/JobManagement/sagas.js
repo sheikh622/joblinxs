@@ -8,7 +8,6 @@ import {
   getCategoryProfileSuccess
 } from "./actions";
 import {
-
   GET_JOB_LISTING,
   
 } from "./constants";
