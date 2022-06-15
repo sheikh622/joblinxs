@@ -1,11 +1,20 @@
 import {
-  faEdit, faEllipsisV, faTrashAlt
+  faEdit,
+  faEllipsisV,
+  faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Button, ButtonGroup, Card, Col, Container, Dropdown, Form,
+  Button,
+  ButtonGroup,
+  Card,
+  Col,
+  Container,
+  Dropdown,
+  Form,
   Image,
-  Modal, Row
+  Modal,
+  Row,
 } from "@themesberg/react-bootstrap";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
@@ -13,44 +22,47 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import Navbar from "../../components/Navbar";
-import { addCategory, deleteCategory, getCategoryList, updateCategory } from "../../Redux/Category/actions";
-const Categories = (item  ) => {
+import {
+  addCategory,
+  deleteCategory,
+  getCategoryList,
+  updateCategory,
+} from "../../Redux/Category/actions";
+const Categories = (item) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [search, setSearch] = useState("");
   const [adminId, setAdminId] = useState(0);
-  const [delCategory, setDelCategory]=useState(false)
+  const [delCategory, setDelCategory] = useState(false);
   const {
     location: { state },
   } = history;
-  const CategoryData = useSelector(
-    (state) => state?.Category?.getCategoryList
-  );
+  const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
   const auth = useSelector((state) => state.auth);
   const forAction = history?.location?.state?.from;
   useEffect(() => {
     dispatch(
       getCategoryList({
-        search: search
+        search: search,
       })
     );
   }, [search]);
   const [showDefault, setShowDefault] = useState(false);
-  
+
   const handleClose = () => {
-    setEdit(false)
-    setShowDefault(false)
-    setDelCategory(false)
+    setEdit(false);
+    setShowDefault(false);
+    setDelCategory(false);
   };
   const [selectedImage, setSelectedImage] = useState("");
   const [isEdit, setEdit] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const activeButton = (value) => {
-    setEdit(true)
-    setShowDefault(true)
-    setSelectedItem(value)
-    setSelectedImage(value.categoryImg)
-  }
+    setEdit(true);
+    setShowDefault(true);
+    setSelectedItem(value);
+    setSelectedImage(value.categoryImg);
+  };
   const handleDelete = (value) => {
     dispatch(
       deleteCategory({
@@ -58,10 +70,9 @@ const Categories = (item  ) => {
         search: search,
       })
     );
-  }
+  };
   const CategorySchema = Yup.object().shape({
-    title: Yup.string()
-      .required("Category Name is required"),
+    title: Yup.string().required("Category Name is required"),
     details: Yup.string().required("description is required"),
   });
   const CategoryFormik = useFormik({
@@ -74,35 +85,32 @@ const Categories = (item  ) => {
     },
     validationSchema: CategorySchema,
     onSubmit: async (values, action) => {
-
       selectedItem
         ? dispatch(
-          updateCategory({
+            updateCategory({
+              id: values.id,
+              title: values.title,
+              categoryImg: selectedImage,
+              details: values.details,
+              setReset: action.resetForm,
+              setShowDefault: setShowDefault,
+              // showDefault: showDefault,
+              setSelectedImage: setSelectedImage,
 
-            id: values.id,
-            title: values.title,
-            categoryImg: selectedImage,
-            details: values.details,
-            setReset: action.resetForm,
-            setShowDefault: setShowDefault,
-            // showDefault: showDefault,
-            setSelectedImage: setSelectedImage,
-
-            history: history,
-          })
-        )
-        :
-        dispatch(
-          addCategory({
-            title: values.title,
-            details: values.details,
-            categoryImg: selectedImage,
-            setReset: action.resetForm,
-            setShowDefault: setShowDefault,
-            showDefault: showDefault,
-            setSelectedImage: setSelectedImage,
-          })
-        );
+              history: history,
+            })
+          )
+        : dispatch(
+            addCategory({
+              title: values.title,
+              details: values.details,
+              categoryImg: selectedImage,
+              setReset: action.resetForm,
+              setShowDefault: setShowDefault,
+              showDefault: showDefault,
+              setSelectedImage: setSelectedImage,
+            })
+          );
     },
   });
   const imageChange = (e) => {
@@ -110,13 +118,12 @@ const Categories = (item  ) => {
       setSelectedImage(e.target.files[0]);
     }
   };
-  useEffect(() => {
-  }, [CategoryFormik.values])
+  useEffect(() => {}, [CategoryFormik.values]);
   const addCategories = () => {
-    setEdit(false)
+    setEdit(false);
     setSelectedItem(null);
     setShowDefault(true);
-  }
+  };
   return (
     <>
       <Navbar module={"Categories"} />
@@ -124,7 +131,10 @@ const Categories = (item  ) => {
         <Row className="py-2 justify-content-between align-items-baseline">
           <Col lg={3} md={5}>
             <Form.Group className="mt-3">
-              <Form.Control type="text" select placeholder="Search"
+              <Form.Control
+                type="text"
+                select
+                placeholder="Search"
                 label="Search"
                 value={search}
                 onChange={(event) => {
@@ -164,25 +174,24 @@ const Categories = (item  ) => {
           </Col>
 
           <Col lg={12} md={12} sm={12} xs={12} className="pt-4 pb-1">
-            <div className="d-flex justify-content-between">
-
-            </div>
+            <div className="d-flex justify-content-between"></div>
           </Col>
         </Row>
 
         <Row className="pb-1">
-          {CategoryData?.map((value, index, row,) => {
+          {CategoryData?.map((value, index, row) => {
             return (
               <>
-                <Col lg={4} md={12} xs={12} sm={12} className="pb-3">
+                <Col lg={4} md={12} xs={12} sm={12} className="pb-3 introCardParent" >
                   <Card border="light" className="shadow-sm introCard">
-                    <Image src={value.categoryImg} className="navbar-brand-light" />
+                    <Image
+                      src={value.categoryImg}
+                      className="navbar-brand-light"
+                    />
                     <div className="detailSection">
                       <span className="left">
                         <h3>{value.title}</h3>
-                        <p>
-                          {value.details}
-                        </p>
+                        <p>{value.details}</p>
                       </span>
                       <span className="right">
                         <Dropdown as={ButtonGroup} className="me-3 mt-1">
@@ -200,16 +209,21 @@ const Categories = (item  ) => {
                             </span>
                           </Dropdown.Toggle>
                           <Dropdown.Menu className="custom_menu">
-                            <Dropdown.Item onClick={() => activeButton(value)}
-                            >
-                              <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit
+                            <Dropdown.Item onClick={() => activeButton(value)}>
+                              <FontAwesomeIcon icon={faEdit} className="me-2" />{" "}
+                              Edit
                             </Dropdown.Item>
-                            <Dropdown.Item className="text-danger" onClick={() => {
-                              setDelCategory(true);
-                              setAdminId(value.id)
-                            }}
+                            <Dropdown.Item
+                              className="text-danger"
+                              onClick={() => {
+                                setDelCategory(true);
+                                setAdminId(value.id);
+                              }}
                             >
-                              <FontAwesomeIcon icon={faTrashAlt} className="me-2" />{" "}
+                              <FontAwesomeIcon
+                                icon={faTrashAlt}
+                                className="me-2"
+                              />{" "}
                               Remove
                             </Dropdown.Item>
                           </Dropdown.Menu>
@@ -221,7 +235,6 @@ const Categories = (item  ) => {
               </>
             );
           })}
-
         </Row>
 
         {auth.Auther.userRole != "Admin" && (
@@ -239,13 +252,11 @@ const Categories = (item  ) => {
       </Container>
       <Modal as={Modal.Dialog} centered show={delCategory} onHide={handleClose}>
         <Modal.Header>
-          <Modal.Title className="h5">
-            Delete User
-          </Modal.Title>
+          <Modal.Title className="h5">Delete User</Modal.Title>
           <Button variant="close" aria-label="Close" onClick={handleClose} />
         </Modal.Header>
         <Modal.Body>
-          <Form >
+          <Form>
             <Form.Group>
               Are you sure you want to delete this Category?
             </Form.Group>
@@ -267,19 +278,14 @@ const Categories = (item  ) => {
               </div>
             </Form.Group>
           </Form>
-
         </Modal.Body>
       </Modal>
 
       {/* Modal */}
-      <Modal as={Modal.Dialog} centered show={showDefault} >
+      <Modal as={Modal.Dialog} centered show={showDefault}>
         <Modal.Header>
           <Modal.Title className="h5">
-            {isEdit ? (
-              "Edit Category"
-            ) : (
-              "Add Category"
-            )}
+            {isEdit ? "Edit Category" : "Add Category"}
           </Modal.Title>
           <Button variant="close" aria-label="Close" onClick={handleClose} />
         </Modal.Header>
@@ -299,12 +305,16 @@ const Categories = (item  ) => {
                 }}
               />
               {CategoryFormik.touched.title && CategoryFormik.errors.title ? (
-                <div style={{ color: "red" }}>{CategoryFormik.errors.title}</div>
+                <div style={{ color: "red" }}>
+                  {CategoryFormik.errors.title}
+                </div>
               ) : null}
             </Form.Group>
             <Form.Group className="mt-3">
               <Form.Label>Description</Form.Label>
-              <Form.Control as="textarea" rows="3"
+              <Form.Control
+                as="textarea"
+                rows="3"
                 // required
                 type="text"
                 placeholder="Description"
@@ -315,14 +325,18 @@ const Categories = (item  ) => {
                   CategoryFormik.setFieldValue("details", e.target.value);
                 }}
               />
-              {CategoryFormik.touched.details && CategoryFormik.errors.details ? (
-                <div style={{ color: "red" }}>{CategoryFormik.errors.details}</div>
+              {CategoryFormik.touched.details &&
+              CategoryFormik.errors.details ? (
+                <div style={{ color: "red" }}>
+                  {CategoryFormik.errors.details}
+                </div>
               ) : null}
             </Form.Group>
 
             <Form.Group className="mt-3">
               <Form.Label>Upload Image</Form.Label>
-              <Form.Control type="file"
+              <Form.Control
+                type="file"
                 accept="image/png, image/gif, image/jpeg"
                 onChange={imageChange}
               />
@@ -334,16 +348,11 @@ const Categories = (item  ) => {
                   size="sm"
                   type="submit"
                 >
-                  {isEdit ? (
-                    "Update"
-                  ) : (
-                    "Save"
-                  )}
+                  {isEdit ? "Update" : "Save"}
                 </Button>
               </div>
             </Form.Group>
           </Form>
-
         </Modal.Body>
       </Modal>
     </>
