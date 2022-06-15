@@ -329,8 +329,10 @@ const Categories = (item) => {
             <Form.Group className="mt-3">
               <Form.Label>Upload Image</Form.Label>
               <Form.Control type="file"
-                accept="image/png, image/gif, image/jpeg"
+                // accept="image/png, image/gif, image/jpeg"
                 onChange={imageChange}
+                accept="image/png, image/gif, image/jpeg"
+
               />
               <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
                 <Button

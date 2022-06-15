@@ -26,9 +26,9 @@
                 margin-top: 15px;
                 margin-bottom: 0px;
                 white-space: nowrap;
-    max-width: 200px !important;
-    overflow: hidden;
-    text-overflow: ellipsis;
+                max-width: 200px !important;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             h4 {
@@ -123,7 +123,7 @@
     .detailSection {
         padding: 15px !important;
         display: flex;
-         justify-content: space-between;
+        justify-content: space-between;
 
 
         .left {
@@ -231,6 +231,7 @@
                 font-size: 12px;
             }
         }
+
         // .right {
         //     display: flex;
         //     flex-direction: column;
@@ -247,7 +248,7 @@
         //         }
         //     }
 
-            
+
         // }
     }
 }

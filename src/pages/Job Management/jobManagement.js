@@ -10,7 +10,7 @@ import {
   import { useDispatch, useSelector } from "react-redux";
   import { useHistory } from "react-router-dom";
   import Navbar from "../../components/Navbar";
-//   import { getCategoryListing, getCategoryProfile } from "../../Redux/categoryManagement/actions";
+import { getJobListing } from "../../Redux/JobManagement/actions";
   
   
   const JobManagement = (row) => {
@@ -22,33 +22,39 @@ import {
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const [limit] = useState("5");
-  
-    // const CategoryList = useSelector(
-    //   (state) => state?.CategoryListing?.getCategoryListing
-    // );
-  
-    // const handleCategoryAction = (id) => {
-  
-    //   dispatch(
-    //     getCategoryProfile({
-    //       categoryId:id,
-    //       page: page,
-    //       limit: limit,
-    //       search: search,
-    //     })
-    //   );
-    // }
-    // useEffect(() => {
-    //   dispatch(
-    //     getCategoryListing({
-    //       page: page,
-    //       limit: limit,
-    //       search: search,
-    //     })
-    //   );
-    // },
-    //   [page,limit,search]
-    // );
+    const [type, setType] = React.useState("all");
+    const handleChange = (event) => {
+      setType(event.target.value);
+    };
+    const currencies = [
+      {
+        value: "all",
+        label: "All Users",
+      },
+      {
+        value: "provider",
+        label: "service provider",
+      },
+      {
+        value: "seeker",
+        label: "service seeker",
+      },
+    ];
+    const JobList = useSelector(
+      (state) => state?.Job?.getJobListing?.jobs
+    );
+    console.log("dfvb",JobList)
+    useEffect(() => {
+      dispatch(
+        getJobListing({
+          page: page,
+          limit: limit,
+          search: search,
+        })
+      );
+    },
+      [page,limit,search]
+    );
     const [ProfileUser, setProfileUser] = useState(row.isApproved);
     useEffect(() => {
       setProfileUser(row.isApproved);
@@ -114,31 +120,31 @@ import {
         </tr>
       );
     };
-    // const nextPage = () => {
-    //   if (page < CategoryList?.pages) {
-    //     setPage(page + 1);
-    //   }
-    // };
-    // const previousPage = () => {
-    //   if (1 < page) {
-    //     setPage(page - 1);
-    //   }
-    // };
+    const nextPage = () => {
+      if (page < JobList?.pages) {
+        setPage(page + 1);
+      }
+    };
+    const previousPage = () => {
+      if (1 < page) {
+        setPage(page - 1);
+      }
+    };
   
-    // const paginationItems = () => {
-    //   let items = [];
-    //   for (let number = 1; number <= CategoryList?.pages; number++)
-    //    {
-    //     items.push(
-    //       <Pagination.Item key={number} active={number === page} onClick={() => {
-    //         setPage(number)
-    //       }}>
-    //         {number}
-    //       </Pagination.Item>,
-    //     );
-    //   }
-    //   return items
-    // }
+    const paginationItems = () => {
+      let items = [];
+      for (let number = 1; number <= JobList?.pages; number++)
+       {
+        items.push(
+          <Pagination.Item key={number} active={number === page} onClick={() => {
+            setPage(number)
+          }}>
+            {number}
+          </Pagination.Item>,
+        );
+      }
+      return items
+    }
   
     return (
       <>
@@ -156,12 +162,26 @@ import {
                       <Form.Control type="text" placeholder="Search"
                         label="Search"
                         value={search}
-                        // onChange={(event) => {
-                        //   setSearch(event.target.value);
-                        // }}
+                        onChange={(event) => {
+                          setSearch(event.target.value);
+                        }}
                       />
                     </Form.Group>
                   </Col>
+                  <Col lg={3} md={5}>
+                  <Form.Group className="mt-3">
+                    <Form.Select defaultValue="1" label="Select"
+                      value={type}
+                      onChange={handleChange}
+                    >
+                      {/* {currencies.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))} */}
+                    </Form.Select>
+                  </Form.Group>
+                </Col>
                 </Card.Header>
                 <Card.Body className="pt-0">
                   <Table hover className="user-table align-items-center management_table">
@@ -173,13 +193,13 @@ import {
                         <th className="border-bottom">Action</th>
                       </tr>
                     </thead>
-                    {/* <tbody>
-                      {CategoryList?.categroies?.map((t, index) => (
+                    <tbody>
+                      {JobList?.Job?.getJobListing?.jobs?.map((t, index) => (
                         <TableRow key={index} item={t} />
                       ))}
-                    </tbody> */}
+                    </tbody>
                   </Table>
-                  {/* <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+                  <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
                     <Nav>
                       <Pagination size={"sm"} className="mb-2 mb-lg-0">
                         <Pagination.Prev onClick={() => previousPage()}>
@@ -192,9 +212,9 @@ import {
                       </Pagination>
                     </Nav>
                     <small className="fw-bold">
-                      Showing <b>{CategoryList?.categroies?.length}</b> out of <b>{CategoryList?.total_categories}</b> entries
+                      Showing <b>{JobList?.Job?.getJobListinglength}</b> out of <b>{JobList?.total_categories}</b> entries
                     </small>
-                  </Card.Footer> */}
+                  </Card.Footer>
                 </Card.Body>
               </Card>
             </Col>
