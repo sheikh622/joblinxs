@@ -86,7 +86,7 @@ const JobManagement = (row) => {
             <span className="fw-normal">{item?.categoryStatus ? item?.categoryStatus : "N/A"}</span>
           </td> */}
 
-        <td>
+        {/* <td>
           <Dropdown as={ButtonGroup}>
             <Dropdown.Toggle
               as={Button}
@@ -99,24 +99,23 @@ const JobManagement = (row) => {
               </span>
             </Dropdown.Toggle>
             <Dropdown.Menu className="custom_menu">
-              {/* {(item?.categoryStatus == 'Pending' || item?.categoryStatus == 'Rejected') && (
-                  <Dropdown.Item className="text-success" onClick={() => {
-                    handleCategoryAction(item?.id)
-                  }}
-                  >
-                    <FontAwesomeIcon icon={faCheck} className="me-2" /> Accept
-                  </Dropdown.Item>
-                )} */}
-              {/* {(item?.categoryStatus == 'Pending' || item?.categoryStatus == 'Accepted') && (
-                  <Dropdown.Item className="text-danger" onClick={() => {
-                    handleCategoryAction(item?.id)
-                  }}>
-                    <FontAwesomeIcon icon={faMinus} className="me-2" /> Decline
-                  </Dropdown.Item>
-                )} */}
+              <Dropdown.Item
+                as={Link}
+                to={{ pathname: Routes.UserDetail.path, state: { item } }}
+              >
+                <FontAwesomeIcon icon={faEye} className="me-2" /> View Details
+              </Dropdown.Item>
+              <Dropdown.Item
+                className="text-danger"
+                onClick={() => {
+                  setShowDefault(true);
+                  setAdminId(item.id)}}
+              >
+                <FontAwesomeIcon icon={faTrashAlt} className="me-2" /> Remove
+              </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-        </td>
+        </td> */}
       </tr>
     );
   };
