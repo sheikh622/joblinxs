@@ -30,22 +30,23 @@ function* addCategoryRequest({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     });
+    payload.setReset();
     toast.success(CapitalizeFirstLetter(response.data.message));
     payload.setShowDefault(false);
-    payload.setReset();
+
     payload.setSelectedImage("");
     yield put(addCategorySuccess(response.data.data));
     yield put(getCategoryList({
       search: '',
     })
     );
-    
+
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
 }
 function* getcategory({ payload }) {
-  console.log("nhcgjlk",payload)
+  console.log("nhcgjlk", payload)
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(

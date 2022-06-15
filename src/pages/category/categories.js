@@ -49,6 +49,7 @@ const Categories = (item) => {
     setEdit(false);
     setShowDefault(false);
     setDelCategory(false);
+    CategoryFormik.resetForm();
   };
   const [selectedImage, setSelectedImage] = useState("");
   const [isEdit, setEdit] = useState(false);
@@ -68,8 +69,8 @@ const Categories = (item) => {
     );
   };
   const CategorySchema = Yup.object().shape({
-    title: Yup.string().required("Category Name is required"),
-    details: Yup.string().required("description is required"),
+    title: Yup.string().trim().required("Category Name is required"),
+    details: Yup.string().trim().required("description is required"),
   });
   const CategoryFormik = useFormik({
     enableReinitialize: true,
@@ -289,7 +290,7 @@ const Categories = (item) => {
           <Modal.Title className="h5">
             {isEdit ? "Edit Category" : "Add Category"}
           </Modal.Title>
-          <Button variant="close" aria-label="Close" onClick={handleClose} />
+          <Button variant="close" aria-label="Close" onClick={handleClose}/>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={CategoryFormik.handleSubmit}>
@@ -338,10 +339,8 @@ const Categories = (item) => {
             <Form.Group className="mt-3">
               <Form.Label>Upload Image</Form.Label>
               <Form.Control type="file"
-                // accept="image/png, image/gif, image/jpeg"
                 onChange={imageChange}
                 accept="image/png, image/gif, image/jpeg"
-
               />
               <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
                 <Button
