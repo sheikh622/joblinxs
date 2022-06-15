@@ -87,7 +87,7 @@ const UserManagement = (row) => {
         search: search,
       })
     );
-  }, []);
+  }, [page,limit,type,search]);
 
   const currencies = [
     {
@@ -295,7 +295,7 @@ const UserManagement = (row) => {
                 <Table hover className="user-table align-items-center">
                   <thead>
                     <tr>
-                      <th className="border-bottom">Fullname</th>
+                      <th className="border-bottom">Full Name</th>
                       <th className="border-bottom">Email</th>
                       <th className="border-bottom">Phone number</th>
                       <th className="border-bottom">User status</th>

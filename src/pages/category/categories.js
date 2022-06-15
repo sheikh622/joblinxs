@@ -14,12 +14,12 @@ import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import Navbar from "../../components/Navbar";
 import { addCategory, deleteCategory, getCategoryList, updateCategory } from "../../Redux/Category/actions";
-const Categories = (item  ) => {
+const Categories = (item) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [search, setSearch] = useState("");
   const [adminId, setAdminId] = useState(0);
-  const [delCategory, setDelCategory]=useState(false)
+  const [delCategory, setDelCategory] = useState(false)
   const {
     location: { state },
   } = history;
@@ -36,7 +36,7 @@ const Categories = (item  ) => {
     );
   }, [search]);
   const [showDefault, setShowDefault] = useState(false);
-  
+
   const handleClose = () => {
     setEdit(false)
     setShowDefault(false)
@@ -169,7 +169,8 @@ const Categories = (item  ) => {
             </div>
           </Col>
         </Row>
-
+        {CategoryData?.length ? <>
+        
         <Row className="pb-1">
           {CategoryData?.map((value, index, row,) => {
             return (
@@ -223,6 +224,11 @@ const Categories = (item  ) => {
           })}
 
         </Row>
+        
+        </> : <>
+        
+        </>
+        }
 
         {auth.Auther.userRole != "Admin" && (
           <Row className="py-2 justify-content-between">
