@@ -158,7 +158,7 @@
 }
 
 .management_table {
-    tbody tr td:nth-child(2) {
+    tbody tr td:nth-child(1) ,tbody tr td:nth-child(2) {
         white-space: nowrap;
         max-width: 200px !important;
         overflow: hidden;

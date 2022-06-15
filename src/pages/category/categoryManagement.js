@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { getCategoryListing, getCategoryProfile } from "../../Redux/categoryManagement/actions";
-
+import NoRecordFound from "../../components/NoRecordFound";
 
 const CategoryManagement = (row) => {
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const CategoryManagement = (row) => {
 
     dispatch(
       getCategoryProfile({
-        categoryId:id,
+        categoryId: id,
         page: page,
         limit: limit,
         search: search,
@@ -47,7 +47,7 @@ const CategoryManagement = (row) => {
       })
     );
   },
-    [page,limit,search]
+    [page, limit, search]
   );
   const [ProfileUser, setProfileUser] = useState(row.isApproved);
   useEffect(() => {
@@ -163,44 +163,48 @@ const CategoryManagement = (row) => {
                 </Col>
               </Card.Header>
               <Card.Body className="pt-0">
-                <Table hover className="user-table align-items-center management_table">
-                  <thead>
-                    <tr>
-                      <th className="border-bottom">Category Name</th>
-                      <th className="border-bottom">Description</th>
-                      <th className="border-bottom">Status</th>
-                      <th className="border-bottom">Action</th>
-                    </tr>
-                  </thead>
-              
-                   
-                     {CategoryList?.categroies?.length > 0 ? (
-                    <tbody>
-                      {CategoryList?.categroies?.map((t, index) => (
-                        <TableRow key={index} item={t} />
-                      ))}
-                    </tbody>
-                  ) : (
-                    <tbody>no data avaialable</tbody>
-                  )}
-                  
-                </Table>
-                <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
-                  <Nav>
-                    <Pagination size={"sm"} className="mb-2 mb-lg-0">
-                      <Pagination.Prev onClick={() => previousPage()}>
-                        <FontAwesomeIcon icon={faAngleDoubleLeft} />
-                      </Pagination.Prev>
-                      {paginationItems()}
-                      <Pagination.Next onClick={() => nextPage()}>
-                        <FontAwesomeIcon icon={faAngleDoubleRight} />
-                      </Pagination.Next>
-                    </Pagination>
-                  </Nav>
-                  <small className="fw-bold">
-                    Showing <b>{CategoryList?.categroies?.length}</b> out of <b>{CategoryList?.total_categories}</b> entries
-                  </small>
-                </Card.Footer>
+                {CategoryList?.categroies?.length > 0 ? (
+                  <>
+                    <Table hover className="user-table align-items-center management_table">
+                      <thead>
+                        <tr>
+                          <th className="border-bottom">Category Name</th>
+                          <th className="border-bottom">Description</th>
+                          <th className="border-bottom">Status</th>
+                          <th className="border-bottom">Action</th>
+                        </tr>
+                      </thead>
+
+
+
+                      <tbody>
+                        {CategoryList?.categroies?.map((t, index) => (
+                          <TableRow key={index} item={t} />
+                        ))}
+                      </tbody>
+
+
+                    </Table>
+                    <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+                      <Nav>
+                        <Pagination size={"sm"} className="mb-2 mb-lg-0">
+                          <Pagination.Prev onClick={() => previousPage()}>
+                            <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                          </Pagination.Prev>
+                          {paginationItems()}
+                          <Pagination.Next onClick={() => nextPage()}>
+                            <FontAwesomeIcon icon={faAngleDoubleRight} />
+                          </Pagination.Next>
+                        </Pagination>
+                      </Nav>
+                      <small className="fw-bold">
+                        Showing <b>{CategoryList?.categroies?.length}</b> out of <b>{CategoryList?.total_categories}</b> entries
+                      </small>
+                    </Card.Footer>
+                  </>
+                ) : (
+                  <NoRecordFound />
+                )}
               </Card.Body>
             </Card>
           </Col>
