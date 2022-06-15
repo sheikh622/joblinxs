@@ -55,7 +55,7 @@ const ForgetPage = () => {
                     <Form.Label htmlFor="email">Your Email</Form.Label>
                     <InputGroup id="email">
                       <Form.Control
-                        required
+                        // required
                         autoFocus
                         type="email"
                         name="email"

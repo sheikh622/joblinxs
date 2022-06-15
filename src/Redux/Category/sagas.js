@@ -30,6 +30,7 @@ function* addCategoryRequest({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     });
+    toast.success(CapitalizeFirstLetter(response.data.message));
     payload.setShowDefault(false);
     payload.setReset();
     payload.setSelectedImage("");

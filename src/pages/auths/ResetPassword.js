@@ -86,7 +86,9 @@ const ResetPassword = () => {
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faUnlockAlt} />
                       </InputGroup.Text>
-                      <Form.Control required type="password" placeholder="Password"
+                      <Form.Control
+                      //  required
+                       type="password" placeholder="Password"
                         value={resetPasswordFormik.values.password}
                         label="Password"
                         name="password"
@@ -105,7 +107,9 @@ const ResetPassword = () => {
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faUnlockAlt} />
                       </InputGroup.Text>
-                      <Form.Control required type="password" placeholder="Confirm Password"
+                      <Form.Control
+                      //  required
+                        type="password" placeholder="Confirm Password"
                         name="confirmPassword"
                         label="Retype Password"
                         value={resetPasswordFormik.values.confirmPassword}

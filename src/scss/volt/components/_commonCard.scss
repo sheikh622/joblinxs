@@ -4,12 +4,12 @@
     justify-content: space-between;
     border-radius: 12px;
     box-shadow: 0px 4px 5px #ddd !important;
-
+    padding: 5px;
 
 
     img {
-        height: 108px !important;
-        width: 108px !important;
+        height: 70px !important;
+        width: 70px !important;
         // flex-grow: 1;
         border-radius: 12px 0px 0px 12px;
     }
@@ -26,9 +26,9 @@
                 margin-top: 15px;
                 margin-bottom: 0px;
                 white-space: nowrap;
-    max-width: 200px !important;
-    overflow: hidden;
-    text-overflow: ellipsis;
+                max-width: 200px !important;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             h4 {
@@ -85,6 +85,18 @@
     }
 }
 
+@media (max-width: 1340px) and (min-width: 1024px) {
+    .introCardParent.col-lg-4 {
+        width: 50% !important;
+    }
+}
+
+@media (max-width: 1023px) {
+    .introCardParent.col-lg-4 {
+        width: 100% !important;
+    }
+}
+
 .selfCard {
     border-radius: 12px;
     box-shadow: 0px 4px 5px #ddd !important;
@@ -123,7 +135,7 @@
     .detailSection {
         padding: 15px !important;
         display: flex;
-         justify-content: space-between;
+        justify-content: space-between;
 
 
         .left {
@@ -231,6 +243,7 @@
                 font-size: 12px;
             }
         }
+
         // .right {
         //     display: flex;
         //     flex-direction: column;
@@ -247,7 +260,7 @@
         //         }
         //     }
 
-            
+
         // }
     }
 }
