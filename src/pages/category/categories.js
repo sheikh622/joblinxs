@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import Navbar from "../../components/Navbar";
+import NoRecordFound from "../../components/NoRecordFound";
 import { addCategory, deleteCategory, getCategoryList, updateCategory } from "../../Redux/Category/actions";
 const Categories = (item) => {
   const dispatch = useDispatch();
@@ -226,7 +227,7 @@ const Categories = (item) => {
         </Row>
         
         </> : <>
-        
+        <NoRecordFound/>
         </>
         }
 

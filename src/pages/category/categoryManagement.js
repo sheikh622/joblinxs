@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { getCategoryListing, getCategoryProfile } from "../../Redux/categoryManagement/actions";
-
+import NoRecordFound from "../../components/NoRecordFound";
 
 const CategoryManagement = (row) => {
   const dispatch = useDispatch();
@@ -181,7 +181,7 @@ const CategoryManagement = (row) => {
                       ))}
                     </tbody>
                   ) : (
-                    <tbody>no data avaialable</tbody>
+                    <NoRecordFound/>
                   )}
                   
                 </Table>

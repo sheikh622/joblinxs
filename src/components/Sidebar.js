@@ -294,7 +294,7 @@ export default (props = {}) => {
                     }
                     link={Routes.Categories_Management.path}
                   />
-                  <NavItem
+                  {/* <NavItem
                     title="Job Management"
                     SVG={
                       <svg
@@ -311,7 +311,7 @@ export default (props = {}) => {
                       </svg>
                     }
                     link={Routes.Job_Management.path}
-                  />
+                  /> */}
                 </>
               )}
 

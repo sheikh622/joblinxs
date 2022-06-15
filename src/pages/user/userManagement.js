@@ -32,6 +32,7 @@ import {
   getUsersList
 } from "../../Redux/userManagement/actions";
 import { Routes } from "../../routes";
+import NoRecordFound from "../../components/NoRecordFound";
 
 const UserManagement = (row) => {
   const label = { inputProps: { "aria-label": "Switch demo" } };
@@ -310,7 +311,7 @@ const UserManagement = (row) => {
                       ))}
                     </tbody>
                   ) : (
-                    <tbody>no data avaialable</tbody>
+                    <NoRecordFound/>
                   )}
                 </Table>
                 <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
