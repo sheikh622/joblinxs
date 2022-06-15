@@ -49,6 +49,7 @@ const Categories = (item) => {
     setEdit(false);
     setShowDefault(false);
     setDelCategory(false);
+    CategoryFormik.resetForm();
   };
   const [selectedImage, setSelectedImage] = useState("");
   const [isEdit, setEdit] = useState(false);
