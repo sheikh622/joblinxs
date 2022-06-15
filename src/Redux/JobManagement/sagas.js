@@ -18,8 +18,7 @@ function* getJobList({ payload }) {
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      `job/seeker/:userId?page=${payload.page}&count=${payload.limit
-}`,
+      `job/admin/?page=1&count=20&status=&category=`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

@@ -20,8 +20,9 @@ const JobManagement = (row) => {
     location: { state },
   } = history;
   const JobList = useSelector(
-    (state) => state?.Jobs?.Jobs
+    (state) => state?.Job?.Jobs
   );
+  console.log("hvjbk",JobList)
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [limit] = useState("5");
@@ -74,14 +75,12 @@ const JobManagement = (row) => {
     return (
       <tr>
         <td>
-          <span className="fw-normal">{item?.fullName ? item?.fullName : "N/A"}</span>
-        </td>
-        <td>
-          <span className="fw-normal">{item?.email ? item?.email : "N/A"}</span>
-        </td>
-        <td>
           <span className="fw-normal">{item?.name ? item?.name : "N/A"}</span>
         </td>
+        <td>
+          <span className="fw-normal">{item?.status ? item?.status : "N/A"}</span>
+        </td>
+        
         {/* <td>
             <span className="fw-normal">{item?.categoryStatus ? item?.categoryStatus : "N/A"}</span>
           </td> */}
@@ -185,9 +184,8 @@ const JobManagement = (row) => {
                 <Table hover className="user-table align-items-center management_table">
                   <thead>
                     <tr>
-                      <th className="border-bottom">Full Name</th>
-                      <th className="border-bottom">Email</th>
                       <th className="border-bottom">Job Name</th>
+                      <th className="border-bottom">Status</th>
                       <th className="border-bottom">Action</th>
                     </tr>
                   </thead>
