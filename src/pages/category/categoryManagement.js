@@ -14,6 +14,7 @@ import { getCategoryListing, getCategoryProfile } from "../../Redux/categoryMana
 import NoRecordFound from "../../components/NoRecordFound";
 
 const CategoryManagement = (row) => {
+
   const dispatch = useDispatch();
   const history = useHistory();
   const {
