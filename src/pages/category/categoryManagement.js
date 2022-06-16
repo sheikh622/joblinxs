@@ -14,6 +14,7 @@ import { getCategoryListing, getCategoryProfile } from "../../Redux/categoryMana
 import NoRecordFound from "../../components/NoRecordFound";
 
 const CategoryManagement = (row) => {
+
   const dispatch = useDispatch();
   const history = useHistory();
   const {
@@ -21,7 +22,7 @@ const CategoryManagement = (row) => {
   } = history;
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [limit] = useState("5");
+  const [limit] = useState("10");
 
   const CategoryList = useSelector(
     (state) => state?.CategoryListing?.getCategoryListing
