@@ -1,10 +1,13 @@
 import {
   faAngleDoubleLeft,
-  faAngleDoubleRight, faCheck, faEllipsisH, faMinus
+  faAngleDoubleRight,
+  faEllipsisH,
+  faEye,
+  faTrashAlt, faCheck, faMinus
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Button, ButtonGroup, Card, Col, Container, Dropdown, Form, Nav, Pagination, Row, Table
+  Button, ButtonGroup, Card, Col, Container, Dropdown, Form, Nav, Pagination, Row, Table, Modal
 } from "@themesberg/react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,11 +25,39 @@ const JobManagement = (row) => {
   const JobList = useSelector(
     (state) => state?.Job?.Jobs
   );
-  console.log("hvjbk",JobList)
+  console.log("hvjbk", JobList)
+  const handleJobAction = (id) => {
+
+    dispatch(
+      // getCategoryProfile({
+      //   categoryId: id,
+      //   page: page,
+      //   limit: limit,
+      //   search: search,
+      // })
+    );
+  }
+  const handleDelete = () => {
+    // dispatch(
+    //   deleteUser({
+    //     userId: adminId,
+    //     page: page,
+    //     limit: limit,
+    //     type: type,
+    //     search: search,
+    //     data: userList
+    //   })
+    // );
+  };
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [limit] = useState("5");
   const [type, setType] = React.useState("all");
+  const [showDefault, setShowDefault] = useState(false);
+  const handlefalse = () => {
+
+    setShowDefault(false)
+  };
   const handleChange = (event) => {
     setType(event.target.value);
   };
@@ -45,7 +76,7 @@ const JobManagement = (row) => {
     },
   ];
   useEffect(() => {
-     console.log("dfvb")
+    console.log("dfvb")
     dispatch(
       getJobListing({
         page: page,
@@ -80,12 +111,7 @@ const JobManagement = (row) => {
         <td>
           <span className="fw-normal">{item?.status ? item?.status : "N/A"}</span>
         </td>
-        
-        {/* <td>
-            <span className="fw-normal">{item?.categoryStatus ? item?.categoryStatus : "N/A"}</span>
-          </td> */}
-
-        {/* <td>
+        <td>
           <Dropdown as={ButtonGroup}>
             <Dropdown.Toggle
               as={Button}
@@ -98,23 +124,37 @@ const JobManagement = (row) => {
               </span>
             </Dropdown.Toggle>
             <Dropdown.Menu className="custom_menu">
-              <Dropdown.Item
-                as={Link}
-                to={{ pathname: Routes.UserDetail.path, state: { item } }}
-              >
-                <FontAwesomeIcon icon={faEye} className="me-2" /> View Details
-              </Dropdown.Item>
+              {(item?.categoryStatus == 'Pending' || item?.categoryStatus == 'Rejected') && (
+                <Dropdown.Item className="text-success" onClick={() => {
+                  handleJobAction(item?.id)
+                }}
+                >
+
+                  <FontAwesomeIcon icon={faCheck} className="me-2" /> Accept
+                </Dropdown.Item>
+              )}
+              {(item?.categoryStatus == 'Pending' || item?.categoryStatus == 'Accepted') && (
+
+                <Dropdown.Item className="text-danger" onClick={() => {
+                  handleJobAction(item?.id)
+                }}>
+                  <FontAwesomeIcon icon={faMinus} className="me-2" /> Decline
+                </Dropdown.Item>
+              )}
               <Dropdown.Item
                 className="text-danger"
-                onClick={() => {
-                  setShowDefault(true);
-                  setAdminId(item.id)}}
+              // onClick={() => {
+              //   setAdminId(item.id)
+              //   setShowDefault(true);
+
+              // }
+              // }
               >
                 <FontAwesomeIcon icon={faTrashAlt} className="me-2" /> Remove
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-        </td> */}
+        </td>
       </tr>
     );
   };
@@ -214,6 +254,39 @@ const JobManagement = (row) => {
               </Card.Body>
             </Card>
           </Col>
+          <Modal as={Modal.Dialog} centered show={showDefault} onHide={handlefalse} >
+            <Modal.Header>
+              <Modal.Title className="h5">
+                Delete User
+              </Modal.Title>
+              <Button variant="close" aria-label="Close" onClick={handlefalse} />
+            </Modal.Header>
+            <Modal.Body>
+              <Form >
+                <Form.Group>
+                  Are you sure you want to delete this User?
+                </Form.Group>
+                <Form.Group>
+                  <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
+                    <Button
+                      variant="primary"
+                      onHide={handlefalse}
+                      color="dark"
+                      size="sm"
+                      // type="submit"
+                      onClick={() => {
+                        handleDelete();
+                        handlefalse();
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </Form.Group>
+              </Form>
+
+            </Modal.Body>
+          </Modal>
         </Row>
       </Container>
     </>

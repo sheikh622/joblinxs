@@ -115,7 +115,7 @@ const UserDetails = ({ }) => {
                       </Card.Title>
                       <DetailHeading
                         heading={"Email"}
-                        value={userData?.fullName ? userData?.fullName : " --"}
+                        value={userData?.email ? userData?.email : " --"}
                       />
                       <DetailHeading
                         heading={"Phone"}
