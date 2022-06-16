@@ -46,14 +46,14 @@ const UserDetails = ({ }) => {
       <Container>
         <Row>
           <div className="mt-2 mb-3 d-flex justify-content-end">
-            <Link
+            {/* <Link
               className="text-white fw-bold"
               to={Routes.UserManagement.path}
-            >
-              <Button variant="primary" type="submit">
+            > */}
+              <Button variant="primary" onClick={() => history.goBack()}>
                 Back
               </Button>
-            </Link>
+            {/* </Link> */}
           </div>
           <Col xs={12} xl={4}>
             <Row>
@@ -115,7 +115,7 @@ const UserDetails = ({ }) => {
                       </Card.Title>
                       <DetailHeading
                         heading={"Email"}
-                        value={userData?.fullName ? userData?.fullName : " --"}
+                        value={userData?.email ? userData?.email : " --"}
                       />
                       <DetailHeading
                         heading={"Phone"}
