@@ -76,6 +76,7 @@ const UserManagement = (row) => {
         limit: limit,
         type: type,
         search: search,
+        data: userList
       })
     );
   };

@@ -342,6 +342,7 @@ const Categories = (item) => {
                 onChange={imageChange}
                 accept="image/png, image/gif, image/jpeg"
               />
+              
               <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
                 <Button
                   variant="primary"
