@@ -96,14 +96,18 @@ function* deleteUserSaga({ payload }) {
       },
     });
     toast.success(CapitalizeFirstLetter(response.data.message));
-    yield put(
-      getUsersList({
-        page: payload.page,
-        limit: payload.limit,
-        type: payload.type,
-        search: payload.search,
-      })
-    );
+    // yield put(
+    //   getUsersList({
+    //     page: payload.page,
+    //     limit: payload.limit,
+    //     type: payload.type,
+    //     search: payload.search,
+    //   })
+    // );
+  const filteredData = payload.data.filter((item,index) => item.userId !== payload.userId);
+    yield put(getUsersListSuccess(response.data.data));
+   
+       
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

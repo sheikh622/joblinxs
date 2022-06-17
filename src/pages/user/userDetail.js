@@ -4,6 +4,8 @@ import {
   Button, Card, Col, Container,
   Image, Row
 } from "@themesberg/react-bootstrap";
+import { useHistory } from "react-router-dom";
+
 import moment from "moment";
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -13,12 +15,12 @@ import Navbar from "../../components/Navbar";
 import { Routes } from "../../routes";
 
 const UserDetails = ({ }) => {
-  // const history = useHistory();
+  const history = useHistory();
   const location = useLocation();
   const [userData] = useState(location.state.item);
-  // const {
-  //   location: { state },
-  // } = history;
+  const {
+    location: { state },
+  } = history;
   const tabelRow = () => {
     let arr = userData?.workExperience.map((item, index) => {
       return {
@@ -44,14 +46,14 @@ const UserDetails = ({ }) => {
       <Container>
         <Row>
           <div className="mt-2 mb-3 d-flex justify-content-end">
-            <Link
+            {/* <Link
               className="text-white fw-bold"
               to={Routes.UserManagement.path}
-            >
-              <Button variant="primary" type="submit">
+            > */}
+              <Button variant="primary" onClick={() => history.goBack()}>
                 Back
               </Button>
-            </Link>
+            {/* </Link> */}
           </div>
           <Col xs={12} xl={4}>
             <Row>
@@ -70,16 +72,8 @@ const UserDetails = ({ }) => {
                       className="user-avatar large-avatar rounded-circle mx-auto mb-2"
                     />
                     <div className="border_bottom pb-3 mb-4">
-                      <Card.Title>Neil Sims</Card.Title>
-                      <Card.Subtitle className="fw-normal">
-                        <Card.Text className="text-gray mb-2">
-                          <span className="text-black">
-                            {userData?.employmentType
-                              ? userData?.employmentType
-                              : " n/a"}
-                          </span>
-                        </Card.Text>
-                      </Card.Subtitle>
+                      <Card.Title>{userData?.fullName ? userData?.fullName : " --"}</Card.Title>
+                      
                     </div>
                   </Card.Body>
                 </Card>
@@ -100,7 +94,7 @@ const UserDetails = ({ }) => {
                       </Card.Title>
                       <DetailHeading
                         heading={"Full Name"}
-                        value={userData?.fullName ? userData?.fullName : " n/a"}
+                        value={userData?.fullName ? userData?.fullName : " --"}
                       />
                       <DetailHeading
                         heading={"Member Since"}
@@ -111,7 +105,7 @@ const UserDetails = ({ }) => {
                         value={
                           userData?.dateOfBirth
                             ? moment(userData?.dateOfBirth).format("DD-MM-YYYY")
-                            : " n/a"
+                            : " --"
                         }
                       />
                     </div>
@@ -121,36 +115,31 @@ const UserDetails = ({ }) => {
                       </Card.Title>
                       <DetailHeading
                         heading={"Email"}
-                        value={userData?.fullName ? userData?.fullName : " n/a"}
+                        value={userData?.email ? userData?.email : " --"}
                       />
                       <DetailHeading
                         heading={"Phone"}
                         value={
-                          userData?.phoneNumber ? userData?.phoneNumber : " n/a"
+                          userData?.phoneNumber ? userData?.phoneNumber : " --"
                         }
                       />
                       <DetailHeading
                         heading={"Address"}
-                        value={userData?.address ? userData?.address : " n/a"}
+                        value={userData?.address ? userData?.address : " --"}
                       />
                       <DetailHeading
                         heading={"City"}
-                        value={userData?.city ? userData?.city : " n/a"}
+                        value={userData?.city ? userData?.city : " --"}
                       />
                       <DetailHeading
                         heading={"Province"}
-                        value={userData?.province ? userData?.province : " n/a"}
+                        value={userData?.province ? userData?.province : " --"}
                       />
-                      <DetailHeading
-                        heading={"Country Code"}
-                        value={
-                          userData?.countryCode ? userData?.countryCode : " n/a"
-                        }
-                      />
+                      
                       <DetailHeading
                         heading={"Postal Code"}
                         value={
-                          userData?.postalCode ? userData?.postalCode : " n/a"
+                          userData?.postalCode ? userData?.postalCode : " --"
                         }
                       />
                     </div>
@@ -163,7 +152,7 @@ const UserDetails = ({ }) => {
                         value={
                           userData?.toolsAvailable
                             ? userData?.toolsAvailable
-                            : " n/a"
+                            : " --"
                         }
                       />
 
@@ -174,7 +163,7 @@ const UserDetails = ({ }) => {
                             value={
                               userData?.carrierOverview
                                 ? userData?.carrierOverview
-                                : " n/a"
+                                : " --"
                             }
                           />
                           <DetailHeading
@@ -182,7 +171,7 @@ const UserDetails = ({ }) => {
                             value={
                               userData?.personalAttributes
                                 ? userData?.personalAttributes
-                                : " n/a"
+                                : " --"
                             }
                           />
                           <Row>
@@ -198,7 +187,7 @@ const UserDetails = ({ }) => {
                                     href={userData?.criminalRecord}
                                     target="_blank"
                                   >
-                                    business License
+                                    Record
                                   </a>
                                 </span>
                               </Card.Text>

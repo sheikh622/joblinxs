@@ -32,6 +32,7 @@ import {
   getUsersList
 } from "../../Redux/userManagement/actions";
 import { Routes } from "../../routes";
+import NoRecordFound from "../../components/NoRecordFound";
 
 const UserManagement = (row) => {
   const label = { inputProps: { "aria-label": "Switch demo" } };
@@ -40,7 +41,8 @@ const UserManagement = (row) => {
   const userList = useSelector((state) => state.User.Users);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [limit] = useState("5");
+  console.log("fgchi",page)
+  const [limit] = useState("10");
   const [adminId, setAdminId] = useState(0);
   const [type, setType] = React.useState("all");
   const [showDefault, setShowDefault] = useState(false);
@@ -49,7 +51,7 @@ const UserManagement = (row) => {
     setShowDefault(true);
   }
   const handlefalse = () => {
- 
+
     setShowDefault(false)
   };
   const handleChange = (event) => {
@@ -75,6 +77,7 @@ const UserManagement = (row) => {
         limit: limit,
         type: type,
         search: search,
+        data: userList
       })
     );
   };
@@ -87,7 +90,7 @@ const UserManagement = (row) => {
         search: search,
       })
     );
-  }, []);
+  }, [page, limit, type, search]);
 
   const currencies = [
     {
@@ -146,7 +149,7 @@ const UserManagement = (row) => {
             onClick={() => {
               dispatch(
                 getUserProfile({
-                  userId: adminId,
+                  userId: item.id,
                   page: page,
                   limit: limit,
                   type: type,
@@ -175,7 +178,7 @@ const UserManagement = (row) => {
               onChange={(e) => {
                 dispatch(
                   getUserBlock({
-                    userId: adminId,
+                    userId: item.id,
                     page: page,
                     limit: limit,
                     type: type,
@@ -208,8 +211,11 @@ const UserManagement = (row) => {
               <Dropdown.Item
                 className="text-danger"
                 onClick={() => {
+                  setAdminId(item.id)
                   setShowDefault(true);
-                  setAdminId(item.id)}}
+
+                }
+                }
               >
                 <FontAwesomeIcon icon={faTrashAlt} className="me-2" /> Remove
               </Dropdown.Item>
@@ -226,7 +232,7 @@ const UserManagement = (row) => {
     }
   };
   const previousPage = () => {
-    if (1 < page) {
+    if (page > 1) {
       setPage(page - 1);
     }
   };
@@ -292,10 +298,12 @@ const UserManagement = (row) => {
                 </Col>
               </Card.Header>
               <Card.Body className="pt-0">
+                {userList?.users?.length > 0 ? (
+                  <>
                 <Table hover className="user-table align-items-center">
                   <thead>
                     <tr>
-                      <th className="border-bottom">Fullname</th>
+                      <th className="border-bottom">Full Name</th>
                       <th className="border-bottom">Email</th>
                       <th className="border-bottom">Phone number</th>
                       <th className="border-bottom">User status</th>
@@ -303,15 +311,13 @@ const UserManagement = (row) => {
                       <th className="border-bottom">Action</th>
                     </tr>
                   </thead>
-                  {userList?.users?.length > 0 ? (
+                 
                     <tbody>
                       {userList?.users?.map((t, index) => (
                         <TableRow key={index} item={t} />
                       ))}
                     </tbody>
-                  ) : (
-                    <tbody>no data avaialable</tbody>
-                  )}
+                 
                 </Table>
                 <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
                   <Nav>
@@ -331,46 +337,50 @@ const UserManagement = (row) => {
                     <b>{userList?.totalUsers}</b> entries
                   </small>
                 </Card.Footer>
+                </>
+                ) : (
+                  <NoRecordFound />
+                )}
               </Card.Body>
             </Card>
           </Col>
           <Modal as={Modal.Dialog} centered show={showDefault} onHide={handlefalse} >
-        <Modal.Header>
-          <Modal.Title className="h5">
-            Delete User
-          </Modal.Title>
-          <Button variant="close" aria-label="Close" onClick={handlefalse} />
-        </Modal.Header>
-        <Modal.Body>
-          <Form >
-            <Form.Group>
-              Are you sure you want to delete this User?
-            </Form.Group>
-            <Form.Group>
-              <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
-                <Button
-                  variant="primary"
-                  onHide={handlefalse}
-                  color="dark"
-                  size="sm"
-                  // type="submit"
-                  onClick={() => {
-                    handleDelete();
-                    handlefalse();
-                  }}
-                >
-                  Delete
-                </Button>
-              </div>
-            </Form.Group>
-          </Form>
+            <Modal.Header>
+              <Modal.Title className="h5">
+                Delete User
+              </Modal.Title>
+              <Button variant="close" aria-label="Close" onClick={handlefalse} />
+            </Modal.Header>
+            <Modal.Body>
+              <Form >
+                <Form.Group>
+                  Are you sure you want to delete this User?
+                </Form.Group>
+                <Form.Group>
+                  <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
+                    <Button
+                      variant="primary"
+                      onHide={handlefalse}
+                      color="dark"
+                      size="sm"
+                      // type="submit"
+                      onClick={() => {
+                        handleDelete();
+                        handlefalse();
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </Form.Group>
+              </Form>
 
-        </Modal.Body>
-      </Modal>
+            </Modal.Body>
+          </Modal>
         </Row>
-     
+
       </Container>
-  
+
     </>
   );
 };

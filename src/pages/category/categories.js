@@ -22,18 +22,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import Navbar from "../../components/Navbar";
-import {
-  addCategory,
-  deleteCategory,
-  getCategoryList,
-  updateCategory,
-} from "../../Redux/Category/actions";
+import NoRecordFound from "../../components/NoRecordFound";
+import { addCategory, deleteCategory, getCategoryList, updateCategory } from "../../Redux/Category/actions";
 const Categories = (item) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [search, setSearch] = useState("");
   const [adminId, setAdminId] = useState(0);
-  const [delCategory, setDelCategory] = useState(false);
+  const [delCategory, setDelCategory] = useState(false)
   const {
     location: { state },
   } = history;
@@ -53,6 +49,7 @@ const Categories = (item) => {
     setEdit(false);
     setShowDefault(false);
     setDelCategory(false);
+    CategoryFormik.resetForm();
   };
   const [selectedImage, setSelectedImage] = useState("");
   const [isEdit, setEdit] = useState(false);
@@ -72,8 +69,8 @@ const Categories = (item) => {
     );
   };
   const CategorySchema = Yup.object().shape({
-    title: Yup.string().required("Category Name is required"),
-    details: Yup.string().required("description is required"),
+    title: Yup.string().trim().required("Category Name is required"),
+    details: Yup.string().trim().required("description is required"),
   });
   const CategoryFormik = useFormik({
     enableReinitialize: true,
@@ -177,7 +174,8 @@ const Categories = (item) => {
             <div className="d-flex justify-content-between"></div>
           </Col>
         </Row>
-
+        {CategoryData?.length ? <>
+        
         <Row className="pb-1">
           {CategoryData?.map((value, index, row) => {
             return (
@@ -236,6 +234,11 @@ const Categories = (item) => {
             );
           })}
         </Row>
+        
+        </> : <>
+        <NoRecordFound/>
+        </>
+        }
 
         {auth.Auther.userRole != "Admin" && (
           <Row className="py-2 justify-content-between">
@@ -335,11 +338,11 @@ const Categories = (item) => {
 
             <Form.Group className="mt-3">
               <Form.Label>Upload Image</Form.Label>
-              <Form.Control
-                type="file"
-                accept="image/png, image/gif, image/jpeg"
+              <Form.Control type="file"
                 onChange={imageChange}
+                accept="image/png, image/gif, image/jpeg"
               />
+              
               <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
                 <Button
                   variant="primary"
