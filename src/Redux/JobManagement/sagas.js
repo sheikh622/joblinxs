@@ -18,7 +18,7 @@ function* getJobList({ payload }) {
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      `job/admin/?page=1&count=20&status=&category=`,
+      `job/admin/?page=${payload.page}&count=${payload.limit}&status=&category=`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -37,7 +37,7 @@ function* getProfileList({ payload }) {
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      ``,
+      `job/admin/approve-request/${payload.jobId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -53,20 +53,18 @@ function* watchGetProfile() {
   yield takeLatest(GET_JOB_PROFILE, getProfileList);
 }
 function* deleteJob({ payload }) {
-  let { userId } = payload;
+  let { adminId } = payload;
   try {
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.delete(`category/delete/${payload.userId}`, {
+    const response = yield axios.delete(`job/admin/${payload.jobId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
     toast.success(CapitalizeFirstLetter(response.data.message));
-    // yield put(getCategoryList({
-    //   search: payload.search,
-    // })
-    // );
+    const filteredData = payload.data.filter((item,index) => item.adminId !== payload.adminId);
+    yield put(getJobListingSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

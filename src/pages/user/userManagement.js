@@ -41,17 +41,14 @@ const UserManagement = (row) => {
   const userList = useSelector((state) => state.User.Users);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  console.log("fgchi",page)
   const [limit] = useState("10");
   const [adminId, setAdminId] = useState(0);
   const [type, setType] = React.useState("all");
   const [showDefault, setShowDefault] = useState(false);
   const addUsers = () => {
-
     setShowDefault(true);
   }
   const handlefalse = () => {
-
     setShowDefault(false)
   };
   const handleChange = (event) => {

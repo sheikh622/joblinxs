@@ -1,19 +1,16 @@
 import {
   faAngleDoubleLeft,
-  faAngleDoubleRight,
-  faEllipsisH,
-  faEye,
-  faTrashAlt, faCheck, faMinus
+  faAngleDoubleRight, faCheck, faEllipsisH, faMinus, faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Button, ButtonGroup, Card, Col, Container, Dropdown, Form, Nav, Pagination, Row, Table, Modal
+  Button, ButtonGroup, Card, Col, Container, Dropdown, Form, Modal, Nav, Pagination, Row, Table
 } from "@themesberg/react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import { getJobListing } from "../../Redux/JobManagement/actions";
+import { deleteJob, getJobListing, getJobProfile } from "../../Redux/JobManagement/actions";
 
 
 const JobManagement = (row) => {
@@ -25,37 +22,40 @@ const JobManagement = (row) => {
   const JobList = useSelector(
     (state) => state?.Job?.Jobs
   );
-  console.log("hvjbk", JobList)
+  const [adminId, setAdminId] = useState(0);
+
+
   const handleJobAction = (id) => {
 
     dispatch(
-      // getCategoryProfile({
-      //   categoryId: id,
-      //   page: page,
-      //   limit: limit,
-      //   search: search,
-      // })
+      getJobProfile({
+        jobId: id,
+        page: page,
+        limit: limit,
+        search: search,
+      })
     );
   }
   const handleDelete = () => {
-    // dispatch(
-    //   deleteUser({
-    //     userId: adminId,
-    //     page: page,
-    //     limit: limit,
-    //     type: type,
-    //     search: search,
-    //     data: userList
-    //   })
-    // );
+    dispatch(
+      deleteJob({
+        jobId: adminId,
+        page: page,
+        limit: limit,
+        search: search,
+        data: JobList,
+      })
+    );
   };
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [limit] = useState("5");
+  const [limit] = useState("10");
   const [type, setType] = React.useState("all");
   const [showDefault, setShowDefault] = useState(false);
+  const addUsers = () => {
+    setShowDefault(true);
+  }
   const handlefalse = () => {
-
     setShowDefault(false)
   };
   const handleChange = (event) => {
@@ -76,7 +76,7 @@ const JobManagement = (row) => {
     },
   ];
   useEffect(() => {
-    console.log("dfvb")
+
     dispatch(
       getJobListing({
         page: page,
@@ -87,14 +87,15 @@ const JobManagement = (row) => {
   },
     [page, limit, search]
   );
-  // const [ProfileUser, setProfileUser] = useState(row.isApproved);
-  // useEffect(() => {
-  //   setProfileUser(row.isApproved);
-  // }, [row.isApproved]);
+  const [JobProfile, setJobProfile] = useState(row.isApproved);
+  useEffect(() => {
+    setJobProfile(row.isApproved);
+  }, [row.isApproved]);
 
   const TableRow = (props) => {
     const { invoiceNumber, subscription, price, issueDate, dueDate, status, item } =
       props;
+    console.log(item.status, "item ehre")
     const statusVariant =
       status === "Paid"
         ? "success"
@@ -124,31 +125,41 @@ const JobManagement = (row) => {
               </span>
             </Dropdown.Toggle>
             <Dropdown.Menu className="custom_menu">
-              {(item?.categoryStatus == 'Pending' || item?.categoryStatus == 'Rejected') && (
+              {item?.status === "pending" ? (
+                <>
+                  <Dropdown.Item className="text-success" onClick={() => {
+                    handleJobAction(item?.id)
+                  }}>
+                    <FontAwesomeIcon icon={faCheck} className="me-2" /> Accepted
+                  </Dropdown.Item>
+                  <Dropdown.Item className="text-danger" onClick={() => {
+                    handleJobAction(item?.id)
+                  }}>
+                    <FontAwesomeIcon icon={faMinus} className="me-2" /> Rejected
+                  </Dropdown.Item>
+                </>
+              ) : item?.status === "Rejected" ? (
                 <Dropdown.Item className="text-success" onClick={() => {
                   handleJobAction(item?.id)
-                }}
-                >
-
-                  <FontAwesomeIcon icon={faCheck} className="me-2" /> Accept
+                }}>
+                  <FontAwesomeIcon icon={faCheck} className="me-2" /> Accepted
                 </Dropdown.Item>
-              )}
-              {(item?.categoryStatus == 'Pending' || item?.categoryStatus == 'Accepted') && (
-
+              ) : (
                 <Dropdown.Item className="text-danger" onClick={() => {
                   handleJobAction(item?.id)
                 }}>
-                  <FontAwesomeIcon icon={faMinus} className="me-2" /> Decline
+                  <FontAwesomeIcon icon={faMinus} className="me-2" /> Rejected
                 </Dropdown.Item>
-              )}
+              )
+              }
               <Dropdown.Item
                 className="text-danger"
-              // onClick={() => {
-              //   setAdminId(item.id)
-              //   setShowDefault(true);
+                onClick={() => {
+                  setAdminId(item.id)
+                  setShowDefault(true);
 
-              // }
-              // }
+                }
+                }
               >
                 <FontAwesomeIcon icon={faTrashAlt} className="me-2" /> Remove
               </Dropdown.Item>
@@ -164,7 +175,7 @@ const JobManagement = (row) => {
     }
   };
   const previousPage = () => {
-    if (1 < page) {
+    if (1 > page) {
       setPage(page - 1);
     }
   };
@@ -248,7 +259,7 @@ const JobManagement = (row) => {
                     </Pagination>
                   </Nav>
                   <small className="fw-bold">
-                    Showing <b>{JobList?.jobs?.length}</b> out of <b>{JobList?.total_categories}</b> entries
+                    Showing <b>{JobList?.jobs?.length}</b> out of <b>{JobList?.total_jobs}</b> entries
                   </small>
                 </Card.Footer>
               </Card.Body>
