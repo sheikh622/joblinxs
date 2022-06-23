@@ -3,7 +3,9 @@ import {
   GET_JOB_LISTING,
   GET_JOB_LISTING_SUCCESS,
   DELETE_JOB,GET_JOB_PROFILE,
-  GET_JOB_PROFILE_SUCCESS
+  GET_JOB_PROFILE_SUCCESS,
+  GET_CATEGORY_JOB,
+  GET_CATEGORY_JOB_SUCCESS
 } from "./constants";
 
 export const getJobListing = (data) => ({
@@ -28,6 +30,14 @@ export const deleteJob = (data) => {
     payload: data,
   }
 }
+export const getCategoryJob= (data) => ({
+  type:  GET_CATEGORY_JOB,
+  payload: data,
+});
+export const getCategoryJobSuccess = (data) => ({
+  type: GET_CATEGORY_JOB_SUCCESS,
+  payload: data,
+});
 export const changeUsersActivePage = (data) => ({
   type: CHANGE_USERS_ACTIVE_PAGE,
   payload: data,

@@ -10,8 +10,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import { deleteJob, getJobListing, getJobProfile } from "../../Redux/JobManagement/actions";
-
+import { deleteJob, getJobListing, getJobProfile, getCategoryJob } from "../../Redux/JobManagement/actions";
+import { getCategoryList } from "../../Redux/Category/actions";
 
 const JobManagement = (row) => {
   const dispatch = useDispatch();
@@ -49,9 +49,10 @@ const JobManagement = (row) => {
   };
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [limit] = useState("10");
+  const [limit] = useState("5");
   const [type, setType] = React.useState("all");
   const [showDefault, setShowDefault] = useState(false);
+  const [category, setCategory] = useState([]);
   const addUsers = () => {
     setShowDefault(true);
   }
@@ -61,22 +62,36 @@ const JobManagement = (row) => {
   const handleChange = (event) => {
     setType(event.target.value);
   };
-  const currencies = [
-    {
-      value: "all",
-      label: "All Users",
-    },
-    {
-      value: "provider",
-      label: "service provider",
-    },
-    {
-      value: "seeker",
-      label: "service seeker",
-    },
-  ];
+  const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
+  console.log("kvhbjlio", CategoryData)
+  console.log("kvhbjli==============o", type)
   useEffect(() => {
+    dispatch(
+      getCategoryList({
+        search: "",
+      })
+    );
+  }, []);
 
+  useEffect(() => {
+    let array = [
+      {
+        value: "ALL",
+        label: "All"
+      }
+    ];
+    CategoryData.map((item) => {
+      array.push({
+        value: item?.title,
+        label: item?.title,
+
+      })
+      console.log("cguhioj", item.title)
+    })
+    setCategory(array);
+  }, [CategoryData])
+
+  useEffect(() => {
     dispatch(
       getJobListing({
         page: page,
@@ -87,6 +102,19 @@ const JobManagement = (row) => {
   },
     [page, limit, search]
   );
+  useEffect(() => {
+    dispatch(
+      getCategoryJob({
+        page: page,
+        limit: limit,
+        search: search,
+        category:type,
+      })
+    );
+  },
+    [page, limit, search, type]
+  );
+
   const [JobProfile, setJobProfile] = useState(row.isApproved);
   useEffect(() => {
     setJobProfile(row.isApproved);
@@ -222,11 +250,11 @@ const JobManagement = (row) => {
                       value={type}
                       onChange={handleChange}
                     >
-                      {/* {currencies.map((option) => (
+                      {category.map((option) => (
                         <option key={option.value} value={option.value}>
                           {option.label}
                         </option>
-                      ))} */}
+                      ))}
                     </Form.Select>
                   </Form.Group>
                 </Col>

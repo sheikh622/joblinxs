@@ -5,11 +5,13 @@ import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
 // import {getJobListing, getJobListingSuccess,} from "./actions";
 import {
+  getCategoryJobSuccess,
   getJobListing, getJobListingSuccess,
   getJobProfileSuccess,
+
 } from "./actions";
 import {
-  GET_JOB_LISTING, GET_JOB_PROFILE, DELETE_JOB
+  GET_JOB_LISTING, GET_JOB_PROFILE, DELETE_JOB,GET_CATEGORY_JOB
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 
@@ -72,8 +74,29 @@ function* deleteJob({ payload }) {
 function* watchDeleteJob() {
   yield takeLatest(DELETE_JOB, deleteJob);
 }
+function* getCategoryJob({ payload }) {
+  try {
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.get(
+      `job/admin/category-based?page=${payload.page}&count=${payload.limit}&category=${payload.category}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    yield put(getJobListingSuccess(response.data.data));
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchGetCategory() {
+  yield takeLatest(GET_CATEGORY_JOB, getCategoryJob);
+}
 export default function* JobManagementSaga() {
   yield all([fork(watchGetJob)]);
   yield all([fork(watchGetProfile)]);
   yield all([fork(watchDeleteJob)]);
+  yield all([fork(watchGetCategory)]);
+
 }
