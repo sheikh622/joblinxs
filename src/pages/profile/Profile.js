@@ -1,13 +1,60 @@
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Card, Col, Container, Row } from "@themesberg/react-bootstrap";
-import React from "react";
-import { Link } from "react-router-dom";
+import { Button, Card, Col, Container, Form, Modal, Row } from "@themesberg/react-bootstrap";
+import { useFormik } from "formik";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import * as Yup from "yup";
 import Profile1 from "../../assets/img/team/profile-picture-1.jpg";
 import DetailHeading from "../../components/DetailHeading";
 import Navbar from "../../components/Navbar";
 import { Routes } from "../../routes";
+import React, { Component } from 'react';
+
+
 export default () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const {
+    location: { state },
+  } = history;
+  const [showDefault, setShowDefault] = useState(false);
+  const handleClose = () => {
+
+    setShowDefault(false);
+
+    CategoryFormik.resetForm();
+  };
+  const OpenJobModal = () => {
+    setShowDefault(true);
+  };
+  const CategorySchema = Yup.object().shape({
+    oldPassword: Yup.string().trim().required(" Old Password is required"),
+    newPassword: Yup.string().trim().required("New Password is required"),
+  });
+  const CategoryFormik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      // id: selectedItem?.id ? selectedItem?.id : "",
+      // oldPassword: selectedItem?.oldPassword ? selectedItem?.oldPassword : "",
+      // newPassword: selectedItem?.newPassword ? selectedItem?.newPassword : "",
+      remember: true,
+    },
+    validationSchema: CategorySchema,
+    onSubmit: async (values, action) => {
+      // dispatch(
+      //   addCategory({
+      //     oldPassword: values.oldPassword,
+      //     newPassword: values.newPassword,
+      //     // setReset: action.resetForm,
+      //     // setShowDefault: setShowDefault,
+      //     // showDefault: showDefault,
+
+      //   })
+      // );
+    },
+  });
   return (
     <>
       <Navbar module={"Profile"} />
@@ -141,7 +188,7 @@ export default () => {
                   </Card.Body>
 
                 </Card>
-                <Button variant="primary" className="my-3 ">
+                <Button variant="primary" className="my-3 " onClick={() => OpenJobModal()}>
                   <svg
                     width="22"
                     height="22"
@@ -161,6 +208,69 @@ export default () => {
           </Col>
         </Row>
       </Container>
+      <Modal as={Modal.Dialog} centered show={showDefault}>
+        <Modal.Header>
+          <Modal.Title className="h5">
+            Change Password
+          </Modal.Title>
+          <Button variant="close" aria-label="Close" onClick={handleClose} />
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={CategoryFormik.handleSubmit}>
+            <Form.Group>
+              <Form.Label>Old Password</Form.Label>
+              <Form.Control
+
+                type="text"
+                placeholder="Enter Old Password"
+                value={CategoryFormik.values.title}
+                name="oldPassword"
+                label="oldPassword"
+                onChange={(e) => {
+                  CategoryFormik.setFieldValue("oldPassword", e.target.value);
+                }}
+              />
+              {CategoryFormik.touched.oldPassword && CategoryFormik.errors.oldPassword ? (
+                <div style={{ color: "red" }}>
+                  {CategoryFormik.errors.oldPassword}
+                </div>
+              ) : null}
+            </Form.Group>
+            <Form.Group className="mt-3">
+              <Form.Label>New Password</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter New Password"
+                value={CategoryFormik.values.newPassword}
+                name="newPassword"
+                label="newPassword"
+                onChange={(e) => {
+                  CategoryFormik.setFieldValue("newPassword", e.target.value);
+                }}
+              />
+              {CategoryFormik.touched.newPassword &&
+                CategoryFormik.errors.newPassword ? (
+                <div style={{ color: "red" }}>
+                  {CategoryFormik.errors.newPassword}
+                </div>
+              ) : null}
+            </Form.Group>
+            <Form.Group>
+              <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
+                <Button
+                  variant="primary"
+                  // onHide={handleClose}
+                  color="dark"
+                  size="sm"
+                  type="submit"
+                >
+                  Confirm Password
+                </Button>
+              </div>
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

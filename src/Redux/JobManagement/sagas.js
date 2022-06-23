@@ -11,7 +11,7 @@ import {
 
 } from "./actions";
 import {
-  GET_JOB_LISTING, GET_JOB_PROFILE, DELETE_JOB,GET_CATEGORY_JOB
+  GET_JOB_LISTING, GET_JOB_PROFILE, DELETE_JOB, GET_CATEGORY_JOB
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 
@@ -20,7 +20,7 @@ function* getJobList({ payload }) {
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      `job/admin/?page=${payload.page}&count=${payload.limit}&status=&category=`,
+      `job/admin/?page=${payload.page}&count=${payload.limit}&status=&search=${payload.search}&type=${payload.type}&category=${payload.category}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -65,7 +65,7 @@ function* deleteJob({ payload }) {
     });
 
     toast.success(CapitalizeFirstLetter(response.data.message));
-    const filteredData = payload.data.filter((item,index) => item.adminId !== payload.adminId);
+    const filteredData = payload.data.filter((item, index) => item.adminId !== payload.adminId);
     yield put(getJobListingSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -74,29 +74,29 @@ function* deleteJob({ payload }) {
 function* watchDeleteJob() {
   yield takeLatest(DELETE_JOB, deleteJob);
 }
-function* getCategoryJob({ payload }) {
-  try {
-    const token = yield select(makeSelectAuthToken());
-    const response = yield axios.get(
-      `job/admin/category-based?page=${payload.page}&count=${payload.limit}&category=${payload.category}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    yield put(getJobListingSuccess(response.data.data));
-  } catch (error) {
-    yield sagaErrorHandler(error.response);
-  }
-}
-function* watchGetCategory() {
-  yield takeLatest(GET_CATEGORY_JOB, getCategoryJob);
-}
+// function* getCategoryJob({ payload }) {
+//   try {
+//     const token = yield select(makeSelectAuthToken());
+//     const response = yield axios.get(
+//       `job/admin/category-based?page=${payload.page}&count=${payload.limit}&category=${payload.category}&search=${payload.search}&type=${""}`,
+//       {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       }
+//     );
+//     yield put(getJobListingSuccess(response.data.data));
+//   } catch (error) {
+//     yield sagaErrorHandler(error.response);
+//   }
+// }
+// function* watchGetCategory() {
+//   yield takeLatest(GET_CATEGORY_JOB, getCategoryJob);
+// }
 export default function* JobManagementSaga() {
   yield all([fork(watchGetJob)]);
   yield all([fork(watchGetProfile)]);
   yield all([fork(watchDeleteJob)]);
-  yield all([fork(watchGetCategory)]);
+  // yield all([fork(watchGetCategory)]);
 
 }
