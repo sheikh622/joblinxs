@@ -294,7 +294,7 @@ export default (props = {}) => {
                     }
                     link={Routes.Categories_Management.path}
                   />
-                  {/* <NavItem
+                  <NavItem
                     title="Job Management"
                     SVG={
                       <svg
@@ -311,7 +311,26 @@ export default (props = {}) => {
                       </svg>
                     }
                     link={Routes.Job_Management.path}
-                  /> */}
+                  />
+                  <NavItem
+                    title="Profile Managemeqnt"
+                    SVG={
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M10 10.75C12.6242 10.75 14.75 8.62421 14.75 6C14.75 3.37579 12.6242 1.25 10 1.25C7.37579 1.25 5.25 3.37579 5.25 6C5.25 8.62421 7.37579 10.75 10 10.75ZM10 11.25C8.57124 11.25 6.47644 11.6026 4.71985 12.3063C3.84095 12.6584 2.99956 13.1168 2.36586 13.7017C1.72707 14.2912 1.25 15.0595 1.25 16V17C1.25 17.9642 2.03579 18.75 3 18.75H17C17.9642 18.75 18.75 17.9642 18.75 17V16C18.75 15.0595 18.2729 14.2912 17.6341 13.7017C17.0004 13.1168 16.1591 12.6584 15.2802 12.3063C13.5236 11.6026 11.4288 11.25 10 11.25Z"
+                          stroke="#fff"
+                          stroke-width="1.5"
+                        />
+                      </svg>
+                    }
+                    link={Routes.Profile.path}
+                  />
                 </>
               )}
 

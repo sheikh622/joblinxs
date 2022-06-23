@@ -290,7 +290,7 @@ const Categories = (item) => {
           <Modal.Title className="h5">
             {isEdit ? "Edit Category" : "Add Category"}
           </Modal.Title>
-          <Button variant="close" aria-label="Close" onClick={handleClose} />
+          <Button variant="close" aria-label="Close" onClick={handleClose}/>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={CategoryFormik.handleSubmit}>
