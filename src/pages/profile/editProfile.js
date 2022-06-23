@@ -1,6 +1,12 @@
 import {
-  Button, Card, Col, Container, Form, Row
+  Button, Card, Col, Container, Form, Row, Dropdown,
 } from "@themesberg/react-bootstrap";
+import {
+  faEdit,
+  faEllipsisV,
+  faTrashAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link } from "react-router-dom";
 import ProfileCover from "../../assets/img/profile-cover.jpg";
@@ -37,6 +43,14 @@ export default () => {
                       alt="Neil Portrait"
                       className="user-avatar large-avatar rounded-circle mx-auto mt-n7 mb-4"
                     />
+                    <span>
+                      <Dropdown.Menu className="custom_menu">
+                        <Dropdown.Item onClick>
+                          <FontAwesomeIcon icon={faEdit} className="me-2" />{" "}
+                          Edit
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </span>
                     <Card.Subtitle className="text-gray mb-2">
                       Change Profile Picture
                     </Card.Subtitle>
@@ -54,26 +68,8 @@ export default () => {
                 <Row>
                   <Col xs={8}>
                     <Card.Title className="text-primary">
-                      Basic Information
+                      User Information
                     </Card.Title>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Full name</Form.Label>
-                      <Form.Control
-                        required
-                        type="text"
-                        placeholder="Enter your full name"
-                      />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3">
-                      <Form.Label>Description</Form.Label>
-                      <Form.Control as="textarea" rows="3" />
-                    </Form.Group>
-
-                    <Card.Title className="text-primary">
-                      Contact Information
-                    </Card.Title>
-
                     <Form.Group className="mb-3">
                       <Form.Label>Email</Form.Label>
                       <Form.Control
@@ -82,7 +78,6 @@ export default () => {
                         placeholder="Enter your email"
                       />
                     </Form.Group>
-
                     <Form.Group className="mb-3">
                       <Form.Label>Phone</Form.Label>
                       <Form.Control
@@ -91,7 +86,6 @@ export default () => {
                         placeholder="Enter your phone number"
                       />
                     </Form.Group>
-
                     <Form.Group className="mb-3">
                       <Form.Label>Address</Form.Label>
                       <Form.Control
@@ -100,79 +94,90 @@ export default () => {
                         placeholder="Enter your address"
                       />
                     </Form.Group>
-
-                    <Card.Title className="text-primary">
-                      Other Information
-                    </Card.Title>
-
+                    <Form.Group className="mb-3">
+                      <Form.Label>City</Form.Label>
+                      <Form.Control
+                        required
+                        type="text"
+                        placeholder="Enter your City"
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Province</Form.Label>
+                      <Form.Control
+                        required
+                        type="text"
+                        placeholder="Enter your Province"
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Postal Code</Form.Label>
+                      <Form.Control
+                        required
+                        type="text"
+                        placeholder="Enter your Postal Code"
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Date of Birth</Form.Label>
+                      <Form.Control
+                        required
+                        type="text"
+                        placeholder="Enter your Date of Birth"
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Personal Attributes</Form.Label>
+                      <Form.Control
+                        required
+                        type="text"
+                        placeholder="Enter your Personal Attributes"
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Career Overview</Form.Label>
+                      <Form.Control
+                        required
+                        type="text"
+                        placeholder="Enter your Career Overview"
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Volenteering History</Form.Label>
+                      <Form.Control
+                        required
+                        type="text"
+                        placeholder="Enter your Volenteering History"
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Tools Avaible</Form.Label>
+                      <Form.Control
+                        required
+                        type="text"
+                        placeholder="Enter your Tools Avaible"
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Transportation Availble</Form.Label>
+                      <Form.Control
+                        required
+                        type="text"
+                        placeholder="Enter your Transportation Availble"
+                      />
+                    </Form.Group>
                     <Form.Group className="mb-3">
                       <Form.Label>Job Type</Form.Label>
-                      <fieldset className="d-flex radioButton">
-                        <Form.Check
-                          defaultChecked
-                          type="radio"
-                          defaultValue="partTime"
-                          label="Part-time"
-                          name="jobType"
-                          className="radio1"
-                        />
-
-                        <Form.Check
-                          type="radio"
-                          defaultValue="permanent"
-                          label="Permanent"
-                          name="jobType"
-                        />
-                      </fieldset>
+                      <Form.Control
+                        required
+                        type="text"
+                        placeholder="Enter your Job Type"
+                      />
                     </Form.Group>
-
                     <Form.Group className="mb-3">
-                      <Form.Label>Can Drive?</Form.Label>
-                      <fieldset className="d-flex radioButton">
-                        <Form.Check
-                          defaultChecked
-                          type="radio"
-                          defaultValue="yes"
-                          label="Yes"
-                          name="drive"
-                          className="radio1"
-                        />
-
-                        <Form.Check
-                          type="radio"
-                          defaultValue="No"
-                          label="No"
-                          name="drive"
-                        />
-                      </fieldset>
+                      <Form.Label>Description</Form.Label>
+                      <Form.Control as="textarea" rows="3" />
                     </Form.Group>
-
-                    <Form.Group className="mb-3">
-                      <Form.Label>Have tools?</Form.Label>
-                      <fieldset className="d-flex radioButton">
-                        <Form.Check
-                          defaultChecked
-                          type="radio"
-                          defaultValue="yes"
-                          label="Yes"
-                          name="tools"
-                          className="radio1"
-                        />
-
-                        <Form.Check
-                          type="radio"
-                          defaultValue="No"
-                          label="No"
-                          name="tools"
-                        />
-                      </fieldset>
-                    </Form.Group>
-
-                    <Card.Title className="text-primary">Categories</Card.Title>
-
-                    <Card.Text className="text-gray mb-0">Plumber</Card.Text>
-                    <Card.Text className="text-gray mb-0">Teacher</Card.Text>
-                    <Card.Text className="text-gray mb-0">Carpenter</Card.Text>
 
                     <Button variant="primary" className="my-3 ">
                       <svg

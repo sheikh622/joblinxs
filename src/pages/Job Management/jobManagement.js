@@ -23,18 +23,20 @@ const JobManagement = (row) => {
     (state) => state?.Job?.Jobs
   );
   const [adminId, setAdminId] = useState(0);
-
+  const [type, setType] = React.useState("");
 
   const handleJobAction = (id) => {
 
-    dispatch(
-      getJobProfile({
-        jobId: id,
-        page: page,
-        limit: limit,
-        search: search,
-      })
-    );
+    // dispatch(
+    //   getJobProfile({
+    //     jobId: id,
+    //     page: page,
+    //     limit: limit,
+    //     type: type,
+    //     search: search,
+    //     category:categoryType,
+    //   })
+    // );
   }
   const handleDelete = () => {
     dispatch(
@@ -43,14 +45,16 @@ const JobManagement = (row) => {
         page: page,
         limit: limit,
         search: search,
+        type: type,
         data: JobList,
+        category:categoryType,
       })
     );
   };
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [limit] = useState("5");
-  const [type, setType] = React.useState("all");
+const [categoryType, setCategoryType] = useState("");
   const [showDefault, setShowDefault] = useState(false);
   const [category, setCategory] = useState([]);
   const addUsers = () => {
@@ -62,16 +66,20 @@ const JobManagement = (row) => {
   const handleChange = (event) => {
     setType(event.target.value);
   };
+  const handleClick = (event) => {
+    setCategoryType(event.target.value)
+  }
   const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
-  console.log("kvhbjlio", CategoryData)
-  console.log("kvhbjli==============o", type)
-  useEffect(() => {
-    dispatch(
-      getCategoryList({
-        search: "",
-      })
-    );
-  }, []);
+  console.log("category", category)
+  // console.log("kvhbjli==============o", type)
+  // useEffect(() => {
+  //   dispatch(
+  //     getCategoryList({
+  //       search: "",
+     
+  //     })
+  //   );
+  // }, []);
 
   useEffect(() => {
     let array = [
@@ -90,30 +98,46 @@ const JobManagement = (row) => {
     })
     setCategory(array);
   }, [CategoryData])
-
+  const currencies = [
+    {
+      value: "",
+      label: "All Users",
+    },
+    {
+      value: "provider",
+      label: "Service Provider",
+    },
+    {
+      value: "seeker",
+      label: "Service Seeker",
+    },
+  ];
   useEffect(() => {
     dispatch(
       getJobListing({
         page: page,
         limit: limit,
         search: search,
+        type: type,
+        category:categoryType,
       })
     );
   },
-    [page, limit, search]
+    [page, limit, type, search, category]
   );
-  useEffect(() => {
-    dispatch(
-      getCategoryJob({
-        page: page,
-        limit: limit,
-        search: search,
-        category:type,
-      })
-    );
-  },
-    [page, limit, search, type]
-  );
+  // useEffect(() => {
+  //   dispatch(
+  //     getCategoryJob({
+  //       page: page,
+  //       limit: limit,
+  //       search: search,
+  //       category:categoryType,
+  //       type: type,
+  //     })
+  //   );
+  // },
+  //   []
+  // );
 
   const [JobProfile, setJobProfile] = useState(row.isApproved);
   useEffect(() => {
@@ -123,7 +147,6 @@ const JobManagement = (row) => {
   const TableRow = (props) => {
     const { invoiceNumber, subscription, price, issueDate, dueDate, status, item } =
       props;
-    console.log(item.status, "item ehre")
     const statusVariant =
       status === "Paid"
         ? "success"
@@ -247,10 +270,26 @@ const JobManagement = (row) => {
                 <Col lg={3} md={5}>
                   <Form.Group className="mt-3">
                     <Form.Select defaultValue="1" label="Select"
+                      value={categoryType}
+                      onChange={handleClick}
+                    >
+                      {category.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </Form.Select>
+                  </Form.Group>
+                </Col>
+                <Col lg={3} md={5}>
+                  <Form.Group className="mt-3">
+                    <Form.Select
+                      defaultValue="1"
+                      label="Select"
                       value={type}
                       onChange={handleChange}
                     >
-                      {category.map((option) => (
+                      {currencies.map((option) => (
                         <option key={option.value} value={option.value}>
                           {option.label}
                         </option>

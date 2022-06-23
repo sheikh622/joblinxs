@@ -313,7 +313,7 @@ export default (props = {}) => {
                     link={Routes.Job_Management.path}
                   />
                   <NavItem
-                    title="Profile Managemeqnt"
+                    title="Profile Management"
                     SVG={
                       <svg
                         width="20"
