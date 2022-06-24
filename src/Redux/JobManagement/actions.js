@@ -2,9 +2,10 @@ import {
   CHANGE_USERS_ACTIVE_PAGE,
   GET_JOB_LISTING,
   GET_JOB_LISTING_SUCCESS,
-  // GET_CATEGORY_PROFILE,
-  // GET_CATEGORY_PROFILE_SUCCESS,
-  DELETE_JOB
+  DELETE_JOB,GET_JOB_PROFILE,
+  GET_JOB_PROFILE_SUCCESS,
+  GET_CATEGORY_JOB,
+  GET_CATEGORY_JOB_SUCCESS
 } from "./constants";
 
 export const getJobListing = (data) => ({
@@ -15,20 +16,28 @@ export const getJobListingSuccess = (data) => ({
   type: GET_JOB_LISTING_SUCCESS,
   payload: data,
 });
-// export const getCategoryProfile = (data) => ({
-//   type:GET_CATEGORY_PROFILE,
-//   payload: data,
-// });
-// export const getCategoryProfileSuccess = (data) => ({
-//   type: GET_CATEGORY_PROFILE_SUCCESS,
-//   payload: data,
-// });
+export const getJobProfile = (data) => ({
+  type:  GET_JOB_PROFILE,
+  payload: data,
+});
+export const getJobProfileSuccess = (data) => ({
+  type: GET_JOB_PROFILE_SUCCESS,
+  payload: data,
+});
 export const deleteJob = (data) => {
   return {
     type: DELETE_JOB,
     payload: data,
   }
 }
+export const getCategoryJob= (data) => ({
+  type:  GET_CATEGORY_JOB,
+  payload: data,
+});
+export const getCategoryJobSuccess = (data) => ({
+  type: GET_CATEGORY_JOB_SUCCESS,
+  payload: data,
+});
 export const changeUsersActivePage = (data) => ({
   type: CHANGE_USERS_ACTIVE_PAGE,
   payload: data,

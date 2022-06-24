@@ -3,13 +3,15 @@ import { all, fork, put, select, takeLatest } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
+// import {getJobListing, getJobListingSuccess,} from "./actions";
 import {
+  getCategoryJobSuccess,
   getJobListing, getJobListingSuccess,
-  getCategoryProfileSuccess
+  getJobProfileSuccess,
+
 } from "./actions";
 import {
-  GET_JOB_LISTING,
-  
+  GET_JOB_LISTING, GET_JOB_PROFILE, DELETE_JOB, GET_CATEGORY_JOB
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 
@@ -18,8 +20,7 @@ function* getJobList({ payload }) {
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      `category/partial/list?keyword=${payload.search}&page=${payload.page }&count=${payload.limit
-      }`,
+      `job/admin/?page=${payload.page}&count=${payload.limit}&status=&search=${payload.search}&type=${payload.type}&category=${payload.category}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -31,39 +32,71 @@ function* getJobList({ payload }) {
     yield sagaErrorHandler(error.response);
   }
 }
-// function* CategoryProfileSaga({ payload }) {
+function* watchGetJob() {
+  yield takeLatest(GET_JOB_LISTING, getJobList);
+}
+function* getProfileList({ payload }) {
+  try {
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.get(
+      `job/admin/approve-request/${payload.jobId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    yield put(getJobProfileSuccess(response.data.data));
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchGetProfile() {
+  yield takeLatest(GET_JOB_PROFILE, getProfileList);
+}
+function* deleteJob({ payload }) {
+  let { adminId } = payload;
+  try {
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.delete(`job/admin/${payload.jobId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    toast.success(CapitalizeFirstLetter(response.data.message));
+    const filteredData = payload.data.filter((item, index) => item.adminId !== payload.adminId);
+    yield put(getJobListingSuccess(response.data.data));
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchDeleteJob() {
+  yield takeLatest(DELETE_JOB, deleteJob);
+}
+// function* getCategoryJob({ payload }) {
 //   try {
 //     const token = yield select(makeSelectAuthToken());
-//     const response = yield axios.patch(
-//       `category/approve/${payload.categoryId}`,
+//     const response = yield axios.get(
+//       `job/admin/category-based?page=${payload.page}&count=${payload.limit}&category=${payload.category}&search=${payload.search}&type=${""}`,
 //       {
 //         headers: {
 //           Authorization: `Bearer ${token}`,
 //         },
 //       }
 //     );
-//     toast.success(CapitalizeFirstLetter(response.data.message));
-//     yield put(getCategoryProfileSuccess());
-//     yield put(
-//       getCategoryListing({
-//         page: payload.page,
-//         limit: payload.limit,
-//         search: payload.search,
-//       })
-//     );
+//     yield put(getJobListingSuccess(response.data.data));
 //   } catch (error) {
 //     yield sagaErrorHandler(error.response);
 //   }
 // }
-function* watchGetJob() {
-  yield takeLatest(GET_JOB_LISTING, getJobList);
-}
-// function* watchCategoryProfile() {
-//   yield takeLatest(GET_CATEGORY_PROFILE, CategoryProfileSaga);
+// function* watchGetCategory() {
+//   yield takeLatest(GET_CATEGORY_JOB, getCategoryJob);
 // }
 export default function* JobManagementSaga() {
-  
   yield all([fork(watchGetJob)]);
-  // yield all([fork(watchCategoryProfile)]);
+  yield all([fork(watchGetProfile)]);
+  yield all([fork(watchDeleteJob)]);
+  // yield all([fork(watchGetCategory)]);
 
 }
