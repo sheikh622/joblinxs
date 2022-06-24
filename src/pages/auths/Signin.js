@@ -57,9 +57,9 @@ const LoginPage = () => {
           password: values.password,
           history: history,
           resetForm: resetForm,
-
         })
-      );     },
+      );    
+     },
   });
   return (
     <main>

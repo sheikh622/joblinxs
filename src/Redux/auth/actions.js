@@ -1,6 +1,7 @@
 import {
   FORGOT_PASSWORD, LOGIN,
-  LOGIN_SUCCESS, LOGOUT, RESET_PASSWORD, RESET_PASSWORD_SUCCESS, SET_LOADER
+  LOGIN_SUCCESS, LOGOUT, RESET_PASSWORD, RESET_PASSWORD_SUCCESS, SET_LOADER,
+  UPDATE_PASSWORD_SUCCESS,UPDATE_PASSWORD
 } from "./constants";
   
   export const logoutRequest = () => ({
@@ -41,4 +42,15 @@ import {
       payload: data
     };
   };
- 
+  export const updatetPassword = (data) => {
+    return {
+      type: UPDATE_PASSWORD,
+      payload: data
+    };
+  };
+  export const updatetPasswordSuccess = (data) => {
+    return {
+      type: UPDATE_PASSWORD_SUCCESS,
+      payload: data
+    };
+  };

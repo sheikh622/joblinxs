@@ -1,5 +1,12 @@
+import React,{useEffect} from "react";
 import {
-  Button, Card, Col, Container, Form, Row, Dropdown,
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Row,
+  Dropdown,
 } from "@themesberg/react-bootstrap";
 import {
   faEdit,
@@ -7,13 +14,45 @@ import {
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
 import { Link } from "react-router-dom";
 import ProfileCover from "../../assets/img/profile-cover.jpg";
 import Profile1 from "../../assets/img/team/profile-picture-1.jpg";
 import Navbar from "../../components/Navbar";
 import { Routes } from "../../routes";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+
 export default () => {
+  const validationSchema = Yup.object().shape({
+    title: Yup.string().required("Title is required"),
+    firstName: Yup.string().required("First Name is required"),
+    lastName: Yup.string().required("Last name is required"),
+    dob: Yup.string()
+      .required("Date of Birth is required")
+      .matches(
+        /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/,
+        "Date of Birth must be a valid date in the format YYYY-MM-DD"
+      ),
+    email: Yup.string().required("Email is required").email("Email is invalid"),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
+      .required("Confirm Password is required"),
+    acceptTerms: Yup.bool().oneOf([true], "Accept Ts & Cs is required"),
+  });
+  const formOptions = { resolver: yupResolver(validationSchema) };
+
+  // get functions to build form with useForm() hook
+  const { register, handleSubmit, reset, formState } = useForm(formOptions);
+  const { errors } = formState;
+
+  function onSubmit(data) {
+    // display form data on success
+    console.log(data, "here is error");
+  }
   return (
     <>
       <Navbar module={"Edit Profile"} />
@@ -21,9 +60,7 @@ export default () => {
         <Row>
           <div className="mt-2 mb-3 d-flex justify-content-end">
             <Link className="text-white fw-bold" to={Routes.Profile.path}>
-              <Button variant="primary" type="submit">
-                Back
-              </Button>
+              <Button variant="primary">Back</Button>
             </Link>
           </div>
           <Col xs={12} xl={4}>
@@ -65,137 +102,159 @@ export default () => {
               className="text-left p-0 mb-4 profileView info"
             >
               <Card.Body className="pb-3">
-                <Row>
-                  <Col xs={8}>
-                    <Card.Title className="text-primary">
-                      User Information
-                    </Card.Title>
-                    <Form.Group className="mb-3">
+                <Form onSubmit={handleSubmit(onSubmit)}>
+                    <Form.Group className="col">
                       <Form.Label>Email</Form.Label>
                       <Form.Control
-                        required
-                        type="email"
-                        placeholder="Enter your email"
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Phone</Form.Label>
-                      <Form.Control
-                        required
+                        name="email"
                         type="text"
-                        placeholder="Enter your phone number"
+                        {...register("email")}
+                        className={`form-control ${
+                          errors.email ? "is-invalid" : ""
+                        }`}
                       />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Address</Form.Label>
-                      <Form.Control
-                        required
-                        type="text"
-                        placeholder="Enter your address"
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Label>City</Form.Label>
-                      <Form.Control
-                        required
-                        type="text"
-                        placeholder="Enter your City"
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Province</Form.Label>
-                      <Form.Control
-                        required
-                        type="text"
-                        placeholder="Enter your Province"
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Postal Code</Form.Label>
-                      <Form.Control
-                        required
-                        type="text"
-                        placeholder="Enter your Postal Code"
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Date of Birth</Form.Label>
-                      <Form.Control
-                        required
-                        type="text"
-                        placeholder="Enter your Date of Birth"
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Personal Attributes</Form.Label>
-                      <Form.Control
-                        required
-                        type="text"
-                        placeholder="Enter your Personal Attributes"
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Career Overview</Form.Label>
-                      <Form.Control
-                        required
-                        type="text"
-                        placeholder="Enter your Career Overview"
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Volenteering History</Form.Label>
-                      <Form.Control
-                        required
-                        type="text"
-                        placeholder="Enter your Volenteering History"
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Tools Avaible</Form.Label>
-                      <Form.Control
-                        required
-                        type="text"
-                        placeholder="Enter your Tools Avaible"
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Transportation Availble</Form.Label>
-                      <Form.Control
-                        required
-                        type="text"
-                        placeholder="Enter your Transportation Availble"
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Job Type</Form.Label>
-                      <Form.Control
-                        required
-                        type="text"
-                        placeholder="Enter your Job Type"
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Description</Form.Label>
-                      <Form.Control as="textarea" rows="3" />
+                      <div className="invalid-feedback">
+                        {errors.email?.message}
+                      </div>
                     </Form.Group>
 
-                    <Button variant="primary" className="my-3 ">
-                      <svg
-                        width="22"
-                        height="22"
-                        viewBox="0 0 40 40"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+                    <Form.Group  className="col my-2">
+                      <Form.Label>Phone</Form.Label>
+                      <Form.Control
+                        name="phone"
+                        type="tel"
+                        {...register("phone")}
+                        className={`form-control ${
+                          errors.phone ? "is-invalid" : ""
+                        }`}
+                      />
+                      <div className="invalid-feedback">
+                        {errors.phone?.message}
+                      </div>
+                    </Form.Group>
+
+                    <Form.Group  className="col my-2">
+                      <Form.Label>Address</Form.Label>
+                      <Form.Control
+                        name="address"
+                        type="text"
+                        {...register("address")}
+                        className={`form-control ${
+                          errors.address ? "is-invalid" : ""
+                        }`}
+                      />
+                      <div className="invalid-feedback">
+                        {errors.address?.message}
+                      </div>
+                    </Form.Group>
+                    <Form.Group  className="col my-2">
+                      <Form.Label>City</Form.Label>
+                      <Form.Control
+                        name="city"
+                        type="text"
+                        {...register("city")}
+                        className={`form-control ${
+                          errors.city ? "is-invalid" : ""
+                        }`}
+                      />
+                      <div className="invalid-feedback">
+                        {errors.city?.message}
+                      </div>
+                    </Form.Group>
+                    <Form.Group  className="col my-2">
+                      <Form.Label>Provice</Form.Label>
+                      <Form.Control
+                        name="province"
+                        type="text"
+                        {...register("province")}
+                        className={`form-control ${
+                          errors.province ? "is-invalid" : ""
+                        }`}
+                      />
+                      <div className="invalid-feedback">
+                        {errors.province?.message}
+                      </div>
+                    </Form.Group>
+                    <Form.Group  className="col my-2">
+                      <Form.Label>Postal Code</Form.Label>
+                      <Form.Control
+                        name="postalcode"
+                        type="text"
+                        {...register("postalcode")}
+                        className={`form-control ${
+                          errors.postalcode ? "is-invalid" : ""
+                        }`}
+                      />
+                      <div className="invalid-feedback">
+                        {errors.postalcode?.message}
+                      </div>
+                    </Form.Group>
+                    <Form.Group  className="col my-2">
+                      <Form.Label>Personal Attributes</Form.Label>
+                      <Form.Control
+                        name="personalattributes"
+                        type="text"
+                        {...register("personalattributes")}
+                        className={`form-control ${
+                          errors.personalattributes ? "is-invalid" : ""
+                        }`}
+                      />
+                      <div className="invalid-feedback">
+                        {errors.personalattributes?.message}
+                      </div>
+                    </Form.Group>
+                    <Form.Group  className="col my-2">
+                      <Form.Label>Career Overview</Form.Label>
+                      <Form.Control
+                        name="careeroverview"
+                        type="text"
+                        {...register("careeroverview")}
+                        className={`form-control ${
+                          errors.careeroverview ? "is-invalid" : ""
+                        }`}
+                      />
+                      <div className="invalid-feedback">
+                        {errors.careeroverview?.message}
+                      </div>
+                    </Form.Group>
+
+                    <Form.Group  className="col my-2">
+                      <Form.Label>Job Type</Form.Label>
+                      <select
+                        name="title"
+                        {...register("title")}
+                        className={`form-control ${
+                          errors.title ? "is-invalid" : ""
+                        }`}
                       >
-                        <path
-                          d="M10 17.5C10 17.1685 10.1317 16.8505 10.3661 16.6161C10.6005 16.3817 10.9185 16.25 11.25 16.25H16.25V11.25C16.25 10.9185 16.3817 10.6005 16.6161 10.3661C16.8505 10.1317 17.1685 10 17.5 10C17.8315 10 18.1495 10.1317 18.3839 10.3661C18.6183 10.6005 18.75 10.9185 18.75 11.25V16.25H23.75C24.0815 16.25 24.3995 16.3817 24.6339 16.6161C24.8683 16.8505 25 17.1685 25 17.5C25 17.8315 24.8683 18.1495 24.6339 18.3839C24.3995 18.6183 24.0815 18.75 23.75 18.75H18.75V23.75C18.75 24.0815 18.6183 24.3995 18.3839 24.6339C18.1495 24.8683 17.8315 25 17.5 25C17.1685 25 16.8505 24.8683 16.6161 24.6339C16.3817 24.3995 16.25 24.0815 16.25 23.75V18.75H11.25C10.9185 18.75 10.6005 18.6183 10.3661 18.3839C10.1317 18.1495 10 17.8315 10 17.5ZM10 5C8.67392 5 7.40215 5.52678 6.46447 6.46447C5.52678 7.40215 5 8.67392 5 10V25C5 26.3261 5.52678 27.5979 6.46447 28.5355C7.40215 29.4732 8.67392 30 10 30H25C26.3261 30 27.5979 29.4732 28.5355 28.5355C29.4732 27.5979 30 26.3261 30 25V10C30 8.67392 29.4732 7.40215 28.5355 6.46447C27.5979 5.52678 26.3261 5 25 5H10ZM7.5 10C7.5 9.33696 7.76339 8.70107 8.23223 8.23223C8.70107 7.76339 9.33696 7.5 10 7.5H25C25.663 7.5 26.2989 7.76339 26.7678 8.23223C27.2366 8.70107 27.5 9.33696 27.5 10V25C27.5 25.663 27.2366 26.2989 26.7678 26.7678C26.2989 27.2366 25.663 27.5 25 27.5H10C9.33696 27.5 8.70107 27.2366 8.23223 26.7678C7.76339 26.2989 7.5 25.663 7.5 25V10ZM26.25 32.5C27.9076 32.5 29.4973 31.8415 30.6694 30.6694C31.8415 29.4973 32.5 27.9076 32.5 26.25V8.17C33.2601 8.60883 33.8913 9.24 34.3301 10.0001C34.7689 10.7601 35 11.6223 35 12.5V26.25C35 28.5706 34.0781 30.7962 32.4372 32.4372C30.7962 34.0781 28.5706 35 26.25 35H12.5C11.6223 35 10.7601 34.7689 10.0001 34.3301C9.24 33.8913 8.60883 33.2601 8.17 32.5H26.25Z"
-                          fill="#fff"
-                        />
-                      </svg>
-                      Add category
+                        <option value=""></option>
+                        <option value="Mr">Part Time</option>
+                        <option value="Mrs">Full Time</option>
+                      </select>
+                      <div className="invalid-feedback">
+                        {errors.title?.message}
+                      </div>
+                    </Form.Group>
+                    
+                    
+                    <Form.Group  className="col my-2">
+                      <Form.Label>Date of Birth</Form.Label>
+                      <Form.Control
+                        name="dob"
+                        type="date"
+                        {...register("dob")}
+                        className={`form-control ${
+                          errors.dob ? "is-invalid" : ""
+                        }`}
+                      />
+                      <div className="invalid-feedback">
+                        {errors.dob?.message}
+                      </div>
+                    </Form.Group>
+                    <Button type="submit" className="btn btn-primary mr-1">
+                      Update
                     </Button>
-                  </Col>
-                </Row>
+                </Form>
               </Card.Body>
             </Card>
           </Col>
