@@ -1,13 +1,15 @@
 import { push } from "connected-react-router";
 import { toast } from "react-toastify";
-import { all, fork, put, takeLatest } from "redux-saga/effects";
+import { all, fork, put, takeLatest,select } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
+import { makeSelectAuthToken } from "../../Store/selector";
 import {
   loginRequestSuccess,
-  resetPasswordSuccess
+  resetPasswordSuccess,
+  updatetPasswordSuccess
 } from "./actions";
-import { FORGOT_PASSWORD, LOGIN, RESET_PASSWORD } from "./constants";
+import { FORGOT_PASSWORD, LOGIN, RESET_PASSWORD,UPDATE_PASSWORD } from "./constants";
 
 function* loginRequestSaga({ payload }) {
   let data = {
@@ -69,6 +71,38 @@ function* resetRequestSaga({ payload }) {
 function* watchReset() {
   yield takeLatest(RESET_PASSWORD, resetRequestSaga);
 }
+
+function* updatePasswordSaga({ payload }) {
+  const token = yield select(makeSelectAuthToken());
+  let data = {
+    email: payload.email,
+    oldPassword: payload.currentpassword,
+    newPassword: payload.newpassword,
+  };
+  try {
+    const response = yield axios.post(`user/update-password`, data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    toast.success("Login Successfully");
+    // yield put(updatetPasswordSuccess(response.data.data));
+    payload.setShowDefault(false);
+    payload.reset();
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+
+function* watchUpdatePassword() {
+  yield takeLatest(UPDATE_PASSWORD, updatePasswordSaga);
+}
+
 export default function* AuthSaga() {
-  yield all([fork(watchLogin), fork(watchForget), fork(watchReset)]);
+  yield all([fork(watchLogin),
+     fork(watchForget),
+      fork(watchReset),
+      fork(watchUpdatePassword),
+    ]);
 }

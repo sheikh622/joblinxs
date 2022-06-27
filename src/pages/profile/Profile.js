@@ -1,60 +1,74 @@
+import React from "react";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Card, Col, Container, Form, Modal, Row } from "@themesberg/react-bootstrap";
-import { useFormik } from "formik";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Modal,
+  Row,
+} from "@themesberg/react-bootstrap";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import Profile1 from "../../assets/img/team/profile-picture-1.jpg";
 import DetailHeading from "../../components/DetailHeading";
 import Navbar from "../../components/Navbar";
 import { Routes } from "../../routes";
-import React, { Component } from 'react';
-
+// saga actions here
+import { updatetPassword } from "../../Redux/auth/actions";
 
 export default () => {
   const dispatch = useDispatch();
+  const login = useSelector((state) => state.auth.Auther);
   const history = useHistory();
+  const CategorySchema = Yup.object().shape({
+    currentpassword: Yup.string()
+      .trim()
+      .required(" Current Password is required"),
+    newpassword: Yup.string().trim().required("New Password is required"),
+    confirmpassword: Yup.string().when("newpassword", {
+      is: (val) => (val && val.length > 0 ? true : false),
+      then: Yup.string().oneOf([Yup.ref("newpassword")], "Passwords not match"),
+    }),
+  });
+  const formOptions = { resolver: yupResolver(CategorySchema) };
+
+  // get functions to build form with useForm() hook
+  const { register, handleSubmit, reset, formState } = useForm(formOptions);
+  const { errors } = formState;
+
   const {
     location: { state },
   } = history;
   const [showDefault, setShowDefault] = useState(false);
-  const handleClose = () => {
-
+  const handleClose = async () => {
+    await reset();
     setShowDefault(false);
-
-    CategoryFormik.resetForm();
   };
   const OpenJobModal = () => {
     setShowDefault(true);
   };
-  const CategorySchema = Yup.object().shape({
-    oldPassword: Yup.string().trim().required(" Old Password is required"),
-    newPassword: Yup.string().trim().required("New Password is required"),
-  });
-  const CategoryFormik = useFormik({
-    enableReinitialize: true,
-    initialValues: {
-      // id: selectedItem?.id ? selectedItem?.id : "",
-      // oldPassword: selectedItem?.oldPassword ? selectedItem?.oldPassword : "",
-      // newPassword: selectedItem?.newPassword ? selectedItem?.newPassword : "",
-      remember: true,
-    },
-    validationSchema: CategorySchema,
-    onSubmit: async (values, action) => {
-      // dispatch(
-      //   addCategory({
-      //     oldPassword: values.oldPassword,
-      //     newPassword: values.newPassword,
-      //     // setReset: action.resetForm,
-      //     // setShowDefault: setShowDefault,
-      //     // showDefault: showDefault,
 
-      //   })
-      // );
-    },
-  });
+  const onSubmit = async (data) => {
+    // display form data on success
+    let newData = Object.assign(data, { email: login.email });
+    await dispatch(
+      updatetPassword({
+        email: newData.email,
+        currentpassword: newData.currentpassword,
+        newpassword: newData.newpassword,
+        setShowDefault: setShowDefault,
+        reset: reset,
+      })
+    );
+    console.log(newData, "here is error");
+  };
   return (
     <>
       <Navbar module={"Profile"} />
@@ -186,9 +200,12 @@ export default () => {
                       </Card.Text>
                     </div>
                   </Card.Body>
-
                 </Card>
-                <Button variant="primary" className="my-3 " onClick={() => OpenJobModal()}>
+                <Button
+                  variant="primary"
+                  className="my-3 "
+                  onClick={() => OpenJobModal()}
+                >
                   <svg
                     width="22"
                     height="22"
@@ -210,50 +227,58 @@ export default () => {
       </Container>
       <Modal as={Modal.Dialog} centered show={showDefault}>
         <Modal.Header>
-          <Modal.Title className="h5">
-            Change Password
-          </Modal.Title>
-          <Button variant="close" aria-label="Close" onClick={handleClose} />
+          <Modal.Title className="h5">Change Password</Modal.Title>
+          <Button
+            variant="close"
+            aria-label="Close"
+            onClick={() => {
+              handleClose();
+            }}
+          />
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={CategoryFormik.handleSubmit}>
+          <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group>
-              <Form.Label>Old Password</Form.Label>
+              <Form.Label>Current Password</Form.Label>
               <Form.Control
-
-                type="text"
-                placeholder="Enter Old Password"
-                value={CategoryFormik.values.title}
-                name="oldPassword"
-                label="oldPassword"
-                onChange={(e) => {
-                  CategoryFormik.setFieldValue("oldPassword", e.target.value);
-                }}
+                name="currentpassword"
+                type="password"
+                {...register("currentpassword")}
+                className={`form-control ${
+                  errors.currentpassword ? "is-invalid" : ""
+                }`}
               />
-              {CategoryFormik.touched.oldPassword && CategoryFormik.errors.oldPassword ? (
-                <div style={{ color: "red" }}>
-                  {CategoryFormik.errors.oldPassword}
-                </div>
-              ) : null}
+              <div className="invalid-feedback">
+                {errors.currentpassword?.message}
+              </div>
             </Form.Group>
             <Form.Group className="mt-3">
               <Form.Label>New Password</Form.Label>
               <Form.Control
-                type="text"
-                placeholder="Enter New Password"
-                value={CategoryFormik.values.newPassword}
-                name="newPassword"
-                label="newPassword"
-                onChange={(e) => {
-                  CategoryFormik.setFieldValue("newPassword", e.target.value);
-                }}
+                name="newpassword"
+                type="password"
+                {...register("newpassword")}
+                className={`form-control ${
+                  errors.newpassword ? "is-invalid" : ""
+                }`}
               />
-              {CategoryFormik.touched.newPassword &&
-                CategoryFormik.errors.newPassword ? (
-                <div style={{ color: "red" }}>
-                  {CategoryFormik.errors.newPassword}
-                </div>
-              ) : null}
+              <div className="invalid-feedback">
+                {errors.newpassword?.message}
+              </div>
+            </Form.Group>
+            <Form.Group className="mt-3">
+              <Form.Label>New Password</Form.Label>
+              <Form.Control
+                name="confirmpassword"
+                type="password"
+                {...register("confirmpassword")}
+                className={`form-control ${
+                  errors.confirmpassword ? "is-invalid" : ""
+                }`}
+              />
+              <div className="invalid-feedback">
+                {errors.confirmpassword?.message}
+              </div>
             </Form.Group>
             <Form.Group>
               <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
