@@ -11,17 +11,19 @@ import {
   Row,
 } from "@themesberg/react-bootstrap";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
+
 import Profile1 from "../../assets/img/team/profile-picture-1.jpg";
 import DetailHeading from "../../components/DetailHeading";
 import Navbar from "../../components/Navbar";
 import { Routes } from "../../routes";
-// saga actions here
-
 import ChangePassword from "../../components/changePassword";
 
 export default () => {
   const history = useHistory();
+
+
   const {
     location: { state },
   } = history;
@@ -34,7 +36,7 @@ export default () => {
   };
   return (
     <>
-      <Navbar module={"Profile"} />
+      <Navbar module={"Admin Profile"} />
       <Container>
         <Row>
           <div className="mt-2 mb-3 d-flex justify-content-end">
@@ -98,19 +100,6 @@ export default () => {
                         No. of Jobs Completed: <b> 25</b>
                       </Card.Text>
                     </div>
-
-                    <div className="">
-                      <Card.Title>Description</Card.Title>
-                      <Card.Text className="text-gray mb-2">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Suspendisse eu interdum felis, sit amet sagittis diam.
-                        In suscipit tortor eget nunc bibendum, ac ullamcorper
-                        mauris vehicula. Donec vehicula mi ligula, id dictum
-                        ante malesuada ac. Aliquam porttitor placerat lorem id
-                        vestibulum. Nullam vitae est id felis vehicula
-                        ullamcorper eu vel lacus. Sed sagittis tincidunt rutrum.
-                      </Card.Text>
-                    </div>
                   </Card.Body>
                 </Card>
               </Col>
@@ -129,38 +118,8 @@ export default () => {
                         Basic Information
                       </Card.Title>
                       <DetailHeading heading={"Full Name"} value={"Swet LLC"} />
-                      <DetailHeading
-                        heading={"Member Since"}
-                        value={"24/02/2022"}
-                      />
-                      <DetailHeading
-                        heading={"Work Status"}
-                        value={"Full-time"}
-                      />
-                      <DetailHeading heading={"No. of Job Done"} value={"25"} />
-                    </div>
-                    <div className="border_bottom pb-2 mb-4">
-                      <Card.Title className="text-primary">
-                        Contact Information
-                      </Card.Title>
                       <DetailHeading heading={"Email"} value={"abc@xyz.com"} />
-                      <DetailHeading heading={"Phone"} value={"000-1234-567"} />
-                      <DetailHeading heading={"Address"} value={"Address"} />
-                    </div>
-                    <div className="border_bottom pb-2 mb-4">
-                      <Card.Title className="text-primary">
-                        Other Information
-                      </Card.Title>
-                      <DetailHeading heading={"Can Drive"} value={"Yes"} />
-                      <DetailHeading heading={"Have Tools"} value={"Yes"} />
-                    </div>
-                    <div className="pb-2 mb-4">
-                      <Card.Title className="text-primary">
-                        Categories
-                      </Card.Title>
-                      <Card.Text className="text-gray mb-2">
-                        <span className="text-black">Plumber</span>
-                      </Card.Text>
+                    
                     </div>
                   </Card.Body>
                 </Card>
@@ -200,7 +159,7 @@ export default () => {
           />
         </Modal.Header>
         <Modal.Body>
-        <ChangePassword setShowDefault={setShowDefault} showDefault={showDefault} />
+         <ChangePassword setShowDefault={setShowDefault} showDefault={showDefault} />
         </Modal.Body>
       </Modal>
     </>

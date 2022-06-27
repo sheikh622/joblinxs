@@ -26,15 +26,11 @@ import Select from 'react-select';
 
 export default () => {
   const [selectedImage, setSelectedImage] = useState();
-  const [selectedOption, setSelectedOption] = useState(null);
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
   const validationSchema = Yup.object().shape({
-    description: Yup.string().required("description is required"),
     fullName: Yup.string().required("Full name is required"),
-    phone: Yup.string().matches(phoneRegExp, "Phone number is not valid"),
     email: Yup.string().required("Email is required").email("Email is invalid"),
-    address: Yup.string().required("address is required"),
   });
   const formOptions = { resolver: yupResolver(validationSchema) };
 
@@ -43,19 +39,13 @@ export default () => {
   const { errors } = formState;
   function onSubmit(data) {
     // display form data on success
-    let newData = Object.assign(data, { category: selectedOption.value });
-    console.log(newData, "here is error");
+    console.log(data, "here is error");
   }
   const imageChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(e.target.files[0]);
     }
   };
-  const options = [
-    { value: "Plumber", label: "Plumber" },
-    { value: "Doctor", label: "Doctor" },
-    { value: "Devloper", label: "Devloper" },
-  ];
   const inputEl = useRef(null);
   const onButtonClick = () => {
     inputEl.current.click();
@@ -147,24 +137,6 @@ export default () => {
                     </div>
                   </Form.Group>
                   <Form.Group className="col my-2">
-                    <Form.Label>Description</Form.Label>
-                    <Form.Control
-                      name="description"
-                      type="text"
-                      {...register("description")}
-                      className={`form-control ${
-                        errors.description ? "is-invalid" : ""
-                      }`}
-                    />
-                    <div className="invalid-feedback">
-                      {errors.description?.message}
-                    </div>
-                  </Form.Group>
-                  <hr />
-                  <Card.Title className="text-primary">
-                    Contact Information
-                  </Card.Title>
-                  <Form.Group className="col my-2">
                     <Form.Label>Email</Form.Label>
                     <Form.Control
                       name="email"
@@ -177,115 +149,6 @@ export default () => {
                     <div className="invalid-feedback">
                       {errors.email?.message}
                     </div>
-                  </Form.Group>
-                  <Form.Group className="col my-2">
-                    <Form.Label>Phone</Form.Label>
-                    <Form.Control
-                      name="phone"
-                      type="text"
-                      {...register("phone")}
-                      className={`form-control ${
-                        errors.phone ? "is-invalid" : ""
-                      }`}
-                    />
-                    <div className="invalid-feedback">
-                      {errors.phone?.message}
-                    </div>
-                  </Form.Group>
-                  <Form.Group className="col my-2">
-                    <Form.Label>Address</Form.Label>
-                    <Form.Control
-                      name="address"
-                      type="text"
-                      {...register("address")}
-                      className={`form-control ${
-                        errors.address ? "is-invalid" : ""
-                      }`}
-                    />
-                    <div className="invalid-feedback">
-                      {errors.address?.message}
-                    </div>
-                  </Form.Group>
-                  <hr />
-                  <Card.Title className="text-primary">
-                    Other Information
-                  </Card.Title>
-                  <Card.Title>Job Type</Card.Title>
-                  <Form.Group className="col my-2">
-                    <Form.Label>
-                      <Form.Label>Full Time</Form.Label>
-                      <input
-                        type="radio"
-                        name="picked"
-                        value="fullTime"
-                        {...register("jobType")}
-                        className="mx-2"
-                      />
-                    </Form.Label>
-                    <Form.Label>
-                      <Form.Label>Part Time</Form.Label>
-                      <input
-                        type="radio"
-                        name="picked"
-                        value="partTime"
-                        {...register("jobType")}
-                        className="mx-2"
-                      />
-                    </Form.Label>
-                  </Form.Group>
-                  <Card.Title>Can Drive ?</Card.Title>
-                  <Form.Group className="col my-2">
-                    <Form.Label>
-                      <Form.Label>Yes</Form.Label>
-                      <input
-                        type="radio"
-                        name="picked"
-                        value="yes"
-                        {...register("canDrive")}
-                        className="mx-2"
-                      />
-                    </Form.Label>
-                    <Form.Label>
-                      <Form.Label>No</Form.Label>
-                      <input
-                        type="radio"
-                        name="picked"
-                        value="no"
-                        {...register("canDrive")}
-                        className="mx-2"
-                      />
-                    </Form.Label>
-                  </Form.Group>
-                  <Card.Title>Have Tools ?</Card.Title>
-                  <Form.Group className="col my-2">
-                    <Form.Label>
-                      <Form.Label>Yes</Form.Label>
-                      <input
-                        type="radio"
-                        name="picked"
-                        value="yes"
-                        {...register("haveTools")}
-                        className="mx-2"
-                      />
-                    </Form.Label>
-                    <Form.Label>
-                      <Form.Label>No</Form.Label>
-                      <input
-                        type="radio"
-                        name="picked"
-                        value="no"
-                        {...register("haveTools")}
-                        className="mx-2"
-                      />
-                    </Form.Label>
-                  </Form.Group>
-                  <Card.Title>Categories</Card.Title>
-                  <Form.Group className="col my-2">
-                    <Select
-                      defaultValue={selectedOption}
-                      onChange={setSelectedOption}
-                      options={options}
-                    />
                   </Form.Group>
                   <Form.Group>
                     <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
