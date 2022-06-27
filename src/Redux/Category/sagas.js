@@ -46,7 +46,6 @@ function* addCategoryRequest({ payload }) {
   }
 }
 function* getcategory({ payload }) {
-  console.log("nhcgjlk", payload)
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(

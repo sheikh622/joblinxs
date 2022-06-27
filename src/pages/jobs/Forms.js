@@ -1,9 +1,89 @@
 import {
-  Button, Card, Col, Form, InputGroup, Modal, Row
+  Button, Card, Col, Form, InputGroup, Modal, Row,
 } from "@themesberg/react-bootstrap";
-import React, { useState } from "react";
+import { useFormik } from "formik";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import * as Yup from "yup";
+import Navbar from "../../components/Navbar";
+import NoRecordFound from "../../components/NoRecordFound";
+
+
 
 export const GeneralInfoForm = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [hours, setHours] = useState("1");
+  const [minutes, setminutes] = useState("1");
+  const [categories, setCategories] = useState("plumber");
+  const [providers, setProviders] = useState("1")
+  const [experience, setExperience] = useState("none")
+  const [jobType, setJobType]= useState("");
+  const [permanent, setPermanent]= useState("");
+  const [jobNature, setJobNature]= useState("");
+
+  const handleChange = (event) => {
+    setHours(event.target.value)
+    setminutes(event.target.value)
+    setCategories(event.target.value)
+    setProviders(event.target.value)
+    setExperience(event.target.value)
+  }
+  const CategorySchema = Yup.object().shape({
+    jobName: Yup.string().trim().required("Job Name is required"),
+    description: Yup.string().trim().required("description is required"),
+    jobRequirements: Yup.string().trim().required("Requirements is required"),
+    toolsNeeded: Yup.string().trim().required("Tools is required"),
+    fixRate: Yup.string().trim().required("Rate is required"),
+    title: Yup.string().trim().required("Category Name is required"),
+    details: Yup.string().trim().required("description is required"),
+
+  });
+  const CategoryFormik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      // id: selectedItem?.id ? selectedItem?.id : "",
+      jobName: selectedItem?.jobName ? selectedItem?.jobName : "",
+      description: selectedItem?.description ? selectedItem?.description : "",
+      jobRequirements: selectedItem?.jobRequirements ? selectedItem?.jobRequirements : "",
+      toolsNeeded: selectedItem?.toolsNeeded ? selectedItem?.toolsNeeded : "",
+      fixRate: selectedItem?.fixRate ? selectedItem?.fixRate : "",
+      title: selectedItem?.title ? selectedItem?.title : "",
+      details: selectedItem?.details ? selectedItem?.details : "",
+      remember: true,
+    },
+    validationSchema: CategorySchema,
+    // onSubmit: async (values, action) => {
+    //   selectedItem
+    //     ? dispatch(
+    //         updateCategory({
+    //           id: values.id,
+    //           title: values.title,
+    //           categoryImg: selectedImage,
+    //           details: values.details,
+    //           setReset: action.resetForm,
+    //           setShowDefault: setShowDefault,
+    //           // showDefault: showDefault,
+    //           setSelectedImage: setSelectedImage,
+
+    //           history: history,
+    //         })
+    //       )
+    //     : dispatch(
+    //         addCategory({
+    //           title: values.title,
+    //           details: values.details,
+    //           categoryImg: selectedImage,
+    //           setReset: action.resetForm,
+    //           setShowDefault: setShowDefault,
+    //           showDefault: showDefault,
+    //           setSelectedImage: setSelectedImage,
+    //         })
+    //       );
+    // },
+  });
   // Add location
   const [showDefault, setShowDefault] = useState(false);
   const handleClose = () => setShowDefault(false);
@@ -20,16 +100,28 @@ export const GeneralInfoForm = () => {
     <>
       <Card className="bg-white shadow-sm mb-4 border-0">
         <Card.Body>
-          <Form>
+          <Form onSubmit={CategoryFormik.handleSubmit}>
             <Row>
               <Col md={6} className="mb-3">
                 <Form.Group id="jobName">
                   <Form.Label>Job Name</Form.Label>
                   <Form.Control
-                    required
+                    // required
                     type="text"
                     placeholder="Enter your Job name"
+                    value={CategoryFormik.values.jobName}
+                    name="jobName"
+                    label="jobName"
+                    onChange={(e) => {
+                      CategoryFormik.setFieldValue("jobName", e.target.value);
+                    }}
                   />
+                  {CategoryFormik.touched.jobName && CategoryFormik.errors.jobName ? (
+                    <div style={{ color: "red" }}>
+                      {CategoryFormik.errors.jobName}
+                    </div>
+                  ) : null}
+
                 </Form.Group>
               </Col>
               <Col md={6} className="mb-3">
@@ -42,7 +134,10 @@ export const GeneralInfoForm = () => {
                       defaultValue="oneTime"
                       label="One Time"
                       name="jobNature"
-                      className="radio1"
+                      className="radio1" Description
+                      onChange={(event)=>{
+                        setJobNature(event.target.value)
+                      }}
                     />
 
                     <Form.Check
@@ -50,6 +145,9 @@ export const GeneralInfoForm = () => {
                       defaultValue="recurring"
                       label="Recurring"
                       name="jobNature"
+                      onChange={(event)=>{
+                        setJobNature(event.target.value)
+                      }}
                     />
                   </fieldset>
                 </Form.Group>
@@ -60,13 +158,27 @@ export const GeneralInfoForm = () => {
               <Col md={6} className="mb-3">
                 <Form.Group id="description">
                   <Form.Label>Description</Form.Label>
-                  <Form.Control as="textarea" rows="3" />
+                  <Form.Control as="textarea" rows="3"
+                    placeholder="Description"
+                    value={CategoryFormik.values.description}
+                    name="description"
+                    label="description"
+                    onChange={(e) => {
+                      CategoryFormik.setFieldValue("description", e.target.value);
+                    }}
+                  />
+                  {CategoryFormik.touched.description &&
+                    CategoryFormik.errors.description ? (
+                    <div style={{ color: "red" }}>
+                      {CategoryFormik.errors.description}
+                    </div>
+                  ) : null}
                 </Form.Group>
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group id="providersRequired">
                   <Form.Label>Number of Providers required</Form.Label>
-                  <Form.Select defaultValue="1">
+                  <Form.Select defaultValue="1" value={providers} onChange={handleChange}>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -81,10 +193,22 @@ export const GeneralInfoForm = () => {
                 <Form.Group id="jobRequirements">
                   <Form.Label>Job Requirements</Form.Label>
                   <Form.Control
-                    required
+                    // required
                     type="text"
                     placeholder="Job Requirements..."
+                    value={CategoryFormik.values.jobRequirements}
+                    name="jobRequirements"
+                    label="jobRequirements"
+                    onChange={(e) => {
+                      CategoryFormik.setFieldValue("jobRequirements", e.target.value);
+                    }}
                   />
+                  {CategoryFormik.touched.jobRequirements &&
+                    CategoryFormik.errors.jobRequirements ? (
+                    <div style={{ color: "red" }}>
+                      {CategoryFormik.errors.jobRequirements}
+                    </div>
+                  ) : null}
                 </Form.Group>
               </Col>
 
@@ -92,10 +216,22 @@ export const GeneralInfoForm = () => {
                 <Form.Group id="toolsNeeded">
                   <Form.Label>Tools Needed</Form.Label>
                   <Form.Control
-                    required
+                    // required
                     type="text"
                     placeholder="Tools needed..."
+                    value={CategoryFormik.values.toolsNeeded}
+                    name="toolsNeeded"
+                    label="toolsNeeded"
+                    onChange={(e) => {
+                      CategoryFormik.setFieldValue("toolsNeeded", e.target.value);
+                    }}
                   />
+                  {CategoryFormik.touched.toolsNeeded &&
+                    CategoryFormik.errors.toolsNeeded ? (
+                    <div style={{ color: "red" }}>
+                      {CategoryFormik.errors.toolsNeeded}
+                    </div>
+                  ) : null}
                 </Form.Group>
               </Col>
             </Row>
@@ -112,13 +248,18 @@ export const GeneralInfoForm = () => {
                       label="Hourly"
                       name="paymentType"
                       className="radio1"
+                      onChange={(event)=>{
+                        setPermanent(event.target.value)
+                      }}
                     />
-
                     <Form.Check
                       type="radio"
                       defaultValue="fixed"
                       label="Fixed"
                       name="paymentType"
+                      onChange={(event)=>{
+                        setPermanent(event.target.value)
+                      }}
                     />
                   </fieldset>
                 </Form.Group>
@@ -134,32 +275,51 @@ export const GeneralInfoForm = () => {
                       label="Part-time"
                       name="jobType"
                       className="radio1"
+                      onChange={(event)=>{
+                        setJobType(event.target.value)
+                      }}
                     />
-
                     <Form.Check
                       type="radio"
                       defaultValue="permanent"
                       label="Permanent"
                       name="jobType"
+                      onChange={(event)=>{
+                        setJobType(event.target.value)
+                      }}
                     />
+                  
                   </fieldset>
                 </Form.Group>
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group id="fixedRate">
                   <Form.Label>Fixed Rate</Form.Label>
-                  <Form.Control required type="number" placeholder="$" />
+                  <Form.Control
+                  //  required 
+                  type="number" placeholder="$"
+                    value={CategoryFormik.values.fixRate}
+                    name="fixRate"
+                    label="fixRate"
+                    onChange={(e) => {
+                      CategoryFormik.setFieldValue("fixRate", e.target.value);
+                    }}
+                  />
+                  {CategoryFormik.touched.fixRate &&
+                    CategoryFormik.errors.fixRate ? (
+                    <div style={{ color: "red" }}>
+                      {CategoryFormik.errors.fixRate}
+                    </div>
+                  ) : null}
                 </Form.Group>
               </Col>
             </Row>
-
             <h5 className="my-4">Time Required</h5>
-
             <Row>
               <Col md={3} className="mb-3">
-                <Form.Group id="hours">
+                <Form.Group id="hours" >
                   <Form.Label>Hours</Form.Label>
-                  <Form.Select defaultValue="1">
+                  <Form.Select defaultValue="1" value={hours} onChange={handleChange}>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -190,7 +350,7 @@ export const GeneralInfoForm = () => {
               <Col md={3} className="mb-3">
                 <Form.Group id="minutes">
                   <Form.Label>Minutes</Form.Label>
-                  <Form.Select defaultValue="1">
+                  <Form.Select defaultValue="1" value={minutes} onChange={handleChange}>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -257,7 +417,7 @@ export const GeneralInfoForm = () => {
               <Col md={6} className="mb-3">
                 <Form.Group id="experienceRequired">
                   <Form.Label>Minimum Experience Required</Form.Label>
-                  <Form.Select defaultValue="professional">
+                  <Form.Select defaultValue="professional" value={experience} onChange={handleChange}>
                     <option value="none">None</option>
                     <option value="professional">Professional</option>
                     <option value="expert">Expert</option>
@@ -269,12 +429,12 @@ export const GeneralInfoForm = () => {
             <Row className="align-items-end">
               <Col md={6} className="mb-3">
                 <Form.Group id="categories">
-                <span className="d-flex justify-content-between">
-                  <Form.Label>Categories</Form.Label>
-                  <Form.Label onClick={() => setShowDefaultCategory(true)} className="text-underline">Add New</Form.Label>
+                  <span className="d-flex justify-content-between">
+                    <Form.Label>Categories</Form.Label>
+                    <Form.Label onClick={() => setShowDefaultCategory(true)} className="text-underline">Add New</Form.Label>
 
-                </span>
-                  <Form.Select defaultValue="plumber">
+                  </span>
+                  <Form.Select defaultValue="plumber" value={categories} onChange={handleChange}>
                     <option value="plumber">Plumber</option>
                     <option value="teacher">Teacher</option>
                     <option value="carpenter">Carpenter</option>
@@ -576,30 +736,63 @@ export const GeneralInfoForm = () => {
           />
         </Modal.Header>
         <Modal.Body>
-          <Form.Group>
-            <Form.Label>Category Name</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="Enter category Name"
-            />
-          </Form.Group>
-          <Form.Group className="mt-3">
-            <Form.Label>Description</Form.Label>
-            <Form.Control as="textarea" rows="3" />
-          </Form.Group>
+          <Form onSubmit={CategoryFormik.handleSubmit}>
+            <Form.Group>
+              <Form.Label>Category Name</Form.Label>
+              <Form.Control
+                // required
+                type="text"
+                placeholder="Enter category Name"
+                value={CategoryFormik.values.title}
+                name="title"
+                label="title"
+                onChange={(e) => {
+                  CategoryFormik.setFieldValue("title", e.target.value);
+                }}
+              />
+              {CategoryFormik.touched.title && CategoryFormik.errors.title ? (
+                <div style={{ color: "red" }}>
+                  {CategoryFormik.errors.title}
+                </div>
+              ) : null}
+            </Form.Group>
+            <Form.Group className="mt-3">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows="3"
+                // required
+                type="text"
+                placeholder="Description"
+                value={CategoryFormik.values.details}
+                name="details"
+                label="details"
+                onChange={(e) => {
+                  CategoryFormik.setFieldValue("details", e.target.value);
+                }}
+              />
+              {CategoryFormik.touched.details &&
+                CategoryFormik.errors.details ? (
+                <div style={{ color: "red" }}>
+                  {CategoryFormik.errors.details}
+                </div>
+              ) : null}
+            </Form.Group>
 
-          <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
-            <Button
-              variant="primary"
-              color="dark"
-              onClick={handleClosesCategory}
-              size="sm"
-            >
-              Submit
-            </Button>
-          </div>
+            <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
+              <Button
+                variant="primary"
+                color="dark"
+                onClick={handleClosesCategory}
+                size="sm"
+                type="submit"
+              >
+                Submit
+              </Button>
+            </div>
+          </Form>
         </Modal.Body>
+
       </Modal>
     </>
   );
