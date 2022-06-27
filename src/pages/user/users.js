@@ -1,16 +1,51 @@
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Button, Card, Col, Container, Form, Image, Modal, Row
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Image,
+  Modal,
+  Row,
 } from "@themesberg/react-bootstrap";
 import React, { useState } from "react";
 import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
 import Profile from "../../assets/img/team/profile.png";
 import Navbar from "../../components/Navbar";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 
 const Users = () => {
   const [showDefault, setShowDefault] = useState(false);
   const handleClose = () => setShowDefault(false);
+  const CategorySchema = Yup.object().shape({
+    firstName: Yup.string().required("First name is required"),
+    lastName: Yup.string().required("Last name is required"),
+    email: Yup.string().required("Email is required").email("Email is invalid"),
+  });
+  const formOptions = { resolver: yupResolver(CategorySchema) };
+
+  // get functions to build form with useForm() hook
+  const { register, handleSubmit, reset, formState } = useForm(formOptions);
+  const { errors } = formState;
+
+  const onSubmit = async (data) => {
+    // display form data on success
+    console.log(data, "here is data");
+    // await dispatch(
+    //   updatetPassword({
+    //     email: newData.email,
+    //     currentpassword: newData.currentpassword,
+    //     newpassword: newData.newpassword,
+    //     setShowDefault: setShowDefault,
+    //     reset: reset,
+    //   })
+    // );
+  };
 
   return (
     <>
@@ -106,31 +141,60 @@ const Users = () => {
           <Button variant="close" aria-label="Close" onClick={handleClose} />
         </Modal.Header>
         <Modal.Body>
-          <Form.Group>
-            <Form.Label>First Name</Form.Label>
-            <Form.Control required type="text" placeholder="Enter first Name" />
-          </Form.Group>
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form.Group className="col my-2">
+              <Form.Label>First Name</Form.Label>
+              <Form.Control
+                name="firstName"
+                type="text"
+                {...register("firstName")}
+                className={`form-control ${
+                  errors.firstName ? "is-invalid" : ""
+                }`}
+              />
+              <div className="invalid-feedback">
+                {errors.firstName?.message}
+              </div>
+            </Form.Group>
 
-          <Form.Group className="mt-3">
-            <Form.Label>Last Name</Form.Label>
-            <Form.Control required type="text" placeholder="Enter last Name" />
-          </Form.Group>
+            <Form.Group className="col my-2">
+              <Form.Label>Last Name</Form.Label>
+              <Form.Control
+                name="lastName"
+                type="text"
+                {...register("lastName")}
+                className={`form-control ${
+                  errors.lastName ? "is-invalid" : ""
+                }`}
+              />
+              <div className="invalid-feedback">{errors.lastName?.message}</div>
+            </Form.Group>
 
-          <Form.Group className="mt-3">
-            <Form.Label>Email</Form.Label>
-            <Form.Control required type="email" placeholder="Enter email" />
-          </Form.Group>
+            <Form.Group className="col my-2">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                name="email"
+                type="text"
+                {...register("email")}
+                className={`form-control ${errors.email ? "is-invalid" : ""}`}
+              />
+              <div className="invalid-feedback">{errors.email?.message}</div>
+            </Form.Group>
 
-          <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
-            <Button
-              variant="primary"
-              color="dark"
-              onClick={handleClose}
-              size="sm"
-            >
-              Save
-            </Button>
-          </div>
+            <Form.Group>
+              <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
+                <Button
+                  variant="primary"
+                  // onHide={handleClose}
+                  color="dark"
+                  size="sm"
+                  type="submit"
+                >
+                  Add
+                </Button>
+              </div>
+            </Form.Group>
+          </Form>
         </Modal.Body>
       </Modal>
     </>

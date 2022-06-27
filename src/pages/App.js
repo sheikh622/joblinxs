@@ -22,6 +22,8 @@ import Profile from "./profile/Profile";
 import userDetail from "./user/userDetail";
 import UserManagement from "./user/userManagement";
 import Users from "./user/users";
+import editAdminProfile from "./AdminProfile/editAdminProfile";
+import adminProfile from "./AdminProfile/adminProfile";
 
 // changes merge
 export default () => (
@@ -47,7 +49,9 @@ export default () => (
       />
 
       <PrivateRoute exact path={Routes.Profile.path} component={Profile} />
-
+      <PrivateRoute exact path={Routes.EditAdminProfile.path} component={editAdminProfile} />
+      <PrivateRoute exact path={Routes.AdminProfile.path} component={adminProfile} />
+      
       <PrivateRoute
         exact
         path={Routes.EditProfile.path}
