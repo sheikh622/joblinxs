@@ -133,7 +133,6 @@ const Users = () => {
           </Col>
         </Row>
       </Container>
-
       {/* Modal */}
       <Modal as={Modal.Dialog} centered show={showDefault} onHide={handleClose}>
         <Modal.Header>

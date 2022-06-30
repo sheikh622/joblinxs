@@ -1,0 +1,95 @@
+{
+  "Header": {
+    "title": "Hire or be hired online let Joblinxs link you up",
+    "paragraph": "Next generation freelance platformLoved by thousands of 5-Star-Rated employers, leading brands, and service providers.",
+    "smallImage": "img/5.png"
+  },
+  "About": {
+    "paragraph": "The app is designed to fully automate the hiring process into a seamless system. The automation of a hiring process into a seamless system is beneficial to both service seekers and service providers in the following ways.",
+    "Why": [
+      "Joblinxs App enables service seekers to keep track of their Applicants",
+      "The Joblinxs App helps service seekers to manage the hiring Plan",
+      "Service seekers save time by concentrating on personal touches",
+      "Joblinxs App promotes paster palent engagement",
+      "Joblinxs App supports more equal and fair hiring practices",
+      "With The Joblinxs App, fewer items fall between the cracks"
+    ],
+    "Why2": [
+      "Aliquip ex ea commodo",
+      "Lorem ipsum dolor",
+      "Exercitation ullamco",
+      "Lorem ipsum dolor"
+    ]
+  },
+  "AboutUs": {
+    "paragraph": " Joblinxs is a marketplace and employment app, whose main objective is to match service providers with service seekers in a way that is easy and mutually beneficial for everyone involved. The service seeker can search the service provider’s profile, post as many jobs as they can, in many locations, send messages to those they are willing to hire, chat with them, book video call sessions, organize interviews, send orders, confirm orders, set reminders, track  the  locations  of  the service  providers,  make  posts  for  emergency  jobs,  book replacements,  confirm  the  beginning  and  end  of  a  project,  confirm  the  start  of  a  shift, confirm the end of a shift, confirm working hours, pay service providers, collect refunds, post  reviews,  award  endorsements,  open  disputes,  include  additional  job  categories which will be confirmed by the admin, refer friends and family, and contact admin."
+   
+  },
+  "Features": [
+    {
+      "img": "img/diamond.png",
+      "heading": "24/7 Customer Service Access",
+      "text": "Contact our Customer Service team 24 hours per day, 7 days per week."
+    },
+    {
+      "img": "img/people.png",
+      "heading": "User Friendly ",
+      "text": "Signing up and Logging into the Joblinxs app is quick and easy for a user-friendly experience."
+    },
+    {
+      "img": "img/bel.png",
+      "heading": "Push Notifications",
+      "text": "Push Notifications are available to keep all users informed throughout the entire hiring process."
+    },
+    {
+      "img": "img/Setting.png",
+      "heading": "Track Locations",
+      "text": "Know where your service provider is at all times! Track his/ her location prior to the start of the shift."
+    },
+    {
+      "img": "img/stack.png",
+      "heading": "Referral Fees",
+      "text": "Refer friends and family and get paid! Joblinxs values your business and will provide incentives to show it."
+    },
+    {
+      "img": "img/message.png",
+      "heading": "Instant Messaging",
+      "text": "Send instant messages to Service Providers to connect with them for work. Push notifications will allow instant notice and foster immediate responses."
+    }
+  ],
+  "Portfolio": {
+    "paragraph": "“People who succeed in business aren't afraid to hear feedback from their customers - they actually thrive from it.”"
+  },
+  "Services": {
+    "AppStore": "img/appstore.png",
+    "PlayStore": "img/playstore.png",
+    "paragraph": "Quis autem velis ets reprehender net etid quiste netsum voluptate. Utise wisi enim minim veniam, quis etsad ets aspernatis netsum stationes nets qualitats."
+  },
+
+  "Contact": {
+    "address": "4321 California St, San Francisco, CA 12345 ",
+    "phone": "+1 123 456 1234",
+    "email": "info@company.com",
+    "facebook": "fb.com",
+    "twitter": "twitter.com",
+    "youtube": "youtube.com"
+  },
+  "Works": [
+    {
+      "img": "img/createAccount.png",
+     
+      "title": "Create Account",
+      "text": "Create your account following simple steps by providing the required information."
+    },
+    {
+      "img": "img/applyJob.png",
+      "title": "Apply to Job / Get Hired",
+      "text": "Apply to variety of jobs that suits your expertise and skills."
+    },
+    {
+      "img": "img/pay.png",
+      "title": "Get Paid",
+      "text": "Complete the jobs, get paid, and transfer balance to your attached accounts."
+    }
+  ]
+}
