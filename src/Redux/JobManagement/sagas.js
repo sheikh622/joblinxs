@@ -54,7 +54,7 @@ function* getProfileList({ payload }) {
         limit: payload.limit,
         type: payload.type,
         search: payload.search,
-        category:payload.category,
+        category: payload.category,
       })
     );
   } catch (error) {

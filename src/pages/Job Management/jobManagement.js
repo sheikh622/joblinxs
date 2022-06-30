@@ -70,17 +70,6 @@ const [categoryType, setCategoryType] = useState("");
     setCategoryType(event.target.value)
   }
   const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
-  console.log("category", categoryType)
-  // console.log("kvhbjli==============o", type)
-  // useEffect(() => {
-  //   dispatch(
-  //     getCategoryList({
-  //       search: "",
-     
-  //     })
-  //   );
-  // }, []);
-
   useEffect(() => {
     let array = [
       {

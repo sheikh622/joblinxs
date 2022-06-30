@@ -48,14 +48,28 @@ function* addCategoryRequest({ payload }) {
 function* getcategory({ payload }) {
   try {
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.get(
-      `category/list?keyword=${payload.search}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    let response;
+    if(payload.role=="admin"){
+      response = yield axios.get(
+        `category/list?keyword=${payload.search}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    }
+    else{
+      response = yield axios.get(
+        `category/user/list`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    }
+     
     // toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getCategoryListSuccess(response.data.data));
   } catch (error) {
