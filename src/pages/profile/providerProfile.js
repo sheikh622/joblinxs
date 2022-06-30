@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import {
   Container,
   Image,
@@ -20,8 +20,23 @@ import Profile from "../../assets/img/team/profile.png";
 import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
 import RecommendCard from "../../components/RecommendCard";
 import DetailHeading from "../../components/DetailHeading";
+import { useDispatch, useSelector } from "react-redux";
+// saga actions here
+import { getProfile } from "../../Redux/profile/actions";
 
 const ProviderProfile = () => {
+  const dispatch = useDispatch();
+  const login = useSelector((state) => state.auth.Auther);
+  const getById = useSelector((state) => state.ProfileReducer.profile);
+  console.log(login, "here is login data")
+  console.log(getById, "here is getById data")
+  useEffect(() => {
+    dispatch(
+      getProfile({
+        id: login?.id,
+      })
+    );
+  }, []);
   return (
     <>
       <Navbar module={"Service Provider Profile"} />
@@ -30,9 +45,9 @@ const ProviderProfile = () => {
           <Col lg={4} md={6} xs={12} className="pb-3 mb-3">
             <Card border="light" className="card-box-shadow py-3 px-4 mb-3">
               <div className="detailed">
-                <Image src={Profile} className="navbar-brand-light detailImg" />
-                <h3 className="mb-1 mt-3">Denila Thomas</h3>
-                <h5 className="text-gray">Sr. Developer</h5>
+                <Image src={getById?.profileImg} className="navbar-brand-light detailImg" />
+                <h3 className="mb-1 mt-3">{getById?.fullName}</h3>
+                <h5 className="text-gray">{getById?.profileType}</h5>
                 <span className="starIcon">
                   <FontAwesomeIcon icon={faStar} />
                   <FontAwesomeIcon icon={faStar} />
@@ -130,37 +145,37 @@ const ProviderProfile = () => {
                   </span>
                 </div>
 
-                <DetailHeading heading={"Email"} value={"abc@xyz.com"} />
-                <DetailHeading heading={"Phone"} value={"000-1234-567"} />
-                <DetailHeading heading={"Address"} value={"Address"} />
-                <DetailHeading heading={"City"} value={"City"} />
-                <DetailHeading heading={"Province"} value={"Province"} />
-                <DetailHeading heading={"Postal Code"} value={"1234567"} />
+                <DetailHeading heading={"Email"} value={getById?.email ? getById?.email :"-"} />
+                <DetailHeading heading={"Phone"} value={getById?.phoneNumber ? getById?.phoneNumber:"-"} />
+                <DetailHeading heading={"Address"} value={getById?.address ? getById?.address:"-"} />
+                <DetailHeading heading={"City"} value={getById?.city ? getById?.city:"-"} />
+                <DetailHeading heading={"Province"} value={getById?.province ? getById?.province:"-"} />
+                <DetailHeading heading={"Postal Code"} value={getById?.postalCode ?getById?.postalCode :"-"} />
                 <DetailHeading
                   heading={" Date of Birth"}
-                  value={"DD/MM/YYYY"}
+                  value={getById?.dateOfBirth ? getById?.dateOfBirth :"-"}
                 />
                 <DetailHeading
                   heading={"Personal Attributes"}
-                  value={"Lorem Ipsum"}
+                  value={getById?.personalAttributes ? getById?.personalAttributes:"-"}
                 />
                 <DetailHeading
                   heading={"Career Overview"}
-                  value={"Lorem Ipsum"}
+                  value={getById?.carrierOverview ? getById?.carrierOverview:"-"}
                 />
                 <DetailHeading
                   heading={"Volenteering History"}
-                  value={"Lorem Ipsum"}
+                  value={getById?.volunteeringHistory ? getById?.volunteeringHistory:"-"}
                 />
                 <DetailHeading
                   heading={" Tools Available"}
-                  value={"Lorem Ipsum"}
+                  value={getById?.toolsAvailable ? getById?.toolsAvailable :"-"}
                 />
                 <DetailHeading
                   heading={"Transportation Available"}
-                  value={"Lorem Ipsum"}
+                  value={getById?.transportationAvailable ?getById?.transportationAvailable:"-"}
                 />
-                <DetailHeading heading={" Job Type"} value={"Lorem Ipsum"} />
+                <DetailHeading heading={" Job Type"} value={getById?.account_type ?getById?.account_type :"-"} />
               </Card.Body>
 
               <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">

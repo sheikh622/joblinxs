@@ -15,6 +15,8 @@ export const Routes = {
     Categories_Management: {path:"/category-management"},
     Job_Management: {path:"/job-management"},
     Users: {path:"/users"},
+    EditAdminProfile:{path:"/editAdminProfile"},
+    AdminProfile:{path:"/AdminProfile"},
     
     Signin: { path: "/" },
     ForgotPassword: { path: "/forgot-password" },

@@ -18,20 +18,18 @@ import { useForm } from "react-hook-form";
 import {updateAdminProfile } from "../../Redux/profile/actions";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getProfile } from "../../Redux/profile/actions";
+import profile from "../../assets/img/team/profile-picture-1.jpg"
 import * as Yup from "yup";
+
 
 export default () => {
   const dispatch = useDispatch();
   const login = useSelector((state) => state.auth.Auther);
   const getById = useSelector((state) => state.ProfileReducer.profile);
   const [selectedImage, setSelectedImage] = useState();
-  const phoneRegExp =
-    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Full name is required"),
-    phoneNumber: Yup.string().matches(phoneRegExp, "Phone number is not valid"),
-    address: Yup.string().required("address is required"),
-    city: Yup.string().required("city is required"),
+    email: Yup.string().required("Email is required").email("Email is invalid"),
   });
   const formOptions = { resolver: yupResolver(validationSchema) };
   // get functions to build form with useForm() hook
@@ -39,19 +37,13 @@ export default () => {
   const { errors } = formState;
   const [user, setUser] = useState();
   useEffect(() => {
-    // reset form with user data
     reset(user);
   }, [user]);
+
   useEffect (()=>{
-    console.log(getById, "here is data")
-    setUser({
-      fullName: getById.fullName,
-      address: getById.address,
-      phoneNumber: getById.phoneNumber,
-      city: getById.city,
-      postalCode: getById.postalCode,
-    })
+    setUser({ fullName: getById?.fullName, email: getById?.email })
   }, [getById])
+
   useEffect(() => {
     dispatch(
       getProfile({
@@ -63,10 +55,6 @@ export default () => {
     // display form data on success
     let Data = new FormData();
     Data.append("fullName",data.fullName)
-    Data.append("address",data.address)
-    Data.append("phoneNumber",data.phoneNumber)
-    Data.append("city",data.city)
-    Data.append("postalCode",data.postalCode)
     Data.append("id",getById.id)
     Data.append("profileImg",selectedImage ? selectedImage : getById?.profileImg)
     dispatch(updateAdminProfile(Data));
@@ -89,7 +77,7 @@ export default () => {
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Row>
               <div className="mt-2 mb-3 d-flex justify-content-end">
-                <Link className="text-white fw-bold" to={Routes.Profile.path}>
+                <Link className="text-white fw-bold" to={Routes.AdminProfile.path}>
                   <Button variant="primary">Back</Button>
                 </Link>
               </div>
@@ -108,7 +96,7 @@ export default () => {
                         />
                       ) : (
                         <Card.Img
-                          src={getById  ?.profileImg}
+                          src={getById?.profileImg ? getById?.profileImg : profile}
                           alt="Neil Portrait"
                           className="user-avatar large-avatar rounded-circle mx-auto mt-5"
                         />
@@ -169,59 +157,18 @@ export default () => {
                       </div>
                     </Form.Group>
                     <Form.Group className="col my-2">
-                      <Form.Label>Phone</Form.Label>
+                      <Form.Label>Email</Form.Label>
                       <Form.Control
-                        name="phoneNumber"
+                        name="email"
                         type="text"
-                        {...register("phoneNumber")}
+                        disabled
+                        {...register("email")}
                         className={`form-control ${
-                          errors.phoneNumber ? "is-invalid" : ""
+                          errors.email ? "is-invalid" : ""
                         }`}
                       />
                       <div className="invalid-feedback">
-                        {errors.phoneNumber?.message}
-                      </div>
-                    </Form.Group>
-                    <Form.Group className="col my-2">
-                      <Form.Label>Address</Form.Label>
-                      <Form.Control
-                        name="address"
-                        type="text"
-                        {...register("address")}
-                        className={`form-control ${
-                          errors.address ? "is-invalid" : ""
-                        }`}
-                      />
-                      <div className="invalid-feedback">
-                        {errors.address?.message}
-                      </div>
-                    </Form.Group>
-                    <Form.Group className="col my-2">
-                      <Form.Label>City</Form.Label>
-                      <Form.Control
-                        name="city"
-                        type="text"
-                        {...register("city")}
-                        className={`form-control ${
-                          errors.city ? "is-invalid" : ""
-                        }`}
-                      />
-                      <div className="invalid-feedback">
-                        {errors.city?.message}
-                      </div>
-                    </Form.Group>
-                    <Form.Group className="col my-2">
-                      <Form.Label>Postal Code</Form.Label>
-                      <Form.Control
-                        name="postalCode"
-                        type="text"
-                        {...register("postalCode")}
-                        className={`form-control ${
-                          errors.postalCode ? "is-invalid" : ""
-                        }`}
-                      />
-                      <div className="invalid-feedback">
-                        {errors.postalCode?.message}
+                        {errors.email?.message}
                       </div>
                     </Form.Group>
                     <Form.Group>

@@ -329,7 +329,7 @@ export default (props = {}) => {
                         />
                       </svg>
                     }
-                    link={Routes.Profile.path}
+                    link={Routes.AdminProfile.path}
                   />
                 </>
               )}

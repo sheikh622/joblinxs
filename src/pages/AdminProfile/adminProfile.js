@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React,{useEffect} from "react";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,24 +11,24 @@ import {
   Row,
 } from "@themesberg/react-bootstrap";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
+
 import Profile1 from "../../assets/img/team/profile-picture-1.jpg";
 import DetailHeading from "../../components/DetailHeading";
 import Navbar from "../../components/Navbar";
 import { Routes } from "../../routes";
-import { useDispatch, useSelector } from "react-redux";
-// saga actions here
-import { getProfile } from "../../Redux/profile/actions";
 import ChangePassword from "../../components/changePassword";
+import {getProfile} from "../../Redux/profile/actions"
 
 export default () => {
   const dispatch = useDispatch();
-  const login = useSelector((state) => state.auth.Auther);
-  const getById = useSelector((state) => state.ProfileReducer.profile);
   const history = useHistory();
-  // const {
-  //   location: { state },
-  // } = history;
+  const login = useSelector((state) => state.auth.Auther);
+  const getProfileData = useSelector((state) => state.ProfileReducer.profile);
+  const {
+    location: { state },
+  } = history;
   const [showDefault, setShowDefault] = useState(false);
   const handleClose = async () => {
     setShowDefault(false);
@@ -44,12 +44,11 @@ export default () => {
     );
   }, []);
   const editProfile = () => {
-    history.push(Routes.EditProfile.path);
+    history.push(Routes.EditAdminProfile.path);
   };
-
   return (
     <>
-      <Navbar module={"Profile"} />
+      <Navbar module={"Admin Profile"} />
       <Container>
         <Row>
           <div className="mt-2 mb-3 d-flex justify-content-end">
@@ -82,9 +81,9 @@ export default () => {
                   className="text-center p-0 mb-4 profileView"
                 >
                   <Card.Body className="pb-2">
-                    {login?.profileImg ? (
+                  {getProfileData?.profileImg ? (
                       <Card.Img
-                        src={getById?.profileImg}
+                        src={getProfileData?.profileImg}
                         alt="Neil Portrait"
                         className="user-avatar large-avatar rounded-circle mx-auto mb-2"
                       />
@@ -95,9 +94,8 @@ export default () => {
                         className="user-avatar large-avatar rounded-circle mx-auto mt-5"
                       />
                     )}
-
                     <div className="border_bottom pb-3 mb-4">
-                      <Card.Title>{getById?.fullName}</Card.Title>
+                      <Card.Title>{getProfileData?.fullName}</Card.Title>
                       <Card.Subtitle className="fw-normal">
                         Senior Software Engineer
                       </Card.Subtitle>
@@ -106,9 +104,9 @@ export default () => {
                       </Card.Text>
                       <Card.Text className="text-gray mb-0 starIcon">
                         <FontAwesomeIcon icon={faStar} />
+                        <FontAwesomeIcon icon={faStar} />{" "}
                         <FontAwesomeIcon icon={faStar} />
-                        <FontAwesomeIcon icon={faStar} />
-                        <FontAwesomeIcon icon={faStar} />
+                        <FontAwesomeIcon icon={faStar} />{" "}
                         <FontAwesomeIcon icon={faStar} />
                       </Card.Text>
                       <Card.Text className="text-gray mb-2 reviews">
@@ -137,47 +135,8 @@ export default () => {
                       <Card.Title className="text-primary">
                         Basic Information
                       </Card.Title>
-                      <DetailHeading
-                        heading={"Full Name"}
-                        value={getById?.fullName}
-                      />
-                      <DetailHeading
-                        heading={"Member Since"}
-                        value={getById?.memberSince}
-                      />
-                        <DetailHeading
-                        heading={"City"}
-                        value={getById?.city}
-                      />
-                    </div>
-                    <div className="border_bottom pb-2 mb-4">
-                      <Card.Title className="text-primary">
-                        Contact Information
-                      </Card.Title>
-                      <DetailHeading
-                        heading={"Email"}
-                        value={getById?.email}
-                      />
-                      <DetailHeading
-                        heading={"Phone"}
-                        value={getById?.phoneNumber}
-                      />
-                      <DetailHeading
-                        heading={"Address"}
-                        value={getById?.address}
-                      />
-                       <DetailHeading
-                        heading={"Postal Code"}
-                        value={getById?.postalCode}
-                      />
-                    </div>
-                    <div className="pb-2 mb-4">
-                      <Card.Title className="text-primary">
-                        Categories
-                      </Card.Title>
-                      <Card.Text className="text-gray mb-2">
-                        <span className="text-black">Plumber</span>
-                      </Card.Text>
+                      <DetailHeading heading={"Full Name"} value={getProfileData?.fullName} />
+                      <DetailHeading heading={"Email"} value={getProfileData?.email} />
                     </div>
                   </Card.Body>
                 </Card>
