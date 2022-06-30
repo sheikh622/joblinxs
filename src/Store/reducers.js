@@ -6,6 +6,8 @@ import CategoryListing from "../Redux/categoryManagement/reducers";
 import User from '../Redux/userManagement/reducers';
 import Job from "../Redux/JobManagement/reducers";
 import Seeker from "../Redux/Dashboard/reducers";
+import ProfileReducer from "../Redux/profile/reducers";
+
 const rootReducer = (history) => {
   return combineReducers({
     User,
@@ -14,6 +16,7 @@ const rootReducer = (history) => {
     CategoryListing,
     Job,
     Seeker,
+    ProfileReducer,
     router: connectRouter(history),
   });
 

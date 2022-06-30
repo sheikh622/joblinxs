@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Form } from "@themesberg/react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +8,7 @@ import * as Yup from "yup";
 
 import { updatetPassword } from "../Redux/auth/actions";
 
-export default ({showDefault, setShowDefault}) => {
+export default ({ showDefault, setShowDefault }) => {
   const dispatch = useDispatch();
   const login = useSelector((state) => state.auth.Auther);
   const CategorySchema = Yup.object().shape({
@@ -41,12 +41,12 @@ export default ({showDefault, setShowDefault}) => {
     );
   };
   useEffect(() => {
-    if(!showDefault){
-        reset();
+    if (!showDefault) {
+      reset();
     }
-    console.log(showDefault, "erjerej")
-  }, [showDefault])
-  
+    console.log(showDefault, "erjerej");
+  }, [showDefault]);
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Form.Group>
@@ -102,4 +102,4 @@ export default ({showDefault, setShowDefault}) => {
       </Form.Group>
     </Form>
   );
-}
+};
