@@ -20,7 +20,6 @@ export const GeneralInfoForm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
-  console.log("vhj", CategoryData)
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
   const [hours, setHours] = useState("");
@@ -159,7 +158,6 @@ export const GeneralInfoForm = () => {
       types: ["(regions)"],
     },
   });
-  console.log(location, "here is lcoation");
   return (
     <>
       <Col className={'d-flex justify-content-center'}>
@@ -215,8 +213,8 @@ export const GeneralInfoForm = () => {
                     <Form.Check
                       // defaultChecked
                       type="radio"
-                      label="One Time"
-                      value="oneTime"
+                      label="One-time"
+                      value="One-time"
                       name="jobNature"
                       className="radio1" Description
                       onChange={(event) => {
@@ -227,7 +225,7 @@ export const GeneralInfoForm = () => {
                     <Form.Check
                       type="radio"
                       label="Recurring"
-                      value="recurring"
+                      value="Recurring"
                       name="jobNature"
                       onChange={(event) => {
                         setJobNature(event.target.value)
@@ -364,9 +362,9 @@ export const GeneralInfoForm = () => {
                     <Form.Check
                       // defaultChecked
                       type="radio"
-                      label="Part-time"
+                      label="Part-time,"
                       name="jobType"
-                      value="partTime"
+                      value="Part-time"
                       className="radio1"
                       onChange={(event) => {
                         setJobType(event.target.value)
@@ -374,9 +372,9 @@ export const GeneralInfoForm = () => {
                     />
                     <Form.Check
                       type="radio"
-                      label="Permanent"
+                      label="Full-time"
                       name="jobType"
-                      value="permanent"
+                      value="Full-time"
                       onChange={(event) => {
                         setJobType(event.target.value)
                       }}

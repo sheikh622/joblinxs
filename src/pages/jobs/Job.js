@@ -121,6 +121,7 @@ const Job = () => {
     return items
   }
   return (
+    
     <>
       <Navbar module={"My Jobs"} />
       <Container>
@@ -133,7 +134,7 @@ const Job = () => {
                 <Form.Select
                   defaultValue="1"
                   label="Select"
-                  value={type}
+                  value={type && type}
                   onChange={handleChange}
 
                 >

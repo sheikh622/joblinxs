@@ -19,7 +19,7 @@ const CommonCard = (props) => {
         </div>
         <div className="detailSection">
           <span className="left">
-            <Link className="fw-bold" to={Routes.DetailJob.path}>
+            <Link className="fw-bold" to={Routes.MyJobDetail.path}>
               <h3>{props.name}</h3>
               <h4>{props.type}</h4>
               <p>
