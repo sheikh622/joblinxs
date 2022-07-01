@@ -19,6 +19,8 @@ import { Routes } from "../../routes";
 import { getJobs } from "../../Redux/addJob/actions"
 import { display } from "@mui/system";
 import Slideshow from "../../components/slider";
+import NoRecordFound from "../../components/NoRecordFound";
+
 // // Import Swiper styles
 
 // import 'swiper/swiper-bundle.min.css'
@@ -121,11 +123,11 @@ const Job = () => {
     return items
   }
   return (
-    
+
     <>
       <Navbar module={"My Jobs"} />
       <Container>
-       < Slideshow/>
+        {/* < Slideshow/> */}
         <Row className="pt-2 pb-4">
           <div className="d-flex justify-content-between mt-0 mb-4 headerBorder">
 
@@ -183,7 +185,7 @@ const Job = () => {
             // label="Select"
             // value={categoryType}
             onChange={handleClick}
-            style={{ display: "inline-block", marginBottom:"20px", whiteSpace:"20px" }}
+            style={{ display: "inline-block", marginBottom: "20px", whiteSpace: "20px" }}
           >
             {category.map((option) => (
               <Button key={option.value} value={option.value}>
@@ -191,38 +193,44 @@ const Job = () => {
               </Button>
             ))}
           </div>
-          {
-            JobList?.map((item) => {
-              return (
-                <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
-                  <CommonCard
-                    img={item?.image ? item?.image : Profile}
-                    name={item?.name ? item?.name : "N/A"}
-                    type={"Chemical"}
-                    rate={item?.rate ? item?.rate : "N/A"}
-                    completed={"90"}
-                    star={"4.7"}
-                  />
-                </Col>
-              )
-            })
-          }
-          <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
-            <Nav>
-              <Pagination size={"sm"} className="mb-2 mb-lg-0">
-                <Pagination.Prev onClick={() => previousPage()}>
-                  <FontAwesomeIcon icon={faAngleDoubleLeft} />
-                </Pagination.Prev>
-                {paginationItems()}
-                <Pagination.Next onClick={() => nextPage()}>
-                  <FontAwesomeIcon icon={faAngleDoubleRight} />
-                </Pagination.Next>
-              </Pagination>
-            </Nav>
-            <small className="fw-bold">
-              Showing <b>{JobList?.length}</b> out of <b>{JobList?.total_jobs}</b> entries
-            </small>
-          </Card.Footer>
+          {JobList?.length > 0 ? (
+            <>
+              {
+                JobList?.map((item) => {
+                  return (
+                    <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
+                      <CommonCard
+                        img={item?.image ? item?.image : Profile}
+                        name={item?.name ? item?.name : "N/A"}
+                        type={"Chemical"}
+                        rate={item?.rate ? item?.rate : "N/A"}
+                        completed={"90"}
+                        star={"4.7"}
+                      />
+                    </Col>
+                  )
+                })
+              }
+              <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+                <Nav>
+                  <Pagination size={"sm"} className="mb-2 mb-lg-0">
+                    <Pagination.Prev onClick={() => previousPage()}>
+                      <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                    </Pagination.Prev>
+                    {paginationItems()}
+                    <Pagination.Next onClick={() => nextPage()}>
+                      <FontAwesomeIcon icon={faAngleDoubleRight} />
+                    </Pagination.Next>
+                  </Pagination>
+                </Nav>
+                <small className="fw-bold">
+                  Showing <b>{JobList?.length}</b> out of <b>{JobList?.total_jobs}</b> entries
+                </small>
+              </Card.Footer>
+            </>
+          ) : (
+            <NoRecordFound />
+          )}
         </Row>
       </Container>
     </>

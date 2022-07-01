@@ -2,7 +2,7 @@ import produce from "immer";
 import {
   ADD_JOB_SUCCESS,
   GET_JOB_SUCCESS,
-  FAVOURITE_JOB_LIST_SUCCESS
+  FAVOURITE_JOB_LIST_SUCCESS,
 } from "./constants";
 const initialState = {
   addJob: [],

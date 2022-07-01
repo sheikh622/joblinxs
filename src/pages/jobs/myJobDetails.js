@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Container,
     Image,
@@ -8,6 +8,7 @@ import {
     Button,
     Dropdown,
     ButtonGroup,
+    Modal, Form
 } from "@themesberg/react-bootstrap";
 import Navbar from "../../components/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,6 +17,8 @@ import {
     faChevronRight,
     faEllipsisV,
 } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+import { Routes } from "../../routes";
 // import Profile from "../../assets/img/team/profile.png";
 import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
 import RecommendCard from "../../components/RecommendCard";
@@ -23,17 +26,16 @@ import DetailHeading from "../../components/DetailHeading";
 import { useDispatch, useSelector } from "react-redux";
 // saga actions here
 // import { getProfile } from "../../Redux/ /actions";
-
-const MyJobDetails = () => {
+import { deleteAddJob } from "../../Redux/addJob/actions";
+const MyJobDetails = (item) => {
     const dispatch = useDispatch();
     const login = useSelector((state) => state.auth.Auther);
     // const getById = useSelector((state) => state.ProfileReducer.profile);
-    console.log(login, "here is login data")
-    // console.log(getById, "here is getById data")
     const JobList = useSelector(
         (state) => state?.addJob?.getJob?.jobs
     );
-    console.log("jobList", JobList)
+    const [adminId, setAdminId] = useState(0);
+    const [showDefault, setShowDefault] = useState(false);
     // useEffect(() => {
     //   dispatch(
     //   //   getProfile({
@@ -41,9 +43,18 @@ const MyJobDetails = () => {
     //   //   })
     //   );
     // }, []);
+    const handleDelete = () => {
+        dispatch(
+            deleteAddJob({
+                jobId: adminId,
+            })
+        );
+    };
+    const handlefalse = () => {
+        setShowDefault(false)
+    };
     return (
         <>
-
             <Navbar module={"Job Detail"} />
             <Container>
                 <Row>
@@ -69,8 +80,6 @@ const MyJobDetails = () => {
                                 </span>
                             </div>
                         </Card>
-
-
                     </Col>
                     <Col lg={8} md={6} xs={12} className="pb-3 mb-3">
                         <Card
@@ -82,9 +91,7 @@ const MyJobDetails = () => {
                                     <Card.Title className="text-primary">
                                         User Information
                                     </Card.Title>
-
                                 </div>
-
                                 <DetailHeading heading={"JobRequirement"} value={JobList?.requirement ? JobList?.requirement : "-"} />
                                 <DetailHeading heading={"ToolsNeeded"} value={JobList?.toolsNeeded ? JobList?.toolsNeeded : "-"} />
                                 <DetailHeading heading={"Payment Type"} value={JobList?.address ? JobList?.address : "-"} />
@@ -110,22 +117,29 @@ const MyJobDetails = () => {
                                 <FontAwesomeIcon color="#12499C" icon={faChevronRight} />
                             </Card.Body>
                         </Card>
+                        <Link className="fw-bold" to={Routes.CreateJob.path}>
+                            <div class="d-grid gap-2 col-3 mx-auto">
+                                <Button
+                                    variant="primary"
+                                    color="dark"
+                                    size="lg"
+                                    className="mt-2 me-1"
+                                >
+                                    Edit Job
+                                </Button>
+                            </div>
+                        </Link>
                         <div class="d-grid gap-2 col-3 mx-auto">
                             <Button
                                 variant="primary"
                                 color="dark"
                                 size="lg"
                                 className="mt-2 me-1"
-                            >
-                                Edit Job
-                            </Button>
-                        </div>
-                        <div class="d-grid gap-2 col-3 mx-auto">
-                            <Button
-                                variant="primary"
-                                color="dark"
-                                size="lg"
-                                className="mt-2 me-1"
+                                onClick={() => {
+                                    setAdminId(item.id)
+                                    setShowDefault(true);
+                                }
+                                }
                             >
                                 Delete Job
                             </Button>
@@ -133,6 +147,39 @@ const MyJobDetails = () => {
                     </Col>
                 </Row>
             </Container>
+            <Modal as={Modal.Dialog} centered show={showDefault} onHide={handlefalse} >
+                <Modal.Header>
+                    <Modal.Title className="h5">
+                        Delete User
+                    </Modal.Title>
+                    <Button variant="close" aria-label="Close" onClick={handlefalse} />
+                </Modal.Header>
+                <Modal.Body>
+                    <Form >
+                        <Form.Group>
+                            Are you sure you want to delete this Job?
+                        </Form.Group>
+                        <Form.Group>
+                            <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
+                                <Button
+                                    variant="primary"
+                                    onHide={handlefalse}
+                                    color="dark"
+                                    size="sm"
+                                    // type="submit"
+                                    onClick={() => {
+                                        handleDelete();
+                                        handlefalse();
+                                    }}
+                                >
+                                    Delete
+                                </Button>
+                            </div>
+                        </Form.Group>
+                    </Form>
+
+                </Modal.Body>
+            </Modal>
         </>
     );
 };
