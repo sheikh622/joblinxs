@@ -5,8 +5,17 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { Routes } from "../routes";
+import {markAsFavouriteJob} from "../Redux/addJob/actions"
+import { useDispatch, useSelector } from "react-redux";
 
 const RecommendCard = (props) => {
+  const dispatch = useDispatch();
+  
+  const handleFavourite =(id)=>{
+    dispatch(
+      markAsFavouriteJob(id)
+    )
+  }
   return (
     <>
       <Card border="light" className="shadow-sm introCard">
@@ -25,12 +34,12 @@ const RecommendCard = (props) => {
             </Link>
           </span>
           <span className="right">
-            <span className="starSpan">
+            <span className="starSpan" >
               {" "}
               <FontAwesomeIcon icon={faStar} /> {props.star}
             </span>
             <span>
-              <FontAwesomeIcon icon={faHeart} />
+              <FontAwesomeIcon icon={faHeart} onClick={()=>{handleFavourite(1)}}/>
             </span>
           </span>
         </div>

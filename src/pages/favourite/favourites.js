@@ -1,10 +1,51 @@
-import { Col, Container, Row } from "@themesberg/react-bootstrap";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import { Col, Container, Row,Pagination } from "@themesberg/react-bootstrap";
 import Profile from "../../assets/img/team/profile.png";
 import CommonCard from "../../components/CommonCard";
 import Navbar from "../../components/Navbar";
+import {favouriteJobList} from "../../Redux/addJob/actions"
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 const Favourites = () => {
+  const dispatch = useDispatch();
+  const [page, setPage] = useState(1);
+  const history = useHistory();
+  const JobList = useSelector(
+    (state) => state
+  );
+  console.log(JobList, "here is job list")
+  useEffect(() => {
+    dispatch(
+      favouriteJobList({
+        page:page
+      })
+    )
+  }, [page])
+  const nextPage = () => {
+    if (page < JobList?.pages) {
+      setPage(page + 1);
+    }
+  };
+  const previousPage = () => {
+    if (1 < page) {
+      setPage(page - 1);
+    }
+  };
+  const paginationItems = () => {
+    let items = [];
+    for (let number = 1; number <= JobList?.pages; number++) {
+      items.push(
+        <Pagination.Item key={number} active={number === page} onClick={() => {
+          setPage(number)
+        }}>
+          {number}
+        </Pagination.Item>,
+      );
+    }
+    return items
+  }
+  
   return (
     <>
       <Navbar module={"Favourites"} />
