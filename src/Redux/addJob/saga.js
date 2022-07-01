@@ -4,10 +4,10 @@ import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
 import {
-  getAddJob, getJobListingSuccess, getJobsSuccess,favouriteJobListSuccess,deleteAddJob
+  getAddJob, getJobListingSuccess, getJobsSuccess, favouriteJobListSuccess, deleteAddJob, jobByIdSuccess
 } from "./actions";
 import {
-  ADD_JOB, ADD_JOB_SUCCESS, GET_JOB,FAVOURITE_JOB_LIST,DELETE_ADD_JOB
+  ADD_JOB, ADD_JOB_SUCCESS, GET_JOB, FAVOURITE_JOB_LIST, DELETE_ADD_JOB, MARK_AS_FAVOURITE_JOB, JOB_BY_ID_SUCCESS,JOB_BY_ID
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 function* addJob({ payload }) {
@@ -104,10 +104,50 @@ function* deleteJobSaga({ payload }) {
 function* watchDeleteAddJob() {
   yield takeLatest(DELETE_ADD_JOB, deleteJobSaga);
 }
+function* markAsFavouriteJobSaga({ payload }) {
+  try {
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.patch(
+      `job/favorite/${payload.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    yield put(favouriteJobListSuccess(response.data.data));
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchMarkAsFavouriteJob() {
+  yield takeLatest(MARK_AS_FAVOURITE_JOB, markAsFavouriteJobSaga);
+}
+function* jobByIdSaga({ payload }) {
+  try {
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.get(
+      `job/getJob/${payload.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    yield put(jobByIdSuccess(response.data.data));
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchJobById() {
+  yield takeLatest(JOB_BY_ID, jobByIdSaga);
+}
 export default function* addJobSaga() {
   yield all([fork(watchAddJob)]);
   yield all([fork(watchGetJob)]);
   yield all([fork(watchGetFavouriteJob)]);
   yield all([fork(watchDeleteAddJob)]);
+  yield all([fork(watchMarkAsFavouriteJob)]);
+  yield all([fork(watchJobById)]);
 
 }

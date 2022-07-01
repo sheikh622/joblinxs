@@ -6,6 +6,9 @@ import {
     FAVOURITE_JOB_LIST_SUCCESS,
     FAVOURITE_JOB_LIST,
     DELETE_ADD_JOB,
+    MARK_AS_FAVOURITE_JOB,
+    JOB_BY_ID,
+    JOB_BY_ID_SUCCESS
   } from "./constants";
   
   export const getJobListing = (data) => ({
@@ -39,3 +42,15 @@ export const deleteAddJob = (data) => {
     payload: data,
   }
 }
+export const markAsFavouriteJob = (data) => ({
+  type: MARK_AS_FAVOURITE_JOB,
+  payload: data,
+});
+export const jobById = (data) => ({
+  type: JOB_BY_ID,
+  payload: data,
+});
+export const jobByIdSuccess = (data) => ({
+  type:  JOB_BY_ID_SUCCESS,
+  payload: data,
+});
