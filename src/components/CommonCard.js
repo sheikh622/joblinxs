@@ -7,13 +7,15 @@ import { Link } from "react-router-dom";
 import { Routes } from "../routes";
 
 const CommonCard = (props) => {
+  const handleFavourite =()=>{
+    alert(1)
+  }
   return (
     <>
       <Card border="light" className="shadow-sm selfCard">
         <div className="imgaSection">
           <Image src={props.img} className="navbar-brand-light" />
-          <span className="starSpan">
-            {" "}
+          <span className="starSpan" style={{cursor:"pointer"}} onClick={handleFavourite}>
             <FontAwesomeIcon icon={faStar} /> {props.star}
           </span>
         </div>

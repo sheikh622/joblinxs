@@ -4,10 +4,10 @@ import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
 import {
-  getAddJob, getJobListingSuccess, getJobsSuccess
+  getAddJob, getJobListingSuccess, getJobsSuccess,favouriteJobListSuccess
 } from "./actions";
 import {
-  ADD_JOB, ADD_JOB_SUCCESS, GET_JOB
+  ADD_JOB, ADD_JOB_SUCCESS, GET_JOB,FAVOURITE_JOB_LIST
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 function* addJob({ payload }) {
@@ -67,8 +67,27 @@ function* getJobList({ payload }) {
 function* watchGetJob() {
   yield takeLatest(GET_JOB, getJobList);
 }
+function* getFavoutiteJobList({ payload }) {
+  try {
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.get(
+      `job/favorite?page=${payload.page}&count=10`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    yield put(favouriteJobListSuccess(response.data.data));
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchGetFavouriteJob() {
+  yield takeLatest(FAVOURITE_JOB_LIST, getFavoutiteJobList);
+}
 export default function* addJobSaga() {
   yield all([fork(watchAddJob)]);
   yield all([fork(watchGetJob)]);
-
+  yield all([fork(watchGetFavouriteJob)]);
 }
