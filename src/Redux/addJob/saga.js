@@ -7,7 +7,8 @@ import {
   getAddJob, getJobListingSuccess, getJobsSuccess,favouriteJobListSuccess
 } from "./actions";
 import {
-  ADD_JOB, ADD_JOB_SUCCESS, GET_JOB,FAVOURITE_JOB_LIST
+  ADD_JOB, ADD_JOB_SUCCESS, GET_JOB,FAVOURITE_JOB_LIST,
+  MARK_AS_FAVOURITE_JOB
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 function* addJob({ payload }) {
@@ -86,8 +87,29 @@ function* getFavoutiteJobList({ payload }) {
 function* watchGetFavouriteJob() {
   yield takeLatest(FAVOURITE_JOB_LIST, getFavoutiteJobList);
 }
+function* markAsFavouriteJobSaga({ payload }) {
+  try {
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.patch(
+      `job/favorite/${payload.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    yield put(favouriteJobListSuccess(response.data.data));
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchMarkAsFavouriteJob() {
+  yield takeLatest(MARK_AS_FAVOURITE_JOB, markAsFavouriteJobSaga);
+}
+
 export default function* addJobSaga() {
   yield all([fork(watchAddJob)]);
   yield all([fork(watchGetJob)]);
   yield all([fork(watchGetFavouriteJob)]);
+  yield all([fork(watchMarkAsFavouriteJob)]);
 }
