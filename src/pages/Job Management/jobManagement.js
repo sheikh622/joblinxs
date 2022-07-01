@@ -27,16 +27,16 @@ const JobManagement = (row) => {
 
   const handleJobAction = (id) => {
 
-    // dispatch(
-    //   getJobProfile({
-    //     jobId: id,
-    //     page: page,
-    //     limit: limit,
-    //     type: type,
-    //     search: search,
-    //     category:categoryType,
-    //   })
-    // );
+    dispatch(
+      getJobProfile({
+        jobId: id,
+        page: page,
+        limit: limit,
+        type: type,
+        search: search,
+        category:categoryType,
+      })
+    );
   }
   const handleDelete = () => {
     dispatch(
@@ -53,7 +53,7 @@ const JobManagement = (row) => {
   };
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [limit] = useState("5");
+  const [limit] = useState("10");
 const [categoryType, setCategoryType] = useState("");
   const [showDefault, setShowDefault] = useState(false);
   const [category, setCategory] = useState([]);
@@ -70,17 +70,6 @@ const [categoryType, setCategoryType] = useState("");
     setCategoryType(event.target.value)
   }
   const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
-  console.log("category", category)
-  // console.log("kvhbjli==============o", type)
-  // useEffect(() => {
-  //   dispatch(
-  //     getCategoryList({
-  //       search: "",
-     
-  //     })
-  //   );
-  // }, []);
-
   useEffect(() => {
     let array = [
       {
@@ -94,7 +83,6 @@ const [categoryType, setCategoryType] = useState("");
         label: item?.title,
 
       })
-      console.log("cguhioj", item.title)
     })
     setCategory(array);
   }, [CategoryData])
@@ -123,7 +111,7 @@ const [categoryType, setCategoryType] = useState("");
       })
     );
   },
-    [page, limit, type, search, category]
+    [page, limit, type, search, categoryType]
   );
   // useEffect(() => {
   //   dispatch(

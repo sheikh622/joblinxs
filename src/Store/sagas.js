@@ -6,6 +6,7 @@ import SeekerManagementSaga from "../Redux/Dashboard/saga";
 import JobManagementSaga from "../Redux/JobManagement/sagas";
 // import CommonSaga from 'redux/common/saga';
 import UserSaga from "../Redux/userManagement/sagas";
+import addJobSaga from "../Redux/addJob/saga";
 import ProfileSaga from "../Redux/profile/sagas"
 export default function* rootSaga() {
   yield all([
@@ -15,6 +16,7 @@ export default function* rootSaga() {
     CategoryManagementSaga(),
     JobManagementSaga(),
     SeekerManagementSaga(),
+    addJobSaga(),
     ProfileSaga(),
   ]);
 }

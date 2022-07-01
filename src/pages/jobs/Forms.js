@@ -1,9 +1,138 @@
+import React from "react";
+import { useEffect, useState, useRef } from 'react';
 import {
-  Button, Card, Col, Form, InputGroup, Modal, Row
+  Button, Card, Col, Form, InputGroup, Modal, Row,
 } from "@themesberg/react-bootstrap";
-import React, { useState } from "react";
-
+import { useFormik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import * as Yup from "yup";
+import Navbar from "../../components/Navbar";
+import NoRecordFound from "../../components/NoRecordFound";
+import AddCategory from "../../components/addCategory";
+import { getJobListing } from "../../Redux/addJob/actions";
+import profile from "../../assets/img/upload.png"
+import Select from 'react-select';
+import { usePlacesWidget } from "react-google-autocomplete";
+import { getCategoryList } from "../../Redux/Category/actions";
 export const GeneralInfoForm = () => {
+  const YOUR_GOOGLE_MAPS_API_KEY = "AIzaSyBJWt1Yh6AufjxV8B8Y8UVz_25cYV1fvhs";
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
+  console.log("vhj", CategoryData)
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedImage, setSelectedImage] = useState("");
+  const [hours, setHours] = useState("");
+  const [days, setDays] = useState("");
+  const [providers, setProviders] = useState("")
+  const [experience, setExperience] = useState("")
+  const [jobType, setJobType] = useState("");
+  const [paymentType, setPaymentType] = useState("");
+  const [jobNature, setJobNature] = useState("");
+  const [categories, setCategories] = useState(null);
+  const [location, setLocation] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
+
+
+  useEffect(() => {
+    dispatch(
+      getCategoryList({
+
+        role: "user"
+      })
+    );
+  }, []);
+
+
+  useEffect(() => {
+    let array = [
+
+    ];
+    CategoryData.map((item) => {
+      array.push({
+        value: [{ id: item.id, title: item.title, details: item.details }],
+        label: item?.title,
+      })
+    })
+    setCategoryList(array);
+  }, [CategoryData])
+  const inputEl = useRef(null);
+  const onButtonClick = () => {
+    inputEl.current.click();
+  };
+  const handleHours = (event) => {
+    setHours(event.target.value)
+
+  }
+  const handledays = (event) => {
+    setDays(event.target.value)
+  }
+
+  const options = [
+    { value: "Plumber", label: "Plumber" },
+    { value: "Doctor", label: "Doctor" },
+    { value: "Devloper", label: "Devloper" },
+  ];
+  const provide = [
+    { value: "1", label: "1" },
+    { value: "2", label: "2" },
+    { value: "3", label: "3" },
+  ];
+  const experienced = [
+    { value: "None", label: "None" },
+    { value: "professional", label: "professional" },
+    { value: "Expert", label: "Expert" },
+  ];
+  console.log("tyuiyiu------------", categories)
+  const CategorySchema = Yup.object().shape({
+    jobName: Yup.string().trim().required("Job Name is required"),
+    description: Yup.string().trim().required("description is required"),
+    jobRequirements: Yup.string().trim().required("Requirements is required"),
+    toolsNeeded: Yup.string().trim().required("Tools is required"),
+    fixRate: Yup.string().trim().required("Rate is required"),
+  });
+  console.log("gchjl", providers)
+  const CategoryFormik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      id: selectedItem?.id ? selectedItem?.id : "",
+      jobName: selectedItem?.jobName ? selectedItem?.jobName : "",
+      description: selectedItem?.description ? selectedItem?.description : "",
+      jobRequirements: selectedItem?.jobRequirements ? selectedItem?.jobRequirements : "",
+      toolsNeeded: selectedItem?.toolsNeeded ? selectedItem?.toolsNeeded : "",
+      fixRate: selectedItem?.fixRate ? selectedItem?.fixRate : "",
+      remember: true,
+    },
+    validationSchema: CategorySchema,
+    onSubmit: async (values, action) => {
+      let data = {
+        name: values.jobName,
+        description: values.description,
+        requirement: values.jobRequirements,
+        toolsNeeded: values.toolsNeeded,
+        rate: values.fixRate,
+        jobType: jobType,
+        paymentType: paymentType,
+        jobNature: jobNature,
+        category: categories.value,
+        noOfProviders: providers.value,
+        experienceRequired: experience.value,
+        days: days,
+        hours: hours,
+        location: location,
+        setReset: action.resetForm,
+        setShowDefault: setShowDefault,
+        showDefault: showDefault,
+        jobImg: selectedImage,
+        setSelectedImage: setSelectedImage,
+      }
+
+      dispatch(
+        getJobListing(data)
+      );
+    },
+  });
   // Add location
   const [showDefault, setShowDefault] = useState(false);
   const handleClose = () => setShowDefault(false);
@@ -15,21 +144,68 @@ export const GeneralInfoForm = () => {
   // Add Category modal
   const [showDefaultCategory, setShowDefaultCategory] = useState(false);
   const handleClosesCategory = () => setShowDefaultCategory(false);
+  const imageChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedImage(e.target.files[0]);
+    }
+  };
+  const { ref } = usePlacesWidget({
+    apiKey: YOUR_GOOGLE_MAPS_API_KEY,
+    onPlaceSelected: (place) => {
 
+      setLocation(place.formatted_address)
+    },
+    options: {
+      types: ["(regions)"],
+    },
+  });
+  console.log(location, "here is lcoation");
   return (
     <>
-      <Card className="bg-white shadow-sm mb-4 border-0">
+      <Col className={'d-flex justify-content-center'}>
+        {selectedImage ?
+          (<Card.Img
+            src={URL.createObjectURL(selectedImage)}
+            alt="Neil Portrait"
+            className="user-avatar large-avatar rounded-circle mx-auto mt-5"
+          />) : (
+            <img src={profile} alt="60px" width={"130px"} onClick={onButtonClick} />
+          )
+        }
+        <Form.Control
+          accept="image/*"
+          type="file"
+          id="file"
+          name="file"
+          onChange={imageChange}
+          className="d-none"
+          ref={inputEl}
+        />
+      </Col>
+      <Card className="bg-white shadow-sm mb-4 border-0" >
         <Card.Body>
-          <Form>
+          <Form onSubmit={CategoryFormik.handleSubmit}>
             <Row>
               <Col md={6} className="mb-3">
                 <Form.Group id="jobName">
                   <Form.Label>Job Name</Form.Label>
                   <Form.Control
-                    required
+                    // required
                     type="text"
                     placeholder="Enter your Job name"
+                    value={CategoryFormik.values.jobName}
+                    name="jobName"
+                    label="jobName"
+                    onChange={(e) => {
+                      CategoryFormik.setFieldValue("jobName", e.target.value);
+                    }}
                   />
+                  {CategoryFormik.touched.jobName && CategoryFormik.errors.jobName ? (
+                    <div style={{ color: "red" }}>
+                      {CategoryFormik.errors.jobName}
+                    </div>
+                  ) : null}
+
                 </Form.Group>
               </Col>
               <Col md={6} className="mb-3">
@@ -37,19 +213,25 @@ export const GeneralInfoForm = () => {
                   <Form.Label>Job Nature</Form.Label>
                   <fieldset className="d-flex radioButton">
                     <Form.Check
-                      defaultChecked
+                      // defaultChecked
                       type="radio"
-                      defaultValue="oneTime"
                       label="One Time"
+                      value="oneTime"
                       name="jobNature"
-                      className="radio1"
+                      className="radio1" Description
+                      onChange={(event) => {
+                        setJobNature(event.target.value)
+                      }}
                     />
 
                     <Form.Check
                       type="radio"
-                      defaultValue="recurring"
                       label="Recurring"
+                      value="recurring"
                       name="jobNature"
+                      onChange={(event) => {
+                        setJobNature(event.target.value)
+                      }}
                     />
                   </fieldset>
                 </Form.Group>
@@ -60,19 +242,40 @@ export const GeneralInfoForm = () => {
               <Col md={6} className="mb-3">
                 <Form.Group id="description">
                   <Form.Label>Description</Form.Label>
-                  <Form.Control as="textarea" rows="3" />
+                  <Form.Control as="textarea" rows="3"
+                    placeholder="Description"
+                    value={CategoryFormik.values.description}
+                    name="description"
+                    label="description"
+                    onChange={(e) => {
+                      CategoryFormik.setFieldValue("description", e.target.value);
+                    }}
+                  />
+                  {CategoryFormik.touched.description &&
+                    CategoryFormik.errors.description ? (
+                    <div style={{ color: "red" }}>
+                      {CategoryFormik.errors.description}
+                    </div>
+                  ) : null}
                 </Form.Group>
               </Col>
               <Col md={6} className="mb-3">
-                <Form.Group id="providersRequired">
-                  <Form.Label>Number of Providers required</Form.Label>
-                  <Form.Select defaultValue="1">
+                {/* <Form.Group id="providersRequired">
+                  <Form.Select defaultValue="1" value={providers} onChange={handleProvider}>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
                     <option value="5">5</option>
                   </Form.Select>
+                </Form.Group> */}
+                <Form.Group >
+                  <Form.Label>Number of Providers required</Form.Label>
+                  <Select
+                    defaultValue={providers}
+                    onChange={setProviders}
+                    options={provide}
+                  />
                 </Form.Group>
               </Col>
             </Row>
@@ -81,10 +284,22 @@ export const GeneralInfoForm = () => {
                 <Form.Group id="jobRequirements">
                   <Form.Label>Job Requirements</Form.Label>
                   <Form.Control
-                    required
+                    // required
                     type="text"
                     placeholder="Job Requirements..."
+                    value={CategoryFormik.values.jobRequirements}
+                    name="jobRequirements"
+                    label="jobRequirements"
+                    onChange={(e) => {
+                      CategoryFormik.setFieldValue("jobRequirements", e.target.value);
+                    }}
                   />
+                  {CategoryFormik.touched.jobRequirements &&
+                    CategoryFormik.errors.jobRequirements ? (
+                    <div style={{ color: "red" }}>
+                      {CategoryFormik.errors.jobRequirements}
+                    </div>
+                  ) : null}
                 </Form.Group>
               </Col>
 
@@ -92,10 +307,22 @@ export const GeneralInfoForm = () => {
                 <Form.Group id="toolsNeeded">
                   <Form.Label>Tools Needed</Form.Label>
                   <Form.Control
-                    required
+                    // required
                     type="text"
                     placeholder="Tools needed..."
+                    value={CategoryFormik.values.toolsNeeded}
+                    name="toolsNeeded"
+                    label="toolsNeeded"
+                    onChange={(e) => {
+                      CategoryFormik.setFieldValue("toolsNeeded", e.target.value);
+                    }}
                   />
+                  {CategoryFormik.touched.toolsNeeded &&
+                    CategoryFormik.errors.toolsNeeded ? (
+                    <div style={{ color: "red" }}>
+                      {CategoryFormik.errors.toolsNeeded}
+                    </div>
+                  ) : null}
                 </Form.Group>
               </Col>
             </Row>
@@ -106,19 +333,26 @@ export const GeneralInfoForm = () => {
                   <Form.Label>Payment Type</Form.Label>
                   <fieldset className="d-flex radioButton">
                     <Form.Check
-                      defaultChecked
+                      // defaultChecked
                       type="radio"
-                      defaultValue="hourly"
+                      // defaultValue=""
                       label="Hourly"
+                      value="hourly"
                       name="paymentType"
                       className="radio1"
+                      onChange={(event) => {
+                        setPaymentType(event.target.value)
+                      }}
                     />
-
                     <Form.Check
                       type="radio"
-                      defaultValue="fixed"
+                      // defaultValue=""
                       label="Fixed"
+                      value="fixed"
                       name="paymentType"
+                      onChange={(event) => {
+                        setPaymentType(event.target.value)
+                      }}
                     />
                   </fieldset>
                 </Form.Group>
@@ -128,69 +362,57 @@ export const GeneralInfoForm = () => {
                   <Form.Label>Job Type</Form.Label>
                   <fieldset className="d-flex radioButton">
                     <Form.Check
-                      defaultChecked
+                      // defaultChecked
                       type="radio"
-                      defaultValue="partTime"
                       label="Part-time"
                       name="jobType"
+                      value="partTime"
                       className="radio1"
+                      onChange={(event) => {
+                        setJobType(event.target.value)
+                      }}
                     />
-
                     <Form.Check
                       type="radio"
-                      defaultValue="permanent"
                       label="Permanent"
                       name="jobType"
+                      value="permanent"
+                      onChange={(event) => {
+                        setJobType(event.target.value)
+                      }}
                     />
+
                   </fieldset>
                 </Form.Group>
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group id="fixedRate">
                   <Form.Label>Fixed Rate</Form.Label>
-                  <Form.Control required type="number" placeholder="$" />
+                  <Form.Control
+                    //  required 
+                    type="number" placeholder="$"
+                    value={CategoryFormik.values.fixRate}
+                    name="fixRate"
+                    label="fixRate"
+                    onChange={(e) => {
+                      CategoryFormik.setFieldValue("fixRate", e.target.value);
+                    }}
+                  />
+                  {CategoryFormik.touched.fixRate &&
+                    CategoryFormik.errors.fixRate ? (
+                    <div style={{ color: "red" }}>
+                      {CategoryFormik.errors.fixRate}
+                    </div>
+                  ) : null}
                 </Form.Group>
               </Col>
             </Row>
-
             <h5 className="my-4">Time Required</h5>
-
             <Row>
               <Col md={3} className="mb-3">
-                <Form.Group id="hours">
-                  <Form.Label>Hours</Form.Label>
-                  <Form.Select defaultValue="1">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-              <Col md={3} className="mb-3">
                 <Form.Group id="minutes">
-                  <Form.Label>Minutes</Form.Label>
-                  <Form.Select defaultValue="1">
+                  <Form.Label>Days</Form.Label>
+                  <Form.Select defaultValue="1" value={days} onChange={handledays}>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -221,75 +443,71 @@ export const GeneralInfoForm = () => {
                     <option value="28">28</option>
                     <option value="29">29</option>
                     <option value="30">30</option>
-                    <option value="31">31</option>
-                    <option value="32">32</option>
-                    <option value="33">33</option>
-                    <option value="34">34</option>
-                    <option value="35">35</option>
-                    <option value="36">36</option>
-                    <option value="37">37</option>
-                    <option value="38">38</option>
-                    <option value="39">39</option>
-                    <option value="40">40</option>
-                    <option value="41">41</option>
-                    <option value="42">42</option>
-                    <option value="43">43</option>
-                    <option value="44">44</option>
-                    <option value="45">45</option>
-                    <option value="46">46</option>
-                    <option value="47">47</option>
-                    <option value="48">48</option>
-                    <option value="49">49</option>
-                    <option value="50">50</option>
-                    <option value="51">51</option>
-                    <option value="52">52</option>
-                    <option value="53">53</option>
-                    <option value="54">54</option>
-                    <option value="55">55</option>
-                    <option value="56">56</option>
-                    <option value="57">57</option>
-                    <option value="58">58</option>
-                    <option value="59">59</option>
-                    <option value="60">60</option>
+
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+              <Col md={3} className="mb-3">
+                <Form.Group id="hours" >
+                  <Form.Label>Hours</Form.Label>
+                  <Form.Select defaultValue="1" value={hours} onChange={handleHours}>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
               <Col md={6} className="mb-3">
-                <Form.Group id="experienceRequired">
+
+                <Form.Group >
                   <Form.Label>Minimum Experience Required</Form.Label>
-                  <Form.Select defaultValue="professional">
-                    <option value="none">None</option>
-                    <option value="professional">Professional</option>
-                    <option value="expert">Expert</option>
-                  </Form.Select>
+                  <Select
+                    defaultValue={experience}
+                    onChange={setExperience}
+                    options={experienced}
+                  />
                 </Form.Group>
               </Col>
             </Row>
 
             <Row className="align-items-end">
               <Col md={6} className="mb-3">
-                <Form.Group id="categories">
-                <span className="d-flex justify-content-between">
-                  <Form.Label>Categories</Form.Label>
-                  <Form.Label onClick={() => setShowDefaultCategory(true)} className="text-underline">Add New</Form.Label>
 
-                </span>
-                  <Form.Select defaultValue="plumber">
-                    <option value="plumber">Plumber</option>
-                    <option value="teacher">Teacher</option>
-                    <option value="carpenter">Carpenter</option>
-                  </Form.Select>
+                <Form.Label onClick={() => setShowDefaultCategory(true)} className="text-underline">
+                  Add New 
+                </Form.Label>
+                <p>{categories?.value[0]?.title}</p>
+                <Form.Group >
+                  <Select
+                    defaultValue={categories}
+                    onChange={setCategories}
+                    options={categoryList}
+                  />
                 </Form.Group>
               </Col>
               <Col md={6} className="mb-3">
-                <Button
-                  variant="primary"
-                  type="button"
-                  className="w-100"
-                  onClick={() => setShowDefault(true)}
-                >
-                  Add Location
-                </Button>
+                <Form.Control ref={ref} style={{ width: "100%" }} />
               </Col>
             </Row>
 
@@ -304,110 +522,7 @@ export const GeneralInfoForm = () => {
 
       {/* Modal */}
       <Modal as={Modal.Dialog} centered show={showDefault} onHide={handleClose}>
-        <Modal.Header>
-          <Modal.Title className="h5">Location</Modal.Title>
-          <Button variant="close" aria-label="Close" onClick={handleClose} />
-        </Modal.Header>
-        <Modal.Body className="py-4">
-          <Row className="justify-content-center">
-            <Col md={8} sm={12} xs={12} className="mb-3">
-              <Form.Group className="locationInput">
-                <InputGroup>
-                  <InputGroup.Text>
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 18 21"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M8.5 11.4546H9.75475V18.3015H8.5L8.5 11.4546Z"
-                        fill="#12499C"
-                      />
-                      <path
-                        d="M3.81152 5.90625C3.81152 2.9306 6.2147 0.520996 9.17052 0.520996C12.1289 0.520996 14.5295 2.92921 14.5295 5.90625C14.5295 8.88321 12.1277 11.2915 9.17052 11.2915C6.21456 11.2915 3.81152 8.88437 3.81152 5.90625Z"
-                        fill="#12499C"
-                        stroke="#12499C"
-                      />
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M11.2679 14.6421V15.8575C14.5189 16.183 16.1622 17.2513 16.1622 17.7868C16.1622 18.4549 13.6855 19.7569 9.14818 19.7569C4.60825 19.7569 2.13156 18.4549 2.13156 17.7868C2.13156 17.212 3.89293 16.2368 7.06393 15.9218V14.7051C3.9415 14.982 0.669434 15.9362 0.669434 17.8026C0.669434 19.9 4.93375 20.9959 9.14818 20.9959C13.36 20.9959 17.6256 19.9 17.6256 17.8026C17.6256 15.8837 14.2656 14.9112 11.2679 14.6421Z"
-                        fill="#12499C"
-                      />
-                    </svg>
-                  </InputGroup.Text>
-                  <Form.Control
-                    type="text"
-                    placeholder="Use current location"
-                  />
-                  <InputGroup.Text className="p-0 px-2">
-                    <svg
-                      width="21"
-                      height="23"
-                      viewBox="0 0 33 33"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <circle cx="16.5" cy="16.5" r="16.5" fill="#12499C" />
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M24.8907 7.99068C24.9666 8.0652 25.0189 8.16037 25.0412 8.26437C25.0634 8.36836 25.0546 8.47661 25.0159 8.57566L18.8556 24.4285C18.8013 24.5681 18.7095 24.69 18.5904 24.7808C18.4713 24.8716 18.3294 24.9278 18.1804 24.9432C18.0314 24.9586 17.8811 24.9326 17.7459 24.868C17.6107 24.8035 17.496 24.7029 17.4143 24.5773L13.9111 19.1895L8.45507 15.7934C8.32762 15.7143 8.2245 15.6016 8.15708 15.4676C8.08967 15.3336 8.06058 15.1836 8.07303 15.0341C8.08547 14.8846 8.13898 14.7415 8.22763 14.6205C8.31628 14.4995 8.43663 14.4053 8.5754 14.3484L24.3034 7.87816C24.4017 7.83747 24.5097 7.82654 24.6141 7.84674C24.7185 7.86694 24.8147 7.91737 24.8907 7.99177L24.8907 7.99068ZM14.9913 18.8618L18.0348 23.541L23.0454 10.6469L14.9913 18.8618ZM22.2704 9.88703L9.47786 15.1515L14.2173 18.1009L22.2715 9.88702L22.2704 9.88703Z"
-                        fill="white"
-                      />
-                    </svg>
-                  </InputGroup.Text>
-                </InputGroup>
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row className="justify-content-center border p-5">
-            <Col md={12} sm={12} xs={12}>
-              <h2 className="text-center">Map Here</h2>
-            </Col>
-          </Row>
-          <Row className="justify-content-center mt-4">
-            <Col md={8} sm={12} xs={12} className="mb-3 text-center">
-              <span className="text-gray">
-                <svg
-                  width="17"
-                  height="17"
-                  viewBox="0 0 21 21"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M10.5 11.8125C9.85103 11.8125 9.21664 11.6201 8.67704 11.2595C8.13744 10.899 7.71687 10.3865 7.46852 9.78693C7.22017 9.18736 7.15519 8.52761 7.2818 7.89111C7.40841 7.25461 7.72092 6.66995 8.17981 6.21106C8.6387 5.75217 9.22336 5.43966 9.85986 5.31305C10.4964 5.18644 11.1561 5.25142 11.7557 5.49977C12.3553 5.74812 12.8677 6.16869 13.2283 6.70829C13.5888 7.24789 13.7813 7.88228 13.7813 8.53125C13.7802 9.40117 13.4342 10.2352 12.819 10.8503C12.2039 11.4654 11.3699 11.8115 10.5 11.8125ZM10.5 6.5625C10.1106 6.5625 9.72998 6.67797 9.40622 6.8943C9.08246 7.11063 8.83012 7.4181 8.68111 7.77784C8.5321 8.13759 8.49312 8.53344 8.56908 8.91534C8.64505 9.29724 8.83255 9.64803 9.10789 9.92337C9.38322 10.1987 9.73402 10.3862 10.1159 10.4622C10.4978 10.5381 10.8937 10.4991 11.2534 10.3501C11.6132 10.2011 11.9206 9.94879 12.137 9.62503C12.3533 9.30127 12.4688 8.92063 12.4688 8.53125C12.4682 8.00927 12.2606 7.50881 11.8915 7.13971C11.5224 6.77061 11.022 6.56302 10.5 6.5625Z"
-                    fill="#12499C"
-                  />
-                  <path
-                    d="M10.5 19.6875L4.96388 13.1585C4.88696 13.0604 4.81083 12.9618 4.73551 12.8625C3.78984 11.6168 3.27897 10.0952 3.28126 8.53125C3.28126 6.61672 4.0418 4.7806 5.39558 3.42682C6.74936 2.07304 8.58548 1.3125 10.5 1.3125C12.4145 1.3125 14.2507 2.07304 15.6044 3.42682C16.9582 4.7806 17.7188 6.61672 17.7188 8.53125C17.7211 10.0945 17.2104 11.6154 16.2652 12.8605L16.2645 12.8625C16.2645 12.8625 16.0676 13.1211 16.0381 13.1558L10.5 19.6875ZM5.78288 12.0717C5.7842 12.0717 5.93645 12.2738 5.97123 12.3172L10.5 17.6584L15.0347 12.3099C15.0636 12.2738 15.2171 12.0704 15.2178 12.0697C15.9903 11.052 16.4078 9.80899 16.4063 8.53125C16.4063 6.96482 15.784 5.46254 14.6764 4.3549C13.5687 3.24726 12.0664 2.625 10.5 2.625C8.93357 2.625 7.4313 3.24726 6.32366 4.3549C5.21602 5.46254 4.59376 6.96482 4.59376 8.53125C4.59238 9.80978 5.01033 11.0535 5.78354 12.0717H5.78288Z"
-                    fill="#12499C"
-                  />
-                </svg>
-                {"  "}
-                Enter location manually
-              </span>
-            </Col>
-          </Row>
-          <div class="d-grid gap-2 col-4 mx-auto">
-            <Button
-              variant="primary"
-              color="dark"
-              size="sm"
-              onClick={() => {
-                handleClose();
-                setShowDefaults(true);
-              }}
-            >
-              Confirm
-            </Button>
-          </div>
-        </Modal.Body>
+        <Form.Control ref={ref} style={{ width: "90%" }} />
       </Modal>
 
       {/* Congratulations Modal */}
@@ -565,7 +680,7 @@ export const GeneralInfoForm = () => {
         as={Modal.Dialog}
         centered
         show={showDefaultCategory}
-        onHide={handleClosesCategory}
+        onHide={handleClosesCategory}  
       >
         <Modal.Header>
           <Modal.Title className="h5">Add Category</Modal.Title>
@@ -575,31 +690,11 @@ export const GeneralInfoForm = () => {
             onClick={handleClosesCategory}
           />
         </Modal.Header>
-        <Modal.Body>
-          <Form.Group>
-            <Form.Label>Category Name</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="Enter category Name"
-            />
-          </Form.Group>
-          <Form.Group className="mt-3">
-            <Form.Label>Description</Form.Label>
-            <Form.Control as="textarea" rows="3" />
-          </Form.Group>
+        <Modal.Body >
+          <AddCategory setShowDefault={setShowDefault} showDefault={showDefault} categories={categories} setCategories={setCategories} onHide={showDefaultCategory} />
 
-          <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
-            <Button
-              variant="primary"
-              color="dark"
-              onClick={handleClosesCategory}
-              size="sm"
-            >
-              Submit
-            </Button>
-          </div>
         </Modal.Body>
+
       </Modal>
     </>
   );

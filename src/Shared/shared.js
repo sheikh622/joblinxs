@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 export function* sagaErrorHandler(error) {
   if (!error) return
-  if (error.data.statusCode === 401){
+  if (error?.data?.statusCode === 401){
     toast.error(error.data.message)
   }
   // else if (

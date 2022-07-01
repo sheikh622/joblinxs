@@ -39,7 +39,9 @@ const Categories = (item) => {
   useEffect(() => {
     dispatch(
       getCategoryList({
+        
         search: search,
+        role:"admin"
       })
     );
   }, [search]);

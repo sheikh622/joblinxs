@@ -26,6 +26,8 @@ export default (props = {}) => {
   const dispatch = useDispatch();
 
   const [showDefaultCategory, setShowDefaultCategory] = useState(false);
+  const [adminId, setAdminId] = useState(0);
+
   const handleClosesCategory = () => {
     setShowDefaultCategory(false);
   };
@@ -163,26 +165,36 @@ export default (props = {}) => {
                       </svg>
                     }
                   />
-
-                  <NavItem
-                    title="My Jobs"
-                    SVG={
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="18"
-                        height="20"
-                        viewBox="0 0 18 20"
-                        fill="none"
-                      >
-                        <path
-                          d="M13 9H5C4.45 9 4 9.45 4 10C4 10.55 4.45 11 5 11H13C13.55 11 14 10.55 14 10C14 9.45 13.55 9 13 9ZM16 2H15V1C15 0.45 14.55 0 14 0C13.45 0 13 0.45 13 1V2H5V1C5 0.45 4.55 0 4 0C3.45 0 3 0.45 3 1V2H2C0.89 2 0 2.9 0 4V18C0 19.1 0.89 20 2 20H16C17.1 20 18 19.1 18 18V4C18 2.9 17.1 2 16 2ZM15 18H3C2.45 18 2 17.55 2 17V7H16V17C16 17.55 15.55 18 15 18ZM10 13H5C4.45 13 4 13.45 4 14C4 14.55 4.45 15 5 15H10C10.55 15 11 14.55 11 14C11 13.45 10.55 13 10 13Z"
-                          fill="#fff"
-                        />
-                      </svg>
-                    }
-                    link={Routes.Job.path}
-                  />
-
+                  <button
+                    style={{
+                      background: "none",
+                      border: "none",
+                      textAlign: "left",
+                    }}
+                    onClick={(item) => {
+                      
+                      setAdminId(item.id)
+                    }}
+                  >
+                    <NavItem
+                      title="My Jobs"
+                      SVG={
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="18"
+                          height="20"
+                          viewBox="0 0 18 20"
+                          fill="none"
+                        >
+                          <path
+                            d="M13 9H5C4.45 9 4 9.45 4 10C4 10.55 4.45 11 5 11H13C13.55 11 14 10.55 14 10C14 9.45 13.55 9 13 9ZM16 2H15V1C15 0.45 14.55 0 14 0C13.45 0 13 0.45 13 1V2H5V1C5 0.45 4.55 0 4 0C3.45 0 3 0.45 3 1V2H2C0.89 2 0 2.9 0 4V18C0 19.1 0.89 20 2 20H16C17.1 20 18 19.1 18 18V4C18 2.9 17.1 2 16 2ZM15 18H3C2.45 18 2 17.55 2 17V7H16V17C16 17.55 15.55 18 15 18ZM10 13H5C4.45 13 4 13.45 4 14C4 14.55 4.45 15 5 15H10C10.55 15 11 14.55 11 14C11 13.45 10.55 13 10 13Z"
+                            fill="#fff"
+                          />
+                        </svg>
+                      }
+                      link={Routes.Job.path}
+                    />
+                  </button>
                   <NavItem
                     title="Profile"
                     SVG={

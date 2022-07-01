@@ -46,7 +46,17 @@ function* getProfileList({ payload }) {
         },
       }
     );
-    yield put(getJobProfileSuccess(response.data.data));
+    toast.success(CapitalizeFirstLetter(response.data.message));
+    // yield put(getJobProfileSuccess(response.data.data));
+    yield put(
+      getJobListing({
+        page: payload.page,
+        limit: payload.limit,
+        type: payload.type,
+        search: payload.search,
+        category: payload.category,
+      })
+    );
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -65,7 +75,7 @@ function* deleteJob({ payload }) {
     });
 
     toast.success(CapitalizeFirstLetter(response.data.message));
-    const filteredData = payload.data.filter((item, index) => item.adminId !== payload.adminId);
+    const filteredData = payload.data.filter((item, index) => item.jobId !== payload.jobId);
     yield put(getJobListingSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
