@@ -2,12 +2,14 @@ import produce from "immer";
 import {
   ADD_JOB_SUCCESS,
   GET_JOB_SUCCESS,
-  FAVOURITE_JOB_LIST_SUCCESS
+  FAVOURITE_JOB_LIST_SUCCESS,
+  JOB_BY_ID_SUCCESS
 } from "./constants";
 const initialState = {
   addJob: [],
   getJob: [],
   favouriteJob:[],
+  jobById:[],
 };
 const addJob = produce((state = initialState, action) => {
   switch (action.type) {
@@ -19,6 +21,9 @@ const addJob = produce((state = initialState, action) => {
       break;
       case FAVOURITE_JOB_LIST_SUCCESS:
       state.favouriteJob = action.payload;
+      break;
+      case JOB_BY_ID_SUCCESS:
+      state.jobById = action.payload;
       break;
     default:
   }

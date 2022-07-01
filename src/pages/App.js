@@ -24,7 +24,7 @@ import UserManagement from "./user/userManagement";
 import Users from "./user/users";
 import editAdminProfile from "./AdminProfile/editAdminProfile";
 import adminProfile from "./AdminProfile/adminProfile";
-
+import MyJobDetails from "./jobs/myJobDetails";
 // changes merge
 export default () => (
   <BrowserRouter>
@@ -90,6 +90,8 @@ export default () => (
         component={UserManagement}
       />
       <PrivateRoute exact path={Routes.DetailJob.path} component={JobDetail} />
+      <PrivateRoute exact path={Routes.MyJobDetail.path} component={MyJobDetails} />
+      
       <PrivateRoute
         exact
         path={Routes.DetailProvider.path}
