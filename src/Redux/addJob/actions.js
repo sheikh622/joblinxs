@@ -8,7 +8,9 @@ import {
     DELETE_ADD_JOB,
     MARK_AS_FAVOURITE_JOB,
     JOB_BY_ID,
-    JOB_BY_ID_SUCCESS
+    JOB_BY_ID_SUCCESS,
+    UPDATE_JOB_SUCCESS,
+    UPDATE_JOB
   } from "./constants";
   
   export const getJobListing = (data) => ({
@@ -52,5 +54,13 @@ export const jobById = (data) => ({
 });
 export const jobByIdSuccess = (data) => ({
   type:  JOB_BY_ID_SUCCESS,
+  payload: data,
+});
+export const updateJob = (data) => ({
+  type: UPDATE_JOB,
+  payload: data,
+});
+export const updateJobSuccess = (data) => ({
+  type:  UPDATE_JOB_SUCCESS,
   payload: data,
 });

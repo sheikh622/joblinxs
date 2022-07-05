@@ -60,6 +60,7 @@ export default () => (
       <PrivateRoute exact path={Routes.Job.path} component={Job} />
 
       <PrivateRoute exact path={Routes.CreateJob.path} component={CreateJob} />
+      <PrivateRoute exact path={Routes.UpdateJob.path} component={CreateJob} />
       <PrivateRoute
         exact
         path={Routes.Favourites.path}
@@ -89,8 +90,8 @@ export default () => (
         path={Routes.UserManagement.path}
         component={UserManagement}
       />
-      <PrivateRoute exact path={Routes.DetailJob.path} component={JobDetail} />
-      <PrivateRoute exact path={Routes.MyJobDetail.path} component={MyJobDetails} />
+      <PrivateRoute exact path={Routes.DetailJob.path} component={MyJobDetails} />
+      {/* <PrivateRoute exact path={Routes.MyJobDetail.path} component={MyJobDetails} /> */}
       
       <PrivateRoute
         exact

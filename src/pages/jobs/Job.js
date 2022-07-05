@@ -37,12 +37,14 @@ const Job = () => {
   const JobList = useSelector(
     (state) => state?.addJob?.getJob?.jobs
   );
+
   const [page, setPage] = useState(1);
   const [type, setType] = useState("");
   const [category, setCategory] = useState([]);
   const [limit] = useState("10");
   const [adminId, setAdminId] = useState("");
   const [categoryType, setCategoryType] = useState("");
+
   const handleClick = (event) => {
     setCategoryType(event.target.value)
   }
@@ -131,7 +133,7 @@ const Job = () => {
         <Row className="pt-2 pb-4">
           <div className="d-flex justify-content-between mt-0 mb-4 headerBorder">
 
-            <Col lg={9} md={9}>
+            <Col lg={4} md={4}>
               <Form.Group>
                 <Form.Select
                   defaultValue="1"
@@ -148,6 +150,24 @@ const Job = () => {
                 </Form.Select>
               </Form.Group>
             </Col>
+            <Col lg={4} md={4}>
+              <Form.Group>
+                <Form.Select
+                  defaultValue="1"
+                  label="Categories"
+                  value={categoryType}
+                  onChange={handleClick}
+
+                >
+                  {category.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            </Col>
+
 
 
 
@@ -180,7 +200,7 @@ const Job = () => {
             </span>
           </div>
 
-          <div
+          {/* <div
             // defaultValue="1"
             // label="Select"
             // value={categoryType}
@@ -192,17 +212,20 @@ const Job = () => {
                 {option.label}
               </Button>
             ))}
-          </div>
+          </div> */}
           {JobList?.length > 0 ? (
             <>
               {
                 JobList?.map((item) => {
+                  // alert(item.id)
                   return (
                     <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
                       <CommonCard
                         img={item?.image ? item?.image : Profile}
                         name={item?.name ? item?.name : "N/A"}
                         type={"Chemical"}
+                        id={item.id}
+                        item={item ? item : null}
                         rate={item?.rate ? item?.rate : "N/A"}
                         completed={"90"}
                         star={"4.7"}

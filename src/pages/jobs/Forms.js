@@ -1,25 +1,36 @@
-import React from "react";
-import { useEffect, useState, useRef } from 'react';
 import {
-  Button, Card, Col, Form, InputGroup, Modal, Row,
+  Button, Card, Col, Form, Modal, Row
 } from "@themesberg/react-bootstrap";
 import { useFormik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
-import Navbar from "../../components/Navbar";
-import NoRecordFound from "../../components/NoRecordFound";
-import AddCategory from "../../components/addCategory";
-import { getJobListing } from "../../Redux/addJob/actions";
-import profile from "../../assets/img/upload.png"
-import Select from 'react-select';
+
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { usePlacesWidget } from "react-google-autocomplete";
+import {
+  useHistory,
+  useLocation
+} from "react-router-dom";
+import Select from 'react-select';
+import * as Yup from "yup";
+import profile from "../../assets/img/upload.png";
+import AddCategory from "../../components/addCategory";
+import { getJobListing, updateJob } from "../../Redux/addJob/actions";
 import { getCategoryList } from "../../Redux/Category/actions";
+
 export const GeneralInfoForm = () => {
   const YOUR_GOOGLE_MAPS_API_KEY = "AIzaSyBJWt1Yh6AufjxV8B8Y8UVz_25cYV1fvhs";
+  const params = useLocation();
+  let id = params.pathname.split("/")[2];
+  console.log("paramId", id)
   const dispatch = useDispatch();
   const history = useHistory();
   const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
+  const SingleId = useSelector((state) => state?.addJob?.jobById);
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
   const [hours, setHours] = useState("");
@@ -27,12 +38,19 @@ export const GeneralInfoForm = () => {
   const [providers, setProviders] = useState("")
   const [experience, setExperience] = useState("")
   const [jobType, setJobType] = useState("");
+  const [onGoing, setOngoing] = useState("")
   const [paymentType, setPaymentType] = useState("");
   const [jobNature, setJobNature] = useState("");
   const [categories, setCategories] = useState(null);
   const [location, setLocation] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
+  const [startDate, setStartDate] = React.useState(new Date());
+  const [endDate, setEndDate] = React.useState(new Date());
+  // console.log(SingleId, "formik data")
 
+  useEffect(() => {
+    console.log("singleId", SingleId)
+  }, [SingleId])
 
   useEffect(() => {
     dispatch(
@@ -91,16 +109,24 @@ export const GeneralInfoForm = () => {
     toolsNeeded: Yup.string().trim().required("Tools is required"),
     fixRate: Yup.string().trim().required("Rate is required"),
   });
-  console.log("gchjl", providers)
   const CategoryFormik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      id: selectedItem?.id ? selectedItem?.id : "",
-      jobName: selectedItem?.jobName ? selectedItem?.jobName : "",
-      description: selectedItem?.description ? selectedItem?.description : "",
-      jobRequirements: selectedItem?.jobRequirements ? selectedItem?.jobRequirements : "",
-      toolsNeeded: selectedItem?.toolsNeeded ? selectedItem?.toolsNeeded : "",
-      fixRate: selectedItem?.fixRate ? selectedItem?.fixRate : "",
+      id: SingleId?.id ? SingleId?.id : "",
+      jobName: SingleId?.name ? SingleId?.name : "",
+      description: SingleId?.description ? SingleId?.description : "",
+      jobRequirements: SingleId?.requirement ? SingleId?.requirement : "",
+      toolsNeeded: SingleId?.toolsNeeded ? SingleId?.toolsNeeded : "",
+      fixRate: SingleId?.rate ? SingleId?.rate : "",
+      onGoing: SingleId?.onGoing ? SingleId?.onGoing : "",
+      jobType: SingleId?.jobType ? SingleId?.jobType : "",
+      paymentType: SingleId?.paymentType ? SingleId?.paymentType : "",
+      jobNature: SingleId?.jobNature ? SingleId?.jobNature : "",
+      startDate: SingleId?.startDate ? SingleId?.startDate : "",
+      endDate: SingleId?.endDate ? SingleId?.endDate : "",
+      location: SingleId?.location ? SingleId?.location : "",
+      days: SingleId?.days ? SingleId?.days : "",
+      hours: SingleId?.hours ? SingleId?.hours : "",
       remember: true,
     },
     validationSchema: CategorySchema,
@@ -120,16 +146,25 @@ export const GeneralInfoForm = () => {
         days: days,
         hours: hours,
         location: location,
+        startDate: startDate,
+        endDate: endDate,
+        isOngoing: onGoing,
         setReset: action.resetForm,
         setShowDefault: setShowDefault,
         showDefault: showDefault,
         jobImg: selectedImage,
         setSelectedImage: setSelectedImage,
       }
+      if (!id) {
+        dispatch(
+          getJobListing(data)
+        );
+      } else {
+        dispatch(
+          updateJob(data)
+        );
+      }
 
-      dispatch(
-        getJobListing(data)
-      );
     },
   });
   // Add location
@@ -339,6 +374,7 @@ export const GeneralInfoForm = () => {
                       name="paymentType"
                       className="radio1"
                       onChange={(event) => {
+                        console.log("event", event.target.value)
                         setPaymentType(event.target.value)
                       }}
                     />
@@ -383,6 +419,58 @@ export const GeneralInfoForm = () => {
                   </fieldset>
                 </Form.Group>
               </Col>
+              <Col md={2} className="mb-3">
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <Stack spacing={3}>
+                    <MobileDatePicker
+                      label="startDate"
+                      name="startDate"
+                      value={startDate}
+                      onChange={(newValue) => {
+                        setStartDate(newValue);
+                      }}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </Stack>
+                </LocalizationProvider>
+              </Col>
+              <Col md={2} className="mb-3 ">
+                <Form.Group id="onGoing">
+
+                  <fieldset className="d-flex radioButton">
+                    <Form.Check
+                      // defaultChecked
+                      type="checkbox"
+                      label="onGoing"
+                      name="isOngoing"
+                      value="onGoing"
+                      className="radio1"
+                      onChange={(event) => {
+                        setOngoing(event.target.checked)
+                      }}
+                    />
+
+                  </fieldset>
+                </Form.Group>
+              </Col>
+              {!onGoing && (
+                <Col md={2} className="mb-3">
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <Stack spacing={3}>
+                      <MobileDatePicker
+                        label="endDate"
+                        name="endDate"
+                        value={endDate}
+                        onChange={(newValue) => {
+                          setEndDate(newValue);
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </Stack>
+                  </LocalizationProvider>
+                </Col>
+              )}
+
               <Col md={6} className="mb-3">
                 <Form.Group id="fixedRate">
                   <Form.Label>Fixed Rate</Form.Label>
@@ -493,7 +581,7 @@ export const GeneralInfoForm = () => {
               <Col md={6} className="mb-3">
 
                 <Form.Label onClick={() => setShowDefaultCategory(true)} className="text-underline">
-                  Add New 
+                  Add New
                 </Form.Label>
                 <p>{categories?.value[0]?.title}</p>
                 <Form.Group >
@@ -511,7 +599,7 @@ export const GeneralInfoForm = () => {
 
             <div className="mt-3 d-flex justify-content-end">
               <Button variant="primary" type="submit">
-                Post Job
+                {id ? "Update Job" : "Post Job"}
               </Button>
             </div>
           </Form>
@@ -678,7 +766,7 @@ export const GeneralInfoForm = () => {
         as={Modal.Dialog}
         centered
         show={showDefaultCategory}
-        onHide={handleClosesCategory}  
+        onHide={handleClosesCategory}
       >
         <Modal.Header>
           <Modal.Title className="h5">Add Category</Modal.Title>
