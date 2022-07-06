@@ -14,7 +14,6 @@ const Favourites = () => {
   const JobList = useSelector(
     (state) => state
   );
-  console.log(JobList, "here is job list")
   useEffect(() => {
     dispatch(
       favouriteJobList({
