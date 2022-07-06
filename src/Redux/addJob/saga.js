@@ -4,14 +4,16 @@ import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
 import {
-  getAddJob, getJobListingSuccess, getJobsSuccess, favouriteJobListSuccess, deleteAddJob, jobByIdSuccess, updateJobSuccess
+  getAddJob, getJobListingSuccess, getJobsSuccess, favouriteJobListSuccess, deleteAddJob, jobByIdSuccess, updateJobSuccess,getApplicantsSuccess
 } from "./actions";
 import {
-  ADD_JOB, ADD_JOB_SUCCESS, GET_JOB, FAVOURITE_JOB_LIST, DELETE_ADD_JOB, MARK_AS_FAVOURITE_JOB, JOB_BY_ID_SUCCESS,JOB_BY_ID,UPDATE_JOB_SUCCESS, UPDATE_JOB
+  ADD_JOB, ADD_JOB_SUCCESS, GET_JOB, FAVOURITE_JOB_LIST, DELETE_ADD_JOB, MARK_AS_FAVOURITE_JOB, JOB_BY_ID_SUCCESS,JOB_BY_ID,UPDATE_JOB_SUCCESS, UPDATE_JOB,
+  GET_JOB_APPLICANTS,GET_JOB_APPLICANTS_SUCCESS
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 function* addJob({ payload }) {
   const formData = new FormData();
+  formData.append('id', payload.id);
   formData.append('name', payload.name);
   formData.append('description', payload.description);
   formData.append('requirement', payload.requirement);
@@ -37,6 +39,7 @@ function* addJob({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     });
+    
     payload.setReset();
     toast.success(CapitalizeFirstLetter(response.data.message));
     payload.setShowDefaults(true);
@@ -52,6 +55,7 @@ function* watchAddJob() {
 }
 function* getJobList({ payload }) {
   try {
+    
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
       `job/seeker/${payload.userId}?page=${payload.page}&count=${payload.limit}&status=${payload.type}&category=${payload.category}`,
@@ -62,7 +66,6 @@ function* getJobList({ payload }) {
       }
     );
     yield put(getJobsSuccess(response.data.data));
-    console.log("uahgdjhagdja",response)
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -99,6 +102,8 @@ function* deleteJobSaga({ payload }) {
       },
     });
     toast.success(CapitalizeFirstLetter(response.data.message));
+    payload.setShowDefault(false)
+    payload.history.push("/job");
     const filteredData = payload.data.filter((item, index) => item.jobId !== payload.jobId);
     // yield put(getJobListingSuccess(response.data.data));
   } catch (error) {
@@ -140,7 +145,7 @@ function* jobByIdSaga(payload) {
         },
       }
     );
-    console.log(response.data.data, "here is response data")
+   
     yield put(jobByIdSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -150,7 +155,9 @@ function* watchJobById() {
   yield takeLatest(JOB_BY_ID, jobByIdSaga);
 }
 function* updateJobSaga(payload) {
+ 
   const formData = new FormData();
+  formData.append('id', payload.payload.id);
   formData.append('name', payload.payload.name);
   formData.append('description', payload.payload.description);
   formData.append('requirement', payload.payload.requirement);
@@ -171,7 +178,7 @@ function* updateJobSaga(payload) {
   formData.append('jobImg', payload.payload.jobImg);
   try {
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.patch(`job/seeker/${payload.id}`, formData, {
+    const response = yield axios.patch(`job/seeker/${payload.payload.id}`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -181,12 +188,36 @@ function* updateJobSaga(payload) {
 
     toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(updateJobSuccess(response.data));
+    payload.history.push("/detailJob/:id");
+  
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
 }
 function* watchUpdateJob() {
   yield takeLatest(UPDATE_JOB, updateJobSaga);
+}
+function* getApplicants( payload ) {
+  try {
+    const {id} = payload.payload
+    console.log("payload",payload)
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.get(
+      `job/applicants/${id}?page=${payload.payload.page}&count=${payload.payload.limit}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    yield put(getApplicantsSuccess(response.data));
+    console.log("uahgdjhagdja",response.data)
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchGetApplicants() {
+  yield takeLatest(GET_JOB_APPLICANTS, getApplicants);
 }
 export default function* addJobSaga() {
   yield all([fork(watchAddJob)]);
@@ -196,4 +227,6 @@ export default function* addJobSaga() {
   yield all([fork(watchMarkAsFavouriteJob)]);
   yield all([fork(watchJobById)]);
   yield all([fork(watchUpdateJob)]);
+  yield all([fork(watchGetApplicants)]);
+
 }

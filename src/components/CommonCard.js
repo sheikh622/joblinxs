@@ -40,7 +40,9 @@ const CommonCard = (props, item) => {
         </div>
         <div className="detailSection">
           <span className="left">
-            <div onClick={() => history.push(`/detailJob/${props.id}`)}>
+            {/* <div onClick={() => history.push(`/detailJob/${props.id}`)}> */}
+            <Link className="fw-bold" to={`/detailJob/${props.id}`}>
+
               <h3
               >{props.name}</h3>
               <h4>{props.type}</h4>
@@ -50,7 +52,8 @@ const CommonCard = (props, item) => {
               <p>
                 Job Completed: <span>{props.completed} </span>
               </p>
-            </div>
+              </Link>
+            {/* </div> */}
           </span>
           <span className="right">
             <span>

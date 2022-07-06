@@ -4,7 +4,8 @@ import {
   GET_JOB_SUCCESS,
   FAVOURITE_JOB_LIST_SUCCESS,
   JOB_BY_ID_SUCCESS,
-  UPDATE_JOB_SUCCESS
+  UPDATE_JOB_SUCCESS,
+  GET_JOB_APPLICANTS_SUCCESS
 } from "./constants";
 const initialState = {
   addJob: [],
@@ -12,6 +13,7 @@ const initialState = {
   favouriteJob:[],
   jobById:[],
   updateJob:[],
+  Applicants:[],
 };
 const addJob = produce((state = initialState, action) => {
   switch (action.type) {
@@ -30,6 +32,9 @@ const addJob = produce((state = initialState, action) => {
       case UPDATE_JOB_SUCCESS:
       state.updateJob = action.payload;
       break;
+      case GET_JOB_APPLICANTS_SUCCESS:
+        state.Applicants = action.payload;
+        break;
     default:
   }
 }, initialState);

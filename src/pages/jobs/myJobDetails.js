@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
-  BrowserRouter as Router,
-  Switch,
-  useLocation
+    BrowserRouter as Router,
+    Switch,
+    useLocation
 } from "react-router-dom";
 import {
     Container,
@@ -46,34 +46,27 @@ const MyJobDetails = (item, props) => {
     let jobId = params.pathname.split("/")[2];
     const SingleId = useSelector((state) => state?.addJob?.jobById
     );
-    console.log("SingleId",SingleId)
+    console.log("SingleId", SingleId)
     const [adminId, setAdminId] = useState(0);
     const [showDefault, setShowDefault] = useState(false);
     useEffect(() => {
-      console.log(jobId)
-      dispatch(jobById({id:jobId}))
+        dispatch(jobById({ id: jobId }))
     }, []);
     const handleDelete = (id) => {
         dispatch(
             deleteAddJob({
-                jobId: adminId,
+                jobId: jobId,
+                setShowDefault: setShowDefault,
+                history: history
             })
         );
     };
     const handlefalse = () => {
         setShowDefault(false)
     };
-    //       const handleSingleId = (id) => {
-    //     dispatch(
-    //       jobById({
-    //         id: item.id
-    //       })
-    //     )
-    //   }
-    const handleEdit =()=>{
+    const handleEdit = () => {
         history.push(`/updateJob/${jobId}`)
     }
-
     return (
         <>
             <Navbar module={"Job Detail"} />
@@ -82,9 +75,9 @@ const MyJobDetails = (item, props) => {
                     <Col lg={4} md={6} xs={12} className="pb-3 mb-3">
                         <Card border="light" className="card-box-shadow py-3 px-4 mb-3">
                             <div className="detailed">
-                                <Image src={SingleId?.image ? SingleId.image:""} className="navbar-brand-light detailImg" />
-                                <h3 className="mb-1 mt-3">{SingleId?.name ? SingleId.name :""}</h3>
-                                <h5 className="text-gray">{SingleId?.profileType ? SingleId.profileType:""}</h5>
+                                <Image src={SingleId?.image ? SingleId.image : ""} className="navbar-brand-light detailImg" />
+                                <h3 className="mb-1 mt-3">{SingleId?.name ? SingleId.name : ""}</h3>
+                                <h5 className="text-gray">{SingleId?.profileType ? SingleId.profileType : ""}</h5>
                                 <span className="starIcon">
                                     <FontAwesomeIcon icon={faStar} />
                                     <FontAwesomeIcon icon={faStar} />
@@ -95,6 +88,7 @@ const MyJobDetails = (item, props) => {
                             </div>
                         </Card>
                     </Col>
+
                     <Col lg={8} md={6} xs={12} className="pb-3 mb-3">
                         <Card
                             border="light"
@@ -106,30 +100,26 @@ const MyJobDetails = (item, props) => {
                                         User Information
                                     </Card.Title>
                                 </div>
-                                <DetailHeading heading={"JobRequirement"} value={SingleId?.requirement ? SingleId.requirement : "-"} />
-                                <DetailHeading heading={"ToolsNeeded"} value={SingleId?.toolsNeeded ? SingleId.toolsNeeded : "-"} />
-                                <DetailHeading heading={"Payment Type"} value={SingleId?.paymentType ? SingleId.paymentType : "-"} />
-                                <DetailHeading heading={"Rate"} value={SingleId?.Rate ? SingleId.Rate : "-"} />
-                                <DetailHeading heading={"TimeRequired"} value={SingleId?.days ? SingleId.days : "-"} />
-                                <DetailHeading heading={"Job Type"} value={SingleId?.jobType ? SingleId.jobType?.name :"-"} />
-                                <DetailHeading heading={"Job Nature"} value={SingleId?.jobNature ? SingleId.jobNature : "-"} />
+                                <DetailHeading heading={"JobRequirement"} value={SingleId?.requirement ? SingleId?.requirement : "-"} />
+                                <DetailHeading heading={"ToolsNeeded"} value={SingleId?.toolsNeeded ? SingleId?.toolsNeeded : "-"} />
+                                <DetailHeading heading={"Payment Type"} value={SingleId?.paymentType ? SingleId?.paymentType : "-"} />
+                                <DetailHeading heading={"Rate"} value={SingleId?.Rate ? SingleId?.Rate : "-"} />
+                                <DetailHeading heading={"TimeRequired"} value={SingleId?.days ? SingleId?.days : "-"} />
+                                <DetailHeading heading={"Job Type"} value={SingleId?.jobType ? SingleId.jobType?.name : "-"} />
+                                <DetailHeading heading={"Job Nature"} value={SingleId?.jobNature ? SingleId?.jobNature?.name : "-"} />
                                 <DetailHeading heading={"Providers Required"} value={SingleId?.noOfProviders ? SingleId.noOfProviders : "-"} />
                                 <DetailHeading heading={"Experience Required"} value={SingleId?.experienceRequired ? SingleId.experienceRequired : "-"} />
                             </Card.Body>
 
-                            <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">
-                                <Card.Text className="text-black mb-2">
-                                    Job Applicants
-                                </Card.Text>
-                                <FontAwesomeIcon color="#12499C" icon={faChevronRight} />
-                            </Card.Body>
+                            <Link className="text-white fw-bold" to={`/Applicants/${jobId}`}>
+                           
+                                <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">
+                                    <Card.Text className="text-black mb-2">
+                                        Job Applicants
+                                    </Card.Text>
+                                </Card.Body>
 
-                            <Card.Body className="mb-2 d-flex justify-content-between align-items-baseline">
-                                <Card.Text className="text-black mb-2">
-                                    Primary and Secondary Applicants
-                                </Card.Text>
-                                <FontAwesomeIcon color="#12499C" icon={faChevronRight} />
-                            </Card.Body>
+                            </Link>
                         </Card>
                         {/* <Link className="fw-bold" to={Routes.CreateJob.path}> */}
                         <div>
@@ -153,7 +143,7 @@ const MyJobDetails = (item, props) => {
                                 size="lg"
                                 className="mt-2 me-1"
                                 onClick={() => {
-                                    setAdminId(item.id)
+                                    // setAdminId(item.id)
                                     setShowDefault(true);
                                 }
                                 }
@@ -186,7 +176,6 @@ const MyJobDetails = (item, props) => {
                                     // type="submit"
                                     onClick={() => {
                                         handleDelete();
-                                        handlefalse();
                                     }}
                                 >
                                     Delete

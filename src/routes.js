@@ -3,6 +3,8 @@ export const Routes = {
     DashboardOverview: { path: "/dashboard" },
     Profile: { path: "/profile" },
     CreateJob: {path: '/createJob'},
+    Applicants: {path: '/applicants/:jobId'},
+
     UpdateJob: {path: '/updateJob/:id'},
     DetailJob: {path: '/detailJob/:id'},
     // MyJobDetail: {path: '/jobDetail/:id'},

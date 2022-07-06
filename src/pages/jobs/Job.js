@@ -35,7 +35,7 @@ const Job = () => {
     (state) => state?.auth.Auther
   );
   const JobList = useSelector(
-    (state) => state?.addJob?.getJob?.jobs
+    (state) => state?.addJob?.getJob
   );
 
   const [page, setPage] = useState(1);
@@ -70,7 +70,7 @@ const Job = () => {
   }, [CategoryData])
   const currencies = [
     {
-      value: "",
+      value: "all",
       label: "All Jobs",
     },
     {
@@ -86,7 +86,7 @@ const Job = () => {
       label: "Upcoming",
     },
   ];
-  useEffect(() => {
+  useEffect(( action) => {
 
     dispatch(
       getJobs({
@@ -95,11 +95,13 @@ const Job = () => {
         limit: limit,
         type: type,
         category: categoryType,
+        // setReset: action.resetForm,
       })
     );
   },
     [page, limit, type, categoryType]
   );
+  console.log("joblist",JobList)
   const nextPage = () => {
     if (page < JobList?.pages) {
       setPage(page + 1);
@@ -133,7 +135,7 @@ const Job = () => {
         <Row className="pt-2 pb-4">
           <div className="d-flex justify-content-between mt-0 mb-4 headerBorder">
 
-            <Col lg={4} md={4}>
+            <Col lg={9} md={9}>
               <Form.Group>
                 <Form.Select
                   defaultValue="1"
@@ -150,7 +152,7 @@ const Job = () => {
                 </Form.Select>
               </Form.Group>
             </Col>
-            <Col lg={4} md={4}>
+            {/* <Col lg={4} md={4}>
               <Form.Group>
                 <Form.Select
                   defaultValue="1"
@@ -166,13 +168,13 @@ const Job = () => {
                   ))}
                 </Form.Select>
               </Form.Group>
-            </Col>
+            </Col> */}
 
 
 
 
 
-            <span className="d-flex align-items-baseline">
+            <span className="d-flex align-items-baseline mb-3">
               <Link className="text-white fw-bold" to={Routes.CreateJob.path}>
                 <Button variant="primary" className="mx-2">
                   <svg
@@ -213,17 +215,17 @@ const Job = () => {
               </Button>
             ))}
           </div> */}
-          {JobList?.length > 0 ? (
+          {JobList?.jobs?.length > 0 ? (
             <>
               {
-                JobList?.map((item) => {
+                JobList?.jobs?.map((item) => {
                   // alert(item.id)
                   return (
-                    <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
+                    <Col lg={2} md={4} sm={6} xs={12} className="pb-3 mt-3">
                       <CommonCard
                         img={item?.image ? item?.image : Profile}
                         name={item?.name ? item?.name : "N/A"}
-                        type={"Chemical"}
+                        jobType={item?.jobType ? item?.jobType : "N/A"}
                         id={item.id}
                         item={item ? item : null}
                         rate={item?.rate ? item?.rate : "N/A"}
@@ -247,7 +249,7 @@ const Job = () => {
                   </Pagination>
                 </Nav>
                 <small className="fw-bold">
-                  Showing <b>{JobList?.length}</b> out of <b>{JobList?.total_jobs}</b> entries
+                  Showing <b>{JobList?.jobs?.length}</b> out of <b>{JobList?.total_jobs}</b> entries
                 </small>
               </Card.Footer>
             </>

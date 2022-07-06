@@ -5,7 +5,8 @@ import {
   DELETE_JOB,GET_JOB_PROFILE,
   GET_JOB_PROFILE_SUCCESS,
   GET_CATEGORY_JOB,
-  GET_CATEGORY_JOB_SUCCESS
+  GET_CATEGORY_JOB_SUCCESS,
+  
 } from "./constants";
 
 export const getJobListing = (data) => ({
