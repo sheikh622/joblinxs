@@ -200,7 +200,6 @@ function* watchUpdateJob() {
 function* getApplicants( payload ) {
   try {
     const {id} = payload.payload
-    console.log("payload",payload)
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
       `job/applicants/${id}?page=${payload.payload.page}&count=${payload.payload.limit}`,
@@ -211,7 +210,7 @@ function* getApplicants( payload ) {
       }
     );
     yield put(getApplicantsSuccess(response.data));
-    console.log("uahgdjhagdja",response.data)
+
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

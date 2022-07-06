@@ -101,7 +101,7 @@ const Job = () => {
   },
     [page, limit, type, categoryType]
   );
-  console.log("joblist",JobList)
+
   const nextPage = () => {
     if (page < JobList?.pages) {
       setPage(page + 1);

@@ -62,7 +62,7 @@ const Applicants = () => {
         (state) => state?.addJob?.Applicants?.data?.jobs);
     const Pageination = useSelector(
         (state) => state?.addJob?.Applicants?.data);
-    console.log("Pageination", Pageination)
+   
     useEffect((id) => {
         dispatch(
             getApplicants({
@@ -139,7 +139,7 @@ const Applicants = () => {
                     <Col lg={6} md={12} sm={12} xs={12} className="pb-3">
                         {
                             Applicants?.map((item) => {
-                                console.log(item, "hhereis jiakjbdhasgvjv")
+                               
                                 return (
                                     <>
                                         <Card border="light" className="shadow-sm userCard">

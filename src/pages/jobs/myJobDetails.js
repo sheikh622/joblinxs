@@ -46,7 +46,6 @@ const MyJobDetails = (item, props) => {
     let jobId = params.pathname.split("/")[2];
     const SingleId = useSelector((state) => state?.addJob?.jobById
     );
-    console.log("SingleId", SingleId)
     const [adminId, setAdminId] = useState(0);
     const [showDefault, setShowDefault] = useState(false);
     useEffect(() => {
