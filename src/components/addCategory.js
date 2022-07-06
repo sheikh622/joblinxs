@@ -4,31 +4,30 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import { faLaptopHouse } from "@fortawesome/free-solid-svg-icons";
 //saga
 // import { updatetPassword } from "../Redux/auth/actions";
 
-export default ({ showDefault, setShowDefault, categories,setCategories }) => {
+export default ({ showDefault, setShowDefault, categories,setCategories,onHide }) => {
   const dispatch = useDispatch();
   const login = useSelector((state) => state.auth.Auther);
   const [showDefaultCategory, setShowDefaultCategory] = useState(false);
   const handleClosesCategory = () => setShowDefaultCategory(false);
+
   const CategorySchema = Yup.object().shape({
     title: Yup.string().trim().required("Category Name is required"),
     details: Yup.string().trim().required("description is required"),
   });
-  const formOptions = { resolver: yupResolver(CategorySchema) };
 
-  // get functions to build form with useForm() hook
+  const formOptions = { resolver: yupResolver(CategorySchema) };
   const { register, handleSubmit, reset, formState } = useForm(formOptions);
   const { errors } = formState;
 
   const onSubmit = async (data) => {
-    console.log("vhbj",data)
+    onHide();
     let arr=[]
     // display form data on success
     arr.push({value:[{ id:"", title: data.title, details:data.details },]})
-    console.log("arr",arr);
-    console.log("categories",categories);
     setCategories(...arr);
     // let newData = Object.assign(data, { email: login.email });
     // await dispatch(
@@ -45,11 +44,10 @@ export default ({ showDefault, setShowDefault, categories,setCategories }) => {
     if (!showDefault) {
       reset();
     }
-    console.log(showDefault, "erjerej")
   }, [showDefault])
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} >
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <Form.Group>
         <Form.Label>Title</Form.Label>
         <Form.Control
@@ -76,15 +74,15 @@ export default ({ showDefault, setShowDefault, categories,setCategories }) => {
         />
         <div className="invalid-feedback">{errors.details?.message}</div>
       </Form.Group>
-      <Form.Group>
+      <Form.Group >
         <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
           <Button
             variant="primary"
-            // onHide={setShowDefaultCategory}
+            
             color="dark"
             size="sm"
             type="submit"
-            onClick={() => handleClosesCategory(false)}
+            // onClick={() => setShowDefaultCategory(false)}
           >
             Add Category
           </Button>

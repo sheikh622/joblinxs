@@ -8,3 +8,7 @@ export const FAVOURITE_JOB_LIST_SUCCESS = "FAVOURITE_JOB_LIST_SUCCESS";
 export const DELETE_ADD_JOB = "Delete_Add_Job";
 export const JOB_BY_ID = "job_By_Id";
 export const JOB_BY_ID_SUCCESS = "job_By_Id_Success";
+export const  UPDATE_JOB = "Update_Job";
+export const  UPDATE_JOB_SUCCESS= "Update_Job_Success";
+export const GET_JOB_APPLICANTS = "get_Job_Applicants";
+export const GET_JOB_APPLICANTS_SUCCESS = "get_Job_Applicants_Success";

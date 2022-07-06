@@ -3,8 +3,11 @@ export const Routes = {
     DashboardOverview: { path: "/dashboard" },
     Profile: { path: "/profile" },
     CreateJob: {path: '/createJob'},
-    DetailJob: {path: '/detailJob'},
-    MyJobDetail: {path: '/jobDetail'},
+    Applicants: {path: '/applicants/:jobId'},
+
+    UpdateJob: {path: '/updateJob/:id'},
+    DetailJob: {path: '/detailJob/:id'},
+    // MyJobDetail: {path: '/jobDetail/:id'},
     DetailProvider: {path: '/detailProvider'},
     UserDetail: {path: '/userDetail'},
     Favourites:{path:'/favourites'},
@@ -18,7 +21,6 @@ export const Routes = {
     Users: {path:"/users"},
     EditAdminProfile:{path:"/editAdminProfile"},
     AdminProfile:{path:"/AdminProfile"},
-    
     Signin: { path: "/" },
     ForgotPassword: { path: "/forgot-password" },
     ResetPassword: { path: "/reset-password" },

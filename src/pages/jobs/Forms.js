@@ -1,48 +1,88 @@
-import React from "react";
-import { useEffect, useState, useRef } from 'react';
 import {
-  Button, Card, Col, Form, InputGroup, Modal, Row,
+  Button, Card, Col, Form, Modal, Row
 } from "@themesberg/react-bootstrap";
 import { useFormik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
-import Navbar from "../../components/Navbar";
-import NoRecordFound from "../../components/NoRecordFound";
-import AddCategory from "../../components/addCategory";
-import { getJobListing } from "../../Redux/addJob/actions";
-import profile from "../../assets/img/upload.png"
-import Select from 'react-select';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { usePlacesWidget } from "react-google-autocomplete";
+import {
+  useHistory,
+  useLocation
+} from "react-router-dom";
+import Select from 'react-select';
+import * as Yup from "yup";
+import profile from "../../assets/img/upload.png";
+import AddCategory from "../../components/addCategory";
+import { getJobListing, updateJob, jobById } from "../../Redux/addJob/actions";
 import { getCategoryList } from "../../Redux/Category/actions";
+import DatePicker from "react-date-picker";
+import "react-date-picker/dist/DatePicker.css";
+
+
+
 export const GeneralInfoForm = () => {
+  const provide = [
+    { value: "1", label: "1" },
+    { value: "2", label: "2" },
+    { value: "3", label: "3" },
+  ];
+  const experienced = [
+    { value: "None", label: "None" },
+    { value: "professional", label: "professional" },
+    { value: "Expert", label: "Expert" },
+  ];
   const YOUR_GOOGLE_MAPS_API_KEY = "AIzaSyBJWt1Yh6AufjxV8B8Y8UVz_25cYV1fvhs";
+  const params = useLocation();
+  let id = params.pathname.split("/")[2];
+
   const dispatch = useDispatch();
   const history = useHistory();
   const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
+  const SingleId = useSelector((state) => state?.addJob?.jobById);
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
   const [hours, setHours] = useState("");
   const [days, setDays] = useState("");
-  const [providers, setProviders] = useState("")
-  const [experience, setExperience] = useState("")
-  const [jobType, setJobType] = useState("");
-  const [paymentType, setPaymentType] = useState("");
-  const [jobNature, setJobNature] = useState("");
+  const [providers, setProviders] = useState(provide.filter(option =>
+    option.label == SingleId.noOfProviders))
+  const [experience, setExperience] = useState(experienced.filter(option =>
+    option.label == SingleId.experienceRequired))
+  const [jobType, setJobType] = useState(SingleId?.jobType?.name ? SingleId?.jobType?.name : "");
+  const [onGoing, setOngoing] = useState("")
+  const [paymentType, setPaymentType] = useState(SingleId?.paymentType ? SingleId?.paymentType : "");
+  const [jobNature, setJobNature] = useState(SingleId?.jobNature ? SingleId?.jobNature : "");
   const [categories, setCategories] = useState(null);
   const [location, setLocation] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
+  const [startDate, setStartDate] = React.useState(new Date());
+  const [endDate, setEndDate] = React.useState(new Date());
+  const [adminId, setAdminId] = useState(0);
 
+  let jobId = params.pathname.split("/")[2];
 
+  useEffect(() => {
+    setPaymentType(SingleId?.paymentType ? SingleId?.paymentType : "")
+    setJobType(SingleId?.jobType?.name ? SingleId?.jobType?.name : "")
+    setJobNature(SingleId?.jobNature ? SingleId?.jobNature : "")
+    setProviders(provide.filter(option =>
+      option.label == SingleId.noOfProviders));
+  }, [SingleId]);
   useEffect(() => {
     dispatch(
       getCategoryList({
-
         role: "user"
       })
     );
   }, []);
-
+  useEffect((id) => {
+    dispatch(jobById
+      ({ id: jobId }))
+  }, []);
 
   useEffect(() => {
     let array = [
@@ -67,23 +107,11 @@ export const GeneralInfoForm = () => {
   const handledays = (event) => {
     setDays(event.target.value)
   }
-
   const options = [
     { value: "Plumber", label: "Plumber" },
     { value: "Doctor", label: "Doctor" },
     { value: "Devloper", label: "Devloper" },
   ];
-  const provide = [
-    { value: "1", label: "1" },
-    { value: "2", label: "2" },
-    { value: "3", label: "3" },
-  ];
-  const experienced = [
-    { value: "None", label: "None" },
-    { value: "professional", label: "professional" },
-    { value: "Expert", label: "Expert" },
-  ];
-  console.log("tyuiyiu------------", categories)
   const CategorySchema = Yup.object().shape({
     jobName: Yup.string().trim().required("Job Name is required"),
     description: Yup.string().trim().required("description is required"),
@@ -91,21 +119,34 @@ export const GeneralInfoForm = () => {
     toolsNeeded: Yup.string().trim().required("Tools is required"),
     fixRate: Yup.string().trim().required("Rate is required"),
   });
-  console.log("gchjl", providers)
   const CategoryFormik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      id: selectedItem?.id ? selectedItem?.id : "",
-      jobName: selectedItem?.jobName ? selectedItem?.jobName : "",
-      description: selectedItem?.description ? selectedItem?.description : "",
-      jobRequirements: selectedItem?.jobRequirements ? selectedItem?.jobRequirements : "",
-      toolsNeeded: selectedItem?.toolsNeeded ? selectedItem?.toolsNeeded : "",
-      fixRate: selectedItem?.fixRate ? selectedItem?.fixRate : "",
+      id: SingleId?.id ? SingleId?.id : "",
+      jobName: SingleId?.name ? SingleId?.name : "",
+      description: SingleId?.description ? SingleId?.description : "",
+      jobRequirements: SingleId?.requirement ? SingleId?.requirement : "",
+      toolsNeeded: SingleId?.toolsNeeded ? SingleId?.toolsNeeded : "",
+      fixRate: SingleId?.rate ? SingleId?.rate : "",
+      onGoing: SingleId?.onGoing ? SingleId?.onGoing : "",
+      jobType: SingleId?.jobType ? SingleId?.jobType : "",
+      paymentType: SingleId?.paymentType ? SingleId?.paymentType : "",
+      jobNature: SingleId?.jobNature ? SingleId?.jobNature : "",
+      startDate: SingleId?.startDate ? SingleId?.startDate : "",
+      endDate: SingleId?.endDate ? SingleId?.endDate : "",
+      location: SingleId?.location ? SingleId?.location : "",
+      days: SingleId?.days ? SingleId?.days : "",
+      hours: SingleId?.hours ? SingleId?.hours : "",
+      providers: SingleId?.noOfProviders ? SingleId?.noOfProviders : "",
+      experience: SingleId?.experienceRequired ? SingleId?.experienceRequired : "",
+
       remember: true,
     },
+
     validationSchema: CategorySchema,
     onSubmit: async (values, action) => {
       let data = {
+        id: values.id,
         name: values.jobName,
         description: values.description,
         requirement: values.jobRequirements,
@@ -120,20 +161,31 @@ export const GeneralInfoForm = () => {
         days: days,
         hours: hours,
         location: location,
+        startDate: startDate,
+        endDate: endDate,
+        isOngoing: onGoing,
         setReset: action.resetForm,
         setShowDefault: setShowDefault,
         showDefault: showDefault,
         jobImg: selectedImage,
         setSelectedImage: setSelectedImage,
       }
+      if (!id) {
+        dispatch(
+          getJobListing(data)
+        );
+      } else {
+        dispatch(
+          updateJob(data, id)
+        );
+      }
 
-      dispatch(
-        getJobListing(data)
-      );
     },
   });
+
   // Add location
   const [showDefault, setShowDefault] = useState(false);
+
   const handleClose = () => setShowDefault(false);
 
   // Congratulations modal
@@ -167,7 +219,7 @@ export const GeneralInfoForm = () => {
             alt="Neil Portrait"
             className="user-avatar large-avatar rounded-circle mx-auto mt-5"
           />) : (
-            <img src={profile} alt="60px" width={"130px"} onClick={onButtonClick} />
+            <img src={SingleId?.image ? SingleId.image : profile} alt="60px" width={"130px"} onClick={onButtonClick} />
           )
         }
         <Form.Control
@@ -212,6 +264,7 @@ export const GeneralInfoForm = () => {
                   <fieldset className="d-flex radioButton">
                     <Form.Check
                       // defaultChecked
+                      checked={jobNature == "One-time"}
                       type="radio"
                       label="One-time"
                       value="One-time"
@@ -223,6 +276,7 @@ export const GeneralInfoForm = () => {
                     />
 
                     <Form.Check
+                      checked={jobNature == "Recurring"}
                       type="radio"
                       label="Recurring"
                       value="Recurring"
@@ -258,19 +312,15 @@ export const GeneralInfoForm = () => {
                 </Form.Group>
               </Col>
               <Col md={6} className="mb-3">
-                {/* <Form.Group id="providersRequired">
-                  <Form.Select defaultValue="1" value={providers} onChange={handleProvider}>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </Form.Select>
-                </Form.Group> */}
+
                 <Form.Group >
                   <Form.Label>Number of Providers required</Form.Label>
                   <Select
-                    defaultValue={providers}
+                    // defaultValue={CategoryFormik.values.providers}
+                    value={
+                      providers
+                    }
+                    // value="2"
                     onChange={setProviders}
                     options={provide}
                   />
@@ -327,24 +377,28 @@ export const GeneralInfoForm = () => {
 
             <Row>
               <Col md={3} className="mb-3">
-                <Form.Group id="jobNature">
+                <Form.Group id="PaymentType">
                   <Form.Label>Payment Type</Form.Label>
                   <fieldset className="d-flex radioButton">
                     <Form.Check
                       // defaultChecked
                       type="radio"
+                      checked={paymentType == "hourly"}
+
                       // defaultValue=""
                       label="Hourly"
                       value="hourly"
                       name="paymentType"
                       className="radio1"
                       onChange={(event) => {
+
                         setPaymentType(event.target.value)
                       }}
                     />
                     <Form.Check
                       type="radio"
-                      // defaultValue=""
+                      checked={paymentType == "fixed"}
+
                       label="Fixed"
                       value="fixed"
                       name="paymentType"
@@ -362,6 +416,8 @@ export const GeneralInfoForm = () => {
                     <Form.Check
                       // defaultChecked
                       type="radio"
+                      checked={jobType == "Part-time"}
+
                       label="Part-time,"
                       name="jobType"
                       value="Part-time"
@@ -372,6 +428,8 @@ export const GeneralInfoForm = () => {
                     />
                     <Form.Check
                       type="radio"
+                      checked={jobType == "Full-time"}
+
                       label="Full-time"
                       name="jobType"
                       value="Full-time"
@@ -383,6 +441,43 @@ export const GeneralInfoForm = () => {
                   </fieldset>
                 </Form.Group>
               </Col>
+              <Col md={2} className="mb-3">
+
+                <DatePicker selected={startDate}
+                  label="startDate"
+                  name="startDate"
+                  value={startDate}
+                  onChange={(newValue) => { setStartDate(newValue) }} />
+              </Col>
+              <Col md={2} className="mb-3 ">
+                <Form.Group id="onGoing">
+
+                  <fieldset className="d-flex radioButton">
+                    <Form.Check
+                      // defaultChecked
+                      type="checkbox"
+                      label="onGoing"
+                      name="isOngoing"
+                      value="onGoing"
+                      className="radio1"
+                      onChange={(event) => {
+                        setOngoing(event.target.checked)
+                      }}
+                    />
+                  </fieldset>
+                </Form.Group>
+              </Col>
+              {!onGoing && (
+                <Col md={2} className="mb-3">
+
+                  <DatePicker selected={endDate}
+                    label="endDate"
+                    name="endDate"
+                    value={endDate}
+                    onChange={(newValue) => { setEndDate(newValue) }} />
+                </Col>
+              )}
+
               <Col md={6} className="mb-3">
                 <Form.Group id="fixedRate">
                   <Form.Label>Fixed Rate</Form.Label>
@@ -448,7 +543,10 @@ export const GeneralInfoForm = () => {
               <Col md={3} className="mb-3">
                 <Form.Group id="hours" >
                   <Form.Label>Hours</Form.Label>
-                  <Form.Select defaultValue="1" value={hours} onChange={handleHours}>
+                  <Form.Select
+                    defaultValue="1"
+                    value={hours}
+                    onChange={handleHours}>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -481,7 +579,10 @@ export const GeneralInfoForm = () => {
                 <Form.Group >
                   <Form.Label>Minimum Experience Required</Form.Label>
                   <Select
-                    defaultValue={experience}
+                    value={
+                      experience
+
+                    }
                     onChange={setExperience}
                     options={experienced}
                   />
@@ -493,7 +594,7 @@ export const GeneralInfoForm = () => {
               <Col md={6} className="mb-3">
 
                 <Form.Label onClick={() => setShowDefaultCategory(true)} className="text-underline">
-                  Add New 
+                  Add New
                 </Form.Label>
                 <p>{categories?.value[0]?.title}</p>
                 <Form.Group >
@@ -510,8 +611,8 @@ export const GeneralInfoForm = () => {
             </Row>
 
             <div className="mt-3 d-flex justify-content-end">
-              <Button variant="primary" type="submit">
-                Post Job
+              <Button variant="primary" type="submit" show={showDefaults} >
+                {id ? "Update Job" : "Post Job"}
               </Button>
             </div>
           </Form>
@@ -678,7 +779,7 @@ export const GeneralInfoForm = () => {
         as={Modal.Dialog}
         centered
         show={showDefaultCategory}
-        onHide={handleClosesCategory}  
+        onHide={handleClosesCategory}
       >
         <Modal.Header>
           <Modal.Title className="h5">Add Category</Modal.Title>
@@ -689,8 +790,7 @@ export const GeneralInfoForm = () => {
           />
         </Modal.Header>
         <Modal.Body >
-          <AddCategory setShowDefault={setShowDefault} showDefault={showDefault} categories={categories} setCategories={setCategories} onHide={showDefaultCategory} />
-
+          <AddCategory setShowDefault={setShowDefault} showDefault={showDefault} categories={categories} setCategories={setCategories} onHide={() => setShowDefaultCategory(false)} />
         </Modal.Body>
 
       </Modal>
