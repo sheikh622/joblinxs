@@ -16,13 +16,16 @@ import ResetPassword from "./auths/ResetPassword";
 import Signin from "./auths/Signin";
 import Favourites from "./favourite/favourites";
 import CreateJob from "./jobs/CreateJob";
+import Applicants from "./jobs/applicants";
 import Job from "./jobs/Job";
 import EditProfile from "./profile/editProfile";
 import Profile from "./profile/Profile";
 import userDetail from "./user/userDetail";
 import UserManagement from "./user/userManagement";
 import Users from "./user/users";
-
+import editAdminProfile from "./AdminProfile/editAdminProfile";
+import adminProfile from "./AdminProfile/adminProfile";
+import MyJobDetails from "./jobs/myJobDetails";
 // changes merge
 export default () => (
   <BrowserRouter>
@@ -47,7 +50,9 @@ export default () => (
       />
 
       <PrivateRoute exact path={Routes.Profile.path} component={Profile} />
-
+      <PrivateRoute exact path={Routes.EditAdminProfile.path} component={editAdminProfile} />
+      <PrivateRoute exact path={Routes.AdminProfile.path} component={adminProfile} />
+      
       <PrivateRoute
         exact
         path={Routes.EditProfile.path}
@@ -56,6 +61,9 @@ export default () => (
       <PrivateRoute exact path={Routes.Job.path} component={Job} />
 
       <PrivateRoute exact path={Routes.CreateJob.path} component={CreateJob} />
+      <PrivateRoute exact path={Routes.UpdateJob.path} component={CreateJob} />
+      <PrivateRoute exact path={Routes.Applicants.path} component={Applicants} />
+
       <PrivateRoute
         exact
         path={Routes.Favourites.path}
@@ -85,7 +93,9 @@ export default () => (
         path={Routes.UserManagement.path}
         component={UserManagement}
       />
-      <PrivateRoute exact path={Routes.DetailJob.path} component={JobDetail} />
+      <PrivateRoute exact path={Routes.DetailJob.path} component={MyJobDetails} />
+      {/* <PrivateRoute exact path={Routes.MyJobDetail.path} component={MyJobDetails} /> */}
+      
       <PrivateRoute
         exact
         path={Routes.DetailProvider.path}

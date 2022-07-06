@@ -1,17 +1,17 @@
 import {
   faAngleDoubleLeft,
-  faAngleDoubleRight, faCheck, faEllipsisH, faMinus
+  faAngleDoubleRight, faCheck, faEllipsisH, faMinus, faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Button, ButtonGroup, Card, Col, Container, Dropdown, Form, Nav, Pagination, Row, Table
+  Button, ButtonGroup, Card, Col, Container, Dropdown, Form, Modal, Nav, Pagination, Row, Table
 } from "@themesberg/react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import { getJobListing } from "../../Redux/JobManagement/actions";
-
+import { deleteJob, getJobListing, getJobProfile, getCategoryJob } from "../../Redux/JobManagement/actions";
+import { getCategoryList } from "../../Redux/Category/actions";
 
 const JobManagement = (row) => {
   const dispatch = useDispatch();
@@ -20,45 +20,117 @@ const JobManagement = (row) => {
     location: { state },
   } = history;
   const JobList = useSelector(
-    (state) => state?.Jobs?.Jobs
+    (state) => state?.Job?.Jobs
   );
+  const [adminId, setAdminId] = useState(0);
+  const [type, setType] = React.useState("");
+
+  const handleJobAction = (id) => {
+
+    dispatch(
+      getJobProfile({
+        jobId: id,
+        page: page,
+        limit: limit,
+        type: type,
+        search: search,
+        category:categoryType,
+      })
+    );
+  }
+  const handleDelete = () => {
+    dispatch(
+      deleteJob({
+        jobId: adminId,
+        page: page,
+        limit: limit,
+        search: search,
+        type: type,
+        data: JobList,
+        category:categoryType,
+      })
+    );
+  };
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [limit] = useState("5");
-  const [type, setType] = React.useState("all");
+  const [limit] = useState("10");
+const [categoryType, setCategoryType] = useState("");
+  const [showDefault, setShowDefault] = useState(false);
+  const [category, setCategory] = useState([]);
+  const addUsers = () => {
+    setShowDefault(true);
+  }
+  const handlefalse = () => {
+    setShowDefault(false)
+  };
   const handleChange = (event) => {
     setType(event.target.value);
   };
+  const handleClick = (event) => {
+    setCategoryType(event.target.value)
+  }
+  const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
+  useEffect(() => {
+    let array = [
+      {
+        value: "ALL",
+        label: "All"
+      }
+    ];
+    CategoryData.map((item) => {
+      array.push({
+        value: item?.title,
+        label: item?.title,
+
+      })
+    })
+    setCategory(array);
+  }, [CategoryData])
   const currencies = [
     {
-      value: "all",
+      value: "",
       label: "All Users",
     },
     {
       value: "provider",
-      label: "service provider",
+      label: "Service Provider",
     },
     {
       value: "seeker",
-      label: "service seeker",
+      label: "Service Seeker",
     },
   ];
   useEffect(() => {
-     console.log("dfvb")
     dispatch(
       getJobListing({
         page: page,
         limit: limit,
         search: search,
+        type: type,
+        category:categoryType,
       })
     );
   },
-    [page, limit, search]
+    [page, limit, type, search, categoryType]
   );
-  // const [ProfileUser, setProfileUser] = useState(row.isApproved);
   // useEffect(() => {
-  //   setProfileUser(row.isApproved);
-  // }, [row.isApproved]);
+  //   dispatch(
+  //     getCategoryJob({
+  //       page: page,
+  //       limit: limit,
+  //       search: search,
+  //       category:categoryType,
+  //       type: type,
+  //     })
+  //   );
+  // },
+  //   []
+  // );
+
+  const [JobProfile, setJobProfile] = useState(row.isApproved);
+  useEffect(() => {
+    setJobProfile(row.isApproved);
+  }, [row.isApproved]);
 
   const TableRow = (props) => {
     const { invoiceNumber, subscription, price, issueDate, dueDate, status, item } =
@@ -74,18 +146,11 @@ const JobManagement = (row) => {
     return (
       <tr>
         <td>
-          <span className="fw-normal">{item?.fullName ? item?.fullName : "N/A"}</span>
-        </td>
-        <td>
-          <span className="fw-normal">{item?.email ? item?.email : "N/A"}</span>
-        </td>
-        <td>
           <span className="fw-normal">{item?.name ? item?.name : "N/A"}</span>
         </td>
-        {/* <td>
-            <span className="fw-normal">{item?.categoryStatus ? item?.categoryStatus : "N/A"}</span>
-          </td> */}
-
+        <td>
+          <span className="fw-normal">{item?.status ? item?.status : "N/A"}</span>
+        </td>
         <td>
           <Dropdown as={ButtonGroup}>
             <Dropdown.Toggle
@@ -99,21 +164,44 @@ const JobManagement = (row) => {
               </span>
             </Dropdown.Toggle>
             <Dropdown.Menu className="custom_menu">
-              {/* {(item?.categoryStatus == 'Pending' || item?.categoryStatus == 'Rejected') && (
+              {item?.status === "pending" ? (
+                <>
                   <Dropdown.Item className="text-success" onClick={() => {
-                    handleCategoryAction(item?.id)
-                  }}
-                  >
-                    <FontAwesomeIcon icon={faCheck} className="me-2" /> Accept
-                  </Dropdown.Item>
-                )} */}
-              {/* {(item?.categoryStatus == 'Pending' || item?.categoryStatus == 'Accepted') && (
-                  <Dropdown.Item className="text-danger" onClick={() => {
-                    handleCategoryAction(item?.id)
+                    handleJobAction(item?.id)
                   }}>
-                    <FontAwesomeIcon icon={faMinus} className="me-2" /> Decline
+                    <FontAwesomeIcon icon={faCheck} className="me-2" /> Accepted
                   </Dropdown.Item>
-                )} */}
+                  <Dropdown.Item className="text-danger" onClick={() => {
+                    handleJobAction(item?.id)
+                  }}>
+                    <FontAwesomeIcon icon={faMinus} className="me-2" /> Rejected
+                  </Dropdown.Item>
+                </>
+              ) : item?.status === "Rejected" ? (
+                <Dropdown.Item className="text-success" onClick={() => {
+                  handleJobAction(item?.id)
+                }}>
+                  <FontAwesomeIcon icon={faCheck} className="me-2" /> Accepted
+                </Dropdown.Item>
+              ) : (
+                <Dropdown.Item className="text-danger" onClick={() => {
+                  handleJobAction(item?.id)
+                }}>
+                  <FontAwesomeIcon icon={faMinus} className="me-2" /> Rejected
+                </Dropdown.Item>
+              )
+              }
+              <Dropdown.Item
+                className="text-danger"
+                onClick={() => {
+                  setAdminId(item.id)
+                  setShowDefault(true);
+
+                }
+                }
+              >
+                <FontAwesomeIcon icon={faTrashAlt} className="me-2" /> Remove
+              </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </td>
@@ -126,7 +214,7 @@ const JobManagement = (row) => {
     }
   };
   const previousPage = () => {
-    if (1 < page) {
+    if (1 > page) {
       setPage(page - 1);
     }
   };
@@ -170,14 +258,30 @@ const JobManagement = (row) => {
                 <Col lg={3} md={5}>
                   <Form.Group className="mt-3">
                     <Form.Select defaultValue="1" label="Select"
-                      value={type}
-                      onChange={handleChange}
+                      value={categoryType}
+                      onChange={handleClick}
                     >
-                      {/* {currencies.map((option) => (
+                      {category.map((option) => (
                         <option key={option.value} value={option.value}>
                           {option.label}
                         </option>
-                      ))} */}
+                      ))}
+                    </Form.Select>
+                  </Form.Group>
+                </Col>
+                <Col lg={3} md={5}>
+                  <Form.Group className="mt-3">
+                    <Form.Select
+                      defaultValue="1"
+                      label="Select"
+                      value={type}
+                      onChange={handleChange}
+                    >
+                      {currencies.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
                     </Form.Select>
                   </Form.Group>
                 </Col>
@@ -186,9 +290,8 @@ const JobManagement = (row) => {
                 <Table hover className="user-table align-items-center management_table">
                   <thead>
                     <tr>
-                      <th className="border-bottom">Full Name</th>
-                      <th className="border-bottom">Email</th>
                       <th className="border-bottom">Job Name</th>
+                      <th className="border-bottom">Status</th>
                       <th className="border-bottom">Action</th>
                     </tr>
                   </thead>
@@ -211,12 +314,45 @@ const JobManagement = (row) => {
                     </Pagination>
                   </Nav>
                   <small className="fw-bold">
-                    Showing <b>{JobList?.jobs?.length}</b> out of <b>{JobList?.total_categories}</b> entries
+                    Showing <b>{JobList?.jobs?.length}</b> out of <b>{JobList?.total_jobs}</b> entries
                   </small>
                 </Card.Footer>
               </Card.Body>
             </Card>
           </Col>
+          <Modal as={Modal.Dialog} centered show={showDefault} onHide={handlefalse} >
+            <Modal.Header>
+              <Modal.Title className="h5">
+                Delete User
+              </Modal.Title>
+              <Button variant="close" aria-label="Close" onClick={handlefalse} />
+            </Modal.Header>
+            <Modal.Body>
+              <Form >
+                <Form.Group>
+                  Are you sure you want to delete this User?
+                </Form.Group>
+                <Form.Group>
+                  <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
+                    <Button
+                      variant="primary"
+                      onHide={handlefalse}
+                      color="dark"
+                      size="sm"
+                      // type="submit"
+                      onClick={() => {
+                        handleDelete();
+                        handlefalse();
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </Form.Group>
+              </Form>
+
+            </Modal.Body>
+          </Modal>
         </Row>
       </Container>
     </>

@@ -25,47 +25,31 @@ const DashboardOverview = () => {
 
   return (
     <>
-      {console.log("SeekerList", SeekerList)}
+      {console.log("SeekerList", SeekerList.jobs)}
       <Navbar module={"Dashboard"} />
       <Container>
         {/* Recommended */}
         <Row className="pt-2 pb-4">
           <div className="d-flex justify-content-between mt-0 mb-4 headerBorder">
             <h4>Recommended for you</h4>
-            {SeekerList?.job?.lenght && <p>view all</p>}
+            {SeekerList?.jobs?.length > 0 && <p>view all</p>}
           </div>
-          {SeekerList?.job?.lenght ? (
+          {SeekerList?.jobs?.length > 0 ? (
             <>
-              <Col lg={4} md={12} xs={12} sm={12} className="pb-3">
-                <RecommendCard
-                  img={ReactHero}
-                  name={"Seni"}
-                  type={"IT"}
-                  rate={"30"}
-                  completed={"10"}
-                  star={"3.6"}
-                />
-              </Col>
-              <Col lg={4} md={12} xs={12} sm={12} className="pb-3">
-                <RecommendCard
-                  img={ReactHero}
-                  name={"Seni"}
-                  type={"IT"}
-                  rate={"30"}
-                  completed={"10"}
-                  star={"3.6"}
-                />
-              </Col>
-              <Col lg={4} md={12} xs={12} sm={12} className="pb-3">
-                <RecommendCard
-                  img={ReactHero}
-                  name={"Seni"}
-                  type={"IT"}
-                  rate={"30"}
-                  completed={"10"}
-                  star={"3.6"}
-                />
-              </Col>
+              {SeekerList?.jobs?.map((value, index) => {
+                return (
+                  <Col lg={4} md={12} xs={12} sm={12} className="pb-3" key={index}>
+                    <RecommendCard
+                      img={value.image}
+                      name={value.name}
+                      // type={"IT"}
+                      rate={value.rate}
+                      completed={"10"}
+                      star={"3.6"}
+                    />
+                  </Col>
+                );
+              })}
             </>
           ) : (
             <>

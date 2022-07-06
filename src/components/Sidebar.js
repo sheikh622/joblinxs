@@ -26,6 +26,8 @@ export default (props = {}) => {
   const dispatch = useDispatch();
 
   const [showDefaultCategory, setShowDefaultCategory] = useState(false);
+  const [adminId, setAdminId] = useState(0);
+
   const handleClosesCategory = () => {
     setShowDefaultCategory(false);
   };
@@ -163,26 +165,36 @@ export default (props = {}) => {
                       </svg>
                     }
                   />
-
-                  <NavItem
-                    title="My Jobs"
-                    SVG={
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="18"
-                        height="20"
-                        viewBox="0 0 18 20"
-                        fill="none"
-                      >
-                        <path
-                          d="M13 9H5C4.45 9 4 9.45 4 10C4 10.55 4.45 11 5 11H13C13.55 11 14 10.55 14 10C14 9.45 13.55 9 13 9ZM16 2H15V1C15 0.45 14.55 0 14 0C13.45 0 13 0.45 13 1V2H5V1C5 0.45 4.55 0 4 0C3.45 0 3 0.45 3 1V2H2C0.89 2 0 2.9 0 4V18C0 19.1 0.89 20 2 20H16C17.1 20 18 19.1 18 18V4C18 2.9 17.1 2 16 2ZM15 18H3C2.45 18 2 17.55 2 17V7H16V17C16 17.55 15.55 18 15 18ZM10 13H5C4.45 13 4 13.45 4 14C4 14.55 4.45 15 5 15H10C10.55 15 11 14.55 11 14C11 13.45 10.55 13 10 13Z"
-                          fill="#fff"
-                        />
-                      </svg>
-                    }
-                    link={Routes.Job.path}
-                  />
-
+                  <button
+                    style={{
+                      background: "none",
+                      border: "none",
+                      textAlign: "left",
+                    }}
+                    onClick={(item) => {
+                      
+                      setAdminId(item.id)
+                    }}
+                  >
+                    <NavItem
+                      title="My Jobs"
+                      SVG={
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="18"
+                          height="20"
+                          viewBox="0 0 18 20"
+                          fill="none"
+                        >
+                          <path
+                            d="M13 9H5C4.45 9 4 9.45 4 10C4 10.55 4.45 11 5 11H13C13.55 11 14 10.55 14 10C14 9.45 13.55 9 13 9ZM16 2H15V1C15 0.45 14.55 0 14 0C13.45 0 13 0.45 13 1V2H5V1C5 0.45 4.55 0 4 0C3.45 0 3 0.45 3 1V2H2C0.89 2 0 2.9 0 4V18C0 19.1 0.89 20 2 20H16C17.1 20 18 19.1 18 18V4C18 2.9 17.1 2 16 2ZM15 18H3C2.45 18 2 17.55 2 17V7H16V17C16 17.55 15.55 18 15 18ZM10 13H5C4.45 13 4 13.45 4 14C4 14.55 4.45 15 5 15H10C10.55 15 11 14.55 11 14C11 13.45 10.55 13 10 13Z"
+                            fill="#fff"
+                          />
+                        </svg>
+                      }
+                      link={Routes.Job.path}
+                    />
+                  </button>
                   <NavItem
                     title="Profile"
                     SVG={
@@ -294,7 +306,7 @@ export default (props = {}) => {
                     }
                     link={Routes.Categories_Management.path}
                   />
-                  {/* <NavItem
+                  <NavItem
                     title="Job Management"
                     SVG={
                       <svg
@@ -311,7 +323,26 @@ export default (props = {}) => {
                       </svg>
                     }
                     link={Routes.Job_Management.path}
-                  /> */}
+                  />
+                  <NavItem
+                    title="Profile Management"
+                    SVG={
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M10 10.75C12.6242 10.75 14.75 8.62421 14.75 6C14.75 3.37579 12.6242 1.25 10 1.25C7.37579 1.25 5.25 3.37579 5.25 6C5.25 8.62421 7.37579 10.75 10 10.75ZM10 11.25C8.57124 11.25 6.47644 11.6026 4.71985 12.3063C3.84095 12.6584 2.99956 13.1168 2.36586 13.7017C1.72707 14.2912 1.25 15.0595 1.25 16V17C1.25 17.9642 2.03579 18.75 3 18.75H17C17.9642 18.75 18.75 17.9642 18.75 17V16C18.75 15.0595 18.2729 14.2912 17.6341 13.7017C17.0004 13.1168 16.1591 12.6584 15.2802 12.3063C13.5236 11.6026 11.4288 11.25 10 11.25Z"
+                          stroke="#fff"
+                          stroke-width="1.5"
+                        />
+                      </svg>
+                    }
+                    link={Routes.AdminProfile.path}
+                  />
                 </>
               )}
 
