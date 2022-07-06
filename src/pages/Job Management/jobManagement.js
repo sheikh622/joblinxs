@@ -317,7 +317,7 @@ const JobManagement = (row) => {
           <Modal as={Modal.Dialog} centered show={showDefault} onHide={handlefalse} >
             <Modal.Header>
               <Modal.Title className="h5">
-                Delete User
+                Delete Job
               </Modal.Title>
               <Button variant="close" aria-label="Close" onClick={handlefalse} />
             </Modal.Header>

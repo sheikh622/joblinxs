@@ -76,7 +76,7 @@ export const GeneralInfoForm = () => {
   useEffect(() => {
     setPaymentType(SingleId?.paymentType ? SingleId?.paymentType : "");
     setJobType(SingleId?.jobType?.name ? SingleId?.jobType?.name : "");
-    setJobNature(SingleId?.jobNature ? SingleId?.jobNature : "");
+    setJobNature(SingleId?.jobNature?.name ? SingleId?.jobNature?.name : "");
     setProviders(
       provide.filter((option) => option.label == SingleId.noOfProviders)
     );
