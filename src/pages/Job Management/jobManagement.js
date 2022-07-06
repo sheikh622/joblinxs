@@ -12,6 +12,7 @@ import { useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { deleteJob, getJobListing, getJobProfile, getCategoryJob } from "../../Redux/JobManagement/actions";
 import { getCategoryList } from "../../Redux/Category/actions";
+import NoRecordFound from "../../components/NoRecordFound";
 
 const JobManagement = (row) => {
   const dispatch = useDispatch();
@@ -273,36 +274,43 @@ const JobManagement = (row) => {
                 </Col>
               </Card.Header>
               <Card.Body className="pt-0">
-                <Table hover className="user-table align-items-center management_table">
-                  <thead>
-                    <tr>
-                      <th className="border-bottom">Job Name</th>
-                      <th className="border-bottom">Status</th>
-                      <th className="border-bottom">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {JobList?.jobs?.map((t, index) => (
-                      <TableRow key={index} item={t} />
-                    ))}
-                  </tbody>
-                </Table>
-                <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
-                  <Nav>
-                    <Pagination size={"sm"} className="mb-2 mb-lg-0">
-                      <Pagination.Prev onClick={() => previousPage()}>
-                        <FontAwesomeIcon icon={faAngleDoubleLeft} />
-                      </Pagination.Prev>
-                      {paginationItems()}
-                      <Pagination.Next onClick={() => nextPage()}>
-                        <FontAwesomeIcon icon={faAngleDoubleRight} />
-                      </Pagination.Next>
-                    </Pagination>
-                  </Nav>
-                  <small className="fw-bold">
-                    Showing <b>{JobList?.jobs?.length}</b> out of <b>{JobList?.total_jobs}</b> entries
-                  </small>
-                </Card.Footer>
+                {JobList?.jobs?.length > 0 ? (
+                  <>
+                    <Table hover className="user-table align-items-center management_table">
+                      <thead>
+                        <tr>
+                          <th className="border-bottom">Job Name</th>
+                          <th className="border-bottom">Status</th>
+                          <th className="border-bottom">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {JobList?.jobs?.map((t, index) => (
+                          <TableRow key={index} item={t} />
+                        ))}
+                      </tbody>
+                    </Table>
+                    <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+                      <Nav>
+                        <Pagination size={"sm"} className="mb-2 mb-lg-0">
+                          <Pagination.Prev onClick={() => previousPage()}>
+                            <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                          </Pagination.Prev>
+                          {paginationItems()}
+                          <Pagination.Next onClick={() => nextPage()}>
+                            <FontAwesomeIcon icon={faAngleDoubleRight} />
+                          </Pagination.Next>
+                        </Pagination>
+                      </Nav>
+                      <small className="fw-bold">
+                        Showing <b>{JobList?.jobs?.length}</b> out of <b>{JobList?.total_jobs}</b> entries
+                      </small>
+                    </Card.Footer>
+                  </>
+                ) : (
+                  <NoRecordFound />
+
+                )}
               </Card.Body>
             </Card>
           </Col>
