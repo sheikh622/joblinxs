@@ -18,13 +18,8 @@ import RecommendCard from "../../components/RecommendCard";
 import { Routes } from "../../routes";
 import { getJobs } from "../../Redux/addJob/actions"
 import { display } from "@mui/system";
-import Slideshow from "../../components/slider";
 import NoRecordFound from "../../components/NoRecordFound";
 
-// // Import Swiper styles
-
-// import 'swiper/swiper-bundle.min.css'
-// import 'swiper/swiper.min.css'
 const Job = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -153,7 +148,7 @@ const Job = () => {
               </Form.Group>
             </Col>
             <span className="d-flex align-items-baseline mb-3">
-              <Link className="text-white fw-bold" to={Routes.CreateJob.path}>
+              <a className="text-white fw-bold" href={Routes.CreateJob.path}>
                 <Button variant="primary" className="mx-2">
                   <svg
                     width="17"
@@ -176,7 +171,7 @@ const Job = () => {
                   </svg>{'  '}
                   Add Job
                 </Button>
-              </Link>
+              </a>
             </span>
           </div>
           {JobList?.jobs?.length > 0 ? (

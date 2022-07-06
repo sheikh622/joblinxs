@@ -34,7 +34,7 @@ const JobManagement = (row) => {
         limit: limit,
         type: type,
         search: search,
-        category:categoryType,
+        category: categoryType,
       })
     );
   }
@@ -47,14 +47,14 @@ const JobManagement = (row) => {
         search: search,
         type: type,
         data: JobList,
-        category:categoryType,
+        category: categoryType,
       })
     );
   };
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [limit] = useState("10");
-const [categoryType, setCategoryType] = useState("");
+  const [categoryType, setCategoryType] = useState("");
   const [showDefault, setShowDefault] = useState(false);
   const [category, setCategory] = useState([]);
   const addUsers = () => {
@@ -107,26 +107,12 @@ const [categoryType, setCategoryType] = useState("");
         limit: limit,
         search: search,
         type: type,
-        category:categoryType,
+        category: categoryType,
       })
     );
   },
     [page, limit, type, search, categoryType]
   );
-  // useEffect(() => {
-  //   dispatch(
-  //     getCategoryJob({
-  //       page: page,
-  //       limit: limit,
-  //       search: search,
-  //       category:categoryType,
-  //       type: type,
-  //     })
-  //   );
-  // },
-  //   []
-  // );
-
   const [JobProfile, setJobProfile] = useState(row.isApproved);
   useEffect(() => {
     setJobProfile(row.isApproved);
