@@ -111,7 +111,7 @@ const MyJobDetails = (item, props) => {
                             </Card.Body>
 
                             <Link className="text-white fw-bold" to={`/Applicants/${jobId}`}>
-                           
+
                                 <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">
                                     <Card.Text className="text-black mb-2">
                                         Job Applicants
@@ -120,7 +120,6 @@ const MyJobDetails = (item, props) => {
 
                             </Link>
                         </Card>
-                        {/* <Link className="fw-bold" to={Routes.CreateJob.path}> */}
                         <div>
                             <div class="d-grid gap-2 col-3 mx-auto">
                                 <Button
@@ -134,7 +133,6 @@ const MyJobDetails = (item, props) => {
                                 </Button>
                             </div>
                         </div>
-                        {/* </Link> */}
                         <div class="d-grid gap-2 col-3 mx-auto">
                             <Button
                                 variant="primary"

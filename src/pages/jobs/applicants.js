@@ -62,7 +62,7 @@ const Applicants = () => {
         (state) => state?.addJob?.Applicants?.data?.jobs);
     const Pageination = useSelector(
         (state) => state?.addJob?.Applicants?.data);
-   
+
     useEffect((id) => {
         dispatch(
             getApplicants({
@@ -95,39 +95,39 @@ const Applicants = () => {
         }
         return items
     }
-   const handleClick=()=>{
-    return(
-        <div>
-        <div class="">
-        <Button
-            variant="primary"
-            color="dark"
-            size="sm"
-            style={
-                {width:"100px",height:"40px"}    
-            }
-        >
-            Accept
-        </Button>
-    </div>
-    <div class=" mt-5 ml-auto">
-        <Button
-            
-            variant="danger"
-            color="dark"
-            size="sm"
-            style={
-                {width:"100px",height:"40px"}
-                
-            }
+    const handleClick = () => {
+        return (
+            <div>
+                <div class="">
+                    <Button
+                        variant="primary"
+                        color="dark"
+                        size="sm"
+                        style={
+                            { width: "100px", height: "40px" }
+                        }
+                    >
+                        Accept
+                    </Button>
+                </div>
+                <div class=" mt-5 ml-auto">
+                    <Button
 
-        >
-            Decline
-        </Button>
-    </div>
-        </div>
-    )
-   }
+                        variant="danger"
+                        color="dark"
+                        size="sm"
+                        style={
+                            { width: "100px", height: "40px" }
+
+                        }
+
+                    >
+                        Decline
+                    </Button>
+                </div>
+            </div>
+        )
+    }
     return (
         <>
             <Navbar module={"Applicants"} />
@@ -139,7 +139,7 @@ const Applicants = () => {
                     <Col lg={6} md={12} sm={12} xs={12} className="pb-3">
                         {
                             Applicants?.map((item) => {
-                               
+
                                 return (
                                     <>
                                         <Card border="light" className="shadow-sm userCard">
@@ -162,7 +162,7 @@ const Applicants = () => {
                                                     </p>
                                                 </span>
                                             </div>
-                                           {handleClick()} 
+                                            {handleClick()}
                                         </Card>
 
                                     </>)
@@ -186,71 +186,8 @@ const Applicants = () => {
                             </small>
                         </Card.Footer>
                     </Col>
-
-
                 </Row>
             </Container>
-            {/* Modal */}
-            {/* <Modal as={Modal.Dialog} centered show={showDefault} onHide={handleClose}>
-                <Modal.Header>
-                    <Modal.Title className="h5">Add User</Modal.Title>
-                    <Button variant="close" aria-label="Close" onClick={handleClose} />
-                </Modal.Header>
-                <Modal.Body>
-                    <Form onSubmit={handleSubmit(onSubmit)}>
-                        <Form.Group className="col my-2">
-                            <Form.Label>First Name</Form.Label>
-                            <Form.Control
-                                name="firstName"
-                                type="text"
-                                {...register("firstName")}
-                                className={`form-control ${errors.firstName ? "is-invalid" : ""
-                                    }`}
-                            />
-                            <div className="invalid-feedback">
-                                {errors.firstName?.message}
-                            </div>
-                        </Form.Group>
-
-                        <Form.Group className="col my-2">
-                            <Form.Label>Last Name</Form.Label>
-                            <Form.Control
-                                name="lastName"
-                                type="text"
-                                {...register("lastName")}
-                                className={`form-control ${errors.lastName ? "is-invalid" : ""
-                                    }`}
-                            />
-                            <div className="invalid-feedback">{errors.lastName?.message}</div>
-                        </Form.Group>
-
-                        <Form.Group className="col my-2">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control
-                                name="email"
-                                type="text"
-                                {...register("email")}
-                                className={`form-control ${errors.email ? "is-invalid" : ""}`}
-                            />
-                            <div className="invalid-feedback">{errors.email?.message}</div>
-                        </Form.Group>
-
-                        <Form.Group>
-                            <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
-                                <Button
-                                    variant="primary"
-                                    // onHide={handleClose}
-                                    color="dark"
-                                    size="sm"
-                                    type="submit"
-                                >
-                                    Add
-                                </Button>
-                            </div>
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
-            </Modal> */}
         </>
     );
 };

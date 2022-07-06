@@ -112,16 +112,6 @@ export const GeneralInfoForm = () => {
     { value: "Doctor", label: "Doctor" },
     { value: "Devloper", label: "Devloper" },
   ];
-  // const provide = [
-  //   { value: "1", label: "1" },
-  //   { value: "2", label: "2" },
-  //   { value: "3", label: "3" },
-  // ];
-  // const experienced = [
-  //   { value: "None", label: "None" },
-  //   { value: "professional", label: "professional" },
-  //   { value: "Expert", label: "Expert" },
-  // ];
   const CategorySchema = Yup.object().shape({
     jobName: Yup.string().trim().required("Job Name is required"),
     description: Yup.string().trim().required("description is required"),
@@ -229,7 +219,7 @@ export const GeneralInfoForm = () => {
             alt="Neil Portrait"
             className="user-avatar large-avatar rounded-circle mx-auto mt-5"
           />) : (
-            <img src={SingleId?.image?SingleId.image:profile} alt="60px" width={"130px"} onClick={onButtonClick} />
+            <img src={SingleId?.image ? SingleId.image : profile} alt="60px" width={"130px"} onClick={onButtonClick} />
           )
         }
         <Form.Control

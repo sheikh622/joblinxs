@@ -86,7 +86,7 @@ const Job = () => {
       label: "Upcoming",
     },
   ];
-  useEffect(( action) => {
+  useEffect((action) => {
 
     dispatch(
       getJobs({
@@ -152,28 +152,6 @@ const Job = () => {
                 </Form.Select>
               </Form.Group>
             </Col>
-            {/* <Col lg={4} md={4}>
-              <Form.Group>
-                <Form.Select
-                  defaultValue="1"
-                  label="Categories"
-                  value={categoryType}
-                  onChange={handleClick}
-
-                >
-                  {category.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Form.Group>
-            </Col> */}
-
-
-
-
-
             <span className="d-flex align-items-baseline mb-3">
               <Link className="text-white fw-bold" to={Routes.CreateJob.path}>
                 <Button variant="primary" className="mx-2">
@@ -201,20 +179,6 @@ const Job = () => {
               </Link>
             </span>
           </div>
-
-          {/* <div
-            // defaultValue="1"
-            // label="Select"
-            // value={categoryType}
-            onChange={handleClick}
-            style={{ display: "inline-block", marginBottom: "20px", whiteSpace: "20px" }}
-          >
-            {category.map((option) => (
-              <Button key={option.value} value={option.value}>
-                {option.label}
-              </Button>
-            ))}
-          </div> */}
           {JobList?.jobs?.length > 0 ? (
             <>
               {
