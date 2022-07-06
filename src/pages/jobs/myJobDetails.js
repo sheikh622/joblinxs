@@ -161,7 +161,7 @@ const MyJobDetails = (item, props) => {
                 <Modal.Body>
                     <Form >
                         <Form.Group>
-                            Are you sure you want to delete this Job?
+                            Are you sure you want to remove this job ?
                         </Form.Group>
                         <Form.Group>
                             <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
