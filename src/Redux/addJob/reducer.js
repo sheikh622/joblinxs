@@ -14,6 +14,7 @@ const initialState = {
   jobById:[],
   updateJob:[],
   Applicants:[],
+  favouriteJob:[],
 };
 const addJob = produce((state = initialState, action) => {
   switch (action.type) {
