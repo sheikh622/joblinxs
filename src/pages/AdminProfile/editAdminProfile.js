@@ -133,6 +133,9 @@ export default () => {
                         <Card.Subtitle
                           className="text-gray mb-2"
                           onClick={onButtonClick}
+                          style={{
+                            fontWeight: "bold"
+                          }}
                         >
                           Change Profile Picture
                         </Card.Subtitle>

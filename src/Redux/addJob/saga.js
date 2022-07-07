@@ -40,11 +40,14 @@ function* addJob({ payload }) {
       },
     });
 
-    payload.setReset();
+   
     toast.success(CapitalizeFirstLetter(response.data.message));
-    payload.setShowDefaults(true);
-    payload.setSelectedImage("");
+    payload.history.push("/job");
+    // payload.setShowDefaults(true);
+    // payload.setSelectedImage("");
     yield put(getJobListingSuccess(response.data.data));
+    payload.setReset();
+    
 
   } catch (error) {
     yield sagaErrorHandler(error.response);
