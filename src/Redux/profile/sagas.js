@@ -11,7 +11,7 @@ import {
   GET_PROFILE,UPDATE_PROFILE
 } from "./constants";
 // import { CapitalizeFirstLetter } from "../../utils/Global";
-
+import {adminUpdatedSuccess} from "../auth/actions"
 
 function* getProfileById({ payload }) {
   try {
@@ -44,6 +44,8 @@ function* updateAdminProfileSaga({payload}) {
       }
     );
     yield put(getProfileSuccess(response.data.data.user));
+    yield put(adminUpdatedSuccess(response.data.data.user));
+
     toast.success(response.data.message)
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -51,6 +53,7 @@ function* updateAdminProfileSaga({payload}) {
 }
 function* watchUpdateAdminProfile() {
   yield takeLatest(UPDATE_PROFILE, updateAdminProfileSaga);
+  
 }
 export default function* ProfileSaga() {
   yield all([fork(watchGetProfile)]);

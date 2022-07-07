@@ -46,8 +46,8 @@ export const GeneralInfoForm = () => {
   const SingleId = useSelector((state) => state?.addJob?.jobById);
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
-  const [hours, setHours] = useState("");
-  const [days, setDays] = useState("");
+  const [hours, setHours] = useState("1");
+  const [days, setDays] = useState("1");
   const [providers, setProviders] = useState(
     provide.filter((option) => option.label == SingleId.noOfProviders)
   );
@@ -76,7 +76,7 @@ export const GeneralInfoForm = () => {
   useEffect(() => {
     setPaymentType(SingleId?.paymentType ? SingleId?.paymentType : "");
     setJobType(SingleId?.jobType?.name ? SingleId?.jobType?.name : "");
-    setJobNature(SingleId?.jobNature ? SingleId?.jobNature : "");
+    setJobNature(SingleId?.jobNature?.name ? SingleId?.jobNature?.name : "");
     setProviders(
       provide.filter((option) => option.label == SingleId.noOfProviders)
     );
@@ -168,6 +168,7 @@ export const GeneralInfoForm = () => {
         showDefault: showDefault,
         jobImg: selectedImage,
         setSelectedImage: setSelectedImage,
+        history:history,
       };
       if (!id) {
         dispatch(getJobListing(data));

@@ -1,7 +1,8 @@
 import produce from "immer";
 import {
   LOGIN_SUCCESS, LOGOUT,
-  RESET_PASSWORD_SUCCESS, SET_LOADER
+  RESET_PASSWORD_SUCCESS, SET_LOADER,
+  ADMIN_UPDATED_SUCCESS
 } from "./constants";
 
 
@@ -11,6 +12,7 @@ const initialState = {
   loader: false,
   resetPasswordToken: null,
   userRole:"",
+  
 };
 
 const Auth = produce((state = initialState, action) => {
@@ -30,6 +32,9 @@ const Auth = produce((state = initialState, action) => {
       state.Auther = null;
       state.token = null;
       break;
+      case ADMIN_UPDATED_SUCCESS:
+        state.Auther = action.payload;
+        break;
     default:
   }
 }, initialState);
