@@ -101,6 +101,7 @@ export default () => {
                       className="text-center p-0 mb-4 profileView"
                       style={{ cursor: "pointer" }}
                     >
+                      
                       {selectedImage ? (
                         <Card.Img
                           src={URL.createObjectURL(selectedImage)}
