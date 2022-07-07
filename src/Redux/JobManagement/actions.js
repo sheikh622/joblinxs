@@ -6,7 +6,7 @@ import {
   GET_JOB_PROFILE_SUCCESS,
   GET_CATEGORY_JOB,
   GET_CATEGORY_JOB_SUCCESS,
-  
+  ACTION_JOB
 } from "./constants";
 
 export const getJobListing = (data) => ({
@@ -41,5 +41,9 @@ export const getCategoryJobSuccess = (data) => ({
 });
 export const changeUsersActivePage = (data) => ({
   type: CHANGE_USERS_ACTIVE_PAGE,
+  payload: data,
+});
+export const changeJobStatus = (data) => ({
+  type: ACTION_JOB,
   payload: data,
 });

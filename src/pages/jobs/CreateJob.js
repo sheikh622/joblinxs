@@ -4,10 +4,16 @@ import { Link } from "react-router-dom";
 import { GeneralInfoForm } from "./Forms";
 import Navbar from "../../components/Navbar";
 import { Routes } from "../../routes";
+import { useHistory, useLocation } from "react-router-dom";
+
 const CreateJob = () => {
+
+  const params = useLocation();
+  let id = params.pathname.split("/")[2];
+
   return (
     <>
-      <Navbar module={"Create Job"} />
+      <Navbar module={id ? "Edit Job" :"Create Job"} />
       <Container>
         <Row className="py-2">
         <Col xs={12} xl={12} className={'d-flex justify-content-end'}>

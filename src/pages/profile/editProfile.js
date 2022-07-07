@@ -99,17 +99,24 @@ export default () => {
                     <Card
                       border="light"
                       className="text-center p-0 mb-4 profileView"
+                      style={{ cursor: "pointer" }}
                     >
+                      
                       {selectedImage ? (
                         <Card.Img
                           src={URL.createObjectURL(selectedImage)}
                           alt="Neil Portrait"
+                         
+                          onClick={onButtonClick}
+                          ref={inputEl}
                           className="user-avatar large-avatar rounded-circle mx-auto mt-5"
                         />
                       ) : (
                         <Card.Img
                           src={getById  ?.profileImg}
                           alt="Neil Portrait"
+                          onClick={onButtonClick}
+                          ref={inputEl}
                           className="user-avatar large-avatar rounded-circle mx-auto mt-5"
                         />
                       )}
@@ -122,6 +129,8 @@ export default () => {
                           onChange={imageChange}
                           className="d-none"
                           ref={inputEl}
+                          
+                          style={{ cursor: "pointer" }}
                         />
                         <div className="invalid-feedback">
                           {errors.file?.message}
@@ -137,6 +146,9 @@ export default () => {
                         <Card.Subtitle
                           className="text-gray mb-2"
                           onClick={onButtonClick}
+                          style={{
+                            fontWeight: "bold"
+                          }}
                         >
                           Change Profile Picture
                         </Card.Subtitle>
