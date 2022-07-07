@@ -10,7 +10,7 @@ import {
 
 } from "./actions";
 import {
-  GET_JOB_LISTING, GET_JOB_PROFILE, DELETE_JOB, GET_CATEGORY_JOB
+  GET_JOB_LISTING, GET_JOB_PROFILE, DELETE_JOB, GET_CATEGORY_JOB,ACTION_JOB
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 
@@ -70,10 +70,22 @@ function* deleteJob({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     });
-
+let data ={
+  page: payload.page,
+        limit: payload.limit,
+        type: payload.type,
+        search: payload.search,
+        category: payload.category,
+}
     toast.success(CapitalizeFirstLetter(response.data.message));
-    const filteredData = payload.data.filter((item, index) => item.jobId !== payload.jobId);
+    yield put(
+      getJobListing(
+        data
+      )
+    );
+    // const filteredData = payload.data.filter((item, index) => item.jobId !== payload.jobId);
     yield put(getJobListingSuccess(response.data.data));
+   
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -81,8 +93,32 @@ function* deleteJob({ payload }) {
 function* watchDeleteJob() {
   yield takeLatest(DELETE_JOB, deleteJob);
 }
+function* changeJobStatusSaga({ payload }) {
+  try {
+    let data ={
+      id:payload.id,
+      isApproved :payload.isApproved
+    }
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.post(
+      `job/admin/approve-request`,data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    // yield put(getJobListingSuccess(response.data.data));
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchchangeJobStatus() {
+  yield takeLatest(ACTION_JOB, changeJobStatusSaga);
+}
 export default function* JobManagementSaga() {
   yield all([fork(watchGetJob)]);
   yield all([fork(watchGetProfile)]);
   yield all([fork(watchDeleteJob)]);
+  yield all([fork(watchchangeJobStatus)]);
 }

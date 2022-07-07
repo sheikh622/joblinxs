@@ -42,10 +42,8 @@ function* addJob({ payload }) {
 
    
     toast.success(CapitalizeFirstLetter(response.data.message));
-    payload.history.push("/job");
-    // payload.setShowDefaults(true);
-    // payload.setSelectedImage("");
     yield put(getJobListingSuccess(response.data.data));
+    payload.history.push("/job");
     payload.setReset();
     
 
@@ -191,13 +189,10 @@ function* updateJobSaga(payload) {
         Authorization: `Bearer ${token}`,
       },
     });
-    payload.setShowDefault(false);
-    payload.setReset();
-
     toast.success(CapitalizeFirstLetter(response.data.message));
-    yield put(updateJobSuccess(response.data));
-    // payload.history.push("/detailJob/:id");
-    payload.history.push("/job");
+    
+    yield put(updateJobSuccess(response.data)); 
+    payload.history.push("/job");  
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
