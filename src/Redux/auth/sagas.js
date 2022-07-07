@@ -61,7 +61,7 @@ function* resetRequestSaga({ payload }) {
     const response = yield axios.post(`/user/admin/reset-password`, data);
 
     toast.success("Password Reset Successfully");
-    toast.success("Password is old.Kindly enter new password ");
+    // toast.success("Password is old.Kindly enter new password ");
     payload.history.push("/");
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -86,7 +86,7 @@ function* updatePasswordSaga({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     });
-    toast.success("Login Successfully");
+    toast.success(response.data.message);
     // yield put(updatetPasswordSuccess(response.data.data));
     payload.setShowDefault(false);
     payload.reset();

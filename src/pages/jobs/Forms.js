@@ -1,20 +1,22 @@
 import {
-  Button, Card, Col, Form, Modal, Row
+  Button,
+  Card,
+  Col,
+  Form,
+  Modal,
+  Row,
 } from "@themesberg/react-bootstrap";
 import { useFormik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import { usePlacesWidget } from "react-google-autocomplete";
-import {
-  useHistory,
-  useLocation
-} from "react-router-dom";
-import Select from 'react-select';
+import { useHistory, useLocation } from "react-router-dom";
+import Select from "react-select";
 import * as Yup from "yup";
 import profile from "../../assets/img/upload.png";
 import AddCategory from "../../components/addCategory";
@@ -22,8 +24,6 @@ import { getJobListing, updateJob, jobById } from "../../Redux/addJob/actions";
 import { getCategoryList } from "../../Redux/Category/actions";
 import DatePicker from "react-date-picker";
 import "react-date-picker/dist/DatePicker.css";
-
-
 
 export const GeneralInfoForm = () => {
   const provide = [
@@ -46,16 +46,24 @@ export const GeneralInfoForm = () => {
   const SingleId = useSelector((state) => state?.addJob?.jobById);
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
-  const [hours, setHours] = useState("");
-  const [days, setDays] = useState("");
-  const [providers, setProviders] = useState(provide.filter(option =>
-    option.label == SingleId.noOfProviders))
-  const [experience, setExperience] = useState(experienced.filter(option =>
-    option.label == SingleId.experienceRequired))
-  const [jobType, setJobType] = useState(SingleId?.jobType?.name ? SingleId?.jobType?.name : "");
-  const [onGoing, setOngoing] = useState("")
-  const [paymentType, setPaymentType] = useState(SingleId?.paymentType ? SingleId?.paymentType : "");
-  const [jobNature, setJobNature] = useState(SingleId?.jobNature ? SingleId?.jobNature : "");
+  const [hours, setHours] = useState("1");
+  const [days, setDays] = useState("1");
+  const [providers, setProviders] = useState(
+    provide.filter((option) => option.label == SingleId.noOfProviders)
+  );
+  const [experience, setExperience] = useState(
+    experienced.filter((option) => option.label == SingleId.experienceRequired)
+  );
+  const [jobType, setJobType] = useState(
+    SingleId?.jobType?.name ? SingleId?.jobType?.name : ""
+  );
+  const [onGoing, setOngoing] = useState("");
+  const [paymentType, setPaymentType] = useState(
+    SingleId?.paymentType ? SingleId?.paymentType : ""
+  );
+  const [jobNature, setJobNature] = useState(
+    SingleId?.jobNature ? SingleId?.jobNature : ""
+  );
   const [categories, setCategories] = useState(null);
   const [location, setLocation] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
@@ -66,52 +74,41 @@ export const GeneralInfoForm = () => {
   let jobId = params.pathname.split("/")[2];
 
   useEffect(() => {
-    setPaymentType(SingleId?.paymentType ? SingleId?.paymentType : "")
-    setJobType(SingleId?.jobType?.name ? SingleId?.jobType?.name : "")
-    setJobNature(SingleId?.jobNature ? SingleId?.jobNature : "")
-    setProviders(provide.filter(option =>
-      option.label == SingleId.noOfProviders));
+    setPaymentType(SingleId?.paymentType ? SingleId?.paymentType : "");
+    setJobType(SingleId?.jobType?.name ? SingleId?.jobType?.name : "");
+    setJobNature(SingleId?.jobNature?.name ? SingleId?.jobNature?.name : "");
+    setProviders(
+      provide.filter((option) => option.label == SingleId.noOfProviders)
+    );
   }, [SingleId]);
   useEffect(() => {
     dispatch(
       getCategoryList({
-        role: "user"
+        role: "user",
       })
     );
   }, []);
-  useEffect((id) => {
-    dispatch(jobById
-      ({ id: jobId }))
-  }, []);
 
   useEffect(() => {
-    let array = [
-
-    ];
+    let array = [];
     CategoryData.map((item) => {
       array.push({
         value: [{ id: item.id, title: item.title, details: item.details }],
         label: item?.title,
-      })
-    })
+      });
+    });
     setCategoryList(array);
-  }, [CategoryData])
+  }, [CategoryData]);
   const inputEl = useRef(null);
   const onButtonClick = () => {
     inputEl.current.click();
   };
   const handleHours = (event) => {
-    setHours(event.target.value)
-
-  }
+    setHours(event.target.value);
+  };
   const handledays = (event) => {
-    setDays(event.target.value)
-  }
-  const options = [
-    { value: "Plumber", label: "Plumber" },
-    { value: "Doctor", label: "Doctor" },
-    { value: "Devloper", label: "Devloper" },
-  ];
+    setDays(event.target.value);
+  };
   const CategorySchema = Yup.object().shape({
     jobName: Yup.string().trim().required("Job Name is required"),
     description: Yup.string().trim().required("description is required"),
@@ -138,7 +135,9 @@ export const GeneralInfoForm = () => {
       days: SingleId?.days ? SingleId?.days : "",
       hours: SingleId?.hours ? SingleId?.hours : "",
       providers: SingleId?.noOfProviders ? SingleId?.noOfProviders : "",
-      experience: SingleId?.experienceRequired ? SingleId?.experienceRequired : "",
+      experience: SingleId?.experienceRequired
+        ? SingleId?.experienceRequired
+        : "",
 
       remember: true,
     },
@@ -169,19 +168,24 @@ export const GeneralInfoForm = () => {
         showDefault: showDefault,
         jobImg: selectedImage,
         setSelectedImage: setSelectedImage,
-      }
+        history:history,
+      };
       if (!id) {
-        dispatch(
-          getJobListing(data)
-        );
+        dispatch(getJobListing(data));
       } else {
-        dispatch(
-          updateJob(data, id)
-        );
+        dispatch(updateJob(data, id));
       }
-
     },
   });
+  useEffect(() => {
+    if (jobId !== undefined) {
+      dispatch(jobById({ id: jobId }));
+      console.log("if condition");
+    } else {
+      console.log("else condition");
+      // CategoryFormik.initialValues();
+    }
+  }, [jobId]);
 
   // Add location
   const [showDefault, setShowDefault] = useState(false);
@@ -203,8 +207,7 @@ export const GeneralInfoForm = () => {
   const { ref } = usePlacesWidget({
     apiKey: YOUR_GOOGLE_MAPS_API_KEY,
     onPlaceSelected: (place) => {
-
-      setLocation(place.formatted_address)
+      setLocation(place.formatted_address);
     },
     options: {
       types: ["(regions)"],
@@ -212,16 +215,22 @@ export const GeneralInfoForm = () => {
   });
   return (
     <>
-      <Col className={'d-flex justify-content-center'}>
-        {selectedImage ?
-          (<Card.Img
+      <Col className={"d-flex justify-content-center"}>
+        {selectedImage ? (
+          <Card.Img
             src={URL.createObjectURL(selectedImage)}
             alt="Neil Portrait"
             className="user-avatar large-avatar rounded-circle mx-auto mt-5"
-          />) : (
-            <img src={SingleId?.image ? SingleId.image : profile} alt="60px" width={"130px"} onClick={onButtonClick} />
-          )
-        }
+          />
+        ) : (
+          <img
+            src={SingleId?.image ? SingleId.image : profile}
+            alt="60px"
+            width={"130px"}
+            onClick={onButtonClick}
+            style={{ cursor: "pointer" }}
+          />
+        )}
         <Form.Control
           accept="image/*"
           type="file"
@@ -230,9 +239,10 @@ export const GeneralInfoForm = () => {
           onChange={imageChange}
           className="d-none"
           ref={inputEl}
+          
         />
       </Col>
-      <Card className="bg-white shadow-sm mb-4 border-0" >
+      <Card className="bg-white shadow-sm mb-4 border-0">
         <Card.Body>
           <Form onSubmit={CategoryFormik.handleSubmit}>
             <Row>
@@ -250,12 +260,12 @@ export const GeneralInfoForm = () => {
                       CategoryFormik.setFieldValue("jobName", e.target.value);
                     }}
                   />
-                  {CategoryFormik.touched.jobName && CategoryFormik.errors.jobName ? (
+                  {CategoryFormik.touched.jobName &&
+                  CategoryFormik.errors.jobName ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.jobName}
                     </div>
                   ) : null}
-
                 </Form.Group>
               </Col>
               <Col md={6} className="mb-3">
@@ -269,9 +279,10 @@ export const GeneralInfoForm = () => {
                       label="One-time"
                       value="One-time"
                       name="jobNature"
-                      className="radio1" Description
+                      className="radio1"
+                      Description
                       onChange={(event) => {
-                        setJobNature(event.target.value)
+                        setJobNature(event.target.value);
                       }}
                     />
 
@@ -282,7 +293,7 @@ export const GeneralInfoForm = () => {
                       value="Recurring"
                       name="jobNature"
                       onChange={(event) => {
-                        setJobNature(event.target.value)
+                        setJobNature(event.target.value);
                       }}
                     />
                   </fieldset>
@@ -294,17 +305,22 @@ export const GeneralInfoForm = () => {
               <Col md={6} className="mb-3">
                 <Form.Group id="description">
                   <Form.Label>Description</Form.Label>
-                  <Form.Control as="textarea" rows="3"
+                  <Form.Control
+                    as="textarea"
+                    rows="3"
                     placeholder="Description"
                     value={CategoryFormik.values.description}
                     name="description"
                     label="description"
                     onChange={(e) => {
-                      CategoryFormik.setFieldValue("description", e.target.value);
+                      CategoryFormik.setFieldValue(
+                        "description",
+                        e.target.value
+                      );
                     }}
                   />
                   {CategoryFormik.touched.description &&
-                    CategoryFormik.errors.description ? (
+                  CategoryFormik.errors.description ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.description}
                     </div>
@@ -312,14 +328,11 @@ export const GeneralInfoForm = () => {
                 </Form.Group>
               </Col>
               <Col md={6} className="mb-3">
-
-                <Form.Group >
+                <Form.Group>
                   <Form.Label>Number of Providers required</Form.Label>
                   <Select
                     // defaultValue={CategoryFormik.values.providers}
-                    value={
-                      providers
-                    }
+                    value={providers}
                     // value="2"
                     onChange={setProviders}
                     options={provide}
@@ -339,11 +352,14 @@ export const GeneralInfoForm = () => {
                     name="jobRequirements"
                     label="jobRequirements"
                     onChange={(e) => {
-                      CategoryFormik.setFieldValue("jobRequirements", e.target.value);
+                      CategoryFormik.setFieldValue(
+                        "jobRequirements",
+                        e.target.value
+                      );
                     }}
                   />
                   {CategoryFormik.touched.jobRequirements &&
-                    CategoryFormik.errors.jobRequirements ? (
+                  CategoryFormik.errors.jobRequirements ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.jobRequirements}
                     </div>
@@ -362,11 +378,14 @@ export const GeneralInfoForm = () => {
                     name="toolsNeeded"
                     label="toolsNeeded"
                     onChange={(e) => {
-                      CategoryFormik.setFieldValue("toolsNeeded", e.target.value);
+                      CategoryFormik.setFieldValue(
+                        "toolsNeeded",
+                        e.target.value
+                      );
                     }}
                   />
                   {CategoryFormik.touched.toolsNeeded &&
-                    CategoryFormik.errors.toolsNeeded ? (
+                  CategoryFormik.errors.toolsNeeded ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.toolsNeeded}
                     </div>
@@ -384,26 +403,23 @@ export const GeneralInfoForm = () => {
                       // defaultChecked
                       type="radio"
                       checked={paymentType == "hourly"}
-
                       // defaultValue=""
                       label="Hourly"
                       value="hourly"
                       name="paymentType"
                       className="radio1"
                       onChange={(event) => {
-
-                        setPaymentType(event.target.value)
+                        setPaymentType(event.target.value);
                       }}
                     />
                     <Form.Check
                       type="radio"
                       checked={paymentType == "fixed"}
-
                       label="Fixed"
                       value="fixed"
                       name="paymentType"
                       onChange={(event) => {
-                        setPaymentType(event.target.value)
+                        setPaymentType(event.target.value);
                       }}
                     />
                   </fieldset>
@@ -417,41 +433,40 @@ export const GeneralInfoForm = () => {
                       // defaultChecked
                       type="radio"
                       checked={jobType == "Part-time"}
-
                       label="Part-time,"
                       name="jobType"
                       value="Part-time"
                       className="radio1"
                       onChange={(event) => {
-                        setJobType(event.target.value)
+                        setJobType(event.target.value);
                       }}
                     />
                     <Form.Check
                       type="radio"
                       checked={jobType == "Full-time"}
-
                       label="Full-time"
                       name="jobType"
                       value="Full-time"
                       onChange={(event) => {
-                        setJobType(event.target.value)
+                        setJobType(event.target.value);
                       }}
                     />
-
                   </fieldset>
                 </Form.Group>
               </Col>
               <Col md={2} className="mb-3">
-
-                <DatePicker selected={startDate}
+                <DatePicker
+                  selected={startDate}
                   label="startDate"
                   name="startDate"
                   value={startDate}
-                  onChange={(newValue) => { setStartDate(newValue) }} />
+                  onChange={(newValue) => {
+                    setStartDate(newValue);
+                  }}
+                />
               </Col>
               <Col md={2} className="mb-3 ">
                 <Form.Group id="onGoing">
-
                   <fieldset className="d-flex radioButton">
                     <Form.Check
                       // defaultChecked
@@ -461,7 +476,7 @@ export const GeneralInfoForm = () => {
                       value="onGoing"
                       className="radio1"
                       onChange={(event) => {
-                        setOngoing(event.target.checked)
+                        setOngoing(event.target.checked);
                       }}
                     />
                   </fieldset>
@@ -469,12 +484,15 @@ export const GeneralInfoForm = () => {
               </Col>
               {!onGoing && (
                 <Col md={2} className="mb-3">
-
-                  <DatePicker selected={endDate}
+                  <DatePicker
+                    selected={endDate}
                     label="endDate"
                     name="endDate"
                     value={endDate}
-                    onChange={(newValue) => { setEndDate(newValue) }} />
+                    onChange={(newValue) => {
+                      setEndDate(newValue);
+                    }}
+                  />
                 </Col>
               )}
 
@@ -482,8 +500,9 @@ export const GeneralInfoForm = () => {
                 <Form.Group id="fixedRate">
                   <Form.Label>Fixed Rate</Form.Label>
                   <Form.Control
-                    //  required 
-                    type="number" placeholder="$"
+                    //  required
+                    type="number"
+                    placeholder="$"
                     value={CategoryFormik.values.fixRate}
                     name="fixRate"
                     label="fixRate"
@@ -492,7 +511,7 @@ export const GeneralInfoForm = () => {
                     }}
                   />
                   {CategoryFormik.touched.fixRate &&
-                    CategoryFormik.errors.fixRate ? (
+                  CategoryFormik.errors.fixRate ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.fixRate}
                     </div>
@@ -505,7 +524,11 @@ export const GeneralInfoForm = () => {
               <Col md={3} className="mb-3">
                 <Form.Group id="minutes">
                   <Form.Label>Days</Form.Label>
-                  <Form.Select defaultValue="1" value={days} onChange={handledays}>
+                  <Form.Select
+                    defaultValue="1"
+                    value={days}
+                    onChange={handledays}
+                  >
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -536,17 +559,17 @@ export const GeneralInfoForm = () => {
                     <option value="28">28</option>
                     <option value="29">29</option>
                     <option value="30">30</option>
-
                   </Form.Select>
                 </Form.Group>
               </Col>
               <Col md={3} className="mb-3">
-                <Form.Group id="hours" >
+                <Form.Group id="hours">
                   <Form.Label>Hours</Form.Label>
                   <Form.Select
                     defaultValue="1"
                     value={hours}
-                    onChange={handleHours}>
+                    onChange={handleHours}
+                  >
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -575,14 +598,10 @@ export const GeneralInfoForm = () => {
                 </Form.Group>
               </Col>
               <Col md={6} className="mb-3">
-
-                <Form.Group >
+                <Form.Group>
                   <Form.Label>Minimum Experience Required</Form.Label>
                   <Select
-                    value={
-                      experience
-
-                    }
+                    value={experience}
                     onChange={setExperience}
                     options={experienced}
                   />
@@ -592,12 +611,14 @@ export const GeneralInfoForm = () => {
 
             <Row className="align-items-end">
               <Col md={6} className="mb-3">
-
-                <Form.Label onClick={() => setShowDefaultCategory(true)} className="text-underline">
+                <Form.Label
+                  onClick={() => setShowDefaultCategory(true)}
+                  className="text-underline"
+                >
                   Add New
                 </Form.Label>
                 <p>{categories?.value[0]?.title}</p>
-                <Form.Group >
+                <Form.Group>
                   <Select
                     defaultValue={categories}
                     onChange={setCategories}
@@ -611,7 +632,7 @@ export const GeneralInfoForm = () => {
             </Row>
 
             <div className="mt-3 d-flex justify-content-end">
-              <Button variant="primary" type="submit" show={showDefaults} >
+              <Button variant="primary" type="submit" show={showDefaults}>
                 {id ? "Update Job" : "Post Job"}
               </Button>
             </div>
@@ -789,10 +810,15 @@ export const GeneralInfoForm = () => {
             onClick={handleClosesCategory}
           />
         </Modal.Header>
-        <Modal.Body >
-          <AddCategory setShowDefault={setShowDefault} showDefault={showDefault} categories={categories} setCategories={setCategories} onHide={() => setShowDefaultCategory(false)} />
+        <Modal.Body>
+          <AddCategory
+            setShowDefault={setShowDefault}
+            showDefault={showDefault}
+            categories={categories}
+            setCategories={setCategories}
+            onHide={() => setShowDefaultCategory(false)}
+          />
         </Modal.Body>
-
       </Modal>
     </>
   );

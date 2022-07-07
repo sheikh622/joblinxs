@@ -15,7 +15,7 @@ import Navbar from "../../components/Navbar";
 import { Routes } from "../../routes";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import {updateAdminProfile } from "../../Redux/profile/actions";
+import { updateAdminProfile } from "../../Redux/profile/actions";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getProfile } from "../../Redux/profile/actions";
 import profile from "../../assets/img/team/profile-picture-1.jpg"
@@ -40,7 +40,7 @@ export default () => {
     reset(user);
   }, [user]);
 
-  useEffect (()=>{
+  useEffect(() => {
     setUser({ fullName: getById?.fullName, email: getById?.email })
   }, [getById])
 
@@ -54,9 +54,9 @@ export default () => {
   function onSubmit(data) {
     // display form data on success
     let Data = new FormData();
-    Data.append("fullName",data.fullName)
-    Data.append("id",getById.id)
-    Data.append("profileImg",selectedImage ? selectedImage : getById?.profileImg)
+    Data.append("fullName", data.fullName)
+    Data.append("id", getById.id)
+    Data.append("profileImg", selectedImage ? selectedImage : getById?.profileImg)
     dispatch(updateAdminProfile(Data));
   }
   // effect runs when user state is updated
@@ -87,17 +87,24 @@ export default () => {
                     <Card
                       border="light"
                       className="text-center p-0 mb-4 profileView"
+                      style={{ cursor: "pointer" }}
                     >
                       {selectedImage ? (
-                        <Card.Img
-                          src={URL.createObjectURL(selectedImage)}
-                          alt="Neil Portrait"
-                          className="user-avatar large-avatar rounded-circle mx-auto mt-5"
-                        />
+                          <Card.Img
+                            src={URL.createObjectURL(selectedImage)}
+                            alt="Neil Portrait"
+                            onClick={onButtonClick}
+                            style={{ cursor: "pointer" }}
+                            ref={inputEl}
+                            className="user-avatar large-avatar rounded-circle mx-auto mt-5"
+                          />
                       ) : (
                         <Card.Img
+                          style={{ cursor: "pointer" }}
                           src={getById?.profileImg ? getById?.profileImg : profile}
                           alt="Neil Portrait"
+                          onClick={onButtonClick}
+                          ref={inputEl}
                           className="user-avatar large-avatar rounded-circle mx-auto mt-5"
                         />
                       )}
@@ -110,6 +117,7 @@ export default () => {
                           onChange={imageChange}
                           className="d-none"
                           ref={inputEl}
+                          style={{ cursor: "pointer" }}
                         />
                         <div className="invalid-feedback">
                           {errors.file?.message}
@@ -125,6 +133,9 @@ export default () => {
                         <Card.Subtitle
                           className="text-gray mb-2"
                           onClick={onButtonClick}
+                          style={{
+                            fontWeight: "bold"
+                          }}
                         >
                           Change Profile Picture
                         </Card.Subtitle>
@@ -148,9 +159,8 @@ export default () => {
                         name="fullName"
                         type="text"
                         {...register("fullName")}
-                        className={`form-control ${
-                          errors.fullName ? "is-invalid" : ""
-                        }`}
+                        className={`form-control ${errors.fullName ? "is-invalid" : ""
+                          }`}
                       />
                       <div className="invalid-feedback">
                         {errors.fullName?.message}
@@ -163,9 +173,8 @@ export default () => {
                         type="text"
                         disabled
                         {...register("email")}
-                        className={`form-control ${
-                          errors.email ? "is-invalid" : ""
-                        }`}
+                        className={`form-control ${errors.email ? "is-invalid" : ""
+                          }`}
                       />
                       <div className="invalid-feedback">
                         {errors.email?.message}
