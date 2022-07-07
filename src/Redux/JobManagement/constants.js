@@ -6,3 +6,4 @@ export const CHANGE_USERS_ACTIVE_PAGE = "change_users_active_page";
 export const DELETE_JOB = "Delete_Job";
 export const GET_CATEGORY_JOB = "get_Category_Job";
 export const GET_CATEGORY_JOB_SUCCESS = "get_Category_Job_Success";
+export const ACTION_JOB = "ACTION_JOB";

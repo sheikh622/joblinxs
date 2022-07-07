@@ -102,7 +102,7 @@ const MyJobDetails = (item, props) => {
                                 <DetailHeading heading={"JobRequirement"} value={SingleId?.requirement ? SingleId?.requirement : "-"} />
                                 <DetailHeading heading={"ToolsNeeded"} value={SingleId?.toolsNeeded ? SingleId?.toolsNeeded : "-"} />
                                 <DetailHeading heading={"Payment Type"} value={SingleId?.paymentType ? SingleId?.paymentType : "-"} />
-                                <DetailHeading heading={"Rate"} value={SingleId?.Rate ? SingleId?.Rate : "-"} />
+                                <DetailHeading heading={"Rate"} value={SingleId?.rate ? SingleId?.rate : "-"} />
                                 <DetailHeading heading={"TimeRequired"} value={SingleId?.days ? SingleId?.days : "-"} />
                                 <DetailHeading heading={"Job Type"} value={SingleId?.jobType ? SingleId.jobType?.name : "-"} />
                                 <DetailHeading heading={"Job Nature"} value={SingleId?.jobNature ? SingleId?.jobNature?.name : "-"} />
@@ -154,7 +154,7 @@ const MyJobDetails = (item, props) => {
             <Modal as={Modal.Dialog} centered show={showDefault} onHide={handlefalse} >
                 <Modal.Header>
                     <Modal.Title className="h5">
-                        Delete User
+                        Delete Job
                     </Modal.Title>
                     <Button variant="close" aria-label="Close" onClick={handlefalse} />
                 </Modal.Header>

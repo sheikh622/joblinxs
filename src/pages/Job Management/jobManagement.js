@@ -10,7 +10,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import { deleteJob, getJobListing, getJobProfile, getCategoryJob } from "../../Redux/JobManagement/actions";
+import { deleteJob, getJobListing, getJobProfile, getCategoryJob,changeJobStatus } from "../../Redux/JobManagement/actions";
 import { getCategoryList } from "../../Redux/Category/actions";
 import NoRecordFound from "../../components/NoRecordFound";
 
@@ -26,16 +26,11 @@ const JobManagement = (row) => {
   const [adminId, setAdminId] = useState(0);
   const [type, setType] = React.useState("");
 
-  const handleJobAction = (id) => {
-
+  const handleJobAction = (data) => {
     dispatch(
-      getJobProfile({
-        jobId: id,
-        page: page,
-        limit: limit,
-        type: type,
-        search: search,
-        category: categoryType,
+      changeJobStatus({
+        id: data.id,
+        isApproved: data.isApproved
       })
     );
   }
@@ -153,26 +148,26 @@ const JobManagement = (row) => {
             <Dropdown.Menu className="custom_menu">
               {item?.status === "pending" ? (
                 <>
-                  <Dropdown.Item className="text-success" onClick={() => {
-                    handleJobAction(item?.id)
+                  <Dropdown.Item className="text-success" onClick={(e) => {
+                    handleJobAction({ id: item?.id, isApproved: true })
                   }}>
                     <FontAwesomeIcon icon={faCheck} className="me-2" /> Accepted
                   </Dropdown.Item>
                   <Dropdown.Item className="text-danger" onClick={() => {
-                    handleJobAction(item?.id)
+                    handleJobAction({ id: item?.id, isApproved: false })
                   }}>
                     <FontAwesomeIcon icon={faMinus} className="me-2" /> Rejected
                   </Dropdown.Item>
                 </>
               ) : item?.status === "Rejected" ? (
                 <Dropdown.Item className="text-success" onClick={() => {
-                  handleJobAction(item?.id)
+                  handleJobAction({ id: item?.id, isApproved: true })
                 }}>
                   <FontAwesomeIcon icon={faCheck} className="me-2" /> Accepted
                 </Dropdown.Item>
               ) : (
                 <Dropdown.Item className="text-danger" onClick={() => {
-                  handleJobAction(item?.id)
+                  handleJobAction({ id: item?.id, isApproved: false })
                 }}>
                   <FontAwesomeIcon icon={faMinus} className="me-2" /> Rejected
                 </Dropdown.Item>
@@ -324,7 +319,7 @@ const JobManagement = (row) => {
             <Modal.Body>
               <Form >
                 <Form.Group>
-                  Are you sure you want to delete this User?
+                  Are you sure you want to delete this Job?
                 </Form.Group>
                 <Form.Group>
                   <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">

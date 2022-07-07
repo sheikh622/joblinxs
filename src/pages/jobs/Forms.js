@@ -49,7 +49,7 @@ export const GeneralInfoForm = () => {
   const [hours, setHours] = useState("1");
   const [days, setDays] = useState("1");
   const [providers, setProviders] = useState(
-    provide.filter((option) => option.label == SingleId.noOfProviders)
+    // provide.filter((option) => option.label == SingleId.noOfProviders)
   );
   const [experience, setExperience] = useState(
     experienced.filter((option) => option.label == SingleId.experienceRequired)
@@ -70,7 +70,7 @@ export const GeneralInfoForm = () => {
   const [startDate, setStartDate] = React.useState(new Date());
   const [endDate, setEndDate] = React.useState(new Date());
   const [adminId, setAdminId] = useState(0);
-
+  const [rate, setRate] = useState("");
   let jobId = params.pathname.split("/")[2];
 
   useEffect(() => {
@@ -114,7 +114,10 @@ export const GeneralInfoForm = () => {
     description: Yup.string().trim().required("description is required"),
     jobRequirements: Yup.string().trim().required("Requirements is required"),
     toolsNeeded: Yup.string().trim().required("Tools is required"),
-    fixRate: Yup.string().trim().required("Rate is required"),
+    rate: Yup.number()
+    .required("Please enter number")
+    .max(999999, "Number should not exceed 6 digits")
+    .min(1, "Number should not be less than 0"),
   });
   const CategoryFormik = useFormik({
     enableReinitialize: true,
@@ -124,7 +127,7 @@ export const GeneralInfoForm = () => {
       description: SingleId?.description ? SingleId?.description : "",
       jobRequirements: SingleId?.requirement ? SingleId?.requirement : "",
       toolsNeeded: SingleId?.toolsNeeded ? SingleId?.toolsNeeded : "",
-      fixRate: SingleId?.rate ? SingleId?.rate : "",
+      rate: SingleId?.rate ? SingleId?.rate : "--",
       onGoing: SingleId?.onGoing ? SingleId?.onGoing : "",
       jobType: SingleId?.jobType ? SingleId?.jobType : "",
       paymentType: SingleId?.paymentType ? SingleId?.paymentType : "",
@@ -138,25 +141,25 @@ export const GeneralInfoForm = () => {
       experience: SingleId?.experienceRequired
         ? SingleId?.experienceRequired
         : "",
-
       remember: true,
     },
 
     validationSchema: CategorySchema,
     onSubmit: async (values, action) => {
+      console.log("provider--------------------------------", values, providers)
       let data = {
         id: values.id,
         name: values.jobName,
         description: values.description,
         requirement: values.jobRequirements,
         toolsNeeded: values.toolsNeeded,
-        rate: values.fixRate,
+        rate: values.rate,
         jobType: jobType,
         paymentType: paymentType,
         jobNature: jobNature,
         category: categories.value,
-        noOfProviders: providers.value,
-        experienceRequired: experience.value,
+        noOfProviders: Array.isArray(providers) === true ? providers[0].value : providers.value,
+        experienceRequired: Array.isArray(experience) === true ? experience[0].value : experience.value,
         days: days,
         hours: hours,
         location: location,
@@ -168,7 +171,7 @@ export const GeneralInfoForm = () => {
         showDefault: showDefault,
         jobImg: selectedImage,
         setSelectedImage: setSelectedImage,
-        history:history,
+        history: history,
       };
       if (!id) {
         dispatch(getJobListing(data));
@@ -183,7 +186,6 @@ export const GeneralInfoForm = () => {
       console.log("if condition");
     } else {
       console.log("else condition");
-      // CategoryFormik.initialValues();
     }
   }, [jobId]);
 
@@ -213,6 +215,7 @@ export const GeneralInfoForm = () => {
       types: ["(regions)"],
     },
   });
+  console.log("providerssssss", providers)
   return (
     <>
       <Col className={"d-flex justify-content-center"}>
@@ -239,7 +242,7 @@ export const GeneralInfoForm = () => {
           onChange={imageChange}
           className="d-none"
           ref={inputEl}
-          
+
         />
       </Col>
       <Card className="bg-white shadow-sm mb-4 border-0">
@@ -261,7 +264,7 @@ export const GeneralInfoForm = () => {
                     }}
                   />
                   {CategoryFormik.touched.jobName &&
-                  CategoryFormik.errors.jobName ? (
+                    CategoryFormik.errors.jobName ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.jobName}
                     </div>
@@ -320,7 +323,7 @@ export const GeneralInfoForm = () => {
                     }}
                   />
                   {CategoryFormik.touched.description &&
-                  CategoryFormik.errors.description ? (
+                    CategoryFormik.errors.description ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.description}
                     </div>
@@ -359,7 +362,7 @@ export const GeneralInfoForm = () => {
                     }}
                   />
                   {CategoryFormik.touched.jobRequirements &&
-                  CategoryFormik.errors.jobRequirements ? (
+                    CategoryFormik.errors.jobRequirements ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.jobRequirements}
                     </div>
@@ -385,7 +388,7 @@ export const GeneralInfoForm = () => {
                     }}
                   />
                   {CategoryFormik.touched.toolsNeeded &&
-                  CategoryFormik.errors.toolsNeeded ? (
+                    CategoryFormik.errors.toolsNeeded ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.toolsNeeded}
                     </div>
@@ -455,6 +458,7 @@ export const GeneralInfoForm = () => {
                 </Form.Group>
               </Col>
               <Col md={2} className="mb-3">
+                <Form.Label>Start Date</Form.Label>
                 <DatePicker
                   selected={startDate}
                   label="startDate"
@@ -467,7 +471,9 @@ export const GeneralInfoForm = () => {
               </Col>
               <Col md={2} className="mb-3 ">
                 <Form.Group id="onGoing">
+                  <Form.Label>onGoing</Form.Label>
                   <fieldset className="d-flex radioButton">
+
                     <Form.Check
                       // defaultChecked
                       type="checkbox"
@@ -484,6 +490,7 @@ export const GeneralInfoForm = () => {
               </Col>
               {!onGoing && (
                 <Col md={2} className="mb-3">
+                  <Form.Label>End Date</Form.Label>
                   <DatePicker
                     selected={endDate}
                     label="endDate"
@@ -503,17 +510,17 @@ export const GeneralInfoForm = () => {
                     //  required
                     type="number"
                     placeholder="$"
-                    value={CategoryFormik.values.fixRate}
-                    name="fixRate"
-                    label="fixRate"
+                    value={CategoryFormik.values.rate}
+                    name="rate"
+                    label="rate"
                     onChange={(e) => {
-                      CategoryFormik.setFieldValue("fixRate", e.target.value);
+                      CategoryFormik.setFieldValue("rate", e.target.value);
                     }}
                   />
-                  {CategoryFormik.touched.fixRate &&
-                  CategoryFormik.errors.fixRate ? (
+                  {CategoryFormik.touched.rate &&
+                    CategoryFormik.errors.rate ? (
                     <div style={{ color: "red" }}>
-                      {CategoryFormik.errors.fixRate}
+                      {CategoryFormik.errors.rate}
                     </div>
                   ) : null}
                 </Form.Group>

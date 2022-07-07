@@ -61,10 +61,8 @@ function* addJob({ payload }) {
     });
 
     toast.success(CapitalizeFirstLetter(response.data.message));
-    payload.history.push("/job");
-    // payload.setShowDefaults(true);
-    // payload.setSelectedImage("");
     yield put(getJobListingSuccess(response.data.data));
+    payload.history.push("/job");
     payload.setReset();
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -213,22 +211,15 @@ function* updateJobSaga(payload) {
   formData.append("jobImg", payload.payload.jobImg);
   try {
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.patch(
-      `job/seeker/${payload.payload.id}`,
-      formData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    payload.setShowDefault(false);
-    payload.setReset();
-
+    const response = yield axios.patch(`job/seeker/${payload.payload.id}`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     toast.success(CapitalizeFirstLetter(response.data.message));
-    yield put(updateJobSuccess(response.data));
-    // payload.history.push("/detailJob/:id");
-    payload.history.push("/job");
+    
+    yield put(updateJobSuccess(response.data)); 
+    payload.history.push("/job");  
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
