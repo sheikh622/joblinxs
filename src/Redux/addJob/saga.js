@@ -87,6 +87,7 @@ function* getFavoutiteJobList({ payload }) {
         },
       }
     );
+    toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(favouriteJobListSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);

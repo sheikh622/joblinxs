@@ -228,6 +228,7 @@ export const GeneralInfoForm = () => {
             alt="60px"
             width={"130px"}
             onClick={onButtonClick}
+            style={{ cursor: "pointer" }}
           />
         )}
         <Form.Control
@@ -238,6 +239,7 @@ export const GeneralInfoForm = () => {
           onChange={imageChange}
           className="d-none"
           ref={inputEl}
+          
         />
       </Col>
       <Card className="bg-white shadow-sm mb-4 border-0">
