@@ -7,3 +7,4 @@ export const RESET_PASSWORD_SUCCESS = 'reset_password_success';
 export const SET_LOADER ="set_loader";
 export const UPDATE_PASSWORD = 'update_password';
 export const UPDATE_PASSWORD_SUCCESS = 'update_password_success';
+export const ADMIN_UPDATED_SUCCESS = 'Amin_Updated_Success';

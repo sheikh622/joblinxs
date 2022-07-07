@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Card, Image } from "@themesberg/react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
@@ -8,27 +8,21 @@ import { Routes } from "../routes";
 import { markAsFavouriteJob, jobById } from "../Redux/addJob/actions"
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from 'react-router';
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 const CommonCard = (props, item) => {
-  console.log(props.id, "here is id")
   const dispatch = useDispatch();
   const history = useHistory();
-  const { id } = useParams();
+  // const { id } = useParams();
+  const params = useLocation();
+  // let jobId = params.pathname.split("/")[2];
   const handleFavourite = (id) => {
     dispatch(
       markAsFavouriteJob({
-        id: id
+        id: id,
       })
     )
   }
-  // const handleSingleId = (id) => {
-  //   dispatch(
-  //     jobById({
-  //       id: props.item.id
-  //     })
-  //   )
-  // }
   return (
     <>
       <Card border="light" className="shadow-sm selfCard">
@@ -57,7 +51,7 @@ const CommonCard = (props, item) => {
           </span>
           <span className="right">
             <span>
-              <FontAwesomeIcon icon={faHeart} onClick={() => { handleFavourite("5cb47280-dfec-4416-a9e5-11a3525dc94f") }} />
+              <FontAwesomeIcon icon={faHeart} onClick={() => { handleFavourite(props.id) }} />
             </span>
           </span>
         </div>
