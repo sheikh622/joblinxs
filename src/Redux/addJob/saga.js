@@ -4,34 +4,54 @@ import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
 import {
-  getAddJob, getJobListingSuccess, getJobsSuccess, favouriteJobListSuccess, deleteAddJob, jobByIdSuccess, updateJobSuccess,getJobListing, getApplicantsSuccess
+  getJobs,
+  getAddJob,
+  favouriteJobList,
+  getJobListingSuccess,
+  getJobsSuccess,
+  favouriteJobListSuccess,
+  deleteAddJob,
+  jobByIdSuccess,
+  updateJobSuccess,
+  getJobListing,
+  getApplicantsSuccess,
 } from "./actions";
 import {
-  ADD_JOB, ADD_JOB_SUCCESS, GET_JOB, FAVOURITE_JOB_LIST, DELETE_ADD_JOB, MARK_AS_FAVOURITE_JOB, JOB_BY_ID_SUCCESS, JOB_BY_ID, UPDATE_JOB_SUCCESS, UPDATE_JOB,
-  GET_JOB_APPLICANTS, GET_JOB_APPLICANTS_SUCCESS
+  ADD_JOB,
+  ADD_JOB_SUCCESS,
+  GET_JOB,
+  FAVOURITE_JOB_LIST,
+  DELETE_ADD_JOB,
+  MARK_AS_FAVOURITE_JOB,
+  JOB_BY_ID_SUCCESS,
+  JOB_BY_ID,
+  UPDATE_JOB_SUCCESS,
+  UPDATE_JOB,
+  GET_JOB_APPLICANTS,
+  GET_JOB_APPLICANTS_SUCCESS,
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 function* addJob({ payload }) {
   const formData = new FormData();
-  formData.append('id', payload.id);
-  formData.append('name', payload.name);
-  formData.append('description', payload.description);
-  formData.append('requirement', payload.requirement);
-  formData.append('paymentType', payload.paymentType);
-  formData.append('rate', payload.rate);
-  formData.append('hours', payload.hours);
-  formData.append('days', payload.days);
-  formData.append('location', JSON.stringify([payload.location]));
-  formData.append('noOfProviders', payload.noOfProviders);
-  formData.append('toolsNeeded', payload.toolsNeeded);
-  formData.append('experienceRequired', payload.experienceRequired);
-  formData.append('jobType', payload.jobType);
-  formData.append('jobNature', payload.jobNature);
-  formData.append('startDate', payload.startDate);
-  formData.append('endDate', payload.endDate);
-  formData.append('isOngoing', payload.isOngoing);
-  formData.append('category', JSON.stringify(payload.category));
-  formData.append('jobImg', payload.jobImg);
+  formData.append("id", payload.id);
+  formData.append("name", payload.name);
+  formData.append("description", payload.description);
+  formData.append("requirement", payload.requirement);
+  formData.append("paymentType", payload.paymentType);
+  formData.append("rate", payload.rate);
+  formData.append("hours", payload.hours);
+  formData.append("days", payload.days);
+  formData.append("location", JSON.stringify([payload.location]));
+  formData.append("noOfProviders", payload.noOfProviders);
+  formData.append("toolsNeeded", payload.toolsNeeded);
+  formData.append("experienceRequired", payload.experienceRequired);
+  formData.append("jobType", payload.jobType);
+  formData.append("jobNature", payload.jobNature);
+  formData.append("startDate", payload.startDate);
+  formData.append("endDate", payload.endDate);
+  formData.append("isOngoing", payload.isOngoing);
+  formData.append("category", JSON.stringify(payload.category));
+  formData.append("jobImg", payload.jobImg);
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.post(`job/seeker`, formData, {
@@ -40,13 +60,10 @@ function* addJob({ payload }) {
       },
     });
 
-   
     toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getJobListingSuccess(response.data.data));
     payload.history.push("/job");
     payload.setReset();
-    
-
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -55,11 +72,11 @@ function* watchAddJob() {
   yield takeLatest(ADD_JOB, addJob);
 }
 function* getJobList({ payload }) {
+  let category = payload.category === undefined ? "" : payload.category;
   try {
-
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      `job/seeker/${payload.userId}?page=${payload.page}&count=${payload.limit}&status=${payload.type}&category=${payload.category}`,
+      `job/seeker/${payload.userId}?page=${payload.page}&count=${payload.limit}&status=${payload.type}&category=${category}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -85,7 +102,7 @@ function* getFavoutiteJobList({ payload }) {
         },
       }
     );
-   
+
     yield put(favouriteJobListSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -104,9 +121,11 @@ function* deleteJobSaga({ payload }) {
       },
     });
     toast.success(CapitalizeFirstLetter(response.data.message));
-    payload.setShowDefault(false)
+    payload.setShowDefault(false);
     payload.history.push("/job");
-    const filteredData = payload.data.filter((item, index) => item.jobId !== payload.jobId);
+    const filteredData = payload.data.filter(
+      (item, index) => item.jobId !== payload.jobId
+    );
     // yield put(getJobListingSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -116,9 +135,19 @@ function* watchDeleteAddJob() {
   yield takeLatest(DELETE_ADD_JOB, deleteJobSaga);
 }
 function* markAsFavouriteJobSaga({ payload }) {
+  // let data = {
+  //   userId: payload.userId === undefined ?"":payload.userId,
+  //   page: payload.page === undefined ?"":payload.page,
+  //   limit: payload.limit === undefined ?"":payload.limit,
+  //   type: payload.type === undefined ?"":payload.type,
+  //   category: payload.categoryType === undefined ?"":payload.categoryType,
+  // };
+  let listData = {
+    page: payload.page === undefined ?1:payload.page,
+  };
   try {
     const token = yield select(makeSelectAuthToken());
-    const data = {
+    const datas = {
       helo: "heloo",
     };
     const headers = {
@@ -126,12 +155,15 @@ function* markAsFavouriteJobSaga({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     };
-    const response = yield axios.patch(`job/favorite/${payload.id}`, data, headers);
-    // yield put(favouriteJobListSuccess(response.data.data));
+    const response = yield axios.patch(
+      `job/favorite/${payload.id}`,
+      datas,
+      headers
+    );
+    // yield put(favouriteJobListSuccess(response.data.data.jobs));
     toast.success(CapitalizeFirstLetter(response.data.message));
-    yield put (  
-      getJobListing ()
-    )
+    // yield put(getJobs(data));
+    yield put(favouriteJobList(listData))
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -140,18 +172,14 @@ function* watchMarkAsFavouriteJob() {
   yield takeLatest(MARK_AS_FAVOURITE_JOB, markAsFavouriteJobSaga);
 }
 function* jobByIdSaga(payload) {
-  const { id } = payload.payload
-  // return 0;
+  const { id } = payload.payload;
   try {
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.get(
-      `job/getJob/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = yield axios.get(`job/getJob/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     yield put(jobByIdSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -161,27 +189,26 @@ function* watchJobById() {
   yield takeLatest(JOB_BY_ID, jobByIdSaga);
 }
 function* updateJobSaga(payload) {
-
   const formData = new FormData();
-  formData.append('id', payload.payload.id);
-  formData.append('name', payload.payload.name);
-  formData.append('description', payload.payload.description);
-  formData.append('requirement', payload.payload.requirement);
-  formData.append('paymentType', payload.payload.paymentType);
-  formData.append('rate', payload.payload.rate);
-  formData.append('hours', payload.payload.hours);
-  formData.append('days', payload.payload.days);
-  formData.append('location', JSON.stringify([payload.payload.location]));
-  formData.append('noOfProviders', payload.payload.noOfProviders);
-  formData.append('toolsNeeded', payload.payload.toolsNeeded);
-  formData.append('experienceRequired', payload.payload.experienceRequired);
-  formData.append('jobType', payload.payload.jobType);
-  formData.append('jobNature', payload.payload.jobNature);
-  formData.append('startDate', payload.payload.startDate);
-  formData.append('endDate', payload.payload.endDate);
-  formData.append('isOngoing', payload.payload.isOngoing);
-  formData.append('category', JSON.stringify(payload.payload.category));
-  formData.append('jobImg', payload.payload.jobImg);
+  formData.append("id", payload.payload.id);
+  formData.append("name", payload.payload.name);
+  formData.append("description", payload.payload.description);
+  formData.append("requirement", payload.payload.requirement);
+  formData.append("paymentType", payload.payload.paymentType);
+  formData.append("rate", payload.payload.rate);
+  formData.append("hours", payload.payload.hours);
+  formData.append("days", payload.payload.days);
+  formData.append("location", JSON.stringify([payload.payload.location]));
+  formData.append("noOfProviders", payload.payload.noOfProviders);
+  formData.append("toolsNeeded", payload.payload.toolsNeeded);
+  formData.append("experienceRequired", payload.payload.experienceRequired);
+  formData.append("jobType", payload.payload.jobType);
+  formData.append("jobNature", payload.payload.jobNature);
+  formData.append("startDate", payload.payload.startDate);
+  formData.append("endDate", payload.payload.endDate);
+  formData.append("isOngoing", payload.payload.isOngoing);
+  formData.append("category", JSON.stringify(payload.payload.category));
+  formData.append("jobImg", payload.payload.jobImg);
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.patch(`job/seeker/${payload.payload.id}`, formData, {
@@ -202,7 +229,7 @@ function* watchUpdateJob() {
 }
 function* getApplicants(payload) {
   try {
-    const { id } = payload.payload
+    const { id } = payload.payload;
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
       `job/applicants/${id}?page=${payload.payload.page}&count=${payload.payload.limit}`,
@@ -213,7 +240,6 @@ function* getApplicants(payload) {
       }
     );
     yield put(getApplicantsSuccess(response.data));
-
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -230,5 +256,4 @@ export default function* addJobSaga() {
   yield all([fork(watchJobById)]);
   yield all([fork(watchUpdateJob)]);
   yield all([fork(watchGetApplicants)]);
-
 }
