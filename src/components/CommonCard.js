@@ -18,7 +18,6 @@ const CommonCard = (props) => {
   const history = useHistory();
   // const { id } = useParams();
   const params = useLocation();
-  console.log(props.favourite, "hre iasdsa");
   // let jobId = params.pathname.split("/")[2];
   const handleFavourite = (id) => {
     dispatch(

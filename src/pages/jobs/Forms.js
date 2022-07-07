@@ -146,7 +146,6 @@ export const GeneralInfoForm = () => {
 
     validationSchema: CategorySchema,
     onSubmit: async (values, action) => {
-      console.log("provider--------------------------------", values, providers)
       let data = {
         id: values.id,
         name: values.jobName,
@@ -242,7 +241,6 @@ export const GeneralInfoForm = () => {
           onChange={imageChange}
           className="d-none"
           ref={inputEl}
-
         />
       </Col>
       <Card className="bg-white shadow-sm mb-4 border-0">
@@ -323,7 +321,7 @@ export const GeneralInfoForm = () => {
                     }}
                   />
                   {CategoryFormik.touched.description &&
-                    CategoryFormik.errors.description ? (
+                  CategoryFormik.errors.description ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.description}
                     </div>
@@ -362,7 +360,7 @@ export const GeneralInfoForm = () => {
                     }}
                   />
                   {CategoryFormik.touched.jobRequirements &&
-                    CategoryFormik.errors.jobRequirements ? (
+                  CategoryFormik.errors.jobRequirements ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.jobRequirements}
                     </div>
@@ -388,7 +386,7 @@ export const GeneralInfoForm = () => {
                     }}
                   />
                   {CategoryFormik.touched.toolsNeeded &&
-                    CategoryFormik.errors.toolsNeeded ? (
+                  CategoryFormik.errors.toolsNeeded ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.toolsNeeded}
                     </div>
@@ -473,7 +471,6 @@ export const GeneralInfoForm = () => {
                 <Form.Group id="onGoing">
                   <Form.Label>onGoing</Form.Label>
                   <fieldset className="d-flex radioButton">
-
                     <Form.Check
                       // defaultChecked
                       type="checkbox"
