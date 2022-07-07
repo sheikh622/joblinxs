@@ -1,8 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Row, Form, Pagination, Card, Nav } from "@themesberg/react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Row,
+  Form,
+  Pagination,
+  Card,
+  Nav,
+} from "@themesberg/react-bootstrap";
 import {
   faAngleDoubleLeft,
-  faAngleDoubleRight, faCheck, faEllipsisH, faMinus, faTrashAlt
+  faAngleDoubleRight,
+  faCheck,
+  faEllipsisH,
+  faMinus,
+  faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -16,7 +29,7 @@ import CommonCard from "../../components/CommonCard";
 import Navbar from "../../components/Navbar";
 import RecommendCard from "../../components/RecommendCard";
 import { Routes } from "../../routes";
-import { getJobs } from "../../Redux/addJob/actions"
+import { getJobs } from "../../Redux/addJob/actions";
 import { display } from "@mui/system";
 import NoRecordFound from "../../components/NoRecordFound";
 
@@ -26,12 +39,8 @@ const Job = () => {
   const {
     location: { state },
   } = history;
-  const login = useSelector(
-    (state) => state?.auth.Auther
-  );
-  const JobList = useSelector(
-    (state) => state?.addJob?.getJob
-  );
+  const login = useSelector((state) => state?.auth.Auther);
+  const JobList = useSelector((state) => state?.addJob?.getJob);
 
   const [page, setPage] = useState(1);
   const [type, setType] = useState("");
@@ -41,8 +50,8 @@ const Job = () => {
   const [categoryType, setCategoryType] = useState("");
 
   const handleClick = (event) => {
-    setCategoryType(event.target.value)
-  }
+    setCategoryType(event.target.value);
+  };
   const handleChange = (event) => {
     setType(event.target.value);
   };
@@ -51,18 +60,17 @@ const Job = () => {
     let array = [
       {
         value: "ALL",
-        label: "All"
-      }
+        label: "All",
+      },
     ];
     CategoryData.map((item) => {
       array.push({
         value: item?.title,
         label: item?.title,
-
-      })
-    })
+      });
+    });
     setCategory(array);
-  }, [CategoryData])
+  }, [CategoryData]);
   const currencies = [
     {
       value: "all",
@@ -81,19 +89,19 @@ const Job = () => {
       label: "Upcoming",
     },
   ];
-  useEffect((action) => {
-
-    dispatch(
-      getJobs({
-        userId: login.id,
-        page: page,
-        limit: limit,
-        type: type,
-        category: categoryType,
-        // setReset: action.resetForm,
-      })
-    );
-  },
+  useEffect(
+    (action) => {
+      dispatch(
+        getJobs({
+          userId: login.id,
+          page: page,
+          limit: limit,
+          type: type,
+          category: categoryType,
+          // setReset: action.resetForm,
+        })
+      );
+    },
     [page, limit, type, categoryType]
   );
 
@@ -112,24 +120,26 @@ const Job = () => {
     let items = [];
     for (let number = 1; number <= JobList?.pages; number++) {
       items.push(
-        <Pagination.Item key={number} active={number === page} onClick={() => {
-          setPage(number)
-        }}>
+        <Pagination.Item
+          key={number}
+          active={number === page}
+          onClick={() => {
+            setPage(number);
+          }}
+        >
           {number}
-        </Pagination.Item>,
+        </Pagination.Item>
       );
     }
-    return items
-  }
+    return items;
+  };
   return (
-
     <>
       <Navbar module={"My Jobs"} />
       <Container>
         {/* < Slideshow/> */}
         <Row className="pt-2 pb-4">
           <div className="d-flex justify-content-between mt-0 mb-4 headerBorder">
-
             <Col lg={9} md={9}>
               <Form.Group>
                 <Form.Select
@@ -137,7 +147,6 @@ const Job = () => {
                   label="Select"
                   value={type && type}
                   onChange={handleChange}
-
                 >
                   {currencies.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -168,7 +177,8 @@ const Job = () => {
                       stroke="white"
                       stroke-width="2"
                     />
-                  </svg>{'  '}
+                  </svg>
+                  {"  "}
                   Add Job
                 </Button>
               </a>
@@ -176,25 +186,29 @@ const Job = () => {
           </div>
           {JobList?.jobs?.length > 0 ? (
             <>
-              {
-                JobList?.jobs?.map((item) => {
-                  // alert(item.id)
-                  return (
-                    <Col lg={2} md={4} sm={6} xs={12} className="pb-3 mt-3">
-                      <CommonCard
-                        img={item?.image ? item?.image : Profile}
-                        name={item?.name ? item?.name : "N/A"}
-                        jobType={item?.jobType ? item?.jobType : "N/A"}
-                        id={item.id}
-                        item={item ? item : null}
-                        rate={item?.rate ? item?.rate : "N/A"}
-                        completed={"90"}
-                        star={"4.7"}
-                      />
-                    </Col>
-                  )
-                })
-              }
+              {JobList?.jobs?.map((item) => {
+                // alert(item.id)
+                return (
+                  <Col lg={2} md={4} sm={6} xs={12} className="pb-3 mt-3">
+                    <CommonCard
+                      img={item?.image ? item?.image : Profile}
+                      name={item?.name ? item?.name : "N/A"}
+                      jobType={item?.jobType ? item?.jobType : "N/A"}
+                      id={item.id}
+                      item={item ? item : null}
+                      rate={item?.rate ? item?.rate : "N/A"}
+                      completed={"90"}
+                      star={"4.7"}
+                      myJobs= {true}
+                      page={page}
+                      limit={limit}
+                      type={type}
+                      category={categoryType}
+                      favourite={item.isFavourite}
+                    />
+                  </Col>
+                );
+              })}
               <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
                 <Nav>
                   <Pagination size={"sm"} className="mb-2 mb-lg-0">
@@ -208,7 +222,8 @@ const Job = () => {
                   </Pagination>
                 </Nav>
                 <small className="fw-bold">
-                  Showing <b>{JobList?.jobs?.length}</b> out of <b>{JobList?.total_jobs}</b> entries
+                  Showing <b>{JobList?.jobs?.length}</b> out of{" "}
+                  <b>{JobList?.total_jobs}</b> entries
                 </small>
               </Card.Footer>
             </>
