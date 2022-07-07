@@ -4,7 +4,7 @@ import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
 import {
-  getAddJob, getJobListingSuccess, getJobsSuccess, favouriteJobListSuccess, deleteAddJob, jobByIdSuccess, updateJobSuccess, getApplicantsSuccess
+  getAddJob, getJobListingSuccess, getJobsSuccess, favouriteJobListSuccess, deleteAddJob, jobByIdSuccess, updateJobSuccess,getJobListing, getApplicantsSuccess
 } from "./actions";
 import {
   ADD_JOB, ADD_JOB_SUCCESS, GET_JOB, FAVOURITE_JOB_LIST, DELETE_ADD_JOB, MARK_AS_FAVOURITE_JOB, JOB_BY_ID_SUCCESS, JOB_BY_ID, UPDATE_JOB_SUCCESS, UPDATE_JOB,
@@ -42,10 +42,8 @@ function* addJob({ payload }) {
 
    
     toast.success(CapitalizeFirstLetter(response.data.message));
-    payload.history.push("/job");
-    // payload.setShowDefaults(true);
-    // payload.setSelectedImage("");
     yield put(getJobListingSuccess(response.data.data));
+    payload.history.push("/job");
     payload.setReset();
     
 
@@ -87,7 +85,7 @@ function* getFavoutiteJobList({ payload }) {
         },
       }
     );
-    toast.success(CapitalizeFirstLetter(response.data.message));
+   
     yield put(favouriteJobListSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -129,7 +127,11 @@ function* markAsFavouriteJobSaga({ payload }) {
       },
     };
     const response = yield axios.patch(`job/favorite/${payload.id}`, data, headers);
-    yield put(favouriteJobListSuccess(response.data.data));
+    // yield put(favouriteJobListSuccess(response.data.data));
+    toast.success(CapitalizeFirstLetter(response.data.message));
+    yield put (  
+      getJobListing ()
+    )
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -187,13 +189,10 @@ function* updateJobSaga(payload) {
         Authorization: `Bearer ${token}`,
       },
     });
-    payload.setShowDefault(false);
-    payload.setReset();
-
     toast.success(CapitalizeFirstLetter(response.data.message));
-    yield put(updateJobSuccess(response.data));
-    // payload.history.push("/detailJob/:id");
-    payload.history.push("/job");
+    
+    yield put(updateJobSuccess(response.data)); 
+    payload.history.push("/job");  
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
