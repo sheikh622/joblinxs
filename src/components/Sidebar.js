@@ -170,6 +170,7 @@ export default (props = {}) => {
                       background: "none",
                       border: "none",
                       textAlign: "left",
+                      margin:"3px -7px"
                     }}
                     onClick={(item) => {
                       
