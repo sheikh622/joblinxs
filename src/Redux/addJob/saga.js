@@ -4,7 +4,7 @@ import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
 import {
-  getAddJob, getJobListingSuccess, getJobsSuccess, favouriteJobListSuccess, deleteAddJob, jobByIdSuccess, updateJobSuccess, getApplicantsSuccess
+  getAddJob, getJobListingSuccess, getJobsSuccess, favouriteJobListSuccess, deleteAddJob, jobByIdSuccess, updateJobSuccess,getJobListing, getApplicantsSuccess
 } from "./actions";
 import {
   ADD_JOB, ADD_JOB_SUCCESS, GET_JOB, FAVOURITE_JOB_LIST, DELETE_ADD_JOB, MARK_AS_FAVOURITE_JOB, JOB_BY_ID_SUCCESS, JOB_BY_ID, UPDATE_JOB_SUCCESS, UPDATE_JOB,
@@ -87,7 +87,7 @@ function* getFavoutiteJobList({ payload }) {
         },
       }
     );
-    toast.success(CapitalizeFirstLetter(response.data.message));
+   
     yield put(favouriteJobListSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -129,7 +129,11 @@ function* markAsFavouriteJobSaga({ payload }) {
       },
     };
     const response = yield axios.patch(`job/favorite/${payload.id}`, data, headers);
-    yield put(favouriteJobListSuccess(response.data.data));
+    // yield put(favouriteJobListSuccess(response.data.data));
+    toast.success(CapitalizeFirstLetter(response.data.message));
+    yield put (  
+      getJobListing ()
+    )
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
