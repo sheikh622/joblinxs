@@ -44,7 +44,16 @@
 
 // write your custom styles here!
 
-.phone-input{
-    padding: 7px 60px !important;
-    width: 100% !important;
+.PhoneInput{
+    padding: 7px 7px !important;
+    // width: 100% !important;
+    border: 0.0625rem solid #d1d7e0;
+    border-radius: 0.5rem;
+    input {
+        border: none;
+    }
+}
+.invalid-phone{
+    color: red;
+    padding: 5px;
 }

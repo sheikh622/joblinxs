@@ -19,10 +19,13 @@ import { updateAdminProfile } from "../../Redux/profile/actions";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getProfile } from "../../Redux/profile/actions";
 import * as Yup from "yup";
-import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/bootstrap.css'
+// import PhoneInput from 'react-phone-input-2'
+// import 'react-phone-input-2/lib/bootstrap.css'
+import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl, isValidPhoneNumber } from 'react-phone-number-input'
+import 'react-phone-number-input/style.css'
 import { getMultiValue } from "chartist";
 import { height, width } from "@mui/system";
+import startsWith from 'lodash.startswith';
 
 export default () => {
   const dispatch = useDispatch();
@@ -42,6 +45,7 @@ export default () => {
   const { register, handleSubmit, reset, formState } = useForm(formOptions);
   const [value, setValue] = useState("")
   const { errors } = formState;
+  console.log(setValue, "asdfg")
   const [user, setUser] = useState();
   useEffect(() => {
     reset(user);
@@ -67,7 +71,7 @@ export default () => {
     let Data = new FormData();
     Data.append("fullName", data.fullName)
     Data.append("address", data.address)
-    Data.append("phoneNumber", value ? value :getById?.phoneNumber)
+    Data.append("phoneNumber", value ? value : getById?.phoneNumber)
     Data.append("city", data.city)
     Data.append("postalCode", data.postalCode)
     Data.append("id", getById.id)
@@ -185,11 +189,14 @@ export default () => {
                     <Form.Group className="col my-2">
                       <Form.Label>Phone</Form.Label>
                       <PhoneInput
-                        country={"us"}
-                        inputClass="phone-input"
+                        placeholder="Enter phone number"
                         value={getById?.phoneNumber ? getById?.phoneNumber : value}
                         onChange={setValue}
+                        error={value ? (isValidPhoneNumber(value) ? undefined : 'Invalid phone number') : 'Phone number required'}
                       />
+                      <div className="invalid-phone">
+                      {value && isValidPhoneNumber(value) ? '' : 'Invalid phone number'}
+                      </div>
                     </Form.Group>
                     <Form.Group className="col my-2">
                       <Form.Label>Address</Form.Label>
