@@ -15,35 +15,38 @@ import Navbar from "../../components/Navbar";
 import { Routes } from "../../routes";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import {updateAdminProfile } from "../../Redux/profile/actions";
+import { updateAdminProfile } from "../../Redux/profile/actions";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getProfile } from "../../Redux/profile/actions";
 import * as Yup from "yup";
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/bootstrap.css'
+import { getMultiValue } from "chartist";
+import { height, width } from "@mui/system";
 
 export default () => {
   const dispatch = useDispatch();
   const login = useSelector((state) => state.auth.Auther);
   const getById = useSelector((state) => state.ProfileReducer.profile);
   const [selectedImage, setSelectedImage] = useState();
-  const phoneRegExp =
-    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+  // const phoneRegExp =
+  //   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Full name is required"),
-    phoneNumber: Yup.string().matches(phoneRegExp, "Phone number is not valid"),
+    // phoneNumber: Yup.string().required("phoneNumber is required"),
     address: Yup.string().required("address is required"),
     city: Yup.string().required("city is required"),
   });
   const formOptions = { resolver: yupResolver(validationSchema) };
   // get functions to build form with useForm() hook
   const { register, handleSubmit, reset, formState } = useForm(formOptions);
+  const [value, setValue] = useState("")
   const { errors } = formState;
   const [user, setUser] = useState();
   useEffect(() => {
-    // reset form with user data
     reset(user);
   }, [user]);
-  useEffect (()=>{
-    console.log(getById, "here is data")
+  useEffect(() => {
     setUser({
       fullName: getById.fullName,
       address: getById.address,
@@ -62,13 +65,13 @@ export default () => {
   function onSubmit(data) {
     // display form data on success
     let Data = new FormData();
-    Data.append("fullName",data.fullName)
-    Data.append("address",data.address)
-    Data.append("phoneNumber",data.phoneNumber)
-    Data.append("city",data.city)
-    Data.append("postalCode",data.postalCode)
-    Data.append("id",getById.id)
-    Data.append("profileImg",selectedImage ? selectedImage : getById?.profileImg)
+    Data.append("fullName", data.fullName)
+    Data.append("address", data.address)
+    Data.append("phoneNumber", value ? value :getById?.phoneNumber)
+    Data.append("city", data.city)
+    Data.append("postalCode", data.postalCode)
+    Data.append("id", getById.id)
+    Data.append("profileImg", selectedImage ? selectedImage : getById?.profileImg)
     dispatch(updateAdminProfile(Data));
   }
   // effect runs when user state is updated
@@ -101,19 +104,19 @@ export default () => {
                       className="text-center p-0 mb-4 profileView"
                       style={{ cursor: "pointer" }}
                     >
-                      
+
                       {selectedImage ? (
                         <Card.Img
                           src={URL.createObjectURL(selectedImage)}
                           alt="Neil Portrait"
-                         
+
                           onClick={onButtonClick}
                           ref={inputEl}
                           className="user-avatar large-avatar rounded-circle mx-auto mt-5"
                         />
                       ) : (
                         <Card.Img
-                          src={getById  ?.profileImg}
+                          src={getById?.profileImg}
                           alt="Neil Portrait"
                           onClick={onButtonClick}
                           ref={inputEl}
@@ -129,7 +132,7 @@ export default () => {
                           onChange={imageChange}
                           className="d-none"
                           ref={inputEl}
-                          
+
                           style={{ cursor: "pointer" }}
                         />
                         <div className="invalid-feedback">
@@ -172,9 +175,8 @@ export default () => {
                         name="fullName"
                         type="text"
                         {...register("fullName")}
-                        className={`form-control ${
-                          errors.fullName ? "is-invalid" : ""
-                        }`}
+                        className={`form-control ${errors.fullName ? "is-invalid" : ""
+                          }`}
                       />
                       <div className="invalid-feedback">
                         {errors.fullName?.message}
@@ -182,17 +184,12 @@ export default () => {
                     </Form.Group>
                     <Form.Group className="col my-2">
                       <Form.Label>Phone</Form.Label>
-                      <Form.Control
-                        name="phoneNumber"
-                        type="text"
-                        {...register("phoneNumber")}
-                        className={`form-control ${
-                          errors.phoneNumber ? "is-invalid" : ""
-                        }`}
+                      <PhoneInput
+                        country={"us"}
+                        inputClass="phone-input"
+                        value={getById?.phoneNumber ? getById?.phoneNumber : value}
+                        onChange={setValue}
                       />
-                      <div className="invalid-feedback">
-                        {errors.phoneNumber?.message}
-                      </div>
                     </Form.Group>
                     <Form.Group className="col my-2">
                       <Form.Label>Address</Form.Label>
@@ -200,9 +197,8 @@ export default () => {
                         name="address"
                         type="text"
                         {...register("address")}
-                        className={`form-control ${
-                          errors.address ? "is-invalid" : ""
-                        }`}
+                        className={`form-control ${errors.address ? "is-invalid" : ""
+                          }`}
                       />
                       <div className="invalid-feedback">
                         {errors.address?.message}
@@ -214,9 +210,8 @@ export default () => {
                         name="city"
                         type="text"
                         {...register("city")}
-                        className={`form-control ${
-                          errors.city ? "is-invalid" : ""
-                        }`}
+                        className={`form-control ${errors.city ? "is-invalid" : ""
+                          }`}
                       />
                       <div className="invalid-feedback">
                         {errors.city?.message}
@@ -228,9 +223,8 @@ export default () => {
                         name="postalCode"
                         type="text"
                         {...register("postalCode")}
-                        className={`form-control ${
-                          errors.postalCode ? "is-invalid" : ""
-                        }`}
+                        className={`form-control ${errors.postalCode ? "is-invalid" : ""
+                          }`}
                       />
                       <div className="invalid-feedback">
                         {errors.postalCode?.message}

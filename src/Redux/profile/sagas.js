@@ -45,7 +45,6 @@ function* updateAdminProfileSaga({payload}) {
     );
     yield put(getProfileSuccess(response.data.data.user));
     yield put(adminUpdatedSuccess(response.data.data.user));
-
     toast.success(response.data.message)
   } catch (error) {
     yield sagaErrorHandler(error.response);
