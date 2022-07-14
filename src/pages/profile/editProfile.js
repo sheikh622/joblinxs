@@ -21,11 +21,11 @@ import { getProfile } from "../../Redux/profile/actions";
 import * as Yup from "yup";
 // import PhoneInput from 'react-phone-input-2'
 // import 'react-phone-input-2/lib/bootstrap.css'
-import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl, isValidPhoneNumber } from 'react-phone-number-input'
-import 'react-phone-number-input/style.css'
-import { getMultiValue } from "chartist";
-import { height, width } from "@mui/system";
-import startsWith from 'lodash.startswith';
+// import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl, isValidPhoneNumber } from 'react-phone-number-input'
+// import 'react-phone-number-input/style.css'
+// import { getMultiValue } from "chartist";
+// import { height, width } from "@mui/system";
+// import startsWith from 'lodash.startswith';
 
 export default () => {
   const dispatch = useDispatch();
