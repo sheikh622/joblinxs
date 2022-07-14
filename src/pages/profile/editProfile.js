@@ -78,6 +78,7 @@ export default () => {
     Data.append("profileImg", selectedImage ? selectedImage : getById?.profileImg)
     dispatch(updateAdminProfile(Data));
   }
+
   // effect runs when user state is updated
   const imageChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
