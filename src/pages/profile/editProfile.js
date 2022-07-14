@@ -120,12 +120,11 @@ export default () => {
                       className="text-center p-0 mb-4 profileView"
                       style={{ cursor: "pointer" }}
                     >
-
+                      
                       {selectedImage ? (
                         <Card.Img
                           src={URL.createObjectURL(selectedImage)}
                           alt="Neil Portrait"
-
                           onClick={onButtonClick}
                           ref={inputEl}
                           className="user-avatar large-avatar rounded-circle mx-auto mt-5"
@@ -148,7 +147,6 @@ export default () => {
                           onChange={imageChange}
                           className="d-none"
                           ref={inputEl}
-
                           style={{ cursor: "pointer" }}
                         />
                         <div className="invalid-feedback">
