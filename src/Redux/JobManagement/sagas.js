@@ -10,7 +10,7 @@ import {
 
 } from "./actions";
 import {
-  GET_JOB_LISTING, GET_JOB_PROFILE, DELETE_JOB, GET_CATEGORY_JOB,ACTION_JOB
+  GET_JOB_LISTING, GET_JOB_PROFILE, DELETE_JOB, GET_CATEGORY_JOB, ACTION_JOB
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 
@@ -33,34 +33,34 @@ function* getJobList({ payload }) {
 function* watchGetJob() {
   yield takeLatest(GET_JOB_LISTING, getJobList);
 }
-function* getProfileList({ payload }) {
-  try {
-    const token = yield select(makeSelectAuthToken());
-    const response = yield axios.get(
-      `job/admin/approve-request/${payload.jobId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    toast.success(CapitalizeFirstLetter(response.data.message));
-    yield put(
-      getJobListing({
-        page: payload.page,
-        limit: payload.limit,
-        type: payload.type,
-        search: payload.search,
-        category: payload.category,
-      })
-    );
-  } catch (error) {
-    yield sagaErrorHandler(error.response);
-  }
-}
-function* watchGetProfile() {
-  yield takeLatest(GET_JOB_PROFILE, getProfileList);
-}
+// function* getProfileList({ payload }) {
+//   try {
+//     const token = yield select(makeSelectAuthToken());
+//     const response = yield axios.get(
+//       `job/admin/approve-request/${payload.jobId}`,
+//       {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       }
+//     );
+//     toast.success(CapitalizeFirstLetter(response.data.message));
+//     yield put(
+//       getJobListing({
+//         page: payload.page,
+//         limit: payload.limit,
+//         type: payload.type,
+//         search: payload.search,
+//         category: payload.category,
+//       })
+//     );
+//   } catch (error) {
+//     yield sagaErrorHandler(error.response);
+//   }
+// }
+// function* watchGetProfile() {
+//   yield takeLatest(GET_JOB_PROFILE, getProfileList);
+// }
 function* deleteJob({ payload }) {
   let { adminId } = payload;
   try {
@@ -70,22 +70,21 @@ function* deleteJob({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     });
-let data ={
-  page: payload.page,
-        limit: payload.limit,
-        type: payload.type,
-        search: payload.search,
-        category: payload.category,
-}
+    let data = {
+      page: payload.page,
+      limit: payload.limit,
+      type: payload.type,
+      search: payload.search,
+      category: payload.category,
+    }
     toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(
       getJobListing(
         data
       )
     );
-    // const filteredData = payload.data.filter((item, index) => item.jobId !== payload.jobId);
     yield put(getJobListingSuccess(response.data.data));
-   
+
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -95,20 +94,30 @@ function* watchDeleteJob() {
 }
 function* changeJobStatusSaga({ payload }) {
   try {
-    let data ={
-      id:payload.id,
-      isApproved :payload.isApproved
+    let data = {
+      id: payload.id,
+      isApproved: payload.isApproved
     }
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.post(
-      `job/admin/approve-request`,data,
+      `job/admin/approve-request`, data,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-    // yield put(getJobListingSuccess(response.data.data));
+    toast.success(CapitalizeFirstLetter(response.data.message));
+    yield put(
+            getJobListing({
+              page: payload.page,
+              limit: payload.limit,
+              type: payload.type,
+              search: payload.search,
+              category: payload.category,
+            })
+          );
+    yield put(getJobListingSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -118,7 +127,7 @@ function* watchchangeJobStatus() {
 }
 export default function* JobManagementSaga() {
   yield all([fork(watchGetJob)]);
-  yield all([fork(watchGetProfile)]);
+  // yield all([fork(watchGetProfile)]);
   yield all([fork(watchDeleteJob)]);
   yield all([fork(watchchangeJobStatus)]);
 }
