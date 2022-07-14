@@ -43,9 +43,12 @@ function* updateAdminProfileSaga({payload}) {
         },
       }
     );
+    toast.success(response.data.message)
+    
     yield put(getProfileSuccess(response.data.data.user));
     yield put(adminUpdatedSuccess(response.data.data.user));
-    toast.success(response.data.message)
+    payload.history.push('/profile');  
+ 
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

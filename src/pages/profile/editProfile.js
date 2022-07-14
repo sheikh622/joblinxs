@@ -45,7 +45,7 @@ export default () => {
   const { register, handleSubmit, reset, formState } = useForm(formOptions);
   const [value, setValue] = useState("")
   const { errors } = formState;
-  console.log(setValue, "asdfg")
+  // console.log(getById, "asdfg")
   const [user, setUser] = useState();
   useEffect(() => {
     reset(user);
@@ -88,6 +88,18 @@ export default () => {
   const onButtonClick = () => {
     inputEl.current.click();
   };
+  // let input =getById;
+  //   let number = JSON.stringify(input.phoneNumber);
+  //   if(number === undefined){
+  //   } else{
+  //     console.log(
+  //       "number", number
+  //     )
+  //     let validate = isValidPhoneNumber(JSON.stringify(input.phoneNumber))
+  //     console.log(
+  //       "first condtasdasdasdiond", validate
+  //     )
+  //   }
   return (
     <>
       <Navbar module={"Edit Profile"} />
@@ -186,18 +198,19 @@ export default () => {
                         {errors.fullName?.message}
                       </div>
                     </Form.Group>
-                    <Form.Group className="col my-2">
+                    {/* <Form.Group className="col my-2">
                       <Form.Label>Phone</Form.Label>
                       <PhoneInput
                         placeholder="Enter phone number"
-                        value={getById?.phoneNumber ? getById?.phoneNumber : value}
+                        value={value}
                         onChange={setValue}
                         error={value ? (isValidPhoneNumber(value) ? undefined : 'Invalid phone number') : 'Phone number required'}
                       />
+                      {value}
                       <div className="invalid-phone">
-                      {value && isValidPhoneNumber(value) ? '' : 'Invalid phone number'}
+                      {isValidPhoneNumber(value) ? '' : 'Invalid phone number'}
                       </div>
-                    </Form.Group>
+                    </Form.Group> */}
                     <Form.Group className="col my-2">
                       <Form.Label>Address</Form.Label>
                       <Form.Control
