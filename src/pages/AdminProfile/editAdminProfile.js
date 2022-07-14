@@ -28,7 +28,7 @@ export default () => {
   const getById = useSelector((state) => state.ProfileReducer.profile);
   const [selectedImage, setSelectedImage] = useState();
   const validationSchema = Yup.object().shape({
-    fullName: Yup.string().required("Full name is required"),
+    fullName: Yup.string().trim().required("Full name is required"),
     email: Yup.string().required("Email is required").email("Email is invalid"),
   });
   const formOptions = { resolver: yupResolver(validationSchema) };

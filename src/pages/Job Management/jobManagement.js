@@ -30,7 +30,12 @@ const JobManagement = (row) => {
     dispatch(
       changeJobStatus({
         id: data.id,
-        isApproved: data.isApproved
+        isApproved: data.isApproved,
+        page: page,
+        limit: limit,
+        search: search,
+        type: type,
+        category: categoryType,
       })
     );
   }
