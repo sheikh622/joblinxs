@@ -43,6 +43,7 @@ const DashboardOverview = () => {
                       img={value.image}
                       name={value.name}
                       // type={"IT"}
+                      id={value.id}
                       rate={value.rate}
                       completed={"10"}
                       star={"3.6"}

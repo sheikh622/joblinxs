@@ -39,7 +39,7 @@ const RecommendCard = (props) => {
               <FontAwesomeIcon icon={faStar} /> {props.star}
             </span>
             <span>
-              <FontAwesomeIcon icon={faHeart} onClick={()=>{handleFavourite(1)}}/>
+              <FontAwesomeIcon icon={faHeart} onClick={()=>{handleFavourite(props.id)}}/>
             </span>
           </span>
         </div>
