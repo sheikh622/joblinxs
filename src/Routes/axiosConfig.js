@@ -15,7 +15,6 @@ const axiosConfig = axios.create({
     "X-Requested-With": "XMLHttpRequest",
   },
 });
-
 axiosConfig.interceptors.response.use(
   function (response) {
     return response;
