@@ -80,6 +80,7 @@ export const GeneralInfoForm = () => {
     setProviders(
       provide.filter((option) => option.label == SingleId.noOfProviders)
     );
+    setLocation(SingleId?.location? SingleId?.location[0] : "")
   }, [SingleId]);
   useEffect(() => {
     dispatch(
@@ -114,9 +115,9 @@ export const GeneralInfoForm = () => {
     description: Yup.string().trim().required("description is required"),
     jobRequirements: Yup.string().trim().required("Requirements is required"),
     toolsNeeded: Yup.string().trim().required("Tools is required"),
-    rate: Yup.number()
+    rate: Yup.string()
     .required("Please enter number")
-    .max(999999, "Number should not exceed 6 digits")
+    .max(8, "Number should not exceed 6 digits")
     .min(1, "Number should not be less than 0"),
   });
   const CategoryFormik = useFormik({
@@ -179,6 +180,7 @@ export const GeneralInfoForm = () => {
       }
     },
   });
+  console.log("===================",CategoryFormik);
   useEffect(() => {
     if (jobId !== undefined) {
       dispatch(jobById({ id: jobId }));
@@ -213,8 +215,9 @@ export const GeneralInfoForm = () => {
     options: {
       types: ["(regions)"],
     },
+    defaultValue:location
   });
-  console.log("providerssssss", providers)
+
   return (
     <>
       <Col className={"d-flex justify-content-center"}>

@@ -106,6 +106,7 @@ const MyJobDetails = (item, props) => {
                                 <DetailHeading heading={"TimeRequired"} value={SingleId?.days ? SingleId?.days : "-"} />
                                 <DetailHeading heading={"Job Type"} value={SingleId?.jobType ? SingleId.jobType?.name : "-"} />
                                 <DetailHeading heading={"Job Nature"} value={SingleId?.jobNature ? SingleId?.jobNature?.name : "-"} />
+                                <DetailHeading heading={"Location"} value={SingleId?.location ? SingleId?.location?.[0] : "-"} />
                                 <DetailHeading heading={"Providers Required"} value={SingleId?.noOfProviders ? SingleId.noOfProviders : "-"} />
                                 <DetailHeading heading={"Experience Required"} value={SingleId?.experienceRequired ? SingleId.experienceRequired : "-"} />
                             </Card.Body>

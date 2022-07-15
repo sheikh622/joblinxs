@@ -21,6 +21,7 @@ import Job from "./jobs/Job";
 import EditProfile from "./profile/editProfile";
 import Profile from "./profile/Profile";
 import userDetail from "./user/userDetail";
+import JobDetails from "./Job Management/jobDetails";
 import UserManagement from "./user/userManagement";
 import Users from "./user/users";
 import editAdminProfile from "./AdminProfile/editAdminProfile";
@@ -94,7 +95,7 @@ export default () => (
         component={UserManagement}
       />
       <PrivateRoute exact path={Routes.DetailJob.path} component={MyJobDetails} />
-      {/* <PrivateRoute exact path={Routes.MyJobDetail.path} component={MyJobDetails} /> */}
+      <PrivateRoute exact path={Routes.MyJobDetail.path} component={MyJobDetails} />
       
       <PrivateRoute
         exact
@@ -105,6 +106,11 @@ export default () => (
         exact
         path={Routes.UserDetail.path}
         component={userDetail}
+      />
+        <PrivateRoute
+        exact
+        path={Routes.JobDetails.path}
+        component={JobDetails}
       />
       <Redirect to={Routes.NotFound.path} />
     </Switch>

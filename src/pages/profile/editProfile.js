@@ -19,14 +19,18 @@ import { updateAdminProfile } from "../../Redux/profile/actions";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getProfile } from "../../Redux/profile/actions";
 import * as Yup from "yup";
-// import PhoneInput from 'react-phone-input-2'
-// import 'react-phone-input-2/lib/bootstrap.css'
+import { toast } from "react-toastify";
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/bootstrap.css'
 // import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl, isValidPhoneNumber } from 'react-phone-number-input'
-// import 'react-phone-number-input/style.css'
-// import { getMultiValue } from "chartist";
-// import { height, width } from "@mui/system";
-// import startsWith from 'lodash.startswith';
-
+import 'react-phone-number-input/style.css'
+import { getMultiValue } from "chartist";
+import { height, width } from "@mui/system";
+import startsWith from 'lodash.startswith';
+import { gridColumnLookupSelector } from "@mui/x-data-grid";
+import DatePicker from "react-date-picker";
+import "react-date-picker/dist/DatePicker.css";
+import moment from "moment";
 export default () => {
   const dispatch = useDispatch();
   const login = useSelector((state) => state.auth.Auther);
@@ -43,7 +47,9 @@ export default () => {
   const formOptions = { resolver: yupResolver(validationSchema) };
   // get functions to build form with useForm() hook
   const { register, handleSubmit, reset, formState } = useForm(formOptions);
-  const [value, setValue] = useState("")
+  const [value, setValue] = useState()
+  const [dateofBirth, setDateofBirth] = React.useState(new Date());
+
   const { errors } = formState;
   // console.log(getById, "asdfg")
   const [user, setUser] = useState();
@@ -54,6 +60,7 @@ export default () => {
     setUser({
       fullName: getById.fullName,
       address: getById.address,
+      dateofBirth: getById.dateofBirth,
       phoneNumber: getById.phoneNumber,
       city: getById.city,
       postalCode: getById.postalCode,
@@ -67,16 +74,26 @@ export default () => {
     );
   }, []);
   function onSubmit(data) {
-    // display form data on success
+console.log("=======================",data,value,dateofBirth)
+    // toast.error("Please add valid phone number")
+    // console.log("asaasasasasasasasasas")
+
+
     let Data = new FormData();
     Data.append("fullName", data.fullName)
     Data.append("address", data.address)
+    Data.append("dateofBirth", dateofBirth ?  moment.utc(dateofBirth).format().toString() : getById?.dateofBirth.toString())
     Data.append("phoneNumber", value ? value : getById?.phoneNumber)
     Data.append("city", data.city)
     Data.append("postalCode", data.postalCode)
     Data.append("id", getById.id)
     Data.append("profileImg", selectedImage ? selectedImage : getById?.profileImg)
-    dispatch(updateAdminProfile(Data));
+    console.log("Data", data?.phoneNumber?.length)
+    // if (data?.phoneNumber?.length < 6) {
+    //   alert(1);
+    // } else {
+      dispatch(updateAdminProfile(Data));
+    // }
   }
 
   // effect runs when user state is updated
@@ -101,6 +118,14 @@ export default () => {
   //       "first condtasdasdasdiond", validate
   //     )
   //   }
+
+
+  useEffect(() => {
+    if (getById?.phoneNumber !== undefined) {
+      setValue(getById?.phoneNumber);
+    }
+  }, [getById?.phoneNumber]);
+
   return (
     <>
       <Navbar module={"Edit Profile"} />
@@ -121,7 +146,7 @@ export default () => {
                       className="text-center p-0 mb-4 profileView"
                       style={{ cursor: "pointer" }}
                     >
-                      
+
                       {selectedImage ? (
                         <Card.Img
                           src={URL.createObjectURL(selectedImage)}
@@ -197,19 +222,45 @@ export default () => {
                         {errors.fullName?.message}
                       </div>
                     </Form.Group>
-                    {/* <Form.Group className="col my-2">
+                    <Col md={2} className="mb-3">
+                      <Form.Label>Start Date</Form.Label>
+                      <DatePicker
+                        selected={dateofBirth}
+                        label="dateofBirth"
+                        name="dateofBirth"
+                        value={dateofBirth}
+                        onChange={(newValue) => {
+                          setDateofBirth(newValue);
+                        }}
+                      />
+                    </Col>
+                    <Form.Group className="col my-2">
                       <Form.Label>Phone</Form.Label>
-                      <PhoneInput
-                        placeholder="Enter phone number"
+                      {/* <PhoneInput
+                        // placeholder="Enter phone number"
                         value={value}
                         onChange={setValue}
-                        error={value ? (isValidPhoneNumber(value) ? undefined : 'Invalid phone number') : 'Phone number required'}
-                      />
-                      {value}
-                      <div className="invalid-phone">
+                      // error={value ? (isValidPhoneNumber(value) ? undefined : 'Invalid phone number') : 'Phone number required'}
+                      /> */}
+
+                      {/* <div className="invalid-phone">
                       {isValidPhoneNumber(value) ? '' : 'Invalid phone number'}
-                      </div>
-                    </Form.Group> */}
+                      </div> */}
+                    </Form.Group>
+                    <PhoneInput
+                      country={"us"}
+                      value={value}
+                      onChange={setValue}
+                    />
+
+                    <input
+                      className="d-none"
+                      type="text"
+                      name="phone"
+                      value={value}
+                    // error={Boolean(formik.touched.phone && formik.errors.phone)}
+                    // helpertext={formik.errors.phone}
+                    />
                     <Form.Group className="col my-2">
                       <Form.Label>Address</Form.Label>
                       <Form.Control
