@@ -1,6 +1,4 @@
 def IMAGE_NAME = "servic_app_tanza_frontend"
-def CONTAINER_NAME = "servic_app_tanza_frontend"
-def REPO_URL = "https://github.com/CodeArgon/servic_app_tanza_frontend.git"
 
 pipeline {
   agent any
@@ -23,12 +21,14 @@ pipeline {
       }
   }
   stage("Build Image") {
+    when { branch "staging" }
     steps {
       sh "docker image rm $IMAGE_NAME:$TAG_NAME|| true"
       sh "docker build -t $IMAGE_NAME:$TAG_NAME -f Dockerfile ."
     }
   }
   stage("Create Release") {
+    when { branch "staging" }
     steps {
       sh "mkdir -p /home/jenkins/$IMAGE_NAME"
       sh "ls -al /home/jenkins/$IMAGE_NAME"
@@ -47,6 +47,7 @@ pipeline {
     }
   }
     stage("Remove Images & Cleanup") {
+     when { branch "staging" }
      steps {
        sh "docker stop appcon_$GIT_COMMIT"
        sh "docker rm appcon_$GIT_COMMIT"
