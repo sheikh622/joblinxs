@@ -7,9 +7,11 @@ export const Routes = {
 
     UpdateJob: {path: '/updateJob/:id'},
     DetailJob: {path: '/detailJob/:id'},
-    // MyJobDetail: {path: '/jobDetail/:id'},
+    MyJobDetail: {path: '/jobDetail/:id'},
     DetailProvider: {path: '/detailProvider'},
     UserDetail: {path: '/userDetail'},
+    JobDetails: {path: '/jobDetails'},
+
     Favourites:{path:'/favourites'},
     Job: {path: '/job'},
     EditProfile: { path: "/editProfile" },

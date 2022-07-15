@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 // saga actions here
 import { getProfile } from "../../Redux/profile/actions";
 import ChangePassword from "../../components/changePassword";
-
+import moment from "moment";
 export default () => {
   const dispatch = useDispatch();
   const login = useSelector((state) => state.auth.Auther);
@@ -161,6 +161,11 @@ export default () => {
                       <DetailHeading
                         heading={"Phone"}
                         value={getById?.phoneNumber}
+                      />
+                         <DetailHeading
+                        heading={"Date of Birth"}
+                        value={getById?.dateOfBirth ? moment(getById?.dateOfBirth).format("DD-MM-YYYY")  : " --"
+                       }
                       />
                       <DetailHeading
                         heading={"Address"}
