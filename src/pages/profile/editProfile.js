@@ -65,7 +65,7 @@ export default () => {
       city: getById.city,
       postalCode: getById.postalCode,
     })
-    setDateofBirth(getById.dateOfBirth);
+    // setDateofBirth(moment(new Date(getById?.dateOfBirth)));
   }, [getById])
   useEffect(() => {
     dispatch(
@@ -224,7 +224,7 @@ console.log("=======================",data,value,dateofBirth)
                       </div>
                     </Form.Group>
                     <Col md={2} className="mb-3">
-                      <Form.Label>Start Date</Form.Label>
+                      <Form.Label>Date of Birth</Form.Label>
                       <DatePicker
                         selected={dateofBirth}
                         label="dateofBirth"
