@@ -1,6 +1,6 @@
 import {
   faAngleDoubleLeft,
-  faAngleDoubleRight, faCheck, faEllipsisH, faMinus, faTrashAlt
+  faAngleDoubleRight, faCheck, faEllipsisH,faEye, faMinus, faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,11 +8,12 @@ import {
 } from "@themesberg/react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Link,useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import { deleteJob, getJobListing, getJobProfile, getCategoryJob,changeJobStatus } from "../../Redux/JobManagement/actions";
+import { deleteJob, getJobListing, getJobProfile, getCategoryJob, changeJobStatus } from "../../Redux/JobManagement/actions";
 import { getCategoryList } from "../../Redux/Category/actions";
 import NoRecordFound from "../../components/NoRecordFound";
+import { Routes } from "../../routes";
 
 const JobManagement = (row) => {
   const dispatch = useDispatch();
@@ -150,7 +151,14 @@ const JobManagement = (row) => {
                 <FontAwesomeIcon icon={faEllipsisH} className="icon-dark" />
               </span>
             </Dropdown.Toggle>
+
             <Dropdown.Menu className="custom_menu">
+              <Dropdown.Item
+                as={Link}
+                to={{ pathname: Routes.JobDetails.path, state: { item } }}
+              >
+                <FontAwesomeIcon icon={faEye} className="me-2" /> View Details
+              </Dropdown.Item>
               {item?.status === "pending" ? (
                 <>
                   <Dropdown.Item className="text-success" onClick={(e) => {
