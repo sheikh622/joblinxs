@@ -65,7 +65,7 @@ export default () => {
       city: getById.city,
       postalCode: getById.postalCode,
     })
-    setDateofBirth(getById.dateOfBirth);
+    // setDateofBirth(moment(new Date(getById?.dateOfBirth)));
   }, [getById])
   useEffect(() => {
     dispatch(
