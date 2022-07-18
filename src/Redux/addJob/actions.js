@@ -14,7 +14,9 @@ import {
     GET_JOB_APPLICANTS,
     GET_JOB_APPLICANTS_SUCCESS,
     CONFIRM_APPLICANTS,
-    CONFIRM_APPLICANTS_SUCCESS
+    CONFIRM_APPLICANTS_SUCCESS,
+    GET_LOG_HOURS_SUCCESS,
+    GET_LOG_HOURS,
   } from "./constants";
   
   export const getJobListing = (data) => ({
@@ -82,5 +84,13 @@ export const getConfirmApplicants = (data) => ({
 });
 export const getConfirmSuccess = (data) => ({
   type:  CONFIRM_APPLICANTS_SUCCESS,
+  payload: data,
+});
+export const getLogHours = (data) => ({
+  type: GET_LOG_HOURS,
+  payload: data,
+});
+export const getLogHoursSuccess = (data) => ({
+  type:  GET_LOG_HOURS_SUCCESS,
   payload: data,
 });

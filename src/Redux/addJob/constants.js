@@ -14,3 +14,5 @@ export const GET_JOB_APPLICANTS = "get_Job_Applicants";
 export const GET_JOB_APPLICANTS_SUCCESS = "get_Job_Applicants_Success";
 export const CONFIRM_APPLICANTS = "Confirm_Applicants";
 export const CONFIRM_APPLICANTS_SUCCESS = "Confirm_Applicants_Success";
+export const GET_LOG_HOURS = "Get_Log_Hours";
+export const GET_LOG_HOURS_SUCCESS = "Get_Log_Hours_Success";

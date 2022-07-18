@@ -33,7 +33,7 @@ import DetailHeading from "../../components/DetailHeading";
 import { useDispatch, useSelector } from "react-redux";
 // saga actions here
 // import { getProfile } from "../../Redux/ /actions";
-import { deleteAddJob } from "../../Redux/addJob/actions";
+import { deleteAddJob, getLogHours } from "../../Redux/addJob/actions";
 const MyJobDetails = (item, props) => {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -61,6 +61,13 @@ const MyJobDetails = (item, props) => {
     const handleEdit = () => {
         history.push(`/updateJob/${jobId}`)
     }
+    // const handleClick = () => {
+        //     dispatch(
+        //         getLogHours({
+        //             jobId: jobId,
+        //         })
+        //     )
+        // }
     return (
         <>
             <Navbar module={"Job Detail"} />

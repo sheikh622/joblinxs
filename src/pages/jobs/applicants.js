@@ -35,7 +35,6 @@ const Applicants = (value) => {
         location: { state },
     } = history;
     const params = useLocation();
-
     let jobId = params.pathname.split("/")[2];
     const login = useSelector(
         (state) => state?.auth.Auther
