@@ -15,6 +15,7 @@ import {
   updateJobSuccess,
   getJobListing,
   getApplicantsSuccess,
+  getConfirmSuccess
 } from "./actions";
 import {
   ADD_JOB,
@@ -29,6 +30,8 @@ import {
   UPDATE_JOB,
   GET_JOB_APPLICANTS,
   GET_JOB_APPLICANTS_SUCCESS,
+  CONFIRM_APPLICANTS_SUCCESS,
+  CONFIRM_APPLICANTS,
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 function* addJob({ payload }) {
@@ -143,7 +146,7 @@ function* markAsFavouriteJobSaga({ payload }) {
   //   category: payload.categoryType === undefined ?"":payload.categoryType,
   // };
   let listData = {
-    page: payload.page === undefined ?1:payload.page,
+    page: payload.page === undefined ? 1 : payload.page,
   };
   try {
     const token = yield select(makeSelectAuthToken());
@@ -218,8 +221,8 @@ function* updateJobSaga(payload) {
       },
     });
     toast.success(CapitalizeFirstLetter(response.data.message));
-    yield put(updateJobSuccess(response.data)); 
-    payload.history.push("/job");  
+    yield put(updateJobSuccess(response.data));
+    payload.history.push(`/detailJob/${payload.id}`);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -247,6 +250,31 @@ function* getApplicants(payload) {
 function* watchGetApplicants() {
   yield takeLatest(GET_JOB_APPLICANTS, getApplicants);
 }
+function* ConfirmSaga(payload) {
+  console.log("payload",payload)
+  try {
+    let data = {
+      isAccepted: payload.payload.isAccepted
+    }
+    const { id } = payload.payload;
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.post(
+      `job/approve/${id}`,data,
+      {
+        headers: {
+          Authorization:`Bearer ${token}`,
+        },
+      }
+    );
+    toast.success(CapitalizeFirstLetter(response.data.message));
+    yield put(getConfirmSuccess(response.data));
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchConfirmApplicants() {
+  yield takeLatest(CONFIRM_APPLICANTS, ConfirmSaga);
+}
 export default function* addJobSaga() {
   yield all([fork(watchAddJob)]);
   yield all([fork(watchGetJob)]);
@@ -256,4 +284,5 @@ export default function* addJobSaga() {
   yield all([fork(watchJobById)]);
   yield all([fork(watchUpdateJob)]);
   yield all([fork(watchGetApplicants)]);
+  yield all([fork(watchConfirmApplicants)]);
 }

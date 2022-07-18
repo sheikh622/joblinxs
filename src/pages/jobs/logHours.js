@@ -42,20 +42,6 @@ const LogHours = () => {
     );
     const [showDefault, setShowDefault] = useState(false);
     const handleClose = () => setShowDefault(false);
-    // const CategorySchema = Yup.object().shape({
-    //     firstName: Yup.string().required("First name is required"),
-    //     lastName: Yup.string().required("Last name is required"),
-    //     email: Yup.string().required("Email is required").email("Email is invalid"),
-    // });
-    // const formOptions = { resolver: yupResolver(CategorySchema) };
-
-    // get functions to build form with useForm() hook
-    // const { register, handleSubmit, reset, formState } = useForm(formOptions);
-    // const { errors } = formState;
-
-    // const onSubmit = async (data) => {
-    //     // display form data on success
-    // };
     const [page, setPage] = useState(1);
     const [limit] = useState("5");
     const Applicants = useSelector(
@@ -103,69 +89,41 @@ const LogHours = () => {
                         variant="primary"
                         color="dark"
                         size="sm"
-                        style={
-                            { width: "100px", height: "40px" }
-                        }
-                    >
-                        Accept
-                    </Button>
-                </div>
-                <div class=" mt-5 ml-auto">
-                    <Button
 
-                        variant="danger"
-                        color="dark"
-                        size="sm"
-                        style={
-                            { width: "100px", height: "40px" }
-                        }
                     >
-                        Decline
+                        View
                     </Button>
                 </div>
+
             </div>
         )
     }
     return (
         <>
-            <Navbar module={"Applicants"} />
+            <Navbar module={"Log Hours"} />
             <Container>
                 <Row className="py-2 ">
                 </Row>
                 <Row className="py-2 justify-content-between">
 
                     <Col lg={6} md={12} sm={12} xs={12} className="pb-3">
-                        {
-                            Applicants?.map((item) => {
 
-                                return (
-                                    <>
-                                        <Card border="light" className="shadow-sm userCard">
-                                            <Image src={item?.job ? item?.job?.image : ""} className="navbar-brand-light" />
-                                            <div className="detailSection">
-                                                <span className="left">
-                                                    <h3 className="mb-1 mt-2">{item?.job ? item?.job?.name : ""} </h3>
-                                                    <span className="starSpan">
-                                                        <FontAwesomeIcon icon={faStar} />
-                                                        <FontAwesomeIcon icon={faStar} />
-                                                        <FontAwesomeIcon icon={faStar} />
-                                                        <FontAwesomeIcon icon={faStar} />
-                                                        <FontAwesomeIcon icon={faStar} /> <span>{item?.rating ? item?.rating : ""}</span>
-                                                    </span>
-                                                    <p className="mt-2">
-                                                        Jobs Completed: <span>25</span>{" "}
-                                                    </p>
-                                                    <p>
-                                                        Job Completed as Plumber: <span>14 </span>
-                                                    </p>
-                                                </span>
-                                            </div>
-                                            {handleClick()}
-                                        </Card>
+                        <Card border="light" className="shadow-sm userCard">
+                            <Image src={ReactHero} className="navbar-brand-light" />
+                            <div className="detailSection">
+                                <span className="left">
+                                    {/* <h3 className="mb-1 mt-2">{item?.job ? item?.job?.name : ""} </h3> */}
 
-                                    </>)
-                            })
-                        }
+                                    <p className="mt-2">
+                                        Jobs Completed: <span>25</span>{" "}
+                                    </p>
+                                    <p>
+                                        Job Completed as Plumber: <span>14 </span>
+                                    </p>
+                                </span>
+                            </div>
+                            {handleClick()}
+                        </Card>
                         <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
                             <Nav>
                                 <Pagination size={"sm"} className="mb-2 mb-lg-0">

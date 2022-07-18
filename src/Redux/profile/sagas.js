@@ -33,10 +33,29 @@ function* watchGetProfile() {
   yield takeLatest(GET_PROFILE, getProfileById);
 }
 function* updateAdminProfileSaga({payload}) {
+  console.log(payload.fullName, "here is data")
+  let Data = new FormData();
+  Data.append("fullName", payload.fullName);
+  Data.append("address", payload.address);
+  Data.append(
+    "dateofBirth",
+    payload.dateofBirth
+    
+  );
+  Data.append("phoneNumber", payload.phoneNumber);
+  Data.append("city", payload.city);
+  Data.append("postalCode", payload.postalCode);
+  Data.append("id", payload.id);
+  Data.append(
+    "profileImg",
+   payload.profileImg
+  );
+  console.log(Data, "here is data")
+
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.patch(
-      `profile/update`, payload,
+      `profile/update`, Data,
       {
         headers: {
           Authorization: `Bearer ${token}`,
