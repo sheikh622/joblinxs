@@ -20,13 +20,17 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { getProfile } from "../../Redux/profile/actions";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/bootstrap.css'
-// import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl, isValidPhoneNumber } from 'react-phone-number-input'
-import 'react-phone-number-input/style.css'
+// import PhoneInput from 'react-phone-input-2'
+import "react-phone-input-2/lib/bootstrap.css";
+import PhoneInput, {
+  formatPhoneNumber,
+  formatPhoneNumberIntl,
+  isValidPhoneNumber,
+} from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 import { getMultiValue } from "chartist";
 import { height, width } from "@mui/system";
-import startsWith from 'lodash.startswith';
+import startsWith from "lodash.startswith";
 import { gridColumnLookupSelector } from "@mui/x-data-grid";
 import DatePicker from "react-date-picker";
 import "react-date-picker/dist/DatePicker.css";
@@ -47,7 +51,7 @@ export default () => {
   const formOptions = { resolver: yupResolver(validationSchema) };
   // get functions to build form with useForm() hook
   const { register, handleSubmit, reset, formState } = useForm(formOptions);
-  const [value, setValue] = useState()
+  const [value, setValue] = useState();
   const [dateofBirth, setDateofBirth] = React.useState(new Date());
 
   const { errors } = formState;
@@ -64,9 +68,9 @@ export default () => {
       phoneNumber: getById.phoneNumber,
       city: getById.city,
       postalCode: getById.postalCode,
-    })
+    });
     // setDateofBirth(moment(new Date(getById?.dateOfBirth)));
-  }, [getById])
+  }, [getById]);
   useEffect(() => {
     dispatch(
       getProfile({
@@ -75,26 +79,33 @@ export default () => {
     );
   }, []);
   function onSubmit(data) {
-console.log("=======================",data,value,dateofBirth)
+    console.log("=======================", data, value, dateofBirth);
     // toast.error("Please add valid phone number")
     // console.log("asaasasasasasasasasas")
 
-
     let Data = new FormData();
-    Data.append("fullName", data.fullName)
-    Data.append("address", data.address)
-    Data.append("dateofBirth", dateofBirth ?  moment.utc(dateofBirth).format().toString() : getById?.dateofBirth.toString())
-    Data.append("phoneNumber", value ? value : getById?.phoneNumber)
-    Data.append("city", data.city)
-    Data.append("postalCode", data.postalCode)
-    Data.append("id", getById.id)
-    Data.append("profileImg", selectedImage ? selectedImage : getById?.profileImg)
-    console.log("Data", data?.phoneNumber?.length)
-    // if (data?.phoneNumber?.length < 6) {
-    //   alert(1);
-    // } else {
+    Data.append("fullName", data.fullName);
+    Data.append("address", data.address);
+    Data.append(
+      "dateofBirth",
+      dateofBirth
+        ? moment.utc(dateofBirth).format().toString()
+        : getById?.dateofBirth.toString()
+    );
+    Data.append("phoneNumber", value ? value : getById?.phoneNumber);
+    Data.append("city", data.city);
+    Data.append("postalCode", data.postalCode);
+    Data.append("id", getById.id);
+    Data.append(
+      "profileImg",
+      selectedImage ? selectedImage : getById?.profileImg
+    );
+    console.log("Data", data?.phoneNumber?.length);
+    if (!isValidPhoneNumber(value)) {
+      return;
+    } else {
       dispatch(updateAdminProfile(Data));
-    // }
+    }
   }
 
   // effect runs when user state is updated
@@ -107,20 +118,6 @@ console.log("=======================",data,value,dateofBirth)
   const onButtonClick = () => {
     inputEl.current.click();
   };
-  // let input =getById;
-  //   let number = JSON.stringify(input.phoneNumber);
-  //   if(number === undefined){
-  //   } else{
-  //     console.log(
-  //       "number", number
-  //     )
-  //     let validate = isValidPhoneNumber(JSON.stringify(input.phoneNumber))
-  //     console.log(
-  //       "first condtasdasdasdiond", validate
-  //     )
-  //   }
-
-
   useEffect(() => {
     if (getById?.phoneNumber !== undefined) {
       setValue(getById?.phoneNumber);
@@ -147,7 +144,6 @@ console.log("=======================",data,value,dateofBirth)
                       className="text-center p-0 mb-4 profileView"
                       style={{ cursor: "pointer" }}
                     >
-
                       {selectedImage ? (
                         <Card.Img
                           src={URL.createObjectURL(selectedImage)}
@@ -191,7 +187,7 @@ console.log("=======================",data,value,dateofBirth)
                           className="text-gray mb-2"
                           onClick={onButtonClick}
                           style={{
-                            fontWeight: "bold"
+                            fontWeight: "bold",
                           }}
                         >
                           Change Profile Picture
@@ -216,8 +212,9 @@ console.log("=======================",data,value,dateofBirth)
                         name="fullName"
                         type="text"
                         {...register("fullName")}
-                        className={`form-control ${errors.fullName ? "is-invalid" : ""
-                          }`}
+                        className={`form-control ${
+                          errors.fullName ? "is-invalid" : ""
+                        }`}
                       />
                       <div className="invalid-feedback">
                         {errors.fullName?.message}
@@ -237,18 +234,26 @@ console.log("=======================",data,value,dateofBirth)
                     </Col>
                     <Form.Group className="col my-2">
                       <Form.Label>Phone</Form.Label>
-                      {/* <PhoneInput
+                      <PhoneInput
                         // placeholder="Enter phone number"
                         value={value}
                         onChange={setValue}
-                      // error={value ? (isValidPhoneNumber(value) ? undefined : 'Invalid phone number') : 'Phone number required'}
-                      /> */}
+                        error={
+                          value
+                            ? isValidPhoneNumber(value)
+                              ? undefined
+                              : "Invalid phone number"
+                            : "Phone number required"
+                        }
+                      />
 
-                      {/* <div className="invalid-phone">
-                      {isValidPhoneNumber(value) ? '' : 'Invalid phone number'}
-                      </div> */}
+                      <div className="invalid-phone">
+                        {value && isValidPhoneNumber(value)
+                          ? ""
+                          : "Invalid phone number"}
+                      </div>
                     </Form.Group>
-                    <PhoneInput
+                    {/* <PhoneInput
                       country={"us"}
                       value={value}
                       onChange={setValue}
@@ -261,15 +266,16 @@ console.log("=======================",data,value,dateofBirth)
                       value={value}
                     // error={Boolean(formik.touched.phone && formik.errors.phone)}
                     // helpertext={formik.errors.phone}
-                    />
+                    /> */}
                     <Form.Group className="col my-2">
                       <Form.Label>Address</Form.Label>
                       <Form.Control
                         name="address"
                         type="text"
                         {...register("address")}
-                        className={`form-control ${errors.address ? "is-invalid" : ""
-                          }`}
+                        className={`form-control ${
+                          errors.address ? "is-invalid" : ""
+                        }`}
                       />
                       <div className="invalid-feedback">
                         {errors.address?.message}
@@ -281,8 +287,9 @@ console.log("=======================",data,value,dateofBirth)
                         name="city"
                         type="text"
                         {...register("city")}
-                        className={`form-control ${errors.city ? "is-invalid" : ""
-                          }`}
+                        className={`form-control ${
+                          errors.city ? "is-invalid" : ""
+                        }`}
                       />
                       <div className="invalid-feedback">
                         {errors.city?.message}
@@ -294,8 +301,9 @@ console.log("=======================",data,value,dateofBirth)
                         name="postalCode"
                         type="text"
                         {...register("postalCode")}
-                        className={`form-control ${errors.postalCode ? "is-invalid" : ""
-                          }`}
+                        className={`form-control ${
+                          errors.postalCode ? "is-invalid" : ""
+                        }`}
                       />
                       <div className="invalid-feedback">
                         {errors.postalCode?.message}
