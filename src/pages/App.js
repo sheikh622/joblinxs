@@ -17,6 +17,7 @@ import Signin from "./auths/Signin";
 import Favourites from "./favourite/favourites";
 import CreateJob from "./jobs/CreateJob";
 import Applicants from "./jobs/applicants";
+import LogHours from "./jobs/logHours";
 import Job from "./jobs/Job";
 import EditProfile from "./profile/editProfile";
 import Profile from "./profile/Profile";
@@ -64,6 +65,7 @@ export default () => (
       <PrivateRoute exact path={Routes.CreateJob.path} component={CreateJob} />
       <PrivateRoute exact path={Routes.UpdateJob.path} component={CreateJob} />
       <PrivateRoute exact path={Routes.Applicants.path} component={Applicants} />
+      <PrivateRoute exact path={Routes.LogHours.path} component={LogHours} />
 
       <PrivateRoute
         exact

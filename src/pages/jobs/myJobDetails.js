@@ -112,10 +112,17 @@ const MyJobDetails = (item, props) => {
                             </Card.Body>
 
                             <Link className="text-white fw-bold" to={`/Applicants/${jobId}`}>
-
                                 <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">
                                     <Card.Text className="text-black mb-2">
                                         Job Applicants
+                                    </Card.Text>
+                                </Card.Body>
+
+                            </Link>
+                            <Link className="text-white fw-bold" to={`/LogHours/${jobId}`}>
+                                <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">
+                                    <Card.Text className="text-black mb-2">
+                                        Log Hours
                                     </Card.Text>
                                 </Card.Body>
 

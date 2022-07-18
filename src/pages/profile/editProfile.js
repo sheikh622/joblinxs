@@ -30,9 +30,14 @@ import startsWith from 'lodash.startswith';
 import { gridColumnLookupSelector } from "@mui/x-data-grid";
 import DatePicker from "react-date-picker";
 import "react-date-picker/dist/DatePicker.css";
+import { useHistory, useLocation } from "react-router-dom";
 import moment from "moment";
 export default () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const {
+    location: { state },
+  } = history;
   const login = useSelector((state) => state.auth.Auther);
   const getById = useSelector((state) => state.ProfileReducer.profile);
   const [selectedImage, setSelectedImage] = useState();
@@ -49,7 +54,6 @@ export default () => {
   const { register, handleSubmit, reset, formState } = useForm(formOptions);
   const [value, setValue] = useState()
   const [dateofBirth, setDateofBirth] = React.useState(new Date());
-
   const { errors } = formState;
   // console.log(getById, "asdfg")
   const [user, setUser] = useState();
@@ -64,6 +68,7 @@ export default () => {
       phoneNumber: getById.phoneNumber,
       city: getById.city,
       postalCode: getById.postalCode,
+      history:history,
     })
     // setDateofBirth(moment(new Date(getById?.dateOfBirth)));
   }, [getById])

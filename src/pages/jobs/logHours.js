@@ -28,7 +28,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import { height, width } from "@mui/system";
 
 
-const Applicants = () => {
+const LogHours = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const {
@@ -118,9 +118,7 @@ const Applicants = () => {
                         size="sm"
                         style={
                             { width: "100px", height: "40px" }
-
                         }
-
                     >
                         Decline
                     </Button>
@@ -191,4 +189,4 @@ const Applicants = () => {
     );
 };
 
-export default Applicants;
+export default LogHours;
