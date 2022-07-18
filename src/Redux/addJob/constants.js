@@ -12,3 +12,5 @@ export const  UPDATE_JOB = "Update_Job";
 export const  UPDATE_JOB_SUCCESS= "Update_Job_Success";
 export const GET_JOB_APPLICANTS = "get_Job_Applicants";
 export const GET_JOB_APPLICANTS_SUCCESS = "get_Job_Applicants_Success";
+export const CONFIRM_APPLICANTS = "Confirm_Applicants";
+export const CONFIRM_APPLICANTS_SUCCESS = "Confirm_Applicants_Success";

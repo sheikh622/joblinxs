@@ -34,9 +34,14 @@ import startsWith from "lodash.startswith";
 import { gridColumnLookupSelector } from "@mui/x-data-grid";
 import DatePicker from "react-date-picker";
 import "react-date-picker/dist/DatePicker.css";
+import { useHistory, useLocation } from "react-router-dom";
 import moment from "moment";
 export default () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const {
+    location: { state },
+  } = history;
   const login = useSelector((state) => state.auth.Auther);
   const getById = useSelector((state) => state.ProfileReducer.profile);
   const [selectedImage, setSelectedImage] = useState();
@@ -53,7 +58,6 @@ export default () => {
   const { register, handleSubmit, reset, formState } = useForm(formOptions);
   const [value, setValue] = useState();
   const [dateofBirth, setDateofBirth] = React.useState(new Date());
-
   const { errors } = formState;
   // console.log(getById, "asdfg")
   const [user, setUser] = useState();
@@ -68,6 +72,7 @@ export default () => {
       phoneNumber: getById.phoneNumber,
       city: getById.city,
       postalCode: getById.postalCode,
+
     });
     // setDateofBirth(moment(new Date(getById?.dateOfBirth)));
   }, [getById]);
@@ -83,28 +88,45 @@ export default () => {
     // toast.error("Please add valid phone number")
     // console.log("asaasasasasasasasasas")
 
-    let Data = new FormData();
-    Data.append("fullName", data.fullName);
-    Data.append("address", data.address);
-    Data.append(
-      "dateofBirth",
-      dateofBirth
-        ? moment.utc(dateofBirth).format().toString()
-        : getById?.dateofBirth.toString()
-    );
-    Data.append("phoneNumber", value ? value : getById?.phoneNumber);
-    Data.append("city", data.city);
-    Data.append("postalCode", data.postalCode);
-    Data.append("id", getById.id);
-    Data.append(
-      "profileImg",
-      selectedImage ? selectedImage : getById?.profileImg
-    );
-    console.log("Data", data?.phoneNumber?.length);
+    // let Data = new FormData();
+    // Data.append("fullName", data.fullName);
+    // Data.append("address", data.address);
+    // Data.append(
+    //   "dateofBirth",
+    //   dateofBirth
+    //     ? moment.utc(dateofBirth).format().toString()
+    //     : getById?.dateofBirth.toString()
+    // );
+    // Data.append("phoneNumber", value ? value : getById?.phoneNumber);
+    // Data.append("city", data.city);
+    // Data.append("postalCode", data.postalCode);
+    // Data.append("id", getById.id);
+    // Data.append(
+    //   "profileImg",
+    //   selectedImage ? selectedImage : getById?.profileImg
+    // );
+    // console.log("Data", data?.phoneNumber?.length);
     if (!isValidPhoneNumber(value)) {
       return;
     } else {
-      dispatch(updateAdminProfile(Data));
+      dispatch(updateAdminProfile({
+        
+        fullName:data.fullName,
+        address:data.address,
+        dateofBirth:dateofBirth
+            ? moment.utc(dateofBirth).format().toString()
+            : getById?.dateofBirth.toString(),
+        phoneNumber:value ? value : getById?.phoneNumber,
+        city:data.city,
+        postalCode:data.postalCode,
+        id:getById.id,
+        profileImg:selectedImage ? selectedImage : getById?.profileImg,
+        history:history,
+      })
+    //     (Data),({
+    //     history:history,
+    // })
+    );
     }
   }
 

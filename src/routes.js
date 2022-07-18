@@ -4,7 +4,7 @@ export const Routes = {
     Profile: { path: "/profile" },
     CreateJob: {path: '/createJob'},
     Applicants: {path: '/applicants/:jobId'},
-
+    LogHours: {path: '/loghours/:jobId'},
     UpdateJob: {path: '/updateJob/:id'},
     DetailJob: {path: '/detailJob/:id'},
     MyJobDetail: {path: '/jobDetail/:id'},

@@ -37,11 +37,6 @@ import { deleteAddJob } from "../../Redux/addJob/actions";
 const MyJobDetails = (item, props) => {
     const dispatch = useDispatch();
     const history = useHistory();
-    // const login = useSelector((state) => state.auth.Auther);
-    // const getById = useSelector((state) => state.ProfileReducer.profile);
-    // const JobList = useSelector(
-    //     (state) => state?.addJob?.getJob?.jobs
-    // );
     const params = useLocation();
     let jobId = params.pathname.split("/")[2];
     const SingleId = useSelector((state) => state?.addJob?.jobById
@@ -112,10 +107,17 @@ const MyJobDetails = (item, props) => {
                             </Card.Body>
 
                             <Link className="text-white fw-bold" to={`/Applicants/${jobId}`}>
-
                                 <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">
                                     <Card.Text className="text-black mb-2">
                                         Job Applicants
+                                    </Card.Text>
+                                </Card.Body>
+
+                            </Link>
+                            <Link className="text-white fw-bold" to={`/LogHours/${jobId}`}>
+                                <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">
+                                    <Card.Text className="text-black mb-2">
+                                        Log Hours
                                     </Card.Text>
                                 </Card.Body>
 

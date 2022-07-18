@@ -143,7 +143,7 @@ export default () => {
                       />
                       <DetailHeading
                         heading={"Member Since"}
-                        value={getById?.memberSince}
+                        value={getById?.memberSince ? moment(getById?.memberSince).format("DD-MM-YYYY")  : " "}
                       />
                         <DetailHeading
                         heading={"City"}
@@ -164,7 +164,7 @@ export default () => {
                       />
                          <DetailHeading
                         heading={"Date of Birth"}
-                        value={getById?.dateOfBirth ? moment(getById?.dateOfBirth).format("DD-MM-YYYY")  : " --"
+                        value={getById?.dateOfBirth ? moment(getById?.dateOfBirth).format("DD-MM-YYYY")  : " "
                        }
                       />
                       <DetailHeading
