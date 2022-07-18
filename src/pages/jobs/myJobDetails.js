@@ -37,11 +37,6 @@ import { deleteAddJob } from "../../Redux/addJob/actions";
 const MyJobDetails = (item, props) => {
     const dispatch = useDispatch();
     const history = useHistory();
-    // const login = useSelector((state) => state.auth.Auther);
-    // const getById = useSelector((state) => state.ProfileReducer.profile);
-    // const JobList = useSelector(
-    //     (state) => state?.addJob?.getJob?.jobs
-    // );
     const params = useLocation();
     let jobId = params.pathname.split("/")[2];
     const SingleId = useSelector((state) => state?.addJob?.jobById

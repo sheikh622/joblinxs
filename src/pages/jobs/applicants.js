@@ -42,20 +42,6 @@ const Applicants = (value) => {
     );
     const [showDefault, setShowDefault] = useState(false);
     const handleClose = () => setShowDefault(false);
-    // const CategorySchema = Yup.object().shape({
-    //     firstName: Yup.string().required("First name is required"),
-    //     lastName: Yup.string().required("Last name is required"),
-    //     email: Yup.string().required("Email is required").email("Email is invalid"),
-    // });
-    // const formOptions = { resolver: yupResolver(CategorySchema) };
-
-    // get functions to build form with useForm() hook
-    // const { register, handleSubmit, reset, formState } = useForm(formOptions);
-    // const { errors } = formState;
-
-    // const onSubmit = async (data) => {
-    //     // display form data on success
-    // };
     const [page, setPage] = useState(1);
     const [limit] = useState("5");
     const Applicants = useSelector(
@@ -97,7 +83,6 @@ const Applicants = (value) => {
         return items
     }
     const handleConfirm = (data) => {
-        console.log("id================", data)
         dispatch(
             getConfirmApplicants({
                 id: data.id.id,
@@ -109,7 +94,6 @@ const Applicants = (value) => {
     }
 
     const handleClick = (item) => {
-        console.log("item", item)
         return (
             <div>
                 <div class="">

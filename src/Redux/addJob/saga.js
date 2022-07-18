@@ -129,7 +129,6 @@ function* deleteJobSaga({ payload }) {
     const filteredData = payload.data.filter(
       (item, index) => item.jobId !== payload.jobId
     );
-    // yield put(getJobListingSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -138,13 +137,6 @@ function* watchDeleteAddJob() {
   yield takeLatest(DELETE_ADD_JOB, deleteJobSaga);
 }
 function* markAsFavouriteJobSaga({ payload }) {
-  // let data = {
-  //   userId: payload.userId === undefined ?"":payload.userId,
-  //   page: payload.page === undefined ?"":payload.page,
-  //   limit: payload.limit === undefined ?"":payload.limit,
-  //   type: payload.type === undefined ?"":payload.type,
-  //   category: payload.categoryType === undefined ?"":payload.categoryType,
-  // };
   let listData = {
     page: payload.page === undefined ? 1 : payload.page,
   };
@@ -251,7 +243,6 @@ function* watchGetApplicants() {
   yield takeLatest(GET_JOB_APPLICANTS, getApplicants);
 }
 function* ConfirmSaga(payload) {
-  console.log("payload",payload)
   try {
     let data = {
       isAccepted: payload.payload.isAccepted

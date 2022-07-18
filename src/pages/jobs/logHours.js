@@ -105,15 +105,12 @@ const LogHours = () => {
                 <Row className="py-2 ">
                 </Row>
                 <Row className="py-2 justify-content-between">
-
                     <Col lg={6} md={12} sm={12} xs={12} className="pb-3">
-
                         <Card border="light" className="shadow-sm userCard">
                             <Image src={ReactHero} className="navbar-brand-light" />
                             <div className="detailSection">
                                 <span className="left">
                                     {/* <h3 className="mb-1 mt-2">{item?.job ? item?.job?.name : ""} </h3> */}
-
                                     <p className="mt-2">
                                         Jobs Completed: <span>25</span>{" "}
                                     </p>

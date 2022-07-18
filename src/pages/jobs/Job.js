@@ -187,7 +187,6 @@ const Job = () => {
           {JobList?.jobs?.length > 0 ? (
             <>
               {JobList?.jobs?.map((item) => {
-                // alert(item.id)
                 return (
                   <Col lg={2} md={4} sm={6} xs={12} className="pb-3 mt-3">
                     <CommonCard
