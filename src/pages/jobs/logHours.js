@@ -39,7 +39,7 @@ const LogHours = (item) => {
     const params = useLocation();
 
     let jobId = params.pathname.split("/")[2];
-    console.log(jobId, "job iD")
+    
     // const login = useSelector(
     //     (state) => state?.auth.Auther
     // );
@@ -48,8 +48,8 @@ const LogHours = (item) => {
     // const [page, setPage] = useState(1);
     // const [limit] = useState("5");
     const logHours = useSelector(
-        (state) => state?.addJob?.logHours);
-    console.log("loghours", logHours)
+        (state) => state?.addJob?.logHours[0]?.log_hours);
+   
     useEffect((id) => {
         dispatch(
             getLogHours({
@@ -59,10 +59,11 @@ const LogHours = (item) => {
     }, []);
 
     const handleClick = (item) => {
+    
         return (
             <div>
-                
-                <Link className="text-white fw-bold" to={`/LogHoursDetails/${jobId}`}>
+
+                <Link className="text-white fw-bold" to={{ pathname: `/LogHoursDetails/${jobId}`, state: item }}>
                     <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">
                         <Button
                             variant="primary"
@@ -92,15 +93,15 @@ const LogHours = (item) => {
                                 <>
                                     <Col lg={6} md={12} sm={12} xs={12} className="pb-3">
                                         <Card border="light" className="shadow-sm userCard">
-                                            <Image src={ReactHero} className="navbar-brand-light" />
+                                            <Image src={item?.users?.profileImg ? item?.users?.profileImg : ""} className="navbar-brand-light" />
                                             <div className="detailSection">
                                                 <span className="left">
-                                                    <h3 className="mb-1 mt-2">{item?.name ? item?.name : ""} </h3>
+                                                    <h3 className="mb-1 mt-2">{item?.users?.fullName ? item?.users?.fullName : ""} </h3>
                                                     <h4 className="mb-1 mt-2">{item?.description ? item?.description : ""} </h4>
 
-                                                    <p className="mt-2">
+                                                    {/* <p className="mt-2">
                                                         Hours Logged: <span>{item?.log_hours ? item?.log_hours : ""}</span>{" "}
-                                                    </p>
+                                                    </p> */}
                                                 </span>
                                             </div>
                                             {handleClick(item)}

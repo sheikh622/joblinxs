@@ -16,7 +16,9 @@ import {
   getJobListing,
   getApplicantsSuccess,
   getConfirmSuccess,
-  getLogHoursSuccess
+  getLogHoursSuccess,
+  getApprovedHoursSuccess,
+
 } from "./actions";
 import {
   ADD_JOB,
@@ -33,7 +35,9 @@ import {
   GET_JOB_APPLICANTS_SUCCESS,
   CONFIRM_APPLICANTS_SUCCESS,
   CONFIRM_APPLICANTS,
-  GET_LOG_HOURS, GET_LOG_HOURS_SUCCESS
+  GET_LOG_HOURS, GET_LOG_HOURS_SUCCESS,
+  APPROVED_LOG_HOURS,
+  APPROVED_LOG_HOURS_SUCCESS
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 function* addJob({ payload }) {
@@ -282,12 +286,39 @@ function* getLogHours({ payload }) {
     );
     toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getLogHoursSuccess(response.data.data));
+    
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
 }
 function* watchGetLogHours() {
   yield takeLatest(GET_LOG_HOURS, getLogHours);
+}
+function* ApprovedHoursSaga({ payload }) {
+  console.log("payload",payload)
+  const formData = new FormData();
+  formData.append("id", payload.id);
+  formData.append("status", payload.status);
+  try {
+    const { id } = payload;
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.patch(
+      `job/approveHours`,formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    toast.success(CapitalizeFirstLetter(response.data.message));
+    yield put(getApprovedHoursSuccess(response.data.data));
+    
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchApprovedLogHours() {
+  yield takeLatest(APPROVED_LOG_HOURS, ApprovedHoursSaga);
 }
 export default function* addJobSaga() {
   yield all([fork(watchAddJob)]);
@@ -300,4 +331,5 @@ export default function* addJobSaga() {
   yield all([fork(watchGetApplicants)]);
   yield all([fork(watchConfirmApplicants)]);
   yield all([fork(watchGetLogHours)]);
+  yield all([fork(watchApprovedLogHours)]);
 }
