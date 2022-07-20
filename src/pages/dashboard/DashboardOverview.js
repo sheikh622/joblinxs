@@ -22,6 +22,7 @@ const DashboardOverview = () => {
   const newArrivalSeekers = useSelector(
     (state) => state?.Seeker?.newArrivalSeeker
   );
+  console.log(newArrivalSeekers, "=========new seekers ========")
   useEffect(() => {
     dispatch(
       getSeekerListing({
@@ -60,15 +61,8 @@ const DashboardOverview = () => {
             <>
               {SeekerList?.jobs?.map((value, index) => {
                 return (
-                  <Col
-                    lg={4}
-                    md={12}
-                    xs={12}
-                    sm={12}
-                    className="pb-3"
-                    key={index}
-                  >
-                    <RecommendCard
+                  <Col lg={2} md={4} sm={6} xs={12} className="pb-3" key={index}>
+                    <CommonCard
                       img={value.image}
                       name={value.name}
                       // type={"IT"}
@@ -90,7 +84,7 @@ const DashboardOverview = () => {
         {/* Featured */}
         <Row className="py-2 justify-content-center">
           <div className="d-flex justify-content-between mt-0 mb-4 headerBorder">
-            <h4>New Arrival Provider</h4>
+            <h4>New Arrival Jobs By Provider</h4>
             <a href="/Newarrivalproviders">view all</a>
           </div>
           {newArrivalProviders?.length > 0 ? (
@@ -102,6 +96,7 @@ const DashboardOverview = () => {
                         img={item?.profileImg}
                         name={item?.fullName}
                         id={item?.id}
+                        isFavourite={item.isFavourite}
                         type={item?.employmentType}
                         rate={"70"}
                         completed={"90"}
@@ -119,7 +114,7 @@ const DashboardOverview = () => {
         {/* Plumber */}
         <Row className="py-2">
           <div className="d-flex justify-content-between mt-0 mb-4 headerBorder">
-            <h4>New Arrival Seeker</h4>
+            <h4>New Arrival Jobs By Seeker</h4>
             <a href="/NewArrivalSeekers">view all</a>
           </div>
           {newArrivalSeekers?.length > 0 ? (
@@ -132,6 +127,7 @@ const DashboardOverview = () => {
                       name={item?.fullName}
                       type={item?.employmentType}
                       id={item?.id}
+                      isFavourite={item.isFavourite}
                       rate={"70"}
                       completed={"90"}
                       star={"4.7"}
