@@ -83,6 +83,7 @@ const Favourites = () => {
                     id={item.id}
                     img={item.image}
                     name={item.name}
+                    job="job"
                     type={item?.jobType?.name}
                     rate={item.rate}
                     completed={"90"}

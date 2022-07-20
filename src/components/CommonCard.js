@@ -28,6 +28,7 @@ const CommonCard = (props) => {
         type: props.type,
         category: props.categoryType,
         userId: login.id,
+        history:history
       })
     );
   };
@@ -43,7 +44,7 @@ const CommonCard = (props) => {
         <div className="detailSection">
           <span className="left">
             {/* <div onClick={() => history.push(`/detailJob/${props.id}`)}> */}
-            <Link className="fw-bold" to={`/detailJob/${props.id}`}>
+            <Link className="fw-bold" to={props?.job === "job" ? `/detailJob/${props.id}`: `/detailProvider/${props.id}`}>
               <h3>{props.name}</h3>
               <h4>{props.type}</h4>
               <p>
@@ -55,7 +56,7 @@ const CommonCard = (props) => {
             </Link>
             {/* </div> */}
           </span>
-          {!props.myJobs && (
+          {props?.job === "job" && (
             <span className="right">
               <span>
                 {props.favourite ? (

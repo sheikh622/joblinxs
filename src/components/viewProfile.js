@@ -15,7 +15,7 @@ import Profile from "../assets/img/team/profile.png";
 import { Routes } from "../routes";
 import DetailHeading from "./DetailHeading";
 
-const JobDetail = () => {
+const viewProfile = () => {
   return (
     <>
       <Navbar module={"Job Detail"} />
@@ -107,4 +107,4 @@ const JobDetail = () => {
     </>
   );
 };
-export default JobDetail;
+export default viewProfile;
