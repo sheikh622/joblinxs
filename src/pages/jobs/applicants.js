@@ -27,7 +27,7 @@ import { getApplicants } from "../../Redux/addJob/actions"
 import { useHistory, useLocation } from "react-router-dom";
 import { height, width } from "@mui/system";
 import { getConfirmApplicants } from "../../Redux/addJob/actions"
-import  NoRecordFound  from "../../components/NoRecordFound";
+import NoRecordFound from "../../components/NoRecordFound";
 const Applicants = (value) => {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -57,7 +57,6 @@ const Applicants = (value) => {
             })
         );
     }, [page, limit]);
-
     const nextPage = () => {
         if (page < Pageination?.pages) {
             setPage(page + 1);
@@ -85,44 +84,15 @@ const Applicants = (value) => {
         dispatch(
             getConfirmApplicants({
                 id: data.id.id,
+                jobId:jobId,
                 isAccepted: data.isAccepted,
                 page: page,
                 limit: limit,
             })
         )
     }
-
     const handleClick = (item) => {
-        return (
-            <div>
-                <div class="">
-                    <Button
-                        variant="primary"
-                        color="dark"
-                        size="sm"
-                        style={
-                            { width: "100px", height: "40px" }
-                        }
-                        onClick={() => handleConfirm({ id: item, isAccepted: true })}
-                    >
-                        Accept
-                    </Button>
-                </div>
-                <div class=" mt-5 ml-auto">
-                    <Button
 
-                        variant="danger"
-                        color="dark"
-                        size="sm"
-                        style={
-                            { width: "100px", height: "40px" }
-                        }
-                    >
-                        Decline
-                    </Button>
-                </div>
-            </div>
-        )
     }
     return (
         <>
@@ -160,7 +130,38 @@ const Applicants = (value) => {
                                                             </p>
                                                         </span>
                                                     </div>
-                                                    {handleClick(item)}
+                                                    <div>
+                                                        <div class="">
+                                                            <Button
+                                                                variant={item?.acceptedBySeeker == true ? "success" : "primary"}
+                                                                color="dark"
+                                                                size="sm"
+                                                                style={
+                                                                    { width: "100px", height: "40px" }
+                                                                }
+                                                                onClick={() => handleConfirm({ id: item, isAccepted: true })}
+                                                            >
+                                                                {item?.acceptedBySeeker == true ? "Accepted" : "Accept"}
+
+                                                            </Button>
+                                                        </div>
+                                                        <div class=" mt-5 ml-auto">
+                                                            <Button
+
+                                                                variant={item?.acceptedBySeeker == false ? "success" : "danger"}
+                                                                color="dark"
+                                                                size="sm"
+                                                                style={
+                                                                    { width: "100px", height: "40px" }
+                                                                }
+                                                                onClick={() => handleConfirm({ id: item, isAccepted: false })}
+                                                            >
+                                                                {item?.acceptedBySeeker == false ? "Declined" : "Decline"}
+
+                                                            </Button>
+                                                        </div>
+                                                    </div>
+
                                                 </Card>
 
                                             </>)

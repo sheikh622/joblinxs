@@ -14,11 +14,12 @@ import {
   jobByIdSuccess,
   updateJobSuccess,
   getJobListing,
+  getApplicants,
   getApplicantsSuccess,
   getConfirmSuccess,
   getLogHoursSuccess,
   getApprovedHoursSuccess,
-
+  getConfirmApplicants
 } from "./actions";
 import {
   ADD_JOB,
@@ -228,7 +229,7 @@ function* updateJobSaga(payload) {
 function* watchUpdateJob() {
   yield takeLatest(UPDATE_JOB, updateJobSaga);
 }
-function* getApplicants(payload) {
+function* getApplicantsRequest(payload) {
   try {
     const { id } = payload.payload;
     const token = yield select(makeSelectAuthToken());
@@ -246,7 +247,7 @@ function* getApplicants(payload) {
   }
 }
 function* watchGetApplicants() {
-  yield takeLatest(GET_JOB_APPLICANTS, getApplicants);
+  yield takeLatest(GET_JOB_APPLICANTS, getApplicantsRequest);
 }
 function* ConfirmSaga(payload) {
   try {
@@ -264,7 +265,12 @@ function* ConfirmSaga(payload) {
       }
     );
     toast.success(CapitalizeFirstLetter(response.data.message));
-    yield put(getConfirmSuccess(response.data));
+    // yield put(getConfirmSuccess(response.data));
+    yield put(getApplicants({
+      id: payload.payload.jobId,
+      page: payload.payload.page,
+      limit: payload.payload.limit,
+    }));
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -286,7 +292,7 @@ function* getLogHours({ payload }) {
     );
     toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getLogHoursSuccess(response.data.data));
-    
+
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -295,15 +301,15 @@ function* watchGetLogHours() {
   yield takeLatest(GET_LOG_HOURS, getLogHours);
 }
 function* ApprovedHoursSaga({ payload }) {
-  console.log("payload",payload)
-  const formData = new FormData();
-  formData.append("id", payload.id);
-  formData.append("status", payload.status);
   try {
+    let data = {
+      id: payload.id,
+      status: payload.status
+    }
     const { id } = payload;
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.patch(
-      `job/approveHours`,formData,
+      `job/approveHours`, data,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -312,7 +318,10 @@ function* ApprovedHoursSaga({ payload }) {
     );
     toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getApprovedHoursSuccess(response.data.data));
-    
+    yield put(getLogHours({
+      id: payload.jobId,
+    }));
+
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

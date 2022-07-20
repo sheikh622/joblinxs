@@ -98,7 +98,6 @@ const Job = () => {
           limit: limit,
           type: type,
           category: categoryType,
-          // setReset: action.resetForm,
         })
       );
     },

@@ -44,15 +44,9 @@ const LogHourDetails = (item, props) => {
     const params = useLocation();
 
     let jobId = params.pathname.split("/")[2];
-
-    // const logHours = useSelector(
-    //     (state) => state?.addJob?.logHours[0]?.log_hours);
-
     const [adminId, setAdminId] = useState(0);
     const [showDefault, setShowDefault] = useState(false);
-    // useEffect(() => {
-    //     dispatch(jobById({ id: jobId }))
-    // }, []);
+    
     useEffect((id) => {
         dispatch(
             getLogHours({
@@ -60,12 +54,7 @@ const LogHourDetails = (item, props) => {
             })
         );
     }, []);
-    // const handlefalse = () => {
-    //     setShowDefault(false)
-    // };
     const handleClick = (item) => {
-      
-
         dispatch(
             getApprovedHours({
                 id: item.id,
@@ -73,7 +62,6 @@ const LogHourDetails = (item, props) => {
             })
         )
     }
-
     return (
         <>
             <Navbar module={"Log Hours Detail"} />
