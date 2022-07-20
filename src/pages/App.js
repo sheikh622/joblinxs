@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Redirect, Switch } from "react-router-dom";
-import JobDetail from "../components/JobDetail";
+import viewProfile from "../components/viewProfile";
 import ProviderProfile from "./profile/providerProfile";
 import { Routes } from "../routes";
 import PrivateRoute from "../utils/PrivateRoute";
@@ -10,6 +10,9 @@ import JobManagement from "./Job Management/jobManagement"
 import CategoryManagement from "./category/categoryManagement";
 //routes here
 import DashboardOverview from "./dashboard/DashboardOverview";
+import NewArrivalProvider from "./newArrivalProvider/newArrivalProvider";
+import NewArrivalSeeker from "./newArrivalSeekers/newArrivalSeekers";
+import Recommend from "./recommended/recommended";
 import ForgotPassword from "./auths/ForgotPassword";
 import NotFoundPage from "./auths/NotFound";
 import ResetPassword from "./auths/ResetPassword";
@@ -49,6 +52,21 @@ export default () => (
         exact
         path={Routes.DashboardOverview.path}
         component={DashboardOverview}
+      />
+      <PrivateRoute
+        exact
+        path={Routes.NewArrivalProvider.path}
+        component={NewArrivalProvider}
+      />
+      <PrivateRoute
+        exact
+        path={Routes.NewArrivalSeekers.path}
+        component={NewArrivalSeeker}
+      />
+       <PrivateRoute
+        exact
+        path={Routes.Recommended.path}
+        component={Recommend}
       />
 
       <PrivateRoute exact path={Routes.Profile.path} component={Profile} />

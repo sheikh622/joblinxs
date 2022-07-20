@@ -16,30 +16,33 @@ import {
   faChevronRight,
   faEllipsisV,
 } from "@fortawesome/free-solid-svg-icons";
+import { useHistory, useLocation } from "react-router-dom";
 import Profile from "../../assets/img/team/profile.png";
 import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
 import RecommendCard from "../../components/RecommendCard";
 import DetailHeading from "../../components/DetailHeading";
+import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 // saga actions here
 import { getProfile } from "../../Redux/profile/actions";
+import NoRecordFound from "../../components/NoRecordFound";
 
-const ProviderProfile = () => {
+const ProviderProfile = (props) => {
   const dispatch = useDispatch();
   const login = useSelector((state) => state.auth.Auther);
   const getById = useSelector((state) => state.ProfileReducer.profile);
-  console.log(login, "here is login data")
-  console.log(getById, "here is getById data")
+  const params = useLocation();
+  let profileId = params.pathname.split("/")[2];
   useEffect(() => {
     dispatch(
       getProfile({
-        id: login?.id,
+        id: profileId,
       })
     );
   }, []);
   return (
     <>
-      <Navbar module={"Service Provider Profile"} />
+      <Navbar module={"Detail Profile"} />
       <Container>
         <Row>
           <Col lg={4} md={6} xs={12} className="pb-3 mb-3">
@@ -65,38 +68,29 @@ const ProviderProfile = () => {
               </div>
             </Card>
 
-            <Card border="light" className="card-box-shadow py-3 px-4 mb-2">
+            <Card border="light" className="card-box-shadow py-1 px-4 mb-2 job-list">
               <h3 className="mb-3 mt-2 text-center">Services</h3>
-              <Col xs={12} className="pb-3">
-                <RecommendCard
-                  img={ReactHero}
-                  name={"Seni"}
-                  type={"IT"}
-                  rate={"30"}
-                  completed={"10"}
-                  star={"3.6"}
-                />
-              </Col>
-              <Col xs={12} className="pb-3">
-                <RecommendCard
-                  img={ReactHero}
-                  name={"Seni"}
-                  type={"IT"}
-                  rate={"30"}
-                  completed={"10"}
-                  star={"3.6"}
-                />
-              </Col>
-              <Col xs={12} className="pb-3">
-                <RecommendCard
-                  img={ReactHero}
-                  name={"Seni"}
-                  type={"IT"}
-                  rate={"30"}
-                  completed={"10"}
-                  star={"3.6"}
-                />
-              </Col>
+              {getById?.jobs?.length > 0 ? (
+                <>
+                 {getById?.jobs?.map((item)=>{
+                return(
+                  <Col xs={12} className="pb-3">
+                  <RecommendCard
+                    img={item.image}
+                    name={item.name}
+                    type={item.name}
+                    rate={item.rate}
+                    id={item.id}
+                    completed={"10"}
+                    star={"3.6"}
+                  />
+                </Col>
+                )
+              })}
+                </>
+              ):(<NoRecordFound />)}
+             
+             
             </Card>
           </Col>
           <Col lg={8} md={6} xs={12} className="pb-3 mb-3">
