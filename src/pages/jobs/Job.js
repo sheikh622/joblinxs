@@ -199,6 +199,7 @@ const Job = () => {
                       star={"4.7"}
                       myJobs= {true}
                       page={page}
+                      job="job"
                       limit={limit}
                       type={type}
                       category={categoryType}

@@ -8,6 +8,7 @@ import Job from "../Redux/JobManagement/reducers";
 import Seeker from "../Redux/Dashboard/reducers";
 import addJob from "../Redux/addJob/reducer";
 import ProfileReducer from "../Redux/profile/reducers";
+import Notifications from "../Redux/notification/reducers";
 
 const rootReducer = (history) => {
   return combineReducers({
@@ -19,6 +20,7 @@ const rootReducer = (history) => {
     addJob,
     Seeker,
     ProfileReducer,
+    Notifications,
     router: connectRouter(history),
   });
 

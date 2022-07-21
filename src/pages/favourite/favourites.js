@@ -83,6 +83,7 @@ const Favourites = () => {
                     id={item.id}
                     img={item.image}
                     name={item.name}
+                    isFavourite={item.isFavourite}
                     type={item?.jobType?.name}
                     rate={item.rate}
                     completed={"90"}
@@ -90,7 +91,6 @@ const Favourites = () => {
                     page={item.page}
                     limit={item.limit}
                     category={item.categoryType}
-                    favourite={item.isFavourite}
                   />
                 </Col>
               );
