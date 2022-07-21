@@ -45,13 +45,6 @@ const LogHours = (item) => {
     let jobId = params.pathname.split("/")[2];
     const [showDefault, setShowDefault] = useState(false);
     const [selectedItem, setSelectedItem] = useState();
-    // const login = useSelector(
-    //     (state) => state?.auth.Auther
-    // );
-    // const [showDefault, setShowDefault] = useState(false);
-    // const handleClose = () => setShowDefault(false);
-    // const [page, setPage] = useState(1);
-    // const [limit] = useState("5");
     const logHours = useSelector(
         (state) => state?.addJob?.logHours[0]
     );
@@ -67,9 +60,7 @@ const LogHours = (item) => {
         setShowDefault(false);
     };
 
-    const handleClick = (item) => {
-        return <div></div>;
-    };
+  
     const handleChange = (item) => {
         dispatch(
             getApprovedHours({
