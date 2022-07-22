@@ -13,13 +13,9 @@ import { useHistory, useLocation } from "react-router-dom";
 // import HeartFill from "../assets/img/fillHeart.svg"
 
 const CommonCard = (props) => {
-  console.log(props.isFavourite, "here is favouite");
   const dispatch = useDispatch();
   const login = useSelector((state) => state?.auth.Auther);
   const history = useHistory();
-  // const { id } = useParams();
-  const params = useLocation();
-  // let jobId = params.pathname.split("/")[2];
   const handleFavourite = (id) => {
     dispatch(
       markAsFavouriteJob({

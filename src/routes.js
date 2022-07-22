@@ -2,7 +2,7 @@
 export const Routes = {
     DashboardOverview: { path: "/dashboard" },
     NewArrivalProvider: { path: "/Newarrivalproviders" },
-    NewArrivalSeekers: { path: "/NewArrivalSeekers" },
+    TopRatedProviders: { path: "/TopRatedProviders" },
     Recommended: { path: "/recommended" },
     Profile: { path: "/profile" },
     CreateJob: {path: '/createJob'},

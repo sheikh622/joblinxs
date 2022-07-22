@@ -44,11 +44,11 @@ function* watchNewArrivalProvider() {
   yield takeLatest(NEW_ARRIVAL_PROVIDER, newArrivalProviderSaga);
 }
 
-function* newArrivalSeekerSaga({ payload }) {
+function* topRatedProviderSaga({ payload }) {
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      `job/newArrivalSeekers/?page=${payload.page}&count=${payload.count}`,
+      `job/topRatedProvider/?page=${payload.page}&count=${payload.count}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -61,7 +61,7 @@ function* newArrivalSeekerSaga({ payload }) {
   }
 }
 function* watchNewArrivalSeeker() {
-  yield takeLatest(NEW_ARRIVAL_SEEKER, newArrivalSeekerSaga);
+  yield takeLatest(NEW_ARRIVAL_SEEKER, topRatedProviderSaga);
 }
 
 export default function* SeekerManagementSaga() {
