@@ -8,7 +8,8 @@ import {
   GET_JOB_APPLICANTS_SUCCESS,
   CONFIRM_APPLICANTS_SUCCESS,
   GET_LOG_HOURS_SUCCESS,
-  APPROVED_LOG_HOURS_SUCCESS
+  APPROVED_LOG_HOURS_SUCCESS,
+  GET_SINGLE_USER_SUCCESS
 } from "./constants";
 const initialState = {
   addJob: [],
@@ -21,6 +22,7 @@ const initialState = {
   ConfirmApplicants: [],
   logHours: [],
   AppvoedHours:[],
+  getSingle:[],
 };
 const addJob = produce((state = initialState, action) => {
   switch (action.type) {
@@ -51,6 +53,9 @@ const addJob = produce((state = initialState, action) => {
       case APPROVED_LOG_HOURS_SUCCESS:
       state.AppvoedHours = action.payload;
       break;
+      case GET_SINGLE_USER_SUCCESS:
+        state.getSingle = action.payload;
+        break;
     default:
   }
 }, initialState);

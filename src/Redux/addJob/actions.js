@@ -18,7 +18,9 @@ import {
     GET_LOG_HOURS_SUCCESS,
     GET_LOG_HOURS,
     APPROVED_LOG_HOURS,
-    APPROVED_LOG_HOURS_SUCCESS
+    APPROVED_LOG_HOURS_SUCCESS,
+    GET_SINGLE_USER,
+    GET_SINGLE_USER_SUCCESS
   } from "./constants";
   
   export const getJobListing = (data) => ({
@@ -102,5 +104,13 @@ export const getApprovedHours = (data) => ({
 });
 export const getApprovedHoursSuccess = (data) => ({
   type:  APPROVED_LOG_HOURS_SUCCESS,
+  payload: data,
+});
+export const getSingleUser = (data) => ({
+  type: GET_SINGLE_USER,
+  payload: data,
+});
+export const getSingleUserSuccess = (data) => ({
+  type:  GET_SINGLE_USER_SUCCESS,
   payload: data,
 });

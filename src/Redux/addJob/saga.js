@@ -19,7 +19,9 @@ import {
   getConfirmSuccess,
   getLogHoursSuccess,
   getApprovedHoursSuccess,
-  getConfirmApplicants
+  getConfirmApplicants,
+  getSingleUser,
+  getSingleUserSuccess
 } from "./actions";
 import {
   ADD_JOB,
@@ -38,7 +40,9 @@ import {
   CONFIRM_APPLICANTS,
   GET_LOG_HOURS, GET_LOG_HOURS_SUCCESS,
   APPROVED_LOG_HOURS,
-  APPROVED_LOG_HOURS_SUCCESS
+  APPROVED_LOG_HOURS_SUCCESS,
+  GET_SINGLE_USER_SUCCESS,
+  GET_SINGLE_USER
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 function* addJob({ payload }) {
@@ -266,7 +270,7 @@ function* ConfirmSaga(payload) {
       }
     );
     toast.success(CapitalizeFirstLetter(response.data.message));
-    // yield put(getConfirmSuccess(response.data));
+    yield put(getConfirmSuccess(response.data));
     yield put(getApplicants({
       id: payload.payload.jobId,
       page: payload.payload.page,
@@ -330,6 +334,27 @@ function* ApprovedHoursSaga({ payload }) {
 function* watchApprovedLogHours() {
   yield takeLatest(APPROVED_LOG_HOURS, ApprovedHoursSaga);
 }
+function* getSingleSaga({ payload }) {
+  try {
+  console.log("o",payload.id)
+    const { id } = payload;
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.get(
+      `profile/${payload.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    yield put(getSingleUserSuccess(response.data.data));
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchGetSingleUser() {
+  yield takeLatest(GET_SINGLE_USER, getSingleSaga);
+}
 export default function* addJobSaga() {
   yield all([fork(watchAddJob)]);
   yield all([fork(watchGetJob)]);
@@ -342,4 +367,6 @@ export default function* addJobSaga() {
   yield all([fork(watchConfirmApplicants)]);
   yield all([fork(watchGetLogHours)]);
   yield all([fork(watchApprovedLogHours)]);
+  yield all([fork(watchGetSingleUser)]);
+
 }

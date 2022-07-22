@@ -15,6 +15,8 @@ import {
     faAngleDoubleLeft,
     faAngleDoubleRight, faCheck, faEllipsisH, faMinus
 } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+import DetailHeading from "../../components/DetailHeading";
 import React, { useEffect, useState } from "react";
 import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
 import Profile from "../../assets/img/team/profile.png";
@@ -23,7 +25,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { getApplicants } from "../../Redux/addJob/actions"
+import { getApplicants, getSingleUser } from "../../Redux/addJob/actions"
 import { useHistory, useLocation } from "react-router-dom";
 import { height, width } from "@mui/system";
 import { getConfirmApplicants } from "../../Redux/addJob/actions"
@@ -39,8 +41,6 @@ const Applicants = (value) => {
     const login = useSelector(
         (state) => state?.auth.Auther
     );
-    const [showDefault, setShowDefault] = useState(false);
-    const handleClose = () => setShowDefault(false);
     const [page, setPage] = useState(1);
     const [limit] = useState("5");
     const Applicants = useSelector(
@@ -84,7 +84,7 @@ const Applicants = (value) => {
         dispatch(
             getConfirmApplicants({
                 id: data.id.id,
-                jobId:jobId,
+                jobId: jobId,
                 isAccepted: data.isAccepted,
                 page: page,
                 limit: limit,
@@ -92,7 +92,12 @@ const Applicants = (value) => {
         )
     }
     const handleClick = (item) => {
-
+        console.log("0=========",item.user.id) //yeh console din check krein
+        dispatch(
+            getSingleUser({
+                id:item.user.id,
+            })
+        )
     }
     return (
         <>
@@ -101,13 +106,12 @@ const Applicants = (value) => {
                 <Row className="py-2 ">
                 </Row>
                 <Row className="py-2 justify-content-between">
-                    {Applicants?.length > 0 ? (
+                    {Applicants?.length > 0 ? ( 
                         <>
                             <Col lg={6} md={12} sm={12} xs={12} className="pb-3">
 
                                 {
                                     Applicants?.map((item, value) => {
-
                                         return (
                                             <>
                                                 <Card border="light" className="shadow-sm userCard" style={{ marginTop: "15px" }}>
@@ -130,38 +134,50 @@ const Applicants = (value) => {
                                                             </p>
                                                         </span>
                                                     </div>
-                                                    <div>
-                                                        <div class="">
-                                                            <Button
-                                                                variant={item?.acceptedBySeeker == true ? "success" : "primary"}
-                                                                color="dark"
-                                                                size="sm"
-                                                                style={
-                                                                    { width: "100px", height: "40px" }
-                                                                }
-                                                                onClick={() => handleConfirm({ id: item, isAccepted: true })}
-                                                            >
-                                                                {item?.acceptedBySeeker == true ? "Accepted" : "Accept"}
+                                                    <Link className="text-white fw-bold"   to={{ pathname: `/loghoursdetails/${jobId}`, state: { item } }}>
+                                                        <Button
+                                                            variant={ 
+                                                                "primary"
+                                                            }
+                                                            color="dark"
+                                                            size="sm"
+                                                            style={{
+                                                                width: "100px",
+                                                                height: "40px",
+                                                                marginTop: "50px",
+                                                                // marginRight: "20px",
+                                                            }}
+                                                            onClick={() => {
+                                                                handleClick(item)
+                                                            }}
+                                                        >
+                                                            View
+                                                        </Button>
+                                                    </Link>
+                                                    {item?.acceptedBySeeker == true ? <Button
+                                                        variant={item?.acceptedBySeeker == true ? "success" : "primary"}
+                                                        color="dark"
+                                                        size="sm"
+                                                        style={
+                                                            { width: "100px", height: "40px" }
+                                                        }
+                                                        onClick={() => handleConfirm({ id: item, isAccepted: true })}
+                                                    >
+                                                        {item?.acceptedBySeeker == true ? "Accepted" : "Accept"}
 
-                                                            </Button>
-                                                        </div>
-                                                        <div class=" mt-5 ml-auto">
-                                                            <Button
+                                                    </Button> : <Button
 
-                                                                variant={item?.acceptedBySeeker == false ? "success" : "danger"}
-                                                                color="dark"
-                                                                size="sm"
-                                                                style={
-                                                                    { width: "100px", height: "40px" }
-                                                                }
-                                                                onClick={() => handleConfirm({ id: item, isAccepted: false })}
-                                                            >
-                                                                {item?.acceptedBySeeker == false ? "Declined" : "Decline"}
+                                                        variant={item?.acceptedBySeeker == false ? "success" : "danger"}
+                                                        color="dark"
+                                                        size="sm"
+                                                        style={
+                                                            { width: "100px", height: "40px" }
+                                                        }
+                                                        onClick={() => handleConfirm({ id: item, isAccepted: false })}
+                                                    >
+                                                        {item?.acceptedBySeeker == false ? "Declined" : "Decline"}
 
-                                                            </Button>
-                                                        </div>
-                                                    </div>
-
+                                                    </Button>}
                                                 </Card>
 
                                             </>)
@@ -192,6 +208,7 @@ const Applicants = (value) => {
                     )}
                 </Row>
             </Container>
+
         </>
     );
 };

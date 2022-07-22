@@ -18,3 +18,5 @@ export const GET_LOG_HOURS = "Get_Log_Hours";
 export const GET_LOG_HOURS_SUCCESS = "Get_Log_Hours_Success";
 export const APPROVED_LOG_HOURS = "Approved_Log_Hours";
 export const APPROVED_LOG_HOURS_SUCCESS = "Approved_Log_Hours_Success";
+export const GET_SINGLE_USER = "Get_Single_User";
+export const GET_SINGLE_USER_SUCCESS = "Get_Single_User_Success";
