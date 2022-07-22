@@ -54,13 +54,22 @@ const DashboardOverview = () => {
         <Row className="pt-2 pb-4">
           <div className="d-flex justify-content-between mt-0 mb-4 headerBorder">
             <h4>Recommended for you</h4>
-            {SeekerList?.jobs?.length > 0 && <a href="/recommended">view all</a>}
+            {SeekerList?.jobs?.length > 0 && (
+              <a href="/recommended">view all</a>
+            )}
           </div>
           {SeekerList?.jobs?.length > 0 ? (
             <>
               {SeekerList?.jobs?.map((value, index) => {
                 return (
-                  <Col lg={2} md={4} sm={6} xs={12} className="pb-3" key={index}>
+                  <Col
+                    lg={2}
+                    md={4}
+                    sm={6}
+                    xs={12}
+                    className="pb-3"
+                    key={index}
+                  >
                     <CommonCard
                       img={value.image}
                       name={value.name}
@@ -79,7 +88,6 @@ const DashboardOverview = () => {
             <NoRecordFound />
           )}
         </Row>
-
         {/* Featured */}
         <Row className="py-2 justify-content-center">
           <div className="d-flex justify-content-between mt-0 mb-4 headerBorder">
@@ -87,24 +95,24 @@ const DashboardOverview = () => {
             <a href="/Newarrivalproviders">view all</a>
           </div>
           {newArrivalProviders?.length > 0 ? (
-              <>
-                {newArrivalProviders?.map((item) => {
-                  return (
-                    <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
-                      <CommonCard
-                        img={item?.profileImg}
-                        name={item?.fullName}
-                        id={item?.id}
-                        isFavourite={item.isFavourite}
-                        type={item?.employmentType}
-                        rate={item.rate}
-                        completed={"90"}
-                        star={item.rating}
-                      />
-                    </Col>
-                  );
-                })}
-              </>
+            <>
+              {newArrivalProviders?.map((item) => {
+                return (
+                  <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
+                    <CommonCard
+                      img={item?.profileImg}
+                      name={item?.fullName}
+                      id={item?.id}
+                      isFavourite={item.isFavourite}
+                      type={item?.employmentType}
+                      rate={item.rate}
+                      completed={"90"}
+                      star={item.rating}
+                    />
+                  </Col>
+                );
+              })}
+            </>
           ) : (
             <NoRecordFound />
           )}
