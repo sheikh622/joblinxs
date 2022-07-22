@@ -36,10 +36,10 @@ const DashboardOverview = () => {
                         img={item?.profileImg}
                         name={item?.fullName}
                         type={item?.employmentType}
-                        rate={"70"}
                         id={item.id}
+                        rate={item.rate}
                         completed={"90"}
-                        star={"4.7"}
+                        star={item.rating}
                       />
                     </Col>
                   );

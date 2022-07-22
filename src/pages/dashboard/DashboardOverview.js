@@ -22,7 +22,6 @@ const DashboardOverview = () => {
   const newArrivalSeekers = useSelector(
     (state) => state?.Seeker?.newArrivalSeeker
   );
-  console.log(newArrivalSeekers, "=========new seekers ========")
   useEffect(() => {
     dispatch(
       getSeekerListing({
@@ -98,9 +97,9 @@ const DashboardOverview = () => {
                         id={item?.id}
                         isFavourite={item.isFavourite}
                         type={item?.employmentType}
-                        rate={"70"}
+                        rate={item.rate}
                         completed={"90"}
-                        star={"4.7"}
+                        star={item.rating}
                       />
                     </Col>
                   );
@@ -114,8 +113,8 @@ const DashboardOverview = () => {
         {/* Plumber */}
         <Row className="py-2">
           <div className="d-flex justify-content-between mt-0 mb-4 headerBorder">
-            <h4>New Arrival Jobs By Seeker</h4>
-            <a href="/NewArrivalSeekers">view all</a>
+            <h4>Top Rated Jobs By provider</h4>
+            <a href="/TopRatedProviders">view all</a>
           </div>
           {newArrivalSeekers?.length > 0 ? (
             <>
@@ -128,9 +127,9 @@ const DashboardOverview = () => {
                       type={item?.employmentType}
                       id={item?.id}
                       isFavourite={item.isFavourite}
-                      rate={"70"}
+                      rate={item.rate}
                       completed={"90"}
-                      star={"4.7"}
+                      star={item.rating}
                     />
                   </Col>
                 );
