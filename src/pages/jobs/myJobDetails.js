@@ -83,7 +83,7 @@ const MyJobDetails = (item, props) => {
           {SingleId.createdBy === "seeker" && (
             <Col lg={4} md={6} xs={12} className="pb-3 mb-3">
               <Card border="light" className="card-box-shadow py-3 px-4 mb-3">
-                profileCard()
+               { profileCard()}
               </Card>
             </Col>
           )}
