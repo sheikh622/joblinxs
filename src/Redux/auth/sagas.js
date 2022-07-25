@@ -15,6 +15,7 @@ function* loginRequestSaga({ payload }) {
   let data = {
     email: payload.email,
     password: payload.password,
+    webFcmToken:payload.webFcmToken,
   };
   try {
     const response = yield axios.post(`user/web/login`, data);

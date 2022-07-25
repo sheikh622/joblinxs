@@ -51,7 +51,7 @@ const CommonCard = (props) => {
                 Rate: <span>${props.rate}hr</span>{" "}
               </p>
               <p>
-                Job Completed: <span>{props.completed} </span>
+                Jobs Completed: <span>{props.completed} </span>
               </p>
             </Link>
             {/* </div> */}

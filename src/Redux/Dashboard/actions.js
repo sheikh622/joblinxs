@@ -1,10 +1,10 @@
 import {
   GET_SEEKER_LISTING,
   GET_SEEKER_LISTING_SUCCESS,
-  NEW_ARRIVAL_PROVIDER,
-  NEW_ARRIVAL_PROVIDER_SUCCESS,
-  NEW_ARRIVAL_SEEKER,
-  NEW_ARRIVAL_SEEKER_SUCCESS,
+  NEW_ARRIVAL,
+  NEW_ARRIVAL_SUCCESS,
+  TOP_RATED,
+  TOP_RATED_SUCCESS,
 } from "./constants";
 
 export const getSeekerListing = (data) => ({
@@ -15,19 +15,19 @@ export const getSeekerListingSuccess = (data) => ({
   type: GET_SEEKER_LISTING_SUCCESS,
   payload: data,
 });
-export const newArrivalProvider = (data) => ({
-  type: NEW_ARRIVAL_PROVIDER,
+export const newArrival = (data) => ({
+  type: NEW_ARRIVAL,
   payload: data,
 });
-export const newArrivalProviderSuccess = (data) => ({
-  type: NEW_ARRIVAL_PROVIDER_SUCCESS,
+export const newArrivalSuccess = (data) => ({
+  type: NEW_ARRIVAL_SUCCESS,
   payload: data,
 });
-export const newArrivalSeeker= (data) => ({
-  type: NEW_ARRIVAL_SEEKER,
+export const topRated= (data) => ({
+  type: TOP_RATED,
   payload: data,
 });
-export const newArrivalSeekerSuccess = (data) => ({
-  type: NEW_ARRIVAL_SEEKER_SUCCESS,
+export const topRatedSuccess = (data) => ({
+  type: TOP_RATED_SUCCESS,
   payload: data,
 });

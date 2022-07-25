@@ -37,6 +37,7 @@
     "chartist-plugin-tooltips-updated": "^0.1.4",
     "connected-react-router": "^6.9.2",
     "date-fns": "^2.28.0",
+    "firebase": "^9.9.1",
     "formik": "^2.2.9",
     "grid": "^4.10.8",
     "history": "^4.10.1",
