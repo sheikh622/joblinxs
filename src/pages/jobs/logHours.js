@@ -115,7 +115,7 @@ const LogHours = () => {
                                         Jobs Completed: <span>25</span>{" "}
                                     </p>
                                     <p>
-                                        Job Completed as Plumber: <span>14 </span>
+                                        Jobs Completed as Plumber: <span>14 </span>
                                     </p>
                                 </span>
                             </div>

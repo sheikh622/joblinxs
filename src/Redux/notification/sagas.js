@@ -13,7 +13,7 @@ function* getNotificationById({ payload }) {
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      `job/notification/${payload.id}`,
+      `job/notification/${payload.id}?page=1&count=50`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

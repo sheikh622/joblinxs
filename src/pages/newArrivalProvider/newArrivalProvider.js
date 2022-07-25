@@ -4,19 +4,21 @@ import CommonCard from "../../components/CommonCard";
 import Navbar from "../../components/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  newArrivalProvider,
+  newArrival,
 } from "../../Redux/Dashboard/actions";
 import NoRecordFound from "../../components/NoRecordFound";
 
 const DashboardOverview = () => {
   const dispatch = useDispatch();
-  const newArrivalProviders = useSelector(
-    (state) => state?.Seeker?.newArrivalProvider?.data
+  const auth = useSelector((state) => state.auth.Auther);
+  const newArrivalData = useSelector(
+    (state) => state?.Seeker?.newArrival?.data
   );
   useEffect(() => {
     dispatch(
-      newArrivalProvider({
+      newArrival({
         page: 1,
+        userId:auth?.id,
         count: 15,
       })
     );
@@ -27,9 +29,9 @@ const DashboardOverview = () => {
       <Navbar module={"New Arrival Seekers"} />
       <Container>
         <Row className="py-2 justify-content-center">
-        {newArrivalProviders?.length > 0 ? (
+        {newArrivalData?.length > 0 ? (
               <>
-                {newArrivalProviders?.map((item) => {
+                {newArrivalData?.map((item) => {
                   return (
                     <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
                       <CommonCard

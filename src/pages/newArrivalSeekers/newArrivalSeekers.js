@@ -3,19 +3,21 @@ import { Col, Container, Row } from "@themesberg/react-bootstrap";
 import CommonCard from "../../components/CommonCard";
 import Navbar from "../../components/Navbar";
 import { useDispatch, useSelector } from "react-redux";
-import { newArrivalSeeker } from "../../Redux/Dashboard/actions";
+import { topRated } from "../../Redux/Dashboard/actions";
 import NoRecordFound from "../../components/NoRecordFound";
 
 const DashboardOverview = () => {
   const dispatch = useDispatch();
-  const newArrivalSeekers = useSelector(
-    (state) => state?.Seeker?.newArrivalSeeker
+  const auth = useSelector((state) => state.auth.Auther);
+  const topRatedData = useSelector(
+    (state) => state?.Seeker?.topRated
   );
 
   useEffect(() => {
     dispatch(
-      newArrivalSeeker({
+      topRated({
         page: 1,
+        userId:auth?.id,
         count: 15,
       })
     );
@@ -26,9 +28,9 @@ const DashboardOverview = () => {
       <Navbar module={"New Arrival Seekrs"} />
       <Container>
         <Row className="py-2">
-          {newArrivalSeekers?.length > 0 ? (
+          {topRatedData?.length > 0 ? (
             <>
-              {newArrivalSeekers?.map((item) => {
+              {topRatedData?.map((item) => {
                 return (
                   <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
                     <CommonCard
