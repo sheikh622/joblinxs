@@ -72,7 +72,6 @@ export default () => {
       phoneNumber: getById.phoneNumber,
       city: getById.city,
       postalCode: getById.postalCode,
-
     });
     // setDateofBirth(moment(new Date(getById?.dateOfBirth)));
   }, [getById]);
@@ -109,24 +108,24 @@ export default () => {
     if (!isValidPhoneNumber(value)) {
       return;
     } else {
-      dispatch(updateAdminProfile({
-        
-        fullName:data.fullName,
-        address:data.address,
-        dateofBirth:dateofBirth
+      dispatch(
+        updateAdminProfile({
+          fullName: data.fullName,
+          address: data.address,
+          dateofBirth: dateofBirth
             ? moment.utc(dateofBirth).format().toString()
             : getById?.dateofBirth.toString(),
-        phoneNumber:value ? value : getById?.phoneNumber,
-        city:data.city,
-        postalCode:data.postalCode,
-        id:getById.id,
-        profileImg:selectedImage ? selectedImage : getById?.profileImg,
-        history:history,
-      })
-    //     (Data),({
-    //     history:history,
-    // })
-    );
+          phoneNumber: value ? value : getById?.phoneNumber,
+          city: data.city,
+          postalCode: data.postalCode,
+          id: getById.id,
+          profileImg: selectedImage ? selectedImage : getById?.profileImg,
+          history: history,
+        })
+        //     (Data),({
+        //     history:history,
+        // })
+      );
     }
   }
 

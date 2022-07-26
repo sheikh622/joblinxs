@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import {
   Container,
   Image,
@@ -48,7 +48,10 @@ const ProviderProfile = (props) => {
           <Col lg={4} md={6} xs={12} className="pb-3 mb-3">
             <Card border="light" className="card-box-shadow py-3 px-4 mb-3">
               <div className="detailed">
-                <Image src={getById?.profileImg} className="navbar-brand-light detailImg" />
+                <Image
+                  src={getById?.profileImg}
+                  className="navbar-brand-light detailImg"
+                />
                 <h3 className="mb-1 mt-3">{getById?.fullName}</h3>
                 <h5 className="text-gray">{getById?.profileType}</h5>
                 <span className="starIcon">
@@ -68,29 +71,32 @@ const ProviderProfile = (props) => {
               </div>
             </Card>
 
-            <Card border="light" className="card-box-shadow py-1 px-4 mb-2 job-list">
+            <Card
+              border="light"
+              className="card-box-shadow py-1 px-4 mb-2 job-list"
+            >
               <h3 className="mb-3 mt-2 text-center">Services</h3>
               {getById?.jobs?.length > 0 ? (
                 <>
-                 {getById?.jobs?.map((item)=>{
-                return(
-                  <Col xs={12} className="pb-3">
-                  <RecommendCard
-                    img={item.image}
-                    name={item.name}
-                    type={item.name}
-                    rate={item.rate}
-                    id={item.id}
-                    completed={"10"}
-                    star={"3.6"}
-                  />
-                </Col>
-                )
-              })}
+                  {getById?.jobs?.map((item) => {
+                    return (
+                      <Col xs={12} className="pb-3">
+                        <RecommendCard
+                          img={item.image}
+                          name={item.name}
+                          type={item.name}
+                          rate={item.rate}
+                          id={item.id}
+                          completed={"10"}
+                          star={"3.6"}
+                        />
+                      </Col>
+                    );
+                  })}
                 </>
-              ):(<NoRecordFound />)}
-             
-             
+              ) : (
+                <NoRecordFound />
+              )}
             </Card>
           </Col>
           <Col lg={8} md={6} xs={12} className="pb-3 mb-3">
@@ -139,37 +145,65 @@ const ProviderProfile = (props) => {
                   </span>
                 </div>
 
-                <DetailHeading heading={"Email"} value={getById?.email ? getById?.email :"-"} />
-                <DetailHeading heading={"Phone"} value={getById?.phoneNumber ? getById?.phoneNumber:"-"} />
-                <DetailHeading heading={"Address"} value={getById?.address ? getById?.address:"-"} />
-                <DetailHeading heading={"City"} value={getById?.city ? getById?.city:"-"} />
-                <DetailHeading heading={"Province"} value={getById?.province ? getById?.province:"-"} />
-                <DetailHeading heading={"Postal Code"} value={getById?.postalCode ?getById?.postalCode :"-"} />
+                {/* <DetailHeading heading={"Email"} value={getById?.email ? getById?.email :"-"} /> */}
+                {/* <DetailHeading heading={"Phone"} value={getById?.phoneNumber ? getById?.phoneNumber:"-"} /> */}
+                {/* <DetailHeading heading={"Address"} value={getById?.address ? getById?.address:"-"} /> */}
+                <DetailHeading
+                  heading={"City"}
+                  value={getById?.city ? getById?.city : "-"}
+                />
+                <DetailHeading
+                  heading={"Province"}
+                  value={getById?.province ? getById?.province : "-"}
+                />
+                <DetailHeading
+                  heading={"Postal Code"}
+                  value={getById?.postalCode ? getById?.postalCode : "-"}
+                />
                 <DetailHeading
                   heading={" Date of Birth"}
-                  value={getById?.dateOfBirth ? getById?.dateOfBirth :"-"}
+                  value={getById?.dateOfBirth ? getById?.dateOfBirth : "-"}
                 />
                 <DetailHeading
                   heading={"Personal Attributes"}
-                  value={getById?.personalAttributes ? getById?.personalAttributes:"-"}
+                  value={
+                    getById?.personalAttributes
+                      ? getById?.personalAttributes
+                      : "-"
+                  }
                 />
                 <DetailHeading
                   heading={"Career Overview"}
-                  value={getById?.carrierOverview ? getById?.carrierOverview:"-"}
+                  value={
+                    getById?.carrierOverview ? getById?.carrierOverview : "-"
+                  }
                 />
                 <DetailHeading
                   heading={"Volenteering History"}
-                  value={getById?.volunteeringHistory ? getById?.volunteeringHistory:"-"}
+                  value={
+                    getById?.volunteeringHistory
+                      ? getById?.volunteeringHistory
+                      : "-"
+                  }
                 />
                 <DetailHeading
                   heading={" Tools Available"}
-                  value={getById?.toolsAvailable ? getById?.toolsAvailable :"-"}
+                  value={
+                    getById?.toolsAvailable ? getById?.toolsAvailable : "-"
+                  }
                 />
                 <DetailHeading
                   heading={"Transportation Available"}
-                  value={getById?.transportationAvailable ?getById?.transportationAvailable:"-"}
+                  value={
+                    getById?.transportationAvailable
+                      ? getById?.transportationAvailable
+                      : "-"
+                  }
                 />
-                <DetailHeading heading={" Job Type"} value={getById?.account_type ?getById?.account_type :"-"} />
+                <DetailHeading
+                  heading={" Job Type"}
+                  value={getById?.account_type ? getById?.account_type : "-"}
+                />
               </Card.Body>
 
               <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">
