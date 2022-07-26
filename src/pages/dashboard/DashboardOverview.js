@@ -20,9 +20,7 @@ const DashboardOverview = () => {
   const newArrivalData = useSelector(
     (state) => state?.Seeker?.newArrival?.data
   );
-  const topRatedData = useSelector(
-    (state) => state?.Seeker?.topRated
-  );
+  const topRatedData = useSelector((state) => state?.Seeker?.topRated);
   useEffect(() => {
     dispatch(
       getSeekerListing({
@@ -36,14 +34,14 @@ const DashboardOverview = () => {
     dispatch(
       newArrival({
         page: 1,
-        userId:auth?.id,
+        userId: auth?.id,
         count: 5,
       })
     );
     dispatch(
       topRated({
         page: 1,
-        userId:auth?.id,
+        userId: auth?.id,
         count: 5,
       })
     );

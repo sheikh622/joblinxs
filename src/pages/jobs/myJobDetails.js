@@ -35,6 +35,7 @@ const MyJobDetails = (item, props) => {
   const params = useLocation();
   let jobId = params.pathname.split("/")[2];
   const SingleId = useSelector((state) => state?.addJob?.jobById);
+  console.log(SingleId);
   const [showDefault, setShowDefault] = useState(false);
   useEffect(() => {
     dispatch(jobById({ id: jobId }));
@@ -83,7 +84,7 @@ const MyJobDetails = (item, props) => {
           {SingleId.createdBy === "seeker" && (
             <Col lg={4} md={6} xs={12} className="pb-3 mb-3">
               <Card border="light" className="card-box-shadow py-3 px-4 mb-3">
-               { profileCard()}
+                {profileCard()}
               </Card>
             </Col>
           )}
@@ -188,27 +189,27 @@ const MyJobDetails = (item, props) => {
                     </Card.Body>
                   </Link>
                 </>
-              ):(
+              ) : (
                 <>
-                <div>
-                  <div class="d-grid gap-2 col-3 mx-auto my-2">
-                    <Button
-                      variant="primary"
-                      color="dark"
-                      size="lg"
-                      className="mt-2 me-1"
-                      onClick={handleEdit}
-                    >
-                      Hire Now
-                    </Button>
+                  <div>
+                    <div class="d-grid gap-2 col-3 mx-auto my-2">
+                      <Button
+                        variant="primary"
+                        color="dark"
+                        size="lg"
+                        className="mt-2 me-1"
+                        onClick={handleEdit}
+                      >
+                        Hire Now
+                      </Button>
+                    </div>
                   </div>
-                </div>
-                <div class="col-12 mx-auto text-center my-2">
-                  <a href={`/detailProvider/${SingleId?.user?.id}`}>
-                    View Profile
-                  </a>
-                </div>
-              </>
+                  <div class="col-12 mx-auto text-center my-2">
+                    <a href={`/detailProvider/${SingleId?.user?.id}`}>
+                      View Profile
+                    </a>
+                  </div>
+                </>
               )}
             </Card>
             {SingleId.createdBy === "seeker" && (

@@ -1,59 +1,77 @@
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Col, Container, Dropdown, Image, ListGroup, Nav, Navbar, Row
+  Col,
+  Container,
+  Dropdown,
+  Image,
+  ListGroup,
+  Nav,
+  Navbar,
+  Row,
 } from "@themesberg/react-bootstrap";
-import React, { useState,useEffect } from "react";
-import { useSelector ,useDispatch} from "react-redux";
-import {onMessageListener } from '../firebase';
-import {getNotifiaction} from "../Redux/notification/actions";
+import { toast } from "react-toastify";
+import moment from "moment";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { onMessageListener } from "../firebase";
+import { getNotifiaction } from "../Redux/notification/actions";
 
 export default (props) => {
   const dispatch = useDispatch();
-  const [notificationData, setNotificationData] = useState({title: '', body: ''});
+  const [notificationData, setNotificationData] = useState({
+    title: "",
+    body: "",
+  });
   const auth = useSelector((state) => state.auth.Auther);
-  const notification = useSelector((state) => state.Notifications?.notification?.notifications);
+  const notification = useSelector(
+    (state) => state.Notifications?.notification?.notifications
+  );
   // const [notifications, setNotifications] = useState(notification);
   // const areNotificationsRead = notifications.reduce(
   //   (acc, notif) => acc && notif.read,
   //   true
   // );
+  useEffect(() => {
+    if (notificationData?.body != "") {
+      toast.success(notificationData?.body ? notificationData?.body : "");
+    }
+  }, [notificationData]);
   onMessageListener()
     .then((payload) => {
-      console.log("notificationData: ", payload)
       setNotificationData({
         title: payload.notification.title,
         body: payload.notification.body,
       });
     })
     .catch((err) => console.log("failed: ", err));
-    
+
   // const markNotificationsAsRead = () => {
   //   setTimeout(() => {
   //     setNotifications(notifications.map((n) => ({ ...n, read: true })));
   //   }, 300);
   // };
-  const notificationList= ()=>{
+  const notificationList = () => {
     dispatch(
       getNotifiaction({
         id: auth?.id,
       })
     );
-  }
+  };
   const handleScroll = (e) => {
-    var heightBound = window.height = 400;
+    var heightBound = (window.height = 400);
     if (heightBound > window.scrollY) {
-        // Probably you want to load new cards?
-        console.log(window.scrollY,"here is sctoller")
-    } 
- }
+      // Probably you want to load new cards?
+      // console.log(window.scrollY,"here is sctoller")
+    }
+  };
   const Notification = (props) => {
     const { link, title, image, insertedDate, message, read = false } = props;
     const readClassName = read ? "" : "text-danger";
 
     return (
-      <ListGroup.Item action href={link} className="border-bottom border-light" >
-        <Row className="align-items-center" >
+      <ListGroup.Item action href={link} className="border-bottom border-light">
+        <Row className="align-items-center">
           {/* <Col className="col-auto">
             <Image
               src={image}
@@ -63,19 +81,26 @@ export default (props) => {
           <Col className="ps-0 ms--2 mx-3">
             <div className="d-flex justify-content-between align-items-center">
               <div>
-                <h4 className="h6 mb-0 text-small">{title ? title :"Title"}</h4>
+                <h4 className="h6 mb-0 text-small">
+                  {title ? title : "Title"}
+                </h4>
               </div>
               <div className="text-end">
-                <small className={readClassName}>{insertedDate?insertedDate : "date"}</small>
+                <small className={readClassName}>
+                  {insertedDate
+                    ? moment(insertedDate).format("MM/DD/YYYY hh:mm")
+                    : "date"}
+                </small>
               </div>
             </div>
-            <p className="font-small mt-1 mb-0">{message ?message :"messages"}</p>
+            <p className="font-small mt-1 mb-0">
+              {message ? message : "messages"}
+            </p>
           </Col>
         </Row>
       </ListGroup.Item>
     );
   };
-
 
   return (
     <Navbar variant="dark" expanded className="mb-3">
@@ -87,8 +112,9 @@ export default (props) => {
           {auth?.Auther?.userRole != "Admin" && (
             <>
               <Nav className="align-items-center" onScroll={handleScroll}>
-                <Dropdown as={Nav.Item} 
-                // onToggle={markNotificationsAsRead}
+                <Dropdown
+                  as={Nav.Item}
+                  // onToggle={markNotificationsAsRead}
                 >
                   <Dropdown.Toggle
                     as={Nav.Link}
