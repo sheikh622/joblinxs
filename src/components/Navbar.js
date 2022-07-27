@@ -133,39 +133,37 @@ export default (props) => {
             <h2>{props?.module}</h2>
           </div>
           {auth?.Auther?.userRole != "Admin" && (
-            <>
-              <Nav className="align-items-center" onScroll={handleScroll}>
-                <Dropdown as={Nav.Item}>
-                  <Dropdown.Toggle
-                    as={Nav.Link}
-                    className="text-primary icon-notifications me-lg-3"
-                  >
-                    <span className="icon icon-sm" onClick={notificationList}>
-                      <FontAwesomeIcon icon={faBell} className="bell-shake" />
-                      {notification?.length > 0 && (
-                        <span className="icon-badge rounded-circle unread-notifications" />
-                      )}
-                    </span>
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu className="dashboard-dropdown notifications-dropdown dropdown-menu-lg dropdown-menu-center mt-2 py-0">
-                    <ListGroup className="list-group-flush notification-list">
-                      <Nav.Link
-                        href="#"
-                        className="text-center text-primary fw-bold border-bottom border-light py-3"
-                      >
-                        Notifications
-                      </Nav.Link>
-                      {notification?.map((n) => (
-                        <Notification key={`notification-${n.id}`} {...n} />
-                      ))}
-                      {/* <Dropdown.Item className="text-center text-primary fw-bold py-3">
+            <Nav className="align-items-center" onScroll={handleScroll}>
+              <Dropdown as={Nav.Item}>
+                <Dropdown.Toggle
+                  as={Nav.Link}
+                  className="text-primary icon-notifications me-lg-3"
+                >
+                  <span className="icon icon-sm" onClick={notificationList}>
+                    <FontAwesomeIcon icon={faBell} className="bell-shake" />
+                    {notification?.length > 0 && (
+                      <span className="icon-badge rounded-circle unread-notifications" />
+                    )}
+                  </span>
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="dashboard-dropdown notifications-dropdown dropdown-menu-lg dropdown-menu-center mt-2 py-0">
+                  <ListGroup className="list-group-flush notification-list">
+                    <Nav.Link
+                      href="#"
+                      className="text-center text-primary fw-bold border-bottom border-light py-3"
+                    >
+                      Notifications
+                    </Nav.Link>
+                    {notification?.map((n) => (
+                      <Notification key={`notification-${n.id}`} {...n} />
+                    ))}
+                    {/* <Dropdown.Item className="text-center text-primary fw-bold py-3">
                         View all
                       </Dropdown.Item> */}
-                    </ListGroup>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </Nav>
-            </>
+                  </ListGroup>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Nav>
           )}
         </div>
       </Container>
