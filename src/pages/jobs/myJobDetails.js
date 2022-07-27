@@ -25,6 +25,7 @@ import { Routes } from "../../routes";
 import { jobById } from "../../Redux/addJob/actions";
 // import Profile from "../../assets/img/team/profile.png";
 import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
+import RateModal from "../../components/modal";
 import RecommendCard from "../../components/RecommendCard";
 import DetailHeading from "../../components/DetailHeading";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,6 +38,9 @@ const MyJobDetails = (item, props) => {
   const SingleId = useSelector((state) => state?.addJob?.jobById);
   console.log(SingleId);
   const [showDefault, setShowDefault] = useState(false);
+  const [show, setShow] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [isDisputed, setIsDisputed] = useState(false);
   useEffect(() => {
     dispatch(jobById({ id: jobId }));
   }, []);
@@ -216,15 +220,31 @@ const MyJobDetails = (item, props) => {
               <>
                 <div>
                   <div class="d-grid gap-2 col-3 mx-auto">
-                    <Button
-                      variant="primary"
-                      color="dark"
-                      size="lg"
-                      className="mt-2 me-1"
-                      onClick={handleEdit}
-                    >
-                      Edit Job
-                    </Button>
+                    {SingleId.status === "Accepted" ? (
+                      <Button
+                        variant="primary"
+                        color="dark"
+                        size="lg"
+                        className="mt-2 me-1"
+                        onClick={() => {
+                          setShow(true);
+                          setIsCompleted(true);
+                          setIsDisputed(false);
+                        }}
+                      >
+                        Complete Job
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="primary"
+                        color="dark"
+                        size="lg"
+                        className="mt-2 me-1"
+                        onClick={handleEdit}
+                      >
+                        Edit Job
+                      </Button>
+                    )}
                   </div>
                 </div>
                 <div class="d-grid gap-2 col-3 mx-auto">
@@ -261,7 +281,6 @@ const MyJobDetails = (item, props) => {
                   onHide={handlefalse}
                   color="dark"
                   size="sm"
-                  // type="submit"
                   onClick={() => {
                     handleDelete();
                   }}
@@ -273,6 +292,19 @@ const MyJobDetails = (item, props) => {
           </Form>
         </Modal.Body>
       </Modal>
+      {show && (
+        <RateModal
+          show={show}
+          setShow={setShow}
+          img={SingleId?.image ? SingleId.image : ""}
+          jobId={jobId}
+          userId={SingleId?.user?.id}
+          setIsCompleted={setIsCompleted}
+          setIsDisputed={setIsDisputed}
+          isCompleted={isCompleted}
+          isDisputed={isDisputed}
+        />
+      )}
     </>
   );
 };

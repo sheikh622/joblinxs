@@ -55,7 +55,7 @@ function* topRatedSaga({ payload }) {
         },
       }
     );
-    yield put(topRatedSuccess(response.data.data.data));
+    yield put(topRatedSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
