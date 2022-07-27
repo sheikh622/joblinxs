@@ -32,6 +32,7 @@ import {
   GET_JOB_APPLICANTS_SUCCESS,
   CONFIRM_APPLICANTS_SUCCESS,
   CONFIRM_APPLICANTS,
+  RATE_PROVIDER
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 function* addJob({ payload }) {
@@ -267,6 +268,35 @@ function* ConfirmSaga(payload) {
 function* watchConfirmApplicants() {
   yield takeLatest(CONFIRM_APPLICANTS, ConfirmSaga);
 }
+
+function* RateJobSaga({payload}) {
+  try {
+    let Data = {
+      description:payload.description,
+      rating:payload.rating,
+      jobId:payload.jobId,
+      userId:payload.userId,
+      isCompleted: payload.isCompleted,
+      isDisputed:payload.isDisputed
+  }
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.post(
+      `job/confirmBySeeker`,Data,
+      {
+        headers: {
+          Authorization:`Bearer ${token}`,
+        },
+      }
+    );
+    toast.success(CapitalizeFirstLetter(response.data.message));
+    payload.setShow(false);
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchRateJob() {
+  yield takeLatest(RATE_PROVIDER, RateJobSaga);
+}
 export default function* addJobSaga() {
   yield all([fork(watchAddJob)]);
   yield all([fork(watchGetJob)]);
@@ -277,4 +307,5 @@ export default function* addJobSaga() {
   yield all([fork(watchUpdateJob)]);
   yield all([fork(watchGetApplicants)]);
   yield all([fork(watchConfirmApplicants)]);
+  yield all([fork(watchRateJob)]);
 }

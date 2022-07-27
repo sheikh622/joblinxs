@@ -14,11 +14,13 @@ import { toast } from "react-toastify";
 import moment from "moment";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { onMessageListener } from "../firebase";
 import { getNotifiaction } from "../Redux/notification/actions";
 
 export default (props) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [notificationData, setNotificationData] = useState({
     title: "",
     body: "",
@@ -37,6 +39,7 @@ export default (props) => {
       toast.success(notificationData?.body ? notificationData?.body : "");
     }
   }, [notificationData]);
+  console.log("notificationData: ", notificationData);
   onMessageListener()
     .then((payload) => {
       setNotificationData({
@@ -45,12 +48,6 @@ export default (props) => {
       });
     })
     .catch((err) => console.log("failed: ", err));
-
-  // const markNotificationsAsRead = () => {
-  //   setTimeout(() => {
-  //     setNotifications(notifications.map((n) => ({ ...n, read: true })));
-  //   }, 300);
-  // };
   const notificationList = () => {
     dispatch(
       getNotifiaction({
@@ -61,16 +58,43 @@ export default (props) => {
   const handleScroll = (e) => {
     var heightBound = (window.height = 400);
     if (heightBound > window.scrollY) {
-      // Probably you want to load new cards?
-      // console.log(window.scrollY,"here is sctoller")
+      console.log(window.scrollY, "here is sctoller");
+    }
+  };
+  const handleRedirection = (jobs, users, title) => {
+    if (title === "Job Applied" || title === "Job is Confirmed") {
+      history.push(`/Applicants/${jobs.id}`);
+    }
+    if (
+      title === "Job Status" ||
+      title === "job started" ||
+      title === "Job Completed" ||
+      title === "job canceled" ||
+      title === "Job Disputed"
+    ) {
+      history.push(`/detailJob/${jobs.id}`);
+    }
+    if (title === "Logged Hours") {
+      history.push(`/LogHours/${jobs.id}`);
     }
   };
   const Notification = (props) => {
-    const { link, title, image, insertedDate, message, read = false } = props;
+    const {
+      title,
+      image,
+      insertedDate,
+      message,
+      read = false,
+      jobs,
+      users,
+    } = props;
     const readClassName = read ? "" : "text-danger";
-
     return (
-      <ListGroup.Item action href={link} className="border-bottom border-light">
+      <ListGroup.Item
+        action
+        onClick={() => handleRedirection(jobs, users, title)}
+        className="border-bottom border-light"
+      >
         <Row className="align-items-center">
           {/* <Col className="col-auto">
             <Image
@@ -101,7 +125,6 @@ export default (props) => {
       </ListGroup.Item>
     );
   };
-
   return (
     <Navbar variant="dark" expanded className="mb-3">
       <Container fluid className="px-0">
@@ -112,10 +135,7 @@ export default (props) => {
           {auth?.Auther?.userRole != "Admin" && (
             <>
               <Nav className="align-items-center" onScroll={handleScroll}>
-                <Dropdown
-                  as={Nav.Item}
-                  // onToggle={markNotificationsAsRead}
-                >
+                <Dropdown as={Nav.Item}>
                   <Dropdown.Toggle
                     as={Nav.Link}
                     className="text-primary icon-notifications me-lg-3"

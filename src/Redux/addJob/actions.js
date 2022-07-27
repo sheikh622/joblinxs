@@ -14,7 +14,8 @@ import {
     GET_JOB_APPLICANTS,
     GET_JOB_APPLICANTS_SUCCESS,
     CONFIRM_APPLICANTS,
-    CONFIRM_APPLICANTS_SUCCESS
+    CONFIRM_APPLICANTS_SUCCESS,
+    RATE_PROVIDER
   } from "./constants";
   
   export const getJobListing = (data) => ({
@@ -82,5 +83,9 @@ export const getConfirmApplicants = (data) => ({
 });
 export const getConfirmSuccess = (data) => ({
   type:  CONFIRM_APPLICANTS_SUCCESS,
+  payload: data,
+});
+export const rateProvider = (data) => ({
+  type:  RATE_PROVIDER,
   payload: data,
 });
