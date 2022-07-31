@@ -1,5 +1,9 @@
 def IMAGE_NAME = "servic_app_tanza_frontend"
 def HOME = "/home/jenkins"
+def STAGING_HOST = "18.119.88.138"
+def USER = "ubuntu"
+def TARGET_PATH = "/var/www/html/servic_app_tanza_frontend/"
+
 pipeline {
   agent any
   stages {
@@ -43,7 +47,7 @@ pipeline {
   stage("Publish Artifacts") {
      when { branch "staging" }
      steps {
-       sh "scp -r ${HOME}/$IMAGE_NAME/$BUILD_FOLDER/* ubuntu@18.119.88.138:/var/www/html/servic_app_tanza_frontend/"
+       sh "scp -r ${HOME}/$IMAGE_NAME/$BUILD_FOLDER/* ${USER}@${STAGING_HOST}:${TARGET_PATH}"
     }
   }
     stage("Remove Images & Cleanup") {
