@@ -16,10 +16,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getHiredApplicants } from "../../Redux/addJob/actions";
+import { getHiredApplicants, completeJob } from "../../Redux/addJob/actions";
 import { useHistory, useLocation } from "react-router-dom";
 import NoRecordFound from "../../components/NoRecordFound";
+import RateModal from "../../components/modal";
 const Applicants = ({ id }) => {
+  const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   const {
@@ -34,7 +36,7 @@ const Applicants = ({ id }) => {
   const [page, setPage] = useState(1);
   const [limit] = useState("5");
   const applicantsData = useSelector(
-    (state) => state?.addJob?.hiredApplicants?.data
+    (state) => state?.addJob?.hiredApplicants?.data?.applicants
   );
   const Pageination = useSelector((state) => state?.addJob?.Applicants?.data);
   useEffect(() => {
@@ -76,6 +78,71 @@ const Applicants = ({ id }) => {
     }
     return items;
   };
+
+  const handleComplete = (data) => {
+    console.log(data, "hre is dat");
+    dispatch(
+      completeJob({
+        jobId: jobId,
+        userId: data.id,
+        isCompleted: data.isCompleted,
+        isDisputed: data.isDisputed,
+      })
+    );
+  };
+
+  const handleClick = (item) => {
+    return (
+      <div>
+        {item?.completedBySeeker ? (
+          <div class="">
+            <Button
+              variant="primary"
+              color="dark"
+              size="sm"
+              style={{ width: "100px", height: "40px" }}
+              onClick={() => {
+                setShow(true);
+              }}
+            >
+              Rate Provider
+            </Button>
+          </div>
+        ) : (
+          <div class="">
+            <Button
+              variant="primary"
+              color="dark"
+              size="sm"
+              style={{ width: "100px", height: "40px" }}
+              onClick={() =>
+                handleComplete({
+                  id: item?.users?.id,
+                  isCompleted: true,
+                  isDisputed: true,
+                })
+              }
+            >
+              Complete Job
+            </Button>
+          </div>
+        )}
+        <div class=" mt-5 ml-auto">
+          <Button
+            variant="primary"
+            color="dark"
+            size="sm"
+            style={{ width: "100px", height: "40px" }}
+            onClick={() => {
+              history.push(`/LogHours/${item?.users?.id}`);
+            }}
+          >
+            Log Hours
+          </Button>
+        </div>
+      </div>
+    );
+  };
   return (
     <>
       <Container>
@@ -114,37 +181,52 @@ const Applicants = ({ id }) => {
                             <p>
                               Jobs Completed as Plumber: <span>14 </span>
                             </p>
-                          </span>
-                          <span className="m-3">
-                          <a href={`/LogHours/${item.id}`}>Log Hours</a>
-                          <a href={`/LogHours/${item.id}`}>view profile</a>
+                            <div className="mt-1">
+                              <a href={`/detailProvider/${item?.users?.id}`}>
+                                view profile
+                              </a>
+                            </div>
                           </span>
                         </div>
+                        {handleClick(item)}
                       </Card>
+                      {show && (
+                        <RateModal
+                          show={show}
+                          setShow={setShow}
+                          img={
+                            item?.users?.profileImg
+                              ? item?.users?.profileImg
+                              : ""
+                          }
+                          jobId={jobId}
+                          userId={item?.users?.id}
+                        />
+                      )}
                     </>
                   );
                 })}
-                <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
-                  <Nav>
-                    <Pagination size={"sm"} className="mb-2 mb-lg-0">
-                      <Pagination.Prev onClick={() => previousPage()}>
-                        <FontAwesomeIcon icon={faAngleDoubleLeft} />
-                      </Pagination.Prev>
-                      {paginationItems()}
-                      <Pagination.Next onClick={() => nextPage()}>
-                        <FontAwesomeIcon icon={faAngleDoubleRight} />
-                      </Pagination.Next>
-                    </Pagination>
-                  </Nav>
-                  <small className="fw-bold">
-                    Total Applicants <b>{Pageination?.total_jobs}</b>
-                  </small>
-                </Card.Footer>
               </Col>
             </>
           ) : (
             <NoRecordFound />
           )}
+          <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+            <Nav>
+              <Pagination size={"sm"} className="mb-2 mb-lg-0">
+                <Pagination.Prev onClick={() => previousPage()}>
+                  <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                </Pagination.Prev>
+                {paginationItems()}
+                <Pagination.Next onClick={() => nextPage()}>
+                  <FontAwesomeIcon icon={faAngleDoubleRight} />
+                </Pagination.Next>
+              </Pagination>
+            </Nav>
+            <small className="fw-bold">
+              Total Applicants <b>{Pageination?.total_jobs}</b>
+            </small>
+          </Card.Footer>
         </Row>
       </Container>
     </>

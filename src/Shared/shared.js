@@ -14,6 +14,10 @@ export function* sagaErrorHandler(error) {
   //   toast.error(error.data.message)    
     
   // }
+  else if(error?.data?.statusCode === 403) {
+    toast.error(error.data.message)    
+    alert(1)
+  }
   else if(error.data.error) {
     toast.error(error.data.error)    
   }
