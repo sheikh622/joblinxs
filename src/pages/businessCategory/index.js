@@ -24,15 +24,17 @@ import * as Yup from "yup";
 import Navbar from "../../components/Navbar";
 import NoRecordFound from "../../components/NoRecordFound";
 import {
-     addCategory,
+    addCategory,
     //  deleteCategory,
-      getBusinessCategoryList, 
+    getBusinessCategoryList,
     //   updateCategory 
-    } from "../../Redux/BusinessCategory/actions";
+} from "../../Redux/BusinessCategory/actions";
 const BusinessCategories = (item) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [search, setSearch] = useState("");
+    const [checked, setChecked] = useState(false);
+    console.log("checked",checked)
     const [adminId, setAdminId] = useState(0);
     const [delCategory, setDelCategory] = useState(false)
     const {
@@ -40,7 +42,7 @@ const BusinessCategories = (item) => {
     } = history;
     // const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
     const BusinessCategory = useSelector((state) => state?.BusinessCategory?.getBusinessCategoryList);
-    console.log(BusinessCategory,"BusinessCategory")
+    console.log(BusinessCategory, "BusinessCategory")
     const auth = useSelector((state) => state.auth);
     const forAction = history?.location?.state?.from;
     useEffect(() => {
@@ -196,7 +198,14 @@ const BusinessCategories = (item) => {
                                                     <h3>{value.title}</h3>
                                                     <p>{value.details}</p>
                                                 </span>
-                                                
+                                                <span className="right">
+                                                    <label>
+                                                        <input type="checkbox"
+                                                            // defaultChecked={checked}
+                                                            onChange={() => setChecked(checked)}
+                                                        />
+                                                    </label>
+                                                </span>
                                             </div>
                                         </Card>
                                     </Col>
@@ -210,18 +219,18 @@ const BusinessCategories = (item) => {
                 </>
                 }
 
-                {/* {auth.Auther.userRole != "Admin" && ( */}
-                    <Row className="py-2 justify-content-between">
-                        <div class="d-grid gap-2 col-3 text-center  mx-auto">
-                            <span className="text-gray">
-                                You can select multiple categories
-                            </span>
-                            <Button variant="primary" color="dark" size="sm">
-                                Save
-                            </Button>
-                        </div>
-                    </Row>
-                {/* )} */}
+
+                <Row className="py-2 justify-content-between">
+                    <div class="d-grid gap-2 col-3 text-center  mx-auto">
+                        <span className="text-gray">
+                            You can select multiple categories
+                        </span>
+                        <Button variant="primary" color="dark" size="sm">
+                            Save
+                        </Button>
+                    </div>
+                </Row>
+
             </Container>
             {/* Modal */}
             <Modal as={Modal.Dialog} centered show={showDefault}>
@@ -282,7 +291,7 @@ const BusinessCategories = (item) => {
                                 size="sm"
                                 type="submit"
                             >
-                                {isEdit ? "Update" : "Save"}
+                                Send for Approval
                             </Button>
                         </div>
                     </Form>
