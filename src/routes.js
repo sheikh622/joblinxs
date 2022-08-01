@@ -23,6 +23,7 @@ export const Routes = {
     Transactions: { path: "/transactions" },
     UserManagement: { path: "/user_management" },
     Categories: { path: "/categories" },
+    BusinessCategory: { path: "/businessCategory" },
     Categories_Management: { path: "/category-management" },
     Job_Management: { path: "/job-management" },
     Users: { path: "/users" },
