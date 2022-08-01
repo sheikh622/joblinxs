@@ -16,7 +16,7 @@ import {
   getJobListing,
   getApplicantsSuccess,
   getConfirmSuccess,
-  getHiredApplicantsSuccess
+  getHiredApplicantsSuccess,
 } from "./actions";
 import {
   ADD_JOB,
@@ -33,7 +33,8 @@ import {
   GET_HIRED_APPLICANTS,
   GET_HIRED_APPLICANTS_SUCCESS,
   CONFIRM_APPLICANTS,
-  RATE_PROVIDER
+  RATE_PROVIDER,
+  COMPLETE_JOB,
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 function* addJob({ payload }) {
@@ -187,7 +188,6 @@ function* watchJobById() {
   yield takeLatest(JOB_BY_ID, jobByIdSaga);
 }
 function* updateJobSaga(payload) {
-
   const formData = new FormData();
   formData.append("id", payload.payload.id);
   formData.append("name", payload.payload.name);
@@ -210,11 +210,15 @@ function* updateJobSaga(payload) {
   formData.append("jobImg", payload.payload.jobImg);
   try {
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.patch(`job/seeker/${payload.payload.id}`, formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = yield axios.patch(
+      `job/seeker/${payload.payload.id}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(updateJobSuccess(response.data));
     payload.history.push(`/detailJob/${payload.id}`);
@@ -268,18 +272,15 @@ function* watchGetHiredApplicants() {
 function* ConfirmSaga(payload) {
   try {
     let data = {
-      isAccepted: payload.payload.isAccepted
-    }
+      isAccepted: payload.payload.isAccepted,
+    };
     const { id } = payload.payload;
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.post(
-      `job/approve/${id}`,data,
-      {
-        headers: {
-          Authorization:`Bearer ${token}`,
-        },
-      }
-    );
+    const response = yield axios.post(`job/approve/${id}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getConfirmSuccess(response.data));
   } catch (error) {
@@ -290,25 +291,20 @@ function* watchConfirmApplicants() {
   yield takeLatest(CONFIRM_APPLICANTS, ConfirmSaga);
 }
 
-function* RateJobSaga({payload}) {
+function* RateJobSaga({ payload }) {
   try {
     let Data = {
-      description:payload.description,
-      rating:payload.rating,
-      jobId:payload.jobId,
-      userId:payload.userId,
-      isCompleted: payload.isCompleted,
-      isDisputed:payload.isDisputed
-  }
+      description: payload.description,
+      rating: payload.rating,
+      jobId: payload.jobId,
+      userId: payload.userId,
+    };
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.post(
-      `job/confirmBySeeker`,Data,
-      {
-        headers: {
-          Authorization:`Bearer ${token}`,
-        },
-      }
-    );
+    const response = yield axios.post(`job/rating`, Data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     toast.success(CapitalizeFirstLetter(response.data.message));
     payload.setShow(false);
   } catch (error) {
@@ -317,6 +313,29 @@ function* RateJobSaga({payload}) {
 }
 function* watchRateJob() {
   yield takeLatest(RATE_PROVIDER, RateJobSaga);
+}
+
+function* CompletejobSaga({ payload }) {
+  try {
+    let Data = {
+      jobId: payload.jobId,
+      userId: payload.userId,
+      isCompleted: payload.isCompleted,
+      isDisputed: payload.isDisputed,
+    };
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.post(`job/confirmBySeeker`, Data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    toast.success(CapitalizeFirstLetter(response.data.message));
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchCompleteJob() {
+  yield takeLatest(COMPLETE_JOB, CompletejobSaga);
 }
 export default function* addJobSaga() {
   yield all([fork(watchAddJob)]);
@@ -330,4 +349,5 @@ export default function* addJobSaga() {
   yield all([fork(watchConfirmApplicants)]);
   yield all([fork(watchRateJob)]);
   yield all([fork(watchGetHiredApplicants)]);
+  yield all([fork(watchCompleteJob)]);
 }

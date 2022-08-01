@@ -1,21 +1,26 @@
 import { push } from "connected-react-router";
 import { toast } from "react-toastify";
-import { all, fork, put, takeLatest,select } from "redux-saga/effects";
+import { all, fork, put, takeLatest, select } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
 import {
   loginRequestSuccess,
   resetPasswordSuccess,
-  updatetPasswordSuccess
+  updatetPasswordSuccess,
 } from "./actions";
-import { FORGOT_PASSWORD, LOGIN, RESET_PASSWORD,UPDATE_PASSWORD } from "./constants";
+import {
+  FORGOT_PASSWORD,
+  LOGIN,
+  RESET_PASSWORD,
+  UPDATE_PASSWORD,
+} from "./constants";
 
 function* loginRequestSaga({ payload }) {
   let data = {
     email: payload.email,
     password: payload.password,
-    webFcmToken:payload.webFcmToken,
+    webFcmToken: payload.webFcmToken,
   };
   try {
     const response = yield axios.post(`user/web/login`, data);
@@ -27,7 +32,7 @@ function* loginRequestSaga({ payload }) {
         ? "/user_management"
         : "/dashboard";
     payload.history.push(path);
-    payload.resetForm()
+    payload.resetForm();
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -47,7 +52,7 @@ function* forgetRequestSaga({ payload }) {
     toast.success("Email sent successfully");
     yield put(push("/forget-password"));
   } catch (error) {
-    yield sagaErrorHandler(error.response.data);
+    yield sagaErrorHandler(error.response);
   }
 }
 function* watchForget() {
@@ -81,8 +86,7 @@ function* updatePasswordSaga({ payload }) {
     newPassword: payload.newpassword,
   };
   try {
-    const response = yield axios.post(`user/update-password`, data,
-    {
+    const response = yield axios.post(`user/update-password`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -101,9 +105,10 @@ function* watchUpdatePassword() {
 }
 
 export default function* AuthSaga() {
-  yield all([fork(watchLogin),
-     fork(watchForget),
-      fork(watchReset),
-      fork(watchUpdatePassword),
-    ]);
+  yield all([
+    fork(watchLogin),
+    fork(watchForget),
+    fork(watchReset),
+    fork(watchUpdatePassword),
+  ]);
 }

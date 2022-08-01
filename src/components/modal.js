@@ -35,8 +35,6 @@ const ModalComponent = (props) => {
           jobId: props.jobId,
           userId: props.userId,
           setShow: props.setShow,
-          isCompleted: props.isCompleted,
-          isDisputed: props.isDisputed,
         })
       );
     },
