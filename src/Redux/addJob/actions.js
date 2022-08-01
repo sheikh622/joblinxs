@@ -20,7 +20,8 @@ import {
     APPROVED_LOG_HOURS,
     APPROVED_LOG_HOURS_SUCCESS,
     GET_SINGLE_USER,
-    GET_SINGLE_USER_SUCCESS
+    GET_SINGLE_USER_SUCCESS,
+    RATE_PROVIDER
   } from "./constants";
   
   export const getJobListing = (data) => ({
@@ -112,5 +113,9 @@ export const getSingleUser = (data) => ({
 });
 export const getSingleUserSuccess = (data) => ({
   type:  GET_SINGLE_USER_SUCCESS,
+  payload: data,
+});
+export const rateProvider = (data) => ({
+  type:  RATE_PROVIDER,
   payload: data,
 });

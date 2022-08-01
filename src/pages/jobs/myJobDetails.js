@@ -25,6 +25,7 @@ import { Routes } from "../../routes";
 import { jobById } from "../../Redux/addJob/actions";
 // import Profile from "../../assets/img/team/profile.png";
 import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
+import RateModal from "../../components/modal";
 import RecommendCard from "../../components/RecommendCard";
 import DetailHeading from "../../components/DetailHeading";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,7 +36,11 @@ const MyJobDetails = (item, props) => {
   const params = useLocation();
   let jobId = params.pathname.split("/")[2];
   const SingleId = useSelector((state) => state?.addJob?.jobById);
+  console.log(SingleId);
   const [showDefault, setShowDefault] = useState(false);
+  const [show, setShow] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [isDisputed, setIsDisputed] = useState(false);
   useEffect(() => {
     dispatch(jobById({ id: jobId }));
   }, []);
@@ -111,7 +116,7 @@ const MyJobDetails = (item, props) => {
           {SingleId.createdBy === "seeker" && (
             <Col lg={4} md={6} xs={12} className="pb-3 mb-3">
               <Card border="light" className="card-box-shadow py-3 px-4 mb-3">
-               { profileCard()}
+                {profileCard()}
               </Card>
             </Col>
           )}
@@ -216,42 +221,58 @@ const MyJobDetails = (item, props) => {
                     </Card.Body>
                   </Link>
                 </>
-              ):(
+              ) : (
                 <>
-                <div>
-                  <div class="d-grid gap-2 col-3 mx-auto my-2">
-                    <Button
-                      variant="primary"
-                      color="dark"
-                      size="lg"
-                      className="mt-2 me-1"
-                      onClick={handleEdit}
-                    >
-                      Hire Now
-                    </Button>
+                  <div>
+                    <div class="d-grid gap-2 col-3 mx-auto my-2">
+                      <Button
+                        variant="primary"
+                        color="dark"
+                        size="lg"
+                        className="mt-2 me-1"
+                        onClick={handleEdit}
+                      >
+                        Hire Now
+                      </Button>
+                    </div>
                   </div>
-                </div>
-                <div class="col-12 mx-auto text-center my-2">
-                  <a href={`/detailProvider/${SingleId?.user?.id}`}>
-                    View Profile
-                  </a>
-                </div>
-              </>
+                  <div class="col-12 mx-auto text-center my-2">
+                    <a href={`/detailProvider/${SingleId?.user?.id}`}>
+                      View Profile
+                    </a>
+                  </div>
+                </>
               )}
             </Card>
             {SingleId.createdBy === "seeker" && (
               <>
                 <div>
                   <div class="d-grid gap-2 col-3 mx-auto">
-                    <Button
-                      variant="primary"
-                      color="dark"
-                      size="lg"
-                      className="mt-2 me-1"
-                      onClick={handleEdit}
-                    >
-                      Edit Job
-                    </Button>
+                    {SingleId.status === "Accepted" ? (
+                      <Button
+                        variant="primary"
+                        color="dark"
+                        size="lg"
+                        className="mt-2 me-1"
+                        onClick={() => {
+                          setShow(true);
+                          setIsCompleted(true);
+                          setIsDisputed(false);
+                        }}
+                      >
+                        Complete Job
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="primary"
+                        color="dark"
+                        size="lg"
+                        className="mt-2 me-1"
+                        onClick={handleEdit}
+                      >
+                        Edit Job
+                      </Button>
+                    )}
                   </div>
                 </div>
                 <div class="d-grid gap-2 col-3 mx-auto">
@@ -288,7 +309,6 @@ const MyJobDetails = (item, props) => {
                   onHide={handlefalse}
                   color="dark"
                   size="sm"
-                  // type="submit"
                   onClick={() => {
                     handleDelete();
                   }}
@@ -300,6 +320,19 @@ const MyJobDetails = (item, props) => {
           </Form>
         </Modal.Body>
       </Modal>
+      {show && (
+        <RateModal
+          show={show}
+          setShow={setShow}
+          img={SingleId?.image ? SingleId.image : ""}
+          jobId={jobId}
+          userId={SingleId?.user?.id}
+          setIsCompleted={setIsCompleted}
+          setIsDisputed={setIsDisputed}
+          isCompleted={isCompleted}
+          isDisputed={isDisputed}
+        />
+      )}
     </>
   );
 };

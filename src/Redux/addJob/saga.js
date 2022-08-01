@@ -42,7 +42,8 @@ import {
   APPROVED_LOG_HOURS,
   APPROVED_LOG_HOURS_SUCCESS,
   GET_SINGLE_USER_SUCCESS,
-  GET_SINGLE_USER
+  GET_SINGLE_USER,
+  RATE_PROVIDER
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 function* addJob({ payload }) {
@@ -292,12 +293,36 @@ function* getLogHours({ payload }) {
       {
         headers: {
           Authorization: `Bearer ${token}`,
+        }
+      })
+    }catch (error) {
+      yield sagaErrorHandler(error.response);
+    }
+  }
+
+function* RateJobSaga({payload}) {
+  try {
+    let Data = {
+      description:payload.description,
+      rating:payload.rating,
+      jobId:payload.jobId,
+      userId:payload.userId,
+      isCompleted: payload.isCompleted,
+      isDisputed:payload.isDisputed
+  }
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.post(
+      `job/confirmBySeeker`,Data,
+      {
+        headers: {
+          Authorization:`Bearer ${token}`,
         },
       }
     );
     toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getLogHoursSuccess(response.data.data));
 
+    payload.setShow(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -355,6 +380,9 @@ function* getSingleSaga({ payload }) {
 function* watchGetSingleUser() {
   yield takeLatest(GET_SINGLE_USER, getSingleSaga);
 }
+function* watchRateJob() {
+  yield takeLatest(RATE_PROVIDER, RateJobSaga);
+}
 export default function* addJobSaga() {
   yield all([fork(watchAddJob)]);
   yield all([fork(watchGetJob)]);
@@ -368,5 +396,5 @@ export default function* addJobSaga() {
   yield all([fork(watchGetLogHours)]);
   yield all([fork(watchApprovedLogHours)]);
   yield all([fork(watchGetSingleUser)]);
-
+  yield all([fork(watchRateJob)]);
 }
