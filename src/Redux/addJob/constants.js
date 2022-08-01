@@ -15,3 +15,6 @@ export const GET_JOB_APPLICANTS_SUCCESS = "get_Job_Applicants_Success";
 export const CONFIRM_APPLICANTS = "Confirm_Applicants";
 export const CONFIRM_APPLICANTS_SUCCESS = "Confirm_Applicants_Success";
 export const RATE_PROVIDER = "RATE_PROVIDER";
+export const GET_HIRED_APPLICANTS = "GET_HIRED_APPLICANTS";
+export const GET_HIRED_APPLICANTS_SUCCESS = "GET_HIRED_APPLICANTS_SUCCESS";
+    

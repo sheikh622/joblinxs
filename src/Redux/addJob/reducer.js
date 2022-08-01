@@ -6,7 +6,8 @@ import {
   JOB_BY_ID_SUCCESS,
   UPDATE_JOB_SUCCESS,
   GET_JOB_APPLICANTS_SUCCESS,
-  CONFIRM_APPLICANTS_SUCCESS
+  CONFIRM_APPLICANTS_SUCCESS,
+  GET_HIRED_APPLICANTS_SUCCESS
 } from "./constants";
 const initialState = {
   addJob: [],
@@ -15,6 +16,7 @@ const initialState = {
   jobById: [],
   updateJob: [],
   Applicants: [],
+  hiredApplicants:[],
   favouriteJob: [],
   ConfirmApplicants: [],
 };
@@ -38,8 +40,11 @@ const addJob = produce((state = initialState, action) => {
     case GET_JOB_APPLICANTS_SUCCESS:
       state.Applicants = action.payload;
       break;
-    case CONFIRM_APPLICANTS_SUCCESS:
-      state.ConfirmApplicants = action.payload;
+      case GET_JOB_APPLICANTS_SUCCESS:
+      state.Applicants = action.payload;
+      break;
+    case GET_HIRED_APPLICANTS_SUCCESS:
+      state.hiredApplicants = action.payload;
       break;
     default:
   }

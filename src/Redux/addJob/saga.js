@@ -15,7 +15,8 @@ import {
   updateJobSuccess,
   getJobListing,
   getApplicantsSuccess,
-  getConfirmSuccess
+  getConfirmSuccess,
+  getHiredApplicantsSuccess
 } from "./actions";
 import {
   ADD_JOB,
@@ -29,8 +30,8 @@ import {
   UPDATE_JOB_SUCCESS,
   UPDATE_JOB,
   GET_JOB_APPLICANTS,
-  GET_JOB_APPLICANTS_SUCCESS,
-  CONFIRM_APPLICANTS_SUCCESS,
+  GET_HIRED_APPLICANTS,
+  GET_HIRED_APPLICANTS_SUCCESS,
   CONFIRM_APPLICANTS,
   RATE_PROVIDER
 } from "./constants";
@@ -244,6 +245,26 @@ function* getApplicants(payload) {
 function* watchGetApplicants() {
   yield takeLatest(GET_JOB_APPLICANTS, getApplicants);
 }
+function* gethiredApplicantsSaga(payload) {
+  try {
+    const { id } = payload.payload;
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.get(
+      `job/hiredApplicants/${id}?page=${payload.payload.page}&count=${payload.payload.limit}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    yield put(getHiredApplicantsSuccess(response.data));
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchGetHiredApplicants() {
+  yield takeLatest(GET_HIRED_APPLICANTS, gethiredApplicantsSaga);
+}
 function* ConfirmSaga(payload) {
   try {
     let data = {
@@ -308,4 +329,5 @@ export default function* addJobSaga() {
   yield all([fork(watchGetApplicants)]);
   yield all([fork(watchConfirmApplicants)]);
   yield all([fork(watchRateJob)]);
+  yield all([fork(watchGetHiredApplicants)]);
 }
