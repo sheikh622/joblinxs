@@ -11,7 +11,7 @@ import CategoryManagement from "./category/categoryManagement";
 //routes here
 import DashboardOverview from "./dashboard/DashboardOverview";
 import NewArrivalProvider from "./newArrivalProvider/newArrivalProvider";
-import NewArrivalSeeker from "./newArrivalSeekers/newArrivalSeekers";
+import TopRatedProviders from "./newArrivalSeekers/newArrivalSeekers";
 import Recommend from "./recommended/recommended";
 import ForgotPassword from "./auths/ForgotPassword";
 import NotFoundPage from "./auths/NotFound";
@@ -61,8 +61,8 @@ export default () => (
       />
       <PrivateRoute
         exact
-        path={Routes.NewArrivalSeekers.path}
-        component={NewArrivalSeeker}
+        path={Routes.TopRatedProviders.path}
+        component={TopRatedProviders}
       />
        <PrivateRoute
         exact

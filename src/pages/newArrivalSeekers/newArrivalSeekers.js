@@ -3,14 +3,11 @@ import { Col, Container, Row } from "@themesberg/react-bootstrap";
 import CommonCard from "../../components/CommonCard";
 import Navbar from "../../components/Navbar";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  newArrivalSeeker,
-} from "../../Redux/Dashboard/actions";
+import { newArrivalSeeker } from "../../Redux/Dashboard/actions";
 import NoRecordFound from "../../components/NoRecordFound";
 
 const DashboardOverview = () => {
   const dispatch = useDispatch();
-
   const newArrivalSeekers = useSelector(
     (state) => state?.Seeker?.newArrivalSeeker
   );
@@ -29,7 +26,7 @@ const DashboardOverview = () => {
       <Navbar module={"New Arrival Seekrs"} />
       <Container>
         <Row className="py-2">
-        {newArrivalSeekers?.length > 0 ? (
+          {newArrivalSeekers?.length > 0 ? (
             <>
               {newArrivalSeekers?.map((item) => {
                 return (
@@ -38,10 +35,10 @@ const DashboardOverview = () => {
                       img={item?.profileImg}
                       name={item?.fullName}
                       type={item?.employmentType}
-                      rate={"70"}
                       id={item.id}
+                      rate={item.rate}
                       completed={"90"}
-                      star={"4.7"}
+                      star={item.rating}
                     />
                   </Col>
                 );
