@@ -166,7 +166,7 @@ const LogHours = () => {
                 }
             </Container>
             <Modal as={Modal.Dialog} centered show={showDefault} onHide={handlefalse} >
-            <Navbar module={"User Detail"} />
+                <Navbar module={"User Detail"} />
 
                 <Modal.Body>
                     <Form >
@@ -175,7 +175,7 @@ const LogHours = () => {
                                 {Applicants?.map((value, index, row) => {
                                     return (
                                         <>
-
+                                            
                                         </>
                                     );
                                 })}

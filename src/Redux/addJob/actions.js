@@ -24,7 +24,8 @@ import {
 
     RATE_PROVIDER,
     GET_HIRED_APPLICANTS,
-    GET_HIRED_APPLICANTS_SUCCESS
+    GET_HIRED_APPLICANTS_SUCCESS,
+    COMPLETE_JOB
   } from "./constants";
   
   export const getJobListing = (data) => ({
@@ -128,5 +129,9 @@ export const getSingleUserSuccess = (data) => ({
 });
 export const rateProvider = (data) => ({
   type:  RATE_PROVIDER,
+  payload: data,
+});
+export const completeJob = (data) => ({
+  type:  COMPLETE_JOB,
   payload: data,
 });

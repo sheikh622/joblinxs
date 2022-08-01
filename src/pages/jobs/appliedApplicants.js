@@ -12,7 +12,7 @@ import {
   Pagination,
   Nav,
   Tab,
-  Tabs
+  Tabs,
 } from "@themesberg/react-bootstrap";
 import {
   faAngleDoubleLeft,
@@ -36,7 +36,7 @@ import { getConfirmApplicants } from "../../Redux/addJob/actions";
 import NoRecordFound from "../../components/NoRecordFound";
 // import Tab from "react-bootstrap/Tab";
 // import Tabs from "react-bootstrap/Tabs";
-const Applicants = ({id}) => {
+const Applicants = ({ id }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const {
@@ -55,8 +55,8 @@ const Applicants = ({id}) => {
   );
   const Pageination = useSelector((state) => state?.addJob?.Applicants?.data);
   useEffect(() => {
-    if(id === "Applied"){
-    dispatch(
+    if (id === "Applied") {
+      dispatch(
         getApplicants({
           id: jobId,
           page: page,
@@ -64,7 +64,7 @@ const Applicants = ({id}) => {
         })
       );
     }
-  }, [page, limit,id])
+  }, [page, limit, id]);
 
   const nextPage = () => {
     if (page < Pageination?.pages) {
@@ -176,27 +176,27 @@ const Applicants = ({id}) => {
                     </>
                   );
                 })}
-                <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
-                  <Nav>
-                    <Pagination size={"sm"} className="mb-2 mb-lg-0">
-                      <Pagination.Prev onClick={() => previousPage()}>
-                        <FontAwesomeIcon icon={faAngleDoubleLeft} />
-                      </Pagination.Prev>
-                      {paginationItems()}
-                      <Pagination.Next onClick={() => nextPage()}>
-                        <FontAwesomeIcon icon={faAngleDoubleRight} />
-                      </Pagination.Next>
-                    </Pagination>
-                  </Nav>
-                  <small className="fw-bold">
-                    Total Applicants <b>{Pageination?.total_jobs}</b>
-                  </small>
-                </Card.Footer>
               </Col>
             </>
           ) : (
             <NoRecordFound />
           )}
+          <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+            <Nav>
+              <Pagination size={"sm"} className="mb-2 mb-lg-0">
+                <Pagination.Prev onClick={() => previousPage()}>
+                  <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                </Pagination.Prev>
+                {paginationItems()}
+                <Pagination.Next onClick={() => nextPage()}>
+                  <FontAwesomeIcon icon={faAngleDoubleRight} />
+                </Pagination.Next>
+              </Pagination>
+            </Nav>
+            <small className="fw-bold">
+              Total Applicants <b>{Pageination?.total_jobs}</b>
+            </small>
+          </Card.Footer>
         </Row>
       </Container>
     </>

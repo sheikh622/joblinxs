@@ -5,18 +5,20 @@ import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 import {
-  addCategorySuccess, getCategoryList
+  addCategorySuccess,
+  getCategoryList,
   // deleteCategory,
-  , getCategoryListSuccess,
-  updateCategorySuccess
+  getCategoryListSuccess,
+  updateCategorySuccess,
 } from "./actions";
 import {
-  ADD_CATEGORY, DELETE_CATEGORY, GET_CATEGORY_LIST,
-  UPDATE_CATEGORY
+  ADD_CATEGORY,
+  DELETE_CATEGORY,
+  GET_CATEGORY_LIST,
+  UPDATE_CATEGORY,
 } from "./constants";
 
 function* addCategoryRequest({ payload }) {
-
   const formData = new FormData();
   formData.append("categoryImg", payload.categoryImg);
   formData.append("title", payload.title);
@@ -33,11 +35,11 @@ function* addCategoryRequest({ payload }) {
     payload.setShowDefault(false);
     payload.setSelectedImage("");
     yield put(addCategorySuccess(response.data.data));
-    yield put(getCategoryList({
-      search: '',
-    })
+    yield put(
+      getCategoryList({
+        search: "",
+      })
     );
-
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -46,27 +48,20 @@ function* getcategory({ payload }) {
   try {
     const token = yield select(makeSelectAuthToken());
     let response;
-    if(payload.role=="admin"){
-      response = yield axios.get(
-        `category/list?keyword=${payload.search}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+    if (payload.role == "admin") {
+      response = yield axios.get(`category/list?keyword=${payload.search}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } else {
+      response = yield axios.get(`category/user/list`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
     }
-    else{
-      response = yield axios.get(
-        `category/user/list`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-    }
-
+    // toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getCategoryListSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -92,9 +87,10 @@ function* updateCategorySaga({ payload }) {
 
     toast.success(CapitalizeFirstLetter(response.data.message));
     payload.history.push("/Categories");
-    yield put(getCategoryList({
-      search: '',
-    })
+    yield put(
+      getCategoryList({
+        search: "",
+      })
     );
     yield put(updateCategorySuccess(response.data));
   } catch (error) {
@@ -112,9 +108,10 @@ function* deleteCategory({ payload }) {
     });
 
     toast.success(CapitalizeFirstLetter(response.data.message));
-    yield put(getCategoryList({
-      search: payload.search,
-    })
+    yield put(
+      getCategoryList({
+        search: payload.search,
+      })
     );
   } catch (error) {
     yield sagaErrorHandler(error.response);
