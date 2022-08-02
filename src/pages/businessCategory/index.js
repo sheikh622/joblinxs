@@ -27,14 +27,15 @@ import {
     addCategory,
     //  deleteCategory,
     getBusinessCategoryList,
-    //   updateCategory 
+   saveCategory
 } from "../../Redux/BusinessCategory/actions";
 const BusinessCategories = (item) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [search, setSearch] = useState("");
     const [checked, setChecked] = useState(false);
-    console.log("checked",checked)
+    const [checkedItem, setCheckedItem] = useState([]);
+
     const [adminId, setAdminId] = useState(0);
     const [delCategory, setDelCategory] = useState(false)
     const {
@@ -42,7 +43,7 @@ const BusinessCategories = (item) => {
     } = history;
     // const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
     const BusinessCategory = useSelector((state) => state?.BusinessCategory?.getBusinessCategoryList);
-    console.log(BusinessCategory, "BusinessCategory")
+
     const auth = useSelector((state) => state.auth);
     const forAction = history?.location?.state?.from;
     useEffect(() => {
@@ -51,8 +52,15 @@ const BusinessCategories = (item) => {
             })
         );
     }, [search]);
-    const [showDefault, setShowDefault] = useState(false);
 
+    const handleClick = () =>{ 
+        dispatch(
+            saveCategory({
+                categoriesId:checkedItem,
+            })
+        );
+    }
+    const [showDefault, setShowDefault] = useState(false);
     const handleClose = () => {
         setEdit(false);
         setShowDefault(false);
@@ -67,14 +75,6 @@ const BusinessCategories = (item) => {
         setShowDefault(true);
         setSelectedItem(value);
         setSelectedImage(value.categoryImg);
-    };
-    const handleDelete = (value) => {
-        dispatch(
-            // deleteCategory({
-            //     userId: adminId,
-            //     search: search,
-            // })
-        );
     };
     const CategorySchema = Yup.object().shape({
         title: Yup.string().trim().required("Category Name is required"),
@@ -128,6 +128,24 @@ const BusinessCategories = (item) => {
         setSelectedItem(null);
         setShowDefault(true);
     };
+    const handlechecked = (id) => {
+        let temp = [...checkedItem];
+        if (!checkedItem.includes(id)) {
+          
+            temp=[...temp,id];
+    
+
+        }
+        else {
+           
+            temp=temp.filter((obj) => obj !== id);
+           
+        }
+        setCheckedItem(temp);
+     
+    }
+   
+
     return (
         <>
             <Navbar module={"Categories"} />
@@ -202,7 +220,8 @@ const BusinessCategories = (item) => {
                                                     <label>
                                                         <input type="checkbox"
                                                             // defaultChecked={checked}
-                                                            onChange={() => setChecked(checked)}
+                                                            checked={value.selected}
+                                                            onChange={(e) => handlechecked(value.id)}
                                                         />
                                                     </label>
                                                 </span>
@@ -218,19 +237,20 @@ const BusinessCategories = (item) => {
                     <NoRecordFound />
                 </>
                 }
-
-
                 <Row className="py-2 justify-content-between">
                     <div class="d-grid gap-2 col-3 text-center  mx-auto">
                         <span className="text-gray">
                             You can select multiple categories
                         </span>
-                        <Button variant="primary" color="dark" size="sm">
+                        <Button variant="primary" color="dark" size="sm" 
+                    onClick={() => {
+                        handleClick()
+                    }}
+                        >
                             Save
                         </Button>
                     </div>
                 </Row>
-
             </Container>
             {/* Modal */}
             <Modal as={Modal.Dialog} centered show={showDefault}>

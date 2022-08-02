@@ -3,13 +3,14 @@ import {
   ADD_CATEGORY_SUCCESS,
   CHANGE_USERS_ACTIVE_PAGE,
   GET_BUSINESSCATEGORY_LIST_SUCCESS,
+  SAVE_CATEGORY_SUCCESS
   // UPDATE_CATEGORY_SUCCESS
 } from "./constants";
 const initialState = {
   addCategory: [],
   // UserActivePage: 0,
   getBusinessCategoryList: [],
-  // updateCategory: [],
+  saveCategory: [],
 };
 const BusinessCategory = produce((state = initialState, action) => {
 
@@ -23,9 +24,9 @@ const BusinessCategory = produce((state = initialState, action) => {
     case GET_BUSINESSCATEGORY_LIST_SUCCESS:
       state.getBusinessCategoryList = action.payload;
       break;
-    // case UPDATE_CATEGORY_SUCCESS:
-    //   state.updateCategory = action.payload;
-    //   break;
+    case SAVE_CATEGORY_SUCCESS:
+      state.saveCategory = action.payload;
+      break;
     default:
   }
 }, initialState);

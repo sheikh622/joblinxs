@@ -47,6 +47,9 @@ const LogHours = (item) => {
     const logHours = useSelector(
         (state) => state?.addJob?.logHours[0]
     );
+    const applicantsData = useSelector(
+        (state) => state?.addJob?.hiredApplicants?.data?.applicants
+    );
     useEffect((id) => {
         dispatch(
             getLogHours({
@@ -62,8 +65,8 @@ const LogHours = (item) => {
         dispatch(
             getApprovedHours({
                 id: jobId,
-                setShowDefault:setShowDefault,
-                history:history,
+                setShowDefault: setShowDefault,
+                history: history,
                 userId: item.id,
                 status: item.status,
             })
@@ -128,10 +131,10 @@ const LogHours = (item) => {
                                 </>
                             );
                         })
-                    ) : 
+                    ) :
                         <NoRecordFound>
-                     </NoRecordFound>
-                        }
+                        </NoRecordFound>
+                    }
 
                 </Row>
             </Container>
@@ -246,7 +249,7 @@ const LogHours = (item) => {
                                             </div>
                                         </div>
                                     </>
-                                )} 
+                                )}
                             </Row>
                         </Form.Group>
                     </Form>
