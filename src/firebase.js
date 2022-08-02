@@ -1,4 +1,6 @@
 import { initializeApp } from 'firebase/app';
+import { getStorage } from "firebase/storage";
+import { getFirestore } from "firebase/firestore"
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 var firebaseConfig = {
@@ -39,4 +41,11 @@ export const onMessageListener = () =>{
     });
 });
 
+}
+
+export const myStorage = ()=> {
+  return getStorage(firebaseConfig);
+}
+export const myFirestore = ()=> {
+  return getFirestore();
 }

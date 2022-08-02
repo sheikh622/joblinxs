@@ -36,6 +36,8 @@ export const GeneralInfoForm = () => {
     { value: "professional", label: "professional" },
     { value: "Expert", label: "Expert" },
   ];
+  const [isEmergency, setIsEmergency] = useState(false);
+  const [repost, setRepost] = useState(false);
   const YOUR_GOOGLE_MAPS_API_KEY = "AIzaSyBJWt1Yh6AufjxV8B8Y8UVz_25cYV1fvhs";
   const params = useLocation();
   let id = params.pathname.split("/")[2];
@@ -48,9 +50,8 @@ export const GeneralInfoForm = () => {
   const [selectedImage, setSelectedImage] = useState("");
   const [hours, setHours] = useState("1");
   const [days, setDays] = useState("1");
-  const [providers, setProviders] = useState(
-    // provide.filter((option) => option.label == SingleId.noOfProviders)
-  );
+  const [providers, setProviders] = useState();
+  // provide.filter((option) => option.label == SingleId.noOfProviders)
   const [experience, setExperience] = useState(
     experienced.filter((option) => option.label == SingleId.experienceRequired)
   );
@@ -80,7 +81,7 @@ export const GeneralInfoForm = () => {
     setProviders(
       provide.filter((option) => option.label == SingleId.noOfProviders)
     );
-    setLocation(SingleId?.location? SingleId?.location[0] : "")
+    setLocation(SingleId?.location ? SingleId?.location[0] : "");
   }, [SingleId]);
   useEffect(() => {
     dispatch(
@@ -116,9 +117,9 @@ export const GeneralInfoForm = () => {
     jobRequirements: Yup.string().trim().required("Requirements is required"),
     toolsNeeded: Yup.string().trim().required("Tools is required"),
     rate: Yup.string()
-    .required("Please enter number")
-    .max(8, "Number should not exceed 6 digits")
-    .min(1, "Number should not be less than 0"),
+      .required("Please enter number")
+      .max(8, "Number should not exceed 6 digits")
+      .min(1, "Number should not be less than 0"),
   });
   const CategoryFormik = useFormik({
     enableReinitialize: true,
@@ -131,7 +132,9 @@ export const GeneralInfoForm = () => {
       rate: SingleId?.rate ? SingleId?.rate : "--",
       onGoing: SingleId?.onGoing ? SingleId?.onGoing : "",
       jobType: SingleId?.jobType ? SingleId?.jobType : "",
+      // jobImg: SingleId?.image ? SingleId?.image : "",
       paymentType: SingleId?.paymentType ? SingleId?.paymentType : "",
+      isEmergency: SingleId?.isEmergency ? SingleId?.isEmergency : "",
       jobNature: SingleId?.jobNature ? SingleId?.jobNature : "",
       startDate: SingleId?.startDate ? SingleId?.startDate : "",
       endDate: SingleId?.endDate ? SingleId?.endDate : "",
@@ -155,11 +158,18 @@ export const GeneralInfoForm = () => {
         toolsNeeded: values.toolsNeeded,
         rate: values.rate,
         jobType: jobType,
+        isEmergency: isEmergency,
         paymentType: paymentType,
         jobNature: jobNature,
         category: categories.value,
-        noOfProviders: Array.isArray(providers) === true ? providers[0].value : providers.value,
-        experienceRequired: Array.isArray(experience) === true ? experience[0].value : experience.value,
+        noOfProviders:
+          Array.isArray(providers) === true
+            ? providers[0].value
+            : providers.value,
+        experienceRequired:
+          Array.isArray(experience) === true
+            ? experience[0].value
+            : experience.value,
         days: days,
         hours: hours,
         location: location,
@@ -172,15 +182,20 @@ export const GeneralInfoForm = () => {
         jobImg: selectedImage,
         setSelectedImage: setSelectedImage,
         history: history,
+        existImg: SingleId?.image,
+        isEmergency: isEmergency,
       };
       if (!id) {
         dispatch(getJobListing(data));
       } else {
-        dispatch(updateJob(data, id));
+        if (isEmergency || repost) {
+          dispatch(getJobListing(data));
+        } else {
+          dispatch(updateJob(data, id));
+        }
       }
     },
   });
-  console.log("===================",CategoryFormik);
   useEffect(() => {
     if (jobId !== undefined) {
       dispatch(jobById({ id: jobId }));
@@ -192,7 +207,7 @@ export const GeneralInfoForm = () => {
 
   // Add location
   const [showDefault, setShowDefault] = useState(false);
-
+  const [showDefaultEmergency, setShowDefaultEmergency] = useState(false);
   const handleClose = () => setShowDefault(false);
 
   // Congratulations modal
@@ -215,7 +230,7 @@ export const GeneralInfoForm = () => {
     options: {
       types: ["(regions)"],
     },
-    defaultValue:location
+    defaultValue: location,
   });
 
   return (
@@ -265,7 +280,7 @@ export const GeneralInfoForm = () => {
                     }}
                   />
                   {CategoryFormik.touched.jobName &&
-                    CategoryFormik.errors.jobName ? (
+                  CategoryFormik.errors.jobName ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.jobName}
                     </div>
@@ -517,8 +532,7 @@ export const GeneralInfoForm = () => {
                       CategoryFormik.setFieldValue("rate", e.target.value);
                     }}
                   />
-                  {CategoryFormik.touched.rate &&
-                    CategoryFormik.errors.rate ? (
+                  {CategoryFormik.touched.rate && CategoryFormik.errors.rate ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.rate}
                     </div>
@@ -642,21 +656,84 @@ export const GeneralInfoForm = () => {
               <Button variant="primary" type="submit" show={showDefaults}>
                 {id ? "Update Job" : "Post Job"}
               </Button>
+              {SingleId?.status === "pending" && (
+                <Button
+                  variant="primary"
+                  type="submit"
+                  onClick={() => {
+                    setShowDefaultEmergency(true);
+                  }}
+                  className="mx-2"
+                >
+                  Emergency Post
+                </Button>
+              )}
+              {id && (
+                <Button
+                  variant="primary"
+                  type="submit"
+                  onClick={() => {
+                    setShowDefaultEmergency(true);
+                    setRepost(true);
+                  }}
+                >
+                  Repost Job
+                </Button>
+              )}
             </div>
           </Form>
         </Card.Body>
       </Card>
 
       {/* Modal */}
-      <Modal as={Modal.Dialog} centered show={showDefault} onHide={handleClose}>
-        <Form.Control ref={ref} style={{ width: "90%" }} />
+      <Modal
+        as={Modal.Dialog}
+        centered
+        show={showDefaultEmergency}
+        onHide={handleClose}
+      >
+        <Modal.Header>
+          <Button
+            variant="close"
+            aria-label="Close"
+            onClick={() => {
+              setShowDefaultEmergency(false);
+            }}
+          />
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={CategoryFormik.handleSubmit}>
+            <Form.Group>
+              Are you sure you want to{" "}
+              {repost ? "repost this Job?" : "post this job emergency?"}
+            </Form.Group>
+            <Form.Group>
+              <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
+                <Button
+                  variant="primary"
+                  type="submit"
+                  onClick={() => {
+                    if (repost) {
+                      setRepost(true);
+                    } else {
+                      setIsEmergency(true);
+                    }
+                  }}
+                  className="mx-2"
+                >
+                  Post
+                </Button>
+              </div>
+            </Form.Group>
+          </Form>
+        </Modal.Body>
       </Modal>
 
       {/* Congratulations Modal */}
       <Modal
         as={Modal.Dialog}
         centered
-        show={showDefaults}
+        show={showDefault}
         onHide={handleCloses}
       >
         <Modal.Header className="border-0">

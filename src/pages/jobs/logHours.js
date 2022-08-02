@@ -23,23 +23,24 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { getApplicants } from "../../Redux/addJob/actions"
+import { getApplicants,getApplicantsByUserId } from "../../Redux/addJob/actions"
 import { useHistory, useLocation } from "react-router-dom";
 import { height, width } from "@mui/system";
 
 
 const LogHours = () => {
+    let usersId= sessionStorage.getItem("userId");
     const dispatch = useDispatch();
     const history = useHistory();
     const {
         location: { state },
     } = history;
     const params = useLocation();
-
-    let jobId = params.pathname.split("/")[2];
     const login = useSelector(
         (state) => state?.auth.Auther
-    );
+        );
+        
+        let jobId = params.pathname.split("/")[2];
     const [showDefault, setShowDefault] = useState(false);
     const handleClose = () => setShowDefault(false);
     const [page, setPage] = useState(1);
@@ -50,13 +51,24 @@ const LogHours = () => {
         (state) => state?.addJob?.Applicants?.data);
 
     useEffect((id) => {
-        dispatch(
-            getApplicants({
-                id: jobId,
-                page: page,
-                limit: limit,
-            })
-        );
+        if(usersId){
+            dispatch(
+                getApplicantsByUserId({
+                    id: jobId,
+                    page: page,
+                    limit: limit,
+                    usersId:usersId
+                })
+            );
+        }else{
+            dispatch(
+                getApplicants({
+                    id: jobId,
+                    page: page,
+                    limit: limit,
+                })
+            );
+        }
     }, [page, limit]);
     const nextPage = () => {
         if (page < Pageination?.pages) {
