@@ -317,11 +317,14 @@ function* getLogHours({ payload }) {
           Authorization: `Bearer ${token}`,
         }
       })
+    yield put(getLogHoursSuccess(response.data.data));
     }catch (error) {
       yield sagaErrorHandler(error.response);
     }
   }
-
+  function* watchGetLogHours() {
+    yield takeLatest(GET_LOG_HOURS, getLogHours);
+  }
 function* RateJobSaga({ payload }) {
   try {
     let Data = {
@@ -344,13 +347,11 @@ function* RateJobSaga({ payload }) {
     yield sagaErrorHandler(error.response);
   }
 }
-function* watchGetLogHours() {
-  yield takeLatest(GET_LOG_HOURS, getLogHours);
-}
+
 function* ApprovedHoursSaga({ payload }) {
   try {
     let data = {
-      id: payload.id,
+      userId: payload.id,
       status: payload.status
     }
     const { id } = payload;
@@ -365,10 +366,7 @@ function* ApprovedHoursSaga({ payload }) {
     );
     toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getApprovedHoursSuccess(response.data.data));
-    yield put(getLogHours({
-      id: payload.jobId,
-    }));
-
+    window.location.reload()
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

@@ -10,13 +10,16 @@ import {
     Modal,
     Row,
     Pagination,
-    Nav
-} from "@themesberg/react-bootstrap"; import {
+    Nav,
+} from "@themesberg/react-bootstrap";
+import {
     faAngleDoubleLeft,
-    faAngleDoubleRight, faCheck, faEllipsisH, faMinus
+    faAngleDoubleRight,
+    faCheck,
+    faEllipsisH,
+    faMinus,
 } from "@fortawesome/free-solid-svg-icons";
 import React, { useEffect, useState } from "react";
-import NoRecordFound from "../../components/NoRecordFound";
 import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
 import Profile from "../../assets/img/team/profile.png";
 import Navbar from "../../components/Navbar";
@@ -24,169 +27,232 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { getApplicants } from "../../Redux/addJob/actions"
+import { getLogHours, getApprovedHours } from "../../Redux/addJob/actions";
 import { useHistory, useLocation } from "react-router-dom";
 import { height, width } from "@mui/system";
+import { Link } from "react-router-dom";
+import NoRecordFound from "../../components/NoRecordFound";
 import DetailHeading from "../../components/DetailHeading";
-
-
-const LogHours = () => {
+const LogHours = (item) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const {
         location: { state },
     } = history;
+    const hoursLog = item?.location?.state;
     const params = useLocation();
-
     let jobId = params.pathname.split("/")[2];
-    const login = useSelector(
-        (state) => state?.auth.Auther
-    );
     const [showDefault, setShowDefault] = useState(false);
-    const handleClose = () => setShowDefault(false);
-    const [page, setPage] = useState(1);
-    const [limit] = useState("5");
-    const Applicants = useSelector(
-        (state) => state?.addJob?.Applicants?.data?.jobs);
-    console.log("Appliants===========", Applicants)
-    const Pageination = useSelector(
-        (state) => state?.addJob?.Applicants?.data);
-
-    const handlefalse = () => {
-        setShowDefault(false)
-    };
+    const [selectedItem, setSelectedItem] = useState();
+    const logHours = useSelector(
+        (state) => state?.addJob?.logHours[0]
+    );
     useEffect((id) => {
         dispatch(
-            getApplicants({
+            getLogHours({
                 id: jobId,
-                page: page,
-                limit: limit,
             })
         );
-    }, [page, limit]);
-    const nextPage = () => {
-        if (page < Pageination?.pages) {
-            setPage(page + 1);
-        }
+    }, []);
+    const handlefalse = () => {
+        setShowDefault(false);
     };
-    const previousPage = () => {
-        if (1 < page) {
-            setPage(page - 1);
-        }
+
+    const handleChange = (item) => {
+        dispatch(
+            getApprovedHours({
+                id: jobId,
+                setShowDefault:setShowDefault,
+                history:history,
+                userId: item.id,
+                status: item.status,
+            })
+        );
     };
-    const paginationItems = () => {
-        let items = [];
-        for (let number = 1; number <= Pageination?.pages; number++) {
-            items.push(
-                <Pagination.Item key={number} active={number === page} onClick={() => {
-                    setPage(number)
-                }}>
-                    {number}
-                </Pagination.Item>,
-            );
-        }
-        return items
-    }
-    const handleClick = () => {
-        return (
-            <div>
-                <div class="">
-                    <Button
-                        variant="primary"
-                        color="dark"
-                        size="sm"
-                        onClick={() => {
-                            setShowDefault(true);
-
-                        }
-                        }
-                    >
-                        View
-                    </Button>
-                </div>
-
-            </div>
-        )
-    }
     return (
         <>
             <Navbar module={"Log Hours"} />
             <Container>
-                <Row className="py-2 ">
-                </Row>
-                {Applicants?.length ? <>
-                    <Row className="py-2 justify-content-between">
-                        <Col lg={6} md={12} sm={12} xs={12} className="pb-3">
-                            {Applicants?.map((value, index, row) => {
-                                return (
-                                    <>
+                <Row className="py-2 "></Row>
+                <Row className="py-2 justify-content-between">
+                    {logHours?.log_hours.length > 0 ? (
+                        logHours?.log_hours?.map((item, value) => {
+                            return (
+                                <>
+                                    <Col lg={6} md={12} sm={12} xs={12} className="pb-3">
                                         <Card border="light" className="shadow-sm userCard">
-                                            <Image src={value?.job?.image} className="navbar-brand-light" />
+                                            <Image
+                                                src={
+                                                    item?.users?.profileImg ? item?.users?.profileImg : ""
+                                                }
+                                                className="navbar-brand-light"
+                                            />
                                             <div className="detailSection">
                                                 <span className="left">
-                                                    {/* {/ <h3 className="mb-1 mt-2">{item?.job ? item?.job?.name : ""} </h3> /} */}
+                                                    <h3 className="mb-1 mt-2">
+                                                        {item?.users?.fullName ? item?.users?.fullName : ""}{" "}
+                                                    </h3>
+                                                    <h4 className="mb-1 mt-2">
+                                                        {item?.description ? item?.description : ""}{" "}
+                                                    </h4>
                                                     <p className="mt-2">
-                                                        <span>{value?.job?.name}</span>{" "}
-                                                    </p>
-                                                    <p>
-                                                        <span>{value.rating}</span>
-                                                    </p>
-                                                    <p>
-                                                        <span>{value?.job?.experienceRequired}</span>
+                                                        Hours Logged:{" "}
+                                                        <span>
+                                                            {item?.hours ? item?.hours : "00"}{" : "}
+                                                            {item?.minutes ? item?.minutes : "00"}
+                                                        </span>{" "}
                                                     </p>
                                                 </span>
                                             </div>
-                                            {handleClick()}
+                                            <Button
+                                                variant={
+                                                    item?.acceptedBySeeker == true ? "success" : "primary"
+                                                }
+                                                color="dark"
+                                                size="sm"
+                                                style={{
+                                                    width: "100px",
+                                                    height: "40px",
+                                                    marginTop: "42px",
+                                                    marginRight: "20px",
+                                                }}
+                                                onClick={() => {
+                                                    setShowDefault(true);
+                                                    setSelectedItem(item);
+                                                }}
+                                            >
+                                                View
+                                            </Button>
                                         </Card>
-                                        <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
-                                            <Nav>
-                                                <Pagination size={"sm"} className="mb-2 mb-lg-0">
-                                                    <Pagination.Prev onClick={() => previousPage()}>
-                                                        <FontAwesomeIcon icon={faAngleDoubleLeft} />
-                                                    </Pagination.Prev>
-                                                    {paginationItems()}
-                                                    <Pagination.Next onClick={() => nextPage()}>
-                                                        <FontAwesomeIcon icon={faAngleDoubleRight} />
-                                                    </Pagination.Next>
-                                                </Pagination>
-                                            </Nav>
-                                            <small className="fw-bold">
-                                                Total Applicants <b>{Pageination?.total_jobs}</b>
-                                            </small>
-                                        </Card.Footer>
+                                    </Col>
+                                </>
+                            );
+                        })
+                    ) : 
+                        <NoRecordFound>
+                     </NoRecordFound>
+                        }
 
-                                    </>
-                                );
-                            })}
-                        </Col>
-                    </Row>
-                </> : <>
-                    <NoRecordFound />
-                </>
-                }
+                </Row>
             </Container>
-            <Modal as={Modal.Dialog} centered show={showDefault} onHide={handlefalse} >
-                <Navbar module={"User Detail"} />
-
+            <Modal as={Modal.Dialog} centered show={showDefault} onHide={handlefalse}>
+                <Modal.Header>
+                    <Modal.Title className="h5">Log Hours Details</Modal.Title>
+                    <Button variant="close" aria-label="Close" onClick={handlefalse} />
+                </Modal.Header>
                 <Modal.Body>
-                    <Form >
+                    <Form>
                         <Form.Group>
-                            <Container>
-                                {Applicants?.map((value, index, row) => {
-                                    return (
-                                        <>
-                                            
-                                        </>
-                                    );
-                                })}
-                            </Container>
+                            <Row>
+                                <Col lg={12} md={8} xs={8} className="pb-3 mb-3">
+                                    <Card
+                                        border="light"
+                                        className="text-left p-0 mb-4 profileView info"
+                                    >
+                                        <Card.Body className="pb-2 border_bottom mb-1">
+                                            <div className="detailed">
+                                                <Image
+                                                    src={
+                                                        selectedItem?.users?.profileImg
+                                                            ? selectedItem?.users?.profileImg
+                                                            : ""
+                                                    }
+                                                    className="navbar-brand-light detailImg"
+                                                />
+                                                <h3 className="mb-1 mt-3">
+                                                    {selectedItem?.users?.fullName
+                                                        ? selectedItem.users?.fullName
+                                                        : ""}
+                                                </h3>
+                                                <h5 className="text-gray">
+                                                    {selectedItem?.profileType
+                                                        ? selectedItem.profileType
+                                                        : ""}
+                                                </h5>
+                                            </div>
+                                            <div className="pb-2 d-flex justify-content-between align-logHourss-baseline">
+                                                <Card.Title className="text-primary">
+                                                    Logged Hours
+                                                </Card.Title>
+                                            </div>
+                                            <DetailHeading
+                                                heading={"Hours Logged"}
+                                                value={<span>
+                                                    {selectedItem?.hours ? selectedItem?.hours : "00"}{" : "}
+                                                    {selectedItem?.minutes ? selectedItem?.minutes : "00"}
+                                                </span>}
+                                            />
+                                            <DetailHeading
+                                                heading={"Job Rate"}
+                                                value={logHours?.rate ? logHours?.rate : "-"}
+                                            />
+                                            <DetailHeading
+                                                heading={"Status"}
+                                                value={
+                                                    selectedItem?.status ? selectedItem?.status : "-"
+                                                }
+                                            />
+                                            <DetailHeading
+                                                heading={"TimeRequired"}
+                                                value={logHours?.days ? logHours?.days : "-"}
+                                            />
+                                        </Card.Body>
+                                        <Card.Body className="pb-2 border_bottom mb-1">
+                                            <DetailHeading
+                                                heading={"Total Amount"}
+                                                value={
+                                                    selectedItem?.total_Amount
+                                                        ? selectedItem?.total_Amount
+                                                        : "-"
+                                                }
+                                            />
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                                {selectedItem?.status == "pending" && (
+                                    <>
+                                        <div>
+                                            <div class="d-grid gap-2 col-3 mx-auto">
+                                                <Button
+                                                    variant="primary"
+                                                    color="dark"
+                                                    size="lg"
+                                                    className="mt-2 me-1"
+                                                    onClick={() =>
+                                                        handleChange({
+                                                            id: selectedItem.id,
+                                                            status: "Accepted",
+                                                        })
+                                                    }
+                                                >
+                                                    Accept
+                                                </Button>
+                                            </div>
+                                            <div class="d-grid gap-2 col-3 mx-auto">
+                                                <Button
+                                                    variant="primary"
+                                                    color="dark"
+                                                    size="lg"
+                                                    className="mt-2 me-1"
+                                                    onClick={() =>
+                                                        handleChange(
+                                                            { id: selectedItem.id, status: "Rejected" },
+                                                            handlefalse()
+                                                        )
+                                                    }
+                                                >
+                                                    Decline
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </>
+                                )} 
+                            </Row>
                         </Form.Group>
                     </Form>
-
                 </Modal.Body>
             </Modal>
         </>
     );
 };
-
 export default LogHours;
