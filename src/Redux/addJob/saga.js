@@ -153,9 +153,6 @@ function* watchDeleteAddJob() {
   yield takeLatest(DELETE_ADD_JOB, deleteJobSaga);
 }
 function* markAsFavouriteJobSaga({ payload }) {
-  // let listData = {
-  //   page: payload.page === undefined ? 1 : payload.page,
-  // };
   try {
     const token = yield select(makeSelectAuthToken());
     const datas = {
@@ -171,10 +168,7 @@ function* markAsFavouriteJobSaga({ payload }) {
       datas,
       headers
     );
-    // yield put(favouriteJobListSuccess(response.data.data.jobs));
     toast.success(CapitalizeFirstLetter(response.data.message));
-    // yield put(getJobs(data));
-    // yield put(favouriteJobList(listData))
     payload.history.go(0);
   } catch (error) {
     yield sagaErrorHandler(error.response);
