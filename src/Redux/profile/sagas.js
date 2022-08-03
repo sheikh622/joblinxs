@@ -36,8 +36,6 @@ function* updateAdminProfileSaga({ payload }) {
   Data.append("postalCode", payload.postalCode);
   Data.append("id", payload.id);
   Data.append("profileImg", payload.profileImg);
-  console.log(Data, "here is data");
-
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.patch(`profile/update`, Data, {

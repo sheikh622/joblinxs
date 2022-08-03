@@ -83,28 +83,6 @@ export default () => {
     );
   }, []);
   function onSubmit(data) {
-    console.log("=======================", data, value, dateofBirth);
-    // toast.error("Please add valid phone number")
-    // console.log("asaasasasasasasasasas")
-
-    // let Data = new FormData();
-    // Data.append("fullName", data.fullName);
-    // Data.append("address", data.address);
-    // Data.append(
-    //   "dateofBirth",
-    //   dateofBirth
-    //     ? moment.utc(dateofBirth).format().toString()
-    //     : getById?.dateofBirth.toString()
-    // );
-    // Data.append("phoneNumber", value ? value : getById?.phoneNumber);
-    // Data.append("city", data.city);
-    // Data.append("postalCode", data.postalCode);
-    // Data.append("id", getById.id);
-    // Data.append(
-    //   "profileImg",
-    //   selectedImage ? selectedImage : getById?.profileImg
-    // );
-    // console.log("Data", data?.phoneNumber?.length);
     if (!isValidPhoneNumber(value)) {
       return;
     } else {
@@ -122,9 +100,6 @@ export default () => {
           profileImg: selectedImage ? selectedImage : getById?.profileImg,
           history: history,
         })
-        //     (Data),({
-        //     history:history,
-        // })
       );
     }
   }

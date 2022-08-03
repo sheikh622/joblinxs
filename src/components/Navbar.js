@@ -69,6 +69,7 @@ export default (props) => {
       title === "Job Status" ||
       title === "job started" ||
       title === "Job Completed" ||
+      title === "job completed" ||
       title === "job canceled" ||
       title === "Job Disputed"
     ) {
