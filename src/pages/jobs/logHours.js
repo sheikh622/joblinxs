@@ -36,14 +36,12 @@ import DetailHeading from "../../components/DetailHeading";
 const LogHours = (item) => {
     const dispatch = useDispatch();
     // let usersId= sessionStorage.getItem("userId");
-    // console.log(params)
     const history = useHistory();
     const {
         location: { state },
     } = history;
     const hoursLog = item?.location?.state;
     const params = useLocation();
-   
     let usersId = params.search.split("?")[1]
     let jobId = params.pathname.split("/")[2];
     const [showDefault, setShowDefault] = useState(false);
@@ -51,12 +49,11 @@ const LogHours = (item) => {
     const [page, setPage] = useState(1);
     const [limit] = useState("5");
     const logHours = useSelector(
-        (state) => state?.addJob?.logHours
+        (state) => state?.addJob?.logHours?.job
     );
     const Pageination = useSelector(
         (state) => state?.addJob?.hiredApplicants?.data
     );
-    console.log(logHours, "here is log hours dara")
     const handlefalse = () => {
         setShowDefault(false);
     }
@@ -85,45 +82,42 @@ const LogHours = (item) => {
             setPage(page + 1);
         }
     };
-
     const handleChange = (item) => {
         dispatch(
             getApprovedHours({
-                id: jobId,
+                // id: jobId,
                 setShowDefault: setShowDefault,
                 history: history,
-                userId: item.id,
+                id: item.id,
                 status: item.status,
             })
         );
     };
-    console.log("userId-------------",usersId)
-    console.log("jOBId--------------",jobId)
     return (
         <>
             <Navbar module={"Log Hours"} />
             <Container>
                 <Row className="py-2 "></Row>
                 <Row className="py-2 justify-content-between">
-                    {logHours?.log_hours?.length > 0 ? (
-                        logHours?.log_hours?.map((item, value) => {
+                    {logHours?.log_hours.length > 0 ? (
+                        logHours?.log_hours.map((item, value) => {
                             return (
                                 <>
                                     <Col lg={6} md={12} sm={12} xs={12} className="pb-3">
                                         <Card border="light" className="shadow-sm userCard">
                                             <Image
                                                 src={
-                                                    item?.jobs?.image ? item?.jobs?.image : ""
+                                                    item?.users?.profileImg ? item?.users?.profileImg : ""
                                                 }
                                                 className="navbar-brand-light"
                                             />
                                             <div className="detailSection">
                                                 <span className="left">
                                                     <h3 className="mb-1 mt-2">
-                                                        {item?.jobs?.name ? item?.jobs?.name : ""}{" "}
+                                                        {logHours?.name ? logHours?.name : ""}{" "}
                                                     </h3>
                                                     <h4 className="mb-1 mt-2">
-                                                        {item?.jobs?.description ? item?.jobs?.description : ""}{" "}
+                                                        {logHours?.description ? logHours?.description : ""}{" "}
                                                     </h4>
                                                     <p className="mt-2">
                                                         Hours Logged:{" "}
@@ -194,11 +188,6 @@ const LogHours = (item) => {
                                                         ? selectedItem.users?.fullName
                                                         : ""}
                                                 </h3>
-                                                <h5 className="text-gray">
-                                                    {selectedItem?.profileType
-                                                        ? selectedItem.profileType
-                                                        : ""}
-                                                </h5>
                                             </div>
                                             <div className="pb-2 d-flex justify-content-between align-logHourss-baseline">
                                                 <Card.Title className="text-primary">
@@ -214,7 +203,7 @@ const LogHours = (item) => {
                                             />
                                             <DetailHeading
                                                 heading={"Job Rate"}
-                                                value={logHours?.isDispute ? logHours?.isDispute : "-"}
+                                                value={logHours?.rate ? logHours?.rate : "-"}
                                             />
                                             <DetailHeading
                                                 heading={"Status"}

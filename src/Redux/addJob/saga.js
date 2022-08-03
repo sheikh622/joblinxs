@@ -356,6 +356,7 @@ function* ApprovedHoursSaga({ payload }) {
       id: payload.id,
       status: payload.status
     }
+    
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.patch(
       `job/approveHours`, data,
@@ -377,7 +378,6 @@ function* watchApprovedLogHours() {
 }
 function* getSingleSaga({ payload }) {
   try {
-  console.log("o",payload.id)
     const { id } = payload;
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
