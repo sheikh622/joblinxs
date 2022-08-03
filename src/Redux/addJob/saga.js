@@ -15,7 +15,8 @@ import {
   updateJobSuccess,
   getJobListing,
   getApplicantsSuccess,
-  getConfirmSuccess
+  getConfirmSuccess,
+  getHiredApplicantsSuccess,
 } from "./actions";
 import {
   ADD_JOB,
@@ -29,9 +30,12 @@ import {
   UPDATE_JOB_SUCCESS,
   UPDATE_JOB,
   GET_JOB_APPLICANTS,
-  GET_JOB_APPLICANTS_SUCCESS,
-  CONFIRM_APPLICANTS_SUCCESS,
+  GET_HIRED_APPLICANTS,
+  GET_HIRED_APPLICANTS_SUCCESS,
   CONFIRM_APPLICANTS,
+  RATE_PROVIDER,
+  COMPLETE_JOB,
+  GET_APPLICANTS_BYUSERID
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 function* addJob({ payload }) {
@@ -55,6 +59,7 @@ function* addJob({ payload }) {
   formData.append("isOngoing", payload.isOngoing);
   formData.append("category", JSON.stringify(payload.category));
   formData.append("jobImg", payload.jobImg);
+  formData.append("isEmergency", payload.isEmergency);
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.post(`job/seeker`, formData, {
@@ -105,7 +110,7 @@ function* getFavoutiteJobList({ payload }) {
         },
       }
     );
-    toast.success(CapitalizeFirstLetter(response.data.message));
+    // toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(favouriteJobListSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -137,9 +142,6 @@ function* watchDeleteAddJob() {
   yield takeLatest(DELETE_ADD_JOB, deleteJobSaga);
 }
 function* markAsFavouriteJobSaga({ payload }) {
-  let listData = {
-    page: payload.page === undefined ? 1 : payload.page,
-  };
   try {
     const token = yield select(makeSelectAuthToken());
     const datas = {
@@ -155,10 +157,8 @@ function* markAsFavouriteJobSaga({ payload }) {
       datas,
       headers
     );
-    // yield put(favouriteJobListSuccess(response.data.data.jobs));
     toast.success(CapitalizeFirstLetter(response.data.message));
-    // yield put(getJobs(data));
-    yield put(favouriteJobList(listData))
+    payload.history.go(0);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -184,7 +184,6 @@ function* watchJobById() {
   yield takeLatest(JOB_BY_ID, jobByIdSaga);
 }
 function* updateJobSaga(payload) {
-
   const formData = new FormData();
   formData.append("id", payload.payload.id);
   formData.append("name", payload.payload.name);
@@ -207,11 +206,15 @@ function* updateJobSaga(payload) {
   formData.append("jobImg", payload.payload.jobImg);
   try {
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.patch(`job/seeker/${payload.payload.id}`, formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = yield axios.patch(
+      `job/seeker/${payload.payload.id}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(updateJobSuccess(response.data));
     payload.history.push(`/detailJob/${payload.id}`);
@@ -242,21 +245,38 @@ function* getApplicants(payload) {
 function* watchGetApplicants() {
   yield takeLatest(GET_JOB_APPLICANTS, getApplicants);
 }
-function* ConfirmSaga(payload) {
+function* gethiredApplicantsSaga(payload) {
   try {
-    let data = {
-      isAccepted: payload.payload.isAccepted
-    }
     const { id } = payload.payload;
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.post(
-      `job/approve/${id}`,data,
+    const response = yield axios.get(
+      `job/hiredApplicants/${id}?page=${payload.payload.page}&count=${payload.payload.limit}`,
       {
         headers: {
-          Authorization:`Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
+    yield put(getHiredApplicantsSuccess(response.data));
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchGetHiredApplicants() {
+  yield takeLatest(GET_HIRED_APPLICANTS, gethiredApplicantsSaga);
+}
+function* ConfirmSaga(payload) {
+  try {
+    let data = {
+      isAccepted: payload.payload.isAccepted,
+    };
+    const { id } = payload.payload;
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.post(`job/approve/${id}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getConfirmSuccess(response.data));
   } catch (error) {
@@ -265,6 +285,74 @@ function* ConfirmSaga(payload) {
 }
 function* watchConfirmApplicants() {
   yield takeLatest(CONFIRM_APPLICANTS, ConfirmSaga);
+}
+
+function* RateJobSaga({ payload }) {
+  try {
+    let Data = {
+      description: payload.description,
+      rating: payload.rating,
+      jobId: payload.jobId,
+      userId: payload.userId,
+    };
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.post(`job/rating`, Data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    toast.success(CapitalizeFirstLetter(response.data.message));
+    payload.setShow(false);
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchRateJob() {
+  yield takeLatest(RATE_PROVIDER, RateJobSaga);
+}
+
+function* CompletejobSaga({ payload }) {
+  try {
+    let Data = {
+      jobId: payload.jobId,
+      userId: payload.userId,
+      isCompleted: payload.isCompleted,
+      isDisputed: payload.isDisputed,
+    };
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.post(`job/confirmBySeeker`, Data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    toast.success(CapitalizeFirstLetter(response.data.message));
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchCompleteJob() {
+  yield takeLatest(COMPLETE_JOB, CompletejobSaga);
+}
+
+function* getApplicantsByUserId(payload) {
+  try {
+    const { id,usersId, page, limit } = payload.payload;
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.get(
+      `job/getLogHours/${id}/${usersId}?page=${page}&count=${limit}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    yield put(getApplicantsSuccess(response.data));
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchGetApplicantsByUserId() {
+  yield takeLatest(GET_APPLICANTS_BYUSERID, getApplicantsByUserId);
 }
 export default function* addJobSaga() {
   yield all([fork(watchAddJob)]);
@@ -276,4 +364,8 @@ export default function* addJobSaga() {
   yield all([fork(watchUpdateJob)]);
   yield all([fork(watchGetApplicants)]);
   yield all([fork(watchConfirmApplicants)]);
+  yield all([fork(watchRateJob)]);
+  yield all([fork(watchGetHiredApplicants)]);
+  yield all([fork(watchCompleteJob)]);
+  yield all([fork(watchGetApplicantsByUserId)]);
 }

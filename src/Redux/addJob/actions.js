@@ -14,7 +14,12 @@ import {
     GET_JOB_APPLICANTS,
     GET_JOB_APPLICANTS_SUCCESS,
     CONFIRM_APPLICANTS,
-    CONFIRM_APPLICANTS_SUCCESS
+    CONFIRM_APPLICANTS_SUCCESS,
+    RATE_PROVIDER,
+    GET_HIRED_APPLICANTS,
+    GET_HIRED_APPLICANTS_SUCCESS,
+    COMPLETE_JOB,
+    GET_APPLICANTS_BYUSERID
   } from "./constants";
   
   export const getJobListing = (data) => ({
@@ -76,11 +81,31 @@ export const getApplicantsSuccess = (data) => ({
   type:  GET_JOB_APPLICANTS_SUCCESS,
   payload: data,
 });
+export const getHiredApplicants = (data) => ({
+  type: GET_HIRED_APPLICANTS,
+  payload: data,
+});
+export const getHiredApplicantsSuccess = (data) => ({
+  type:  GET_HIRED_APPLICANTS_SUCCESS,
+  payload: data,
+});
 export const getConfirmApplicants = (data) => ({
   type: CONFIRM_APPLICANTS,
   payload: data,
 });
 export const getConfirmSuccess = (data) => ({
   type:  CONFIRM_APPLICANTS_SUCCESS,
+  payload: data,
+});
+export const rateProvider = (data) => ({
+  type:  RATE_PROVIDER,
+  payload: data,
+});
+export const completeJob = (data) => ({
+  type:  COMPLETE_JOB,
+  payload: data,
+});
+export const getApplicantsByUserId = (data) => ({
+  type:  GET_APPLICANTS_BYUSERID,
   payload: data,
 });

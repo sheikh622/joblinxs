@@ -5,24 +5,27 @@ import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
 import {
   getUserBlockSuccess,
-  getUserProfileSuccess, getUsersList, getUsersListSuccess
+  getUserProfileSuccess,
+  getUsersList,
+  getUsersListSuccess,
 } from "./actions";
 import {
-  DELETE_USER, GET_USERS_LIST,
+  DELETE_USER,
+  GET_USERS_LIST,
   GET_USER_BLOCK,
-  GET_USER_PROFILE
+  GET_USER_PROFILE,
 } from "./constants";
-import images from "../../assets/img/noData.png"
+import images from "../../assets/img/noData.png";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 
 function* userListRequest({ payload }) {
-
   try {
-    const headers = { headers: { 'authorization': yield select(makeSelectAuthToken()) } };
+    const headers = {
+      headers: { authorization: yield select(makeSelectAuthToken()) },
+    };
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      `user/admin/user-list?page=${payload.page}&count=${payload.limit
-      }&keyword=${payload.search}&usertype=${payload.type}`,
+      `user/admin/user-list?page=${payload.page}&count=${payload.limit}&keyword=${payload.search}&usertype=${payload.type}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -87,7 +90,6 @@ function* userProfileSaga({ payload }) {
   }
 }
 function* deleteUserSaga({ payload }) {
- 
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(`user/admin/delete/${payload.userId}`, {
@@ -104,10 +106,10 @@ function* deleteUserSaga({ payload }) {
     //     search: payload.search,
     //   })
     // );
-  const filteredData = payload.data.filter((item,index) => item.userId !== payload.userId);
+    const filteredData = payload.data.filter(
+      (item, index) => item.userId !== payload.userId
+    );
     yield put(getUsersListSuccess(response.data.data));
-   
-       
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

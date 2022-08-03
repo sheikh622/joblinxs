@@ -1,6 +1,9 @@
 
 export const Routes = {
     DashboardOverview: { path: "/dashboard" },
+    NewArrivalProvider: { path: "/Newarrivalproviders" },
+    TopRatedProviders: { path: "/TopRatedProviders" },
+    Recommended: { path: "/recommended" },
     Profile: { path: "/profile" },
     CreateJob: {path: '/createJob'},
     Applicants: {path: '/applicants/:jobId'},
@@ -8,7 +11,7 @@ export const Routes = {
     UpdateJob: {path: '/updateJob/:id'},
     DetailJob: {path: '/detailJob/:id'},
     MyJobDetail: {path: '/jobDetail/:id'},
-    DetailProvider: {path: '/detailProvider'},
+    DetailProvider: {path: '/detailProvider/:id'},
     UserDetail: {path: '/userDetail'},
     JobDetails: {path: '/jobDetails'},
 

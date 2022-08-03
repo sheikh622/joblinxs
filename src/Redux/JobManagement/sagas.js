@@ -5,12 +5,16 @@ import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
 import {
   getCategoryJobSuccess,
-  getJobListing, getJobListingSuccess,
+  getJobListing,
+  getJobListingSuccess,
   getJobProfileSuccess,
-
 } from "./actions";
 import {
-  GET_JOB_LISTING, GET_JOB_PROFILE, DELETE_JOB, GET_CATEGORY_JOB, ACTION_JOB
+  GET_JOB_LISTING,
+  GET_JOB_PROFILE,
+  DELETE_JOB,
+  GET_CATEGORY_JOB,
+  ACTION_JOB,
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 
@@ -76,15 +80,10 @@ function* deleteJob({ payload }) {
       type: payload.type,
       search: payload.search,
       category: payload.category,
-    }
+    };
     toast.success(CapitalizeFirstLetter(response.data.message));
-    yield put(
-      getJobListing(
-        data
-      )
-    );
+    yield put(getJobListing(data));
     yield put(getJobListingSuccess(response.data.data));
-
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -96,27 +95,24 @@ function* changeJobStatusSaga({ payload }) {
   try {
     let data = {
       id: payload.id,
-      isApproved: payload.isApproved
-    }
+      isApproved: payload.isApproved,
+    };
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.post(
-      `job/admin/approve-request`, data,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = yield axios.post(`job/admin/approve-request`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(
-            getJobListing({
-              page: payload.page,
-              limit: payload.limit,
-              type: payload.type,
-              search: payload.search,
-              category: payload.category,
-            })
-          );
+      getJobListing({
+        page: payload.page,
+        limit: payload.limit,
+        type: payload.type,
+        search: payload.search,
+        category: payload.category,
+      })
+    );
     yield put(getJobListingSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);

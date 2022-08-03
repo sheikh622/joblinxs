@@ -8,6 +8,8 @@ import JobManagementSaga from "../Redux/JobManagement/sagas";
 import UserSaga from "../Redux/userManagement/sagas";
 import addJobSaga from "../Redux/addJob/saga";
 import ProfileSaga from "../Redux/profile/sagas"
+import NotificationSaga from "../Redux/notification/sagas";
+
 export default function* rootSaga() {
   yield all([
     AuthSaga(),
@@ -18,5 +20,6 @@ export default function* rootSaga() {
     SeekerManagementSaga(),
     addJobSaga(),
     ProfileSaga(),
+    NotificationSaga(),
   ]);
 }

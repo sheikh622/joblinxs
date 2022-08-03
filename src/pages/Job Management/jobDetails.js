@@ -20,7 +20,6 @@ const JobDetails = (item) => {
     const {
         location: { state },
     } = history;
-    console.log("item", item)
 
 
     return (

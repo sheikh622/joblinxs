@@ -72,7 +72,6 @@ export default () => {
       phoneNumber: getById.phoneNumber,
       city: getById.city,
       postalCode: getById.postalCode,
-
     });
     // setDateofBirth(moment(new Date(getById?.dateOfBirth)));
   }, [getById]);
@@ -84,49 +83,24 @@ export default () => {
     );
   }, []);
   function onSubmit(data) {
-    console.log("=======================", data, value, dateofBirth);
-    // toast.error("Please add valid phone number")
-    // console.log("asaasasasasasasasasas")
-
-    // let Data = new FormData();
-    // Data.append("fullName", data.fullName);
-    // Data.append("address", data.address);
-    // Data.append(
-    //   "dateofBirth",
-    //   dateofBirth
-    //     ? moment.utc(dateofBirth).format().toString()
-    //     : getById?.dateofBirth.toString()
-    // );
-    // Data.append("phoneNumber", value ? value : getById?.phoneNumber);
-    // Data.append("city", data.city);
-    // Data.append("postalCode", data.postalCode);
-    // Data.append("id", getById.id);
-    // Data.append(
-    //   "profileImg",
-    //   selectedImage ? selectedImage : getById?.profileImg
-    // );
-    // console.log("Data", data?.phoneNumber?.length);
     if (!isValidPhoneNumber(value)) {
       return;
     } else {
-      dispatch(updateAdminProfile({
-        
-        fullName:data.fullName,
-        address:data.address,
-        dateofBirth:dateofBirth
+      dispatch(
+        updateAdminProfile({
+          fullName: data.fullName,
+          address: data.address,
+          dateofBirth: dateofBirth
             ? moment.utc(dateofBirth).format().toString()
             : getById?.dateofBirth.toString(),
-        phoneNumber:value ? value : getById?.phoneNumber,
-        city:data.city,
-        postalCode:data.postalCode,
-        id:getById.id,
-        profileImg:selectedImage ? selectedImage : getById?.profileImg,
-        history:history,
-      })
-    //     (Data),({
-    //     history:history,
-    // })
-    );
+          phoneNumber: value ? value : getById?.phoneNumber,
+          city: data.city,
+          postalCode: data.postalCode,
+          id: getById.id,
+          profileImg: selectedImage ? selectedImage : getById?.profileImg,
+          history: history,
+        })
+      );
     }
   }
 

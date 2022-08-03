@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import {
   Container,
   Image,
@@ -16,36 +16,42 @@ import {
   faChevronRight,
   faEllipsisV,
 } from "@fortawesome/free-solid-svg-icons";
+import { useHistory, useLocation } from "react-router-dom";
 import Profile from "../../assets/img/team/profile.png";
 import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
 import RecommendCard from "../../components/RecommendCard";
 import DetailHeading from "../../components/DetailHeading";
+import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 // saga actions here
 import { getProfile } from "../../Redux/profile/actions";
+import NoRecordFound from "../../components/NoRecordFound";
 
-const ProviderProfile = () => {
+const ProviderProfile = (props) => {
   const dispatch = useDispatch();
   const login = useSelector((state) => state.auth.Auther);
   const getById = useSelector((state) => state.ProfileReducer.profile);
-  console.log(login, "here is login data")
-  console.log(getById, "here is getById data")
+  const params = useLocation();
+  let profileId = params.pathname.split("/")[2];
   useEffect(() => {
     dispatch(
       getProfile({
-        id: login?.id,
+        id: profileId,
       })
     );
   }, []);
   return (
     <>
-      <Navbar module={"Service Provider Profile"} />
+      <Navbar module={"Detail Profile"} />
       <Container>
         <Row>
           <Col lg={4} md={6} xs={12} className="pb-3 mb-3">
             <Card border="light" className="card-box-shadow py-3 px-4 mb-3">
               <div className="detailed">
-                <Image src={getById?.profileImg} className="navbar-brand-light detailImg" />
+                <Image
+                  src={getById?.profileImg}
+                  className="navbar-brand-light detailImg"
+                />
                 <h3 className="mb-1 mt-3">{getById?.fullName}</h3>
                 <h5 className="text-gray">{getById?.profileType}</h5>
                 <span className="starIcon">
@@ -65,38 +71,32 @@ const ProviderProfile = () => {
               </div>
             </Card>
 
-            <Card border="light" className="card-box-shadow py-3 px-4 mb-2">
+            <Card
+              border="light"
+              className="card-box-shadow py-1 px-4 mb-2 job-list"
+            >
               <h3 className="mb-3 mt-2 text-center">Services</h3>
-              <Col xs={12} className="pb-3">
-                <RecommendCard
-                  img={ReactHero}
-                  name={"Seni"}
-                  type={"IT"}
-                  rate={"30"}
-                  completed={"10"}
-                  star={"3.6"}
-                />
-              </Col>
-              <Col xs={12} className="pb-3">
-                <RecommendCard
-                  img={ReactHero}
-                  name={"Seni"}
-                  type={"IT"}
-                  rate={"30"}
-                  completed={"10"}
-                  star={"3.6"}
-                />
-              </Col>
-              <Col xs={12} className="pb-3">
-                <RecommendCard
-                  img={ReactHero}
-                  name={"Seni"}
-                  type={"IT"}
-                  rate={"30"}
-                  completed={"10"}
-                  star={"3.6"}
-                />
-              </Col>
+              {getById?.jobs?.length > 0 ? (
+                <>
+                  {getById?.jobs?.map((item) => {
+                    return (
+                      <Col xs={12} className="pb-3">
+                        <RecommendCard
+                          img={item.image}
+                          name={item.name}
+                          type={item.name}
+                          rate={item.rate}
+                          id={item.id}
+                          completed={"10"}
+                          star={"3.6"}
+                        />
+                      </Col>
+                    );
+                  })}
+                </>
+              ) : (
+                <NoRecordFound />
+              )}
             </Card>
           </Col>
           <Col lg={8} md={6} xs={12} className="pb-3 mb-3">
@@ -145,37 +145,65 @@ const ProviderProfile = () => {
                   </span>
                 </div>
 
-                <DetailHeading heading={"Email"} value={getById?.email ? getById?.email :"-"} />
-                <DetailHeading heading={"Phone"} value={getById?.phoneNumber ? getById?.phoneNumber:"-"} />
-                <DetailHeading heading={"Address"} value={getById?.address ? getById?.address:"-"} />
-                <DetailHeading heading={"City"} value={getById?.city ? getById?.city:"-"} />
-                <DetailHeading heading={"Province"} value={getById?.province ? getById?.province:"-"} />
-                <DetailHeading heading={"Postal Code"} value={getById?.postalCode ?getById?.postalCode :"-"} />
+                {/* <DetailHeading heading={"Email"} value={getById?.email ? getById?.email :"-"} /> */}
+                {/* <DetailHeading heading={"Phone"} value={getById?.phoneNumber ? getById?.phoneNumber:"-"} /> */}
+                {/* <DetailHeading heading={"Address"} value={getById?.address ? getById?.address:"-"} /> */}
+                <DetailHeading
+                  heading={"City"}
+                  value={getById?.city ? getById?.city : "-"}
+                />
+                <DetailHeading
+                  heading={"Province"}
+                  value={getById?.province ? getById?.province : "-"}
+                />
+                <DetailHeading
+                  heading={"Postal Code"}
+                  value={getById?.postalCode ? getById?.postalCode : "-"}
+                />
                 <DetailHeading
                   heading={" Date of Birth"}
-                  value={getById?.dateOfBirth ? getById?.dateOfBirth :"-"}
+                  value={getById?.dateOfBirth ? getById?.dateOfBirth : "-"}
                 />
                 <DetailHeading
                   heading={"Personal Attributes"}
-                  value={getById?.personalAttributes ? getById?.personalAttributes:"-"}
+                  value={
+                    getById?.personalAttributes
+                      ? getById?.personalAttributes
+                      : "-"
+                  }
                 />
                 <DetailHeading
                   heading={"Career Overview"}
-                  value={getById?.carrierOverview ? getById?.carrierOverview:"-"}
+                  value={
+                    getById?.carrierOverview ? getById?.carrierOverview : "-"
+                  }
                 />
                 <DetailHeading
                   heading={"Volenteering History"}
-                  value={getById?.volunteeringHistory ? getById?.volunteeringHistory:"-"}
+                  value={
+                    getById?.volunteeringHistory
+                      ? getById?.volunteeringHistory
+                      : "-"
+                  }
                 />
                 <DetailHeading
                   heading={" Tools Available"}
-                  value={getById?.toolsAvailable ? getById?.toolsAvailable :"-"}
+                  value={
+                    getById?.toolsAvailable ? getById?.toolsAvailable : "-"
+                  }
                 />
                 <DetailHeading
                   heading={"Transportation Available"}
-                  value={getById?.transportationAvailable ?getById?.transportationAvailable:"-"}
+                  value={
+                    getById?.transportationAvailable
+                      ? getById?.transportationAvailable
+                      : "-"
+                  }
                 />
-                <DetailHeading heading={" Job Type"} value={getById?.account_type ?getById?.account_type :"-"} />
+                <DetailHeading
+                  heading={" Job Type"}
+                  value={getById?.account_type ? getById?.account_type : "-"}
+                />
               </Card.Body>
 
               <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">

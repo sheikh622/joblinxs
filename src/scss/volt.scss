@@ -57,3 +57,12 @@
     color: red;
     padding: 5px;
 }
+.notification-list{
+    height: 400px;
+    overflow-y: scroll;
+}
+.job-list{
+    height: 300px;
+    overflow-y: scroll;
+}
+.job-list::-webkit-scrollbar {display:none;}
