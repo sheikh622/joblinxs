@@ -117,7 +117,6 @@ export default () => {
                           onChange={imageChange}
                           className="d-none"
                           ref={inputEl}
-                          style={{ cursor: "pointer" }}
                         />
                         <div className="invalid-feedback">
                           {errors.file?.message}

@@ -36,8 +36,8 @@ const MyJobDetails = (item, props) => {
   const params = useLocation();
   let jobId = params.pathname.split("/")[2];
   const SingleId = useSelector((state) => state?.addJob?.jobById);
-  console.log(SingleId);
   const [showDefault, setShowDefault] = useState(false);
+ 
   const [show, setShow] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [isDisputed, setIsDisputed] = useState(false);

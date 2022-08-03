@@ -21,8 +21,8 @@ export const APPROVED_LOG_HOURS_SUCCESS = "Approved_Log_Hours_Success";
 export const GET_SINGLE_USER = "Get_Single_User";
 export const GET_SINGLE_USER_SUCCESS = "Get_Single_User_Success";
 export const RATE_PROVIDER = "RATE_PROVIDER";
-// export const RATE_PROVIDER = "RATE_PROVIDER";
 export const GET_HIRED_APPLICANTS = "GET_HIRED_APPLICANTS";
 export const GET_HIRED_APPLICANTS_SUCCESS = "GET_HIRED_APPLICANTS_SUCCESS";
 export const COMPLETE_JOB = "COMPLETE_JOB";
+export const GET_APPLICANTS_BYUSERID = "GET_APPLICANTS_BYUSERID";
     

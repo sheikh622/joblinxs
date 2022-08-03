@@ -1,5 +1,7 @@
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   Card,
@@ -14,8 +16,6 @@ import {
   faAngleDoubleLeft,
   faAngleDoubleRight,
 } from "@fortawesome/free-solid-svg-icons";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { getHiredApplicants, completeJob } from "../../Redux/addJob/actions";
 import { useHistory, useLocation } from "react-router-dom";
 import NoRecordFound from "../../components/NoRecordFound";
@@ -80,7 +80,6 @@ const Applicants = ({ id }) => {
   };
 
   const handleComplete = (data) => {
-    console.log(data, "hre is dat");
     dispatch(
       completeJob({
         jobId: jobId,
@@ -134,7 +133,7 @@ const Applicants = ({ id }) => {
             size="sm"
             style={{ width: "100px", height: "40px" }}
             onClick={() => {
-              history.push(`/LogHours/${item?.users?.id}`);
+             handleMove(item)
             }}
           >
             Log Hours
@@ -143,6 +142,10 @@ const Applicants = ({ id }) => {
       </div>
     );
   };
+  const handleMove = (item)=>{
+    history.push(`/LogHours/${item?.jobs?.id}?${item?.users?.id}`);
+    // sessionStorage.setItem("userId", item?.users?.id);
+  }
   return (
     <>
       <Container>

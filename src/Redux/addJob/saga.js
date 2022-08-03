@@ -46,6 +46,7 @@ import {
   GET_SINGLE_USER,
   RATE_PROVIDER,
   COMPLETE_JOB,
+  GET_APPLICANTS_BYUSERID
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 function* addJob({ payload }) {
@@ -69,6 +70,7 @@ function* addJob({ payload }) {
   formData.append("isOngoing", payload.isOngoing);
   formData.append("category", JSON.stringify(payload.category));
   formData.append("jobImg", payload.jobImg);
+  formData.append("isEmergency", payload.isEmergency);
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.post(`job/seeker`, formData, {
@@ -351,10 +353,9 @@ function* RateJobSaga({ payload }) {
 function* ApprovedHoursSaga({ payload }) {
   try {
     let data = {
-      userId: payload.id,
+      id: payload.id,
       status: payload.status
     }
-    const { id } = payload;
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.patch(
       `job/approveHours`, data,
@@ -421,6 +422,27 @@ function* CompletejobSaga({ payload }) {
 function* watchCompleteJob() {
   yield takeLatest(COMPLETE_JOB, CompletejobSaga);
 }
+
+function* getApplicantsByUserId(payload) {
+  try {
+    const { id,usersId, page, limit } = payload.payload;
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.get(
+      `job/getLogHours/${id}/${usersId}?page=${page}&count=${limit}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    yield put(getLogHoursSuccess(response.data.data));
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchGetApplicantsByUserId() {
+  yield takeLatest(GET_APPLICANTS_BYUSERID, getApplicantsByUserId);
+}
 export default function* addJobSaga() {
   yield all([fork(watchAddJob)]);
   yield all([fork(watchGetJob)]);
@@ -437,4 +459,5 @@ export default function* addJobSaga() {
   yield all([fork(watchRateJob)]);
   yield all([fork(watchGetHiredApplicants)]);
   yield all([fork(watchCompleteJob)]);
+  yield all([fork(watchGetApplicantsByUserId)]);
 }

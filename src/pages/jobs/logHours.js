@@ -27,7 +27,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { getLogHours, getApprovedHours } from "../../Redux/addJob/actions";
+import { getLogHours, getApprovedHours, getApplicantsByUserId, getApplicants } from "../../Redux/addJob/actions";
 import { useHistory, useLocation } from "react-router-dom";
 import { height, width } from "@mui/system";
 import { Link } from "react-router-dom";
@@ -35,30 +35,55 @@ import NoRecordFound from "../../components/NoRecordFound";
 import DetailHeading from "../../components/DetailHeading";
 const LogHours = (item) => {
     const dispatch = useDispatch();
+    // let usersId= sessionStorage.getItem("userId");
+    // console.log(params)
     const history = useHistory();
     const {
         location: { state },
     } = history;
     const hoursLog = item?.location?.state;
     const params = useLocation();
+   
+    let usersId = params.search.split("?")[1]
     let jobId = params.pathname.split("/")[2];
     const [showDefault, setShowDefault] = useState(false);
     const [selectedItem, setSelectedItem] = useState();
+    const [page, setPage] = useState(1);
+    const [limit] = useState("5");
     const logHours = useSelector(
-        (state) => state?.addJob?.logHours[0]
+        (state) => state?.addJob?.logHours
     );
-    const applicantsData = useSelector(
-        (state) => state?.addJob?.hiredApplicants?.data?.applicants
+    const Pageination = useSelector(
+        (state) => state?.addJob?.hiredApplicants?.data
     );
-    useEffect((id) => {
-        dispatch(
-            getLogHours({
-                id: jobId,
-            })
-        );
-    }, []);
+    console.log(logHours, "here is log hours dara")
     const handlefalse = () => {
         setShowDefault(false);
+    }
+    useEffect((id) => {
+        if (usersId) {
+            dispatch(
+                getApplicantsByUserId({
+                    id: jobId,
+                    page: page,
+                    limit: limit,
+                    usersId: usersId
+                })
+            );
+        } else {
+            dispatch(
+                getLogHours({
+                    id: jobId,
+                    page: page,
+                    limit: limit,
+                })
+            );
+        }
+    }, [page, limit]);
+    const nextPage = () => {
+        if (page < Pageination?.pages) {
+            setPage(page + 1);
+        }
     };
 
     const handleChange = (item) => {
@@ -72,13 +97,15 @@ const LogHours = (item) => {
             })
         );
     };
+    console.log("userId-------------",usersId)
+    console.log("jOBId--------------",jobId)
     return (
         <>
             <Navbar module={"Log Hours"} />
             <Container>
                 <Row className="py-2 "></Row>
                 <Row className="py-2 justify-content-between">
-                    {logHours?.log_hours.length > 0 ? (
+                    {logHours?.log_hours?.length > 0 ? (
                         logHours?.log_hours?.map((item, value) => {
                             return (
                                 <>
@@ -86,17 +113,17 @@ const LogHours = (item) => {
                                         <Card border="light" className="shadow-sm userCard">
                                             <Image
                                                 src={
-                                                    item?.users?.profileImg ? item?.users?.profileImg : ""
+                                                    item?.jobs?.image ? item?.jobs?.image : ""
                                                 }
                                                 className="navbar-brand-light"
                                             />
                                             <div className="detailSection">
                                                 <span className="left">
                                                     <h3 className="mb-1 mt-2">
-                                                        {item?.users?.fullName ? item?.users?.fullName : ""}{" "}
+                                                        {item?.jobs?.name ? item?.jobs?.name : ""}{" "}
                                                     </h3>
                                                     <h4 className="mb-1 mt-2">
-                                                        {item?.description ? item?.description : ""}{" "}
+                                                        {item?.jobs?.description ? item?.jobs?.description : ""}{" "}
                                                     </h4>
                                                     <p className="mt-2">
                                                         Hours Logged:{" "}
@@ -187,7 +214,7 @@ const LogHours = (item) => {
                                             />
                                             <DetailHeading
                                                 heading={"Job Rate"}
-                                                value={logHours?.rate ? logHours?.rate : "-"}
+                                                value={logHours?.isDispute ? logHours?.isDispute : "-"}
                                             />
                                             <DetailHeading
                                                 heading={"Status"}
@@ -224,8 +251,10 @@ const LogHours = (item) => {
                                                     onClick={() =>
                                                         handleChange({
                                                             id: selectedItem.id,
-                                                            status: "Accepted",
-                                                        })
+                                                            status: "Accepted"
+                                                        },
+                                                            handlefalse()
+                                                        )
                                                     }
                                                 >
                                                     Accept
