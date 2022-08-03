@@ -38,6 +38,9 @@ const Applicants = ({ id }) => {
   const applicantsData = useSelector(
     (state) => state?.addJob?.hiredApplicants?.data?.applicants
   );
+  const auth = useSelector(
+    (state) => state?.auth?.Auther
+  );
   const Pageination = useSelector((state) => state?.addJob?.Applicants?.data);
   useEffect(() => {
     if (id === "Hired") {
@@ -201,8 +204,9 @@ const Applicants = ({ id }) => {
                               ? item?.users?.profileImg
                               : ""
                           }
-                          jobId={jobId}
-                          userId={item?.users?.id}
+                          jobId={item?.jobs?.id}
+                          ratedTo={item?.users?.id}
+                          ratedBy={auth?.id}
                         />
                       )}
                     </>
