@@ -33,8 +33,6 @@ import {
 const BusinessCategories = (item) => {
     const dispatch = useDispatch();
     const history = useHistory();
-    let BusinessCategory = useSelector((state) => state?.BusinessCategory?.getBusinessCategoryList);
-
     const [search, setSearch] = useState("");
     const [checked, setChecked] = useState([]);
     const [checkedItem, setCheckedItem] = useState([]);
