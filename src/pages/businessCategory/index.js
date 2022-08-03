@@ -16,6 +16,7 @@ import {
     Modal,
     Row,
 } from "@themesberg/react-bootstrap";
+import axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,8 +33,10 @@ import {
 const BusinessCategories = (item) => {
     const dispatch = useDispatch();
     const history = useHistory();
+    let BusinessCategory = useSelector((state) => state?.BusinessCategory?.getBusinessCategoryList);
+
     const [search, setSearch] = useState("");
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState([]);
     const [checkedItem, setCheckedItem] = useState([]);
 
     const [adminId, setAdminId] = useState(0);
@@ -42,21 +45,35 @@ const BusinessCategories = (item) => {
         location: { state },
     } = history;
     // const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
-    const BusinessCategory = useSelector((state) => state?.BusinessCategory?.getBusinessCategoryList);
-
     const auth = useSelector((state) => state.auth);
     const forAction = history?.location?.state?.from;
+
     useEffect(() => {
-        dispatch(
-            getBusinessCategoryList({
+        let Token = localStorage.getItem("Token")
+        let Url = "https://api.joblinxs.com/api/v1/";
+        let response = axios.get(
+        `${Url}category/user/all/selected`,
+            {
+                headers: {
+                    Authorization: `Bearer ${Token}`,
+                },
+            }
+            ).then((response)=>{
+                setChecked(response.data.data)
             })
-        );
     }, [search]);
 
+
     const handleClick = () =>{ 
+        let arr = [];
+        checked.map(obj => {
+            if(obj.selected === true){
+                arr.push(obj.id)
+            }
+        });
         dispatch(
             saveCategory({
-                categoriesId:checkedItem,
+                categoriesId:arr,
             })
         );
     }
@@ -128,24 +145,13 @@ const BusinessCategories = (item) => {
         setSelectedItem(null);
         setShowDefault(true);
     };
-    const handlechecked = (id) => {
-        let temp = [...checkedItem];
-        if (!checkedItem.includes(id)) {
-          
-            temp=[...temp,id];
-    
-
-        }
-        else {
-           
-            temp=temp.filter((obj) => obj !== id);
-           
-        }
-        setCheckedItem(temp);
-     
+    const handlechecked = (index, value) => {
+        let newArray = checked;
+        newArray[index].selected = !value.selected;
+        setChecked(()=>{
+            return[...newArray]
+        })
     }
-   
-
     return (
         <>
             <Navbar module={"Categories"} />
@@ -199,10 +205,9 @@ const BusinessCategories = (item) => {
                         <div className="d-flex justify-content-between"></div>
                     </Col>
                 </Row>
-                {BusinessCategory?.length ? <>
-
+                {checked?.length ? <>
                     <Row className="pb-1">
-                        {BusinessCategory?.map((value, index, row) => {
+                        {checked?.map((value, index, row) => {
                             return (
                                 <>
                                     <Col lg={4} md={12} xs={12} sm={12} className="pb-3 introCardParent" >
@@ -219,9 +224,8 @@ const BusinessCategories = (item) => {
                                                 <span className="right">
                                                     <label>
                                                         <input type="checkbox"
-                                                            // defaultChecked={checked}
                                                             checked={value.selected}
-                                                            onChange={(e) => handlechecked(value.id)}
+                                                            onChange={(event) => handlechecked(index, value)}
                                                         />
                                                     </label>
                                                 </span>
