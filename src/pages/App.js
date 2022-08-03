@@ -20,6 +20,7 @@ import Signin from "./auths/Signin";
 import Favourites from "./favourite/favourites";
 import CreateJob from "./jobs/CreateJob";
 import Applicants from "./jobs/applicants";
+import LogHourDetails from "./jobs/logHourDetails";
 import LogHours from "./jobs/logHours";
 import Job from "./jobs/Job";
 import EditProfile from "./profile/editProfile";
@@ -31,6 +32,7 @@ import Users from "./user/users";
 import editAdminProfile from "./AdminProfile/editAdminProfile";
 import adminProfile from "./AdminProfile/adminProfile";
 import MyJobDetails from "./jobs/myJobDetails";
+import BusinessCategories from "./businessCategory/index"
 // changes merge
 export default () => (
   <BrowserRouter>
@@ -96,6 +98,7 @@ export default () => (
         component={Applicants}
       />
       <PrivateRoute exact path={Routes.LogHours.path} component={LogHours} />
+      <PrivateRoute exact path={Routes.LogHoursDetails.path} component={LogHourDetails} />
 
       <PrivateRoute
         exact
@@ -112,6 +115,11 @@ export default () => (
         exact
         path={Routes.Categories_Management.path}
         component={CategoryManagement}
+      />
+        <PrivateRoute
+        exact
+        path={Routes.BusinessCategory.path}
+        component={BusinessCategories}
       />
       <PrivateRoute
         exact

@@ -20,8 +20,6 @@ const JobDetails = (item) => {
     const {
         location: { state },
     } = history;
-
-
     return (
         <>
             <Navbar module={"Job Detail"} />

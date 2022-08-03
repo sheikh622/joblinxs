@@ -23,7 +23,6 @@ function* addCategoryRequest({ payload }) {
   formData.append("categoryImg", payload.categoryImg);
   formData.append("title", payload.title);
   formData.append("details", payload.details);
-
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.post(`category/add/admin`, formData, {
@@ -34,7 +33,6 @@ function* addCategoryRequest({ payload }) {
     payload.setReset();
     toast.success(CapitalizeFirstLetter(response.data.message));
     payload.setShowDefault(false);
-
     payload.setSelectedImage("");
     yield put(addCategorySuccess(response.data.data));
     yield put(
@@ -63,7 +61,6 @@ function* getcategory({ payload }) {
         },
       });
     }
-
     // toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getCategoryListSuccess(response.data.data));
   } catch (error) {
