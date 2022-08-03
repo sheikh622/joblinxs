@@ -33,7 +33,8 @@ const ModalComponent = (props) => {
           description: values.description,
           rating: value,
           jobId: props.jobId,
-          userId: props.userId,
+          ratedTo: props.ratedTo,
+          ratedBy:props.ratedBy,
           setShow: props.setShow,
         })
       );

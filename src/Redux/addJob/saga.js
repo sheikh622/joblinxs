@@ -327,7 +327,8 @@ function* RateJobSaga({ payload }) {
       description: payload.description,
       rating: payload.rating,
       jobId: payload.jobId,
-      userId: payload.userId,
+      ratedBy: payload.ratedBy,
+      ratedTo: payload.ratedTo
     };
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.post(`job/rating`, Data, {
@@ -403,7 +404,7 @@ function* CompletejobSaga({ payload }) {
       isDisputed: payload.isDisputed,
     };
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.post(`job/confirmBySeeker`, Data, {
+    const response = yield axios.patch(`job/confirmBySeeker`, Data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
