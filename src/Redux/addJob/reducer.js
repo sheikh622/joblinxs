@@ -7,6 +7,9 @@ import {
   UPDATE_JOB_SUCCESS,
   GET_JOB_APPLICANTS_SUCCESS,
   CONFIRM_APPLICANTS_SUCCESS,
+  GET_LOG_HOURS_SUCCESS,
+  APPROVED_LOG_HOURS_SUCCESS,
+  GET_SINGLE_USER_SUCCESS,
   GET_HIRED_APPLICANTS_SUCCESS
 } from "./constants";
 const initialState = {
@@ -19,6 +22,9 @@ const initialState = {
   hiredApplicants:[],
   favouriteJob: [],
   ConfirmApplicants: [],
+  logHours: [],
+  AppvoedHours:[],
+  getSingle:[],
 };
 const addJob = produce((state = initialState, action) => {
   switch (action.type) {
@@ -46,6 +52,15 @@ const addJob = produce((state = initialState, action) => {
     case GET_HIRED_APPLICANTS_SUCCESS:
       state.hiredApplicants = action.payload;
       break;
+    case GET_LOG_HOURS_SUCCESS:
+      state.logHours = action.payload;
+      break;
+      case APPROVED_LOG_HOURS_SUCCESS:
+      state.AppvoedHours = action.payload;
+      break;
+      case GET_SINGLE_USER_SUCCESS:
+        state.getSingle = action.payload;
+        break;
     default:
   }
 }, initialState);

@@ -125,9 +125,9 @@ const DashboardOverview = () => {
             <h4>Top Rated Jobs By provider</h4>
             <a href="/TopRatedProviders">view all</a>
           </div>
-          {topRatedData?.length > 0 ? (
+          {topRatedData?.data?.length > 0 ? (
             <>
-              {topRatedData?.map((item) => {
+              {topRatedData?.data?.map((item) => {
                 return (
                   <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
                     <CommonCard

@@ -51,14 +51,42 @@ const MyJobDetails = (item, props) => {
         setShowDefault: setShowDefault,
         history: history,
       })
-    );
-  };
-  const handlefalse = () => {
-    setShowDefault(false);
-  };
-  const handleEdit = () => {
-    history.push(`/updateJob/${jobId}`);
-  };
+    );}
+    console.log(SingleId)
+    const [adminId, setAdminId] = useState(0);
+  
+    useEffect(() => {
+        dispatch(jobById({ id: jobId }))
+    }, []);
+    // const handleDelete = (id) => {
+    //     dispatch(
+    //         deleteAddJob({
+    //             jobId: jobId,
+    //             setShowDefault: setShowDefault,
+    //             history: history
+    //         })
+    //     );
+    // };
+    const handlefalse = () => {
+        setShowDefault(false)
+    };
+    const handleEdit = () => {
+        history.push(`/updateJob/${jobId}`)
+    }
+    // const handleClick = () => {
+        //     dispatch(
+        //         getLogHours({
+        //             jobId: jobId,
+        //         })
+        //     )
+        // }
+
+  // const handlefalse = () => {
+  //   setShowDefault(false);
+  // };
+  // const handleEdit = () => {
+  //   history.push(`/updateJob/${jobId}`);
+  // };
   const profileCard = () => {
     return (
       <div className="detailed">

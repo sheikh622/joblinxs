@@ -15,6 +15,13 @@ import {
     GET_JOB_APPLICANTS_SUCCESS,
     CONFIRM_APPLICANTS,
     CONFIRM_APPLICANTS_SUCCESS,
+    GET_LOG_HOURS_SUCCESS,
+    GET_LOG_HOURS,
+    APPROVED_LOG_HOURS,
+    APPROVED_LOG_HOURS_SUCCESS,
+    GET_SINGLE_USER,
+    GET_SINGLE_USER_SUCCESS,
+
     RATE_PROVIDER,
     GET_HIRED_APPLICANTS,
     GET_HIRED_APPLICANTS_SUCCESS,
@@ -95,6 +102,30 @@ export const getConfirmApplicants = (data) => ({
 });
 export const getConfirmSuccess = (data) => ({
   type:  CONFIRM_APPLICANTS_SUCCESS,
+  payload: data,
+});
+export const getLogHours = (data) => ({
+  type: GET_LOG_HOURS,
+  payload: data,
+});
+export const getLogHoursSuccess = (data) => ({
+  type:  GET_LOG_HOURS_SUCCESS,
+  payload: data,
+});
+export const getApprovedHours = (data) => ({
+  type: APPROVED_LOG_HOURS,
+  payload: data,
+});
+export const getApprovedHoursSuccess = (data) => ({
+  type:  APPROVED_LOG_HOURS_SUCCESS,
+  payload: data,
+});
+export const getSingleUser = (data) => ({
+  type: GET_SINGLE_USER,
+  payload: data,
+});
+export const getSingleUserSuccess = (data) => ({
+  type:  GET_SINGLE_USER_SUCCESS,
   payload: data,
 });
 export const rateProvider = (data) => ({

@@ -9,7 +9,7 @@ import UserSaga from "../Redux/userManagement/sagas";
 import addJobSaga from "../Redux/addJob/saga";
 import ProfileSaga from "../Redux/profile/sagas"
 import NotificationSaga from "../Redux/notification/sagas";
-
+import BusinessCategorySaga from "../Redux/BusinessCategory/sagas"
 export default function* rootSaga() {
   yield all([
     AuthSaga(),
@@ -21,5 +21,6 @@ export default function* rootSaga() {
     addJobSaga(),
     ProfileSaga(),
     NotificationSaga(),
+    BusinessCategorySaga(),
   ]);
 }
