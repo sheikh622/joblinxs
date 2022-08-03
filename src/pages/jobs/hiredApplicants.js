@@ -144,7 +144,6 @@ const Applicants = ({ id }) => {
   };
   const handleMove = (item)=>{
     history.push(`/LogHours/${item?.jobs?.id}?${item?.users?.id}`);
-    // sessionStorage.setItem("userId", item?.users?.id);
   }
   return (
     <>
