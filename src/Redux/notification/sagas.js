@@ -21,6 +21,7 @@ function* getNotificationById({ payload }) {
       }
     );
     yield put(getNotifiactionSuccess(response.data.data));
+    payload.setLoader(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

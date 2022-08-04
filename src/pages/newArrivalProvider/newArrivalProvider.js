@@ -9,6 +9,7 @@ import {
   Card,
   Nav,
 } from "@themesberg/react-bootstrap";
+import Spinner from "../../components/spinner";
 import {
   faAngleDoubleLeft,
   faAngleDoubleRight,
@@ -17,28 +18,27 @@ import {
   faMinus,
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CommonCard from "../../components/CommonCard";
 import Navbar from "../../components/Navbar";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  newArrival,
-} from "../../Redux/Dashboard/actions";
+import { newArrival } from "../../Redux/Dashboard/actions";
 import NoRecordFound from "../../components/NoRecordFound";
 
 const DashboardOverview = () => {
   const dispatch = useDispatch();
+  const [loader, setLoader] = useState(true);
   const [page, setPage] = useState(1);
   const auth = useSelector((state) => state.auth.Auther);
-  const newArrivalData = useSelector(
-    (state) => state?.Seeker?.newArrival
-  );
+  const newArrivalData = useSelector((state) => state?.Seeker?.newArrival);
   useEffect(() => {
     dispatch(
       newArrival({
         page: page,
-        userId:auth?.id,
+        userId: auth?.id,
         count: 15,
+        setLoader: setLoader,
       })
     );
   }, []);
@@ -68,7 +68,7 @@ const DashboardOverview = () => {
         </Pagination.Item>
       );
     }
-   
+
     return items;
   };
 
@@ -77,39 +77,45 @@ const DashboardOverview = () => {
       <Navbar module={"New Arrival Seekers"} />
       <Container>
         <Row className="py-2">
-        {newArrivalData?.data?.length > 0 ? (
-              <>
-                {newArrivalData?.data?.map((item) => {
-                  return (
-                    <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
-                      <CommonCard
-                        img={item?.profileImg}
-                        name={item?.fullName}
-                        type={item?.employmentType}
-                        id={item.id}
-                        rate={item.rate}
-                        completed={"90"}
-                        star={item.rating}
-                      />
-                    </Col>
-                  );
-                })}
-                 <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
-                <Nav>
-                  <Pagination size={"sm"} className="mb-2 mb-lg-0">
-                    <Pagination.Prev onClick={() => previousPage()}>
-                      <FontAwesomeIcon icon={faAngleDoubleLeft} />
-                    </Pagination.Prev>
-                    {paginationItems()}
-                    <Pagination.Next onClick={() => nextPage()}>
-                      <FontAwesomeIcon icon={faAngleDoubleRight} />
-                    </Pagination.Next>
-                  </Pagination>
-                </Nav>
-              </Card.Footer>
-              </>
+          {loader ? (
+            <Spinner />
           ) : (
-            <NoRecordFound />
+            <>
+              {newArrivalData?.data?.length > 0 ? (
+                <>
+                  {newArrivalData?.data?.map((item) => {
+                    return (
+                      <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
+                        <CommonCard
+                          img={item?.image}
+                          name={item?.name}
+                          type={item?.employmentType}
+                          id={item.id}
+                          rate={item.rate}
+                          completed={"90"}
+                          star={item.rating}
+                        />
+                      </Col>
+                    );
+                  })}
+                  <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+                    <Nav>
+                      <Pagination size={"sm"} className="mb-2 mb-lg-0">
+                        <Pagination.Prev onClick={() => previousPage()}>
+                          <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                        </Pagination.Prev>
+                        {paginationItems()}
+                        <Pagination.Next onClick={() => nextPage()}>
+                          <FontAwesomeIcon icon={faAngleDoubleRight} />
+                        </Pagination.Next>
+                      </Pagination>
+                    </Nav>
+                  </Card.Footer>
+                </>
+              ) : (
+                <NoRecordFound />
+              )}
+            </>
           )}
         </Row>
       </Container>

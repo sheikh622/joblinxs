@@ -17,10 +17,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { onMessageListener } from "../firebase";
 import { getNotifiaction } from "../Redux/notification/actions";
+import Spinner from "./spinner";
 
 export default (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [loader, setLoader] = useState(true);
   const [notificationData, setNotificationData] = useState({
     title: "",
     body: "",
@@ -52,6 +54,7 @@ export default (props) => {
     dispatch(
       getNotifiaction({
         id: auth?.id,
+        setLoader: setLoader,
       })
     );
   };
@@ -155,9 +158,17 @@ export default (props) => {
                     >
                       Notifications
                     </Nav.Link>
-                    {notification?.map((n) => (
+                    {loader ? (
+            <Spinner />
+          ) : (
+            <>
+            {notification?.map((n) => (
                       <Notification key={`notification-${n.id}`} {...n} />
                     ))}
+            </>
+          )
+}
+                    
                     {/* <Dropdown.Item className="text-center text-primary fw-bold py-3">
                         View all
                       </Dropdown.Item> */}

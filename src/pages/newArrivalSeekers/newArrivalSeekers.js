@@ -23,21 +23,22 @@ import Navbar from "../../components/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { topRated } from "../../Redux/Dashboard/actions";
 import NoRecordFound from "../../components/NoRecordFound";
+import Spinner from "../../components/spinner";
 
 const DashboardOverview = () => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
+  const [loader, setLoader] = useState(true);
   const auth = useSelector((state) => state.auth.Auther);
-  const topRatedData = useSelector(
-    (state) => state?.Seeker?.topRated
-  );
-console.log(topRatedData)
+  const topRatedData = useSelector((state) => state?.Seeker?.topRated);
+  console.log(topRatedData);
   useEffect(() => {
     dispatch(
       topRated({
         page: page,
-        userId:auth?.id,
+        userId: auth?.id,
         count: 15,
+        setLoader: setLoader,
       })
     );
   }, []);
@@ -67,7 +68,7 @@ console.log(topRatedData)
         </Pagination.Item>
       );
     }
-   
+
     return items;
   };
   return (
@@ -75,39 +76,45 @@ console.log(topRatedData)
       <Navbar module={"Top Rated Providers"} />
       <Container>
         <Row className="py-2">
-          {topRatedData?.data?.length > 0 ? (
-            <>
-              {topRatedData?.data?.map((item) => {
-                return (
-                  <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
-                    <CommonCard
-                      img={item?.profileImg}
-                      name={item?.fullName}
-                      type={item?.employmentType}
-                      id={item.id}
-                      rate={item.rate}
-                      completed={"90"}
-                      star={item.rating}
-                    />
-                  </Col>
-                );
-              })}
-               <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
-                <Nav>
-                  <Pagination size={"sm"} className="mb-2 mb-lg-0">
-                    <Pagination.Prev onClick={() => previousPage()}>
-                      <FontAwesomeIcon icon={faAngleDoubleLeft} />
-                    </Pagination.Prev>
-                    {paginationItems()}
-                    <Pagination.Next onClick={() => nextPage()}>
-                      <FontAwesomeIcon icon={faAngleDoubleRight} />
-                    </Pagination.Next>
-                  </Pagination>
-                </Nav>
-              </Card.Footer>
-            </>
+          {loader ? (
+            <Spinner />
           ) : (
-            <NoRecordFound />
+            <>
+              {topRatedData?.data?.length > 0 ? (
+                <>
+                  {topRatedData?.data?.map((item) => {
+                    return (
+                      <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
+                        <CommonCard
+                          img={item?.image}
+                          name={item?.name}
+                          type={item?.employmentType}
+                          id={item.id}
+                          rate={item.rate}
+                          completed={"90"}
+                          star={item.rating}
+                        />
+                      </Col>
+                    );
+                  })}
+                  <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+                    <Nav>
+                      <Pagination size={"sm"} className="mb-2 mb-lg-0">
+                        <Pagination.Prev onClick={() => previousPage()}>
+                          <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                        </Pagination.Prev>
+                        {paginationItems()}
+                        <Pagination.Next onClick={() => nextPage()}>
+                          <FontAwesomeIcon icon={faAngleDoubleRight} />
+                        </Pagination.Next>
+                      </Pagination>
+                    </Nav>
+                  </Card.Footer>
+                </>
+              ) : (
+                <NoRecordFound />
+              )}
+            </>
           )}
         </Row>
       </Container>

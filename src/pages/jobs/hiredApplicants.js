@@ -2,6 +2,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Spinner from "../../components/spinner";
 import {
   Button,
   Card,
@@ -35,12 +36,11 @@ const Applicants = ({ id }) => {
   const handleClose = () => setShowDefault(false);
   const [page, setPage] = useState(1);
   const [limit] = useState("5");
+  const [loader, setLoader] = useState(true);
   const applicantsData = useSelector(
     (state) => state?.addJob?.hiredApplicants?.data?.applicants
   );
-  const auth = useSelector(
-    (state) => state?.auth?.Auther
-  );
+  const auth = useSelector((state) => state?.auth?.Auther);
   const Pageination = useSelector((state) => state?.addJob?.Applicants?.data);
   useEffect(() => {
     if (id === "Hired") {
@@ -49,6 +49,7 @@ const Applicants = ({ id }) => {
           id: jobId,
           page: page,
           limit: limit,
+          setLoader: setLoader,
         })
       );
     }
@@ -89,6 +90,7 @@ const Applicants = ({ id }) => {
         userId: data.id,
         isCompleted: data.isCompleted,
         isDisputed: data.isDisputed,
+        setLoader: setLoader,
       })
     );
   };
@@ -136,7 +138,7 @@ const Applicants = ({ id }) => {
             size="sm"
             style={{ width: "100px", height: "40px" }}
             onClick={() => {
-             handleMove(item)
+              handleMove(item);
             }}
           >
             Log Hours
@@ -145,78 +147,89 @@ const Applicants = ({ id }) => {
       </div>
     );
   };
-  const handleMove = (item)=>{
+  const handleMove = (item) => {
     history.push(`/LogHours/${item?.jobs?.id}?${item?.users?.id}`);
-  }
+  };
   return (
     <>
       <Container>
         <Row className="py-2 justify-content-between">
-          {applicantsData?.length > 0 ? (
-            <>
-              <Col lg={6} md={12} sm={12} xs={12} className="pb-3">
-                {applicantsData?.map((item, value) => {
-                  return (
-                    <>
-                      <Card
-                        border="light"
-                        className="shadow-sm userCard"
-                        style={{ marginTop: "15px" }}
-                      >
-                        <Image
-                          src={item?.users ? item?.users?.profileImg : ""}
-                          className="navbar-brand-light"
-                        />
-                        <div className="detailSection">
-                          <span className="left">
-                            <h3 className="mb-1 mt-2">
-                              {item?.users ? item?.users?.fullName : ""}{" "}
-                            </h3>
-                            <span className="starSpan">
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />{" "}
-                              <span>{item?.rating ? item?.rating : ""}</span>
-                            </span>
-                            <p className="mt-2">
-                              Jobs Completed: <span>25</span>{" "}
-                            </p>
-                            <p>
-                              Jobs Completed as Plumber: <span>14 </span>
-                            </p>
-                            <div className="mt-1">
-                              <a href={`/detailProvider/${item?.users?.id}`}>
-                                view profile
-                              </a>
-                            </div>
-                          </span>
-                        </div>
-                        {handleClick(item)}
-                      </Card>
-                      {show && (
-                        <RateModal
-                          show={show}
-                          setShow={setShow}
-                          img={
-                            item?.users?.profileImg
-                              ? item?.users?.profileImg
-                              : ""
-                          }
-                          jobId={item?.jobs?.id}
-                          ratedTo={item?.users?.id}
-                          ratedBy={auth?.id}
-                        />
-                      )}
-                    </>
-                  );
-                })}
-              </Col>
-            </>
+          {loader ? (
+            <Spinner />
           ) : (
-            <NoRecordFound />
+            <>
+              {applicantsData?.length > 0 ? (
+                <>
+                  <Col lg={6} md={12} sm={12} xs={12} className="pb-3">
+                    {applicantsData?.map((item, value) => {
+                      return (
+                        <>
+                          <Card
+                            border="light"
+                            className="shadow-sm userCard"
+                            style={{ marginTop: "15px" }}
+                          >
+                            <Image
+                              src={item?.users ? item?.users?.profileImg : ""}
+                              className="navbar-brand-light"
+                            />
+                            <div className="detailSection">
+                              <span className="left">
+                                <h3 className="mb-1 mt-2">
+                                  {item?.users ? item?.users?.fullName : ""}{" "}
+                                </h3>
+                                <span className="starSpan">
+                                  <FontAwesomeIcon icon={faStar} />
+                                  <FontAwesomeIcon icon={faStar} />
+                                  <FontAwesomeIcon icon={faStar} />
+                                  <FontAwesomeIcon icon={faStar} />
+                                  <FontAwesomeIcon icon={faStar} />{" "}
+                                  <span>
+                                    {item?.rating ? item?.rating : ""}
+                                  </span>
+                                </span>
+                                <p className="mt-2">
+                                  Jobs Completed: <span>25</span>{" "}
+                                </p>
+                                <p>
+                                  Jobs Completed as Plumber: <span>14 </span>
+                                </p>
+                                <div className="mt-1">
+                                  <a
+                                    href={`/detailProvider/${item?.users?.id}`}
+                                  >
+                                    view profile
+                                  </a>
+                                </div>
+                              </span>
+                            </div>
+                            {handleClick(item)}
+                          </Card>
+                          {show && (
+                            <RateModal
+                              show={show}
+                              setShow={setShow}
+                              img={
+                                item?.users?.profileImg
+                                  ? item?.users?.profileImg
+                                  : ""
+                              }
+                              jobId={item?.jobs?.id}
+                              ratedTo={item?.users?.id}
+                              ratedBy={auth?.id}
+                            />
+                          )}
+                        </>
+                      );
+                    })}
+                  </Col>
+                </>
+              ) : (
+                <NoRecordFound />
+              )}
+            </>
           )}
+
           <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
             <Nav>
               <Pagination size={"sm"} className="mb-2 mb-lg-0">
