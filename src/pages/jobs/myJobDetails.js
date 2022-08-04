@@ -52,24 +52,23 @@ const MyJobDetails = (item, props) => {
         history: history,
       })
     );
-  }
-  console.log(SingleId)
+  };
+  console.log(SingleId);
   const [adminId, setAdminId] = useState(0);
   const [selectedItem, setSelectedItem] = useState();
 
   useEffect(() => {
-    dispatch(jobById({ id: jobId }))
+    dispatch(jobById({ id: jobId }));
   }, []);
   const handlefalse = () => {
-    setShowDefault(false)
+    setShowDefault(false);
   };
   const handleEdit = () => {
-    history.push({pathname:`/updateJob/${jobId}` ,state:"edit"})
-
-  }
+    history.push({ pathname: `/updateJob/${jobId}`, state: "edit" });
+  };
   const handleRepost = () => {
-    history.push({pathname:`/updateJob/${jobId}`,state:"repost"})
-  }
+    history.push({ pathname: `/updateJob/${jobId}`, state: "repost" });
+  };
   const profileCard = () => {
     return (
       <div className="detailed">
@@ -227,12 +226,68 @@ const MyJobDetails = (item, props) => {
                 </>
               )}
             </Card>
-            {SingleId?.status === "upcoming" &&(
-            
+            {SingleId.createdBy === "seeker" && (
               <>
-                {SingleId.createdBy === "seeker" && (
+                {SingleId?.status === "completed" || SingleId?.status === "inprogress" || SingleId?.status === "upcoming"? (
                   <>
-                    <div>
+                    <div class="d-grid gap-2 col-3 mx-auto">
+                      <Button
+                        variant="primary"
+                        color="dark"
+                        size="lg"
+                        className="mt-2 me-1"
+                        onClick={handleRepost}
+                      >
+                        Repost Job
+                      </Button>
+                    </div>
+                  </>
+                ):(
+                  <div>
+                      <div class="d-grid gap-2 col-3 mx-auto">
+                        {SingleId.status === "Accepted" ? (
+                          <Button
+                            variant="primary"
+                            color="dark"
+                            size="lg"
+                            className="mt-2 me-1"
+                            onClick={handleEdit}
+                          >
+                            Repost/Emergency
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="primary"
+                            color="dark"
+                            size="lg"
+                            className="mt-2 me-1"
+                            onClick={handleEdit}
+                          >
+                            Edit Job
+                          </Button>
+                        )}
+                      </div>
+                      {SingleId?.status !== "Accepted" && (
+                        <div class="d-grid gap-2 col-3 mx-auto">
+                        <Button
+                          variant="primary"
+                          color="dark"
+                          size="lg"
+                          className="mt-2 me-1"
+                          onClick={() => {
+                            // setAdminId(item.id)
+                            setShowDefault(true);
+                          }}
+                        >
+                          Delete Job
+                        </Button>
+                      </div>
+                      )}
+                    </div>
+                )}
+              </>
+            )}
+            {/* <div>
                       <div class="d-grid gap-2 col-3 mx-auto">
                         {SingleId.status === "Accepted" ? (
                           <Button
@@ -274,13 +329,8 @@ const MyJobDetails = (item, props) => {
                       >
                         Delete Job
                       </Button>
-                    </div>
-
-                  </>
-                )}
-              </>
-            )}
-            <div class="d-grid gap-2 col-3 mx-auto">
+                    </div> */}
+            {/* <div class="d-grid gap-2 col-3 mx-auto">
               <Button
                 variant="primary"
                 color="dark"
@@ -290,8 +340,7 @@ const MyJobDetails = (item, props) => {
               >
                 Repost Job
               </Button>
-            </div>
-            
+            </div> */}
           </Col>
         </Row>
       </Container>

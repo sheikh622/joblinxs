@@ -88,8 +88,8 @@ const Job = () => {
       label: "Upcoming",
     },
     {
-      value: "In Progress",
-      label: "In Progress"
+      value: "inprogress",
+      label: "inprogress"
     }
   ];
   useEffect(
