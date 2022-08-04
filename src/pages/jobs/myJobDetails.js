@@ -37,7 +37,7 @@ const MyJobDetails = (item, props) => {
   let jobId = params.pathname.split("/")[2];
   const SingleId = useSelector((state) => state?.addJob?.jobById);
   const [showDefault, setShowDefault] = useState(false);
- 
+
   const [show, setShow] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [isDisputed, setIsDisputed] = useState(false);
@@ -51,19 +51,25 @@ const MyJobDetails = (item, props) => {
         setShowDefault: setShowDefault,
         history: history,
       })
-    );}
-    console.log(SingleId)
-    const [adminId, setAdminId] = useState(0);
-  
-    useEffect(() => {
-        dispatch(jobById({ id: jobId }))
-    }, []);
-    const handlefalse = () => {
-        setShowDefault(false)
-    };
-    const handleEdit = () => {
-        history.push(`/updateJob/${jobId}`)
-    }
+    );
+  }
+  console.log(SingleId)
+  const [adminId, setAdminId] = useState(0);
+  const [selectedItem, setSelectedItem] = useState();
+
+  useEffect(() => {
+    dispatch(jobById({ id: jobId }))
+  }, []);
+  const handlefalse = () => {
+    setShowDefault(false)
+  };
+  const handleEdit = () => {
+    history.push({pathname:`/updateJob/${jobId}` ,state:"edit"})
+
+  }
+  const handleRepost = () => {
+    history.push({pathname:`/updateJob/${jobId}`,state:"repost"})
+  }
   const profileCard = () => {
     return (
       <div className="detailed">
@@ -221,53 +227,71 @@ const MyJobDetails = (item, props) => {
                 </>
               )}
             </Card>
-            {SingleId.createdBy === "seeker" && (
+            {SingleId?.status === "upcoming" &&(
+            
               <>
-                <div>
-                  <div class="d-grid gap-2 col-3 mx-auto">
-                    {SingleId.status === "Accepted" ? (
+                {SingleId.createdBy === "seeker" && (
+                  <>
+                    <div>
+                      <div class="d-grid gap-2 col-3 mx-auto">
+                        {SingleId.status === "Accepted" ? (
+                          <Button
+                            variant="primary"
+                            color="dark"
+                            size="lg"
+                            className="mt-2 me-1"
+                            onClick={() => {
+                              setShow(true);
+                              setIsCompleted(true);
+                              setIsDisputed(false);
+                            }}
+                          >
+                            Complete Job
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="primary"
+                            color="dark"
+                            size="lg"
+                            className="mt-2 me-1"
+                            onClick={handleEdit}
+                          >
+                            Edit Job
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                    <div class="d-grid gap-2 col-3 mx-auto">
                       <Button
                         variant="primary"
                         color="dark"
                         size="lg"
                         className="mt-2 me-1"
                         onClick={() => {
-                          setShow(true);
-                          setIsCompleted(true);
-                          setIsDisputed(false);
+                          // setAdminId(item.id)
+                          setShowDefault(true);
                         }}
                       >
-                        Complete Job
+                        Delete Job
                       </Button>
-                    ) : (
-                      <Button
-                        variant="primary"
-                        color="dark"
-                        size="lg"
-                        className="mt-2 me-1"
-                        onClick={handleEdit}
-                      >
-                        Edit Job
-                      </Button>
-                    )}
-                  </div>
-                </div>
-                <div class="d-grid gap-2 col-3 mx-auto">
-                  <Button
-                    variant="primary"
-                    color="dark"
-                    size="lg"
-                    className="mt-2 me-1"
-                    onClick={() => {
-                      // setAdminId(item.id)
-                      setShowDefault(true);
-                    }}
-                  >
-                    Delete Job
-                  </Button>
-                </div>
+                    </div>
+
+                  </>
+                )}
               </>
             )}
+            <div class="d-grid gap-2 col-3 mx-auto">
+              <Button
+                variant="primary"
+                color="dark"
+                size="lg"
+                className="mt-2 me-1"
+                onClick={handleRepost}
+              >
+                Repost Job
+              </Button>
+            </div>
+            
           </Col>
         </Row>
       </Container>

@@ -23,7 +23,7 @@ import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import Navbar from "../../components/Navbar";
 import NoRecordFound from "../../components/NoRecordFound";
-import { addCategory, deleteCategory, getCategoryList, updateCategory } from "../../Redux/Category/actions";
+import { addAdminCategory, deleteCategory, getCategoryList, updateCategory } from "../../Redux/Category/actions";
 const Categories = (item) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -100,7 +100,7 @@ const Categories = (item) => {
             })
           )
         : dispatch(
-            addCategory({
+            addAdminCategory({
               title: values.title,
               details: values.details,
               categoryImg: selectedImage,
