@@ -168,7 +168,8 @@ function* markAsFavouriteJobSaga({ payload }) {
       datas,
       headers
     );
-    toast.success(CapitalizeFirstLetter(response.data.message));
+    // toast.success(CapitalizeFirstLetter(response.data.message));
+    // payload.setLoader(false);
     payload.history.go(0);
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -249,6 +250,7 @@ function* getApplicantsRequest(payload) {
       }
     );
     yield put(getApplicantsSuccess(response.data));
+    payload.setLoader(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -269,6 +271,7 @@ function* gethiredApplicantsSaga(payload) {
       }
     );
     yield put(getHiredApplicantsSuccess(response.data));
+    payload.setLoader(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -289,6 +292,7 @@ function* ConfirmSaga(payload) {
       },
     });
     toast.success(CapitalizeFirstLetter(response.data.message));
+    payload.setLoader(false);
     yield put(getConfirmSuccess(response.data));
     yield put(getApplicants({
       id: payload.payload.jobId,
@@ -410,6 +414,7 @@ function* CompletejobSaga({ payload }) {
       },
     });
     toast.success(CapitalizeFirstLetter(response.data.message));
+    payload.setLoader(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

@@ -37,7 +37,7 @@ function* addCategoryRequest({ payload }) {
       search: '',
     })
     );
-
+    payload.setLoader(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -56,6 +56,7 @@ function* getcategory({ payload }) {
       }
     );
     yield put(getBusinessCategoryListSuccess(response.data.data));
+    payload.setLoader(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -79,6 +80,7 @@ console.log("payload",payload)
       }
     );
     yield put(saveCategorySuccess(response.data.data));
+    payload.setLoader(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

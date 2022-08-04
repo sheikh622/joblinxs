@@ -6,6 +6,7 @@ import CommonCard from "../../components/CommonCard";
 import Navbar from "../../components/Navbar";
 import RecommendCard from "../../components/RecommendCard";
 import { useDispatch, useSelector } from "react-redux";
+import Spinner from "../../components/spinner";
 import {
   getSeekerListing,
   newArrival,
@@ -15,6 +16,7 @@ import NoRecordFound from "../../components/NoRecordFound";
 
 const DashboardOverview = () => {
   const dispatch = useDispatch();
+  const [loader, setLoader] = useState(true);
   const SeekerList = useSelector((state) => state?.Seeker?.getSeekerListing);
   const auth = useSelector((state) => state.auth.Auther);
   const newArrivalData = useSelector(
@@ -26,6 +28,7 @@ const DashboardOverview = () => {
       getSeekerListing({
         page: 1,
         limit: 5,
+        setLoader: setLoader,
       })
     );
   }, []);
@@ -36,6 +39,7 @@ const DashboardOverview = () => {
         page: 1,
         userId: auth?.id,
         count: 5,
+        setLoader: setLoader,
       })
     );
     dispatch(
@@ -43,6 +47,7 @@ const DashboardOverview = () => {
         page: 1,
         userId: auth?.id,
         count: 5,
+        setLoader: setLoader,
       })
     );
   }, []);
@@ -59,34 +64,42 @@ const DashboardOverview = () => {
               <a href="/recommended">view all</a>
             )}
           </div>
-          {SeekerList?.jobs?.length > 0 ? (
-            <>
-              {SeekerList?.jobs?.map((value, index) => {
-                return (
-                  <Col
-                    lg={2}
-                    md={4}
-                    sm={6}
-                    xs={12}
-                    className="pb-3"
-                    key={index}
-                  >
-                    <CommonCard
-                      img={value.image}
-                      name={value.name}
-                      // type={"IT"}
-                      isFavourite={value.isFavourite}
-                      id={value.id}
-                      rate={value.rate}
-                      completed={"10"}
-                      star={"3.6"}
-                    />
-                  </Col>
-                );
-              })}
-            </>
+          {loader ? (
+            <Spinner />
           ) : (
-            <NoRecordFound />
+            <>
+              {SeekerList?.jobs?.length > 0 ? (
+                <>
+                  {SeekerList?.jobs?.map((value, index) => {
+                    return (
+                      <Col
+                        lg={2}
+                        md={4}
+                        sm={6}
+                        xs={12}
+                        className="pb-3"
+                        key={index}
+                      >
+                        <CommonCard
+                          img={value.image}
+                          name={value.name}
+                          // type={"IT"}
+                          isFavourite={value.isFavourite}
+                          setLoader={setLoader}
+                          loader={loader}
+                          id={value.id}
+                          rate={value.rate}
+                          completed={"10"}
+                          star={"3.6"}
+                        />
+                      </Col>
+                    );
+                  })}
+                </>
+              ) : (
+                <NoRecordFound />
+              )}
+            </>
           )}
         </Row>
         {/* Featured */}
@@ -95,27 +108,35 @@ const DashboardOverview = () => {
             <h4>New Arrival Jobs By Provider</h4>
             <a href="/Newarrivalproviders">view all</a>
           </div>
-          {newArrivalData?.length > 0 ? (
-            <>
-              {newArrivalData?.map((item) => {
-                return (
-                  <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
-                    <CommonCard
-                      img={item?.profileImg}
-                      name={item?.fullName}
-                      id={item?.id}
-                      isFavourite={item.isFavourite}
-                      type={item?.employmentType}
-                      rate={item.rate}
-                      completed={"90"}
-                      star={item.rating}
-                    />
-                  </Col>
-                );
-              })}
-            </>
+          {loader ? (
+            <Spinner />
           ) : (
-            <NoRecordFound />
+            <>
+              {newArrivalData?.length > 0 ? (
+                <>
+                  {newArrivalData?.map((item) => {
+                    return (
+                      <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
+                        <CommonCard
+                          img={item?.image}
+                          name={item?.name}
+                          setLoader={setLoader}
+                          id={item?.id}
+                          loader={loader}
+                          isFavourite={item.isFavourite}
+                          type={item?.employmentType}
+                          rate={item.rate}
+                          completed={"90"}
+                          star={item.rating}
+                        />
+                      </Col>
+                    );
+                  })}
+                </>
+              ) : (
+                <NoRecordFound />
+              )}
+            </>
           )}
         </Row>
 
@@ -125,27 +146,35 @@ const DashboardOverview = () => {
             <h4>Top Rated Jobs By provider</h4>
             <a href="/TopRatedProviders">view all</a>
           </div>
-          {topRatedData?.data?.length > 0 ? (
-            <>
-              {topRatedData?.data?.map((item) => {
-                return (
-                  <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
-                    <CommonCard
-                      img={item?.profileImg}
-                      name={item?.fullName}
-                      type={item?.employmentType}
-                      id={item?.id}
-                      isFavourite={item.isFavourite}
-                      rate={item.rate}
-                      completed={"90"}
-                      star={item.rating}
-                    />
-                  </Col>
-                );
-              })}
-            </>
+          {loader ? (
+            <Spinner />
           ) : (
-            <NoRecordFound />
+            <>
+              {topRatedData?.data?.length > 0 ? (
+                <>
+                  {topRatedData?.data?.map((item) => {
+                    return (
+                      <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
+                        <CommonCard
+                           img={item?.image}
+                          name={item?.name}
+                          type={item?.employmentType}
+                          setLoader={setLoader}
+                          loader={loader}
+                          id={item?.id}
+                          isFavourite={item.isFavourite}
+                          rate={item.rate}
+                          completed={"90"}
+                          star={item.rating}
+                        />
+                      </Col>
+                    );
+                  })}
+                </>
+              ) : (
+                <NoRecordFound />
+              )}
+            </>
           )}
         </Row>
       </Container>

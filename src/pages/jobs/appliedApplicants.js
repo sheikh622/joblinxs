@@ -14,6 +14,7 @@ import {
   Tab,
   Tabs,
 } from "@themesberg/react-bootstrap";
+import Spinner from "../../components/spinner";
 import {
   faAngleDoubleLeft,
   faAngleDoubleRight,
@@ -38,6 +39,7 @@ import NoRecordFound from "../../components/NoRecordFound";
 // import Tabs from "react-bootstrap/Tabs";
 const Applicants = ({ id }) => {
   const dispatch = useDispatch();
+  const [loader, setLoader] = useState(true);
   const history = useHistory();
   const {
     location: { state },
@@ -61,6 +63,7 @@ const Applicants = ({ id }) => {
           id: jobId,
           page: page,
           limit: limit,
+          setLoader: setLoader,
         })
       );
     }
@@ -100,6 +103,7 @@ const Applicants = ({ id }) => {
         isAccepted: data.isAccepted,
         page: page,
         limit: limit,
+        setLoader: setLoader,
       })
     );
   };
@@ -135,52 +139,61 @@ const Applicants = ({ id }) => {
     <>
       <Container>
         <Row className="py-2 justify-content-between">
-          {Applicants?.length > 0 ? (
-            <>
-              <Col lg={6} md={12} sm={12} xs={12} className="pb-3">
-                {Applicants?.map((item, value) => {
-                  return (
-                    <>
-                      <Card
-                        border="light"
-                        className="shadow-sm userCard"
-                        style={{ marginTop: "15px" }}
-                      >
-                        <Image
-                          src={item?.user ? item?.user?.profileImg : ""}
-                          className="navbar-brand-light"
-                        />
-                        <div className="detailSection">
-                          <span className="left">
-                            <h3 className="mb-1 mt-2">
-                              {item?.user ? item?.user?.fullName : ""}{" "}
-                            </h3>
-                            <span className="starSpan">
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />{" "}
-                              <span>{item?.rating ? item?.rating : ""}</span>
-                            </span>
-                            <p className="mt-2">
-                              Jobs Completed: <span>25</span>{" "}
-                            </p>
-                            <p>
-                              Jobs Completed as Plumber: <span>14 </span>
-                            </p>
-                          </span>
-                        </div>
-                        {handleClick(item)}
-                      </Card>
-                    </>
-                  );
-                })}
-              </Col>
-            </>
+          {loader ? (
+            <Spinner />
           ) : (
-            <NoRecordFound />
+            <>
+              {Applicants?.length > 0 ? (
+                <>
+                  <Col lg={6} md={12} sm={12} xs={12} className="pb-3">
+                    {Applicants?.map((item, value) => {
+                      return (
+                        <>
+                          <Card
+                            border="light"
+                            className="shadow-sm userCard"
+                            style={{ marginTop: "15px" }}
+                          >
+                            <Image
+                              src={item?.user ? item?.user?.profileImg : ""}
+                              className="navbar-brand-light"
+                            />
+                            <div className="detailSection">
+                              <span className="left">
+                                <h3 className="mb-1 mt-2">
+                                  {item?.user ? item?.user?.fullName : ""}{" "}
+                                </h3>
+                                <span className="starSpan">
+                                  <FontAwesomeIcon icon={faStar} />
+                                  <FontAwesomeIcon icon={faStar} />
+                                  <FontAwesomeIcon icon={faStar} />
+                                  <FontAwesomeIcon icon={faStar} />
+                                  <FontAwesomeIcon icon={faStar} />{" "}
+                                  <span>
+                                    {item?.rating ? item?.rating : ""}
+                                  </span>
+                                </span>
+                                <p className="mt-2">
+                                  Jobs Completed: <span>25</span>{" "}
+                                </p>
+                                <p>
+                                  Jobs Completed as Plumber: <span>14 </span>
+                                </p>
+                              </span>
+                            </div>
+                            {handleClick(item)}
+                          </Card>
+                        </>
+                      );
+                    })}
+                  </Col>
+                </>
+              ) : (
+                <NoRecordFound />
+              )}
+            </>
           )}
+
           <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
             <Nav>
               <Pagination size={"sm"} className="mb-2 mb-lg-0">
