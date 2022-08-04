@@ -88,6 +88,10 @@ const Job = () => {
       value: "upcoming",
       label: "Upcoming",
     },
+    {
+      value: "In Progress",
+      label: "In Progress"
+    }
   ];
   useEffect(
     (action) => {

@@ -1,6 +1,6 @@
 import produce from "immer";
 import {
-  ADD_CATEGORY_SUCCESS,
+  ADD_ADMIN_CATEGORY_SUCCESS,
   CHANGE_USERS_ACTIVE_PAGE,
   GET_CATEGORY_LIST_SUCCESS,
   UPDATE_CATEGORY_SUCCESS
@@ -14,7 +14,7 @@ const initialState = {
 const Category = produce((state = initialState, action) => {
 
   switch (action.type) {
-    case ADD_CATEGORY_SUCCESS:
+    case ADD_ADMIN_CATEGORY_SUCCESS:
       state.addCategory = action.payload;
       break;
     case CHANGE_USERS_ACTIVE_PAGE:

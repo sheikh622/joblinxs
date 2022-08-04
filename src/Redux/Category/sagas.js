@@ -12,7 +12,7 @@ import {
   updateCategorySuccess,
 } from "./actions";
 import {
-  ADD_CATEGORY,
+  ADD_ADMIN_CATEGORY,
   DELETE_CATEGORY,
   GET_CATEGORY_LIST,
   UPDATE_CATEGORY,
@@ -122,7 +122,7 @@ function* watchUpdateCategory() {
 }
 
 function* watchAddCategory() {
-  yield takeLatest(ADD_CATEGORY, addCategoryRequest);
+  yield takeLatest(ADD_ADMIN_CATEGORY, addCategoryRequest);
 }
 function* watchGetCategory() {
   yield takeLatest(GET_CATEGORY_LIST, getcategory);

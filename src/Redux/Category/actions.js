@@ -1,17 +1,17 @@
 import {
-  ADD_CATEGORY,
-  ADD_CATEGORY_SUCCESS,
+  ADD_ADMIN_CATEGORY_SUCCESS,
+  ADD_ADMIN_CATEGORY,
   CHANGE_USERS_ACTIVE_PAGE, DELETE_CATEGORY, GET_CATEGORY_LIST,
   GET_CATEGORY_LIST_SUCCESS,
   UPDATE_CATEGORY,
   UPDATE_CATEGORY_SUCCESS
 } from "./constants";
-export const addCategory = (data) => ({
-  type: ADD_CATEGORY,
+export const addAdminCategory = (data) => ({
+  type: ADD_ADMIN_CATEGORY,
   payload: data,
 });
 export const addCategorySuccess = (data) => ({
-  type: ADD_CATEGORY_SUCCESS,
+  type: ADD_ADMIN_CATEGORY_SUCCESS,
   payload: data,
 });
 

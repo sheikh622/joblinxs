@@ -44,6 +44,9 @@ export const GeneralInfoForm = () => {
 
   const dispatch = useDispatch();
   const history = useHistory();
+  console.log("789798789", history);
+  const activeForm = history?.location?.state
+  console.log("activeform===============", activeForm)
   const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
   const SingleId = useSelector((state) => state?.addJob?.jobById);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -280,7 +283,7 @@ export const GeneralInfoForm = () => {
                     }}
                   />
                   {CategoryFormik.touched.jobName &&
-                  CategoryFormik.errors.jobName ? (
+                    CategoryFormik.errors.jobName ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.jobName}
                     </div>
@@ -339,7 +342,7 @@ export const GeneralInfoForm = () => {
                     }}
                   />
                   {CategoryFormik.touched.description &&
-                  CategoryFormik.errors.description ? (
+                    CategoryFormik.errors.description ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.description}
                     </div>
@@ -378,7 +381,7 @@ export const GeneralInfoForm = () => {
                     }}
                   />
                   {CategoryFormik.touched.jobRequirements &&
-                  CategoryFormik.errors.jobRequirements ? (
+                    CategoryFormik.errors.jobRequirements ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.jobRequirements}
                     </div>
@@ -404,7 +407,7 @@ export const GeneralInfoForm = () => {
                     }}
                   />
                   {CategoryFormik.touched.toolsNeeded &&
-                  CategoryFormik.errors.toolsNeeded ? (
+                    CategoryFormik.errors.toolsNeeded ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.toolsNeeded}
                     </div>
@@ -653,9 +656,11 @@ export const GeneralInfoForm = () => {
             </Row>
 
             <div className="mt-3 d-flex justify-content-end">
-              <Button variant="primary" type="submit" show={showDefaults}>
-                {id ? "Update Job" : "Post Job"}
-              </Button>
+              {SingleId?.status !== "completed" && (
+                <Button variant="primary" type="submit" show={showDefaults}>
+                  {id ? "Update Job" : "Post Job"}
+                </Button>)}
+
               {SingleId?.status === "pending" && (
                 <Button
                   variant="primary"
