@@ -168,7 +168,8 @@ function* markAsFavouriteJobSaga({ payload }) {
       datas,
       headers
     );
-    toast.success(CapitalizeFirstLetter(response.data.message));
+    // toast.success(CapitalizeFirstLetter(response.data.message));
+    // payload.setLoader(false);
     payload.history.go(0);
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -249,6 +250,7 @@ function* getApplicantsRequest(payload) {
       }
     );
     yield put(getApplicantsSuccess(response.data));
+    payload.setLoader(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -269,6 +271,7 @@ function* gethiredApplicantsSaga(payload) {
       }
     );
     yield put(getHiredApplicantsSuccess(response.data));
+    payload.setLoader(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -289,6 +292,7 @@ function* ConfirmSaga(payload) {
       },
     });
     toast.success(CapitalizeFirstLetter(response.data.message));
+    payload.setLoader(false);
     yield put(getConfirmSuccess(response.data));
     yield put(getApplicants({
       id: payload.payload.jobId,
@@ -327,7 +331,8 @@ function* RateJobSaga({ payload }) {
       description: payload.description,
       rating: payload.rating,
       jobId: payload.jobId,
-      userId: payload.userId,
+      ratedBy: payload.ratedBy,
+      ratedTo: payload.ratedTo
     };
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.post(`job/rating`, Data, {
@@ -403,12 +408,13 @@ function* CompletejobSaga({ payload }) {
       isDisputed: payload.isDisputed,
     };
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.post(`job/confirmBySeeker`, Data, {
+    const response = yield axios.patch(`job/confirmBySeeker`, Data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     toast.success(CapitalizeFirstLetter(response.data.message));
+    payload.setLoader(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

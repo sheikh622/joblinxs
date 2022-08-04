@@ -16,6 +16,7 @@ function* getSeekerList({ payload }) {
       }
     );
     yield put(getSeekerListingSuccess(response.data.data));
+    payload.setLoader(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -36,6 +37,7 @@ function* newArrivalSaga({ payload }) {
       }
     );
     yield put(newArrivalSuccess(response.data.data));
+    payload.setLoader(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -56,6 +58,7 @@ function* topRatedSaga({ payload }) {
       }
     );
     yield put(topRatedSuccess(response.data.data));
+    payload.setLoader(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
