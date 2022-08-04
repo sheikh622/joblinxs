@@ -174,7 +174,7 @@ export const GeneralInfoForm = () => {
         hours: hours,
         location: location,
         startDate: startDate,
-        endDate: endDate,
+        endDate: onGoing ? "": endDate,
         isOngoing: onGoing,
         setReset: action.resetForm,
         setShowDefault: setShowDefault,
