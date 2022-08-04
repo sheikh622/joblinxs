@@ -19,7 +19,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Swiper, SwiperSlide } from "swiper/react";
-
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -88,6 +87,10 @@ const Job = () => {
       value: "upcoming",
       label: "Upcoming",
     },
+    {
+      value: "inprogress",
+      label: "inprogress"
+    }
   ];
   useEffect(
     (action) => {

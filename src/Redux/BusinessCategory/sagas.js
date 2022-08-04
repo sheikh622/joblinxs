@@ -11,14 +11,13 @@ import {
   updateCategorySuccess
 } from "./actions";
 import {
-  ADD_CATEGORY, DELETE_CATEGORY, GET_BUSNIESSCATEGORY_LIST, GET_CATEGORY_LIST, SAVE_CATEGORY, SAVE_CATEGORY_SUCCESS,
-  UPDATE_CATEGORY
+  ADD_CATEGORY, GET_BUSNIESSCATEGORY_LIST,SAVE_CATEGORY, SAVE_CATEGORY_SUCCESS,
 } from "./constants";
 
 function* addCategoryRequest({ payload }) {
 
   const formData = new FormData();
-  // formData.append("categoryImg", payload.categoryImg);
+  
   formData.append("title", payload.title);
   formData.append("details", payload.details);
   try {
@@ -28,16 +27,15 @@ function* addCategoryRequest({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     });
-    payload.setReset();
+    // payload.setReset();
     toast.success(CapitalizeFirstLetter(response.data.message));
     payload.setShowDefault(false);
-    payload.setSelectedImage("");
     yield put(addCategorySuccess(response.data.data));
     yield put(getBusinessCategoryList({
       search: '',
     })
     );
-
+    payload.setLoader(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -45,9 +43,7 @@ function* addCategoryRequest({ payload }) {
 function* getcategory({ payload }) {
   try {
     const token = yield select(makeSelectAuthToken());
-    let response;
-
-    response = yield axios.get(
+    let response = yield axios.get(
       `category/user/all/selected`,
       {
         headers: {
@@ -56,6 +52,7 @@ function* getcategory({ payload }) {
       }
     );
     yield put(getBusinessCategoryListSuccess(response.data.data));
+    payload.setLoader(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -79,6 +76,7 @@ console.log("payload",payload)
       }
     );
     yield put(saveCategorySuccess(response.data.data));
+    payload.setLoader(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

@@ -20,7 +20,7 @@ import Select from "react-select";
 import * as Yup from "yup";
 import profile from "../../assets/img/upload.png";
 import AddCategory from "../../components/addCategory";
-import { getJobListing, updateJob, jobById } from "../../Redux/addJob/actions";
+import { getJobListing, updateJob, jobById,emergencyJob } from "../../Redux/addJob/actions";
 import { getCategoryList } from "../../Redux/Category/actions";
 import DatePicker from "react-date-picker";
 import "react-date-picker/dist/DatePicker.css";
@@ -36,14 +36,15 @@ export const GeneralInfoForm = () => {
     { value: "professional", label: "professional" },
     { value: "Expert", label: "Expert" },
   ];
-  const [isEmergency, setIsEmergency] = useState(false);
-  const [repost, setRepost] = useState(false);
+  const [isPost, setIsPost] = useState(false);
+  const [emergency, setEmergency] = useState(false);
   const YOUR_GOOGLE_MAPS_API_KEY = "AIzaSyBJWt1Yh6AufjxV8B8Y8UVz_25cYV1fvhs";
   const params = useLocation();
   let id = params.pathname.split("/")[2];
 
   const dispatch = useDispatch();
   const history = useHistory();
+  const activeForm = history?.location?.state
   const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
   const SingleId = useSelector((state) => state?.addJob?.jobById);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -134,7 +135,7 @@ export const GeneralInfoForm = () => {
       jobType: SingleId?.jobType ? SingleId?.jobType : "",
       // jobImg: SingleId?.image ? SingleId?.image : "",
       paymentType: SingleId?.paymentType ? SingleId?.paymentType : "",
-      isEmergency: SingleId?.isEmergency ? SingleId?.isEmergency : "",
+      isPost: SingleId?.isPost ? SingleId?.isPost : "",
       jobNature: SingleId?.jobNature ? SingleId?.jobNature : "",
       startDate: SingleId?.startDate ? SingleId?.startDate : "",
       endDate: SingleId?.endDate ? SingleId?.endDate : "",
@@ -158,7 +159,6 @@ export const GeneralInfoForm = () => {
         toolsNeeded: values.toolsNeeded,
         rate: values.rate,
         jobType: jobType,
-        isEmergency: isEmergency,
         paymentType: paymentType,
         jobNature: jobNature,
         category: categories.value,
@@ -174,7 +174,7 @@ export const GeneralInfoForm = () => {
         hours: hours,
         location: location,
         startDate: startDate,
-        endDate: endDate,
+        endDate: onGoing ? "": endDate,
         isOngoing: onGoing,
         setReset: action.resetForm,
         setShowDefault: setShowDefault,
@@ -183,14 +183,14 @@ export const GeneralInfoForm = () => {
         setSelectedImage: setSelectedImage,
         history: history,
         existImg: SingleId?.image,
-        isEmergency: isEmergency,
+        isPost: isPost,
       };
       if (!id) {
         dispatch(getJobListing(data));
       } else {
-        if (isEmergency || repost) {
+        if (isPost) {
           dispatch(getJobListing(data));
-        } else {
+        } if(!emergency){
           dispatch(updateJob(data, id));
         }
       }
@@ -199,9 +199,7 @@ export const GeneralInfoForm = () => {
   useEffect(() => {
     if (jobId !== undefined) {
       dispatch(jobById({ id: jobId }));
-      console.log("if condition");
     } else {
-      console.log("else condition");
     }
   }, [jobId]);
 
@@ -232,7 +230,13 @@ export const GeneralInfoForm = () => {
     },
     defaultValue: location,
   });
-
+const handleEmergency=()=>{
+  dispatch(emergencyJob({
+    id:jobId,
+    setShowDefaultEmergency:setShowDefaultEmergency,
+  }));
+console.log("emergeny post here")
+}
   return (
     <>
       <Col className={"d-flex justify-content-center"}>
@@ -280,7 +284,7 @@ export const GeneralInfoForm = () => {
                     }}
                   />
                   {CategoryFormik.touched.jobName &&
-                  CategoryFormik.errors.jobName ? (
+                    CategoryFormik.errors.jobName ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.jobName}
                     </div>
@@ -339,7 +343,7 @@ export const GeneralInfoForm = () => {
                     }}
                   />
                   {CategoryFormik.touched.description &&
-                  CategoryFormik.errors.description ? (
+                    CategoryFormik.errors.description ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.description}
                     </div>
@@ -378,7 +382,7 @@ export const GeneralInfoForm = () => {
                     }}
                   />
                   {CategoryFormik.touched.jobRequirements &&
-                  CategoryFormik.errors.jobRequirements ? (
+                    CategoryFormik.errors.jobRequirements ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.jobRequirements}
                     </div>
@@ -404,7 +408,7 @@ export const GeneralInfoForm = () => {
                     }}
                   />
                   {CategoryFormik.touched.toolsNeeded &&
-                  CategoryFormik.errors.toolsNeeded ? (
+                    CategoryFormik.errors.toolsNeeded ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.toolsNeeded}
                     </div>
@@ -653,28 +657,31 @@ export const GeneralInfoForm = () => {
             </Row>
 
             <div className="mt-3 d-flex justify-content-end">
-              <Button variant="primary" type="submit" show={showDefaults}>
-                {id ? "Update Job" : "Post Job"}
-              </Button>
-              {SingleId?.status === "pending" && (
+              {SingleId?.length === 0 ||  SingleId?.status === "pending" && (
+                <Button variant="primary" type="submit" show={showDefaults} className="mx-2">
+                  {id ? "Update Job" : "Post Job"}
+                </Button>)}
+
+              {SingleId?.status === "pending" || SingleId?.status === "Accepted" ? (
                 <Button
                   variant="primary"
-                  type="submit"
+                  // type="submit"
                   onClick={() => {
                     setShowDefaultEmergency(true);
+                    setEmergency(true)
                   }}
                   className="mx-2"
                 >
                   Emergency Post
                 </Button>
-              )}
+              ):""}
               {id && (
                 <Button
                   variant="primary"
-                  type="submit"
+                  // type="submit"
                   onClick={() => {
                     setShowDefaultEmergency(true);
-                    setRepost(true);
+                    setIsPost(true)
                   }}
                 >
                   Repost Job
@@ -705,7 +712,7 @@ export const GeneralInfoForm = () => {
           <Form onSubmit={CategoryFormik.handleSubmit}>
             <Form.Group>
               Are you sure you want to{" "}
-              {repost ? "repost this Job?" : "post this job emergency?"}
+              {isPost ? "repost this Job?" : "post this job emergency?"}
             </Form.Group>
             <Form.Group>
               <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
@@ -713,10 +720,10 @@ export const GeneralInfoForm = () => {
                   variant="primary"
                   type="submit"
                   onClick={() => {
-                    if (repost) {
-                      setRepost(true);
+                    if (isPost) {
+                      setIsPost(true);
                     } else {
-                      setIsEmergency(true);
+                      handleEmergency(id)
                     }
                   }}
                   className="mx-2"

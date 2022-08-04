@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { Card, Image } from "@themesberg/react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
@@ -16,7 +16,9 @@ const CommonCard = (props) => {
   const dispatch = useDispatch();
   const login = useSelector((state) => state?.auth.Auther);
   const history = useHistory();
+  console.log(props)
   const handleFavourite = (id) => {
+    props.setLoader(true);
     dispatch(
       markAsFavouriteJob({
         id: id,
@@ -26,6 +28,7 @@ const CommonCard = (props) => {
         category: props.categoryType,
         userId: login.id,
         history: history,
+        setLoader: props.setLoader,
       })
     );
   };
