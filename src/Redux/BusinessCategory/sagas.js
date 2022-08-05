@@ -21,7 +21,7 @@ import {
 
 function* addCategoryRequest({ payload }) {
   const formData = new FormData();
-
+console.log("payload",payload)
   formData.append("title", payload.title);
   formData.append("details", payload.details);
   try {
@@ -37,7 +37,9 @@ function* addCategoryRequest({ payload }) {
     yield put(addCategorySuccess(response.data.data));
     yield put(
       getBusinessCategoryList({
-        search: "",
+        search: payload.search,
+        page: payload.page,
+        limit: payload.limit,
       })
     );
     payload.setLoader(false);
