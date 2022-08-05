@@ -36,7 +36,9 @@ function* addCategoryRequest({ payload }) {
     yield put(addCategorySuccess(response.data.data));
     yield put(
       getBusinessCategoryList({
-        search: "",
+        search: payload.search,
+        page: payload.page,
+        limit: payload.limit,
       })
     );
     payload.setLoader(false);
