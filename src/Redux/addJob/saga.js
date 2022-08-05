@@ -59,6 +59,7 @@ function* addJob({ payload }) {
   formData.append("requirement", payload.requirement);
   formData.append("paymentType", payload.paymentType);
   formData.append("rate", payload.rate);
+  formData.append("unit", payload.unit);
   formData.append("hours", payload.hours);
   formData.append("days", payload.days);
   formData.append("location", JSON.stringify([payload.location]));
@@ -206,6 +207,7 @@ function* updateJobSaga(payload) {
   formData.append("requirement", payload.payload.requirement);
   formData.append("paymentType", payload.payload.paymentType);
   formData.append("rate", payload.payload.rate);
+  formData.append("unit", payload.payload.unit);
   formData.append("hours", payload.payload.hours);
   formData.append("days", payload.payload.days);
   formData.append("location", JSON.stringify([payload.payload.location]));
