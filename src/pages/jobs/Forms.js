@@ -494,7 +494,7 @@ export const GeneralInfoForm = () => {
               </Col>
               <Col md={2} className="mb-3 ">
                 <Form.Group id="onGoing">
-                  <Form.Label>onGoing</Form.Label>
+                  <Form.Label></Form.Label>
                   <fieldset className="d-flex radioButton">
                     <Form.Check
                       // defaultChecked

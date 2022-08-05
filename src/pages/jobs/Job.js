@@ -90,6 +90,10 @@ const Job = () => {
     {
       value: "In Progress",
       label: "In Progress"
+    },
+    {
+      value: "canceled",
+      label: "Canceled"
     }
   ];
   useEffect(
