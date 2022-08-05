@@ -89,7 +89,12 @@ const Job = () => {
     },
     {
       value: "inprogress",
-      label: "inprogress"
+      label: "Inprogress"
+    },
+    {
+      value: "canceled",
+      label: "Canceled"
+      
     }
   ];
   useEffect(
