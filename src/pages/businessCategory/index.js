@@ -92,7 +92,6 @@ const BusinessCategories = (item) => {
     CategoryFormik.resetForm();
 
   };
-
   const activeButton = (value) => {
     setEdit(true);
     setShowDefault(true);
