@@ -21,7 +21,6 @@ import {
 
 function* addCategoryRequest({ payload }) {
   const formData = new FormData();
-
   formData.append("title", payload.title);
   formData.append("details", payload.details);
   try {
