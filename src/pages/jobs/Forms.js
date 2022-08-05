@@ -239,7 +239,6 @@ const handleEmergency=()=>{
     id:jobId,
     setShowDefaultEmergency:setShowDefaultEmergency,
   }));
-console.log("emergeny post here")
 }
   return (
     <>

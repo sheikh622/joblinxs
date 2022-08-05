@@ -16,21 +16,8 @@ const CommonCard = (props) => {
   const dispatch = useDispatch();
   const login = useSelector((state) => state?.auth.Auther);
   const history = useHistory();
-  console.log(props)
-  const handleFavourite = (id) => {
-    props.setLoader(true);
-    dispatch(
-      markAsFavouriteJob({
-        id: id,
-        page: props.page,
-        limit: props.limit,
-        type: props.type,
-        category: props.categoryType,
-        userId: login.id,
-        history: history,
-        setLoader: props.setLoader,
-      })
-    );
+  const handleFavourite = (id, value, isFavourite, title) => {
+    props.handleClick(id, value, isFavourite, title);
   };
   return (
     <>
@@ -69,7 +56,7 @@ const CommonCard = (props) => {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 onClick={() => {
-                  handleFavourite(props.id);
+                  handleFavourite(props.id, props.index, props?.isFavourite, props.title);
                 }}
               >
                 <path
@@ -89,7 +76,7 @@ const CommonCard = (props) => {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 onClick={() => {
-                  handleFavourite(props.id);
+                  handleFavourite(props.id, props.index, props?.isFavourite, props.title);
                 }}
               >
                 <path

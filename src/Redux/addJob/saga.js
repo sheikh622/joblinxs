@@ -172,9 +172,6 @@ function* markAsFavouriteJobSaga({ payload }) {
       datas,
       headers
     );
-    // toast.success(CapitalizeFirstLetter(response.data.message));
-    // payload.setLoader(false);
-    payload.history.go(0);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

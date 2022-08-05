@@ -41,7 +41,6 @@ export default (props) => {
       toast.success(notificationData?.body ? notificationData?.body : "");
     }
   }, [notificationData]);
-  console.log("notificationData: ", notificationData);
   onMessageListener()
     .then((payload) => {
       setNotificationData({
@@ -61,7 +60,6 @@ export default (props) => {
   const handleScroll = (e) => {
     var heightBound = (window.height = 400);
     if (heightBound > window.scrollY) {
-      console.log(window.scrollY, "here is sctoller");
     }
   };
   const handleRedirection = (jobs, users, title) => {

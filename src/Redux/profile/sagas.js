@@ -26,7 +26,6 @@ function* watchGetProfile() {
   yield takeLatest(GET_PROFILE, getProfileById);
 }
 function* updateAdminProfileSaga({ payload }) {
-  console.log(payload.fullName, "here is data");
   let Data = new FormData();
   Data.append("fullName", payload.fullName);
   Data.append("address", payload.address);

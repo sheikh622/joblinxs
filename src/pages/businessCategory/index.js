@@ -18,7 +18,7 @@ import {
   Modal,
   Row,
   Pagination,
-  Nav
+  Nav,
 } from "@themesberg/react-bootstrap";
 import axios from "axios";
 import { useFormik } from "formik";
@@ -47,44 +47,28 @@ const BusinessCategories = (item) => {
   const [isEdit, setEdit] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [page, setPage] = useState(1);
-  const [limit] = useState("5");
+  const [limit] = useState("12");
   const {
     location: { state },
   } = history;
-  // const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
-  const auth = useSelector((state) => state.auth);
-  const forAction = history?.location?.state?.from;
-
-  useEffect((payload) => {
-    let Token = localStorage.getItem("Token");
-    let Url = "https://api.joblinxs.com/api/v1/";
-    axios
-      .get(`${Url}category/user/all/selected?page=1&count=10&search=`, {
-        headers: {
-          Authorization: `Bearer ${Token}`,
-        },
+  const CategoryData = useSelector((state) => state?.BusinessCategory?.getBusinessCategoryList);
+  useEffect(()=>{
+    if(CategoryData !== undefined){
+      setChecked(CategoryData?.updatedArray)
+    }
+  },[CategoryData])
+  useEffect(() => {
+    dispatch(
+      getBusinessCategoryList({
+        page: page,
+        limit: limit,
+        search: search,
+        setLoader: setLoader,
       })
-      .then((response) => {
-        let data = response.data.data;
-        console.log(data?.selctedCategories)
-        let dataResult = [];
-        const myArrayFiltered = data?.allCategories.map((e1) => {
-          const result = data?.selctedCategories?.find((e2) => {console.log(e2) })
-          // console.log(result)
-          // if(data?.selctedCategories?.filter((data)=>{return data?.id.includes(e1?.id)}) ){
-          //   console.log("true", e1.id);
-          // }
-          // return el        
-          //      data?.selctedCategories?.filter((f) => { 
-          //     // console.log(f.id , el.id);
-          //       // if (f.id === el.id) {return data.allCategories['selected'] = true;}
-          //       // else{return data.allCategories['selected'] = false}
-          //     });
-        });
-        setChecked(data);
-        setLoader(false);
-      });
-  }, [search, page, limit]);
+    );
+  },
+    [page, limit, search]
+  );
 
   const handleClick = () => {
     let arr = [];
@@ -130,29 +114,29 @@ const BusinessCategories = (item) => {
     onSubmit: async (values, action) => {
       selectedItem
         ? dispatch()
-        // updateCategory({
-        //     id: values.id,
-        //     title: values.title,
+        : // updateCategory({
+          //     id: values.id,
+          //     title: values.title,
 
-        //     details: values.details,
-        //     setReset: action.resetForm,
-        //     setShowDefault: setShowDefault,
-        //     // showDefault: showDefault,
-        //     setSelectedImage: setSelectedImage,
+          //     details: values.details,
+          //     setReset: action.resetForm,
+          //     setShowDefault: setShowDefault,
+          //     // showDefault: showDefault,
+          //     setSelectedImage: setSelectedImage,
 
-        //     history: history,
-        // })
-        : dispatch(
-          addCategory({
-            title: values.title,
-            details: values.details,
-            setReset: action.resetForm,
-            setShowDefault: setShowDefault,
-            showDefault: showDefault,
-            setSelectedImage: setSelectedImage,
-            setLoader: setLoader,
-          })
-        );
+          //     history: history,
+          // })
+          dispatch(
+            addCategory({
+              title: values.title,
+              details: values.details,
+              setReset: action.resetForm,
+              setShowDefault: setShowDefault,
+              showDefault: showDefault,
+              setSelectedImage: setSelectedImage,
+              setLoader: setLoader,
+            })
+          );
     },
   });
   const imageChange = (e) => {
@@ -160,22 +144,21 @@ const BusinessCategories = (item) => {
       setSelectedImage(e.target.files[0]);
     }
   };
-  useEffect(() => { }, [CategoryFormik.values]);
+  useEffect(() => {}, [CategoryFormik.values]);
   const addCategories = () => {
     setEdit(false);
     setSelectedItem(null);
     setShowDefault(true);
   };
   const handlechecked = (index, value) => {
-    // let newArray = checked;
-    // newArray[index].selected = !value.selected;
-    // setChecked(() => {
-    //   return [...newArray];
-    // });
-
+    let newArray = checked;
+    newArray[index].selected = !value.selected;
+    setChecked(() => {
+      return [...newArray];
+    });
   };
   const nextPage = () => {
-    if (page < checked?.pages) {
+    if (page < CategoryData?.pages) {
       setPage(page + 1);
     }
   };
@@ -187,24 +170,21 @@ const BusinessCategories = (item) => {
 
   const paginationItems = () => {
     let items = [];
-    for (let number = 1; number <= checked?.pages; number++) {
+    for (let number = 1; number <= CategoryData?.pages; number++) {
       items.push(
-        <Pagination.Item key={number} active={number === page} onClick={() => {
-          setPage(number)
-        }}>
+        <Pagination.Item
+          key={number}
+          active={number === page}
+          onClick={() => {
+            setPage(number);
+          }}
+        >
           {number}
-        </Pagination.Item>,
+        </Pagination.Item>
       );
     }
-    return items
-  }
-  // const myArrayFiltered = checked?.allCategories.filter((el) => {
-  //   return checked?.selctedCategories.some((f) => {
-  //     return f.id === el.id;
-  //   });
-  // });
-
-  // console.log(myArrayFiltered);
+    return items;
+  };
   return (
     <>
       <Navbar module={"Categories"} />
@@ -262,10 +242,10 @@ const BusinessCategories = (item) => {
           <Spinner />
         ) : (
           <>
-            {checked?.allCategories?.length ? (
+            {checked?.length ? (
               <>
                 <Row className="pb-1">
-                  {checked?.allCategories?.map((value, index, row) => {
+                  {checked?.map((value, index, row) => {
                     return (
                       <>
                         <Col
@@ -316,7 +296,8 @@ const BusinessCategories = (item) => {
                     </Pagination>
                   </Nav>
                   <small className="fw-bold">
-                    Showing <b>{checked?.length}</b> out of <b>{checked?.total_jobs}</b> entries
+                    Showing <b>{checked?.length}</b> out of{" "}
+                    <b>{checked?.total_jobs}</b> entries
                   </small>
                 </Card.Footer>
               </>
@@ -391,7 +372,7 @@ const BusinessCategories = (item) => {
                 }}
               />
               {CategoryFormik.touched.details &&
-                CategoryFormik.errors.details ? (
+              CategoryFormik.errors.details ? (
                 <div style={{ color: "red" }}>
                   {CategoryFormik.errors.details}
                 </div>

@@ -31,7 +31,6 @@ const DashboardOverview = () => {
   const [loader, setLoader] = useState(true);
   const auth = useSelector((state) => state.auth.Auther);
   const topRatedData = useSelector((state) => state?.Seeker?.topRated);
-  console.log(topRatedData);
   useEffect(() => {
     dispatch(
       topRated({

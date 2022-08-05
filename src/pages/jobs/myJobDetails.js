@@ -53,7 +53,6 @@ const MyJobDetails = (item, props) => {
       })
     );
   };
-  console.log(SingleId);
   const [adminId, setAdminId] = useState(0);
   const [selectedItem, setSelectedItem] = useState();
 

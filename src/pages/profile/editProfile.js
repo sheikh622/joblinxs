@@ -59,7 +59,6 @@ export default () => {
   const [value, setValue] = useState();
   const [dateofBirth, setDateofBirth] = React.useState(new Date());
   const { errors } = formState;
-  // console.log(getById, "asdfg")
   const [user, setUser] = useState();
   useEffect(() => {
     reset(user);
