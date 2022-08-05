@@ -90,6 +90,7 @@ const BusinessCategories = (item) => {
     setShowDefault(false);
     setDelCategory(false);
     CategoryFormik.resetForm();
+
   };
   const activeButton = (value) => {
     setEdit(true);
@@ -129,6 +130,9 @@ const BusinessCategories = (item) => {
             addCategory({
               title: values.title,
               details: values.details,
+              page: page,
+              limit: limit,
+              search: search,
               setReset: action.resetForm,
               setShowDefault: setShowDefault,
               showDefault: showDefault,
