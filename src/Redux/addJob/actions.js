@@ -21,7 +21,7 @@ import {
     APPROVED_LOG_HOURS_SUCCESS,
     GET_SINGLE_USER,
     GET_SINGLE_USER_SUCCESS,
-
+    EMERGENCY_JOB,
     RATE_PROVIDER,
     GET_HIRED_APPLICANTS,
     GET_HIRED_APPLICANTS_SUCCESS,
@@ -138,5 +138,9 @@ export const completeJob = (data) => ({
 });
 export const getApplicantsByUserId = (data) => ({
   type:  GET_APPLICANTS_BYUSERID,
+  payload: data,
+});
+export const emergencyJob = (data) => ({
+  type:  EMERGENCY_JOB,
   payload: data,
 });
