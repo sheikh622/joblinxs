@@ -30,7 +30,6 @@ const DashboardOverview = () => {
   const [loader, setLoader] = useState(true);
   const [page, setPage] = useState(1);
   const SeekerList = useSelector((state) => state?.Seeker?.getSeekerListing);
-  console.log(SeekerList);
   useEffect(() => {
     dispatch(
       getSeekerListing({

@@ -35,7 +35,6 @@ const Users = () => {
 
   const onSubmit = async (data) => {
     // display form data on success
-    console.log(data, "here is data");
     // await dispatch(
     //   updatetPassword({
     //     email: newData.email,

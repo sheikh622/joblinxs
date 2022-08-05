@@ -5,19 +5,22 @@ import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 import {
-  addCategorySuccess, getBusinessCategoryList,
-  saveCategory, saveCategorySuccess
-  , getBusinessCategoryListSuccess,
-  updateCategorySuccess
+  addCategorySuccess,
+  getBusinessCategoryList,
+  saveCategory,
+  saveCategorySuccess,
+  getBusinessCategoryListSuccess,
+  updateCategorySuccess,
 } from "./actions";
 import {
-  ADD_CATEGORY, GET_BUSNIESSCATEGORY_LIST,SAVE_CATEGORY, SAVE_CATEGORY_SUCCESS,
+  ADD_CATEGORY,
+  GET_BUSNIESSCATEGORY_LIST,
+  SAVE_CATEGORY,
+  SAVE_CATEGORY_SUCCESS,
 } from "./constants";
 
 function* addCategoryRequest({ payload }) {
-
   const formData = new FormData();
-  
   formData.append("title", payload.title);
   formData.append("details", payload.details);
   try {
@@ -31,9 +34,10 @@ function* addCategoryRequest({ payload }) {
     toast.success(CapitalizeFirstLetter(response.data.message));
     payload.setShowDefault(false);
     yield put(addCategorySuccess(response.data.data));
-    yield put(getBusinessCategoryList({
-      search: '',
-    })
+    yield put(
+      getBusinessCategoryList({
+        search: "",
+      })
     );
     payload.setLoader(false);
   } catch (error) {
@@ -44,14 +48,31 @@ function* getcategory({ payload }) {
   try {
     const token = yield select(makeSelectAuthToken());
     let response = yield axios.get(
-      `category/user/all/selected`,
+      `category/user/all/selected?page=${payload.page}&count=${payload.limit}&search=${payload.search}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-    yield put(getBusinessCategoryListSuccess(response.data.data));
+    let data = response.data.data;
+    const updatedArray = data?.allCategories?.map((category) => {
+      if (data?.selctedCategories.length > 0) {
+        let selectedData = data?.selctedCategories?.forEach((selected) => {
+          if (category?.id == selected?.id) {
+            category["selected"] = true;
+          }
+        });
+      } else {
+        category["selected"] = false;
+      }
+      return category;
+    });
+    let finalResponse ={
+      updatedArray:updatedArray,
+      pages:data.pages
+    }
+    yield put(getBusinessCategoryListSuccess(finalResponse));
     payload.setLoader(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -59,29 +80,24 @@ function* getcategory({ payload }) {
 }
 
 function* saveCategorySaga({ payload }) {
-console.log("payload",payload)
   let Data = {
-    categoriesId: payload.categoriesId
-  }
+    categoriesId: payload.categoriesId,
+  };
   try {
     const token = yield select(makeSelectAuthToken());
     let response;
 
-    response = yield axios.post(
-      `category/add/Ids`, Data,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    response = yield axios.post(`category/add/Ids`, Data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     yield put(saveCategorySuccess(response.data.data));
     payload.setLoader(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
 }
-
 
 function* watchSaveCategory() {
   yield takeLatest(SAVE_CATEGORY, saveCategorySaga);
@@ -97,5 +113,4 @@ export default function* BusinessCategorySaga() {
   yield all([fork(watchAddCategory)]);
   yield all([fork(watchGetCategory)]);
   yield all([fork(watchSaveCategory)]);
-
 }

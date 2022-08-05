@@ -13,16 +13,38 @@ import {
   topRated,
 } from "../../Redux/Dashboard/actions";
 import NoRecordFound from "../../components/NoRecordFound";
+import { useHistory, useLocation } from "react-router-dom";
+import { markAsFavouriteJob } from "../../Redux/addJob/actions";
 
 const DashboardOverview = () => {
   const dispatch = useDispatch();
   const [loader, setLoader] = useState(true);
-  const SeekerList = useSelector((state) => state?.Seeker?.getSeekerListing);
+  const history = useHistory();
+  const SeekerList = useSelector((state) => state?.Seeker?.getSeekerListing?.jobs);
   const auth = useSelector((state) => state.auth.Auther);
   const newArrivalData = useSelector(
     (state) => state?.Seeker?.newArrival?.data
   );
-  const topRatedData = useSelector((state) => state?.Seeker?.topRated);
+  const topRatedData = useSelector((state) => state?.Seeker?.topRated?.data);
+  const [data, setData] = useState()
+  const [topRatedProvider, setTopRatedProvider] = useState()
+  const [newArrivalProvider, setNewArrivalProvider] = useState()
+  useEffect(()=>{
+    if(SeekerList !== undefined){
+      setData(SeekerList)
+    }
+  },[SeekerList])
+  useEffect(()=>{
+    if(newArrivalData !== undefined){
+      setNewArrivalProvider(newArrivalData)
+    }
+  },[newArrivalData])
+    useEffect(()=>{
+    if(topRatedData !== undefined){
+      setTopRatedProvider(topRatedData)
+    }
+  },[topRatedData])
+  
   useEffect(() => {
     dispatch(
       getSeekerListing({
@@ -52,6 +74,35 @@ const DashboardOverview = () => {
     );
   }, []);
 
+  const handleClick =(id, value, isFavourite,title)=>{
+    if(title === "topRate"){
+      let newArray = topRatedProvider;
+      newArray[value].isFavourite = !isFavourite;
+      setTopRatedProvider(() => {
+        return [...newArray];
+      });
+    }
+    if(title === "newArrivals"){
+      let newArray = newArrivalProvider;
+      newArray[value].isFavourite = !isFavourite;
+      setNewArrivalProvider(() => {
+        return [...newArray];
+      });
+    }
+    if(title === "recommended"){
+      let newArray = data;
+      newArray[value].isFavourite = !isFavourite;
+      setData(() => {
+        return [...newArray];
+      });
+    }
+    dispatch(
+        markAsFavouriteJob({
+          id: id,
+          setLoader:setLoader,
+        })
+      );
+  }
   return (
     <>
       <Navbar module={"Dashboard"} />
@@ -60,7 +111,7 @@ const DashboardOverview = () => {
         <Row className="pt-2 pb-4">
           <div className="d-flex justify-content-between mt-0 mb-4 headerBorder">
             <h4>Recommended for you</h4>
-            {SeekerList?.jobs?.length > 0 && (
+            {data?.length > 0 && (
               <a href="/recommended">view all</a>
             )}
           </div>
@@ -68,9 +119,9 @@ const DashboardOverview = () => {
             <Spinner />
           ) : (
             <>
-              {SeekerList?.jobs?.length > 0 ? (
+              {data?.length > 0 ? (
                 <>
-                  {SeekerList?.jobs?.map((value, index) => {
+                  {data?.map((value, index) => {
                     return (
                       <Col
                         lg={2}
@@ -84,10 +135,13 @@ const DashboardOverview = () => {
                           img={value.image}
                           name={value.name}
                           // type={"IT"}
+                          title="recommended"
                           isFavourite={value.isFavourite}
                           setLoader={setLoader}
                           loader={loader}
+                          index={index}
                           id={value.id}
+                          handleClick={handleClick}
                           rate={value.rate}
                           completed={"10"}
                           star={"3.6"}
@@ -112,15 +166,18 @@ const DashboardOverview = () => {
             <Spinner />
           ) : (
             <>
-              {newArrivalData?.length > 0 ? (
+              {newArrivalProvider?.length > 0 ? (
                 <>
-                  {newArrivalData?.map((item) => {
+                  {newArrivalProvider?.map((item, index) => {
                     return (
                       <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
                         <CommonCard
                           img={item?.image}
                           name={item?.name}
                           setLoader={setLoader}
+                          index={index}
+                          title="newArrivals"
+                          handleClick={handleClick}
                           id={item?.id}
                           loader={loader}
                           isFavourite={item.isFavourite}
@@ -150,9 +207,9 @@ const DashboardOverview = () => {
             <Spinner />
           ) : (
             <>
-              {topRatedData?.data?.length > 0 ? (
+              {topRatedProvider?.length > 0 ? (
                 <>
-                  {topRatedData?.data?.map((item) => {
+                  {topRatedProvider?.map((item, index) => {
                     return (
                       <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
                         <CommonCard
@@ -162,6 +219,9 @@ const DashboardOverview = () => {
                           setLoader={setLoader}
                           loader={loader}
                           id={item?.id}
+                          handleClick={handleClick}
+                          index={index}
+                          title="topRate"
                           isFavourite={item.isFavourite}
                           rate={item.rate}
                           completed={"90"}

@@ -44,7 +44,6 @@ export default ({ showDefault, setShowDefault }) => {
     if (!showDefault) {
       reset();
     }
-    console.log(showDefault, "erjerej");
   }, [showDefault]);
 
   return (

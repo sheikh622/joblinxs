@@ -11,7 +11,10 @@ const Seeker = produce((state = initialState, action) => {
       state.getSeekerListing = action.payload;
       break;
       case NEW_ARRIVAL_SUCCESS:
-      state.newArrival = action.payload;
+        return{
+          ...state,
+          newArrival: action.payload,
+        }
       break;
       case TOP_RATED_SUCCESS:
         state.topRated = action.payload;

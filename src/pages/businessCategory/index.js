@@ -2,6 +2,8 @@ import {
   faEdit,
   faEllipsisV,
   faTrashAlt,
+  faAngleDoubleLeft,
+  faAngleDoubleRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,6 +17,8 @@ import {
   Image,
   Modal,
   Row,
+  Pagination,
+  Nav,
 } from "@themesberg/react-bootstrap";
 import axios from "axios";
 import { useFormik } from "formik";
@@ -26,7 +30,6 @@ import Navbar from "../../components/Navbar";
 import NoRecordFound from "../../components/NoRecordFound";
 import {
   addCategory,
-  //  deleteCategory,
   getBusinessCategoryList,
   saveCategory,
 } from "../../Redux/BusinessCategory/actions";
@@ -38,30 +41,34 @@ const BusinessCategories = (item) => {
   const [search, setSearch] = useState("");
   const [checked, setChecked] = useState([]);
   const [checkedItem, setCheckedItem] = useState([]);
-
   const [adminId, setAdminId] = useState(0);
   const [delCategory, setDelCategory] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
+  const [isEdit, setEdit] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [page, setPage] = useState(1);
+  const [limit] = useState("12");
   const {
     location: { state },
   } = history;
-  // const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
-  const auth = useSelector((state) => state.auth);
-  const forAction = history?.location?.state?.from;
-
+  const CategoryData = useSelector((state) => state?.BusinessCategory?.getBusinessCategoryList);
+  useEffect(()=>{
+    if(CategoryData !== undefined){
+      setChecked(CategoryData?.updatedArray)
+    }
+  },[CategoryData])
   useEffect(() => {
-    let Token = localStorage.getItem("Token");
-    let Url = "https://api.joblinxs.com/api/v1/";
-    axios
-      .get(`${Url}category/user/all/selected`, {
-        headers: {
-          Authorization: `Bearer ${Token}`,
-        },
+    dispatch(
+      getBusinessCategoryList({
+        page: page,
+        limit: limit,
+        search: search,
+        setLoader: setLoader,
       })
-      .then((response) => {
-        setChecked(response.data.data);
-        setLoader(false);
-      });
-  }, [search]);
+    );
+  },
+    [page, limit, search]
+  );
 
   const handleClick = () => {
     let arr = [];
@@ -84,9 +91,6 @@ const BusinessCategories = (item) => {
     setDelCategory(false);
     CategoryFormik.resetForm();
   };
-  const [selectedImage, setSelectedImage] = useState("");
-  const [isEdit, setEdit] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
   const activeButton = (value) => {
     setEdit(true);
     setShowDefault(true);
@@ -109,7 +113,7 @@ const BusinessCategories = (item) => {
     onSubmit: async (values, action) => {
       selectedItem
         ? dispatch()
-          // updateCategory({
+        : // updateCategory({
           //     id: values.id,
           //     title: values.title,
 
@@ -121,7 +125,7 @@ const BusinessCategories = (item) => {
 
           //     history: history,
           // })
-        : dispatch(
+          dispatch(
             addCategory({
               title: values.title,
               details: values.details,
@@ -151,6 +155,34 @@ const BusinessCategories = (item) => {
     setChecked(() => {
       return [...newArray];
     });
+  };
+  const nextPage = () => {
+    if (page < CategoryData?.pages) {
+      setPage(page + 1);
+    }
+  };
+  const previousPage = () => {
+    if (1 > page) {
+      setPage(page - 1);
+    }
+  };
+
+  const paginationItems = () => {
+    let items = [];
+    for (let number = 1; number <= CategoryData?.pages; number++) {
+      items.push(
+        <Pagination.Item
+          key={number}
+          active={number === page}
+          onClick={() => {
+            setPage(number);
+          }}
+        >
+          {number}
+        </Pagination.Item>
+      );
+    }
+    return items;
   };
   return (
     <>
@@ -250,6 +282,23 @@ const BusinessCategories = (item) => {
                     );
                   })}
                 </Row>
+                <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+                  <Nav>
+                    <Pagination size={"sm"} className="mb-2 mb-lg-0">
+                      <Pagination.Prev onClick={() => previousPage()}>
+                        <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                      </Pagination.Prev>
+                      {paginationItems()}
+                      <Pagination.Next onClick={() => nextPage()}>
+                        <FontAwesomeIcon icon={faAngleDoubleRight} />
+                      </Pagination.Next>
+                    </Pagination>
+                  </Nav>
+                  <small className="fw-bold">
+                    Showing <b>{checked?.length}</b> out of{" "}
+                    <b>{checked?.total_jobs}</b> entries
+                  </small>
+                </Card.Footer>
               </>
             ) : (
               <>

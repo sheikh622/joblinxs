@@ -23,7 +23,6 @@ import { Routes } from "../../routes";
 const LoginPage = () => {
   const [isTokenFound, setTokenFound] = useState(false);
   const [token, setToken] = useState("");
-  console.log(token, "here is token")
   useEffect(() => {
     localStorage.clear()
   }, [])
@@ -32,7 +31,6 @@ const LoginPage = () => {
     async function tokenFunc() {
       data = await fetchToken(setTokenFound,setToken);
       if (data) {
-        console.log("Token is", data);
       }
       return data;
     }

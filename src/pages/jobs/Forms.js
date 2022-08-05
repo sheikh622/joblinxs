@@ -121,6 +121,8 @@ export const GeneralInfoForm = () => {
       .required("Please enter number")
       .max(8, "Number should not exceed 6 digits")
       .min(1, "Number should not be less than 0"),
+    unit: Yup.string().trim().required("Unit Number is required"),
+
   });
   const CategoryFormik = useFormik({
     enableReinitialize: true,
@@ -131,6 +133,7 @@ export const GeneralInfoForm = () => {
       jobRequirements: SingleId?.requirement ? SingleId?.requirement : "",
       toolsNeeded: SingleId?.toolsNeeded ? SingleId?.toolsNeeded : "",
       rate: SingleId?.rate ? SingleId?.rate : "--",
+      unit: SingleId?.unit ? SingleId?.unit : "",
       onGoing: SingleId?.onGoing ? SingleId?.onGoing : "",
       jobType: SingleId?.jobType ? SingleId?.jobType : "",
       // jobImg: SingleId?.image ? SingleId?.image : "",
@@ -158,6 +161,7 @@ export const GeneralInfoForm = () => {
         requirement: values.jobRequirements,
         toolsNeeded: values.toolsNeeded,
         rate: values.rate,
+        unit: values.unit,
         jobType: jobType,
         paymentType: paymentType,
         jobNature: jobNature,
@@ -235,7 +239,6 @@ const handleEmergency=()=>{
     id:jobId,
     setShowDefaultEmergency:setShowDefaultEmergency,
   }));
-console.log("emergeny post here")
 }
   return (
     <>
@@ -491,7 +494,7 @@ console.log("emergeny post here")
               </Col>
               <Col md={2} className="mb-3 ">
                 <Form.Group id="onGoing">
-                  <Form.Label>onGoing</Form.Label>
+                  <Form.Label></Form.Label>
                   <fieldset className="d-flex radioButton">
                     <Form.Check
                       // defaultChecked
@@ -521,7 +524,6 @@ console.log("emergeny post here")
                   />
                 </Col>
               )}
-
               <Col md={6} className="mb-3">
                 <Form.Group id="fixedRate">
                   <Form.Label>Fixed Rate</Form.Label>
@@ -539,6 +541,27 @@ console.log("emergeny post here")
                   {CategoryFormik.touched.rate && CategoryFormik.errors.rate ? (
                     <div style={{ color: "red" }}>
                       {CategoryFormik.errors.rate}
+                    </div>
+                  ) : null}
+                </Form.Group>
+              </Col>
+              <Col md={6} className="mb-3">
+                <Form.Group id="Unit Number">
+                  <Form.Label>Unit Number</Form.Label>
+                  <Form.Control
+                    //  required
+                    type="text"
+                    placeholder="Unit number"
+                    value={CategoryFormik.values.unit}
+                    name="unit"
+                    label="unit"
+                    onChange={(e) => {
+                      CategoryFormik.setFieldValue("unit", e.target.value);
+                    }}
+                  />
+                  {CategoryFormik.touched.unit && CategoryFormik.errors.unit ? (
+                    <div style={{ color: "red" }}>
+                      {CategoryFormik.errors.unit}
                     </div>
                   ) : null}
                 </Form.Group>

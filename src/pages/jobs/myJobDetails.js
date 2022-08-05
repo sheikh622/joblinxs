@@ -53,7 +53,6 @@ const MyJobDetails = (item, props) => {
       })
     );
   };
-  console.log(SingleId);
   const [adminId, setAdminId] = useState(0);
   const [selectedItem, setSelectedItem] = useState();
 
@@ -245,7 +244,7 @@ const MyJobDetails = (item, props) => {
                 ):(
                   <div>
                       <div class="d-grid gap-2 col-3 mx-auto">
-                        {SingleId.status === "Accepted" ? (
+                        {SingleId.status === "Accepted" || SingleId?.status === "canceled" ? (
                           <Button
                             variant="primary"
                             color="dark"
@@ -254,7 +253,7 @@ const MyJobDetails = (item, props) => {
                             onClick={handleEdit}
                           >
                             Repost/Emergency
-                          </Button>
+                          </Button> 
                         ) : (
                           <Button
                             variant="primary"

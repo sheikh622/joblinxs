@@ -40,10 +40,8 @@ const LogHourDetails = (item, props) => {
     } = history;
     // const logHours = item?.location?.state;
     const Details = item?.location?.state?.item?.user;
-    console.log("city",Details)
     const params = useLocation();
     let jobId = params.pathname.split("/")[2];
-console.log("item",item)
     // const logHours = useSelector(
     //     (state) => state?.addJob?.logHours[0]?.log_hours);
 
@@ -63,7 +61,6 @@ console.log("item",item)
     //     setShowDefault(false)
     // };
     // const handleClick = (item) => {
-    //     console.log("item", item)
 
     //     dispatch(
     //         getApprovedHours({
