@@ -298,10 +298,10 @@ const BusinessCategories = (item) => {
                       </Pagination.Next>
                     </Pagination>
                   </Nav>
-                  <small className="fw-bold">
+                  {/* <small className="fw-bold">
                     Showing <b>{checked?.length}</b> out of{" "}
-                    <b>{checked?.total_jobs}</b> entries
-                  </small>
+                    <b>{checked?.total_categories}</b> entries
+                  </small> */}
                 </Card.Footer>
               </>
             ) : (
