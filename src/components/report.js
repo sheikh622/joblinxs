@@ -91,10 +91,23 @@ const Report = ({item, setShow, show}) => {
 
     useEffect(() => { }, [CategoryFormik.values]);
     const addCategories = () => {
-
         setSelectedItem(null);
         setShowDefault(true);
     };
+    const currencies = [
+        {
+            value: "",
+            label: "All Users",
+        },
+        {
+            value: "provider",
+            label: "Service Provider",
+        },
+        {
+            value: "seeker",
+            label: "Service Seeker",
+        },
+    ];
     return (
 
 
@@ -109,23 +122,22 @@ const Report = ({item, setShow, show}) => {
             <Modal.Body>
                 <Form onSubmit={CategoryFormik.handleSubmit}>
                     <Form.Group>
-                        <Form.Label>Category Name</Form.Label>
-                        <Form.Control
-                            // required
-                            type="text"
-                            placeholder="Enter category Name"
-                            value={CategoryFormik.values.title}
-                            name="title"
-                            label="title"
-                            onChange={(e) => {
-                                CategoryFormik.setFieldValue("title", e.target.value);
-                            }}
-                        />
-                        {CategoryFormik.touched.title && CategoryFormik.errors.title ? (
-                            <div style={{ color: "red" }}>
-                                {CategoryFormik.errors.title}
-                            </div>
-                        ) : null}
+                        <Col lg={3} md={5}>
+                            <Form.Group className="mt-3">
+                                <Form.Select
+                                    defaultValue="1"
+                                    label="Select"
+                                    value={type}
+                                    onChange={handleChange}
+                                >
+                                    {currencies.map((option) => (
+                                        <option key={option.value} value={option.value}>
+                                            {option.label}
+                                        </option>
+                                    ))}
+                                </Form.Select>
+                            </Form.Group>
+                        </Col>
                     </Form.Group>
                     <Form.Group className="mt-3">
                         <Form.Label>Description</Form.Label>
