@@ -127,8 +127,8 @@ const Report = ({item, setShow, show}) => {
                                 <Form.Select
                                     defaultValue="1"
                                     label="Select"
-                                    value={type}
-                                    onChange={handleChange}
+                                    // value={type}
+                                    // onChange={handleChange}
                                 >
                                     {currencies.map((option) => (
                                         <option key={option.value} value={option.value}>
