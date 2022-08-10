@@ -141,7 +141,7 @@ export const GeneralInfoForm = () => {
       isPost: SingleId?.isPost ? SingleId?.isPost : "",
       jobNature: SingleId?.jobNature ? SingleId?.jobNature : "",
       startDate: SingleId?.startDate ? SingleId?.startDate : "",
-      endDate: SingleId?.endDate ? SingleId?.endDate : "",
+      endDate: SingleId?.endDate ? SingleId?.endDate : null,
       location: SingleId?.location ? SingleId?.location : "",
       days: SingleId?.days ? SingleId?.days : "",
       hours: SingleId?.hours ? SingleId?.hours : "",
