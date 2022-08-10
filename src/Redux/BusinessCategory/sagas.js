@@ -30,7 +30,7 @@ function* addCategoryRequest({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     });
-    // payload.setReset();
+    payload.setReset();
     toast.success(CapitalizeFirstLetter(response.data.message));
     payload.setShowDefault(false);
     yield put(addCategorySuccess(response.data.data));

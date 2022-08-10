@@ -461,6 +461,8 @@ function* emergencyJobSaga({payload}) {
     );
     toast.success(CapitalizeFirstLetter(response.data.message));
     payload.setShowDefaultEmergency(false)
+    yield put(getJobListingSuccess(response.data.data));
+    payload.history.push("/job");
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

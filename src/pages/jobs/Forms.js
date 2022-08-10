@@ -238,6 +238,8 @@ const handleEmergency=()=>{
   dispatch(emergencyJob({
     id:jobId,
     setShowDefaultEmergency:setShowDefaultEmergency,
+    history: history,
+
   }));
 }
   return (
@@ -550,7 +552,7 @@ const handleEmergency=()=>{
                   <Form.Label>Unit Number</Form.Label>
                   <Form.Control
                     //  required
-                    type="text"
+                    type="number"
                     placeholder="Unit number"
                     value={CategoryFormik.values.unit}
                     name="unit"
