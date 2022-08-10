@@ -11,8 +11,10 @@ import {
 } from "@themesberg/react-bootstrap";
 import Navbar from "../../components/Navbar";
 import RecommendCard from "../../components/RecommendCard";
+import CommonCard from "../../components/CommonCard";
 import { useDispatch, useSelector } from "react-redux";
 import { getSeekerListing } from "../../Redux/Dashboard/actions";
+import { markAsFavouriteJob } from "../../Redux/addJob/actions";
 import NoRecordFound from "../../components/NoRecordFound";
 import Spinner from "../../components/spinner";
 import {
@@ -28,8 +30,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const DashboardOverview = () => {
   const dispatch = useDispatch();
   const [loader, setLoader] = useState(true);
+  const [data, setData] = useState()
   const [page, setPage] = useState(1);
   const SeekerList = useSelector((state) => state?.Seeker?.getSeekerListing);
+  useEffect(()=>{
+    if(SeekerList !== undefined){
+      setData(SeekerList?.jobs)
+    }
+  },[SeekerList])
   useEffect(() => {
     dispatch(
       getSeekerListing({
@@ -68,7 +76,19 @@ const DashboardOverview = () => {
     }
     return items;
   };
-
+  const handleClick =(id, value, isFavourite,title)=>{
+      let newArray = data;
+      newArray[value].isFavourite = !isFavourite;
+      setData(() => {
+        return [...newArray];
+      });
+    dispatch(
+        markAsFavouriteJob({
+          id: id,
+          setLoader:setLoader,
+        })
+      );
+  }
   return (
     <>
       <Navbar module={"Recommended For You"} />
@@ -79,23 +99,25 @@ const DashboardOverview = () => {
             <Spinner />
           ) : (
             <>
-              {SeekerList?.jobs?.length > 0 ? (
+              {data?.length > 0 ? (
                 <>
-                  {SeekerList?.jobs?.map((value, index) => {
+                  {data?.map((value, index) => {
                     return (
                       <Col
-                        lg={4}
-                        md={12}
+                        lg={2}
+                        md={4}
+                        sm={6}
                         xs={12}
-                        sm={12}
                         className="pb-3"
                         key={index}
                       >
-                        <RecommendCard
+                        <CommonCard
                           img={value.image}
                           name={value.name}
                           // type={"IT"}
+                          handleClick={handleClick}
                           isFavourite={value.isFavourite}
+                          index={index}
                           id={value.id}
                           rate={value.rate}
                           completed={"10"}

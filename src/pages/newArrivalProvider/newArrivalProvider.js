@@ -25,13 +25,20 @@ import Navbar from "../../components/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { newArrival } from "../../Redux/Dashboard/actions";
 import NoRecordFound from "../../components/NoRecordFound";
+import { markAsFavouriteJob } from "../../Redux/addJob/actions";
 
 const DashboardOverview = () => {
   const dispatch = useDispatch();
   const [loader, setLoader] = useState(true);
   const [page, setPage] = useState(1);
+  const [newArrivalProvider, setNewArrivalProvider] = useState()
   const auth = useSelector((state) => state.auth.Auther);
   const newArrivalData = useSelector((state) => state?.Seeker?.newArrival);
+  useEffect(()=>{
+    if(newArrivalData !== undefined){
+      setNewArrivalProvider(newArrivalData?.data)
+    }
+  },[newArrivalData])
   useEffect(() => {
     dispatch(
       newArrival({
@@ -54,6 +61,7 @@ const DashboardOverview = () => {
   };
 
   const paginationItems = () => {
+    console.log(newArrivalData)
     let items = [];
     for (let number = 1; number <= newArrivalData?.pages; number++) {
       items.push(
@@ -71,7 +79,21 @@ const DashboardOverview = () => {
 
     return items;
   };
-
+  const handleClick =(id, value, isFavourite,title)=>{
+    // console.log(newArrivalData?.data)
+    // return 0;
+    let newArray = newArrivalData?.data;
+    newArray[value].isFavourite = !isFavourite;
+    setNewArrivalProvider(() => {
+      return [...newArray];
+    });
+    dispatch(
+      markAsFavouriteJob({
+        id: id,
+        setLoader:setLoader,
+      })
+      );
+    }
   return (
     <>
       <Navbar module={"New Arrival Seekers"} />
@@ -81,9 +103,9 @@ const DashboardOverview = () => {
             <Spinner />
           ) : (
             <>
-              {newArrivalData?.data?.length > 0 ? (
+              {newArrivalProvider?.length > 0 ? (
                 <>
-                  {newArrivalData?.data?.map((item) => {
+                  {newArrivalProvider?.map((item, index) => {
                     return (
                       <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
                         <CommonCard
@@ -91,6 +113,9 @@ const DashboardOverview = () => {
                           name={item?.name}
                           type={item?.employmentType}
                           id={item.id}
+                          index={index}
+                          isFavourite={item.isFavourite}
+                          handleClick={handleClick}
                           rate={item.rate}
                           completed={"90"}
                           star={item.rating}

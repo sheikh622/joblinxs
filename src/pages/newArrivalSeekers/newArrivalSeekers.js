@@ -24,13 +24,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { topRated } from "../../Redux/Dashboard/actions";
 import NoRecordFound from "../../components/NoRecordFound";
 import Spinner from "../../components/spinner";
+import { markAsFavouriteJob } from "../../Redux/addJob/actions";
 
 const DashboardOverview = () => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const [loader, setLoader] = useState(true);
+  const [topRatedProvider, setTopRatedProvider] = useState()
   const auth = useSelector((state) => state.auth.Auther);
   const topRatedData = useSelector((state) => state?.Seeker?.topRated);
+  useEffect(()=>{
+    if(topRatedData !== undefined){
+      setTopRatedProvider(topRatedData?.data)
+    }
+  },[topRatedData])
   useEffect(() => {
     dispatch(
       topRated({
@@ -70,6 +77,19 @@ const DashboardOverview = () => {
 
     return items;
   };
+  const handleClick =(id, value, isFavourite,title)=>{
+    let newArray = topRatedProvider;
+      newArray[value].isFavourite = !isFavourite;
+      setTopRatedProvider(() => {
+        return [...newArray];
+      });
+    dispatch(
+      markAsFavouriteJob({
+        id: id,
+        setLoader:setLoader,
+      })
+      );
+    }
   return (
     <>
       <Navbar module={"Top Rated Providers"} />
@@ -79,15 +99,18 @@ const DashboardOverview = () => {
             <Spinner />
           ) : (
             <>
-              {topRatedData?.data?.length > 0 ? (
+              {topRatedProvider?.length > 0 ? (
                 <>
-                  {topRatedData?.data?.map((item) => {
+                  {topRatedProvider?.map((item, index) => {
                     return (
                       <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
                         <CommonCard
                           img={item?.image}
                           name={item?.name}
                           type={item?.employmentType}
+                          index={index}
+                          isFavourite={item.isFavourite}
+                          handleClick={handleClick}
                           id={item.id}
                           rate={item.rate}
                           completed={"90"}
