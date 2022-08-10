@@ -187,7 +187,7 @@ const LogHours = (item) => {
                                                     {selectedItem?.users?.fullName
                                                         ? selectedItem.users?.fullName
                                                         : ""}
-                                                        
+
                                                 </h3>
                                             </div>
                                             <div className="pb-2 d-flex justify-content-between align-logHourss-baseline">
@@ -204,7 +204,7 @@ const LogHours = (item) => {
                                             />
                                             <DetailHeading
                                                 heading={"Job Rate"}
-                                                value={logHours?.rate ? logHours?.rate : "-"}
+                                                value={logHours?.rate ? `${logHours?.rate}$` : "-"}
                                             />
                                             <DetailHeading
                                                 heading={"Status"}
