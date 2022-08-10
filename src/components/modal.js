@@ -25,6 +25,7 @@ const ModalComponent = (props) => {
     initialValues: {
       description: "",
     },
+    
     validationSchema: RatingSchema,
     onSubmit: async (values) => {
       let value = (rating / 100) * 5;
