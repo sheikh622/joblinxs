@@ -23,7 +23,7 @@ import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 
 // import { addAdminCategory} from "../../Redux/Category/actions";
-const Report = ({ item, setShow, show }) => {
+const Report = ({item, setShow, show}) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [search, setSearch] = useState("");
@@ -45,7 +45,7 @@ const Report = ({ item, setShow, show }) => {
     //     );
     // }, [search]);
     const [showDefault, setShowDefault] = useState(false);
-    console.log("setShow", show)
+    console.log("setShow",show)
     const handleClose = () => {
         setEdit(false);
         setShowDefault(false);
@@ -55,10 +55,6 @@ const Report = ({ item, setShow, show }) => {
     const [selectedImage, setSelectedImage] = useState("");
     const [isEdit, setEdit] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
-    const [type, setType] = React.useState("");
-    const handleChange = (event) => {
-        setType(event.target.value);
-      };
     const activeButton = (value) => {
         setEdit(true);
         setShowDefault(true);
