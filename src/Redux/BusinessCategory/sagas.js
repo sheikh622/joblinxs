@@ -94,6 +94,7 @@ function* saveCategorySaga({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     });
+    toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(saveCategorySuccess(response.data.data));
     payload.setLoader(false);
   } catch (error) {

@@ -140,6 +140,7 @@ const Job = () => {
     }
     return items;
   };
+  
   return (
     <>
       <Navbar module={"My Jobs"} />
@@ -204,7 +205,7 @@ const Job = () => {
                       item={item ? item : null}
                       rate={item?.rate ? item?.rate : "N/A"}
                       completed={"90"}
-                      star={"4.7"}
+                      star={item?.rating ? item?.rating : item?.rating}
                       myJobs= {true}
                       page={page}
                       job="job"
