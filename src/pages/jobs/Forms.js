@@ -680,10 +680,10 @@ const handleEmergency=()=>{
             </Row>
 
             <div className="mt-3 d-flex justify-content-end">
-              {SingleId?.length === 0 ||  SingleId?.status === "pending" && (
+              {SingleId?.length === 0 ||  SingleId?.status === "pending" ? (
                 <Button variant="primary" type="submit" show={showDefaults} className="mx-2">
                   {id ? "Update Job" : "Post Job"}
-                </Button>)}
+                </Button>):""}
 
               {SingleId?.status === "pending" || SingleId?.status === "Accepted" ? (
                 <Button
