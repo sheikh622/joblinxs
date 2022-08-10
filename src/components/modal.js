@@ -19,12 +19,13 @@ const ModalComponent = (props) => {
   const dispatch = useDispatch();
   const [rating, setRating] = useState(0); // initial rating value
   const RatingSchema = Yup.object().shape({
-    description: Yup.string().required("Description is required"),
+    // description: Yup.string().required("Description is required"),
   });
   const RatingFormik = useFormik({
     initialValues: {
       description: "",
     },
+    
     validationSchema: RatingSchema,
     onSubmit: async (values) => {
       let value = (rating / 100) * 5;
