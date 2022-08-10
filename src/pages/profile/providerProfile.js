@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Image,
@@ -26,11 +26,12 @@ import { useDispatch, useSelector } from "react-redux";
 // saga actions here
 import { getProfile } from "../../Redux/profile/actions";
 import NoRecordFound from "../../components/NoRecordFound";
-
+import Report from "../../components/report"
 const ProviderProfile = (props) => {
   const dispatch = useDispatch();
   const login = useSelector((state) => state.auth.Auther);
   const getById = useSelector((state) => state.ProfileReducer.profile);
+  const [show, setShow] = useState();
   const params = useLocation();
   let profileId = params.pathname.split("/")[2];
   useEffect(() => {
@@ -122,13 +123,13 @@ const ProviderProfile = (props) => {
                         fill="#12499C"
                       />
                     </svg>
-
-                    <Dropdown as={ButtonGroup} className="me-3 mt-1 ms-4">
+                    <Dropdown as={ButtonGroup} className="me-3 mt-1 ms-4" >
                       <Dropdown.Toggle
                         as={Button}
                         split
                         variant="link"
                         className="text-dark m-0 p-0 ellipsisIcon"
+                        
                       >
                         <span className="icon icon-sm">
                           <FontAwesomeIcon
@@ -138,13 +139,12 @@ const ProviderProfile = (props) => {
                         </span>
                       </Dropdown.Toggle>
                       <Dropdown.Menu className="custom_menu">
-                        <Dropdown.Item>Block</Dropdown.Item>
-                        <Dropdown.Item>Report</Dropdown.Item>
+                        <Dropdown.Item >Block</Dropdown.Item>
+                        <Dropdown.Item onClick={()=> setShow(true)}>Report</Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
                   </span>
                 </div>
-
                 {/* <DetailHeading heading={"Email"} value={getById?.email ? getById?.email :"-"} /> */}
                 {/* <DetailHeading heading={"Phone"} value={getById?.phoneNumber ? getById?.phoneNumber:"-"} /> */}
                 {/* <DetailHeading heading={"Address"} value={getById?.address ? getById?.address:"-"} /> */}
@@ -222,6 +222,7 @@ const ProviderProfile = (props) => {
             </Card>
           </Col>
         </Row>
+        <Report show={show} setShow={setShow}/>
       </Container>
     </>
   );
