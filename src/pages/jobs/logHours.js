@@ -187,6 +187,7 @@ const LogHours = (item) => {
                                                     {selectedItem?.users?.fullName
                                                         ? selectedItem.users?.fullName
                                                         : ""}
+
                                                 </h3>
                                             </div>
                                             <div className="pb-2 d-flex justify-content-between align-logHourss-baseline">
