@@ -198,8 +198,8 @@ const LogHours = (item) => {
                                             <DetailHeading
                                                 heading={"Hours Logged"}
                                                 value={<span>
-                                                    {selectedItem?.hours ? selectedItem?.hours : "00"}{" : "}
-                                                    {selectedItem?.minutes ? selectedItem?.minutes : "00"}
+                                                    {selectedItem?.hours ? selectedItem?.hours +" " +"hours" : "00 hours"}{" : "}
+                                                    {selectedItem?.minutes ? selectedItem?.minutes+ " " +"minutes" : "00 minutes"}
                                                 </span>}
                                             />
                                             <DetailHeading
@@ -214,7 +214,7 @@ const LogHours = (item) => {
                                             />
                                             <DetailHeading
                                                 heading={"TimeRequired"}
-                                                value={logHours?.days ? logHours?.days : "-"}
+                                                value={logHours?.days ? `${logHours?.days} days` : "-"}
                                             />
                                         </Card.Body>
                                         <Card.Body className="pb-2 border_bottom mb-1">

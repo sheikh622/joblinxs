@@ -205,7 +205,7 @@ const Job = () => {
                       item={item ? item : null}
                       rate={item?.rate ? item?.rate : "N/A"}
                       completed={"90"}
-                      star={item?.rating ? item?.rating : item?.rating}
+                      star={item?.user_job?.users?.profile_rating ? item?.user_job?.users?.profile_rating : "--"}
                       myJobs= {true}
                       page={page}
                       job="job"
