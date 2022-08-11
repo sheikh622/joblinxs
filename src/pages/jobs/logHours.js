@@ -203,7 +203,7 @@ const LogHours = (item) => {
                                             />
                                             <DetailHeading
                                                 heading={"Job Rate"}
-                                                value={logHours?.rate ? logHours?.rate : "-"}
+                                                value={logHours?.rate ? `${logHours?.rate}$` : "-"}
                                             />
                                             <DetailHeading
                                                 heading={"Status"}
