@@ -87,7 +87,7 @@ const Favourites = () => {
                     type={item?.jobType?.name}
                     rate={item.rate}
                     completed={"90"}
-                    star={"4.7"}
+                    star={item.rating}
                     page={item.page}
                     limit={item.limit}
                     category={item.categoryType}
