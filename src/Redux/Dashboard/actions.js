@@ -5,6 +5,10 @@ import {
   NEW_ARRIVAL_SUCCESS,
   TOP_RATED,
   TOP_RATED_SUCCESS,
+  GET_CATEGORY,
+  GET_CATEGORY_SUCCESS,
+  GET_JOB_FILTER,
+  GET_JOB_FILTER_SUCCESS
 } from "./constants";
 
 export const getSeekerListing = (data) => ({
@@ -29,5 +33,21 @@ export const topRated= (data) => ({
 });
 export const topRatedSuccess = (data) => ({
   type: TOP_RATED_SUCCESS,
+  payload: data,
+});
+export const getCategoryListing = (data) => ({
+  type: GET_CATEGORY,
+  payload: data,
+});
+export const getCategoryListingSuccess = (data) => ({
+  type: GET_CATEGORY_SUCCESS,
+  payload: data,
+});
+export const getJobFilter = (data) => ({
+  type: GET_JOB_FILTER,
+  payload: data,
+});
+export const getJobFilterSuccess = (data) => ({
+  type: GET_JOB_FILTER_SUCCESS,
   payload: data,
 });
