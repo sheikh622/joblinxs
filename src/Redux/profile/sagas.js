@@ -3,9 +3,9 @@ import { all, fork, put, select, takeLatest } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
-import { getProfileSuccess } from "./actions";
+import { getProfileSuccess, blockUserSuccess } from "./actions";
 import { loginRequestSuccess } from "../auth/actions";
-import { GET_PROFILE, UPDATE_PROFILE } from "./constants";
+import { GET_PROFILE, UPDATE_PROFILE, BLOCK_USER } from "./constants";
 // import { CapitalizeFirstLetter } from "../../utils/Global";
 import { adminUpdatedSuccess } from "../auth/actions";
 
@@ -53,7 +53,28 @@ function* updateAdminProfileSaga({ payload }) {
 function* watchUpdateAdminProfile() {
   yield takeLatest(UPDATE_PROFILE, updateAdminProfileSaga);
 }
+function* BlockUserSaga({ payload }) {
+  try {
+    let data = {
+      blockedTo: payload.blockedTo,
+      blockedBy: payload.blockedBy,
+    };
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.post(`blocked-user`,data,  {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    yield put(blockUserSuccess(response.data.data.user));
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchBlockUser() {
+  yield takeLatest(BLOCK_USER, BlockUserSaga);
+}
 export default function* ProfileSaga() {
   yield all([fork(watchGetProfile)]);
+  yield all([fork(watchBlockUser)]);
   yield all([fork(watchUpdateAdminProfile)]);
 }

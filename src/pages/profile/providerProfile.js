@@ -8,6 +8,8 @@ import {
   Button,
   Dropdown,
   ButtonGroup,
+  Modal,
+  Form
 } from "@themesberg/react-bootstrap";
 import Navbar from "../../components/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,7 +26,7 @@ import DetailHeading from "../../components/DetailHeading";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 // saga actions here
-import { getProfile } from "../../Redux/profile/actions";
+import { getProfile, blockUser } from "../../Redux/profile/actions";
 import NoRecordFound from "../../components/NoRecordFound";
 import Report from "../../components/report"
 const ProviderProfile = (props) => {
@@ -32,6 +34,9 @@ const ProviderProfile = (props) => {
   const login = useSelector((state) => state.auth.Auther);
   const getById = useSelector((state) => state.ProfileReducer.profile);
   const [show, setShow] = useState();
+  const [BlockUserSaga, setBlockUserSaga] = useState(false)
+  const [showDefault, setShowDefault] = useState(false);
+  const [adminId, setAdminId] = useState(0);
   const params = useLocation();
   let profileId = params.pathname.split("/")[2];
   useEffect(() => {
@@ -41,6 +46,18 @@ const ProviderProfile = (props) => {
       })
     );
   }, []);
+  const handleClose = () => {
+    setShowDefault(false);
+    setBlockUserSaga(false);
+  };
+  const handleDelete = (data, values) => {
+    dispatch(
+      blockUser({
+        blockedTo: profileId,
+        blockedBy: login?.id,
+      })
+    );
+  };
   return (
     <>
       <Navbar module={"Detail Profile"} />
@@ -129,7 +146,7 @@ const ProviderProfile = (props) => {
                         split
                         variant="link"
                         className="text-dark m-0 p-0 ellipsisIcon"
-                        
+
                       >
                         <span className="icon icon-sm">
                           <FontAwesomeIcon
@@ -139,15 +156,18 @@ const ProviderProfile = (props) => {
                         </span>
                       </Dropdown.Toggle>
                       <Dropdown.Menu className="custom_menu">
-                        <Dropdown.Item >Block</Dropdown.Item>
-                        <Dropdown.Item onClick={()=> setShow(true)}>Report</Dropdown.Item>
+                        <Dropdown.Item onClick={() => {
+                          setAdminId()
+                          setBlockUserSaga(true);
+
+                        }
+                        }>Block</Dropdown.Item>
+                        <Dropdown.Item onClick={() => setShow(true)}>Report</Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
                   </span>
                 </div>
-                {/* <DetailHeading heading={"Email"} value={getById?.email ? getById?.email :"-"} /> */}
-                {/* <DetailHeading heading={"Phone"} value={getById?.phoneNumber ? getById?.phoneNumber:"-"} /> */}
-                {/* <DetailHeading heading={"Address"} value={getById?.address ? getById?.address:"-"} /> */}
+
                 <DetailHeading
                   heading={"City"}
                   value={getById?.city ? getById?.city : "-"}
@@ -222,8 +242,38 @@ const ProviderProfile = (props) => {
             </Card>
           </Col>
         </Row>
-        <Report show={show} setShow={setShow}/>
+        <Report show={show} setShow={setShow} />
       </Container>
+      <Modal as={Modal.Dialog} centered show={BlockUserSaga} onHide={handleClose}>
+        <Modal.Header>
+          <Modal.Title className="h5">Block User</Modal.Title>
+          <Button variant="close" aria-label="Close" onClick={handleClose} />
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group>
+              Are you sure you want to Block this User?
+            </Form.Group>
+            <Form.Group>
+              <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
+                <Button
+                  variant="primary"
+                  // onHide={handleClose}
+                  color="dark"
+                  size="sm"
+                  // type="submit"
+                  onClick={() => {
+                    handleDelete();
+                    handleClose();
+                  }}
+                >
+                  Delete
+                </Button>
+              </div>
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

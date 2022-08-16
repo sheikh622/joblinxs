@@ -193,10 +193,10 @@ const Search = (props) => {
         setDistance(event.target.value);
     };
     const handleHourly = (event) => {
-        console.log("jhk",event)
+        console.log("jhk", event)
         setHourlyRate(event.target.value);
     };
-    console.log("==========",hourlyRate)
+    console.log("==========", hourlyRate)
     useEffect(() => {
         dispatch(
             getCategoryListing({
@@ -210,10 +210,6 @@ const Search = (props) => {
             setLocation(place.formatted_address);
             setLogintude(place.geometry.location.lng());
             setLatitude(place.geometry.location.lat())
-            console.log("fkjjdssff", place)
-            console.log("k---------------", place.geometry.location.lat())
-            console.log("k---------------", place.geometry.location.lng())
-
         },
         options: {
             types: ["(regions)"],
@@ -223,14 +219,14 @@ const Search = (props) => {
     useEffect(() => {
         dispatch(
             getJobFilter({
-                page: page?page:"",
-                limit: limit?limit:"",
-                category: categories?categories:"",
-                rating: rating?rating:"",
-                hourlyRate: hourlyRate?hourlyRate:"",
-                longitude: longitude?longitude:"",
-                latitude: latitude?latitude:"",
-                distance:distance?distance: "",
+                page: page ? page : "",
+                limit: limit ? limit : "",
+                category: categories ? categories : "",
+                rating: rating ? rating : "",
+                hourlyRate: hourlyRate ? hourlyRate : "",
+                longitude: longitude ? longitude : "",
+                latitude: latitude ? latitude : "",
+                distance: distance ? distance : "",
             })
         )
     }, [page, limit, categories, rating, hourlyRate, longitude, latitude, distance]);
@@ -243,11 +239,13 @@ const Search = (props) => {
                         <Modal.Header>
 
                             <Col lg={2} md={3} className="mb-1 pl-3">
+                                Location
                                 <Form.Control ref={ref} style={{ width: "100%" }} />
                             </Col>
 
                             <Col lg={2} md={3} className="mb-1">
                                 <Form.Group >
+                                    Distance
                                     <Form.Select
                                         // defaultValue="1"
                                         label="Select"
@@ -266,10 +264,10 @@ const Search = (props) => {
                             <Col lg={2} md={3} className="mb-1">
 
                                 <Form.Group>
-
+                                    Category
                                     <Select
                                         defaultValue={categories}
-                                        onChange={(e)=>setCategories(e.label)}
+                                        onChange={(e) => setCategories(e.label)}
                                         options={categoryList}
                                     />
                                 </Form.Group>
@@ -277,6 +275,7 @@ const Search = (props) => {
 
                             <Col lg={2} md={3} className="mb-1">
                                 <Form.Group >
+                                    Rating
                                     <Form.Select
                                         defaultValue="1"
                                         label="Select"
@@ -294,6 +293,7 @@ const Search = (props) => {
 
                             <Col lg={2} md={3} className="mb-1">
                                 <Form.Group >
+                                    Hourly Rate
                                     <Form.Select
                                         defaultValue="1"
                                         placeholder="Hourly Rate"

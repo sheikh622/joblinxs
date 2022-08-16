@@ -16,51 +16,37 @@ import {
     Modal,
     Row,
 } from "@themesberg/react-bootstrap";
+import Select from "react-select";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
-
 // import { addAdminCategory} from "../../Redux/Category/actions";
-const Report = ({item, setShow, show}) => {
+
+const Report = ({ item, setShow, show }) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [search, setSearch] = useState("");
     const [adminId, setAdminId] = useState(0);
-
     const {
         location: { state },
     } = history;
     const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
     const auth = useSelector((state) => state.auth);
     const forAction = history?.location?.state?.from;
-    // useEffect(() => {
-    //     dispatch(
-    //         getCategoryList({
-
-    //             search: search,
-    //             role: "admin"
-    //         })
-    //     );
-    // }, [search]);
     const [showDefault, setShowDefault] = useState(false);
-    console.log("setShow",show)
-    const handleClose = () => {
-        setEdit(false);
-        setShowDefault(false);
+    const [categoryList, setCategoryList] = useState([]);
+    const [categories, setCategories] = useState(null);
 
+    const handleClose = () => {
+        setShow(false);
         CategoryFormik.resetForm();
     };
     const [selectedImage, setSelectedImage] = useState("");
-    const [isEdit, setEdit] = useState(false);
-    const [selectedItem, setSelectedItem] = useState(null);
-    const activeButton = (value) => {
-        setEdit(true);
-        setShowDefault(true);
-        setSelectedItem(value);
-        setSelectedImage(value.categoryImg);
-    };
+    // const activeButton = (value) => {
+    //     setShowDefault(true);
+    // };
     const CategorySchema = Yup.object().shape({
         title: Yup.string().trim().required("Category Name is required"),
         details: Yup.string().trim().required("description is required"),
@@ -68,32 +54,19 @@ const Report = ({item, setShow, show}) => {
     const CategoryFormik = useFormik({
         enableReinitialize: true,
         initialValues: {
-            id: selectedItem?.id ? selectedItem?.id : "",
-            title: selectedItem?.title ? selectedItem?.title : "",
-            details: selectedItem?.details ? selectedItem?.details : "",
-            remember: true,
+         
         },
         validationSchema: CategorySchema,
         onSubmit: async (values, action) => {
-            // dispatch(
-            //         addAdminCategory({
-            //             title: values.title,
-            //             details: values.details,
-            //             categoryImg: selectedImage,
-            //             setReset: action.resetForm,
-            //             setShowDefault: setShowDefault,
-            //             showDefault: showDefault,
-            //             setSelectedImage: setSelectedImage,
-            //         })
-            //     );
+          
         },
     });
 
     useEffect(() => { }, [CategoryFormik.values]);
-    const addCategories = () => {
-        setSelectedItem(null);
-        setShowDefault(true);
-    };
+    // const addCategories = () => {
+    //     setSelectedItem(null);
+    //     setShowDefault(true);
+    // };
     const currencies = [
         {
             value: "",
@@ -109,33 +82,25 @@ const Report = ({item, setShow, show}) => {
         },
     ];
     return (
-
-
-
-        <Modal as={Modal.Dialog} centered show={show}>
+        <Modal as={Modal.Dialog} centered show={show} onHide={handleClose}>
             <Modal.Header>
                 <Modal.Title className="h5">
-                    {isEdit ? "Edit Category" : "Add Category"}
+                    {"Add Category"}
                 </Modal.Title>
                 <Button variant="close" aria-label="Close" onClick={handleClose} />
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={CategoryFormik.handleSubmit}>
                     <Form.Group>
-                        <Col lg={3} md={5}>
-                            <Form.Group className="mt-3">
-                                <Form.Select
-                                    defaultValue="1"
-                                    label="Select"
-                                    // value={type}
-                                    // onChange={handleChange}
-                                >
-                                    {currencies.map((option) => (
-                                        <option key={option.value} value={option.value}>
-                                            {option.label}
-                                        </option>
-                                    ))}
-                                </Form.Select>
+                        <Col lg={12} md={6} className="mb-1">
+
+                            <Form.Group>
+                                Report
+                                <Select
+                                    defaultValue={categories}
+                                    onChange={(e) => setCategories(e.label)}
+                                    options={categoryList}
+                                />
                             </Form.Group>
                         </Col>
                     </Form.Group>
@@ -178,7 +143,6 @@ const Report = ({item, setShow, show}) => {
                 </Form>
             </Modal.Body>
         </Modal>
-
     )
 };
 export default Report;
