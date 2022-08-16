@@ -159,7 +159,6 @@ const ProviderProfile = (props) => {
                         <Dropdown.Item onClick={() => {
                           setAdminId()
                           setBlockUserSaga(true);
-
                         }
                         }>Block</Dropdown.Item>
                         <Dropdown.Item onClick={() => setShow(true)}>Report</Dropdown.Item>
@@ -167,7 +166,6 @@ const ProviderProfile = (props) => {
                     </Dropdown>
                   </span>
                 </div>
-
                 <DetailHeading
                   heading={"City"}
                   value={getById?.city ? getById?.city : "-"}
