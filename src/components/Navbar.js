@@ -63,20 +63,22 @@ export default (props) => {
     }
   };
   const handleRedirection = (jobs, users, title) => {
-    if (title === "Job Applied" || title === "Job is Confirmed") {
+    if (title === "provider appply for job" || title === "provider confirm the job") {
       history.push(`/Applicants/${jobs.id}`);
     }
     if (
-      title === "Job Status" ||
-      title === "job started" ||
-      title === "Job Completed" ||
-      title === "job completed" ||
-      title === "job canceled" ||
-      title === "Job Disputed"
+      title === "provider mark job as completed" ||
+      title === "job completed by provider" ||
+      title === "seeker mark job as completed" ||
+      title === "job accepted by Admin" ||
+      title === "job rejected by admin" ||
+      title === "provider mark job as disputed"||
+      title === "job canceled by provider" ||
+      title === "provider started the job"
     ) {
       history.push(`/detailJob/${jobs.id}`);
     }
-    if (title === "Logged Hours") {
+    if (title === "log hours added by provider") {
       history.push(`/LogHours/${jobs.id}`);
     }
   };

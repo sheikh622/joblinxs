@@ -32,4 +32,5 @@ export const Routes = {
     ForgotPassword: { path: "/forgot-password" },
     ResetPassword: { path: "/reset-password" },
     NotFound: { path: "/404" },
+    Chat:{path:'/chat'}
 };
