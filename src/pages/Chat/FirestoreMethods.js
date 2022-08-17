@@ -54,9 +54,9 @@ export const fetchMessages = async (users, currentUser) => {
                   }
                 }
               });
-              return msgs;
+              return msgs
             } else {
-              return [];
+                return [];
             }
           }
         );
@@ -65,7 +65,7 @@ export const fetchMessages = async (users, currentUser) => {
       }
     }
   );
-  //   return chatMessages;
+//   return chatMessages;
 };
 
 export const deleteMessage = async (docId, users) => {
@@ -74,33 +74,18 @@ export const deleteMessage = async (docId, users) => {
   await deleteDoc(doc(docRef, docId));
 };
 
-export const sendMessage = async (
-  message,
-  users,
-  currentUser,
-  customKey,
-  jobOffer
-) => {
-  let newMessage;
-  if (!customKey) {
-    newMessage = {
-      text: message.length > 0 ? message[0].text : "",
-      createdAt: moment().format(),
-      user: {
-        _id: currentUser.id,
-        name: currentUser.fullName,
-        avatar: currentUser.profileImg,
-      },
-    };
-  } else {
-    newMessage = {
-      offeredPrice: jobOffer?.offeredPrice ? jobOffer?.offeredPrice : "",
-      title: jobOffer?.title ? jobOffer?.title : "",
-      offerTo: jobOffer?.offerTo ? jobOffer?.offerTo : "",
-      offerDate: jobOffer?.offerDate ? jobOffer?.offerDate : "",
-      offerStatus: jobOffer?.offerStatus ? jobOffer?.offerStatus : "",
-    };
-  }
+export const sendMessage = async ( message, users, currentUser, customKey) => {
+
+  let newMessage = {
+    text:message.length > 0 ? message[0].text :"",
+    createdAt: moment().format(),
+    customKey:customKey,
+    user: {
+      _id: currentUser.id,
+      name: currentUser.fullName,
+      avatar: currentUser.profileImg,
+    },
+  };
   let exists = false;
   const chatId = createChatId(users);
   const q = query(collection(db, "chats"), where("chatId", "==", chatId));
@@ -108,17 +93,11 @@ export const sendMessage = async (
   chatSnapshot.forEach(async (document) => {
     if (document.exists) {
       exists = true;
-      if (customKey) {
-        await updateDoc(doc(db, "chats", chatId, "messages"), {
-          offerStatus: jobOffer?.offerStatus ? jobOffer?.offerStatus : "",
-        });
-      } else {
         await updateDoc(doc(db, "chats", chatId), {
           lastmessage: message,
           visibleTo: users,
         });
         await addDoc(collection(db, "chats", chatId, "messages"), newMessage);
-      }
     }
   });
   if (!exists) {
@@ -133,4 +112,20 @@ export const startNewChat = async (message, chatId) => {
     lastmessage: message.text,
   });
   await addDoc(collection(db, "chats", chatId, "messages"), message);
+};
+
+export const updateCustomOffer = async (id, users,jobOffer) => {
+
+  let newJobOffer={
+       offeredPrice:jobOffer?.offeredPrice ? jobOffer?.offeredPrice :"",
+       title:jobOffer?.title ? jobOffer?.title  : "",
+       offerTo:jobOffer?.offerTo ? jobOffer?.offerTo: "",
+       offerDate:jobOffer?.offerDate ?jobOffer?.offerDate :"",
+       offerStatus:jobOffer?.offerStatus ? jobOffer?.offerStatus : "",
+  }
+  const chatId = createChatId(users);
+  var docRef = collection(db, "chats", chatId, "messages");
+  await updateDoc(doc(docRef, id),{
+    jobOffer:newJobOffer
+  });
 };
