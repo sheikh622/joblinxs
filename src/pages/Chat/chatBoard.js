@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Card, Col, Button } from "@themesberg/react-bootstrap";
+import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { GiftedChat, InputToolbar, Bubble } from "react-gifted-chat";
 import { SendMessage } from "../../Redux/chat/actions";
@@ -15,7 +15,7 @@ let jobOffer = {
 };
 let customKey = false;
 const Chatboard = ({
-  profile,
+  blockedBy,
   oneToOneChat,
   sendMessage,
   users,
@@ -36,17 +36,33 @@ const Chatboard = ({
         receiverId: id,
         message: messages[0].text,
       };
-
+    if(blockedBy === null){
       sendMessage(messages, users, currentUser, customKey);
       dispatch(SendMessage(data));
+    }else{
+      if(blockedBy){
+        toast.error("You Blocked this User");
+      }else{
+        toast.error("You BLocked By this User");
+      }
+    }
     },
     [users]
   );
   const handleInput = (props) => {
     return (
-      <div>
-        <InputToolbar {...props} />
-        {/* <Button>Custom offer</Button> */}
+      <div className="chatInput">
+        {blockedBy ? (
+          <h3 className="text-center">You Blocked this User</h3>
+        ) : (
+          <>
+            {blockedBy === null ? (
+              <InputToolbar {...props} />
+            ) : (
+              <h3 className="text-center">You BLocked By this User</h3>
+            )}
+          </>
+        )}
       </div>
     );
   };
@@ -63,8 +79,16 @@ const Chatboard = ({
         offerDate: data.jobOffer.offerDate,
         offerStatus: "Accepted",
       };
-
-      updateCustomOffer(data.id, users, jobOffer);
+      if(blockedBy === null){
+        updateCustomOffer(data.id, users, jobOffer);
+      }else{
+        if(blockedBy){
+          toast.error("You Blocked this User");
+        }else{
+          toast.error("You BLocked By this User");
+        }
+      }
+      
     },
     [users]
   );
@@ -77,7 +101,15 @@ const Chatboard = ({
         offerDate: data.jobOffer.offerDate,
         offerStatus: "Rejected",
       };
-      updateCustomOffer(data.id, users, jobOffer);
+      if(blockedBy === null){
+        updateCustomOffer(data.id, users, jobOffer);
+      }else{
+        if(blockedBy){
+          toast.error("You Blocked this User");
+        }else{
+          toast.error("You BLocked By this User");
+        }
+      }
     },
     [users]
   );

@@ -286,60 +286,7 @@ const MyJobDetails = (item, props) => {
                 )}
               </>
             )}
-            {/* <div>
-                      <div class="d-grid gap-2 col-3 mx-auto">
-                        {SingleId.status === "Accepted" ? (
-                          <Button
-                            variant="primary"
-                            color="dark"
-                            size="lg"
-                            className="mt-2 me-1"
-                            onClick={() => {
-                              setShow(true);
-                              setIsCompleted(true);
-                              setIsDisputed(false);
-                            }}
-                          >
-                            Complete Job
-                          </Button>
-                        ) : (
-                          <Button
-                            variant="primary"
-                            color="dark"
-                            size="lg"
-                            className="mt-2 me-1"
-                            onClick={handleEdit}
-                          >
-                            Edit Job
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                    <div class="d-grid gap-2 col-3 mx-auto">
-                      <Button
-                        variant="primary"
-                        color="dark"
-                        size="lg"
-                        className="mt-2 me-1"
-                        onClick={() => {
-                          // setAdminId(item.id)
-                          setShowDefault(true);
-                        }}
-                      >
-                        Delete Job
-                      </Button>
-                    </div> */}
-            {/* <div class="d-grid gap-2 col-3 mx-auto">
-              <Button
-                variant="primary"
-                color="dark"
-                size="lg"
-                className="mt-2 me-1"
-                onClick={handleRepost}
-              >
-                Repost Job
-              </Button>
-            </div> */}
+           
           </Col>
         </Row>
       </Container>
