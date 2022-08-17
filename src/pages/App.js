@@ -34,6 +34,7 @@ import editAdminProfile from "./AdminProfile/editAdminProfile";
 import adminProfile from "./AdminProfile/adminProfile";
 import MyJobDetails from "./jobs/myJobDetails";
 import BusinessCategories from "./businessCategory/index"
+import Chat from "./Chat/main"
 // changes merge
 export default () => (
   <BrowserRouter>
@@ -49,8 +50,13 @@ export default () => (
         component={ResetPassword}
       />
       <PublicRoute exact path={Routes.NotFound.path} component={NotFoundPage} />
+      
       <PublicRoute exact path={Routes.Signin.path} component={Signin} />
-
+      <PrivateRoute
+        exact
+        path={Routes.Chat.path}
+        component={Chat}
+      />
       <PrivateRoute
         exact
         path={Routes.DashboardOverview.path}
