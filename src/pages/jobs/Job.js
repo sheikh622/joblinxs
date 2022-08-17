@@ -40,7 +40,6 @@ const Job = () => {
   } = history;
   const login = useSelector((state) => state?.auth.Auther);
   const JobList = useSelector((state) => state?.addJob?.getJob);
-
   const [page, setPage] = useState(1);
   const [type, setType] = useState("");
   const [category, setCategory] = useState([]);

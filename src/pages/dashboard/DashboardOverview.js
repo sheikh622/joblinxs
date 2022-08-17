@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Container, Row } from "@themesberg/react-bootstrap";
+import { Col, Container, Row, Form, Modal, Button, Card } from "@themesberg/react-bootstrap";
 import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
 import Profile from "../../assets/img/team/profile.png";
 import CommonCard from "../../components/CommonCard";
@@ -11,40 +11,72 @@ import {
   getSeekerListing,
   newArrival,
   topRated,
+  getCategoryListing,
+  getJobFilter
 } from "../../Redux/Dashboard/actions";
 import NoRecordFound from "../../components/NoRecordFound";
 import { useHistory, useLocation } from "react-router-dom";
 import { markAsFavouriteJob } from "../../Redux/addJob/actions";
+import Select from "react-select";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { usePlacesWidget } from "react-google-autocomplete";
+import Autocomplete from "react-google-autocomplete";
+import { Rating } from "react-simple-star-rating";
+import Slider from "@mui/material/Slider";
 
-const DashboardOverview = () => {
+const DashboardOverview = (props) => {
   const dispatch = useDispatch();
   const [loader, setLoader] = useState(true);
+  const YOUR_GOOGLE_MAPS_API_KEY = "AIzaSyBJWt1Yh6AufjxV8B8Y8UVz_25cYV1fvhs";
   const history = useHistory();
+  const params = useLocation();
+  const activeForm = history?.location?.state
   const SeekerList = useSelector((state) => state?.Seeker?.getSeekerListing?.jobs);
   const auth = useSelector((state) => state.auth.Auther);
   const newArrivalData = useSelector(
     (state) => state?.Seeker?.newArrival?.data
   );
   const topRatedData = useSelector((state) => state?.Seeker?.topRated?.data);
+  const CategoryData = useSelector((state) => state?.Seeker?.CategoryList);
   const [data, setData] = useState()
+  const [showDefault, setShowDefault] = useState(false);
+  const [categoryList, setCategoryList] = useState([]);
+  const [location, setLocation] = useState([]);
+  const [distance, setDistance] = useState();
+  const [none, setNone] = useState();
+  const [high, setHigh] = useState();
+  const [low, setLow] = useState();
+  const [featured, setFeatured] = useState();
   const [topRatedProvider, setTopRatedProvider] = useState()
   const [newArrivalProvider, setNewArrivalProvider] = useState()
-  useEffect(()=>{
-    if(SeekerList !== undefined){
+ 
+
+  useEffect(() => {
+    if (SeekerList !== undefined) {
       setData(SeekerList)
     }
-  },[SeekerList])
-  useEffect(()=>{
-    if(newArrivalData !== undefined){
+  }, [SeekerList])
+  useEffect(() => {
+    if (newArrivalData !== undefined) {
       setNewArrivalProvider(newArrivalData)
     }
-  },[newArrivalData])
-    useEffect(()=>{
-    if(topRatedData !== undefined){
+  }, [newArrivalData])
+  useEffect(() => {
+    if (topRatedData !== undefined) {
       setTopRatedProvider(topRatedData)
     }
-  },[topRatedData])
-  
+  }, [topRatedData])
+  useEffect(() => {
+    let array = [];
+    CategoryData.map((item) => {
+      array.push({
+        value: [{ id: item.id, title: item.title, details: item.details }],
+        label: item?.title,
+      });
+    });
+    setCategoryList(array);
+  }, [CategoryData]);
   useEffect(() => {
     dispatch(
       getSeekerListing({
@@ -54,7 +86,9 @@ const DashboardOverview = () => {
       })
     );
   }, []);
-
+  const handlefalse = () => {
+    setShowDefault(false);
+  }
   useEffect(() => {
     dispatch(
       newArrival({
@@ -74,22 +108,22 @@ const DashboardOverview = () => {
     );
   }, []);
 
-  const handleClick =(id, value, isFavourite,title)=>{
-    if(title === "topRate"){
+  const handleClick = (id, value, isFavourite, title) => {
+    if (title === "topRate") {
       let newArray = topRatedProvider;
       newArray[value].isFavourite = !isFavourite;
       setTopRatedProvider(() => {
         return [...newArray];
       });
     }
-    if(title === "newArrivals"){
+    if (title === "newArrivals") {
       let newArray = newArrivalProvider;
       newArray[value].isFavourite = !isFavourite;
       setNewArrivalProvider(() => {
         return [...newArray];
       });
     }
-    if(title === "recommended"){
+    if (title === "recommended") {
       let newArray = data;
       newArray[value].isFavourite = !isFavourite;
       setData(() => {
@@ -97,11 +131,11 @@ const DashboardOverview = () => {
       });
     }
     dispatch(
-        markAsFavouriteJob({
-          id: id,
-          setLoader:setLoader,
-        })
-      );
+      markAsFavouriteJob({
+        id: id,
+        setLoader: setLoader,
+      })
+    );
   }
   return (
     <>
@@ -213,7 +247,7 @@ const DashboardOverview = () => {
                     return (
                       <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
                         <CommonCard
-                           img={item?.image}
+                          img={item?.image}
                           name={item?.name}
                           type={item?.employmentType}
                           setLoader={setLoader}
@@ -237,7 +271,9 @@ const DashboardOverview = () => {
             </>
           )}
         </Row>
+
       </Container>
+
     </>
   );
 };
