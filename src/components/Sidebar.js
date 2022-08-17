@@ -173,7 +173,7 @@ export default (props = {}) => {
                       setAdminId(item.id);
                     }}
                   >
-                    {/* <NavItem
+                    <NavItem
                       title="Search"
                       SVG={
                         <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -182,7 +182,7 @@ export default (props = {}) => {
                         
                       }
                       link={Routes.Search.path}
-                    />*/}
+                    />
                     <NavItem
                       title="Chat"
                       link={Routes.Chat.path}

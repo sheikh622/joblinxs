@@ -32,7 +32,6 @@ import { Rating } from "react-simple-star-rating";
 import Slider from "@mui/material/Slider";
 import { setDate } from "date-fns";
 
-
 const Search = (props) => {
     const dispatch = useDispatch();
     const [loader, setLoader] = useState(true);
@@ -47,7 +46,7 @@ const Search = (props) => {
     const Filter = useSelector((state) => state?.Seeker?.FilterList);
 
     const place = useSelector((state) => state?.geometry?.location?.lat);
-
+   
     const CategoryData = useSelector((state) => state?.Seeker?.CategoryList);
     const [valuetext, setValuetext] = useState()
     const [data, setData] = useState()
@@ -68,6 +67,8 @@ const Search = (props) => {
     const [rating, setRating] = useState(0); // initial rating value
     const [limit] = useState("10");
     const [page, setPage] = useState(1);
+    const [topRatedProvider, setTopRatedProvider] = useState()
+
     const nextPage = () => {
         if (page < Filter?.pages) {
             setPage(page + 1);
@@ -78,7 +79,6 @@ const Search = (props) => {
             setPage(page - 1);
         }
     };
-
     const paginationItems = () => {
         let items = [];
         for (let number = 1; number <= Filter?.pages; number++) {
@@ -96,6 +96,19 @@ const Search = (props) => {
         }
         return items;
     };
+    const handleClick = (id, value, isFavourite, title) => {
+        let newArray = topRatedProvider;
+        newArray[value].isFavourite = !isFavourite;
+        setTopRatedProvider(() => {
+            return [...newArray];
+        });
+        dispatch(
+            markAsFavouriteJob({
+                id: id,
+                setLoader: setLoader,
+            })
+        );
+    }
     useEffect(() => {
         let array = [];
         CategoryData.map((item) => {
@@ -186,14 +199,13 @@ const Search = (props) => {
     const handleChange = (event) => {
         setType(event.target.value);
     };
-    const handleClick = (event) => {
+    const handleRate = (event) => {
         setRating(event.target.value);
     };
     const handleDistance = (event) => {
         setDistance(event.target.value);
     };
     const handleHourly = (event) => {
-        console.log("jhk", event)
         setHourlyRate(event.target.value);
     };
     console.log("==========", hourlyRate)
@@ -232,7 +244,7 @@ const Search = (props) => {
     }, [page, limit, categories, rating, hourlyRate, longitude, latitude, distance]);
     return (
         <>
-            <Navbar module={"Dashboard"} />
+            <Navbar module={"Search"} />
             <Container>
                 <Row className="pt-2 pb-4">
                     <Col lg={12} md={12} xs={12} className="pb-3 mb-3">
@@ -280,7 +292,7 @@ const Search = (props) => {
                                         defaultValue="1"
                                         label="Select"
                                         value={rating}
-                                        onChange={handleClick}
+                                        onChange={handleRate}
                                     >
                                         {Rating.map((option) => (
                                             <option key={option.value} value={option.value}>
@@ -310,8 +322,6 @@ const Search = (props) => {
                                 </Form.Group>
                             </Col>
                         </Modal.Header>
-
-
                     </Col>
                     {Filter?.jobs?.length > 0 ? (
                         <>
@@ -334,6 +344,7 @@ const Search = (props) => {
                                             // type={type}
                                             // category={categoryType}
                                             favourite={item.isFavourite}
+                                            handleClick={handleClick}
                                         />
                                     </Col>
                                 );
