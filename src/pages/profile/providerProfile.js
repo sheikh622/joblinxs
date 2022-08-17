@@ -50,7 +50,7 @@ const ProviderProfile = (props) => {
     setShowDefault(false);
     setBlockUserSaga(false);
   };
-  const handleDelete = (data, values) => {
+  const handleBlock = (data, values) => {
     dispatch(
       blockUser({
         blockedTo: profileId,
@@ -261,11 +261,11 @@ const ProviderProfile = (props) => {
                   size="sm"
                   // type="submit"
                   onClick={() => {
-                    handleDelete();
+                    handleBlock();
                     handleClose();
                   }}
                 >
-                  Delete
+                  Block
                 </Button>
               </div>
             </Form.Group>
