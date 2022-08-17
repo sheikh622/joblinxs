@@ -322,8 +322,6 @@ const Search = (props) => {
                                 </Form.Group>
                             </Col>
                         </Modal.Header>
-
-
                     </Col>
                     {Filter?.jobs?.length > 0 ? (
                         <>

@@ -7,7 +7,9 @@ import {
   REPORT_USER_LIST_SUCCESS,
   REPORT_USER_LIST,
   REPORTED_USER_SUCCESS,
-  REPORTED_USER
+  REPORTED_USER,
+  UNBLOCK_USER,
+  UNBLOCK_USER_SUCCESS
 
 } from "./constants";
 
@@ -31,6 +33,15 @@ export const blockUser = (data) => (
 });
 export const blockUserSuccess = (data) => ({
   type:  BLOCK_USER_SUCCESS,
+  payload: data,
+});
+export const unblockUser = (data) => (
+  {
+  type: UNBLOCK_USER,
+  payload: data,
+});
+export const unblockUserSuccess = (data) => ({
+  type:  UNBLOCK_USER_SUCCESS,
   payload: data,
 });
 export const reportUserList = () => (
