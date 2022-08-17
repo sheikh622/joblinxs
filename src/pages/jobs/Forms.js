@@ -122,7 +122,6 @@ export const GeneralInfoForm = () => {
       .max(8, "Number should not exceed 6 digits")
       .min(1, "Number should not be less than 0"),
     unit: Yup.string().trim().required("Unit Number is required"),
-
   });
   const CategoryFormik = useFormik({
     enableReinitialize: true,
@@ -151,7 +150,6 @@ export const GeneralInfoForm = () => {
         : "",
       remember: true,
     },
-
     validationSchema: CategorySchema,
     onSubmit: async (values, action) => {
       let data = {

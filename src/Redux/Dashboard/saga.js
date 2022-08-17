@@ -2,8 +2,8 @@ import { all, fork, put, select, takeLatest } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
-import { getSeekerListingSuccess,newArrivalSuccess ,topRatedSuccess} from "./actions";
-import { GET_SEEKER_LISTING,NEW_ARRIVAL,TOP_RATED } from "./constants";
+import { getSeekerListingSuccess,newArrivalSuccess ,topRatedSuccess,getCategoryListingSuccess,getJobFilterSuccess} from "./actions";
+import { GET_SEEKER_LISTING,NEW_ARRIVAL,TOP_RATED,GET_CATEGORY,GET_JOB_FILTER } from "./constants";
 function* getSeekerList({ payload }) {
   try {
     const token = yield select(makeSelectAuthToken());
@@ -66,9 +66,52 @@ function* topRatedSaga({ payload }) {
 function* watchtopRated() {
   yield takeLatest(TOP_RATED, topRatedSaga);
 }
-
+function* getCategorySaga({ payload }) {
+  try {
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.get(
+      `category/user/list`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    yield put(getCategoryListingSuccess(response.data.data));
+    payload.setLoader(false);
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchGetCategory() {
+  yield takeLatest(GET_CATEGORY, getCategorySaga);
+}
+function* getFilterSaga({ payload }) {
+  try {
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.get(
+      // `job/filter?category=&rating=&hourlyRate=&latitude=&longitude=&distance=&page=1&count=10`,
+      `job/filter?category=${payload.category}&rating=${payload.rating}&hourlyRate=${payload.hourlyRate}&latitude=${payload.latitude}&longitude=${payload.longitude}&distance=${payload.distance}&page=${payload.page}&count=${payload.limit}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    yield put(getJobFilterSuccess(response.data.data));
+    payload.setLoader(false);
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchJobFilter() {
+  yield takeLatest(GET_JOB_FILTER, getFilterSaga);
+}
 export default function* SeekerManagementSaga() {
   yield all([fork(watchGetJob)]);
   yield all([fork(watchNewArrival)]);
   yield all([fork(watchtopRated)]);
+  yield all([fork(watchGetCategory)]);
+  yield all([fork(watchJobFilter)]);
+
 }

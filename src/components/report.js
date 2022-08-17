@@ -16,84 +16,55 @@ import {
     Modal,
     Row,
 } from "@themesberg/react-bootstrap";
+import Select from "react-select";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import * as Yup from "yup";
-
 // import { addAdminCategory} from "../../Redux/Category/actions";
-const Report = ({item, setShow, show}) => {
+import {
+    reportUserList,
+    reportedUser
+} from "../Redux/profile/actions";
+const Report = ({ item, setShow, show }) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [search, setSearch] = useState("");
     const [adminId, setAdminId] = useState(0);
-
     const {
         location: { state },
     } = history;
+    const login = useSelector((state) => state.auth.Auther);
     const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
+    const ReportData = useSelector((state) => state.ProfileReducer.ReportList);
     const auth = useSelector((state) => state.auth);
     const forAction = history?.location?.state?.from;
-    // useEffect(() => {
-    //     dispatch(
-    //         getCategoryList({
-
-    //             search: search,
-    //             role: "admin"
-    //         })
-    //     );
-    // }, [search]);
     const [showDefault, setShowDefault] = useState(false);
-    console.log("setShow",show)
-    const handleClose = () => {
-        setEdit(false);
-        setShowDefault(false);
+    const [reportList, setReportList] = useState([]);
+    const [categories, setCategories] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState();
+    const params = useLocation();
+    let profileId = params.pathname.split("/")[2];
 
+    const handleClose = () => {
+        setShow(false);
         CategoryFormik.resetForm();
     };
     const [selectedImage, setSelectedImage] = useState("");
-    const [isEdit, setEdit] = useState(false);
-    const [selectedItem, setSelectedItem] = useState(null);
-    const activeButton = (value) => {
-        setEdit(true);
-        setShowDefault(true);
-        setSelectedItem(value);
-        setSelectedImage(value.categoryImg);
-    };
     const CategorySchema = Yup.object().shape({
-        title: Yup.string().trim().required("Category Name is required"),
-        details: Yup.string().trim().required("description is required"),
+
+        // details: Yup.string().trim().required("description is required"),
     });
     const CategoryFormik = useFormik({
         enableReinitialize: true,
         initialValues: {
-            id: selectedItem?.id ? selectedItem?.id : "",
-            title: selectedItem?.title ? selectedItem?.title : "",
-            details: selectedItem?.details ? selectedItem?.details : "",
-            remember: true,
         },
         validationSchema: CategorySchema,
         onSubmit: async (values, action) => {
-            // dispatch(
-            //         addAdminCategory({
-            //             title: values.title,
-            //             details: values.details,
-            //             categoryImg: selectedImage,
-            //             setReset: action.resetForm,
-            //             setShowDefault: setShowDefault,
-            //             showDefault: showDefault,
-            //             setSelectedImage: setSelectedImage,
-            //         })
-            //     );
+
         },
     });
-
-    useEffect(() => { }, [CategoryFormik.values]);
-    const addCategories = () => {
-        setSelectedItem(null);
-        setShowDefault(true);
-    };
     const currencies = [
         {
             value: "",
@@ -108,34 +79,52 @@ const Report = ({item, setShow, show}) => {
             label: "Service Seeker",
         },
     ];
+    useEffect(() => {
+        let data;
+        if (ReportData) {
+            data = ReportData?.map((item) => (
+                { label: item?.details, value: item?.id }
+            ))
+            setReportList(data)
+        }
+    }, [ReportData]);
+    useEffect(() => {
+        dispatch(
+            reportUserList({
+
+            })
+        );
+    }, []);
+    const handleReport = (values, item) => {
+        dispatch(
+            reportedUser({
+                blockedTo: profileId,
+                blockedBy: login?.id,
+                description: CategoryFormik?.values?.description ? CategoryFormik?.values?.description : "",
+                reportId: selectedCategory ? selectedCategory : "",
+            })
+        );
+    };
     return (
-
-
-
-        <Modal as={Modal.Dialog} centered show={show}>
+        <Modal as={Modal.Dialog} centered show={show} onHide={handleClose}>
             <Modal.Header>
                 <Modal.Title className="h5">
-                    {isEdit ? "Edit Category" : "Add Category"}
+                    {"Report"}
                 </Modal.Title>
                 <Button variant="close" aria-label="Close" onClick={handleClose} />
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={CategoryFormik.handleSubmit}>
                     <Form.Group>
-                        <Col lg={3} md={5}>
-                            <Form.Group className="mt-3">
-                                <Form.Select
-                                    defaultValue="1"
-                                    label="Select"
-                                    // value={type}
-                                    // onChange={handleChange}
-                                >
-                                    {currencies.map((option) => (
-                                        <option key={option.value} value={option.value}>
-                                            {option.label}
-                                        </option>
-                                    ))}
-                                </Form.Select>
+                        <Col lg={12} md={6} className="mb-1">
+                            <Form.Group>
+                                Reason
+                                <Select
+                                    defaultValue={categories}
+                                    onChange={(e) => { setCategories(e.label); setSelectedCategory(e.value) }}
+                                    options={reportList}
+                                />
+
                             </Form.Group>
                         </Col>
                     </Form.Group>
@@ -148,10 +137,10 @@ const Report = ({item, setShow, show}) => {
                             type="text"
                             placeholder="Description"
                             value={CategoryFormik.values.details}
-                            name="details"
-                            label="details"
+                            name="description"
+                            label="description"
                             onChange={(e) => {
-                                CategoryFormik.setFieldValue("details", e.target.value);
+                                CategoryFormik.setFieldValue("description", e.target.value);
                             }}
                         />
                         {CategoryFormik.touched.details &&
@@ -170,6 +159,7 @@ const Report = ({item, setShow, show}) => {
                                 color="dark"
                                 size="sm"
                                 type="submit"
+                                onClick={() => { handleReport(); handleClose(); }}
                             >
                                 Report
                             </Button>
@@ -178,7 +168,6 @@ const Report = ({item, setShow, show}) => {
                 </Form>
             </Modal.Body>
         </Modal>
-
     )
 };
 export default Report;

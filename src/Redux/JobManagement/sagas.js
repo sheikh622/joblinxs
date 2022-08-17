@@ -37,34 +37,7 @@ function* getJobList({ payload }) {
 function* watchGetJob() {
   yield takeLatest(GET_JOB_LISTING, getJobList);
 }
-// function* getProfileList({ payload }) {
-//   try {
-//     const token = yield select(makeSelectAuthToken());
-//     const response = yield axios.get(
-//       `job/admin/approve-request/${payload.jobId}`,
-//       {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       }
-//     );
-//     toast.success(CapitalizeFirstLetter(response.data.message));
-//     yield put(
-//       getJobListing({
-//         page: payload.page,
-//         limit: payload.limit,
-//         type: payload.type,
-//         search: payload.search,
-//         category: payload.category,
-//       })
-//     );
-//   } catch (error) {
-//     yield sagaErrorHandler(error.response);
-//   }
-// }
-// function* watchGetProfile() {
-//   yield takeLatest(GET_JOB_PROFILE, getProfileList);
-// }
+
 function* deleteJob({ payload }) {
   let { adminId } = payload;
   try {
@@ -123,7 +96,6 @@ function* watchchangeJobStatus() {
 }
 export default function* JobManagementSaga() {
   yield all([fork(watchGetJob)]);
-  // yield all([fork(watchGetProfile)]);
   yield all([fork(watchDeleteJob)]);
   yield all([fork(watchchangeJobStatus)]);
 }
