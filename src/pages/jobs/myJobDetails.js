@@ -30,13 +30,26 @@ import RecommendCard from "../../components/RecommendCard";
 import DetailHeading from "../../components/DetailHeading";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteAddJob } from "../../Redux/addJob/actions";
+import { Rating } from "react-simple-star-rating";
+
 const MyJobDetails = (item, props) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const params = useLocation();
   let jobId = params.pathname.split("/")[2];
+  const newArrivalData = useSelector(
+    (state) => state?.Seeker?.newArrival?.data
+  );
+  const [newArrivalProvider, setNewArrivalProvider] = useState()
+  useEffect(() => {
+    if (newArrivalData !== undefined) {
+      setNewArrivalProvider(newArrivalData)
+    }
+  }, [newArrivalData])
   const SingleId = useSelector((state) => state?.addJob?.jobById);
+  console.log("=====",SingleId)
   const [showDefault, setShowDefault] = useState(false);
+  const [rating, setRating] = useState(0); // initial rating value
 
   const [show, setShow] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
@@ -55,7 +68,7 @@ const MyJobDetails = (item, props) => {
   };
   const [adminId, setAdminId] = useState(0);
   const [selectedItem, setSelectedItem] = useState();
-
+console.log("vhjk",SingleId?.rating)
   useEffect(() => {
     dispatch(jobById({ id: jobId }));
   }, []);
@@ -68,6 +81,9 @@ const MyJobDetails = (item, props) => {
   const handleRepost = () => {
     history.push({ pathname: `/updateJob/${jobId}`, state: "repost" });
   };
+  const handleRating = (rate) => {
+    setRating(rate);
+  };
   const profileCard = () => {
     return (
       <div className="detailed">
@@ -79,13 +95,10 @@ const MyJobDetails = (item, props) => {
         <h5 className="text-gray">
           {SingleId?.profileType ? SingleId.profileType : ""}
         </h5>
-        <span className="starIcon">
-          <FontAwesomeIcon icon={faStar} />
-          <FontAwesomeIcon icon={faStar} />
-          <FontAwesomeIcon icon={faStar} />
-          <FontAwesomeIcon icon={faStar} />
-          <FontAwesomeIcon icon={faStar} />
-        </span>
+        <Rating
+          onClick={handleRating}
+          ratingValue={SingleId?.rating} /* Available Props */
+        />
       </div>
     );
   };
@@ -227,7 +240,7 @@ const MyJobDetails = (item, props) => {
             </Card>
             {SingleId.createdBy === "seeker" && (
               <>
-                {SingleId?.status === "completed" || SingleId?.status === "inprogress" || SingleId?.status === "upcoming"? (
+                {SingleId?.status === "completed" || SingleId?.status === "inprogress" || SingleId?.status === "upcoming" ? (
                   <>
                     <div class="d-grid gap-2 col-3 mx-auto">
                       <Button
@@ -241,33 +254,33 @@ const MyJobDetails = (item, props) => {
                       </Button>
                     </div>
                   </>
-                ):(
+                ) : (
                   <div>
+                    <div class="d-grid gap-2 col-3 mx-auto">
+                      {SingleId.status === "Accepted" || SingleId?.status === "canceled" ? (
+                        <Button
+                          variant="primary"
+                          color="dark"
+                          size="lg"
+                          className="mt-2 me-1"
+                          onClick={handleEdit}
+                        >
+                          Repost/Emergency
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="primary"
+                          color="dark"
+                          size="lg"
+                          className="mt-2 me-1"
+                          onClick={handleEdit}
+                        >
+                          Edit Job
+                        </Button>
+                      )}
+                    </div>
+                    {SingleId?.status !== "Accepted" && (
                       <div class="d-grid gap-2 col-3 mx-auto">
-                        {SingleId.status === "Accepted" || SingleId?.status === "canceled" ? (
-                          <Button
-                            variant="primary"
-                            color="dark"
-                            size="lg"
-                            className="mt-2 me-1"
-                            onClick={handleEdit}
-                          >
-                            Repost/Emergency
-                          </Button> 
-                        ) : (
-                          <Button
-                            variant="primary"
-                            color="dark"
-                            size="lg"
-                            className="mt-2 me-1"
-                            onClick={handleEdit}
-                          >
-                            Edit Job
-                          </Button>
-                        )}
-                      </div>
-                      {SingleId?.status !== "Accepted" && (
-                        <div class="d-grid gap-2 col-3 mx-auto">
                         <Button
                           variant="primary"
                           color="dark"
@@ -281,12 +294,12 @@ const MyJobDetails = (item, props) => {
                           Delete Job
                         </Button>
                       </div>
-                      )}
-                    </div>
+                    )}
+                  </div>
                 )}
               </>
             )}
-           
+
           </Col>
         </Row>
       </Container>

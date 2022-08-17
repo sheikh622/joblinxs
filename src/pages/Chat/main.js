@@ -154,12 +154,11 @@ const Mainchat = () => {
               <FontAwesomeIcon
                 icon={faEllipsisV}
                 className="icon-dark"
-                style={{color:"white"}}
+                style={{color:"black" , textAlign:"right"}}
               />
             </span>
           </Dropdown.Toggle>
           <Dropdown.Menu className="custom_menu">
-          
             <Dropdown.Item onClick={() => {
               setSelectedUser(item.id)
               setBlockUserSaga(true);
