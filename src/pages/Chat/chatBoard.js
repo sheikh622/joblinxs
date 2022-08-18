@@ -1,21 +1,21 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Card, Col, Button } from "@themesberg/react-bootstrap";
+import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { GiftedChat, InputToolbar, Bubble } from "react-gifted-chat";
 import { SendMessage } from "../../Redux/chat/actions";
 import moment from "moment";
-import { deleteMessage } from "./FirestoreMethods";
+import { deleteMessage, updateCustomOffer } from "./FirestoreMethods";
 
 let jobOffer = {
   offeredPrice: 0,
   title: "",
   offerTo: "",
   offerDate: "",
-  offerStatus: '',
+  offerStatus: "",
 };
 let customKey = false;
 const Chatboard = ({
-  profile,
+  blockedBy,
   oneToOneChat,
   sendMessage,
   users,
@@ -28,7 +28,7 @@ const Chatboard = ({
   useEffect(() => {
     setMessages(oneToOneChat);
   }, [oneToOneChat]);
-  
+
   const onSend = useCallback(
     (messages = []) => {
       let data = {
@@ -36,17 +36,33 @@ const Chatboard = ({
         receiverId: id,
         message: messages[0].text,
       };
-
-      sendMessage(messages, users, currentUser, customKey, jobOffer);
+    if(blockedBy === null){
+      sendMessage(messages, users, currentUser, customKey);
       dispatch(SendMessage(data));
+    }else{
+      if(blockedBy){
+        toast.error("You Blocked this User");
+      }else{
+        toast.error("You BLocked By this User");
+      }
+    }
     },
     [users]
   );
   const handleInput = (props) => {
     return (
-      <div>
-        <InputToolbar {...props} />
-        {/* <Button>Custom offer</Button> */}
+      <div className="chatInput">
+        {blockedBy ? (
+          <h3 className="text-center">You Blocked this User</h3>
+        ) : (
+          <>
+            {blockedBy === null ? (
+              <InputToolbar {...props} />
+            ) : (
+              <h3 className="text-center">You BLocked By this User</h3>
+            )}
+          </>
+        )}
       </div>
     );
   };
@@ -57,34 +73,49 @@ const Chatboard = ({
   const handleAccept = useCallback(
     (data) => {
       jobOffer = {
-        offeredPrice: data.offeredPrice,
-        title: data.title,
-        offerTo: data.title,
-        offerDate: data.offerDate,
+        offeredPrice: data.jobOffer.offeredPrice,
+        title: data.jobOffer.title,
+        offerTo: data.jobOffer.title,
+        offerDate: data.jobOffer.offerDate,
         offerStatus: "Accepted",
       };
-      customKey = true;
-      sendMessage(messages, users, currentUser, customKey, jobOffer);
+      if(blockedBy === null){
+        updateCustomOffer(data.id, users, jobOffer);
+      }else{
+        if(blockedBy){
+          toast.error("You Blocked this User");
+        }else{
+          toast.error("You BLocked By this User");
+        }
+      }
+      
     },
     [users]
   );
   const handleDecline = useCallback(
     (data) => {
       jobOffer = {
-        offeredPrice: data.offeredPrice,
-        title: data.title,
-        offerTo: data.title,
-        offerDate: data.offerDate,
-        offerStatus: "Accepted",
+        offeredPrice: data.jobOffer.offeredPrice,
+        title: data.jobOffer.title,
+        offerTo: data.jobOffer.title,
+        offerDate: data.jobOffer.offerDate,
+        offerStatus: "Rejected",
       };
-      customKey = true;
-      sendMessage(users, currentUser, customKey, jobOffer);
+      if(blockedBy === null){
+        updateCustomOffer(data.id, users, jobOffer);
+      }else{
+        if(blockedBy){
+          toast.error("You Blocked this User");
+        }else{
+          toast.error("You BLocked By this User");
+        }
+      }
     },
     [users]
   );
+
   const renderBubble = ({ currentMessage }) => {
     if (currentMessage?.user?._id === currentUser?.id) {
-      
       return (
         <>
           <div className="sendMessage">
@@ -110,7 +141,6 @@ const Chatboard = ({
       );
     } else {
       if (currentMessage.customKey) {
-        console.log(currentMessage?.jobOffer, "here is currentMessage messages");
         return (
           <div className="customOffer">
             <h3>Job Offer</h3>
@@ -120,24 +150,33 @@ const Chatboard = ({
                 : "Offer Title"}
             </p>
             <p>{currentMessage?.jobOffer?.offeredPrice}</p>
-            {/* <p>{moment(currentMessage?.jobOffer?.date).format("hh:mm:a")}</p> */}
             <p>{moment(currentMessage.createdAt).format("hh:mm:a")}</p>
             <div className="customButton justify-content-around d-flex">
-              <p
-                onClick={() => {
-                  handleAccept(currentMessage?.jobOffer);
-                }}
-              >
-                Accept
-              </p>
-              |
-              <p
-                onClick={() => {
-                  handleDecline(currentMessage?.jobOffer);
-                }}
-              >
-                Decline
-              </p>
+              {currentMessage?.jobOffer?.offerStatus === "Pending" ? (
+                <>
+                  <p
+                    onClick={() => {
+                      handleAccept(currentMessage);
+                    }}
+                  >
+                    Accept
+                  </p>
+                  |
+                  <p
+                    onClick={() => {
+                      handleDecline(currentMessage);
+                    }}
+                  >
+                    Decline
+                  </p>
+                </>
+              ) : (
+                <p>
+                  {currentMessage?.jobOffer?.offerStatus === "Accepted"
+                    ? "Accepted"
+                    : "Rejected"}
+                </p>
+              )}
             </div>
           </div>
         );
