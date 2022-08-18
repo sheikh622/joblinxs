@@ -46,7 +46,7 @@ const UserManagement = (row) => {
   const [type, setType] = React.useState("all");
   const [showDefault, setShowDefault] = useState(false);
   const [category, setCategory] = useState([]);
-  const [categoryType, setCategoryType] = useState("");
+  const [status, setStatus] = useState("");
 
   const addUsers = () => {
     setShowDefault(true);
@@ -58,7 +58,7 @@ const UserManagement = (row) => {
     setType(event.target.value);
   };
   const handleFilter = (event) => {
-    setCategoryType(event.target.value)
+    setStatus(event.target.value)
   }
   const [blockUser, setBlockUser] = useState(row.isActive);
   useEffect(() => {
@@ -80,7 +80,8 @@ const UserManagement = (row) => {
         limit: limit,
         type: type,
         search: search,
-        data: userList
+        data: userList,
+        status: status,
       })
     );
   };
@@ -91,22 +92,23 @@ const UserManagement = (row) => {
         limit: limit,
         type: type,
         search: search,
+        status:status,
       })
     );
-  }, [page, limit, type, search]);
+  }, [page, limit, type, search, status]);
 
   const filter = [
     {
       value: "all",
-      label: "All Users",
+      label: "All",
     },
     {
-      value: "provider",
-      label: "Service Provider",
+      value: "approved",
+      label: "approved",
     },
     {
-      value: "seeker",
-      label: "Service Seeker",
+      value: "pending",
+      label: "pending",
     },
   ];
   const currencies = [
@@ -171,6 +173,7 @@ const UserManagement = (row) => {
                   limit: limit,
                   type: type,
                   search: search,
+                  status: status,
                 })
               );
             }}
@@ -200,6 +203,7 @@ const UserManagement = (row) => {
                     limit: limit,
                     type: type,
                     search: search,
+                    status:status,
                   })
                 );
               }}
@@ -300,7 +304,7 @@ const UserManagement = (row) => {
                 <Col lg={3} md={5}>
                   <Form.Group className="mt-3">
                     <Form.Select defaultValue="1" label="Select"
-                      value={categoryType}
+                      value={status}
                       onChange={handleFilter}
                     >
                       {filter.map((option) => (
