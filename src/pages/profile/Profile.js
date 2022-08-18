@@ -21,6 +21,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProfile } from "../../Redux/profile/actions";
 import ChangePassword from "../../components/changePassword";
 import moment from "moment";
+import { Rating } from "react-simple-star-rating";
+
 export default () => {
   const dispatch = useDispatch();
   const login = useSelector((state) => state.auth.Auther);
@@ -30,6 +32,7 @@ export default () => {
   //   location: { state },
   // } = history;
   const [showDefault, setShowDefault] = useState(false);
+  const [rating, setRating] = useState(0); // initial rating value
   const handleClose = async () => {
     setShowDefault(false);
   };
@@ -46,7 +49,9 @@ export default () => {
   const editProfile = () => {
     history.push(Routes.EditProfile.path);
   };
-
+  const handleRating = (rate) => {
+    setRating(rate);
+  };
   return (
     <>
       <Navbar module={"Profile"} />
@@ -104,13 +109,17 @@ export default () => {
                       <Card.Text className="text-gray mb-2">
                         Overall Rating
                       </Card.Text>
-                      <Card.Text className="text-gray mb-0 starIcon">
+                      <Rating
+                        onClick={handleRating}
+                        ratingValue={getById?.profile_rating ? getById?.profile_rating*20 :"0" } /* Available Props */
+                      />
+                      {/* <Card.Text className="text-gray mb-0 starIcon">
                         <FontAwesomeIcon icon={faStar} />
                         <FontAwesomeIcon icon={faStar} />
                         <FontAwesomeIcon icon={faStar} />
                         <FontAwesomeIcon icon={faStar} />
                         <FontAwesomeIcon icon={faStar} />
-                      </Card.Text>
+                      </Card.Text> */}
                       <Card.Text className="text-gray mb-2 reviews">
                         (7 Reviews)
                       </Card.Text>
@@ -143,9 +152,9 @@ export default () => {
                       />
                       <DetailHeading
                         heading={"Member Since"}
-                        value={getById?.memberSince ? moment(getById?.memberSince).format("DD-MM-YYYY")  : " "}
+                        value={getById?.memberSince ? moment(getById?.memberSince).format("DD-MM-YYYY") : " "}
                       />
-                        <DetailHeading
+                      <DetailHeading
                         heading={"City"}
                         value={getById?.city}
                       />
@@ -162,16 +171,16 @@ export default () => {
                         heading={"Phone"}
                         value={getById?.phoneNumber}
                       />
-                         <DetailHeading
+                      <DetailHeading
                         heading={"Date of Birth"}
-                        value={getById?.dateOfBirth ? moment(getById?.dateOfBirth).format("DD-MM-YYYY")  : " "
-                       }
+                        value={getById?.dateOfBirth ? moment(getById?.dateOfBirth).format("DD-MM-YYYY") : " "
+                        }
                       />
                       <DetailHeading
                         heading={"Address"}
                         value={getById?.address}
                       />
-                       <DetailHeading
+                      <DetailHeading
                         heading={"Postal Code"}
                         value={getById?.postalCode}
                       />
