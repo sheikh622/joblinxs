@@ -115,17 +115,18 @@ export const startNewChat = async (message, chatId) => {
 };
 
 export const updateCustomOffer = async (id, users,jobOffer) => {
-
   let newJobOffer={
        offeredPrice:jobOffer?.offeredPrice ? jobOffer?.offeredPrice :"",
        title:jobOffer?.title ? jobOffer?.title  : "",
        offerTo:jobOffer?.offerTo ? jobOffer?.offerTo: "",
        offerDate:jobOffer?.offerDate ?jobOffer?.offerDate :"",
        offerStatus:jobOffer?.offerStatus ? jobOffer?.offerStatus : "",
+       jobId : jobOffer?.jobId ? jobOffer?.jobId : "",
   }
   const chatId = createChatId(users);
   var docRef = collection(db, "chats", chatId, "messages");
   await updateDoc(doc(docRef, id),{
     jobOffer:newJobOffer
   });
+  window.location.reload();
 };
