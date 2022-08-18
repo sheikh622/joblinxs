@@ -54,13 +54,13 @@ const Chatboard = ({
     return (
       <div className="chatInput">
         {blockedBy ? (
-          <h3 className="text-center">You Blocked this User</h3>
+          <h3 className="text-center">You have blocked this user</h3>
         ) : (
           <>
             {blockedBy === null ? (
               <InputToolbar {...props} />
             ) : (
-              <h3 className="text-center">You BLocked By this User</h3>
+              <h3 className="text-center">You have been blocked by this user</h3>
             )}
           </>
         )}
@@ -95,9 +95,9 @@ const Chatboard = ({
         updateCustomOffer(data.id, users, jobOffer, currentUser?.id);
       }else{
         if(blockedBy){
-          toast.error("You Blocked this User");
+          toast.error("You have blocked this user");
         }else{
-          toast.error("You BLocked By this User");
+          toast.error("You have been blocked by this user");
         }
       }
       
@@ -203,6 +203,7 @@ const Chatboard = ({
       }
     }
   };
+  
   return (
     <GiftedChat
       messages={messages}
