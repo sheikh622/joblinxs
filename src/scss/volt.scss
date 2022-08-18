@@ -111,6 +111,7 @@ svg {
   p {
     margin-bottom: 0px;
   }
+
 }
 
 .receivedMessage {
@@ -177,4 +178,10 @@ svg {
   appearance: none;
   border-radius: 0.5rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.listedName{
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

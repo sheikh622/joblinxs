@@ -48,6 +48,7 @@ const MyJobDetails = (item, props) => {
   }, [newArrivalData])
   const SingleId = useSelector((state) => state?.addJob?.jobById);
   console.log("=====", SingleId)
+  console.log("=====", SingleId)
   const [showDefault, setShowDefault] = useState(false);
   const [rating, setRating] = useState(0); // initial rating value
 
@@ -118,6 +119,7 @@ const MyJobDetails = (item, props) => {
               <Card border="light" className="card-box-shadow py-3 px-4 mb-3">
                 {profileCard()}
               </Card>
+
             </Col>
           )}
 
@@ -128,9 +130,10 @@ const MyJobDetails = (item, props) => {
             className="pb-3 mb-3"
           >
 
+
             <Card
               border="light"
-              className="text-left p-0 mb-4 profileView info p-3 mt-2"
+              className="text-left p-0 mb-4 profileView info p-3 mt-2 mt-2"
             >
 
               {SingleId.createdBy === "provider" && profileCard()}

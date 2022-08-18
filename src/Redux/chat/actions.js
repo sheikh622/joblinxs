@@ -1,7 +1,8 @@
 import {
   GET_LIST,
   SEND_MESSAGE,
-  GET_LIST_SUCCESS
+  GET_LIST_SUCCESS,
+  CUSTOM_OFFER_ACCEPT
 } from "./constants";
 
 export const getList = (data) => ({
@@ -15,5 +16,11 @@ export const getListSuccess = (data) => ({
 export const SendMessage = (data) => (
   {
   type: SEND_MESSAGE,
+  payload: data,
+});
+
+export const CustomOfferAccept = (data) => (
+  {
+  type: CUSTOM_OFFER_ACCEPT,
   payload: data,
 });
