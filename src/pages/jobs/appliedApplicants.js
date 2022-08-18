@@ -35,6 +35,8 @@ import { useHistory, useLocation } from "react-router-dom";
 import { height, width } from "@mui/system";
 import { getConfirmApplicants } from "../../Redux/addJob/actions";
 import NoRecordFound from "../../components/NoRecordFound";
+import { Rating } from "react-simple-star-rating";
+
 // import Tab from "react-bootstrap/Tab";
 // import Tabs from "react-bootstrap/Tabs";
 const Applicants = ({ id }) => {
@@ -56,6 +58,8 @@ const Applicants = ({ id }) => {
     (state) => state?.addJob?.Applicants?.data?.jobs
   );
   const Pageination = useSelector((state) => state?.addJob?.Applicants?.data);
+  const [rating, setRating] = useState(0); // initial rating value
+
   useEffect(() => {
     if (id === "Applied") {
       dispatch(
@@ -135,6 +139,9 @@ const Applicants = ({ id }) => {
       </div>
     );
   };
+  const handleRating = (rate) => {
+    setRating(rate);
+  };
   return (
     <>
       <Container>
@@ -163,16 +170,15 @@ const Applicants = ({ id }) => {
                                 <h3 className="mb-1 mt-2">
                                   {item?.user ? item?.user?.fullName : ""}{" "}
                                 </h3>
-                                <span className="starSpan">
-                                  <FontAwesomeIcon icon={faStar} />
-                                  <FontAwesomeIcon icon={faStar} />
-                                  <FontAwesomeIcon icon={faStar} />
-                                  <FontAwesomeIcon icon={faStar} />
-                                  <FontAwesomeIcon icon={faStar} />{" "}
+                                
+                                  <Rating
+                                    onClick={handleRating}
+                                    ratingValue={item?.rating ? item?.rating*20 : ""} /* Available Props */
+                                  />
                                   <span>
                                     {item?.rating ? item?.rating : ""}
                                   </span>
-                                </span>
+                                
                                 <p className="mt-2">
                                   Jobs Completed: <span>25</span>{" "}
                                 </p>

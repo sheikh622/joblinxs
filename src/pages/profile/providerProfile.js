@@ -28,7 +28,10 @@ import { useDispatch, useSelector } from "react-redux";
 // saga actions here
 import { getProfile, blockUser } from "../../Redux/profile/actions";
 import NoRecordFound from "../../components/NoRecordFound";
-import Report from "../../components/report"
+import Report from "../../components/report";
+import { Routes } from "../../routes";
+import { Link } from "react-router-dom";
+
 const ProviderProfile = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -47,15 +50,23 @@ const ProviderProfile = (props) => {
       })
     );
   }, []);
-  const handleMove =()=>{
+  const handleMove = () => {
     history.push(`/chat?${profileId}`)
- }
- 
+  }
+
 
   return (
     <>
       <Navbar module={"Detail Profile"} />
       <Container>
+        <Col xs={12} xl={12} className={'d-flex justify-content-end mb-2'}>
+          <Link className="text-white fw-bold" to={Routes.DashboardOverview.path}>
+            <Button variant="primary" type="submit">
+              {"  "}
+              Back
+            </Button>
+          </Link>
+        </Col>
         <Row>
           <Col lg={4} md={6} xs={12} className="pb-3 mb-3">
             <Card border="light" className="card-box-shadow py-3 px-4 mb-3">
@@ -135,7 +146,7 @@ const ProviderProfile = (props) => {
                         fill="#12499C"
                       />
                     </svg>
-                  
+
                   </span>
                 </div>
                 <DetailHeading
@@ -212,9 +223,9 @@ const ProviderProfile = (props) => {
             </Card>
           </Col>
         </Row>
-    
+
       </Container>
-      
+
     </>
   );
 };

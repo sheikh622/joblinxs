@@ -336,7 +336,7 @@ const Search = (props) => {
                                             // item={item ? item : null}
                                             rate={item?.rate ? item?.rate : "N/A"}
                                             completed={"90"}
-                                            star={item?.user_job?.users?.profile_rating ? item?.user_job?.users?.profile_rating : item?.user_job?.users?.profile_rating}
+                                            star={item?.rating ? item?.rating*20:"0"}
                                             // myJobs={true}
                                             // page={page}
                                             // job="job"
