@@ -71,7 +71,9 @@ const Mainchat = () => {
       blockUser({
         blockedTo: selectedUser,
         blockedBy: login?.id,
-        id: currentUser?.id,
+        id: currentUser?.
+        
+        id,
       })
     );
   };
@@ -85,22 +87,8 @@ const Mainchat = () => {
     );
   };
   useEffect(() => {
-    let listData = [];
-    if (contactsList.length > 0) {
-      contactsList.map((data) => {
-        if (data.receiver.id === currentUser?.id) {
-          listData.push(data?.sender);
-        }
-        if (data.sender.id === currentUser?.id) {
-          listData.push(data?.receiver);
-        }
-      });
-    }
-    setReceiver(listData);
-  }, [contactsList]);
-  useEffect(() => {
     if (chatId) {
-      let usersList = [currentUser.id, chatId];
+      let usersList = [currentUser.firebaseId, chatId];
       setUsers(usersList);
     }
   }, [chatId]);
@@ -117,7 +105,6 @@ const Mainchat = () => {
   useEffect(() => {
     if (currentUser || users) {
       const chatId = createChatId(users);
-
       const newcoll = col(db, "chats");
       const q = query(newcoll, where("chatId", "==", chatId));
       onSnapshot(q, { includeMetadataChanges: true }, (res) => {
@@ -150,9 +137,11 @@ const Mainchat = () => {
       if (id === currentUser?.id) {
         setBlockedBy(true);
       }
+      else{
+        setBlockedBy(false);
+      }
     }
   };
-  console.log(blockedBy);
   const renderListUser = (item, index, blockedId) => {
     return (
       <li
@@ -160,7 +149,7 @@ const Mainchat = () => {
           selectedIndex === index ? "active" : ""
         }`}
         onClick={() => {
-          handleChat(item.id, index);
+          handleChat(item.firebaseId, index);
           handleClick(blockedId?.id);
         }}
       >
@@ -169,7 +158,7 @@ const Mainchat = () => {
           alt="Neil Portrait"
           className="user-avatar rounded-circle"
         />
-        <span className="mx-2">{item?.fullName}</span>
+        <span className="mx-2 listedName">{item?.fullName}</span>
         <Dropdown as={ButtonGroup} className="me-3 mt-1 ms-4">
           <Dropdown.Toggle
             as={Button}
