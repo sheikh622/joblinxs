@@ -111,6 +111,7 @@ export default () => {
                       </Card.Text>
                       <Rating
                         onClick={handleRating}
+                        allowHover={false}
                         ratingValue={getById?.profile_rating ? getById?.profile_rating*20 :"0" } /* Available Props */
                       />
                       {/* <Card.Text className="text-gray mb-0 starIcon">
