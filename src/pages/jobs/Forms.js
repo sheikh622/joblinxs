@@ -177,9 +177,7 @@ export const GeneralInfoForm = () => {
             : experience.value,
         days: days,
         hours: hours,
-        longitude: longitude ? longitude : "",
-        latitude: latitude ? latitude : "",
-        location:location,
+        location: location,
         startDate: startDate,
         endDate: onGoing ? "" : endDate,
         isOngoing: onGoing,
@@ -690,7 +688,7 @@ export const GeneralInfoForm = () => {
               {SingleId?.length === 0 || SingleId?.status === "pending" ? (
                 <Button variant="primary" type="submit" show={showDefaults} className="mx-2">
                   {id ? "Update Job" : "Post Job"}
-                </Button>) : ""}
+                </Button>) : ""} 
 
               {SingleId?.status === "pending" || SingleId?.status === "Accepted" ? (
                 <Button
