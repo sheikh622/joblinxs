@@ -99,6 +99,7 @@ svg {
   p {
     margin-bottom: 0px;
   }
+
 }
 .receivedMessage {
   background-color: #12499c;
@@ -141,4 +142,10 @@ svg {
     border-top: 1px solid;
     padding: 10px;
   }
+}
+.listedName{
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

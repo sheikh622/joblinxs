@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { GiftedChat, InputToolbar, Bubble } from "react-gifted-chat";
-import { SendMessage } from "../../Redux/chat/actions";
+import { SendMessage, CustomOfferAccept } from "../../Redux/chat/actions";
 import moment from "moment";
 import { deleteMessage, updateCustomOffer } from "./FirestoreMethods";
 
@@ -25,6 +25,7 @@ const Chatboard = ({
 }) => {
   const dispatch = useDispatch();
   const [messages, setMessages] = useState([]);
+  const [status, setStatus] = useState(null);
   useEffect(() => {
     setMessages(oneToOneChat);
   }, [oneToOneChat]);
@@ -41,9 +42,9 @@ const Chatboard = ({
       dispatch(SendMessage(data));
     }else{
       if(blockedBy){
-        toast.error("You Blocked this User");
+        toast.error("You have blocked this user");
       }else{
-        toast.error("You BLocked By this User");
+        toast.error("You have been blocked by this user");
       }
     }
     },
@@ -53,13 +54,13 @@ const Chatboard = ({
     return (
       <div className="chatInput">
         {blockedBy ? (
-          <h3 className="text-center">You Blocked this User</h3>
+          <h3 className="text-center">You have blocked this user</h3>
         ) : (
           <>
             {blockedBy === null ? (
               <InputToolbar {...props} />
             ) : (
-              <h3 className="text-center">You BLocked By this User</h3>
+              <h3 className="text-center">You have been blocked by this user</h3>
             )}
           </>
         )}
@@ -75,17 +76,28 @@ const Chatboard = ({
       jobOffer = {
         offeredPrice: data.jobOffer.offeredPrice,
         title: data.jobOffer.title,
-        offerTo: data.jobOffer.title,
+        offerTo: data.jobOffer.id,
         offerDate: data.jobOffer.offerDate,
         offerStatus: "Accepted",
       };
+      let newData ={
+        jobOffer :jobOffer,
+        users:users,
+        jobId:data.jobOffer.jobId,
+        userId: currentUser?.id,
+        isAccepted:true,
+        id:data.id,
+      }
       if(blockedBy === null){
-        updateCustomOffer(data.id, users, jobOffer);
+        // dispatch(
+        //   CustomOfferAccept(newData)
+        // )
+        updateCustomOffer(data.id, users, jobOffer, currentUser?.id);
       }else{
         if(blockedBy){
-          toast.error("You Blocked this User");
+          toast.error("You have blocked this user");
         }else{
-          toast.error("You BLocked By this User");
+          toast.error("You have been blocked by this user");
         }
       }
       
@@ -105,16 +117,17 @@ const Chatboard = ({
         updateCustomOffer(data.id, users, jobOffer);
       }else{
         if(blockedBy){
-          toast.error("You Blocked this User");
+          toast.error("You have blocked this user");
         }else{
-          toast.error("You BLocked By this User");
+          toast.error("You have been blocked by this user");
         }
       }
     },
     [users]
   );
-
+  console.log(messages, "messages")
   const renderBubble = ({ currentMessage }) => {
+    console.log(currentMessage, "currentMessagecurrentMessagecurrentMessage")
     if (currentMessage?.user?._id === currentUser?.id) {
       return (
         <>
@@ -190,6 +203,7 @@ const Chatboard = ({
       }
     }
   };
+  
   return (
     <GiftedChat
       messages={messages}

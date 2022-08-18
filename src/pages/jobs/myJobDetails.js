@@ -48,6 +48,7 @@ const MyJobDetails = (item, props) => {
   }, [newArrivalData])
   const SingleId = useSelector((state) => state?.addJob?.jobById);
   console.log("=====", SingleId)
+  console.log("=====", SingleId)
   const [showDefault, setShowDefault] = useState(false);
   const [rating, setRating] = useState(0); // initial rating value
 
@@ -97,7 +98,8 @@ const MyJobDetails = (item, props) => {
         </h5>
         <Rating
           onClick={handleRating}
-          ratingValue={SingleId?.rating ? SingleId?.rating*20 :"0" } /* Available Props */
+          allowHover={false}
+          ratingValue={SingleId?.rating ? SingleId?.rating * 20 : "0"} /* Available Props */
         />
       </div>
     );
@@ -107,17 +109,13 @@ const MyJobDetails = (item, props) => {
       <Navbar module={"Job Detail"} />
       <Container>
         <Row>
+          <Col xs={12} xl={12} className={'d-flex justify-content-end'}>
+            <Button onClick={() => history.goBack()}>Back</Button>
+          </Col>
           {SingleId.createdBy === "seeker" && (
 
             <Col lg={4} md={6} xs={12} className="pb-3 mb-3 mt-2">
-              {/* <Col xs={12} xl={12} className={'d-flex justify-content-start'}>
-                <Link className="text-white fw-bold" to={Routes.Job.path}>
-                  <Button variant="primary" type="submit">
-                    {"  "}
-                    Back
-                  </Button>
-                </Link>
-              </Col> */}
+
               <Card border="light" className="card-box-shadow py-3 px-4 mb-3">
                 {profileCard()}
               </Card>
@@ -132,15 +130,16 @@ const MyJobDetails = (item, props) => {
             className="pb-3 mb-3"
           >
 
+
             <Card
               border="light"
-              className="text-left p-0 mb-4 profileView info p-3 mt-2"
+              className="text-left p-0 mb-4 profileView info p-3 mt-2 mt-2"
             >
-             
+
               {SingleId.createdBy === "provider" && profileCard()}
               <Card.Body className="pb-2 border_bottom mb-1">
                 <div className="pb-2 d-flex justify-content-between align-items-baseline">
-                  
+
                   <Card.Title className="text-primary">
                     User Information
                   </Card.Title>

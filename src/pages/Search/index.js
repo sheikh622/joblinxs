@@ -37,8 +37,13 @@ const Search = (props) => {
     const dispatch = useDispatch();
     const [loader, setLoader] = useState(true);
     const YOUR_GOOGLE_MAPS_API_KEY = "AIzaSyBJWt1Yh6AufjxV8B8Y8UVz_25cYV1fvhs";
-
     const history = useHistory();
+    const params = useLocation();
+    const activeForm = history?.location?.state
+    const SeekerList = useSelector((state) => state?.Seeker?.getSeekerListing?.jobs);
+    const auth = useSelector((state) => state.auth.Auther);
+    // const Filter = useSelector((state) => state?.Seeker?.FilterList);
+    const place = useSelector((state) => state?.geometry?.location?.lat);
     const Filter = useSelector((state) => state?.Seeker?.FilterList?.jobs);
 
     const CategoryData = useSelector((state) => state?.Seeker?.CategoryList);
@@ -112,6 +117,10 @@ const Search = (props) => {
     }, []);
     const Distance = [
         {
+            value: "None",
+            label: "None",
+        },
+        {
             value: "100",
             label: "100 KM",
         },
@@ -125,6 +134,10 @@ const Search = (props) => {
         },
     ];
     const Rating = [
+        {
+            value: "None",
+            label: "None",
+        },
         {
             value: "1",
             label: "1",
@@ -147,6 +160,7 @@ const Search = (props) => {
         },
     ];
     const Hourly = [
+       
         {
             value: "Low",
             label: "Low",

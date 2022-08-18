@@ -20,7 +20,7 @@ import Select from "react-select";
 import * as Yup from "yup";
 import profile from "../../assets/img/upload.png";
 import AddCategory from "../../components/addCategory";
-import { getJobListing, updateJob, jobById,emergencyJob } from "../../Redux/addJob/actions";
+import { getJobListing, updateJob, jobById, emergencyJob } from "../../Redux/addJob/actions";
 import { getCategoryList } from "../../Redux/Category/actions";
 import DatePicker from "react-date-picker";
 import "react-date-picker/dist/DatePicker.css";
@@ -73,6 +73,9 @@ export const GeneralInfoForm = () => {
   const [endDate, setEndDate] = React.useState(new Date());
   const [adminId, setAdminId] = useState(0);
   const [rate, setRate] = useState("");
+  const [longitude, setLogintude] = useState();
+  const [latitude, setLatitude] = useState();
+
   let jobId = params.pathname.split("/")[2];
 
   useEffect(() => {
@@ -174,9 +177,11 @@ export const GeneralInfoForm = () => {
             : experience.value,
         days: days,
         hours: hours,
-        location: location,
+        longitude: longitude ? longitude : "",
+        latitude: latitude ? latitude : "",
+
         startDate: startDate,
-        endDate: onGoing ? "": endDate,
+        endDate: onGoing ? "" : endDate,
         isOngoing: onGoing,
         setReset: action.resetForm,
         setShowDefault: setShowDefault,
@@ -192,7 +197,7 @@ export const GeneralInfoForm = () => {
       } else {
         if (isPost) {
           dispatch(getJobListing(data));
-        } if(!emergency){
+        } if (!emergency) {
           dispatch(updateJob(data, id));
         }
       }
@@ -226,20 +231,22 @@ export const GeneralInfoForm = () => {
     apiKey: YOUR_GOOGLE_MAPS_API_KEY,
     onPlaceSelected: (place) => {
       setLocation(place.formatted_address);
+      setLogintude(place.geometry.location.lng());
+      setLatitude(place.geometry.location.lat())
     },
     options: {
       types: ["(regions)"],
     },
     defaultValue: location,
   });
-const handleEmergency=()=>{
-  dispatch(emergencyJob({
-    id:jobId,
-    setShowDefaultEmergency:setShowDefaultEmergency,
-    history: history,
+  const handleEmergency = () => {
+    dispatch(emergencyJob({
+      id: jobId,
+      setShowDefaultEmergency: setShowDefaultEmergency,
+      history: history,
 
-  }));
-}
+    }));
+  }
   return (
     <>
       <Col className={"d-flex justify-content-center"}>
@@ -680,10 +687,10 @@ const handleEmergency=()=>{
             </Row>
 
             <div className="mt-3 d-flex justify-content-end">
-              {SingleId?.length === 0 ||  SingleId?.status === "pending" ? (
+              {SingleId?.length === 0 || SingleId?.status === "pending" ? (
                 <Button variant="primary" type="submit" show={showDefaults} className="mx-2">
                   {id ? "Update Job" : "Post Job"}
-                </Button>):""}
+                </Button>) : ""}
 
               {SingleId?.status === "pending" || SingleId?.status === "Accepted" ? (
                 <Button
@@ -697,7 +704,7 @@ const handleEmergency=()=>{
                 >
                   Emergency Post
                 </Button>
-              ):""}
+              ) : ""}
               {id && (
                 <Button
                   variant="primary"
