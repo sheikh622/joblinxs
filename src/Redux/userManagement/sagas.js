@@ -25,7 +25,7 @@ function* userListRequest({ payload }) {
     };
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      `user/admin/user-list?page=${payload.page}&count=${payload.limit}&keyword=${payload.search}&usertype=${payload.type}`,
+      `user/admin/user-list?page=${payload.page}&count=${payload.limit}&keyword=${payload.search}&usertype=${payload.type}&status=${payload.status}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -57,6 +57,7 @@ function* userBlockSaga({ payload }) {
         limit: payload.limit,
         type: payload.type,
         search: payload.search,
+        status: payload.status,
       })
     );
     yield put(getUserBlockSuccess());

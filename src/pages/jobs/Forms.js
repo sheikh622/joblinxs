@@ -179,7 +179,7 @@ export const GeneralInfoForm = () => {
         hours: hours,
         longitude: longitude ? longitude : "",
         latitude: latitude ? latitude : "",
-
+        location:location,
         startDate: startDate,
         endDate: onGoing ? "" : endDate,
         isOngoing: onGoing,

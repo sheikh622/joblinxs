@@ -62,8 +62,9 @@ function* addJob({ payload }) {
   formData.append("unit", payload.unit);
   formData.append("hours", payload.hours);
   formData.append("days", payload.days);
-  formData.append("longitude", JSON.stringify([payload.longitude]));
-  formData.append("latitude", JSON.stringify([payload.latitude]));
+  formData.append("location", JSON.stringify([payload.longitude]));
+  formData.append("longitude", payload.longitude);
+  formData.append("latitude", payload.latitude);
   formData.append("noOfProviders", payload.noOfProviders);
   formData.append("toolsNeeded", payload.toolsNeeded);
   formData.append("experienceRequired", payload.experienceRequired);
@@ -209,6 +210,8 @@ function* updateJobSaga(payload) {
   formData.append("hours", payload.payload.hours);
   formData.append("days", payload.payload.days);
   formData.append("location", JSON.stringify([payload.payload.location]));
+  formData.append("longitude", payload.payload.longitude);
+  formData.append("latitude", payload.payload.latitude);
   formData.append("noOfProviders", payload.payload.noOfProviders);
   formData.append("toolsNeeded", payload.payload.toolsNeeded);
   formData.append("experienceRequired", payload.payload.experienceRequired);
