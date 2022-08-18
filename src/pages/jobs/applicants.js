@@ -3,8 +3,12 @@ import {
   Container,
   Row,
   Tab,
-  Tabs
+  Tabs,
+  Col,
+  Button,
 } from "@themesberg/react-bootstrap";
+import { Link } from "react-router-dom";
+import { Routes } from "../../routes";
 import Navbar from "../../components/Navbar";
 import AppliedApplicants from "./appliedApplicants";
 import HiredApplicants from "./hiredApplicants"
@@ -15,6 +19,14 @@ const Applicants = (value) => {
     <>
       <Navbar module={"Applicants"} />
       <Container>
+      <Col xs={12} xl={12} className={'d-flex justify-content-end mb-2'}>
+                <Link className="text-white fw-bold" to={Routes.Job.path}>
+                  <Button variant="primary" type="submit">
+                    {"  "}
+                    Back
+                  </Button>
+                </Link>
+              </Col>
         <Row className="py-2 ">
           <Tabs
             id="controlled-tab-example"

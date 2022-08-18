@@ -263,27 +263,52 @@ const Mainchat = () => {
         onHide={handleClose}
       >
         <Modal.Header>
-          <Modal.Title className="h5">Block User</Modal.Title>
+          <Modal.Title className="h5">
+            {blockedBy ? "Unblock" : "Block"} User
+          </Modal.Title>
           <Button variant="close" aria-label="Close" onClick={handleClose} />
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group>Are you sure you want to Block this User?</Form.Group>
+            <Form.Group>
+              Are you sure you want to {blockedBy ? "Unblock" : "Block"} this
+              User?
+            </Form.Group>
             <Form.Group>
               <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
-                <Button
-                  variant="primary"
-                  // onHide={handleClose}
-                  color="dark"
-                  size="sm"
-                  // type="submit"
-                  onClick={() => {
-                    handleBlock();
-                    handleClose();
-                  }}
-                >
-                  Block
-                </Button>
+                {blockedBy ? (
+                  <>
+                    <Button
+                      variant="primary"
+                      // onHide={handleClose}
+                      color="dark"
+                      size="sm"
+                      // type="submit"
+                      onClick={() => {
+                        handleUnBlock();
+                        handleClose();
+                      }}
+                    >
+                      Unblock
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      variant="primary"
+                      // onHide={handleClose}
+                      color="dark"
+                      size="sm"
+                      // type="submit"
+                      onClick={() => {
+                        handleBlock();
+                        handleClose();
+                      }}
+                    >
+                      Block
+                    </Button>
+                  </>
+                )}
               </div>
             </Form.Group>
           </Form>

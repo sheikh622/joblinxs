@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Card,
@@ -17,10 +17,13 @@ import { rateProvider } from "../Redux/addJob/actions";
 
 const ModalComponent = (props) => {
   const dispatch = useDispatch();
+ 
   const [rating, setRating] = useState(0); // initial rating value
+
   const RatingSchema = Yup.object().shape({
     // description: Yup.string().required("Description is required"),
   });
+ 
   const RatingFormik = useFormik({
     initialValues: {
       description: "",
