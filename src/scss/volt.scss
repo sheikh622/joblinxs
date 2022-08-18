@@ -126,6 +126,7 @@ svg {
     white-space: pre-line;
     p {
       margin-bottom: 0px;
+      cursor: pointer;
     }
     h3{
         color: white;
@@ -134,4 +135,10 @@ svg {
         border-top: 1px solid;
         padding-top: 10px;
     }
+}
+.chatInput{
+  h3{
+    border-top: 1px solid;
+    padding: 10px;
+  }
 }

@@ -32,21 +32,15 @@ import { Rating } from "react-simple-star-rating";
 import Slider from "@mui/material/Slider";
 import { setDate } from "date-fns";
 
+
 const Search = (props) => {
     const dispatch = useDispatch();
     const [loader, setLoader] = useState(true);
     const YOUR_GOOGLE_MAPS_API_KEY = "AIzaSyBJWt1Yh6AufjxV8B8Y8UVz_25cYV1fvhs";
 
     const history = useHistory();
-    const params = useLocation();
-    const activeForm = history?.location?.state
+    const Filter = useSelector((state) => state?.Seeker?.FilterList?.jobs);
 
-    const SeekerList = useSelector((state) => state?.Seeker?.getSeekerListing?.jobs);
-    const auth = useSelector((state) => state.auth.Auther);
-    const Filter = useSelector((state) => state?.Seeker?.FilterList);
-
-    const place = useSelector((state) => state?.geometry?.location?.lat);
-   
     const CategoryData = useSelector((state) => state?.Seeker?.CategoryList);
     const [valuetext, setValuetext] = useState()
     const [data, setData] = useState()
@@ -60,15 +54,15 @@ const Search = (props) => {
     const [hourlyRate, setHourlyRate] = useState();
     const [longitude, setLogintude] = useState();
     const [latitude, setLatitude] = useState();
-    const [none, setNone] = useState();
-    const [high, setHigh] = useState();
-    const [low, setLow] = useState();
-    const [featured, setFeatured] = useState();
     const [rating, setRating] = useState(0); // initial rating value
     const [limit] = useState("10");
     const [page, setPage] = useState(1);
-    const [topRatedProvider, setTopRatedProvider] = useState()
 
+    useEffect(() => {
+        if (Filter !== undefined) {
+          setData(Filter)
+        }
+      }, [Filter])
     const nextPage = () => {
         if (page < Filter?.pages) {
             setPage(page + 1);
@@ -79,6 +73,7 @@ const Search = (props) => {
             setPage(page - 1);
         }
     };
+
     const paginationItems = () => {
         let items = [];
         for (let number = 1; number <= Filter?.pages; number++) {
@@ -96,19 +91,6 @@ const Search = (props) => {
         }
         return items;
     };
-    const handleClick = (id, value, isFavourite, title) => {
-        let newArray = topRatedProvider;
-        newArray[value].isFavourite = !isFavourite;
-        setTopRatedProvider(() => {
-            return [...newArray];
-        });
-        dispatch(
-            markAsFavouriteJob({
-                id: id,
-                setLoader: setLoader,
-            })
-        );
-    }
     useEffect(() => {
         let array = [];
         CategoryData.map((item) => {
@@ -128,27 +110,6 @@ const Search = (props) => {
             })
         );
     }, []);
-    const handlefalse = () => {
-        setShowDefault(false);
-    }
-    const handleRating = (rate) => {
-        setRating(rate);
-    };
-
-    const currencies = [
-        {
-            value: "",
-            label: "All Users",
-        },
-        {
-            value: "provider",
-            label: "Service Provider",
-        },
-        {
-            value: "seeker",
-            label: "Service Seeker",
-        },
-    ];
     const Distance = [
         {
             value: "100",
@@ -196,19 +157,16 @@ const Search = (props) => {
         },
 
     ];
-    const handleChange = (event) => {
-        setType(event.target.value);
-    };
-    const handleRate = (event) => {
+    const handleClicks = (event) => {
         setRating(event.target.value);
     };
     const handleDistance = (event) => {
         setDistance(event.target.value);
     };
     const handleHourly = (event) => {
+        console.log("jhk", event)
         setHourlyRate(event.target.value);
     };
-    console.log("==========", hourlyRate)
     useEffect(() => {
         dispatch(
             getCategoryListing({
@@ -242,9 +200,21 @@ const Search = (props) => {
             })
         )
     }, [page, limit, categories, rating, hourlyRate, longitude, latitude, distance]);
+    const handleClick = (id, value, isFavourite, title) => {
+          let newArray = data;
+          newArray[value].isFavourite = !isFavourite;
+          setData(() => {
+            return [...newArray];
+          });
+        dispatch(
+          markAsFavouriteJob({
+            id: id,
+          })
+        );
+      }
     return (
         <>
-            <Navbar module={"Search"} />
+            <Navbar module={"Search By Category"} />
             <Container>
                 <Row className="pt-2 pb-4">
                     <Col lg={12} md={12} xs={12} className="pb-3 mb-3">
@@ -292,7 +262,7 @@ const Search = (props) => {
                                         defaultValue="1"
                                         label="Select"
                                         value={rating}
-                                        onChange={handleRate}
+                                        onChange={handleClicks}
                                     >
                                         {Rating.map((option) => (
                                             <option key={option.value} value={option.value}>
@@ -322,10 +292,12 @@ const Search = (props) => {
                                 </Form.Group>
                             </Col>
                         </Modal.Header>
+
+
                     </Col>
-                    {Filter?.jobs?.length > 0 ? (
+                    {data?.length > 0 ? (
                         <>
-                            {Filter?.jobs?.map((item) => {
+                            {data?.map((item, index) => {
                                 return (
                                     <Col lg={2} md={4} sm={6} xs={12} className="pb-3 mt-3">
                                         <CommonCard
@@ -333,6 +305,8 @@ const Search = (props) => {
                                             name={item?.name ? item?.name : "N/A"}
                                             jobType={item?.jobType ? item?.jobType : "N/A"}
                                             id={item.id}
+                                            index={index}
+                                            handleClick={handleClick}
                                             // item={item ? item : null}
                                             rate={item?.rate ? item?.rate : "N/A"}
                                             completed={"90"}
@@ -343,8 +317,7 @@ const Search = (props) => {
                                             // limit={limit}
                                             // type={type}
                                             // category={categoryType}
-                                            favourite={item.isFavourite}
-                                            handleClick={handleClick}
+                                            isFavourite={item.isFavourite}
                                         />
                                     </Col>
                                 );
