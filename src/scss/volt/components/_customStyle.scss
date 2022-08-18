@@ -9,6 +9,7 @@
         font-size: 13px;
     }
 }
+
 .profileView.info {
     p {
         font-weight: 600;
@@ -157,7 +158,9 @@
 }
 
 .management_table {
-    tbody tr td:nth-child(1) ,tbody tr td:nth-child(2) {
+
+    tbody tr td:nth-child(1),
+    tbody tr td:nth-child(2) {
         white-space: nowrap;
         max-width: 200px !important;
         overflow: hidden;
@@ -165,21 +168,26 @@
     }
 }
 
-.table td{
+.table td {
     font-size: 13px;
 }
 
-.cursorPointer{
+.cursorPointer {
     cursor: pointer !important;
-  
-    input{
+
+    input {
         cursor: pointer !important;
     }
 }
+
 .table thead th {
- text-transform:none
+    text-transform: none
 }
 
 // .invalid-feedback{
 //     display: block !important;
 // }
+
+.pac-container {
+    // display: none;
+}

@@ -33,6 +33,8 @@ import { height, width } from "@mui/system";
 import { Link } from "react-router-dom";
 import NoRecordFound from "../../components/NoRecordFound";
 import DetailHeading from "../../components/DetailHeading";
+import { Routes } from "../../routes";
+
 const LogHours = (item) => {
     const dispatch = useDispatch();
     // let usersId= sessionStorage.getItem("userId");
@@ -97,6 +99,14 @@ const LogHours = (item) => {
         <>
             <Navbar module={"Log Hours"} />
             <Container>
+                <Col xs={12} xl={12} className={'d-flex justify-content-end mb-2'}>
+                    <Link className="text-white fw-bold" to={Routes.Job.path}>
+                        <Button variant="primary" type="submit">
+                            {"  "}
+                            Back
+                        </Button>
+                    </Link>
+                </Col>
                 <Row className="py-2 "></Row>
                 <Row className="py-2 justify-content-between">
                     {logHours?.log_hours.length > 0 ? (
@@ -198,8 +208,8 @@ const LogHours = (item) => {
                                             <DetailHeading
                                                 heading={"Hours Logged"}
                                                 value={<span>
-                                                    {selectedItem?.hours ? selectedItem?.hours +" " +"hours" : "00 hours"}{" : "}
-                                                    {selectedItem?.minutes ? selectedItem?.minutes+ " " +"minutes" : "00 minutes"}
+                                                    {selectedItem?.hours ? selectedItem?.hours + " " + "hours" : "00 hours"}{" : "}
+                                                    {selectedItem?.minutes ? selectedItem?.minutes + " " + "minutes" : "00 minutes"}
                                                 </span>}
                                             />
                                             <DetailHeading

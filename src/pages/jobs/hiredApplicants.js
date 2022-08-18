@@ -21,6 +21,8 @@ import { getHiredApplicants, completeJob } from "../../Redux/addJob/actions";
 import { useHistory, useLocation } from "react-router-dom";
 import NoRecordFound from "../../components/NoRecordFound";
 import RateModal from "../../components/modal";
+import { Rating } from "react-simple-star-rating";
+
 const Applicants = ({ id }) => {
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
@@ -42,6 +44,8 @@ const Applicants = ({ id }) => {
   );
   const auth = useSelector((state) => state?.auth?.Auther);
   const Pageination = useSelector((state) => state?.addJob?.Applicants?.data);
+  const [rating, setRating] = useState(0); // initial rating value
+
   useEffect(() => {
     if (id === "Hired") {
       dispatch(
@@ -150,6 +154,9 @@ const Applicants = ({ id }) => {
   const handleMove = (item) => {
     history.push(`/LogHours/${item?.jobs?.id}?${item?.users?.id}`);
   };
+  const handleRating = (rate) => {
+    setRating(rate);
+  };
   return (
     <>
       <Container>
@@ -178,16 +185,20 @@ const Applicants = ({ id }) => {
                                 <h3 className="mb-1 mt-2">
                                   {item?.users ? item?.users?.fullName : ""}{" "}
                                 </h3>
-                                <span className="starSpan">
+                                {/* <span className="starSpan">
                                   <FontAwesomeIcon icon={faStar} />
                                   <FontAwesomeIcon icon={faStar} />
                                   <FontAwesomeIcon icon={faStar} />
                                   <FontAwesomeIcon icon={faStar} />
-                                  <FontAwesomeIcon icon={faStar} />{" "}
-                                  <span>
-                                    {item?.rating ? item?.rating : ""}
-                                  </span>
+                                  <FontAwesomeIcon icon={faStar} />{" "} */}
+                                <Rating
+                                  onClick={handleRating}
+                                  ratingValue={item?.users?.profile_rating ? item?.users?.profile_rating*20 : ""} /* Available Props */
+                                />
+                                <span>
+                                  {item?.users?.profile_rating ? item?.users?.profile_rating : ""}
                                 </span>
+                                {/* </span> */}
                                 <p className="mt-2">
                                   Jobs Completed: <span>25</span>{" "}
                                 </p>

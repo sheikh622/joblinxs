@@ -23,7 +23,7 @@ import Applicants from "./jobs/applicants";
 import LogHourDetails from "./jobs/logHourDetails";
 import LogHours from "./jobs/logHours";
 import Job from "./jobs/Job";
-
+import Search from "./Search";
 import EditProfile from "./profile/editProfile";
 import Profile from "./profile/Profile";
 import userDetail from "./user/userDetail";
@@ -34,6 +34,7 @@ import editAdminProfile from "./AdminProfile/editAdminProfile";
 import adminProfile from "./AdminProfile/adminProfile";
 import MyJobDetails from "./jobs/myJobDetails";
 import BusinessCategories from "./businessCategory/index"
+import Chat from "./Chat/main"
 // changes merge
 export default () => (
   <BrowserRouter>
@@ -49,8 +50,13 @@ export default () => (
         component={ResetPassword}
       />
       <PublicRoute exact path={Routes.NotFound.path} component={NotFoundPage} />
+      
       <PublicRoute exact path={Routes.Signin.path} component={Signin} />
-
+      <PrivateRoute
+        exact
+        path={Routes.Chat.path}
+        component={Chat}
+      />
       <PrivateRoute
         exact
         path={Routes.DashboardOverview.path}
@@ -90,7 +96,7 @@ export default () => (
         component={EditProfile}
       />
       <PrivateRoute exact path={Routes.Job.path} component={Job} />
-    
+
       <PrivateRoute exact path={Routes.CreateJob.path} component={CreateJob} />
       <PrivateRoute exact path={Routes.UpdateJob.path} component={CreateJob} />
       <PrivateRoute
@@ -106,7 +112,11 @@ export default () => (
         path={Routes.Favourites.path}
         component={Favourites}
       />
-
+      <PrivateRoute
+        exact
+        path={Routes.Search.path}
+        component={Search}
+      />
       <PrivateRoute
         exact
         path={Routes.Categories.path}
@@ -117,7 +127,7 @@ export default () => (
         path={Routes.Categories_Management.path}
         component={CategoryManagement}
       />
-        <PrivateRoute
+      <PrivateRoute
         exact
         path={Routes.BusinessCategory.path}
         component={BusinessCategories}

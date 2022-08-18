@@ -13,7 +13,7 @@
 
 // * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. Please contact us to request a removal.
 
-@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800&display=swap");
 
 // Bootstrap mixins and functions
 @import "../../node_modules/bootstrap/scss/mixins";
@@ -44,28 +44,101 @@
 
 // write your custom styles here!
 
-.PhoneInput{
-    padding: 7px 7px !important;
-    // width: 100% !important;
-    border: 0.0625rem solid #d1d7e0;
-    border-radius: 0.5rem;
-    input {
-        border: none;
+.PhoneInput {
+  padding: 7px 7px !important;
+  // width: 100% !important;
+  border: 0.0625rem solid #d1d7e0;
+  border-radius: 0.5rem;
+  input {
+    border: none;
+  }
+}
+.invalid-phone {
+  color: red;
+  padding: 5px;
+}
+.notification-list {
+  height: 400px;
+  overflow-y: scroll;
+}
+.job-list {
+  height: 300px;
+  overflow-y: scroll;
+}
+.job-list::-webkit-scrollbar {
+  display: none;
+}
+svg {
+  cursor: pointer;
+}
+.chatList {
+  border-right: 1px solid #12499c;
+  height: 600px;
+  overflow-y: scroll;
+  ul {
+    padding-left: 0px;
+  }
+}
+.chatList::-webkit-scrollbar {
+  display: none;
+}
+.chat-div {
+  height: 610px !important;
+}
+.sendMessage {
+  background-color: #e7f5ff;
+  padding: 15px;
+  margin-left: 45%;
+  border-radius: 10px;
+  margin-top: 5px;
+  max-width: 50%;
+  align-self: flex-end;
+  color: black;
+  text-align: end;
+  white-space: pre-line;
+  p {
+    margin-bottom: 0px;
+  }
+}
+.receivedMessage {
+  background-color: #12499c;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: end;
+  margin-top: 5px;
+  max-width: 50%;
+  align-self: flex-start;
+  color: white;
+  white-space: pre-line;
+  p {
+    margin-bottom: 0px;
+  }
+}
+.customOffer{
+    background-color: #12499c;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 5px;
+    max-width: 50%;
+    width: 30%;
+    align-self: flex-start;
+    color: white;
+    white-space: pre-line;
+    p {
+      margin-bottom: 0px;
+      cursor: pointer;
+    }
+    h3{
+        color: white;
+    }
+    .customButton{
+        border-top: 1px solid;
+        padding-top: 10px;
     }
 }
-.invalid-phone{
-    color: red;
-    padding: 5px;
-}
-.notification-list{
-    height: 400px;
-    overflow-y: scroll;
-}
-.job-list{
-    height: 300px;
-    overflow-y: scroll;
-}
-.job-list::-webkit-scrollbar {display:none;}
-svg{
-    cursor: pointer;
+.chatInput{
+  h3{
+    border-top: 1px solid;
+    padding: 10px;
+  }
 }

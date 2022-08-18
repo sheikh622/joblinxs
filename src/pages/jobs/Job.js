@@ -40,7 +40,7 @@ const Job = () => {
   } = history;
   const login = useSelector((state) => state?.auth.Auther);
   const JobList = useSelector((state) => state?.addJob?.getJob);
-
+  console.log("vmshjdf,nkf",JobList)
   const [page, setPage] = useState(1);
   const [type, setType] = useState("");
   const [category, setCategory] = useState([]);
@@ -205,7 +205,7 @@ const Job = () => {
                       item={item ? item : null}
                       rate={item?.rate ? item?.rate : "N/A"}
                       completed={"90"}
-                      star={item?.user_job?.users?.profile_rating ? item?.user_job?.users?.profile_rating : "--"}
+                      star={item?.rating}
                       myJobs= {true}
                       page={page}
                       job="job"

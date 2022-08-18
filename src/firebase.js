@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getStorage } from "firebase/storage";
+// import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore"
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
@@ -40,9 +40,13 @@ export const onMessageListener = () =>{
 
 }
 
-export const myStorage = ()=> {
-  return getStorage(firebaseConfig);
-}
-export const myFirestore = ()=> {
-  return getFirestore();
-}
+const db = getFirestore(firebaseApp);
+
+export {db};
+
+// export const myStorage = ()=> {
+//   return getStorage(firebaseConfig);
+// }
+// export const myFirestore = ()=> {
+//   return getFirestore();
+// }
