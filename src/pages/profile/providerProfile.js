@@ -31,6 +31,9 @@ import NoRecordFound from "../../components/NoRecordFound";
 import Report from "../../components/report";
 import { Routes } from "../../routes";
 import { Link } from "react-router-dom";
+import { Rating } from "react-simple-star-rating";
+
+
 
 const ProviderProfile = (props) => {
   const dispatch = useDispatch();
@@ -41,6 +44,8 @@ const ProviderProfile = (props) => {
   const [BlockUserSaga, setBlockUserSaga] = useState(false)
   const [showDefault, setShowDefault] = useState(false);
   const [adminId, setAdminId] = useState(0);
+  const [rating, setRating] = useState(0); // initial rating value
+
   const params = useLocation();
   let profileId = params.pathname.split("/")[2];
   useEffect(() => {
@@ -53,20 +58,18 @@ const ProviderProfile = (props) => {
   const handleMove = () => {
     history.push(`/chat?${profileId}`)
   }
-
+  const handleRating = (rate) => {
+    setRating(rate);
+  };
 
   return (
     <>
       <Navbar module={"Detail Profile"} />
       <Container>
         <Col xs={12} xl={12} className={'d-flex justify-content-end mb-2'}>
-          <Link className="text-white fw-bold" to={Routes.DashboardOverview.path}>
-            <Button variant="primary" type="submit">
-              {"  "}
-              Back
-            </Button>
-          </Link>
+        <Button onClick={() => history.goBack()}>Back</Button>
         </Col>
+        
         <Row>
           <Col lg={4} md={6} xs={12} className="pb-3 mb-3">
             <Card border="light" className="card-box-shadow py-3 px-4 mb-3">
@@ -77,13 +80,11 @@ const ProviderProfile = (props) => {
                 />
                 <h3 className="mb-1 mt-3">{getById?.fullName}</h3>
                 <h5 className="text-gray">{getById?.profileType}</h5>
-                <span className="starIcon">
-                  <FontAwesomeIcon icon={faStar} />
-                  <FontAwesomeIcon icon={faStar} />
-                  <FontAwesomeIcon icon={faStar} />
-                  <FontAwesomeIcon icon={faStar} />
-                  <FontAwesomeIcon icon={faStar} />
-                </span>
+                <Rating
+                  onClick={handleRating}
+                  allowHover={false}
+                  ratingValue={getById?.profile_rating ? getById?.profile_rating * 20 : "0"} /* Available Props */
+                />
                 <span className="text-gray d-block">(7Reviews)</span>
                 <span className="text-gray d-block mt-2">
                   Overall Jobs: <span className="text-black">25</span>
@@ -111,7 +112,7 @@ const ProviderProfile = (props) => {
                           rate={item.rate}
                           id={item.id}
                           completed={"10"}
-                          star={"3.6"}
+                          star={item.rating}
                         />
                       </Col>
                     );
