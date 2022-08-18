@@ -45,6 +45,9 @@ const UserManagement = (row) => {
   const [adminId, setAdminId] = useState(0);
   const [type, setType] = React.useState("all");
   const [showDefault, setShowDefault] = useState(false);
+  const [category, setCategory] = useState([]);
+  const [categoryType, setCategoryType] = useState("");
+
   const addUsers = () => {
     setShowDefault(true);
   }
@@ -54,6 +57,9 @@ const UserManagement = (row) => {
   const handleChange = (event) => {
     setType(event.target.value);
   };
+  const handleFilter = (event) => {
+    setCategoryType(event.target.value)
+  }
   const [blockUser, setBlockUser] = useState(row.isActive);
   useEffect(() => {
     setBlockUser(row.isActive);
@@ -89,6 +95,20 @@ const UserManagement = (row) => {
     );
   }, [page, limit, type, search]);
 
+  const filter = [
+    {
+      value: "all",
+      label: "All Users",
+    },
+    {
+      value: "provider",
+      label: "Service Provider",
+    },
+    {
+      value: "seeker",
+      label: "Service Seeker",
+    },
+  ];
   const currencies = [
     {
       value: "all",
@@ -279,6 +299,20 @@ const UserManagement = (row) => {
                 </Col>
                 <Col lg={3} md={5}>
                   <Form.Group className="mt-3">
+                    <Form.Select defaultValue="1" label="Select"
+                      value={categoryType}
+                      onChange={handleFilter}
+                    >
+                      {filter.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </Form.Select>
+                  </Form.Group>
+                </Col>
+                <Col lg={3} md={5}>
+                  <Form.Group className="mt-3">
                     <Form.Select
                       defaultValue="1"
                       label="Select"
@@ -297,44 +331,44 @@ const UserManagement = (row) => {
               <Card.Body className="pt-0">
                 {userList?.users?.length > 0 ? (
                   <>
-                <Table hover className="user-table align-items-center">
-                  <thead>
-                    <tr>
-                      <th className="border-bottom">Full Name</th>
-                      <th className="border-bottom">Email</th>
-                      <th className="border-bottom">Phone number</th>
-                      <th className="border-bottom">User status</th>
-                      <th className="border-bottom">Block / Unblock</th>
-                      <th className="border-bottom">Action</th>
-                    </tr>
-                  </thead>
-                 
-                    <tbody>
-                      {userList?.users?.map((t, index) => (
-                        <TableRow key={index} item={t} />
-                      ))}
-                    </tbody>
-                 
-                </Table>
-                <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
-                  <Nav>
-                    <Pagination size={"sm"} className="mb-2 mb-lg-0">
-                      <Pagination.Prev onClick={() => previousPage()}>
-                        <FontAwesomeIcon icon={faAngleDoubleLeft} />
-                      </Pagination.Prev>
-                      {paginationItems()}
-                      <Pagination.Next onClick={() => nextPage()}>
-                        <FontAwesomeIcon icon={faAngleDoubleRight} />
-                      </Pagination.Next>
-                    </Pagination>
-                  </Nav>
-                  .
-                  <small className="fw-bold">
-                    Showing <b>{userList?.users?.length}</b> out of{" "}
-                    <b>{userList?.totalUsers}</b> entries
-                  </small>
-                </Card.Footer>
-                </>
+                    <Table hover className="user-table align-items-center">
+                      <thead>
+                        <tr>
+                          <th className="border-bottom">Full Name</th>
+                          <th className="border-bottom">Email</th>
+                          <th className="border-bottom">Phone number</th>
+                          <th className="border-bottom">User status</th>
+                          <th className="border-bottom">Block / Unblock</th>
+                          <th className="border-bottom">Action</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        {userList?.users?.map((t, index) => (
+                          <TableRow key={index} item={t} />
+                        ))}
+                      </tbody>
+
+                    </Table>
+                    <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+                      <Nav>
+                        <Pagination size={"sm"} className="mb-2 mb-lg-0">
+                          <Pagination.Prev onClick={() => previousPage()}>
+                            <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                          </Pagination.Prev>
+                          {paginationItems()}
+                          <Pagination.Next onClick={() => nextPage()}>
+                            <FontAwesomeIcon icon={faAngleDoubleRight} />
+                          </Pagination.Next>
+                        </Pagination>
+                      </Nav>
+                      .
+                      <small className="fw-bold">
+                        Showing <b>{userList?.users?.length}</b> out of{" "}
+                        <b>{userList?.totalUsers}</b> entries
+                      </small>
+                    </Card.Footer>
+                  </>
                 ) : (
                   <NoRecordFound />
                 )}

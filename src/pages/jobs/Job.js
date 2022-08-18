@@ -31,6 +31,7 @@ import { Routes } from "../../routes";
 import { getJobs } from "../../Redux/addJob/actions";
 import { display } from "@mui/system";
 import NoRecordFound from "../../components/NoRecordFound";
+import Select from "react-select";
 
 const Job = () => {
   const dispatch = useDispatch();
@@ -40,10 +41,12 @@ const Job = () => {
   } = history;
   const login = useSelector((state) => state?.auth.Auther);
   const JobList = useSelector((state) => state?.addJob?.getJob);
-  console.log("vmshjdf,nkf",JobList)
   const [page, setPage] = useState(1);
   const [type, setType] = useState("");
   const [category, setCategory] = useState([]);
+  const [categories, setCategories] = useState(null);
+  const [categoryList, setCategoryList] = useState([]);
+
   const [limit] = useState("10");
   const [adminId, setAdminId] = useState("");
   const [categoryType, setCategoryType] = useState("");
@@ -55,21 +58,33 @@ const Job = () => {
     setType(event.target.value);
   };
   const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
-  useEffect(() => {
-    let array = [
-      {
-        value: "ALL",
-        label: "All",
-      },
-    ];
-    CategoryData.map((item) => {
-      array.push({
-        value: item?.title,
-        label: item?.title,
-      });
-    });
-    setCategory(array);
-  }, [CategoryData]);
+
+  // useEffect(() => {
+  //   let array = [
+  //     {
+  //       value: "ALL",
+  //       label: "All",
+  //     },
+  //   ];
+  //   CategoryData.map((item) => {
+  //     array.push({
+  //       value: item?.title,
+  //       label: item?.title,
+  //     });
+  //   });
+  //   setCategory(array);
+  // }, [CategoryData]);
+//   useEffect(() => {
+//     let array = [];
+//     CategoryData.map((item) => {
+//         array.push({
+//             value: [{ id: item.id, title: item.title, details: item.details }],
+//             label: item?.title,
+//         });
+//     });
+//     setCategoryList(array);
+// }, [CategoryData]);
+
   const currencies = [
     {
       value: "all",
@@ -94,7 +109,7 @@ const Job = () => {
     {
       value: "canceled",
       label: "Canceled"
-      
+
     }
   ];
   useEffect(
@@ -105,11 +120,12 @@ const Job = () => {
           page: page,
           limit: limit,
           type: type,
-          category: categoryType,
+          category: categories ? categories : "",
+
         })
       );
     },
-    [page, limit, type, categoryType]
+    [page, limit, type, categories]
   );
 
   const nextPage = () => {
@@ -140,7 +156,7 @@ const Job = () => {
     }
     return items;
   };
-  
+
   return (
     <>
       <Navbar module={"My Jobs"} />
@@ -163,7 +179,17 @@ const Job = () => {
                   ))}
                 </Form.Select>
               </Form.Group>
+             
             </Col>
+            {/* <Col lg={4} md={4} className="mb-1">
+                <Form.Group>
+                  <Select
+                    defaultValue={categories}
+                    onChange={(e) => setCategories(e.label)}
+                    options={categoryList}
+                  />
+                </Form.Group>
+              </Col> */}
             <span className="d-flex align-items-baseline mb-3">
               <a className="text-white fw-bold" href={Routes.CreateJob.path}>
                 <Button variant="primary" className="mx-2">
@@ -206,7 +232,7 @@ const Job = () => {
                       rate={item?.rate ? item?.rate : "N/A"}
                       completed={"90"}
                       star={item?.rating}
-                      myJobs= {true}
+                      myJobs={true}
                       page={page}
                       job="job"
                       limit={limit}
