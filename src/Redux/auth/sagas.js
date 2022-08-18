@@ -27,12 +27,14 @@ function* loginRequestSaga({ payload }) {
     localStorage.setItem("Token", response.data.data.access_token);
     toast.success("Login Successfully");
     yield put(loginRequestSuccess(response.data.data));
+    payload.setLoader(false);
     let path =
       response.data.data.user.userRole == "Admin"
         ? "/user_management"
         : "/dashboard";
     payload.history.push(path);
     payload.resetForm();
+   
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
