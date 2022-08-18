@@ -110,7 +110,7 @@ export default () => {
                         <FontAwesomeIcon icon={faStar} />
                       </Card.Text>
                       <Card.Text className="text-gray mb-2 reviews">
-                        (7 Reviews)
+                        (0 Reviews)
                       </Card.Text>
 
                       <Card.Text className="text-gray mb-0">

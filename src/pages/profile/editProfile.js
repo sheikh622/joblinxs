@@ -32,8 +32,8 @@ import { getMultiValue } from "chartist";
 import { height, width } from "@mui/system";
 import startsWith from "lodash.startswith";
 import { gridColumnLookupSelector } from "@mui/x-data-grid";
-import DatePicker from "react-date-picker";
-import "react-date-picker/dist/DatePicker.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { useHistory, useLocation } from "react-router-dom";
 import moment from "moment";
 export default () => {
@@ -215,7 +215,7 @@ export default () => {
                         {errors.fullName?.message}
                       </div>
                     </Form.Group>
-                    <Col md={2} className="mb-3">
+                    <Col md={12} className="mb-3">
                       <Form.Label>Date of Birth</Form.Label>
                       <DatePicker
                         selected={dateofBirth}
