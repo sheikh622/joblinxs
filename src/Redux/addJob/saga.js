@@ -62,7 +62,7 @@ function* addJob({ payload }) {
   formData.append("unit", payload.unit);
   formData.append("hours", payload.hours);
   formData.append("days", payload.days);
-  formData.append("location", JSON.stringify([payload.longitude]));
+  formData.append("location", JSON.stringify([payload.location]));
   formData.append("longitude", payload.longitude);
   formData.append("latitude", payload.latitude);
   formData.append("noOfProviders", payload.noOfProviders);

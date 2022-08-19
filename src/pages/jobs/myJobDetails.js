@@ -98,6 +98,7 @@ const MyJobDetails = (item, props) => {
         </h5>
         <Rating
           onClick={handleRating}
+          readonly={true}
           allowHover={false}
           ratingValue={SingleId?.rating ? SingleId?.rating * 20 : "0"} /* Available Props */
         />
@@ -237,6 +238,7 @@ const MyJobDetails = (item, props) => {
                         size="lg"
                         className="mt-2 me-1"
                         onClick={handleEdit}
+                        disabled={true}
                       >
                         Hire Now
                       </Button>
