@@ -74,11 +74,13 @@ const Chatboard = ({
   const handleAccept = useCallback(
     (data) => {
       jobOffer = {
-        offeredPrice: data.jobOffer.offeredPrice,
-        title: data.jobOffer.title,
-        offerTo: data.jobOffer.id,
-        offerDate: data.jobOffer.offerDate,
+        offeredPrice: data?.jobOffer?.offeredPrice?data?.jobOffer?.offeredPrice :"",
+        title: data?.jobOffer?.title ? data?.jobOffer?.title:"",
+        offerTo: data?.jobOffer?.title ? data?.jobOffer?.title:"",
+        offerDays: data?.jobOffer?.offerDays ? data?.jobOffer?.offerDays:0,
+        offerHours: data?.jobOffer?.offerHours ? data?.jobOffer?.offerHours:0,
         offerStatus: "Accepted",
+        jobId: data?.jobId ?data?.jobId :"",
       };
       let newData ={
         jobOffer :jobOffer,
@@ -107,11 +109,13 @@ const Chatboard = ({
   const handleDecline = useCallback(
     (data) => {
       jobOffer = {
-        offeredPrice: data.jobOffer.offeredPrice,
-        title: data.jobOffer.title,
-        offerTo: data.jobOffer.title,
-        offerDate: data.jobOffer.offerDate,
+        offeredPrice: data?.jobOffer?.offeredPrice?data?.jobOffer?.offeredPrice :"",
+        title: data?.jobOffer?.title ? data?.jobOffer?.title:"",
+        offerTo: data?.jobOffer?.title ? data?.jobOffer?.title:"",
+        offerDays: data?.jobOffer?.offerDays ? data?.jobOffer?.offerDays:0,
+        offerHours: data?.jobOffer?.offerHours ? data?.jobOffer?.offerHours:0,
         offerStatus: "Rejected",
+        jobId: data?.jobId ?data?.jobId :"",
       };
       if(blockedBy === null){
         updateCustomOffer(data.id, users, jobOffer);
@@ -133,7 +137,7 @@ const Chatboard = ({
         <>
           <div className="sendMessage">
             <p>{currentMessage?.text}</p>
-            <span>{moment(currentMessage.createdAt).format("hh:mm:a")}</span>
+            <span>{moment(currentMessage.createdAt).format("hh:mm a")}</span>
           </div>
           <svg
             width="15"
@@ -212,6 +216,7 @@ const Chatboard = ({
       user={{
         _id: currentUser?.id,
       }}
+      // extraData={messages}
       renderAvatar={null}
       renderInputToolbar={handleInput}
     />
