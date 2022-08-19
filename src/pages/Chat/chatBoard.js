@@ -164,8 +164,8 @@ const Chatboard = ({
                 ? currentMessage?.jobOffer?.title
                 : "Offer Title"}
             </p>
-            <p>{currentMessage?.jobOffer?.offeredPrice}</p>
-            <p>{moment(currentMessage.createdAt).format("hh:mm:a")}</p>
+            <p>${currentMessage?.jobOffer?.offeredPrice}</p>
+            <p>{moment(currentMessage.createdAt).format("hh:mm a")}</p>
             <div className="customButton justify-content-around d-flex">
               {currentMessage?.jobOffer?.offerStatus === "Pending" ? (
                 <>
