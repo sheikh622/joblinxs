@@ -32,6 +32,7 @@ export default () => {
   //   location: { state },
   // } = history;
   const [showDefault, setShowDefault] = useState(false);
+  const [isDisabled, setDisabled] = useState(false);
   const [rating, setRating] = useState(0); // initial rating value
   const handleClose = async () => {
     setShowDefault(false);
@@ -52,6 +53,10 @@ export default () => {
   const handleRating = (rate) => {
     setRating(rate);
   };
+  const handleSubmit = () => {
+    console.log('Your button was clicked and is now disabled');
+    setDisabled(true);
+  }
   return (
     <>
       <Navbar module={"Profile"} />
@@ -111,8 +116,9 @@ export default () => {
                       </Card.Text>
                       <Rating
                         onClick={handleRating}
+                        readonly={true}
                         allowHover={false}
-                        ratingValue={getById?.profile_rating ? getById?.profile_rating*20 :"0" } /* Available Props */
+                        ratingValue={getById?.profile_rating ? getById?.profile_rating * 20 : "0"} /* Available Props */
                       />
                       {/* <Card.Text className="text-gray mb-0 starIcon">
                         <FontAwesomeIcon icon={faStar} />

@@ -42,10 +42,9 @@ const Search = (props) => {
     const activeForm = history?.location?.state
     const SeekerList = useSelector((state) => state?.Seeker?.getSeekerListing?.jobs);
     const auth = useSelector((state) => state.auth.Auther);
-    // const Filter = useSelector((state) => state?.Seeker?.FilterList);
+    const SearchFilter = useSelector((state) => state?.Seeker?.FilterList);
     const place = useSelector((state) => state?.geometry?.location?.lat);
     const Filter = useSelector((state) => state?.Seeker?.FilterList?.jobs);
-
     const CategoryData = useSelector((state) => state?.Seeker?.CategoryList);
     const [valuetext, setValuetext] = useState()
     const [data, setData] = useState()
@@ -65,11 +64,11 @@ const Search = (props) => {
 
     useEffect(() => {
         if (Filter !== undefined) {
-          setData(Filter)
+            setData(Filter)
         }
-      }, [Filter])
+    }, [Filter])
     const nextPage = () => {
-        if (page < Filter?.pages) {
+        if (page < SearchFilter?.pages) {
             setPage(page + 1);
         }
     };
@@ -81,7 +80,7 @@ const Search = (props) => {
 
     const paginationItems = () => {
         let items = [];
-        for (let number = 1; number <= Filter?.pages; number++) {
+        for (let number = 1; number <= SearchFilter?.pages; number++) {
             items.push(
                 <Pagination.Item
                     key={number}
@@ -160,7 +159,7 @@ const Search = (props) => {
         },
     ];
     const Hourly = [
-       
+
         {
             value: "Low",
             label: "Low",
@@ -178,7 +177,6 @@ const Search = (props) => {
         setDistance(event.target.value);
     };
     const handleHourly = (event) => {
-        console.log("jhk", event)
         setHourlyRate(event.target.value);
     };
     useEffect(() => {
@@ -215,17 +213,17 @@ const Search = (props) => {
         )
     }, [page, limit, categories, rating, hourlyRate, longitude, latitude, distance]);
     const handleClick = (id, value, isFavourite, title) => {
-          let newArray = data;
-          newArray[value].isFavourite = !isFavourite;
-          setData(() => {
+        let newArray = data;
+        newArray[value].isFavourite = !isFavourite;
+        setData(() => {
             return [...newArray];
-          });
+        });
         dispatch(
-          markAsFavouriteJob({
-            id: id,
-          })
+            markAsFavouriteJob({
+                id: id,
+            })
         );
-      }
+    }
     return (
         <>
             <Navbar module={"Search By Category"} />
@@ -309,53 +307,59 @@ const Search = (props) => {
 
 
                     </Col>
-                    {data?.length > 0 ? (
-                        <>
-                            {data?.map((item, index) => {
-                                return (
-                                    <Col lg={2} md={4} sm={6} xs={12} className="pb-3 mt-3">
-                                        <CommonCard
-                                            img={item?.image ? item?.image : Profile}
-                                            name={item?.name ? item?.name : "N/A"}
-                                            jobType={item?.jobType ? item?.jobType : "N/A"}
-                                            id={item.id}
-                                            index={index}
-                                            handleClick={handleClick}
-                                            // item={item ? item : null}
-                                            rate={item?.rate ? item?.rate : "N/A"}
-                                            completed={"90"}
-                                            star={item?.rating ? item?.rating*20:"0"}
-                                            // myJobs={true}
-                                            // page={page}
-                                            // job="job"
-                                            // limit={limit}
-                                            // type={type}
-                                            // category={categoryType}
-                                            isFavourite={item.isFavourite}
-                                        />
-                                    </Col>
-                                );
-                            })}
-                            <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
-                                <Nav>
-                                    <Pagination size={"sm"} className="mb-2 mb-lg-0">
-                                        <Pagination.Prev onClick={() => previousPage()}>
-                                            <FontAwesomeIcon icon={faAngleDoubleLeft} />
-                                        </Pagination.Prev>
-                                        {paginationItems()}
-                                        <Pagination.Next onClick={() => nextPage()}>
-                                            <FontAwesomeIcon icon={faAngleDoubleRight} />
-                                        </Pagination.Next>
-                                    </Pagination>
-                                </Nav>
-                                <small className="fw-bold">
-                                    Showing <b>{Filter?.jobs?.length}</b> out of{" "}
-                                    <b>{Filter?.total_jobs}</b> entries
-                                </small>
-                            </Card.Footer>
-                        </>
+                    {loader ? (
+                        <Spinner />
                     ) : (
-                        <NoRecordFound />
+                        <>
+                            {data?.length > 0 ? (
+                                <>
+                                    {data?.map((item, index) => {
+                                        return (
+                                            <Col lg={2} md={4} sm={6} xs={12} className="pb-3 mt-3">
+                                                <CommonCard
+                                                    img={item?.image ? item?.image : Profile}
+                                                    name={item?.name ? item?.name : "N/A"}
+                                                    jobType={item?.jobType ? item?.jobType : "N/A"}
+                                                    id={item.id}
+                                                    index={index}
+                                                    handleClick={handleClick}
+                                                    // item={item ? item : null}
+                                                    rate={item?.rate ? item?.rate : "N/A"}
+                                                    completed={"90"}
+                                                    star={item?.rating ? item?.rating * 20 : "0"}
+                                                    // myJobs={true}
+                                                    // page={page}
+                                                    // job="job"
+                                                    // limit={limit}
+                                                    // type={type}
+                                                    // category={categoryType}
+                                                    isFavourite={item.isFavourite}
+                                                />
+                                            </Col>
+                                        );
+                                    })}
+                                    <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+                                        <Nav>
+                                            <Pagination size={"sm"} className="mb-2 mb-lg-0">
+                                                <Pagination.Prev onClick={() => previousPage()}>
+                                                    <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                                                </Pagination.Prev>
+                                                {paginationItems()}
+                                                <Pagination.Next onClick={() => nextPage()}>
+                                                    <FontAwesomeIcon icon={faAngleDoubleRight} />
+                                                </Pagination.Next>
+                                            </Pagination>
+                                        </Nav>
+                                        <small className="fw-bold">
+                                            Showing <b>{SearchFilter?.jobs?.length}</b> out of{" "}
+                                            <b>{SearchFilter?.total_jobs}</b> entries
+                                        </small>
+                                    </Card.Footer>
+                                </>
+                            ) : (
+                                <NoRecordFound />
+                            )}
+                        </>
                     )}
                 </Row>
             </Container>

@@ -82,6 +82,7 @@ const ProviderProfile = (props) => {
                 <h5 className="text-gray">{getById?.profileType}</h5>
                 <Rating
                   onClick={handleRating}
+                  readonly={true}
                   allowHover={false}
                   ratingValue={getById?.profile_rating ? getById?.profile_rating * 20 : "0"} /* Available Props */
                 />
