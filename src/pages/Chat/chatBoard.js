@@ -214,6 +214,7 @@ const Chatboard = ({
       user={{
         _id: currentUser?.id,
       }}
+      // extraData={messages}
       renderAvatar={null}
       renderInputToolbar={handleInput}
     />
