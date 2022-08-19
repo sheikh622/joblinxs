@@ -20,7 +20,7 @@ const Chatboard = ({
   sendMessage,
   users,
   currentUser,
-  setUsers,
+  selectedIndex,
   id,
 }) => {
   const dispatch = useDispatch();
@@ -129,9 +129,7 @@ const Chatboard = ({
     },
     [users]
   );
-  console.log(messages, "messages")
   const renderBubble = ({ currentMessage }) => {
-    console.log(currentMessage, "currentMessagecurrentMessagecurrentMessage")
     if (currentMessage?.user?._id === currentUser?.id) {
       return (
         <>
@@ -211,12 +209,11 @@ const Chatboard = ({
   return (
     <GiftedChat
       messages={messages}
-      renderBubble={renderBubble}
+      renderBubble={(props)=>renderBubble(props)}
       onSend={(messages) => onSend(messages)}
       user={{
         _id: currentUser?.id,
       }}
-      // extraData={messages}
       renderAvatar={null}
       renderInputToolbar={handleInput}
     />
