@@ -25,7 +25,7 @@ const CommonCard = (props) => {
         <div className="imgaSection">
           <Image src={props.img} className="navbar-brand-light" />
           <span className="starSpan" style={{ cursor: "pointer" }}>
-            <FontAwesomeIcon icon={faStar} /> {props.star === 0 ? props.star : props.star.toFixed(1)}
+            <FontAwesomeIcon icon={faStar} /> {props?.star == 0 ? props?.star : props?.star.toFixed(1)}
           </span>
         </div>
         <div className="detailSection">
@@ -42,7 +42,7 @@ const CommonCard = (props) => {
               <h4>{props.type}</h4>
 
               <p>
-                Rate: <span>${props.rate}hr</span>{" "}
+                Rate: <span>${props.rate}</span>{" "}
               </p>
               <p>
                 Jobs Completed: <span>{props.completed} </span>

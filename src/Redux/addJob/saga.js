@@ -233,7 +233,7 @@ function* updateJobSaga(payload) {
         },
       }
     );
-    toast.success(CapitalizeFirstLetter(response.data.message));
+    // toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(updateJobSuccess(response.data));
     payload.history.push(`/detailJob/${payload.id}`);
   } catch (error) {
