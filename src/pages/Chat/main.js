@@ -39,12 +39,10 @@ import {
   unblockUser,
 } from "../../Redux/profile/actions";
 
-
 let selectedIndex;
 const Mainchat = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const login = useSelector((state) => state.auth.Auther);
   const currentUser = useSelector((state) => state.auth.Auther);
   const contactsList = useSelector((state) => state?.ChatReducer?.ListData);
   const [currentUsers, setCurrentUsers] = useState(false);
@@ -60,21 +58,12 @@ const Mainchat = () => {
   let id = params?.search.split("?")[1];
   const [chatId, setChatId] = useState(id);
   let profileId = params.pathname.split("/")[2];
-  useEffect(() => {
-    dispatch(
-      getProfile({
-        id: profileId,
-      })
-    );
-  }, []);
   const handleBlock = (data, values) => {
     dispatch(
       blockUser({
         blockedTo: selectedUser,
-        blockedBy: login?.id,
-        id: currentUser?.
-        
-        id,
+        blockedBy: currentUser?.id,
+        id: currentUser?.id,
       })
     );
   };
@@ -82,7 +71,7 @@ const Mainchat = () => {
     dispatch(
       unblockUser({
         blockedTo: selectedUser,
-        blockedBy: login?.id,
+        blockedBy: currentUser?.id,
         id: currentUser?.id,
       })
     );
@@ -126,19 +115,18 @@ const Mainchat = () => {
   }, [currentUser, users]);
 
   const handleChat = (id, index) => {
+    console.log(id, index, "here is index");
     setChatId(id);
     setCurrentUsers(true);
     selectedIndex = index;
   };
-  // console.log(blockedBy, "asdasdasd")
   const handleClick = (id) => {
     if (id === undefined) {
       setBlockedBy(null);
     } else {
       if (id === currentUser?.id) {
         setBlockedBy(true);
-      }
-      else{
+      } else {
         setBlockedBy(false);
       }
     }
@@ -209,6 +197,30 @@ const Mainchat = () => {
       </li>
     );
   };
+
+  useEffect(() => {
+    let data = [];
+    if (id) {
+      if (contactsList !== undefined) {
+        contactsList.map((item, index) => {
+          if (item?.receiver?.id === currentUser?.id) {
+            return data.push(item?.sender);
+          } else {
+            return data.push(item?.receiver);
+          }
+        });
+      }
+      const index = data.map((object) => object.id).indexOf(id);
+      const firebase = data.filter((element) => {
+        if (element.id === id) {
+          return element;
+        }
+      });
+      let firebaseId = firebase[0]?.firebaseId;
+      selectedIndex = index;
+      handleChat(firebaseId, index);
+    }
+  }, [id, contactsList]);
   return (
     <>
       <Navbar module={"Chat"} />
@@ -245,7 +257,6 @@ const Mainchat = () => {
         </Col>
       </Row>
       <Report show={show} setShow={setShow} />
-
       <Modal
         as={Modal.Dialog}
         centered
