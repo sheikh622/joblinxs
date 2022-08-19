@@ -43,10 +43,8 @@ const Search = (props) => {
     const SeekerList = useSelector((state) => state?.Seeker?.getSeekerListing?.jobs);
     const auth = useSelector((state) => state.auth.Auther);
     const SearchFilter = useSelector((state) => state?.Seeker?.FilterList);
-    console.log("--------", SearchFilter)
     const place = useSelector((state) => state?.geometry?.location?.lat);
     const Filter = useSelector((state) => state?.Seeker?.FilterList?.jobs);
-    console.log("hjgda", Filter)
     const CategoryData = useSelector((state) => state?.Seeker?.CategoryList);
     const [valuetext, setValuetext] = useState()
     const [data, setData] = useState()
@@ -179,7 +177,6 @@ const Search = (props) => {
         setDistance(event.target.value);
     };
     const handleHourly = (event) => {
-        console.log("jhk", event)
         setHourlyRate(event.target.value);
     };
     useEffect(() => {
