@@ -50,8 +50,6 @@ const DashboardOverview = (props) => {
   const [featured, setFeatured] = useState();
   const [topRatedProvider, setTopRatedProvider] = useState()
   const [newArrivalProvider, setNewArrivalProvider] = useState()
- 
-
   useEffect(() => {
     if (SeekerList !== undefined) {
       setData(SeekerList)
