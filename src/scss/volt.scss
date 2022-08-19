@@ -93,7 +93,7 @@ svg {
 }
 
 .chat-div {
-  height: 610px !important;
+  height: 570px !important;
 }
 
 .sendMessage {
@@ -166,6 +166,9 @@ svg {
   h3 {
     border-top: 1px solid;
     padding: 10px;
+  }
+  textarea{
+    min-height: 75px !important;
   }
 }
 

@@ -106,11 +106,11 @@ const Job = () => {
       value: "inprogress",
       label: "Inprogress"
     },
-    {
-      value: "canceled",
-      label: "Canceled"
+    // {
+    //   value: "canceled",
+    //   label: "Canceled"
 
-    }
+    // }
   ];
   useEffect(
     (action) => {
