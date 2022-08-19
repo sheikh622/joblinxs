@@ -54,7 +54,7 @@ export const GeneralInfoForm = () => {
   const [providers, setProviders] = useState();
   // provide.filter((option) => option.label == SingleId.noOfProviders)
   const [experience, setExperience] = useState(
-    experienced.filter((option) => option.label == SingleId.experienceRequired)
+
   );
   const [jobType, setJobType] = useState(
     SingleId?.jobType?.name ? SingleId?.jobType?.name : ""
@@ -75,16 +75,18 @@ export const GeneralInfoForm = () => {
   const [rate, setRate] = useState("");
   const [longitude, setLogintude] = useState();
   const [latitude, setLatitude] = useState();
-
+  const [unit, setUnit] = useState();
   let jobId = params.pathname.split("/")[2];
 
   useEffect(() => {
     setPaymentType(SingleId?.paymentType ? SingleId?.paymentType : "");
     setJobType(SingleId?.jobType?.name ? SingleId?.jobType?.name : "");
     setJobNature(SingleId?.jobNature?.name ? SingleId?.jobNature?.name : "");
+    setUnit(SingleId?.unit ? SingleId?.unit : "");
     setProviders(
       provide.filter((option) => option.label == SingleId.noOfProviders)
     );
+    setExperience(experienced.filter((option) => option.label == SingleId.experienceRequired));
     setLocation(SingleId?.location ? SingleId?.location[0] : "");
   }, [SingleId]);
   useEffect(() => {
@@ -148,9 +150,7 @@ export const GeneralInfoForm = () => {
       days: SingleId?.days ? SingleId?.days : "",
       hours: SingleId?.hours ? SingleId?.hours : "",
       providers: SingleId?.noOfProviders ? SingleId?.noOfProviders : "",
-      experience: SingleId?.experienceRequired
-        ? SingleId?.experienceRequired
-        : "",
+      experience: SingleId?.experienceRequired ? SingleId?.experienceRequired : "",
       remember: true,
     },
     validationSchema: CategorySchema,
@@ -178,8 +178,8 @@ export const GeneralInfoForm = () => {
         days: days,
         hours: hours,
         location: location,
-        latitude:latitude,
-        longitude:longitude,
+        latitude: latitude,
+        longitude: longitude,
         startDate: startDate,
         endDate: onGoing ? "" : endDate,
         isOngoing: onGoing,
@@ -690,7 +690,7 @@ export const GeneralInfoForm = () => {
               {SingleId?.length === 0 || SingleId?.status === "pending" ? (
                 <Button variant="primary" type="submit" show={showDefaults} className="mx-2">
                   {id ? "Update Job" : "Post Job"}
-                </Button>) : ""} 
+                </Button>) : ""}
 
               {SingleId?.status === "pending" || SingleId?.status === "Accepted" ? (
                 <Button
