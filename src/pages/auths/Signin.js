@@ -19,10 +19,13 @@ import * as Yup from "yup";
 import BgImage from "../../assets/img/illustrations/signin.svg";
 import { loginRequest } from "../../Redux/auth/actions";
 import { Routes } from "../../routes";
+import Spinner from "../../components/spinner";
 
 const LoginPage = () => {
   const [isTokenFound, setTokenFound] = useState(false);
   const [token, setToken] = useState("");
+  const [loader, setLoader] = useState(true);
+
   useEffect(() => {
     localStorage.clear()
   }, [])
@@ -71,6 +74,7 @@ const LoginPage = () => {
           webFcmToken:token,
           history: history,
           resetForm: resetForm,
+          setLoader: setLoader,
         })
       );    
      },
@@ -87,6 +91,7 @@ const LoginPage = () => {
               xs={12}
               className="d-flex align-items-center justify-content-center"
             >
+              
               <div className="bg-white card-box-shadow border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
                 <div className="text-center text-md-center mb-4 mt-md-0">
                   <h3 className="mb-0">Sign in</h3>

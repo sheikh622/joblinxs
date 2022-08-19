@@ -96,6 +96,7 @@ const viewProfile = () => {
                   color="dark"
                   size="lg"
                   className="mt-2 me-1"
+                  disabled={true}
                 >
                   Hire Now
                 </Button>
