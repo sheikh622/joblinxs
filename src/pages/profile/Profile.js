@@ -133,7 +133,7 @@ export default () => {
 
                       <Card.Text className="text-gray mb-0">
                         {" "}
-                        No. of Jobs Completed: <b> 25</b>
+                        Jobs Completed: <b> 25</b>
                       </Card.Text>
                     </div>
                   </Card.Body>
