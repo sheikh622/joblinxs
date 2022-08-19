@@ -194,3 +194,13 @@ svg {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.card-details{
+  width: 175px;
+}
+.icon-div{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 130px;
+  display: flex;
+}
