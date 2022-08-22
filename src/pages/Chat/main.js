@@ -221,6 +221,27 @@ const Mainchat = () => {
       handleChat(firebaseId, index);
     }
   }, [id, contactsList]);
+
+  useEffect(() => {
+    let data = [];
+    contactsList.map((item, index) => {
+      if (item?.receiver?.id === currentUser?.id) {
+        return data.push(item?.sender);
+      } else {
+        return data.push(item?.receiver);
+      }
+    });
+    let id = data[selectedIndex]?.id;
+    
+    const firebase = data.filter((element) => {
+      if (element?.id === id) {
+        return element;
+      }
+    });
+    let firebaseId = firebase[0]?.firebaseId;
+    handleChat(firebaseId, selectedIndex);
+  }, [selectedIndex, contactsList])
+
   return (
     <>
       <Navbar module={"Chat"} />

@@ -93,7 +93,7 @@ svg {
 }
 
 .chat-div {
-  height: 610px !important;
+  height: 570px !important;
 }
 
 .sendMessage {
@@ -167,6 +167,9 @@ svg {
     border-top: 1px solid;
     padding: 10px;
   }
+  textarea{
+    min-height: 75px !important;
+  }
 }
 
 .react-datepicker-wrapper input {
@@ -190,4 +193,14 @@ svg {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.card-details{
+  width: 175px;
+}
+.icon-div{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 130px;
+  display: flex;
 }
