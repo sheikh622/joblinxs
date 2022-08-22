@@ -59,8 +59,6 @@ const MyJobDetails = (item, props, data) => {
   const [emergency, setEmergency] = useState(false);
   const [isPost, setIsPost] = useState(false);
   const [showDefaultEmergency, setShowDefaultEmergency] = useState(false);
-
-
   useEffect(() => {
     dispatch(jobById({ id: jobId }));
   }, []);
