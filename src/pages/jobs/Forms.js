@@ -6,7 +6,7 @@ import {
   Modal,
   Row,
 } from "@themesberg/react-bootstrap";
-import { useFormik } from "formik";
+import { Formik, useFormik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Stack from "@mui/material/Stack";
@@ -52,6 +52,7 @@ export const GeneralInfoForm = () => {
   const [hours, setHours] = useState("1");
   const [days, setDays] = useState("1");
   const [providers, setProviders] = useState();
+  const [showDefaultEmergency, setShowDefaultEmergency] = useState(false);
   // provide.filter((option) => option.label == SingleId.noOfProviders)
   const [experience, setExperience] = useState(
 
@@ -69,6 +70,7 @@ export const GeneralInfoForm = () => {
   const [categories, setCategories] = useState(null);
   const [location, setLocation] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
+  const [postItem , setPostItem] = useState(false);
   const [startDate, setStartDate] = React.useState(new Date());
   const [endDate, setEndDate] = React.useState(new Date());
   const [adminId, setAdminId] = useState(0);
@@ -83,6 +85,7 @@ export const GeneralInfoForm = () => {
     setJobType(SingleId?.jobType?.name ? SingleId?.jobType?.name : "");
     setJobNature(SingleId?.jobNature?.name ? SingleId?.jobNature?.name : "");
     setUnit(SingleId?.unit ? SingleId?.unit : "");
+    setRate(SingleId?.rate ? SingleId?.rate : "")
     setProviders(
       provide.filter((option) => option.label == SingleId.noOfProviders)
     );
@@ -123,7 +126,7 @@ export const GeneralInfoForm = () => {
     jobRequirements: Yup.string().trim().required("Requirements is required"),
     toolsNeeded: Yup.string().trim().required("Tools is required"),
     rate: Yup.string()
-      .required("Please enter number")
+      .required("rate is required")
       .max(8, "Number should not exceed 6 digits")
       .min(1, "Number should not be less than 0"),
     unit: Yup.string().trim().required("Unit Number is required"),
@@ -136,8 +139,8 @@ export const GeneralInfoForm = () => {
       description: SingleId?.description ? SingleId?.description : "",
       jobRequirements: SingleId?.requirement ? SingleId?.requirement : "",
       toolsNeeded: SingleId?.toolsNeeded ? SingleId?.toolsNeeded : "",
-      rate: SingleId?.rate ? SingleId?.rate : "--",
-      unit: SingleId?.unit ? SingleId?.unit : "",
+      rate: SingleId?.rate ? SingleId?.rate : "0",
+      unit: SingleId?.unit ? SingleId?.unit : "0",
       onGoing: SingleId?.onGoing ? SingleId?.onGoing : "",
       jobType: SingleId?.jobType ? SingleId?.jobType : "",
       // jobImg: SingleId?.image ? SingleId?.image : "",
@@ -155,6 +158,7 @@ export const GeneralInfoForm = () => {
     },
     validationSchema: CategorySchema,
     onSubmit: async (values, action) => {
+      setShowDefaultEmergency(true);
       let data = {
         id: values.id,
         name: values.jobName,
@@ -195,9 +199,21 @@ export const GeneralInfoForm = () => {
       if (!id) {
         dispatch(getJobListing(data));
       } else {
-        if (isPost) {
-          dispatch(getJobListing(data));
-        } if (!emergency) {
+        if (postItem) {
+          if (isPost) {
+            setShowDefaultEmergency(true);
+            
+            dispatch(getJobListing(data));
+          } else {
+
+            dispatch(emergencyJob({
+              id: jobId,
+              setShowDefaultEmergency: setShowDefaultEmergency,
+              history: history,
+            }));
+          }
+        }
+        if (!emergency) {
           dispatch(updateJob(data, id));
         }
       }
@@ -212,7 +228,7 @@ export const GeneralInfoForm = () => {
 
   // Add location
   const [showDefault, setShowDefault] = useState(false);
-  const [showDefaultEmergency, setShowDefaultEmergency] = useState(false);
+
   const handleClose = () => setShowDefault(false);
 
   // Congratulations modal
@@ -239,14 +255,14 @@ export const GeneralInfoForm = () => {
     },
     defaultValue: location,
   });
-  const handleEmergency = () => {
-    dispatch(emergencyJob({
-      id: jobId,
-      setShowDefaultEmergency: setShowDefaultEmergency,
-      history: history,
+  // const handleEmergency = () => {
+  //   dispatch(emergencyJob({
+  //     id: jobId,
+  //     setShowDefaultEmergency: setShowDefaultEmergency,
+  //     history: history,
 
-    }));
-  }
+  //   }));
+  // }
   return (
     <>
       <Col className={"d-flex justify-content-center"}>
@@ -533,11 +549,11 @@ export const GeneralInfoForm = () => {
               )}
               <Col md={6} className="mb-3">
                 <Form.Group id="fixedRate">
-                  <Form.Label>Fixed Rate</Form.Label>
+                  <Form.Label>{`${paymentType} Rate`}</Form.Label>
                   <Form.Control
                     //  required
                     type="number"
-                    placeholder="$"
+                    // placeholder="$"
                     value={CategoryFormik.values.rate}
                     name="rate"
                     label="rate"
@@ -683,7 +699,10 @@ export const GeneralInfoForm = () => {
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Control ref={ref} style={{ width: "100%" }} />
+             
+               {SingleId?.location ? SingleId?.location[0] : ""}
               </Col>
+
             </Row>
 
             <div className="mt-3 d-flex justify-content-end">
@@ -695,10 +714,12 @@ export const GeneralInfoForm = () => {
               {SingleId?.status === "pending" || SingleId?.status === "Accepted" ? (
                 <Button
                   variant="primary"
-                  // type="submit"
+                  type="submit"
                   onClick={() => {
-                    setShowDefaultEmergency(true);
+                    // setShowDefaultEmergency(true);
                     setEmergency(true)
+                    setIsPost(false)
+
                   }}
                   className="mx-2"
                 >
@@ -708,9 +729,9 @@ export const GeneralInfoForm = () => {
               {id && (
                 <Button
                   variant="primary"
-                  // type="submit"
+                  type="submit"
                   onClick={() => {
-                    setShowDefaultEmergency(true);
+                    // setShowDefaultEmergency(true);
                     setIsPost(true)
                   }}
                 >
@@ -750,11 +771,8 @@ export const GeneralInfoForm = () => {
                   variant="primary"
                   type="submit"
                   onClick={() => {
-                    if (isPost) {
-                      setIsPost(true);
-                    } else {
-                      handleEmergency(id)
-                    }
+                    setPostItem(true);
+                    CategoryFormik.handleSubmit();
                   }}
                   className="mx-2"
                 >

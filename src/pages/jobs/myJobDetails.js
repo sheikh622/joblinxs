@@ -47,11 +47,9 @@ const MyJobDetails = (item, props) => {
     }
   }, [newArrivalData])
   const SingleId = useSelector((state) => state?.addJob?.jobById);
-  console.log("=====", SingleId)
-  console.log("=====", SingleId)
   const [showDefault, setShowDefault] = useState(false);
   const [rating, setRating] = useState(0); // initial rating value
-
+  const [rate, setRate] = useState();
   const [show, setShow] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [isDisputed, setIsDisputed] = useState(false);
@@ -69,7 +67,7 @@ const MyJobDetails = (item, props) => {
   };
   const [adminId, setAdminId] = useState(0);
   const [selectedItem, setSelectedItem] = useState();
-  console.log("vhjk", SingleId?.rating)
+ 
   useEffect(() => {
     dispatch(jobById({ id: jobId }));
   }, []);
@@ -82,8 +80,11 @@ const MyJobDetails = (item, props) => {
   const handleRepost = () => {
     history.push({ pathname: `/updateJob/${jobId}`, state: "repost" });
   };
-  const handleRating = (rate) => {
-    setRating(rate);
+  const handleRating = (rating) => {
+    setRating(rating);
+  };
+  const handleRate = (rate) => {
+    setRate(rate);
   };
   const profileCard = () => {
     return (
@@ -168,7 +169,7 @@ const MyJobDetails = (item, props) => {
                 />
                 <DetailHeading
                   heading={"Rate"}
-                  value={SingleId?.rate ? SingleId?.rate : "-"}
+                  value={SingleId?.rate ? SingleId?.rate : SingleId?.rate}
                 />
                 <DetailHeading
                   heading={"TimeRequired"}
