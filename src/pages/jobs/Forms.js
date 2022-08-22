@@ -70,7 +70,7 @@ export const GeneralInfoForm = () => {
   const [categories, setCategories] = useState(null);
   const [location, setLocation] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
-  const [Yooooo, setYooooo] = useState(false);
+  const [postItem , setPostItem] = useState(false);
   const [startDate, setStartDate] = React.useState(new Date());
   const [endDate, setEndDate] = React.useState(new Date());
   const [adminId, setAdminId] = useState(0);
@@ -199,7 +199,7 @@ export const GeneralInfoForm = () => {
       if (!id) {
         dispatch(getJobListing(data));
       } else {
-        if (Yooooo) {
+        if (postItem) {
           if (isPost) {
             setShowDefaultEmergency(true);
             
@@ -771,7 +771,7 @@ export const GeneralInfoForm = () => {
                   variant="primary"
                   type="submit"
                   onClick={() => {
-                    setYooooo(true);
+                    setPostItem(true);
                     CategoryFormik.handleSubmit();
                   }}
                   className="mx-2"
