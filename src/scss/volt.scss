@@ -114,7 +114,6 @@ svg {
     text-align: left;
     word-wrap: break-word;
   }
-
 }
 
 .receivedMessage {
@@ -167,7 +166,7 @@ svg {
     border-top: 1px solid;
     padding: 10px;
   }
-  textarea{
+  textarea {
     min-height: 75px !important;
   }
 }
@@ -188,16 +187,16 @@ svg {
   border-radius: 0.5rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-.listedName{
+.listedName {
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.card-details{
+.card-details {
   width: 175px;
 }
-.icon-div{
+.icon-div {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
