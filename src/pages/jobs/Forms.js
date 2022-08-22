@@ -158,7 +158,6 @@ export const GeneralInfoForm = () => {
     },
     validationSchema: CategorySchema,
     onSubmit: async (values, action) => {
-    
       setShowDefaultEmergency(true);
       let data = {
         id: values.id,
