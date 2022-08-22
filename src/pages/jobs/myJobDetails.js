@@ -30,9 +30,9 @@ import RecommendCard from "../../components/RecommendCard";
 import DetailHeading from "../../components/DetailHeading";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteAddJob, } from "../../Redux/addJob/actions";
-import { getJobListing, updateJob,emergencyJob } from "../../Redux/addJob/actions";
-
+import {emergencyJob } from "../../Redux/addJob/actions";
 import { Rating } from "react-simple-star-rating";
+import { hiredApplicant } from "../../Redux/profile/actions";
 
 const MyJobDetails = (item, props, data) => {
   const dispatch = useDispatch();
@@ -50,6 +50,9 @@ const MyJobDetails = (item, props, data) => {
     }
   }, [newArrivalData])
   const SingleId = useSelector((state) => state?.addJob?.jobById);
+  console.log("333",SingleId?.user?.id)
+  const Login = useSelector((state) => state?.auth?.Auther);
+  console.log("tyui0",Login.id)
   const [showDefault, setShowDefault] = useState(false);
   const [rating, setRating] = useState(0); // initial rating value
   const [rate, setRate] = useState();
@@ -73,7 +76,7 @@ const MyJobDetails = (item, props, data) => {
   };
   const [adminId, setAdminId] = useState(0);
   const [selectedItem, setSelectedItem] = useState();
- 
+
   useEffect(() => {
     dispatch(jobById({ id: jobId }));
   }, []);
@@ -94,13 +97,23 @@ const MyJobDetails = (item, props, data) => {
   };
   const handleChange = (item) => {
     dispatch(
-        emergencyJob({
-          id: jobId,
-          setShowDefaultEmergency: setShowDefaultEmergency,
-          history: history,
-        })
+      emergencyJob({
+        id: jobId,
+        setShowDefaultEmergency: setShowDefaultEmergency,
+        history: history,
+      })
     );
-};
+  };
+  const handleClick = (item) => {
+    let data = {
+        job: jobId,
+        providerId :SingleId?.user?.id,
+        seekerId : Login?.id
+    }
+    dispatch(
+      hiredApplicant(data)
+    );
+  };
   const profileCard = () => {
     return (
       <div className="detailed">
@@ -253,8 +266,10 @@ const MyJobDetails = (item, props, data) => {
                         color="dark"
                         size="lg"
                         className="mt-2 me-1"
-                        onClick={handleEdit}
-                        disabled={true}
+                        onClick={() => {
+                      
+                          handleClick();
+                        }}
                       >
                         Hire Now
                       </Button>
@@ -289,29 +304,29 @@ const MyJobDetails = (item, props, data) => {
                     <div class="float-end">
                       {SingleId.status === "Accepted" || SingleId?.status === "canceled" ? (
                         <>
-                        <Button
-                          variant="primary"
-                          color="dark"
-                          size="lg"
-                          className="mt-2 me-1"
-                          onClick={handleEdit}
-                        >
-                          Repost
-                        </Button>
-                        <Button
-                          variant="primary"
-                          color="dark"
-                          size="lg"
-                          className="mt-2 me-1"
-                          onClick={() => {
-                            // setShowDefaultEmergency(true);
-                            setEmergency(true)
-                            setIsPost(false)
-                            handleChange();
-                          }}
-                        >
-                          Emergency Post
-                        </Button>
+                          <Button
+                            variant="primary"
+                            color="dark"
+                            size="lg"
+                            className="mt-2 me-1"
+                            onClick={handleEdit}
+                          >
+                            Repost
+                          </Button>
+                          <Button
+                            variant="primary"
+                            color="dark"
+                            size="lg"
+                            className="mt-2 me-1"
+                            onClick={() => {
+                              // setShowDefaultEmergency(true);
+                              setEmergency(true)
+                              setIsPost(false)
+                              handleChange();
+                            }}
+                          >
+                            Emergency Post
+                          </Button>
                         </>
                       ) : (
                         <Button

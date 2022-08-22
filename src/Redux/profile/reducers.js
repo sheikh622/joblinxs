@@ -5,6 +5,7 @@ import {
   UNBLOCK_USER_SUCCESS,
   REPORT_USER_LIST_SUCCESS,
   REPORTED_USER_SUCCESS,
+  HIRED_APPLICANTS_SUCCESS
 } from "./constants";
 const initialState = {
   profile: "",
@@ -12,6 +13,7 @@ const initialState = {
   Unblock:"",
   ReportList:"",
   ReportedUser:"",
+  HiredApplicants:"",
 };
 const Jobs = produce((state = initialState, action) => {
   switch (action.type) {
@@ -30,6 +32,9 @@ const Jobs = produce((state = initialState, action) => {
       case REPORTED_USER_SUCCESS:
       state.ReportedUser = action.payload;
       break;
+      case HIRED_APPLICANTS_SUCCESS:
+        state.HiredApplicants = action.payload;
+        break;
     default:
   }
 }, initialState);
