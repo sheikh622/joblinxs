@@ -29,13 +29,16 @@ import RateModal from "../../components/modal";
 import RecommendCard from "../../components/RecommendCard";
 import DetailHeading from "../../components/DetailHeading";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteAddJob } from "../../Redux/addJob/actions";
+import { deleteAddJob, } from "../../Redux/addJob/actions";
+import { getJobListing, updateJob,emergencyJob } from "../../Redux/addJob/actions";
+
 import { Rating } from "react-simple-star-rating";
 
-const MyJobDetails = (item, props) => {
+const MyJobDetails = (item, props, data) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const params = useLocation();
+  let id = params.pathname.split("/")[2];
   let jobId = params.pathname.split("/")[2];
   const newArrivalData = useSelector(
     (state) => state?.Seeker?.newArrival?.data
@@ -47,14 +50,15 @@ const MyJobDetails = (item, props) => {
     }
   }, [newArrivalData])
   const SingleId = useSelector((state) => state?.addJob?.jobById);
-  console.log("=====", SingleId)
-  console.log("=====", SingleId)
   const [showDefault, setShowDefault] = useState(false);
   const [rating, setRating] = useState(0); // initial rating value
-
+  const [rate, setRate] = useState();
   const [show, setShow] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [isDisputed, setIsDisputed] = useState(false);
+  const [emergency, setEmergency] = useState(false);
+  const [isPost, setIsPost] = useState(false);
+  const [showDefaultEmergency, setShowDefaultEmergency] = useState(false);
   useEffect(() => {
     dispatch(jobById({ id: jobId }));
   }, []);
@@ -69,7 +73,7 @@ const MyJobDetails = (item, props) => {
   };
   const [adminId, setAdminId] = useState(0);
   const [selectedItem, setSelectedItem] = useState();
-  console.log("vhjk", SingleId?.rating)
+ 
   useEffect(() => {
     dispatch(jobById({ id: jobId }));
   }, []);
@@ -82,9 +86,21 @@ const MyJobDetails = (item, props) => {
   const handleRepost = () => {
     history.push({ pathname: `/updateJob/${jobId}`, state: "repost" });
   };
-  const handleRating = (rate) => {
-    setRating(rate);
+  const handleRating = (rating) => {
+    setRating(rating);
   };
+  const handleRate = (rate) => {
+    setRate(rate);
+  };
+  const handleChange = (item) => {
+    dispatch(
+        emergencyJob({
+          id: jobId,
+          setShowDefaultEmergency: setShowDefaultEmergency,
+          history: history,
+        })
+    );
+};
   const profileCard = () => {
     return (
       <div className="detailed">
@@ -168,7 +184,7 @@ const MyJobDetails = (item, props) => {
                 />
                 <DetailHeading
                   heading={"Rate"}
-                  value={SingleId?.rate ? SingleId?.rate : "-"}
+                  value={SingleId?.rate ? SingleId?.rate : SingleId?.rate}
                 />
                 <DetailHeading
                   heading={"TimeRequired"}
@@ -256,7 +272,7 @@ const MyJobDetails = (item, props) => {
               <>
                 {SingleId?.status === "completed" || SingleId?.status === "inprogress" || SingleId?.status === "upcoming" ? (
                   <>
-                    <div class="d-grid gap-2 col-3 mx-auto">
+                    <div class="float-end">
                       <Button
                         variant="primary"
                         color="dark"
@@ -270,8 +286,9 @@ const MyJobDetails = (item, props) => {
                   </>
                 ) : (
                   <div>
-                    <div class="d-grid gap-2 col-3 mx-auto">
+                    <div class="float-end">
                       {SingleId.status === "Accepted" || SingleId?.status === "canceled" ? (
+                        <>
                         <Button
                           variant="primary"
                           color="dark"
@@ -279,8 +296,23 @@ const MyJobDetails = (item, props) => {
                           className="mt-2 me-1"
                           onClick={handleEdit}
                         >
-                          Repost/Emergency
+                          Repost
                         </Button>
+                        <Button
+                          variant="primary"
+                          color="dark"
+                          size="lg"
+                          className="mt-2 me-1"
+                          onClick={() => {
+                            // setShowDefaultEmergency(true);
+                            setEmergency(true)
+                            setIsPost(false)
+                            handleChange();
+                          }}
+                        >
+                          Emergency Post
+                        </Button>
+                        </>
                       ) : (
                         <Button
                           variant="primary"
@@ -294,7 +326,7 @@ const MyJobDetails = (item, props) => {
                       )}
                     </div>
                     {SingleId?.status !== "Accepted" && (
-                      <div class="d-grid gap-2 col-3 mx-auto">
+                      <div class="float-end">
                         <Button
                           variant="primary"
                           color="dark"
