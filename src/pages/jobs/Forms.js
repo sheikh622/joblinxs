@@ -69,7 +69,7 @@ export const GeneralInfoForm = () => {
   const [categories, setCategories] = useState(null);
   const [location, setLocation] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
-  const [postItem , setPostItem] = useState(false);
+  const [postItem, setPostItem] = useState(false);
   const [startDate, setStartDate] = React.useState(new Date());
   const [endDate, setEndDate] = React.useState(new Date());
   const [adminId, setAdminId] = useState(0);
@@ -201,7 +201,7 @@ export const GeneralInfoForm = () => {
         if (postItem) {
           if (isPost) {
             setShowDefaultEmergency(true);
-            
+
             dispatch(getJobListing(data));
           } else {
 
@@ -262,6 +262,14 @@ export const GeneralInfoForm = () => {
 
   //   }));
   // }
+  // let str = SingleId?.job_categories[0];
+
+  // useEffect(()=>{
+
+  //   if()
+  // },[])
+  let str = SingleId?.job_categories?.length > 0 ? SingleId?.job_categories[0]?.category : "false";
+  console.log(str, "==================")
   return (
     <>
       <Col className={"d-flex justify-content-center"}>
@@ -687,10 +695,9 @@ export const GeneralInfoForm = () => {
                 >
                   Add New
                 </Form.Label>
-                <p>{categories?.value[0]?.title}</p>
                 <Form.Group>
                   <Select
-                    defaultValue={categories}
+                    placeholder={str?.title}
                     onChange={setCategories}
                     options={categoryList}
                   />
@@ -698,8 +705,8 @@ export const GeneralInfoForm = () => {
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Control ref={ref} style={{ width: "100%" }} />
-               {location ? location : SingleId?.location}
-               {/* {SingleId?.location ?  : ""} */}
+                {location ? location : SingleId?.location}
+                {/* {SingleId?.location ?  : ""} */}
               </Col>
 
             </Row>

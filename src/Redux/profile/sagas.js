@@ -3,10 +3,10 @@ import { all, fork, put, select, takeLatest } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
-import { getProfileSuccess, blockUserSuccess, reportListSuccess, reportedUserSuccess, unblockUserSuccess } from "./actions";
+import { getProfileSuccess, blockUserSuccess, reportListSuccess, reportedUserSuccess, unblockUserSuccess, hiredApplicantSuccess } from "./actions";
 import { getList } from "../chat/actions";
 import { loginRequestSuccess } from "../auth/actions";
-import { GET_PROFILE, UPDATE_PROFILE, BLOCK_USER, REPORT_USER_LIST, REPORTED_USER, UNBLOCK_USER } from "./constants";
+import { GET_PROFILE, UPDATE_PROFILE, BLOCK_USER, REPORT_USER_LIST, REPORTED_USER, UNBLOCK_USER, HIRED_APPLICANTS } from "./constants";
 // import { CapitalizeFirstLetter } from "../../utils/Global";
 import { adminUpdatedSuccess } from "../auth/actions";
 
@@ -139,6 +139,29 @@ function* reportedSaga({ payload }) {
 function* watchReported() {
   yield takeLatest(REPORTED_USER, reportedSaga);
 }
+function* hiredJobSaga({payload}) {
+  try {
+    const data = {
+      id:payload.id,
+    };
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.get(
+      `job/hiredbyseeker`, data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    toast.success(response.data.message);
+    yield put(hiredApplicantSuccess(response.data.data));
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchHiredJob() {
+  yield takeLatest(HIRED_APPLICANTS, hiredJobSaga);
+}
 export default function* ProfileSaga() {
   yield all([fork(watchGetProfile)]);
   yield all([fork(watchBlockUser)]);
@@ -146,5 +169,6 @@ export default function* ProfileSaga() {
   yield all([fork(watchUpdateAdminProfile)]);
   yield all([fork(watchReportUser)]);
   yield all([fork(watchReported)]);
+  yield all([fork(watchHiredJob)]);
 
 }
