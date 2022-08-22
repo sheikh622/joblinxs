@@ -699,8 +699,8 @@ export const GeneralInfoForm = () => {
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Control ref={ref} style={{ width: "100%" }} />
-             
-               {SingleId?.location ? SingleId?.location[0] : ""}
+               {location ? location : SingleId?.location}
+               {/* {SingleId?.location ?  : ""} */}
               </Col>
 
             </Row>
@@ -710,28 +710,12 @@ export const GeneralInfoForm = () => {
                 <Button variant="primary" type="submit" show={showDefaults} className="mx-2">
                   {id ? "Update Job" : "Post Job"}
                 </Button>) : ""}
-
-              {SingleId?.status === "pending" || SingleId?.status === "Accepted" ? (
-                <Button
-                  variant="primary"
-                  type="submit"
-                  onClick={() => {
-                    // setShowDefaultEmergency(true);
-                    setEmergency(true)
-                    setIsPost(false)
-
-                  }}
-                  className="mx-2"
-                >
-                  Emergency Post
-                </Button>
-              ) : ""}
               {id && (
                 <Button
                   variant="primary"
                   type="submit"
                   onClick={() => {
-                    // setShowDefaultEmergency(true);
+                    setShowDefaultEmergency(true);
                     setIsPost(true)
                   }}
                 >
