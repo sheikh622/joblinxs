@@ -121,7 +121,7 @@ const DashboardOverview = () => {
                           id={value.id}
                           rate={value.rate}
                           completed={"10"}
-                          star={"3.6"}
+                          star={value.rating}
                         />
                       </Col>
                     );
