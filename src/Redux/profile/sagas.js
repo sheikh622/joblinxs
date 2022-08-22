@@ -141,12 +141,10 @@ function* watchReported() {
 }
 function* hiredJobSaga({payload}) {
   try {
-    const data = {
-      id:payload.id,
-    };
+    console.log("ji",payload)
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.get(
-      `job/hiredbyseeker`, data,
+    const response = yield axios.post(
+      `job/hiredbyseeker`, payload.data,
       {
         headers: {
           Authorization: `Bearer ${token}`,

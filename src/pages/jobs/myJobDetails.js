@@ -106,19 +106,12 @@ const MyJobDetails = (item, props, data) => {
   };
   const handleClick = (item) => {
     let data = {
-      id: jobId,
+        job: jobId,
         providerId :SingleId?.user?.id,
-        seekerId : Login?.id,
-        history: history,
+        seekerId : Login?.id
     }
-    console.log(data, "=========data============")
     dispatch(
-      hiredApplicant({
-        id: jobId,
-        providerId :SingleId?.user?.id,
-        seekerId : Login?.id,
-        history: history,
-      })
+      hiredApplicant(data)
     );
   };
   const profileCard = () => {
