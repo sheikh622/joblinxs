@@ -52,8 +52,9 @@ const Mainchat = () => {
   const [showDefault, setShowDefault] = useState(false);
   const [blockedBy, setBlockedBy] = useState(null);
   const [show, setShow] = useState();
+  const [jobId, setJobId] = useState();
   const [users, setUsers] = useState([]);
-  const [receiver, setReceiver] = useState([]);
+  const [receiver, setReceiver] = useState();
   const params = useLocation();
   let id = params?.search.split("?")[1];
   const [chatId, setChatId] = useState(id);
@@ -120,7 +121,7 @@ const Mainchat = () => {
     setCurrentUsers(true);
     selectedIndex = index;
   };
-  const handleClick = (id) => {
+  const handleClick = (id, item) => {
     if (id === undefined) {
       setBlockedBy(null);
     } else {
@@ -241,7 +242,6 @@ const Mainchat = () => {
     let firebaseId = firebase[0]?.firebaseId;
     handleChat(firebaseId, selectedIndex);
   }, [selectedIndex, contactsList])
-
   return (
     <>
       <Navbar module={"Chat"} />
@@ -267,6 +267,9 @@ const Mainchat = () => {
               setOneToOneChat={setOneToOneChat}
               sendMessage={sendMessage}
               users={users}
+              setJobId={setJobId}
+              receiver={receiver}
+              jobId={jobId}
               setUsers={setUsers}
               id={chatId}
               blockedBy={blockedBy}
