@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import {
   Container,
   Image,
@@ -15,7 +16,9 @@ import Profile from "../assets/img/team/profile.png";
 import { Routes } from "../routes";
 import DetailHeading from "./DetailHeading";
 
+
 const viewProfile = () => {
+
   return (
     <>
       <Navbar module={"Job Detail"} />
@@ -96,7 +99,8 @@ const viewProfile = () => {
                   color="dark"
                   size="lg"
                   className="mt-2 me-1"
-                  disabled={true}
+                  // disabled={true}
+             
                 >
                   Hire Now
                 </Button>
