@@ -22,9 +22,8 @@ import profile from "../../assets/img/upload.png";
 import AddCategory from "../../components/addCategory";
 import { getJobListing, updateJob, jobById, emergencyJob } from "../../Redux/addJob/actions";
 import { getCategoryList } from "../../Redux/Category/actions";
-import DatePicker from "react-date-picker";
-import "react-date-picker/dist/DatePicker.css";
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 export const GeneralInfoForm = () => {
   const provide = [
     { value: "1", label: "1" },
