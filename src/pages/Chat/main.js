@@ -52,8 +52,9 @@ const Mainchat = () => {
   const [showDefault, setShowDefault] = useState(false);
   const [blockedBy, setBlockedBy] = useState(null);
   const [show, setShow] = useState();
+  const [jobId, setJobId] = useState();
   const [users, setUsers] = useState([]);
-  const [receiver, setReceiver] = useState([]);
+  const [receiver, setReceiver] = useState();
   const params = useLocation();
   let id = params?.search.split("?")[1];
   const [chatId, setChatId] = useState(id);
@@ -106,7 +107,7 @@ const Mainchat = () => {
             res.forEach((doc) => {
               documents.push({ ...doc.data(), id: doc.id });
             });
-            setCurrentUsers(true);
+            // setCurrentUsers(true);
             setOneToOneChat(documents);
           });
         }
@@ -115,12 +116,13 @@ const Mainchat = () => {
   }, [currentUser, users]);
 
   const handleChat = (id, index) => {
-    console.log(id, index, "here is index");
-    setChatId(id);
-    setCurrentUsers(true);
-    selectedIndex = index;
+    if(id){
+      setChatId(id);
+      setCurrentUsers(true);
+      selectedIndex = index;
+    }
   };
-  const handleClick = (id) => {
+  const handleClick = (id, item) => {
     if (id === undefined) {
       setBlockedBy(null);
     } else {
@@ -131,6 +133,7 @@ const Mainchat = () => {
       }
     }
   };
+  console.log(currentUsers, "here is sss")
   const renderListUser = (item, index, blockedId) => {
     return (
       <li
@@ -241,7 +244,6 @@ const Mainchat = () => {
     let firebaseId = firebase[0]?.firebaseId;
     handleChat(firebaseId, selectedIndex);
   }, [selectedIndex, contactsList])
-
   return (
     <>
       <Navbar module={"Chat"} />
@@ -267,6 +269,9 @@ const Mainchat = () => {
               setOneToOneChat={setOneToOneChat}
               sendMessage={sendMessage}
               users={users}
+              setJobId={setJobId}
+              receiver={receiver}
+              jobId={jobId}
               setUsers={setUsers}
               id={chatId}
               blockedBy={blockedBy}
