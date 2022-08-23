@@ -97,7 +97,6 @@ export default () => (
         component={EditProfile}
       />
       <PrivateRoute exact path={Routes.Job.path} component={Job} />
-
       <PrivateRoute exact path={Routes.CreateJob.path} component={CreateJob} />
       <PrivateRoute exact path={Routes.UpdateJob.path} component={CreateJob} />
       <PrivateRoute
