@@ -34,6 +34,7 @@ import editAdminProfile from "./AdminProfile/editAdminProfile";
 import adminProfile from "./AdminProfile/adminProfile";
 import MyJobDetails from "./jobs/myJobDetails";
 import BusinessCategories from "./businessCategory/index"
+import Settings from "./Settings/index"
 import Chat from "./Chat/main"
 // changes merge
 export default () => (
@@ -111,6 +112,11 @@ export default () => (
         exact
         path={Routes.Favourites.path}
         component={Favourites}
+      />
+       <PrivateRoute
+        exact
+        path={Routes.Settings.path}
+        component={Settings}
       />
       <PrivateRoute
         exact

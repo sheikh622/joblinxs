@@ -17,6 +17,7 @@ export const Routes = {
     JobDetails: { path: '/jobDetails' },
     Favourites: { path: '/favourites' },
     Search: { path: '/search' },
+    Settings: { path: '/settings' },
     Job: { path: '/job' },
     EditProfile: { path: "/profile/editProfile" },
     Transactions: { path: "/transactions" },

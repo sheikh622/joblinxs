@@ -88,6 +88,7 @@ function* addJob({ payload }) {
     toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getJobListingSuccess(response.data.data));
     payload.history.push("/job");
+  
     payload.setReset();
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -236,6 +237,7 @@ function* updateJobSaga(payload) {
     // toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(updateJobSuccess(response.data));
     payload.history.push(`/detailJob/${payload.id}`);
+    payload.setPostJob(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -467,6 +469,7 @@ function* emergencyJobSaga({payload}) {
     payload.setShowDefaultEmergency(false)
     yield put(getJobListingSuccess(response.data.data));
     // payload.history.push("/job");
+
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
