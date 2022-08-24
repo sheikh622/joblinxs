@@ -56,7 +56,7 @@ const ProviderProfile = (props) => {
     );
   }, []);
   const handleMove = () => {
-    history.push(`/chat?${profileId}`)
+    history.push(`/chat?${profileId}?${getById?.firebaseId}`)
   }
   const handleRating = (rate) => {
     setRating(rate);

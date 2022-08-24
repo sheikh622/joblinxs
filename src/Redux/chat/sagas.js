@@ -6,7 +6,7 @@ import {
   getListSuccess,
   getList,
 } from "./actions";
-import {updateCustomOffer} from "../../pages/Chat/FirestoreMethods"
+import {updateCustomOffer, sendMessage} from "../../pages/Chat/FirestoreMethods"
 import {
   GET_LIST,
   SEND_MESSAGE,
@@ -37,14 +37,15 @@ function* getSendMessages({ payload }) {
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.post(
-      `chat/user`,payload,
+      `chat/user`,payload.data,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-    yield put(getList(payload.senderId));
+    yield put(getList(payload.data.senderId));
+   yield put(sendMessage(payload.messages, payload.users, payload.currentUser, payload.customKey))
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
