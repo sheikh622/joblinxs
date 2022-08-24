@@ -394,6 +394,612 @@ const TermsandConditions = (props, row) => {
                                 6.1.8.	If you provide any information that is untrue, inaccurate, not current, or incomplete, we have the right to suspend or terminate your account and refuse any and all current or future use of the APP (or any portion thereof).
                             </p>
                         </span>
+                        <span>
+                            <Card.Title>
+                                7.	No reliance on information and limitation of liability
+                            </Card.Title>
+                        </span>
+                        <span>
+                            <p>
+                                7.1.	Commentary and other materials posted on our APP are not intended to amount to advice on which reliance should be placed; they are there for guidance purposes only.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                7.2.	Joblinxs makes no representations, warranties or guarantees, whether express or implied, that the content on the APP is accurate, complete or up to date.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                7.3.	Joblinxs will not be liable for any loss or damage including, without limitation, loss of profit, indirect, incidental or consequential loss, or any damages whatsoever arising from the use of, or in connection with such use or loss of use of, the APP, whether in contract or tort (including negligence), breach of statutory duty, or otherwise, even if foreseeable.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                7.4.	We will not be liable for any loss or damage caused by a virus, distributed denial-of-service attack, or other technologically harmful material that may infect your device equipment, device programs, data or other proprietary material due to your use of the APP or to your downloading of any content on it, or on any APP linked to it.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                7.5.	This does not affect our liability for death or personal injury arising from our negligence, nor our liability for fraudulent misrepresentation, nor any other liability which cannot be excluded or limited under applicable law.
+                            </p>
+                        </span>
+                        <span>
+                            <Card.Title>
+                                8.	General Principles
+                            </Card.Title>
+                        </span>
+                        <span>
+                            <p>
+                                8.1.	We reserve the right to change, modify, suspend, or discontinue any portion of the Services, our APP or any other products, services, affiliated websites (including social media pages) provided by us in connection with any of the foregoing at any time. You agree that access to or operation of any of the foregoing may from time to time be interrupted or encounter technical difficulties.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                8.2.	Save to the extent permitted by us in writing, you are not permitted to use, or submit any content to, our APP or any of our affiliated websites to advertise, promote or market any products or services of any third party or yourself.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                8.3.	Our Privacy Policy sets out our policy concerning the collection, use and disclosure of your Personal Data in compliance with the PIPEDA. By using our APP, you consent to our collection, use, and disclosure of your Data in the manner set out in our Privacy Policy and you warrant that all Data provided by you is accurate. Should you wish to update your Data and/or withdraw your consent to our collection, use, and disclosure of your Data, or should you have any feedback or enquiries relating to your Data, please contact us.
+                            </p>
+                        </span>
+                        <span>
+                            <Card.Title>
+                                9.	Technical requirements and responsibility
+                            </Card.Title>
+                        </span>
+                        <span>
+                            <p>
+                                9.1.	Users are responsible for ensuring that the technical requirements for access to and use of the respective services are met.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                9.2.	This applies in particular to the hardware and operating system software used, the connection to the Internet, the firewall settings (if any) and the current browser software. The User shall carry out necessary and reasonable adjustment measures himself/herself and shall bear the costs for the Internet connection in order to be able to access the services.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                9.3.	Joblinxs does not guarantee that the services offered can actually be used with the User's device.
+                            </p>
+                        </span>
+                        <span>
+                            <Card.Title>
+                                10.	Uploading content to our APP
+                            </Card.Title>
+                        </span>
+                        <span>
+                            <p>
+                                10.1.	You irrevocably and unconditionally represent and warrant that any of your content uploaded to our APP complies with our Privacy Policy and the PIPEDA and any other applicable laws.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                10.2.	You are fully responsible for your content uploaded to our APP. We will not be responsible, or liable to any third party, for:
+                            </p>
+                            <p>
+                                10.2.1.	the content or accuracy of any content or data uploaded by you, by us on your behalf, or any other User of our APP; or
+                            </p>
+                            <p>
+                                10.2.2.	the loss of any content or data (whether in physical or digital form) provided to us by you. You should keep a record of all such content and data.
+                            </p>
+                            <p>
+                                10.3.	We will only use the content uploaded by you for the purposes of providing the Services, carrying out our obligations in this Agreement and any other purpose expressly set out in this Agreement or otherwise agreed between us. We will not otherwise disclose or distribute the content uploaded by you, save for when required by law, a court of competent jurisdiction or any governmental or regulatory authority.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                10.1.	You irrevocably and unconditionally represent and warrant that any of your content uploaded to our APP complies with our Privacy Policy and the PIPEDA and any other applicable laws.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                10.3.	We will only use the content uploaded by you for the purposes of providing the Services, carrying out our obligations in this Agreement and any other purpose expressly set out in this Agreement or otherwise agreed between us. We will not otherwise disclose or distribute the content uploaded by you, save for when required by law, a court of competent jurisdiction or any governmental or regulatory authority.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                10.4.	We may use the content uploaded by you for the purpose of data analytics or to implement artificial intelligence or machine learning. Any such content shall be anonymised and used only for the purposes of improving the Services and our response to Users of the APP.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                10.5.	We have the right to disclose your identity to any third party claiming that any content posted or uploaded by you to our APP constitutes a violation of their rights under applicable law.
+                            </p>
+                        </span>
+                        <span>
+                            <Card.Title>
+                                11.	Contribution License
+                            </Card.Title>
+                        </span>
+                        <span>
+                            <p>
+                                12.	By posting your Contributions to any part of the APP, you automatically grant, and you represent and warrant that you have the right to grant, to us an unrestricted, unlimited, irrevocable, perpetual, non-exclusive, transferable, royalty-free, fully-paid, worldwide right, and license to host, use, copy, reproduce, disclose, publish, broadcast, retitle, archive, store, cache, publicly perform, publicly display, reformat, translate, transmit, excerpt (in whole or in part), and distribute such Contributions (including, without limitation, your image, and voice) for any purpose, commercial, advertising, or otherwise, and to prepare derivative works of, or incorporate into other works, such Contributions, and grant and authorise sub-licenses of the foregoing. The use and distribution may occur in any media formats and through any media channels.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                13.	This license will apply to any form, media, or technology now known or hereafter developed, and includes our use of your name, company name, and franchise name, as applicable, and any of the trademarks, service marks, trade names, logos, and personal and commercial images you provide. You waive all moral rights in your Contributions, and you warrant that moral rights have not otherwise been asserted in your Contributions.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                14.	We do not assert any ownership over your Contributions. You retain full ownership of all of your Contributions and any intellectual property rights or other proprietary rights associated with your Contributions. We are not liable for any statements or representations in your Contributions provided by you in any area on the APP.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                15.	You are solely responsible for your Contributions to the APP, and you expressly agree to exonerate us from any and all responsibility and to refrain from any legal action against us regarding your Contributions.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                16.	We have the right, in our sole and absolute discretion,
+                            </p>
+                            <p>
+                                16.1.	to edit, redact, or otherwise change any Contributions;
+                            </p>
+                            <p>
+                                16.2.	to re-categorize any Contributions to place them in more appropriate locations on the APP; and
+                            </p>
+                            <p>
+                                16.3.	to pre-screen or delete any Contributions at any time and for any reason, without notice.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                17.	We have no obligation to monitor your Contributions.
+                            </p>
+                        </span>
+                        <span>
+                            <Card.Title>
+                                18.	Restrictions
+                            </Card.Title>
+                        </span>
+                        <span>
+                            <p>
+                                18.1.	Except as expressly set out in this Agreement or as permitted by any applicable law, you undertake:
+                            </p>
+                            <p>
+                                18.1.1.	not to reproduce, copy, modify, adapt, translate, publish, display, communicate, transmit, sell, exploit or use the whole or any part of any Service, our APP or any of the contents therein for any commercial or other purposes;
+                            </p>
+                            <p>
+                                18.1.2.	not to disassemble, decompile, reverse-engineer or create derivative works based on the whole or any part of the source code of our APP nor attempt to do any such thing, or to reproduce, display or otherwise provide access to the Services, our APP or any of the contents therein, including but not limited to framing, mirroring, linking, spidering, scraping or any other technological means;
+                            </p>
+                            <p>
+                                18.1.3.	not to provide or otherwise make available our APP in whole or in part (including but not limited to program listings, object and source program listings, object code and source code), in any form to any person without prior written consent from us;
+                            </p>
+                            <p>
+                                18.1.4.	to include our copyright notice on all entire and partial copies you make of our APP on any medium;
+                            </p>
+                            <p>
+                                18.1.5.	to comply with all applicable technology control or export laws and regulations; and
+                            </p>
+                            <p>
+                                18.1.6.	not to disrupt, disable, or otherwise impair the proper working of the Services, our APP, or servers, such as through hacking, cyber-attacks (including but not limited to denial-of-service attacks), tampering or reprogramming.
+                            </p>
+                        </span>
+                        <span>
+                            <Card.Title>
+                                19.	Intellectual Property Rights
+                            </Card.Title>
+                        </span>
+                        <span>
+                            <p>
+                                19.1.	You acknowledge that all intellectual property rights in our APP anywhere in the world belong to us, that rights in our APP are licensed (not sold) to you, and that you have no rights in, or to, our APP other than the right to use them in accordance with these Terms.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                19.2.	Any intellectual property rights in content uploaded by you to our APP shall continue to belong to you or their respective owners. You agree that you grant us a royalty-free and non-exclusive license to use, reproduce, publish, and display such intellectual property rights for the purposes of performing the Services, promotional purposes, internal administrative purposes and any other purposes set out in these Terms, including for the purpose of improving the Services and our responses to Users of the APP.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                19.3.	You acknowledge that you have no right to have access to our APP in source code form.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                19.4.	You must not modify the paper or digital copies of any materials you have printed off or downloaded from our APP in any way, and you must not use any illustrations, photographs, sequences, or any graphics separately from any accompanying text.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                19.5.	You must not use any part of the content on our APP for commercial purposes not specified on our APP without obtaining a license to do so from us or our licensors.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                19.6.	As a User of the APP, you agree not to:
+                            </p>
+                            <p>
+                                19.6.1.	systematically retrieve data or other content from the APP to create or compile, directly or indirectly, a collection, compilation, database, or directory without written permission from us.
+                            </p>
+                            <p>
+                                19.6.2.	make any unauthorised use of the APP, including collecting Usernames and/or email addresses of Users by electronic or other means for the purpose of sending unsolicited email, or creating User accounts by automated means or under false pretences.
+                            </p>
+                            <p>
+                                19.6.3.	use the APP to advertise or offer to sell goods and services.
+                            </p>
+                            <p>
+                                19.6.4.	circumvent, disable, or otherwise interfere with security-related features of the APP, including features that prevent or restrict the use or copying of any Content or enforce limitations on the use of the APP and/or the Content contained therein
+                            </p>
+                            <p>
+                                19.6.5.	engage in unauthorised framing of or linking to the APP.
+                            </p>
+                            <p>
+                                19.6.6.	trick, defraud, or mislead us and other Users, especially in any attempt to learn sensitive account information such as User passwords;
+                            </p>
+                            <p>
+                                19.6.7.	make improper use of our support services or submit false reports of abuse or misconduct.
+                            </p>
+                            <p>
+                                19.6.8.	engage in any automated use of the system, such as using scripts to send comments or messages, or using any data mining, robots, or similar data gathering and extraction tools.
+                            </p>
+                            <p>
+                                19.6.9.	interfere with, disrupt, or create an undue burden on the APP or the networks or services connected to the APP.
+                            </p>
+                            <p>
+                                19.6.10.	attempt to impersonate another User or person or use the Username of another User.
+                            </p>
+                            <p>
+                                19.6.11.	sell or otherwise transfer your profile.
+                            </p>
+                            <p>
+                                19.6.12.	use any information obtained from the APP in order to harass, abuse, or harm another person.
+                            </p>
+                            <p>
+                                19.6.13.	decipher, decompile, disassemble, or reverse engineer any of the software comprising or in any way making up a part of the APP.
+                            </p>
+                            <p>
+                                19.6.14.	attempt to bypass any measures of the APP designed to prevent or restrict access to the APP, or any portion of the APP.
+                            </p>
+                            <p>
+                                19.6.15.	harass, annoy, intimidate, or threaten any of our employees or User engaged in providing any portion of the APP or Services to you.
+                            </p>
+                            <p>
+                                19.6.16.	delete the copyright or other proprietary rights notice from any Content.
+                            </p>
+                            <p>
+                                19.6.17.	copy or adapt the APP’s software, including but not limited to Flash, PHP, HTML, JavaScript, or other code. upload or transmit (or attempt to upload or to transmit) viruses, Trojan horses, or other material, including excessive use of capital letters and spamming (continuous posting of repetitive text), that interferes with any party’s uninterrupted use and enjoyment of the APP or modifies, impairs, disrupts, alters, or interferes with the use, features, functions, operation, or maintenance of the APP.
+                            </p>
+                            <p>
+                                19.6.18.	upload or transmit (or attempt to upload or to transmit) any material that acts as a passive or active information collection or transmission mechanism, including without limitation, clear graphics interchange formats (“gifs”), 1×1 pixels, web bugs, cookies, or other similar devices (sometimes referred to as “spyware” or “passive collection mechanisms” or “PCMS”).
+                            </p>
+                            <p>
+                                19.6.19.	except as may be the result of standard search engine or Internet browser usage, use, launch, develop, or distribute any automated system, including without limitation, any spider, robot, cheat utility, scraper, or offline reader that accesses the APP, or using or launching any unauthorised script or other software.
+                            </p>
+                            <p>
+                                19.6.20.	disparage, tarnish, or otherwise harm, in our opinion, us and/or the APP.
+                            </p>
+                        </span>
+                        <span>
+                            <Card.Title>
+                                20.	Acceptable Use Policy
+                            </Card.Title>
+                        </span>
+                        <span>
+                            <p>
+                                20.1.	You may use our APP only for lawful purposes.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                20.2.	You may not use our APP:
+                            </p>
+                            <p>
+                                20.2.1.	in any way that breaches any applicable local or international laws or regulations;
+                            </p>
+                            <p>
+                                20.2.2.	in any way that is unlawful or fraudulent, or has any unlawful or fraudulent purpose or effect;
+                            </p>
+                            <p>
+                                20.2.3.	to send, knowingly receive, upload, download, use or re-use any material which does not comply with our content standards as set out in our prevailing Terms of Service as amended from time to time; and
+                            </p>
+                            <p>
+                                20.2.4.	to knowingly transmit any data, send or upload any material that contains viruses, Trojan horses, worms, time-bombs, keystroke loggers, spyware, adware or any other harmful programs or similar device code designed to adversely affect the operation of any device software or hardware.
+                            </p>
+                            <p>
+                                20.2.5.	You also agree:
+                            </p>
+                            <p>
+                                20.2.6.	not to reproduce, duplicate, copy or re-sell any part of our APP in contravention of the provisions of our Terms; and
+                            </p>
+                            <p>
+                                20.2.6.	not to reproduce, duplicate, copy or re-sell any part of our APP in contravention of the provisions of our Terms; and
+                            </p>
+                            <p>
+                                20.2.7.	not to access without authority, interfere with, damage or disrupt:
+                            </p>
+                            <p>
+                                20.2.8.	any part of our APP;
+                            </p>
+                            <p>
+                                20.2.9.	any equipment or network on which our APP is stored;
+                            </p>
+                            <p>
+                                20.2.10.	any software used in the provision of our APP; or
+                            </p>
+                            <p>
+                                20.2.11.	any equipment or network or software owned or used by any third party.
+                            </p>
+                        </span>
+                        <span>
+                            <Card.Title>
+                                21.	Suspension
+                            </Card.Title>
+                        </span>
+                        <span>
+                            <p>
+                                21.1.	We will determine, in our discretion, whether there has been a breach of our Acceptable Use Policy through your use of our APP.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                21.2.	When a breach of this policy has occurred, we may take such action as we deem appropriate.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                21.3.	Failure to comply with our Acceptable Use Policy constitutes a material breach of the Terms and Conditions upon which you are permitted to use our APP, and may result in our taking all or any of the following actions:
+                            </p>
+                            <p>
+                                21.3.1.	immediate temporary or permanent cancellation of your right to use our APP;
+                            </p>
+                            <p>
+                                21.3.2.	immediate temporary or permanent removal of any Contribution;
+                            </p>
+                            <p>
+                                21.3.3.	issuance of a warning to you;
+                            </p>
+                            <p>
+                                21.3.4.	legal proceedings against you for reimbursement of all costs on an indemnity basis (including but not limited to reasonable administrative and legal costs) resulting from the breach;
+                            </p>
+                            <p>
+                                21.3.5.	further legal action against you; and/or
+                            </p>
+                            <p>
+                                21.3.6.	disclosure of such information to law enforcement authorities as we reasonably feel is necessary.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                21.4.	We exclude liability for actions taken in response to breaches of this Acceptable Use Policy . The responses described in this policy are not limited, and we may take any other action we reasonably deem appropriate.
+                            </p>
+                        </span>
+                        <span>
+                            <Card.Title>
+                                22.	Submissions
+                            </Card.Title>
+                        </span>
+                        <span>
+                            <p>
+                                22.1.	You acknowledge and agree that any questions, comments, suggestions, ideas, feedback, or other information regarding the APP ("Submissions") provided by you to us are non-confidential and shall become our sole property. We shall own exclusive rights, including all intellectual property rights, and shall be entitled to the unrestricted use and dissemination of these Submissions for any lawful purpose, commercial or otherwise, without acknowledgment or compensation to you.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                22.2.	You hereby waive all moral rights to any such Submissions, and you hereby warrant that any such Submissions are original with you or that you have the right to submit such Submissions. You agree there shall be no recourse against us for any alleged or actual infringement or misappropriation of any proprietary right in your Submissions.
+                            </p>
+                        </span>
+                        <span>
+                            <Card.Title>
+                                23.	APP Management
+                            </Card.Title>
+                        </span>
+                        <span>
+                            <p>
+                                23.1.	We reserve the right, but not the obligation to:
+                            </p>
+                            <p>
+                                23.1.1.	monitor the APP for violations of these Terms;
+                            </p>
+                            <p>
+                                23.1.2.	take appropriate legal action against anyone who, in our sole discretion, violates the law or these Terms, including without limitation, reporting such User to law enforcement authorities;
+                            </p>
+                            <p>
+                                23.1.3.	in our sole discretion and without limitation, refuse, restrict access to, limit the availability of, or disable (to the extent technologically feasible) any of your Contributions or any portion thereof;
+                            </p>
+                            <p>
+                                23.1.4.	in our sole discretion and without limitation, notice, or liability, to remove from the APP or otherwise disable all files and content that are excessive or are in any way burdensome to our systems;
+                            </p>
+                            <p>
+                                23.1.5.	otherwise manage the APP in a manner designed to protect our rights and property and to facilitate the proper functioning of the APP.
+                            </p>
+                        </span>
+                        <span>
+                            <Card.Title>
+                                24.	Modifications And Interruptions
+                            </Card.Title>
+                        </span>
+                        <span>
+                            <p>
+                                24.1.	We reserve the right to change, modify, or remove the contents of the APP at any time or for any reason at our sole discretion without notice. However, we have no obligation to update any information on our APP. We also reserve the right to modify or discontinue all or part of the APP without notice at any time.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                24.2.	We will not be liable to you or any third party for any modification, price change, suspension, or discontinuance of the APP.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                24.3.	We cannot guarantee the APP will be available at all times.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                24.4.	We may experience hardware, software, or other problems or need to perform maintenance related to the APP, resulting in interruptions, delays, or errors.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                24.5.	We reserve the right to change, revise, update, suspend, discontinue, or otherwise modify the APP at any time or for any reason without notice to you. You agree that we have no liability whatsoever for any loss, damage, or inconvenience caused by your inability to access or use the APP during any downtime or discontinuance of the APP.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                24.6.	Nothing in these Terms will be construed to obligate us to maintain and support the APP or to supply any corrections, updates, or releases in connection therewith.
+                            </p>
+                        </span>
+                        <span>
+                            <Card.Title>
+                                25.	Availability of the APP
+                            </Card.Title>
+                        </span>
+                        <span>
+                            <p>
+                                25.1.	Our APP is provided “as is” and on an “as available” basis. We give no warranty that our APP will be free of defects and / or faults. To the maximum extent permitted by the law we provide no warranties (express or implied) of fitness for a particular purpose, accuracy of information, compatibility and satisfactory quality.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                25.2.	Joblinxs accepts no liability for any disruption or non-availability of the APP resulting from external causes including, but not limited to, ISP equipment failure, host equipment failure, communications network failure, power failure, natural events, acts of war or legal restrictions and censorship.
+                            </p>
+                        </span>
+                        <span>
+                            <Card.Title>
+                                26.	Corrections
+                            </Card.Title>
+                        </span>
+                        <span>
+                            <p>
+                                There may be information on the APP that contains typographical errors, inaccuracies, or omissions that may relate to the APP, including descriptions, pricing, availability, and various other information. We reserve the right to correct any errors, inaccuracies, or omissions and to change or update the information on the APP at any time, without prior notice.
+                            </p>
+                        </span>
+                        <span>
+                            <Card.Title>
+                                27.	Privacy
+                            </Card.Title>
+                        </span>
+                        <span>
+                            <p>
+                                27.1.	For the purposes of applicable data protection legislation, Joblinxs will process any personal data you have provided to us in accordance with our Privacy Policy available on the Joblinxs APP or on request from Joblinxs.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                27.2.	You agree that if you have provided Joblinxs with personal data relating to a third party:
+                            </p>
+                            <p>
+                                27.2.1.	you have in place all necessary appropriate consents and notices to enable lawful transfer such personal data to Joblinxs and
+                            </p>
+                            <p>
+                                27.2.2.	that you have brought to the attention of any such third party the Privacy Notice available on the Joblinxs’s APP or otherwise provided a copy of it to the third party.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                27.3.	You agree to indemnify Joblinxs in relation to all and any liabilities, penalties, fines, awards, or costs arising from your non-compliance with these requirements.
+                            </p>
+                        </span>
+                        <span>
+                            <Card.Title>
+                                28.	Term and Termination
+                            </Card.Title>
+                        </span>
+                        <span>
+                            <p>
+                                28.1.	These Terms and Conditions shall remain in full force and effect while you use the APP. Without limiting any other provision of these Terms, we reserve the right to, in our sole discretion and without notice or liability, deny access to and use of the APP (including blocking certain IP addresses), to any person for any reason or for no reason, including without limitation for breach of any representation, warranty, or covenant contained in these Terms or of any applicable law or regulation. We may terminate your use or participation in the APP or delete your account and any content or information that you posted at any time, without warning, in our sole discretion.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                28.2.	If we terminate or suspend your account for any reason, you are prohibited from registering and creating a new account under your name, a fake or borrowed name, or the name of any third party, even if you may be acting on behalf of the third party.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                28.3.	In addition to terminating or suspending your account, we reserve the right to take appropriate legal action, including without limitation pursuing civil, criminal, and injunctive redress.
+                            </p>
+                        </span>
+                        <span>
+                            <Card.Title>
+                                29.	Limitation of Liability
+                            </Card.Title>
+                        </span>
+                        <span>
+                            <p>
+                                29.1.	We are not liable for the completeness, accuracy or correctness of any information uploaded on our APP and any Related Content. You expressly agree that your use of the Services and our APP, including reliance on any Advice, is at your sole risk.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                29.2.	You agree not to use the Services, our APP and the Related Content for any re-sale purposes, and we have no liability to you, whether in contract, tort (including negligence), breach of statutory duty, or otherwise, arising under or in connection with these Terms (including but not limited to the use of, or inability to use, the Services, our APP or any other website or software) for:
+                            </p>
+                            <p>
+                                29.2.1.	loss of profits, sales, business, or revenue;
+                            </p>
+                            <p>
+                                29.2.3.	loss of anticipated savings;
+                            </p>
+                            <p>
+                                29.2.4.	loss or corruption of data or information;
+                            </p>
+                            <p>
+                                29.2.5.	loss of business opportunity, goodwill or reputation; or
+                            </p>
+                            <p>
+                                29.2.6.	any other indirect or consequential loss or damage
+                            </p>
+
+                        </span>
+                        <span>
+                            <p>
+                                29.3.	Nothing in these Terms shall limit or exclude our liability for:
+                            </p>
+                            <p>
+                                29.3.1.	death or personal injury resulting from our negligence;
+                            </p>
+                            <p>
+                                29.3.2.	fraud; and/or
+                            </p>
+                            <p>
+                                29.3.3.	any other matter in respect of which we are prohibited under applicable law from limiting or excluding our liability.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                29.4.	Our APP is not intended to serve a record-keeping function and we shall not be liable for any loss of data or content.
+                            </p>
+                        </span>
+                        <span>
+                            <p>
+                                29.5.	These Terms set out the full extent of our obligations and liabilities in respect of the supply of the Services and our APP. Except as expressly stated in these Terms, there are no conditions, warranties, representations or other terms, express or implied, that are binding on us. Any condition, warranty, representation or other term concerning the supply of the Services and our APP which might otherwise be implied into, or incorporated in, these Terms whether by statute or otherwise, is excluded to the fullest extent permitted by law.
+                            </p>
+                        </span>
+                        <span>
+                            <Card.Title>
+                            30.	No Waiver
+                            </Card.Title>
+                        </span>
+                        <span>
+                            <p>
+                            In the event that any party to these Terms fails to exercise any right or remedy contained herein, this shall not be construed as a waiver of that right or remedy.
+                            </p>
+                        </span>
+                        <span>
+                            <Card.Title>
+                            31.	Previous Terms and Conditions
+                            </Card.Title>
+                        </span>
+                        <span>
+                            <p>
+                            In the event of any conflict between these Terms and any prior versions thereof, the provisions of these Terms shall prevail unless it is expressly stated otherwise.
+                            </p>
+                        </span>
+                        <span>
+                            <Card.Title>
+                            32.	Law and Jurisdiction
+                            </Card.Title>
+                        </span>
+                        <span>
+                            <p>
+                            These Terms of Service and the relationship between you and Joblinxs shall be governed by and construed in accordance with the Law of Canada and Joblinxs and you agree to submit to the exclusive jurisdiction of the Courts of Toronto.
+                            </p>
+                        </span>
                     </Col>
 
 
