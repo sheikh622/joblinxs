@@ -120,13 +120,6 @@ export default () => {
                         allowHover={false}
                         ratingValue={getById?.profile_rating ? getById?.profile_rating * 20 : "0"} /* Available Props */
                       />
-                      {/* <Card.Text className="text-gray mb-0 starIcon">
-                        <FontAwesomeIcon icon={faStar} />
-                        <FontAwesomeIcon icon={faStar} />
-                        <FontAwesomeIcon icon={faStar} />
-                        <FontAwesomeIcon icon={faStar} />
-                        <FontAwesomeIcon icon={faStar} />
-                      </Card.Text> */}
                       <Card.Text className="text-gray mb-2 reviews">
                         (0 Reviews)
                       </Card.Text>
