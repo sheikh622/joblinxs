@@ -37,8 +37,7 @@ const Chatboard = ({
         message: messages[0].text,
       };
     if(blockedBy === null){
-      sendMessage(messages, users, currentUser, customKey);
-      dispatch(SendMessage(data));
+      dispatch(SendMessage({data,messages, users, currentUser, customKey}));
     }else{
       if(blockedBy){
         toast.error("You have blocked this user");
