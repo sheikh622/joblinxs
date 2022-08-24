@@ -156,11 +156,10 @@ const Mainchat = () => {
           }
         });
         if (data.length > 0) {
-          data.map((item) => {
-            if (id !== item.id) {
-              newData = 1;
-            }
-          });
+          const index = data.map((object) => object.id).indexOf(id);
+          if(index < 0){
+            newData = 1;
+          }
         } else {
           newData = 1;
         }
