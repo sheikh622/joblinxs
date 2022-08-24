@@ -10,6 +10,7 @@ import addJob from "../Redux/addJob/reducer";
 import ProfileReducer from "../Redux/profile/reducers";
 import Notifications from "../Redux/notification/reducers";
 import BusinessCategory from "../Redux/BusinessCategory/reducers";
+import ReportListing from "../Redux/ReportManagement/reducers";
 import ChatReducer from "../Redux/chat/reducers"
 const rootReducer = (history) => {
   return combineReducers({
@@ -24,6 +25,7 @@ const rootReducer = (history) => {
     Notifications,
     BusinessCategory,
     ChatReducer,
+    ReportListing,
     router: connectRouter(history),
   });
 

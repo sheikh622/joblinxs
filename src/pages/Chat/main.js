@@ -115,7 +115,7 @@ const Mainchat = () => {
             res.forEach((doc) => {
               documents.push({ ...doc.data(), id: doc.id });
             });
-            setCurrentUsers(true);
+            // setCurrentUsers(true);
             setOneToOneChat(documents);
           });
         }

@@ -9,8 +9,9 @@ import {
   REPORTED_USER_SUCCESS,
   REPORTED_USER,
   UNBLOCK_USER,
-  UNBLOCK_USER_SUCCESS
-
+  UNBLOCK_USER_SUCCESS,
+  HIRED_APPLICANTS,
+  HIRED_APPLICANTS_SUCCESS
 } from "./constants";
 
 export const getProfile = (data) => ({
@@ -61,5 +62,14 @@ export const reportedUser  = (data) => (
 });
 export const reportedUserSuccess = (data) => ({
   type:  REPORTED_USER_SUCCESS,
+  payload: data,
+});
+export const hiredApplicant = (data) => (
+  {
+  type: HIRED_APPLICANTS,
+  payload: data,
+});
+export const hiredApplicantSuccess = (data) => ({
+  type:  HIRED_APPLICANTS_SUCCESS,
   payload: data,
 });

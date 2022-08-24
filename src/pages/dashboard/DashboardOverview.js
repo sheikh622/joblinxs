@@ -189,7 +189,7 @@ const DashboardOverview = (props) => {
           )}
         </Row>
         {/* Featured */}
-        <Row className="py-2 justify-content-center">
+        <Row className="py-2">
           <div className="d-flex justify-content-between mt-0 mb-4 headerBorder">
             <h4>New Arrival Jobs By Provider</h4>
             <a href="/Newarrivalproviders">view all</a>

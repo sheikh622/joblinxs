@@ -22,9 +22,8 @@ import profile from "../../assets/img/upload.png";
 import AddCategory from "../../components/addCategory";
 import { getJobListing, updateJob, jobById, emergencyJob } from "../../Redux/addJob/actions";
 import { getCategoryList } from "../../Redux/Category/actions";
-import DatePicker from "react-date-picker";
-import "react-date-picker/dist/DatePicker.css";
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 export const GeneralInfoForm = () => {
   const provide = [
     { value: "1", label: "1" },
@@ -70,7 +69,7 @@ export const GeneralInfoForm = () => {
   const [categories, setCategories] = useState(null);
   const [location, setLocation] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
-  const [postItem , setPostItem] = useState(false);
+  const [postItem, setPostItem] = useState(false);
   const [startDate, setStartDate] = React.useState(new Date());
   const [endDate, setEndDate] = React.useState(new Date());
   const [adminId, setAdminId] = useState(0);
@@ -78,6 +77,7 @@ export const GeneralInfoForm = () => {
   const [longitude, setLogintude] = useState();
   const [latitude, setLatitude] = useState();
   const [unit, setUnit] = useState();
+  const [postJob, setPostJob] = useState(false);
   let jobId = params.pathname.split("/")[2];
 
   useEffect(() => {
@@ -139,8 +139,8 @@ export const GeneralInfoForm = () => {
       description: SingleId?.description ? SingleId?.description : "",
       jobRequirements: SingleId?.requirement ? SingleId?.requirement : "",
       toolsNeeded: SingleId?.toolsNeeded ? SingleId?.toolsNeeded : "",
-      rate: SingleId?.rate ? SingleId?.rate : "0",
-      unit: SingleId?.unit ? SingleId?.unit : "0",
+      rate: SingleId?.rate ? SingleId?.rate : "--",
+      unit: SingleId?.unit ? SingleId?.unit : "--",
       onGoing: SingleId?.onGoing ? SingleId?.onGoing : "",
       jobType: SingleId?.jobType ? SingleId?.jobType : "",
       // jobImg: SingleId?.image ? SingleId?.image : "",
@@ -159,6 +159,7 @@ export const GeneralInfoForm = () => {
     validationSchema: CategorySchema,
     onSubmit: async (values, action) => {
       setShowDefaultEmergency(true);
+      setPostJob(true);
       let data = {
         id: values.id,
         name: values.jobName,
@@ -195,14 +196,16 @@ export const GeneralInfoForm = () => {
         history: history,
         existImg: SingleId?.image,
         isPost: isPost,
+        setPostJob:setPostJob,
       };
       if (!id) {
+        
         dispatch(getJobListing(data));
       } else {
         if (postItem) {
           if (isPost) {
             setShowDefaultEmergency(true);
-            
+
             dispatch(getJobListing(data));
           } else {
 
@@ -255,14 +258,12 @@ export const GeneralInfoForm = () => {
     },
     defaultValue: location,
   });
-  // const handleEmergency = () => {
-  //   dispatch(emergencyJob({
-  //     id: jobId,
-  //     setShowDefaultEmergency: setShowDefaultEmergency,
-  //     history: history,
-
-  //   }));
-  // }
+  const PreventFirstZero=(e)=>{
+    if (e.target.value.length == 0 && e.which == "0".charCodeAt(0)) {
+      e.preventDefault();
+      return false;
+  }}
+  let str = SingleId?.job_categories?.length > 0 ? SingleId?.job_categories[0]?.category : "false";
   return (
     <>
       <Col className={"d-flex justify-content-center"}>
@@ -554,9 +555,10 @@ export const GeneralInfoForm = () => {
                     //  required
                     type="number"
                     // placeholder="$"
-                    value={CategoryFormik.values.rate}
+                    // value={CategoryFormik.values.rate}
                     name="rate"
                     label="rate"
+                    onKeyPress={(event)=>PreventFirstZero(event)}
                     onChange={(e) => {
                       CategoryFormik.setFieldValue("rate", e.target.value);
                     }}
@@ -578,6 +580,7 @@ export const GeneralInfoForm = () => {
                     value={CategoryFormik.values.unit}
                     name="unit"
                     label="unit"
+                    onKeyPress={(event)=>PreventFirstZero(event)}
                     onChange={(e) => {
                       CategoryFormik.setFieldValue("unit", e.target.value);
                     }}
@@ -688,10 +691,9 @@ export const GeneralInfoForm = () => {
                 >
                   Add New
                 </Form.Label>
-                <p>{categories?.value[0]?.title}</p>
                 <Form.Group>
                   <Select
-                    defaultValue={categories}
+                    placeholder={str?.title}
                     onChange={setCategories}
                     options={categoryList}
                   />
@@ -699,8 +701,8 @@ export const GeneralInfoForm = () => {
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Control ref={ref} style={{ width: "100%" }} />
-             
-               {SingleId?.location ? SingleId?.location[0] : ""}
+                {location ? location : SingleId?.location}
+                {/* {SingleId?.location ?  : ""} */}
               </Col>
 
             </Row>
@@ -710,29 +712,13 @@ export const GeneralInfoForm = () => {
                 <Button variant="primary" type="submit" show={showDefaults} className="mx-2">
                   {id ? "Update Job" : "Post Job"}
                 </Button>) : ""}
-
-              {SingleId?.status === "pending" || SingleId?.status === "Accepted" ? (
-                <Button
-                  variant="primary"
-                  type="submit"
-                  onClick={() => {
-                    // setShowDefaultEmergency(true);
-                    setEmergency(true)
-                    setIsPost(false)
-
-                  }}
-                  className="mx-2"
-                >
-                  Emergency Post
-                </Button>
-              ) : ""}
               {id && (
                 <Button
                   variant="primary"
                   type="submit"
                   onClick={() => {
-                    // setShowDefaultEmergency(true);
-                    setIsPost(true)
+                    setShowDefaultEmergency(true);
+                    // setIsPost(true)
                   }}
                 >
                   Repost Job
@@ -762,8 +748,7 @@ export const GeneralInfoForm = () => {
         <Modal.Body>
           <Form onSubmit={CategoryFormik.handleSubmit}>
             <Form.Group>
-              Are you sure you want to{" "}
-              {isPost ? "repost this Job?" : "post this job emergency?"}
+              Are you sure you want to post this Job?
             </Form.Group>
             <Form.Group>
               <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
@@ -773,6 +758,7 @@ export const GeneralInfoForm = () => {
                   onClick={() => {
                     setPostItem(true);
                     CategoryFormik.handleSubmit();
+                    setPostJob(false);
                   }}
                   className="mx-2"
                 >
