@@ -115,7 +115,6 @@ const Mainchat = () => {
             res.forEach((doc) => {
               documents.push({ ...doc.data(), id: doc.id });
             });
-            // setCurrentUsers(true);
             setOneToOneChat(documents);
           });
         }
@@ -124,10 +123,12 @@ const Mainchat = () => {
   }, [currentUser, users]);
 
   const handleChat = (firebaseId, index, id) => {
-    setChatId(firebaseId);
-    setUserId(id)
-    setCurrentUsers(true);
-    selectedIndex = index;
+    if(id){
+      setChatId(firebaseId);
+      setUserId(id)
+      setCurrentUsers(true);
+      selectedIndex = index;
+    }
   };
   const handleClick = (id, item) => {
     if (id === undefined) {
@@ -155,11 +156,10 @@ const Mainchat = () => {
           }
         });
         if (data.length > 0) {
-          data.map((item) => {
-            if (id !== item.id) {
-              newData = 1;
-            }
-          });
+          const index = data.map((object) => object.id).indexOf(id);
+          if(index < 0){
+            newData = 1;
+          }
         } else {
           newData = 1;
         }
