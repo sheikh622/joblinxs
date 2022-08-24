@@ -43,6 +43,9 @@ let selectedIndex;
 const Mainchat = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const params = useLocation();
+  let id = params?.search.split("?")[1];
+  let fireId = parseInt(params.search.split("?")[2]);
   const currentUser = useSelector((state) => state.auth.Auther);
   const contactsList = useSelector((state) => state?.ChatReducer?.ListData);
   const [currentUsers, setCurrentUsers] = useState(false);
@@ -52,13 +55,24 @@ const Mainchat = () => {
   const [showDefault, setShowDefault] = useState(false);
   const [blockedBy, setBlockedBy] = useState(null);
   const [show, setShow] = useState();
+  const [userId, setUserId] = useState(id);
   const [jobId, setJobId] = useState();
+  const [dataList, setDataList] = useState();
   const [users, setUsers] = useState([]);
   const [receiver, setReceiver] = useState();
-  const params = useLocation();
-  let id = params?.search.split("?")[1];
-  const [chatId, setChatId] = useState(id);
-  let profileId = params.pathname.split("/")[2];
+  const [chatId, setChatId] = useState(fireId);
+  useEffect(() => {
+    if (contactsList !== undefined) {
+      setDataList(contactsList);
+    }
+  }, [contactsList]);
+
+  useEffect(() => {
+    if (chatId) {
+      let usersList = [currentUser.firebaseId, chatId];
+      setUsers(usersList);
+    }
+  }, [chatId]);
   const handleBlock = (data, values) => {
     dispatch(
       blockUser({
@@ -77,12 +91,6 @@ const Mainchat = () => {
       })
     );
   };
-  useEffect(() => {
-    if (chatId) {
-      let usersList = [currentUser.firebaseId, chatId];
-      setUsers(usersList);
-    }
-  }, [chatId]);
 
   useEffect(() => {
     dispatch(getList(currentUser.id));
@@ -115,12 +123,11 @@ const Mainchat = () => {
     }
   }, [currentUser, users]);
 
-  const handleChat = (id, index) => {
-    if(id){
-      setChatId(id);
-      setCurrentUsers(true);
-      selectedIndex = index;
-    }
+  const handleChat = (firebaseId, index, id) => {
+    setChatId(firebaseId);
+    setUserId(id)
+    setCurrentUsers(true);
+    selectedIndex = index;
   };
   const handleClick = (id, item) => {
     if (id === undefined) {
@@ -133,15 +140,69 @@ const Mainchat = () => {
       }
     }
   };
-  console.log(currentUsers, "here is sss")
-  const renderListUser = (item, index, blockedId) => {
+
+  useEffect(() => {
+    let data = [];
+    let newArray = contactsList;
+    let newData = 0;
+    if (id) {
+      if (newArray !== undefined) {
+        newArray.map((item, index) => {
+          if (item?.receiver?.id === currentUser?.id) {
+            return data.push(item?.sender);
+          } else {
+            return data.push(item?.receiver);
+          }
+        });
+        if (data.length > 0) {
+          data.map((item) => {
+            if (id !== item.id) {
+              newData = 1;
+            }
+          });
+        } else {
+          newData = 1;
+        }
+        if (newData === 1) {
+          newArray.push({
+            id: id,
+            fullName: "Provider",
+            firebaseId: fireId,
+            profileImg:
+              "https://wohk-bucket.s3.us-east-2.amazonaws.com/166125681470230.png",
+          });
+          data.push({
+            id: id,
+            fullName: "Provider",
+            firebaseId: fireId,
+            profileImg:
+              "https://wohk-bucket.s3.us-east-2.amazonaws.com/166125681470230.png",
+          })
+          setDataList(() => {
+            return [...newArray];
+          });
+        }
+      }
+      const index = data.map((object) => object.id).indexOf(id);
+      const firebase = newArray.filter((element) => {
+        if (element.id === id) {
+          return element;
+        }
+      });
+      let firebaseId = firebase[0]?.firebaseId;
+      selectedIndex = index;
+      handleChat(firebaseId, index, id);
+    }
+  }, [id, contactsList]);
+
+  const renderListUser = (item, index, blockedId, data) => {
     return (
       <li
         className={`align-items-center list-group-item d-flex pt-2 ${
           selectedIndex === index ? "active" : ""
         }`}
         onClick={() => {
-          handleChat(item.firebaseId, index);
+          handleChat(item.firebaseId, index, item.id);
           handleClick(blockedId?.id);
         }}
       >
@@ -150,80 +211,64 @@ const Mainchat = () => {
           alt="Neil Portrait"
           className="user-avatar rounded-circle"
         />
-        <span className="mx-2 listedName">{item?.fullName}</span>
-        <Dropdown as={ButtonGroup} className="me-3 mt-1 ms-4">
-          <Dropdown.Toggle
-            as={Button}
-            split
-            variant="link"
-            className="text-dark m-0 p-0 ellipsisIcon"
-          >
-            <span className="icon icon-sm">
-              <FontAwesomeIcon
-                icon={faEllipsisV}
-                className="icon-dark"
-                onClick={() => {
-                  handleClick(blockedId?.id);
-                }}
-                style={{ color: "black" }}
-              />
-            </span>
-          </Dropdown.Toggle>
-          <Dropdown.Menu className="custom_menu">
-            {blockedBy ? (
-              <>
-                <Dropdown.Item
+        <span className="mx-2 listedName">
+          {data?.fullName !== undefined ? data?.fullName : item?.fullName}
+        </span>
+        {data?.fullName !== undefined ? (
+          ""
+        ) : (
+          <Dropdown as={ButtonGroup} className="me-3 mt-1 ms-4">
+            <Dropdown.Toggle
+              as={Button}
+              split
+              variant="link"
+              className="text-dark m-0 p-0 ellipsisIcon"
+            >
+              <span className="icon icon-sm">
+                <FontAwesomeIcon
+                  icon={faEllipsisV}
+                  className="icon-dark"
                   onClick={() => {
-                    setSelectedUser(item.id);
-                    setBlockUserSaga(true);
+                    handleClick(blockedId?.id);
                   }}
-                >
-                  Unblock
-                </Dropdown.Item>
-              </>
-            ) : (
-              <>
-                <Dropdown.Item
-                  onClick={() => {
-                    setSelectedUser(item.id);
-                    setBlockUserSaga(true);
-                  }}
-                >
-                  Block
-                </Dropdown.Item>
-              </>
-            )}
+                  style={{ color: "black" }}
+                />
+              </span>
+            </Dropdown.Toggle>
+            <Dropdown.Menu className="custom_menu">
+              {blockedBy ? (
+                <>
+                  <Dropdown.Item
+                    onClick={() => {
+                      setSelectedUser(item.id);
+                      setBlockUserSaga(true);
+                    }}
+                  >
+                    Unblock
+                  </Dropdown.Item>
+                </>
+              ) : (
+                <>
+                  <Dropdown.Item
+                    onClick={() => {
+                      setSelectedUser(item.id);
+                      setBlockUserSaga(true);
+                    }}
+                  >
+                    Block
+                  </Dropdown.Item>
+                </>
+              )}
 
-            <Dropdown.Item onClick={() => setShow(true)}>Report</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+              <Dropdown.Item onClick={() => setShow(true)}>
+                Report
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        )}
       </li>
     );
   };
-
-  useEffect(() => {
-    let data = [];
-    if (id) {
-      if (contactsList !== undefined) {
-        contactsList.map((item, index) => {
-          if (item?.receiver?.id === currentUser?.id) {
-            return data.push(item?.sender);
-          } else {
-            return data.push(item?.receiver);
-          }
-        });
-      }
-      const index = data.map((object) => object.id).indexOf(id);
-      const firebase = data.filter((element) => {
-        if (element.id === id) {
-          return element;
-        }
-      });
-      let firebaseId = firebase[0]?.firebaseId;
-      selectedIndex = index;
-      handleChat(firebaseId, index);
-    }
-  }, [id, contactsList]);
 
   useEffect(() => {
     let data = [];
@@ -235,15 +280,15 @@ const Mainchat = () => {
       }
     });
     let id = data[selectedIndex]?.id;
-    
     const firebase = data.filter((element) => {
       if (element?.id === id) {
         return element;
       }
     });
     let firebaseId = firebase[0]?.firebaseId;
-    handleChat(firebaseId, selectedIndex);
-  }, [selectedIndex, contactsList])
+    handleChat(firebaseId, selectedIndex, id);
+  }, [selectedIndex, contactsList]);
+
   return (
     <>
       <Navbar module={"Chat"} />
@@ -251,11 +296,21 @@ const Mainchat = () => {
         <Col xs={12} xl={3}>
           <div className="chatList">
             <ul>
-              {contactsList.map((item, index) => {
+              {dataList?.map((item, index) => {
                 if (item?.receiver?.id === currentUser?.id) {
-                  return renderListUser(item?.sender, index, item?.blockedBy);
+                  return renderListUser(
+                    item?.sender,
+                    index,
+                    item?.blockedBy,
+                    item
+                  );
                 } else {
-                  return renderListUser(item?.receiver, index, item?.blockedBy);
+                  return renderListUser(
+                    item?.receiver,
+                    index,
+                    item?.blockedBy,
+                    item
+                  );
                 }
               })}
             </ul>
@@ -273,7 +328,7 @@ const Mainchat = () => {
               receiver={receiver}
               jobId={jobId}
               setUsers={setUsers}
-              id={chatId}
+              id={userId}
               blockedBy={blockedBy}
               currentUser={currentUser}
             />

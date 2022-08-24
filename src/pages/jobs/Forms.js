@@ -691,7 +691,6 @@ export const GeneralInfoForm = () => {
                 >
                   Add New
                 </Form.Label>
-                <p>{categories?.value[0]?.title}</p>
                 <Form.Group>
                   <Select
                     placeholder={str?.title}
