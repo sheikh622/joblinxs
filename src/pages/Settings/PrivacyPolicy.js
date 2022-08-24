@@ -35,9 +35,7 @@ const PrivacyPolicy = (props, row) => {
                         </span>
                         <span>
                             <p>
-
                                 Account holders, users and visitors of our APP or owners of Personal Information collected by us (each, “you”) should read the following carefully to understand our views and practices regarding your Personal Information and how we will treat it.
-
                             </p>
                         </span>
                         <span>
