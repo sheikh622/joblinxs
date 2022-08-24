@@ -115,7 +115,6 @@ const Mainchat = () => {
             res.forEach((doc) => {
               documents.push({ ...doc.data(), id: doc.id });
             });
-            // setCurrentUsers(true);
             setOneToOneChat(documents);
           });
         }
@@ -124,10 +123,12 @@ const Mainchat = () => {
   }, [currentUser, users]);
 
   const handleChat = (firebaseId, index, id) => {
-    setChatId(firebaseId);
-    setUserId(id)
-    setCurrentUsers(true);
-    selectedIndex = index;
+    if(id){
+      setChatId(firebaseId);
+      setUserId(id)
+      setCurrentUsers(true);
+      selectedIndex = index;
+    }
   };
   const handleClick = (id, item) => {
     if (id === undefined) {
