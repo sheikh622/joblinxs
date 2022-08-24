@@ -36,6 +36,7 @@ import MyJobDetails from "./jobs/myJobDetails";
 import BusinessCategories from "./businessCategory/index"
 import Settings from "./Settings/index"
 import Chat from "./Chat/main"
+import ReportManagement from "./Report Management";
 // changes merge
 export default () => (
   <BrowserRouter>
@@ -131,6 +132,11 @@ export default () => (
         exact
         path={Routes.Categories_Management.path}
         component={CategoryManagement}
+      />
+      <PrivateRoute
+        exact
+        path={Routes.Report_Management.path}
+        component={ReportManagement}
       />
       <PrivateRoute
         exact
