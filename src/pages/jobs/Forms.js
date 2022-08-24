@@ -77,6 +77,7 @@ export const GeneralInfoForm = () => {
   const [longitude, setLogintude] = useState();
   const [latitude, setLatitude] = useState();
   const [unit, setUnit] = useState();
+  const [postJob, setPostJob] = useState(false);
   let jobId = params.pathname.split("/")[2];
 
   useEffect(() => {
@@ -138,8 +139,8 @@ export const GeneralInfoForm = () => {
       description: SingleId?.description ? SingleId?.description : "",
       jobRequirements: SingleId?.requirement ? SingleId?.requirement : "",
       toolsNeeded: SingleId?.toolsNeeded ? SingleId?.toolsNeeded : "",
-      rate: SingleId?.rate ? SingleId?.rate : "0",
-      unit: SingleId?.unit ? SingleId?.unit : "0",
+      rate: SingleId?.rate ? SingleId?.rate : "--",
+      unit: SingleId?.unit ? SingleId?.unit : "--",
       onGoing: SingleId?.onGoing ? SingleId?.onGoing : "",
       jobType: SingleId?.jobType ? SingleId?.jobType : "",
       // jobImg: SingleId?.image ? SingleId?.image : "",
@@ -158,6 +159,7 @@ export const GeneralInfoForm = () => {
     validationSchema: CategorySchema,
     onSubmit: async (values, action) => {
       setShowDefaultEmergency(true);
+      setPostJob(true);
       let data = {
         id: values.id,
         name: values.jobName,
@@ -194,8 +196,10 @@ export const GeneralInfoForm = () => {
         history: history,
         existImg: SingleId?.image,
         isPost: isPost,
+        setPostJob:setPostJob,
       };
       if (!id) {
+        
         dispatch(getJobListing(data));
       } else {
         if (postItem) {
@@ -254,22 +258,12 @@ export const GeneralInfoForm = () => {
     },
     defaultValue: location,
   });
-  // const handleEmergency = () => {
-  //   dispatch(emergencyJob({
-  //     id: jobId,
-  //     setShowDefaultEmergency: setShowDefaultEmergency,
-  //     history: history,
-
-  //   }));
-  // }
-  // let str = SingleId?.job_categories[0];
-
-  // useEffect(()=>{
-
-  //   if()
-  // },[])
+  const PreventFirstZero=(e)=>{
+    if (e.target.value.length == 0 && e.which == "0".charCodeAt(0)) {
+      e.preventDefault();
+      return false;
+  }}
   let str = SingleId?.job_categories?.length > 0 ? SingleId?.job_categories[0]?.category : "false";
-  console.log(str, "==================")
   return (
     <>
       <Col className={"d-flex justify-content-center"}>
@@ -561,9 +555,10 @@ export const GeneralInfoForm = () => {
                     //  required
                     type="number"
                     // placeholder="$"
-                    value={CategoryFormik.values.rate}
+                    // value={CategoryFormik.values.rate}
                     name="rate"
                     label="rate"
+                    onKeyPress={(event)=>PreventFirstZero(event)}
                     onChange={(e) => {
                       CategoryFormik.setFieldValue("rate", e.target.value);
                     }}
@@ -585,6 +580,7 @@ export const GeneralInfoForm = () => {
                     value={CategoryFormik.values.unit}
                     name="unit"
                     label="unit"
+                    onKeyPress={(event)=>PreventFirstZero(event)}
                     onChange={(e) => {
                       CategoryFormik.setFieldValue("unit", e.target.value);
                     }}
@@ -722,7 +718,7 @@ export const GeneralInfoForm = () => {
                   type="submit"
                   onClick={() => {
                     setShowDefaultEmergency(true);
-                    setIsPost(true)
+                    // setIsPost(true)
                   }}
                 >
                   Repost Job
@@ -752,8 +748,7 @@ export const GeneralInfoForm = () => {
         <Modal.Body>
           <Form onSubmit={CategoryFormik.handleSubmit}>
             <Form.Group>
-              Are you sure you want to{" "}
-              {isPost ? "repost this Job?" : "post this job emergency?"}
+              Are you sure you want to post this Job?
             </Form.Group>
             <Form.Group>
               <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
@@ -763,6 +758,7 @@ export const GeneralInfoForm = () => {
                   onClick={() => {
                     setPostItem(true);
                     CategoryFormik.handleSubmit();
+                    setPostJob(false);
                   }}
                   className="mx-2"
                 >
