@@ -37,6 +37,9 @@ import BusinessCategories from "./businessCategory/index"
 import Settings from "./Settings/index"
 import Chat from "./Chat/main"
 import ReportManagement from "./Report Management";
+import ChangePassword from "./Settings/changePassword";
+import TermsandConditions from "./Settings/TermsandConditions"
+import PrivacyPolicy from "./Settings/PrivacyPolicy";
 // changes merge
 export default () => (
   <BrowserRouter>
@@ -54,6 +57,16 @@ export default () => (
       <PublicRoute exact path={Routes.NotFound.path} component={NotFoundPage} />
       
       <PublicRoute exact path={Routes.Signin.path} component={Signin} />
+      <PrivateRoute
+        exact
+        path={Routes.TermsandConditions.path}
+        component={TermsandConditions}
+      />
+      <PrivateRoute
+        exact
+        path={Routes.PrivacyPolicy.path}
+        component={PrivacyPolicy}
+      />
       <PrivateRoute
         exact
         path={Routes.Chat.path}
@@ -117,6 +130,11 @@ export default () => (
         exact
         path={Routes.Settings.path}
         component={Settings}
+      />
+        <PrivateRoute
+        exact
+        path={Routes.ChangePassword.path}
+        component={ChangePassword}
       />
       <PrivateRoute
         exact
