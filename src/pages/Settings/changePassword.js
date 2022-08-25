@@ -92,12 +92,13 @@ const ChangePassword = (props, row) => {
                             <Form onSubmit={resetPasswordFormik.handleSubmit}>
                                 <Form.Group id="currentPassword" className="mb-4">
                                     <Form.Label>Your Current Password</Form.Label>
-                                    <InputGroup>
+                                    <InputGroup className="w-100">
                                         <InputGroup.Text>
                                             <FontAwesomeIcon icon={faUnlockAlt} />
-                                        </InputGroup.Text>
+                                        </InputGroup.Text >
                                         <Form.Control
                                             //  required
+
                                             type="currentPassword" placeholder="Current Password"
                                             value={resetPasswordFormik.values.currentPassword}
                                             label="currentPassword"
@@ -106,12 +107,13 @@ const ChangePassword = (props, row) => {
                                                 resetPasswordFormik.setFieldValue("currentPassword", e.target.value);
                                             }}
                                         />
-                                        {resetPasswordFormik.touched.currentPassword && resetPasswordFormik.errors.currentPassword ? (
-                                            <div style={{ color: "red" }}>
-                                                {resetPasswordFormik.errors.currentPassword}
-                                            </div>
-                                        ) : null}
+
                                     </InputGroup>
+                                    {resetPasswordFormik.touched.currentPassword && resetPasswordFormik.errors.currentPassword ? (
+                                        <div style={{ color: "red" }}>
+                                            {resetPasswordFormik.errors.currentPassword}
+                                        </div>
+                                    ) : null}
                                 </Form.Group>
                                 <Form.Group id="password" className="mb-4">
                                     <Form.Label>Your New Password</Form.Label>
@@ -129,10 +131,11 @@ const ChangePassword = (props, row) => {
                                                 resetPasswordFormik.setFieldValue("password", e.target.value);
                                             }}
                                         />
-                                        {resetPasswordFormik.touched.password && resetPasswordFormik.errors.password ? (
-                                            <div style={{ color: "red" }}>{resetPasswordFormik.errors.password}</div>
-                                        ) : null}
+
                                     </InputGroup>
+                                    {resetPasswordFormik.touched.password && resetPasswordFormik.errors.password ? (
+                                        <div style={{ color: "red" }}>{resetPasswordFormik.errors.password}</div>
+                                    ) : null}
                                 </Form.Group>
                                 <Form.Group id="confirmPassword" className="mb-4">
                                     <Form.Label>Confirm Password</Form.Label>
@@ -150,10 +153,11 @@ const ChangePassword = (props, row) => {
                                                 resetPasswordFormik.setFieldValue("confirmPassword", e.target.value);
                                             }}
                                         />
-                                        {resetPasswordFormik.touched.confirmPassword && resetPasswordFormik.errors.confirmPassword ? (
-                                            <div style={{ color: "red" }}>{resetPasswordFormik.errors.confirmPassword}</div>
-                                        ) : null}
+
                                     </InputGroup>
+                                    {resetPasswordFormik.touched.confirmPassword && resetPasswordFormik.errors.confirmPassword ? (
+                                        <div style={{ color: "red" }}>{resetPasswordFormik.errors.confirmPassword}</div>
+                                    ) : null}
                                 </Form.Group>
                                 <Button variant="primary" type="submit" className="w-100"
                                     onClick={() => {

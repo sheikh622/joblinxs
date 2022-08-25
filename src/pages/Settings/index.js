@@ -44,14 +44,14 @@ const Settings = (props, row) => {
                                 </Link>
                             </div>
                             <div className="border_bottom pb-2 mb-4">
-                                <Link className="fw-bold" target="blank" to={`/TermsandConditions`}>
+                                <Link className="fw-bold" target="blank" to={`/terms`}>
                                     <Card.Title className="text-primary">
                                         Terms and Conditions
                                     </Card.Title>
                                 </Link>
                             </div>
                             <div className="border_bottom pb-2 mb-4">
-                            <Link className="fw-bold" target="blank" to={`/PrivacyPolicy`}>
+                            <Link className="fw-bold" target="blank" to={`/privacy`}>
                                 <Card.Title className="text-primary">
                                     Privacy Policy
                                 </Card.Title>

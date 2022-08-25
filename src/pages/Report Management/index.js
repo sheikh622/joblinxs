@@ -119,7 +119,7 @@ const ReportManagement = (row) => {
                             className="text-left cursorPointer "
                             name="paymentType"
                             {...label}
-                            checked={item.isActive}
+                            checked={item?.reportedTo?.isActive}
                             onChange={(e) => {
                                 dispatch(
                                     getReportBlock({
@@ -152,9 +152,12 @@ const ReportManagement = (row) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {ReportList?.reportedUsers?.map((t, index) => (
-                                        <TableRow key={index} item={t} />
-                                    ))}
+                                    {ReportList?.reportedUsers?.map((obj, index) => {
+                                       
+                                        return (
+                                            <TableRow key={index} item={obj} />
+                                        )
+                                    })}
                                 </tbody>
                             </Table>
                             <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">

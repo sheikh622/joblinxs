@@ -35,7 +35,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
-                                1.	General Terms
+                                <h3>
+                                    1.	General Terms
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -106,7 +108,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
-                                2.	Your relationship with Joblinxs
+                                <h3>
+                                    2.	Your relationship with Joblinxs
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -206,7 +210,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
-                                3.	Apple and Android Devices
+                                <h3>
+                                    3.	Apple and Android Devices
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -232,7 +238,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
-                                4.	Prices and Payment
+                                <h3>
+                                    4.	Prices and Payment
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -294,7 +302,9 @@ const TermsandConditions = (props, row) => {
 
                         <span>
                             <Card.Title>
-                                5.	Service Provider Renumeration and Payout
+                                <h3>
+                                    5.	Service Provider Renumeration and Payout
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -362,7 +372,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
-                                6.	User Representations
+                                <h3>
+                                    6.	User Representations
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -396,7 +408,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
-                                7.	No reliance on information and limitation of liability
+                                <h3>
+                                    7.	No reliance on information and limitation of liability
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -426,7 +440,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
-                                8.	General Principles
+                                <h3>
+                                    8.	General Principles
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -446,7 +462,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
-                                9.	Technical requirements and responsibility
+                                <h3>
+                                    9.	Technical requirements and responsibility
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -466,7 +484,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
-                                10.	Uploading content to our APP
+                                <h3>
+                                    10.	Uploading content to our APP
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -510,7 +530,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
-                                11.	Contribution License
+                                <h3>
+                                    11.	Contribution License
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -554,7 +576,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
+                                <h3>
                                 18.	Restrictions
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -582,7 +606,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
+                                <h3>
                                 19.	Intellectual Property Rights
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -677,7 +703,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
+                                <h3>
                                 20.	Acceptable Use Policy
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -728,7 +756,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
+                                <h3>
                                 21.	Suspension
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -771,7 +801,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
+                                <h3>
                                 22.	Submissions
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -786,7 +818,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
+                                <h3>
                                 23.	APP Management
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -811,7 +845,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
+                                <h3>
                                 24.	Modifications And Interruptions
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -846,7 +882,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
+                                <h3>
                                 25.	Availability of the APP
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -861,7 +899,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
+                                <h3>
                                 26.	Corrections
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -871,7 +911,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
+                                <h3>
                                 27.	Privacy
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -897,7 +939,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
+                                <h3>
                                 28.	Term and Termination
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -917,7 +961,9 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
+                                <h3>
                                 29.	Limitation of Liability
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
@@ -972,32 +1018,38 @@ const TermsandConditions = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
-                            30.	No Waiver
+                                <h3>
+                                30.	No Waiver
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
                             <p>
-                            In the event that any party to these Terms fails to exercise any right or remedy contained herein, this shall not be construed as a waiver of that right or remedy.
+                                In the event that any party to these Terms fails to exercise any right or remedy contained herein, this shall not be construed as a waiver of that right or remedy.
                             </p>
                         </span>
                         <span>
                             <Card.Title>
-                            31.	Previous Terms and Conditions
+                                <h3>
+                                31.	Previous Terms and Conditions
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
                             <p>
-                            In the event of any conflict between these Terms and any prior versions thereof, the provisions of these Terms shall prevail unless it is expressly stated otherwise.
+                                In the event of any conflict between these Terms and any prior versions thereof, the provisions of these Terms shall prevail unless it is expressly stated otherwise.
                             </p>
                         </span>
                         <span>
                             <Card.Title>
-                            32.	Law and Jurisdiction
+                                <h3>
+                                32.	Law and Jurisdiction
+                                </h3>
                             </Card.Title>
                         </span>
                         <span>
                             <p>
-                            These Terms of Service and the relationship between you and Joblinxs shall be governed by and construed in accordance with the Law of Canada and Joblinxs and you agree to submit to the exclusive jurisdiction of the Courts of Toronto.
+                                These Terms of Service and the relationship between you and Joblinxs shall be governed by and construed in accordance with the Law of Canada and Joblinxs and you agree to submit to the exclusive jurisdiction of the Courts of Toronto.
                             </p>
                         </span>
                     </Col>
