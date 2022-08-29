@@ -156,7 +156,6 @@ const Job = () => {
       setPage(page - 1);
     }
   };
-
   const paginationItems = () => {
     let items = [];
     for (let number = 1; number <= JobList?.pages; number++) {
