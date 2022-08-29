@@ -11,7 +11,7 @@ import {
   Button, Card, Col, Container, Form, InputGroup, Row
 } from "@themesberg/react-bootstrap";
 import { useFormik } from "formik";
-import {fetchToken} from "../../firebase"
+import { fetchToken } from "../../firebase"
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
@@ -32,7 +32,7 @@ const LoginPage = () => {
   useEffect(() => {
     let data;
     async function tokenFunc() {
-      data = await fetchToken(setTokenFound,setToken);
+      data = await fetchToken(setTokenFound, setToken);
       if (data) {
       }
       return data;
@@ -71,13 +71,13 @@ const LoginPage = () => {
         loginRequest({
           email: values.email,
           password: values.password,
-          webFcmToken:token,
+          webFcmToken: token,
           history: history,
           resetForm: resetForm,
           setLoader: setLoader,
         })
-      );    
-     },
+      );
+    },
   });
   return (
     <main>
@@ -91,7 +91,7 @@ const LoginPage = () => {
               xs={12}
               className="d-flex align-items-center justify-content-center"
             >
-              
+
               <div className="bg-white card-box-shadow border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
                 <div className="text-center text-md-center mb-4 mt-md-0">
                   <h3 className="mb-0">Sign in</h3>
@@ -115,10 +115,11 @@ const LoginPage = () => {
                         }}
                         placeholder="example@company.com"
                       />
-                      {loginFormik.touched.email && loginFormik.errors.email ? (
-                        <div style={{ color: "red" }}>{loginFormik.errors.email}</div>
-                      ) : null}
+
                     </InputGroup>
+                    {loginFormik.touched.email && loginFormik.errors.email ? (
+                      <div style={{ color: "red" }}>{loginFormik.errors.email}</div>
+                    ) : null}
                   </Form.Group>
                   <Form.Group>
                     <Form.Group id="password" className="mb-4">
@@ -138,10 +139,11 @@ const LoginPage = () => {
                             loginFormik.setFieldValue("password", e.target.value);
                           }}
                         />
-                        {loginFormik.touched.password && loginFormik.errors.password ? (
-                          <div style={{ color: "red" }}>{loginFormik.errors.password}</div>
-                        ) : null}
+
                       </InputGroup>
+                      {loginFormik.touched.password && loginFormik.errors.password ? (
+                        <div style={{ color: "red" }}>{loginFormik.errors.password}</div>
+                      ) : null}
                     </Form.Group>
                     <div className="d-flex justify-content-end align-items-center mb-4">
                       <Card.Link
