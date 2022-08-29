@@ -26,7 +26,6 @@ const JobManagement = (row) => {
   );
   const [adminId, setAdminId] = useState(0);
   const [type, setType] = React.useState("");
-
   const handleJobAction = (data) => {
     dispatch(
       changeJobStatus({
@@ -72,6 +71,7 @@ const JobManagement = (row) => {
     setCategoryType(event.target.value)
   }
   const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
+
   useEffect(() => {
     let array = [
       {

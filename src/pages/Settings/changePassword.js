@@ -1,4 +1,4 @@
-import { Container, Col, Card, Row, Form, Button, InputGroup, Modal } from "@themesberg/react-bootstrap";
+import { Container, Col, Card, Row, Form, Button, InputGroup, Modal, } from "@themesberg/react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
@@ -8,11 +8,15 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { faAngleLeft, faUnlockAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { updatetPassword } from "../../Redux/auth/actions";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 
 const ChangePassword = (props, row) => {
     const label = { inputProps: { "aria-label": "Switch demo" } };
     const dispatch = useDispatch();
     const history = useHistory();
+    const login = useSelector((state) => state.auth.Auther);
     const [showDefault, setShowDefault] = useState(false);
     const handleCloses = () => {
         setShowDefault(false);
@@ -45,13 +49,19 @@ const ChangePassword = (props, row) => {
         }
     };
     const ResetPasswordSchema = Yup.object().shape({
-        currentPassword: Yup.string().required("Current Password is required"),
-        password: Yup.string().required("New Password is required")
+        currentPassword: Yup.string().trim().required("Current Password is required"),
+        password: Yup.string().trim().required("New Password is required")
             .oneOf([Yup.ref('confirmPassword'), null], 'Passwords must match'),
         confirmPassword: Yup.string()
-            .required("Confirm Password is required")
+            .trim().required("Confirm Password is required")
             .oneOf([Yup.ref('password'), null], 'Passwords must match')
     });
+    const formOptions = { resolver: yupResolver(ResetPasswordSchema) };
+
+    // get functions to build form with useForm() hook
+    const { register, handleSubmit, reset, formState } = useForm(formOptions);
+    const { errors } = formState;
+
     const resetPasswordFormik = useFormik({
         initialValues: {
             currentPassword: "",
@@ -60,18 +70,23 @@ const ChangePassword = (props, row) => {
             showPasswordToken: ""
         },
         validationSchema: ResetPasswordSchema,
-        onSubmit: async (values) => {
+        onSubmit: async (values, data) => {
+            let newData = Object.assign(data, { email: login.email });
 
-            // await dispatch(
-            //   resetPassword({
-            //     password: values.password,
-            //     confirmPassword: values.confirmPassword,
-            //     history: history,
-            //     token: newToken,
-            //   })
-            // );
+            updatetPassword({
+                email: newData.email,
+                currentpassword: newData.currentpassword,
+                newpassword: newData.newpassword,
+                setShowDefault: setShowDefault,
+                reset: reset,
+            })
         },
     });
+    useEffect(() => {
+        if (!showDefault) {
+            reset();
+        }
+    }, [showDefault]);
 
     return (
         <>
@@ -172,7 +187,7 @@ const ChangePassword = (props, row) => {
                 </Row>
             </Container>
             {/* Congratulations Modal */}
-            <Modal
+            {/* <Modal
                 as={Modal.Dialog}
                 centered
                 show={showDefault}
@@ -316,7 +331,7 @@ const ChangePassword = (props, row) => {
                         </Col>
                     </Row>
                 </Modal.Body>
-            </Modal>
+            </Modal> */}
         </>
     );
 };

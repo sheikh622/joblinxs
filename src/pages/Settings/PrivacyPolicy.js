@@ -10,9 +10,6 @@ const PrivacyPolicy = (props, row) => {
     const label = { inputProps: { "aria-label": "Switch demo" } };
     const dispatch = useDispatch();
     const history = useHistory();
-
-
-
     return (
         <>
             <Navbar module={"Privacy Policy"} />
@@ -26,8 +23,8 @@ const PrivacyPolicy = (props, row) => {
                     </Link>
                 </Col>
                 <Row>
-                    <Col xs={9} xl={9}>
-
+                    <Col xs={12} xl={12}
+                    >
                         <span>
                             <p>
                                 Joblinxs Inc of 318 Mclevin Ave, Toronto, ON, M1B 6C4 (hereinafter “Joblinxs”, “we” or “us”) is committed to protecting and respecting your privacy. This policy sets out the basis on which any Personal Information as defined in Canada`s Personal Information Protection and Electronic Documents Act (the “Personal Information”) we collect from account holders or individual users or visitors to our iOS and Android mobile application (hereinafter “APP”), or that is uploaded to our APP, will be processed by us. If you are using the Joblinxs through our website, please refer to our Privacy Policy posted on the website.
@@ -136,8 +133,8 @@ const PrivacyPolicy = (props, row) => {
                         </span>
                         <span>
                             <p>
-                                It cannot be ruled out that Google also transmits the information to a server in a third country. We cannot influence which personal data Google processes with your registration and the provision of downloads in the respective app store and app store software. The responsible party in this respect is solely Google as the operator of the Google Play Store. You can find more detailed information in Google's Privacy Policy, which you can access here:
-                                <a href="https://policies.google.com/privacy"></a>
+                                It cannot be ruled out that Google also transmits the information to a server in a third country. We cannot influence which personal data Google processes with your registration and the provision of downloads in the respective app store and app store software. The responsible party in this respect is solely Google as the operator of the Google Play Store. You can find more detailed information in Google's Privacy Policy, which you can access here: <Link to='/https://policies.google.com/privacy'>https://policies.google.com/privacy</Link>
+
                             </p>
 
 
@@ -154,9 +151,9 @@ const PrivacyPolicy = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
-                            <p>
-                                As far as we are aware, Apple collects and processes the following data;
-                            </p>
+                                <p>
+                                    As far as we are aware, Apple collects and processes the following data;
+                                </p>
                             </Card.Title>
                             <p>
                                 •	device identifiers,
@@ -170,7 +167,7 @@ const PrivacyPolicy = (props, row) => {
                         </span>
                         <span>
                             <p>
-                                It cannot be excluded that Apple also transmits the information to a server in a third country. We cannot influence which personal data Apple processes with your registration and the provision of downloads in the respective app store and app store software. The responsible party in this respect is solely Apple as the operator of the Apple APP Store. You can find more detailed information in Apple's Privacy Policy, which you can access here: https://www.apple.com/legal/privacy/.
+                                It cannot be excluded that Apple also transmits the information to a server in a third country. We cannot influence which personal data Apple processes with your registration and the provision of downloads in the respective app store and app store software. The responsible party in this respect is solely Apple as the operator of the Apple APP Store. You can find more detailed information in Apple's Privacy Policy, which you can access here: .<Link to='/https://www.apple.com/legal/privacy/'>https://www.apple.com/legal/privacy/</Link>
                             </p>
                         </span>
                         <span>
@@ -206,9 +203,9 @@ const PrivacyPolicy = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
-                            <p>
-                                The APP uses some Google and Google Firebase tools of Google Inc, 1600 Amphitheatre Parkway Mountain View, CA 94043, USA, in particular we are using
-                            </p>
+                                <p>
+                                    The APP uses some Google and Google Firebase tools of Google Inc, 1600 Amphitheatre Parkway Mountain View, CA 94043, USA, in particular we are using
+                                </p>
                             </Card.Title>
                             <p>
                                 •	Firebase Cloud Storage is a web hosting service;
@@ -254,11 +251,11 @@ const PrivacyPolicy = (props, row) => {
                             <Col xs={3} xl={3}>
                                 <span>
                                     <Card.Title>
-                                    <p>
-                                        <h3>
-                                            Personal Service Seekers:
-                                        </h3>
-                                    </p>
+                                        <p>
+                                            <h3>
+                                                Personal Service Seekers:
+                                            </h3>
+                                        </p>
                                     </Card.Title>
                                     <p>
                                         •	Name
@@ -283,11 +280,11 @@ const PrivacyPolicy = (props, row) => {
                             <Col xs={3} xl={3}>
                                 <span>
                                     <Card.Title>
-                                    <p>
-                                        <h3>
-                                            Business Service Seekers:
-                                        </h3>
-                                    </p>
+                                        <p>
+                                            <h3>
+                                                Business Service Seekers:
+                                            </h3>
+                                        </p>
                                     </Card.Title>
                                     <p>
                                         •	Name
@@ -312,11 +309,11 @@ const PrivacyPolicy = (props, row) => {
                             <Col xs={3} xl={3}>
                                 <span>
                                     <Card.Title>
-                                    <p>
-                                        <h3>
-                                            Service Provider :
-                                        </h3>
-                                    </p>
+                                        <p>
+                                            <h3>
+                                                Service Provider :
+                                            </h3>
+                                        </p>
                                     </Card.Title>
                                     <p>
                                         •	Name
@@ -472,9 +469,9 @@ const PrivacyPolicy = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
-                            <p>
-                                We use information held, including Personal Information, in the following manner:
-                            </p>
+                                <p>
+                                    We use information held, including Personal Information, in the following manner:
+                                </p>
                             </Card.Title>
                             <p>
                                 •	to ensure that content from our APP is presented in the most effective manner for you and for your device;
@@ -511,9 +508,9 @@ const PrivacyPolicy = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
-                            <p>
-                                We may disclose your Personal Information to third parties:
-                            </p>
+                                <p>
+                                    We may disclose your Personal Information to third parties:
+                                </p>
                             </Card.Title>
                             <p>
                                 •	for the purposes of providing services that you request from us, fulfilling our obligations arising from any contracts entered into between you and us, processing payments in connection therewith or otherwise in connection with your use of our APP;
@@ -535,9 +532,13 @@ const PrivacyPolicy = (props, row) => {
                             </p>
                         </span>
                         <span>
-                            <p>
-                                Administration, financial accounting, office organization, contact management
-                            </p>
+                            <Card.Title>
+                                <h3>
+                                    <p>
+                                        Administration, financial accounting, office organization, contact management
+                                    </p>
+                                </h3>
+                            </Card.Title>
                         </span>
                         <span>
                             <p>
@@ -563,9 +564,9 @@ const PrivacyPolicy = (props, row) => {
                         </span>
                         <span>
                             <Card.Title>
-                            <p>
-                                You have the ability to exercise the following rights:
-                            </p>
+                                <p>
+                                    You have the ability to exercise the following rights:
+                                </p>
                             </Card.Title>
                         </span>
                         <span>
