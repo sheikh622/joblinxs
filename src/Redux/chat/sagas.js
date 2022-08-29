@@ -45,7 +45,7 @@ function* getSendMessages({ payload }) {
       }
     );
     yield put(getList(payload.data.senderId));
-   yield put(sendMessage(payload.messages, payload.users, payload.currentUser, payload.customKey))
+   yield put(sendMessage(payload.message, payload.users, payload.currentUser, payload.customKey))
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

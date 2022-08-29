@@ -3,7 +3,7 @@ import {
     faEllipsisV,
     faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { toast } from "react-toastify";
 import {
     Button,
     ButtonGroup,
@@ -22,7 +22,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import * as Yup from "yup";
-// import { addAdminCategory} from "../../Redux/Category/actions";
 import {
     reportUserList,
     reportedUser
@@ -51,10 +50,7 @@ const Report = ({ item, setShow, show }) => {
         setShow(false);
         CategoryFormik.resetForm();
     };
-    const [selectedImage, setSelectedImage] = useState("");
     const CategorySchema = Yup.object().shape({
-
-        // details: Yup.string().trim().required("description is required"),
     });
     const CategoryFormik = useFormik({
         enableReinitialize: true,
@@ -65,20 +61,6 @@ const Report = ({ item, setShow, show }) => {
 
         },
     });
-    const currencies = [
-        {
-            value: "",
-            label: "All Users",
-        },
-        {
-            value: "provider",
-            label: "Service Provider",
-        },
-        {
-            value: "seeker",
-            label: "Service Seeker",
-        },
-    ];
     useEffect(() => {
         let data;
         if (ReportData) {
@@ -91,19 +73,22 @@ const Report = ({ item, setShow, show }) => {
     useEffect(() => {
         dispatch(
             reportUserList({
-
             })
         );
     }, []);
     const handleReport = (values, item) => {
-        dispatch(
-            reportedUser({
-                blockedTo: profileId,
-                blockedBy: login?.id,
-                description: CategoryFormik?.values?.description ? CategoryFormik?.values?.description : "",
-                reportId: selectedCategory ? selectedCategory : "",
-            })
-        );
+        if(profileId === undefined){
+          toast.error("Provider is is missing")
+        }else{
+            dispatch(
+                reportedUser({
+                    blockedTo: profileId ? profileId :"",
+                    blockedBy: login?.id,
+                    description: CategoryFormik?.values?.description ? CategoryFormik?.values?.description : "",
+                    reportId: selectedCategory ? selectedCategory : "",
+                })
+                );
+            }
     };
     return (
         <Modal as={Modal.Dialog} centered show={show} onHide={handleClose}>
