@@ -77,7 +77,7 @@ export const deleteMessage = async (docId, users) => {
 export const sendMessage = async ( message, users, currentUser, customKey) => {
 
   let newMessage = {
-    text:message.length > 0 ? message[0].text :"",
+    text:message ? message :"",
     createdAt: moment().format(),
     customKey:customKey,
     user: {

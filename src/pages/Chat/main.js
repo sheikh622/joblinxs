@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
+import {useLocation } from "react-router-dom";
 import ChatBoard from "./chatBoard";
 import {
+  Button,
   Card,
   Col,
-  Row,
+  Container,
+  Form,
   Dropdown,
   ButtonGroup,
-  Button,
   Modal,
-  Form,
+  Row,
 } from "@themesberg/react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Navbar from "../../components/Navbar";
 import profile from "../../assets/img/team/profile-picture-1.jpg";
 import NoRecordFound from "../../components/NoRecordFound";
-import { useHistory, useLocation } from "react-router-dom";
 import Report from "../../components/report";
 import {
   collection as col,
@@ -28,21 +29,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { sendMessage } from "./FirestoreMethods";
 import createChatId from "./CreateChatId.js";
 import { getList } from "../../Redux/chat/actions";
-import {
-  faStar,
-  faChevronRight,
-  faEllipsisV,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  getProfile,
-  blockUser,
-  unblockUser,
-} from "../../Redux/profile/actions";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { blockUser, unblockUser } from "../../Redux/profile/actions";
 
-let selectedIndex;
+let selectedIndex = 0;
+let finalData = {
+  blockListing: "",
+  blockedDataListing: "",
+};
 const Mainchat = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const params = useLocation();
   let id = params?.search.split("?")[1];
   let fireId = parseInt(params.search.split("?")[2]);
@@ -52,14 +48,13 @@ const Mainchat = () => {
   const [oneToOneChat, setOneToOneChat] = useState([]);
   const [selectedUser, setSelectedUser] = useState();
   const [BlockUserSaga, setBlockUserSaga] = useState(false);
-  const [showDefault, setShowDefault] = useState(false);
   const [blockedBy, setBlockedBy] = useState(null);
   const [show, setShow] = useState();
   const [userId, setUserId] = useState(id);
+  const [search, setSearch] = useState("");
   const [jobId, setJobId] = useState();
   const [dataList, setDataList] = useState();
   const [users, setUsers] = useState([]);
-  const [receiver, setReceiver] = useState();
   const [chatId, setChatId] = useState(fireId);
   useEffect(() => {
     if (contactsList !== undefined) {
@@ -73,12 +68,12 @@ const Mainchat = () => {
       setUsers(usersList);
     }
   }, [chatId]);
-  const handleBlock = (data, values) => {
+  const handleBlock = () => {
     dispatch(
       blockUser({
         blockedTo: selectedUser,
         blockedBy: currentUser?.id,
-        id: currentUser?.id,
+        setBlockUserSaga: setBlockUserSaga,
       })
     );
   };
@@ -87,7 +82,7 @@ const Mainchat = () => {
       unblockUser({
         blockedTo: selectedUser,
         blockedBy: currentUser?.id,
-        id: currentUser?.id,
+        setBlockUserSaga: setBlockUserSaga,
       })
     );
   };
@@ -95,12 +90,9 @@ const Mainchat = () => {
   useEffect(() => {
     dispatch(getList(currentUser.id));
   }, []);
-
   const handleClose = () => {
-    setShowDefault(false);
     setBlockUserSaga(false);
   };
-
   useEffect(() => {
     if (currentUser || users) {
       const chatId = createChatId(users);
@@ -123,17 +115,23 @@ const Mainchat = () => {
   }, [currentUser, users]);
 
   const handleChat = (firebaseId, index, id) => {
-    if(id){
+    if (id) {
       setChatId(firebaseId);
-      setUserId(id)
+      setUserId(id);
       setCurrentUsers(true);
       selectedIndex = index;
     }
   };
-  const handleClick = (id, item) => {
+  const renderChat = (item, index, list) => {
+    selectedIndex = index;
+    handleChat(item?.firebaseId, index, item?.id);
+    handleClick(list?.blockedBy?.id);
+  };
+  const handleClick = (id) => {
     if (id === undefined) {
       setBlockedBy(null);
     } else {
+      setSelectedUser(id);
       if (id === currentUser?.id) {
         setBlockedBy(true);
       } else {
@@ -141,7 +139,6 @@ const Mainchat = () => {
       }
     }
   };
-
   useEffect(() => {
     let data = [];
     let newArray = contactsList;
@@ -157,7 +154,7 @@ const Mainchat = () => {
         });
         if (data.length > 0) {
           const index = data.map((object) => object.id).indexOf(id);
-          if(index < 0){
+          if (index < 0) {
             newData = 1;
           }
         } else {
@@ -177,7 +174,7 @@ const Mainchat = () => {
             firebaseId: fireId,
             profileImg:
               "https://wohk-bucket.s3.us-east-2.amazonaws.com/166125681470230.png",
-          })
+          });
           setDataList(() => {
             return [...newArray];
           });
@@ -189,22 +186,65 @@ const Mainchat = () => {
           return element;
         }
       });
-      let firebaseId = firebase[0]?.firebaseId;
+      let firebaseId = firebase[index];
       selectedIndex = index;
-      handleChat(firebaseId, index, id);
+      handleChat(firebaseId?.firebaseId, index, id);
     }
   }, [id, contactsList]);
-
+  const HeaderList = ({ blockListing, blockedDataListing }) => {
+    return (
+      <li className={`align-items-center list-group-item d-flex pt-2`}>
+        <Card.Img
+          src={
+            blockedDataListing != undefined
+              ? blockedDataListing?.profileImg
+              : profile
+          }
+          alt="Neil Portrait"
+          className="user-avatar rounded-circle"
+        />
+        <span className="mx-2 listedName">
+          {blockedDataListing != undefined ? blockedDataListing?.fullName : ""}
+        </span>
+        <Dropdown as={ButtonGroup} className="me-3 mt-1 ms-4">
+          <Dropdown.Toggle
+            as={Button}
+            split
+            variant="link"
+            className="text-dark m-0 p-0 ellipsisIcon"
+          >
+            <span className="icon icon-sm">
+              <FontAwesomeIcon
+                icon={faEllipsisV}
+                className="icon-dark"
+                style={{ color: "black" }}
+              />
+            </span>
+          </Dropdown.Toggle>
+          <Dropdown.Menu className="custom_menu">
+            <Dropdown.Item
+              onClick={() => {
+                setSelectedUser(
+                  blockedDataListing != undefined ? blockedDataListing?.id : ""
+                );
+                setBlockUserSaga(true);
+              }}
+            >
+              {blockedBy ? "Unblock" : "Block"}
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => setShow(true)}>Report</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </li>
+    );
+  };
   const renderListUser = (item, index, blockedId, data) => {
     return (
       <li
         className={`align-items-center list-group-item d-flex pt-2 ${
           selectedIndex === index ? "active" : ""
         }`}
-        onClick={() => {
-          handleChat(item.firebaseId, index, item.id);
-          handleClick(blockedId?.id);
-        }}
+        onClick={() => renderChat(item, index, data)}
       >
         <Card.Img
           src={item?.profileImg ? item?.profileImg : profile}
@@ -214,65 +254,23 @@ const Mainchat = () => {
         <span className="mx-2 listedName">
           {data?.fullName !== undefined ? data?.fullName : item?.fullName}
         </span>
-        {data?.fullName !== undefined ? (
-          ""
-        ) : (
-          <Dropdown as={ButtonGroup} className="me-3 mt-1 ms-4">
-            <Dropdown.Toggle
-              as={Button}
-              split
-              variant="link"
-              className="text-dark m-0 p-0 ellipsisIcon"
-            >
-              <span className="icon icon-sm">
-                <FontAwesomeIcon
-                  icon={faEllipsisV}
-                  className="icon-dark"
-                  onClick={() => {
-                    handleClick(blockedId?.id);
-                  }}
-                  style={{ color: "black" }}
-                />
-              </span>
-            </Dropdown.Toggle>
-            <Dropdown.Menu className="custom_menu">
-              {blockedBy ? (
-                <>
-                  <Dropdown.Item
-                    onClick={() => {
-                      setSelectedUser(item.id);
-                      setBlockUserSaga(true);
-                    }}
-                  >
-                    Unblock
-                  </Dropdown.Item>
-                </>
-              ) : (
-                <>
-                  <Dropdown.Item
-                    onClick={() => {
-                      setSelectedUser(item.id);
-                      setBlockUserSaga(true);
-                    }}
-                  >
-                    Block
-                  </Dropdown.Item>
-                </>
-              )}
-
-              <Dropdown.Item onClick={() => setShow(true)}>
-                Report
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        )}
       </li>
     );
   };
-
   useEffect(() => {
     let data = [];
+    let blockedData = {
+      data: "",
+    };
+    let blockedlist = {
+      list: "",
+    };
     contactsList.map((item, index) => {
+      if (item?.blockedBy !== null) {
+        blockedlist = {
+          list: item ? item : "",
+        };
+      }
       if (item?.receiver?.id === currentUser?.id) {
         return data.push(item?.sender);
       } else {
@@ -285,56 +283,108 @@ const Mainchat = () => {
         return element;
       }
     });
-    let firebaseId = firebase[0]?.firebaseId;
-    handleChat(firebaseId, selectedIndex, id);
+    let firebaseId = firebase[0];
+    blockedData = {
+      data: firebaseId ? firebaseId : "",
+    };
+    finalData = {
+      blockListing: blockedlist?.list,
+      blockedDataListing: blockedData?.data,
+    };
+    renderChat(blockedData?.data, selectedIndex, blockedlist?.list);
   }, [selectedIndex, contactsList]);
-
   return (
     <>
       <Navbar module={"Chat"} />
       <Row>
-        <Col xs={12} xl={3}>
-          <div className="chatList">
-            <ul>
-              {dataList?.map((item, index) => {
-                if (item?.receiver?.id === currentUser?.id) {
-                  return renderListUser(
-                    item?.sender,
-                    index,
-                    item?.blockedBy,
-                    item
-                  );
-                } else {
-                  return renderListUser(
-                    item?.receiver,
-                    index,
-                    item?.blockedBy,
-                    item
-                  );
-                }
-              })}
-            </ul>
-          </div>
+        <Col xs={12} xl={4}>
+          <Row>
+            <Col xs={12}>
+              <Card
+                border="light"
+                className="text-center p-0 mb-4 chat-div profileView"
+              >
+                <Card.Header>
+                  <Form.Group className="mt-3">
+                    <Form.Control
+                      type="text"
+                      select
+                      placeholder="Search"
+                      label="Search"
+                      value={search}
+                      onChange={(event) => {
+                        setSearch(event.target.value);
+                      }}
+                    />
+                  </Form.Group>
+                </Card.Header>
+                <Card.Body className="p-0">
+                  <ul className="p-0">
+                    {dataList?.map((item, index) => {
+                      if (item?.receiver?.id === currentUser?.id) {
+                        return renderListUser(
+                          item?.sender,
+                          index,
+                          item?.blockedBy,
+                          item
+                        );
+                      } else {
+                        return renderListUser(
+                          item?.receiver,
+                          index,
+                          item?.blockedBy,
+                          item
+                        );
+                      }
+                    })}
+                  </ul>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
         </Col>
-        <Col xs={12} xl={9} className="chat-div">
-          {currentUsers ? (
-            <ChatBoard
-              profile={profile}
-              oneToOneChat={oneToOneChat}
-              setOneToOneChat={setOneToOneChat}
-              sendMessage={sendMessage}
-              users={users}
-              setJobId={setJobId}
-              receiver={receiver}
-              jobId={jobId}
-              setUsers={setUsers}
-              id={userId}
-              blockedBy={blockedBy}
-              currentUser={currentUser}
-            />
-          ) : (
-            <NoRecordFound />
-          )}
+        <Col xs={12} xl={8} className="chat-div">
+          <Row>
+            <Col xs={12}>
+              <Card
+                border="light"
+                className="text-left p-0 info profileView chat-div "
+              >
+                <Card.Header>
+                  {currentUsers ? (
+                    <>{HeaderList(finalData)}</>
+                  ) : (
+                    <div className="my-3 text-center">
+                      <span className="p-5">
+                        Please Select User to start Chat.
+                      </span>
+                    </div>
+                  )}
+                </Card.Header>
+                <Card.Body>
+                  <div className="chat-List">
+                    {currentUsers ? (
+                      <ChatBoard
+                        profile={profile}
+                        oneToOneChat={oneToOneChat}
+                        setOneToOneChat={setOneToOneChat}
+                        sendMessage={sendMessage}
+                        users={users}
+                        setJobId={setJobId}
+                        jobId={jobId}
+                        setUsers={setUsers}
+                        id={userId}
+                        blockedBy={blockedBy}
+                        currentUser={currentUser}
+                      />
+                    ) : (
+                      <NoRecordFound />
+                    )}
+                  </div>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
         </Col>
       </Row>
       <Report show={show} setShow={setShow} />
@@ -362,13 +412,10 @@ const Mainchat = () => {
                   <>
                     <Button
                       variant="primary"
-                      // onHide={handleClose}
                       color="dark"
                       size="sm"
-                      // type="submit"
                       onClick={() => {
                         handleUnBlock();
-                        handleClose();
                       }}
                     >
                       Unblock
@@ -378,13 +425,10 @@ const Mainchat = () => {
                   <>
                     <Button
                       variant="primary"
-                      // onHide={handleClose}
                       color="dark"
                       size="sm"
-                      // type="submit"
                       onClick={() => {
                         handleBlock();
-                        handleClose();
                       }}
                     >
                       Block
