@@ -57,23 +57,25 @@ const Job = () => {
   const handleChange = (event) => {
     setType(event.target.value);
   };
-  const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
 
-  // useEffect(() => {
-  //   let array = [
-  //     {
-  //       value: "ALL",
-  //       label: "All",
-  //     },
-  //   ];
-  //   CategoryData.map((item) => {
-  //     array.push({
-  //       value: item?.title,
-  //       label: item?.title,
-  //     });
-  //   });
-  //   setCategory(array);
-  // }, [CategoryData]);
+
+  const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
+  console.log("adsdasda",CategoryData)
+//   useEffect(() => {
+//     let array = [
+//       {
+//         value: "ALL",
+//         label: "All",
+//       },
+//     ];
+//     CategoryData.map((item) => {
+//       array.push({
+//         value: item?.title,
+//         label: item?.title,
+//       });
+//     });
+//     setCategory(array);
+//   }, [CategoryData]);
 //   useEffect(() => {
 //     let array = [];
 //     CategoryData.map((item) => {
@@ -84,7 +86,23 @@ const Job = () => {
 //     });
 //     setCategoryList(array);
 // }, [CategoryData]);
+// const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
+  // useEffect(() => {
+  //   let array = [
+  //     {
+  //       value: "ALL",
+  //       label: "All"
+  //     }
+  //   ];
+  //   CategoryData.map((item) => {
+  //     array.push({
+  //       value: item?.title,
+  //       label: item?.title,
 
+  //     })
+  //   })
+  //   setCategory(array);
+  // }, [CategoryData])
   const currencies = [
     {
       value: "all",
@@ -120,12 +138,12 @@ const Job = () => {
           page: page,
           limit: limit,
           type: type,
-          category: categories ? categories : "",
+          category: categoryType,
 
         })
       );
     },
-    [page, limit, type, categories]
+    [page, limit, type, categoryType]
   );
 
   const nextPage = () => {
@@ -181,15 +199,20 @@ const Job = () => {
               </Form.Group>
              
             </Col>
-            {/* <Col lg={4} md={4} className="mb-1">
-                <Form.Group>
-                  <Select
-                    defaultValue={categories}
-                    onChange={(e) => setCategories(e.label)}
-                    options={categoryList}
-                  />
-                </Form.Group>
-              </Col> */}
+            {/* <Col lg={4} md={4}>
+                  <Form.Group className="mt-3">
+                    <Form.Select defaultValue="1" label="Select"
+                      value={categoryType}
+                      onChange={handleClick}
+                    >
+                      {category.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </Form.Select>
+                  </Form.Group>
+                </Col> */}
             <span className="d-flex align-items-baseline mb-3">
               <a className="text-white fw-bold" href={Routes.CreateJob.path}>
                 <Button variant="primary" className="mx-2">
