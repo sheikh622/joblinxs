@@ -68,8 +68,8 @@ function* BlockUserSaga({ payload}) {
     });
     toast.success(response.data.message);
     yield put(
-      getList(payload.id));
-    yield put(blockUserSuccess(response.data.data.user));
+      getList(payload.blockedBy));
+    payload.setBlockUserSaga(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -91,8 +91,8 @@ function* UnblockUserSaga({ payload}) {
     });
     toast.success(response.data.message);
     yield put(
-      getList(payload.id));
-    yield put(unblockUserSuccess(response.data.data.user));
+      getList(payload.blockedBy));
+    payload.setBlockUserSaga(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
