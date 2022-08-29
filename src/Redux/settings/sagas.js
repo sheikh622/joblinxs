@@ -31,7 +31,6 @@ function* NotificationSaga({ payload }) {
     yield sagaErrorHandler(error.response);
   }
 }
-
 function* onNotificationSaga({ payload }) {
   try {
     let data = {
