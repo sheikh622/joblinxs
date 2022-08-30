@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import ChatBoard from "./chatBoard";
 import {
   Button,
@@ -32,7 +32,7 @@ import { getList } from "../../Redux/chat/actions";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { blockUser, unblockUser } from "../../Redux/profile/actions";
 
-let selectedIndex = 0;
+let selectedIndex;
 let finalData = {
   blockListing: "",
   blockedDataListing: "",
@@ -139,58 +139,6 @@ const Mainchat = () => {
       }
     }
   };
-  useEffect(() => {
-    let data = [];
-    let newArray = contactsList;
-    let newData = 0;
-    if (id) {
-      if (newArray !== undefined) {
-        newArray.map((item, index) => {
-          if (item?.receiver?.id === currentUser?.id) {
-            return data.push(item?.sender);
-          } else {
-            return data.push(item?.receiver);
-          }
-        });
-        if (data.length > 0) {
-          const index = data.map((object) => object.id).indexOf(id);
-          if (index < 0) {
-            newData = 1;
-          }
-        } else {
-          newData = 1;
-        }
-        if (newData === 1) {
-          newArray.push({
-            id: id,
-            fullName: "Provider",
-            firebaseId: fireId,
-            profileImg:
-              "https://wohk-bucket.s3.us-east-2.amazonaws.com/166125681470230.png",
-          });
-          data.push({
-            id: id,
-            fullName: "Provider",
-            firebaseId: fireId,
-            profileImg:
-              "https://wohk-bucket.s3.us-east-2.amazonaws.com/166125681470230.png",
-          });
-          setDataList(() => {
-            return [...newArray];
-          });
-        }
-      }
-      const index = data.map((object) => object.id).indexOf(id);
-      const firebase = newArray.filter((element) => {
-        if (element.id === id) {
-          return element;
-        }
-      });
-      let firebaseId = firebase[index];
-      selectedIndex = index;
-      handleChat(firebaseId?.firebaseId, index, id);
-    }
-  }, [id, contactsList]);
   const HeaderList = ({ blockListing, blockedDataListing }) => {
     return (
       <li className={`align-items-center list-group-item d-flex pt-2`}>
@@ -259,13 +207,14 @@ const Mainchat = () => {
   };
   useEffect(() => {
     let data = [];
+    let newArray = contactsList;
     let blockedData = {
       data: "",
     };
     let blockedlist = {
       list: "",
     };
-    contactsList.map((item, index) => {
+    newArray.map((item, index) => {
       if (item?.blockedBy !== null) {
         blockedlist = {
           list: item ? item : "",
@@ -277,6 +226,22 @@ const Mainchat = () => {
         return data.push(item?.receiver);
       }
     });
+    if (userId !== undefined) {
+      const index = data?.map((object) => object?.id).indexOf(userId);
+      selectedIndex = index;
+      if (index < 0) {
+        newArray.push({
+          id: userId,
+          fullName: "Provider",
+          firebaseId: fireId,
+          profileImg:
+            "https://wohk-bucket.s3.us-east-2.amazonaws.com/166125681470230.png",
+        });
+        setDataList(() => {
+          return [...newArray];
+        });
+      }
+    }
     let id = data[selectedIndex]?.id;
     const firebase = data.filter((element) => {
       if (element?.id === id) {
@@ -291,8 +256,9 @@ const Mainchat = () => {
       blockListing: blockedlist?.list,
       blockedDataListing: blockedData?.data,
     };
-    renderChat(blockedData?.data, selectedIndex, blockedlist?.list);
-  }, [selectedIndex, contactsList]);
+    
+    handleChat(firebaseId?.firebaseId, selectedIndex, id);
+  }, [selectedIndex, contactsList, userId]);
   return (
     <>
       <Navbar module={"Chat"} />
