@@ -12,6 +12,7 @@ import NotificationSaga from "../Redux/notification/sagas";
 import BusinessCategorySaga from "../Redux/BusinessCategory/sagas";
 import ChatSaga from "../Redux/chat/sagas"
 import ReportSaga from "../Redux/ReportManagement/sagas";
+import PushNotificationSaga from "../Redux/settings/sagas";
 export default function* rootSaga() {
   yield all([
     AuthSaga(),
@@ -26,5 +27,6 @@ export default function* rootSaga() {
     BusinessCategorySaga(),
     ChatSaga(),
     ReportSaga(),
+    PushNotificationSaga(),
   ]);
 }
