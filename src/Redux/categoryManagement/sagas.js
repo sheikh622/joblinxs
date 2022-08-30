@@ -22,6 +22,7 @@ function* getcategory({ payload }) {
         },
       }
     );
+    payload.setLoader(false);
     yield put(getCategoryListingSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);

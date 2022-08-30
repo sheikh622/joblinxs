@@ -29,6 +29,7 @@ function* getJobList({ payload }) {
         },
       }
     );
+    payload.setLoader(false);
     yield put(getJobListingSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);

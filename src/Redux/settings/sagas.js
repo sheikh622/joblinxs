@@ -34,7 +34,7 @@ function* NotificationSaga({ payload }) {
 function* onNotificationSaga({ payload }) {
   try {
     let data = {
-      userId: payload.login?.id,
+      userId: payload.userId,
       isShowNotification: payload.isShowNotification,
     };
     const token = yield select(makeSelectAuthToken());

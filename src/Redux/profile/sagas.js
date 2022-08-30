@@ -18,6 +18,7 @@ function* getProfileById({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     });
+    payload.setLoader(false);
     yield put(getProfileSuccess(response.data.data.user));
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -45,8 +46,12 @@ function* updateAdminProfileSaga({ payload }) {
     });
     toast.success(response.data.message);
     payload.history.push("/profile");
+
     yield put(getProfileSuccess(response.data.data.user));
+
     yield put(adminUpdatedSuccess(response.data.data.user));
+    payload.setLoader(false);
+
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -54,7 +59,7 @@ function* updateAdminProfileSaga({ payload }) {
 function* watchUpdateAdminProfile() {
   yield takeLatest(UPDATE_PROFILE, updateAdminProfileSaga);
 }
-function* BlockUserSaga({ payload}) {
+function* BlockUserSaga({ payload }) {
   try {
     let data = {
       blockedTo: payload.blockedTo,
@@ -77,7 +82,7 @@ function* BlockUserSaga({ payload}) {
 function* watchBlockUser() {
   yield takeLatest(BLOCK_USER, BlockUserSaga);
 }
-function* UnblockUserSaga({ payload}) {
+function* UnblockUserSaga({ payload }) {
   try {
     let data = {
       blockedTo: payload.blockedTo,
@@ -139,15 +144,15 @@ function* reportedSaga({ payload }) {
 function* watchReported() {
   yield takeLatest(REPORTED_USER, reportedSaga);
 }
-function* hiredJobSaga({payload}) {
+function* hiredJobSaga({ payload }) {
   try {
     let data = {
       job: payload.job,
       seekerId: payload.seekerId,
       providerId: payload.providerId,
-      
+
     };
-    console.log("ji",payload)
+    console.log("ji", payload)
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.post(
       `job/hiredbyseeker`, data,

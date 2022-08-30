@@ -36,6 +36,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useHistory, useLocation } from "react-router-dom";
 import moment from "moment";
+import Spinner from "../../components/spinner";
+
 export default () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -45,6 +47,8 @@ export default () => {
   const login = useSelector((state) => state.auth.Auther);
   const getById = useSelector((state) => state.ProfileReducer.profile);
   const [selectedImage, setSelectedImage] = useState();
+  const [loader, setLoader] = useState(true);
+
   // const phoneRegExp =
   //   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
   const validationSchema = Yup.object().shape({
@@ -71,6 +75,8 @@ export default () => {
       phoneNumber: getById.phoneNumber,
       city: getById.city,
       postalCode: getById.postalCode,
+      setLoader: setLoader,
+
     });
     // setDateofBirth(moment(new Date(getById?.dateOfBirth)));
   }, [getById]);
@@ -78,6 +84,8 @@ export default () => {
     dispatch(
       getProfile({
         id: login?.id,
+        setLoader: setLoader,
+
       })
     );
   }, []);
@@ -98,6 +106,8 @@ export default () => {
           id: getById.id,
           profileImg: selectedImage ? selectedImage : getById?.profileImg,
           history: history,
+          setLoader: setLoader,
+
         })
       );
     }
@@ -126,129 +136,132 @@ export default () => {
         {user && (
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Row>
-              <div className="mt-2 mb-3 d-flex justify-content-end">
-                <Link className="text-white fw-bold" to={Routes.Profile.path}>
-                  <Button variant="primary">Back</Button>
-                </Link>
-              </div>
-              <Col xs={12} xl={4}>
-                <Row>
-                  <Col xs={12}>
+              {loader ? (
+                <Spinner />
+              ) : (
+                <>
+                  <div className="mt-2 mb-3 d-flex justify-content-end">
+                    <Link className="text-white fw-bold" to={Routes.Profile.path}>
+                      <Button variant="primary">Back</Button>
+                    </Link>
+                  </div>
+                  <Col xs={12} xl={4}>
+                    <Row>
+                      <Col xs={12}>
+                        <Card
+                          border="light"
+                          className="text-center p-0 mb-4 profileView"
+                          style={{ cursor: "pointer" }}
+                        >
+                          {selectedImage ? (
+                            <Card.Img
+                              src={URL.createObjectURL(selectedImage)}
+                              alt="Neil Portrait"
+                              onClick={onButtonClick}
+                              ref={inputEl}
+                              className="user-avatar large-avatar rounded-circle mx-auto mt-5"
+                            />
+                          ) : (
+                            <Card.Img
+                              src={getById?.profileImg}
+                              alt="Neil Portrait"
+                              onClick={onButtonClick}
+                              ref={inputEl}
+                              className="user-avatar large-avatar rounded-circle mx-auto mt-5"
+                            />
+                          )}
+                          <Form.Group className="col my-2">
+                            <Form.Control
+                              accept="image/*"
+                              type="file"
+                              id="file"
+                              name="file"
+                              onChange={imageChange}
+                              className="d-none"
+                              ref={inputEl}
+                              style={{ cursor: "pointer" }}
+                            />
+                            <div className="invalid-feedback">
+                              {errors.file?.message}
+                            </div>
+                          </Form.Group>
+                          <Card.Body className="pb-5">
+                            <Dropdown.Menu className="custom_menu">
+                              <Dropdown.Item onClick>
+                                <FontAwesomeIcon icon={faEdit} className="me-2" />{" "}
+                                Edit
+                              </Dropdown.Item>
+                            </Dropdown.Menu>
+                            <Card.Subtitle
+                              className="text-gray mb-2"
+                              onClick={onButtonClick}
+                              style={{
+                                fontWeight: "bold",
+                              }}
+                            >
+                              Change Profile Picture
+                            </Card.Subtitle>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col xs={12} xl={8}>
                     <Card
                       border="light"
-                      className="text-center p-0 mb-4 profileView"
-                      style={{ cursor: "pointer" }}
+                      className="text-left p-0 mb-4 profileView info"
                     >
-                      {selectedImage ? (
-                        <Card.Img
-                          src={URL.createObjectURL(selectedImage)}
-                          alt="Neil Portrait"
-                          onClick={onButtonClick}
-                          ref={inputEl}
-                          className="user-avatar large-avatar rounded-circle mx-auto mt-5"
-                        />
-                      ) : (
-                        <Card.Img
-                          src={getById?.profileImg}
-                          alt="Neil Portrait"
-                          onClick={onButtonClick}
-                          ref={inputEl}
-                          className="user-avatar large-avatar rounded-circle mx-auto mt-5"
-                        />
-                      )}
-                      <Form.Group className="col my-2">
-                        <Form.Control
-                          accept="image/*"
-                          type="file"
-                          id="file"
-                          name="file"
-                          onChange={imageChange}
-                          className="d-none"
-                          ref={inputEl}
-                          style={{ cursor: "pointer" }}
-                        />
-                        <div className="invalid-feedback">
-                          {errors.file?.message}
-                        </div>
-                      </Form.Group>
-                      <Card.Body className="pb-5">
-                        <Dropdown.Menu className="custom_menu">
-                          <Dropdown.Item onClick>
-                            <FontAwesomeIcon icon={faEdit} className="me-2" />{" "}
-                            Edit
-                          </Dropdown.Item>
-                        </Dropdown.Menu>
-                        <Card.Subtitle
-                          className="text-gray mb-2"
-                          onClick={onButtonClick}
-                          style={{
-                            fontWeight: "bold",
-                          }}
-                        >
-                          Change Profile Picture
-                        </Card.Subtitle>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                </Row>
-              </Col>
-              <Col xs={12} xl={8}>
-                <Card
-                  border="light"
-                  className="text-left p-0 mb-4 profileView info"
-                >
-                  <Card.Body className="pb-3">
-                    <Card.Title className="text-primary">
-                      Basic Information
-                    </Card.Title>
-                    <Form.Group className="col my-2">
-                      <Form.Label>Full Name</Form.Label>
-                      <Form.Control
-                        name="fullName"
-                        type="text"
-                        {...register("fullName")}
-                        className={`form-control ${
-                          errors.fullName ? "is-invalid" : ""
-                        }`}
-                      />
-                      <div className="invalid-feedback">
-                        {errors.fullName?.message}
-                      </div>
-                    </Form.Group>
-                    <Col md={12} className="mb-3">
-                      <Form.Label>Date of Birth</Form.Label>
-                      <DatePicker
-                        selected={dateofBirth}
-                        label="dateofBirth"
-                        name="dateofBirth"
-                        value={dateofBirth}
-                        onChange={(newValue) => {
-                          setDateofBirth(newValue);
-                        }}
-                      />
-                    </Col>
-                    <Form.Group className="col my-2">
-                      <Form.Label>Phone</Form.Label>
-                      <PhoneInput
-                        // placeholder="Enter phone number"
-                        value={value}
-                        onChange={setValue}
-                        error={
-                          value
-                            ? isValidPhoneNumber(value)
-                              ? undefined
-                              : "Invalid phone number"
-                            : "Phone number required"
-                        }
-                      />
+                      <Card.Body className="pb-3">
+                        <Card.Title className="text-primary">
+                          Basic Information
+                        </Card.Title>
+                        <Form.Group className="col my-2">
+                          <Form.Label>Full Name</Form.Label>
+                          <Form.Control
+                            name="fullName"
+                            type="text"
+                            {...register("fullName")}
+                            className={`form-control ${errors.fullName ? "is-invalid" : ""
+                              }`}
+                          />
+                          <div className="invalid-feedback">
+                            {errors.fullName?.message}
+                          </div>
+                        </Form.Group>
+                        <Col md={12} className="mb-3">
+                          <Form.Label>Date of Birth</Form.Label>
+                          <DatePicker
+                            selected={dateofBirth}
+                            label="dateofBirth"
+                            name="dateofBirth"
+                            value={dateofBirth}
+                            onChange={(newValue) => {
+                              setDateofBirth(newValue);
+                            }}
+                          />
+                        </Col>
+                        <Form.Group className="col my-2">
+                          <Form.Label>Phone</Form.Label>
+                          <PhoneInput
+                            // placeholder="Enter phone number"
+                            value={value}
+                            onChange={setValue}
+                            error={
+                              value
+                                ? isValidPhoneNumber(value)
+                                  ? undefined
+                                  : "Invalid phone number"
+                                : "Phone number required"
+                            }
+                          />
 
-                      <div className="invalid-phone">
-                        {value && isValidPhoneNumber(value)
-                          ? ""
-                          : "Invalid phone number"}
-                      </div>
-                    </Form.Group>
-                    {/* <PhoneInput
+                          <div className="invalid-phone">
+                            {value && isValidPhoneNumber(value)
+                              ? ""
+                              : "Invalid phone number"}
+                          </div>
+                        </Form.Group>
+                        {/* <PhoneInput
                       country={"us"}
                       value={value}
                       onChange={setValue}
@@ -262,63 +275,63 @@ export default () => {
                     // error={Boolean(formik.touched.phone && formik.errors.phone)}
                     // helpertext={formik.errors.phone}
                     /> */}
-                    <Form.Group className="col my-2">
-                      <Form.Label>Address</Form.Label>
-                      <Form.Control
-                        name="address"
-                        type="text"
-                        {...register("address")}
-                        className={`form-control ${
-                          errors.address ? "is-invalid" : ""
-                        }`}
-                      />
-                      <div className="invalid-feedback">
-                        {errors.address?.message}
-                      </div>
-                    </Form.Group>
-                    <Form.Group className="col my-2">
-                      <Form.Label>City</Form.Label>
-                      <Form.Control
-                        name="city"
-                        type="text"
-                        {...register("city")}
-                        className={`form-control ${
-                          errors.city ? "is-invalid" : ""
-                        }`}
-                      />
-                      <div className="invalid-feedback">
-                        {errors.city?.message}
-                      </div>
-                    </Form.Group>
-                    <Form.Group className="col my-2">
-                      <Form.Label>Postal Code</Form.Label>
-                      <Form.Control
-                        name="postalCode"
-                        type="text"
-                        {...register("postalCode")}
-                        className={`form-control ${
-                          errors.postalCode ? "is-invalid" : ""
-                        }`}
-                      />
-                      <div className="invalid-feedback">
-                        {errors.postalCode?.message}
-                      </div>
-                    </Form.Group>
-                    <Form.Group>
-                      <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
-                        <Button
-                          variant="primary"
-                          color="dark"
-                          size="sm"
-                          type="submit"
-                        >
-                          Update
-                        </Button>
-                      </div>
-                    </Form.Group>
-                  </Card.Body>
-                </Card>
-              </Col>
+                        <Form.Group className="col my-2">
+                          <Form.Label>Address</Form.Label>
+                          <Form.Control
+                            name="address"
+                            type="text"
+                            {...register("address")}
+                            className={`form-control ${errors.address ? "is-invalid" : ""
+                              }`}
+                          />
+                          <div className="invalid-feedback">
+                            {errors.address?.message}
+                          </div>
+                        </Form.Group>
+                        <Form.Group className="col my-2">
+                          <Form.Label>City</Form.Label>
+                          <Form.Control
+                            name="city"
+                            type="text"
+                            {...register("city")}
+                            className={`form-control ${errors.city ? "is-invalid" : ""
+                              }`}
+                          />
+                          <div className="invalid-feedback">
+                            {errors.city?.message}
+                          </div>
+                        </Form.Group>
+                        <Form.Group className="col my-2">
+                          <Form.Label>Postal Code</Form.Label>
+                          <Form.Control
+                            name="postalCode"
+                            type="text"
+                            {...register("postalCode")}
+                            className={`form-control ${errors.postalCode ? "is-invalid" : ""
+                              }`}
+                          />
+                          <div className="invalid-feedback">
+                            {errors.postalCode?.message}
+                          </div>
+                        </Form.Group>
+                        <Form.Group>
+                          <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
+                            <Button
+                              variant="primary"
+                              color="dark"
+                              size="sm"
+                              type="submit"
+                            >
+                              Update
+                            </Button>
+                          </div>
+                        </Form.Group>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+
+                </>
+              )}
             </Row>
           </Form>
         )}
