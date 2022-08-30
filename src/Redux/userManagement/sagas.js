@@ -32,7 +32,7 @@ function* userListRequest({ payload }) {
         },
       }
     );
-
+    payload.setLoader(false);
     yield put(getUsersListSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
