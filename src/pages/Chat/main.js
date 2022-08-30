@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import ChatBoard from "./chatBoard";
 import {
   Button,
@@ -113,7 +113,6 @@ const Mainchat = () => {
       });
     }
   }, [currentUser, users]);
-
   const handleChat = (firebaseId, index, id) => {
     if (id) {
       setChatId(firebaseId);
@@ -259,6 +258,7 @@ const Mainchat = () => {
   };
   useEffect(() => {
     let data = [];
+    let newArray = contactsList;
     let blockedData = {
       data: "",
     };
@@ -277,6 +277,22 @@ const Mainchat = () => {
         return data.push(item?.receiver);
       }
     });
+    if (userId !== undefined) {
+      const index = data?.map((object) => object?.id).indexOf(userId);
+      selectedIndex = index;
+      if (index < 0) {
+        newArray.push({
+          id: userId,
+          fullName: "Provider",
+          firebaseId: fireId,
+          profileImg:
+            "https://wohk-bucket.s3.us-east-2.amazonaws.com/166125681470230.png",
+        });
+        setDataList(() => {
+          return [...newArray];
+        });
+      }
+    }
     let id = data[selectedIndex]?.id;
     const firebase = data.filter((element) => {
       if (element?.id === id) {
