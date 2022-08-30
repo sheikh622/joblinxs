@@ -3,17 +3,29 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-
+import { getONNotification } from "../../Redux/settings/actions";
 
 const Settings = (props, row) => {
     const label = { inputProps: { "aria-label": "Switch demo" } };
     const dispatch = useDispatch();
     const history = useHistory();
-    const [blockUser, setBlockUser] = useState();
-    // useEffect(() => {
-    //     setBlockUser(row.isActive);
-    // }, [row.isActive]);
+    const {
+        location: { state },
+    } = history;
+    const login = useSelector((state) => state.auth.Auther);
+    console.log("================", login)
+    const [blockUser, setBlockUser] = useState(login?.isShowNotification);
+    const handleJobAction = () => {
+        console.log(blockUser, "ajhsvdajsd")
 
+        return 0;
+        // dispatch(
+        //     getONNotification({
+        //         id: login?.id,
+        //         isShowNotification: blockUser,
+        //     })
+        // );
+    }
     return (
         <>
             <Navbar module={"Settings"} />
@@ -31,8 +43,11 @@ const Settings = (props, row) => {
                                         className="text-center cursorPointer display-inline-block"
                                         name="paymentType"
                                         {...label}
-                                        // checked={item.isActive}
-                                        onChange={(e) => { }}
+                                        checked={blockUser}
+                                        onClick={(e) => {
+                                            handleJobAction();
+                                            setBlockUser(!blockUser)
+                                        }}
                                     />
                                 </Card.Title>
                             </div>
@@ -51,10 +66,10 @@ const Settings = (props, row) => {
                                 </Link>
                             </div>
                             <div className="border_bottom pb-2 mb-4">
-                            <Link className="fw-bold" target="blank" to={`/privacy`}>
-                                <Card.Title className="text-primary">
-                                    Privacy Policy
-                                </Card.Title>
+                                <Link className="fw-bold" target="blank" to={`/privacy`}>
+                                    <Card.Title className="text-primary">
+                                        Privacy Policy
+                                    </Card.Title>
                                 </Link>
                             </div>
 

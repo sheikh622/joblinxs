@@ -12,6 +12,7 @@ import Notifications from "../Redux/notification/reducers";
 import BusinessCategory from "../Redux/BusinessCategory/reducers";
 import ReportListing from "../Redux/ReportManagement/reducers";
 import ChatReducer from "../Redux/chat/reducers"
+import PushNotification from "../Redux/settings/reducers";
 const rootReducer = (history) => {
   return combineReducers({
     User,
@@ -26,6 +27,7 @@ const rootReducer = (history) => {
     BusinessCategory,
     ChatReducer,
     ReportListing,
+    PushNotification,
     router: connectRouter(history),
   });
 

@@ -48,7 +48,6 @@ const ReportManagement = (row) => {
         );
     }, [page, limit]);
 
-
     const nextPage = () => {
         if (page < ReportList?.pages) {
             setPage(page + 1);
@@ -117,7 +116,7 @@ const ReportManagement = (row) => {
                             defaultValue="fixed"
                             label=""
                             className="text-left cursorPointer "
-                            name="paymentType"
+                            name="reportUser"
                             {...label}
                             checked={item?.reportedTo?.isActive}
                             onChange={(e) => {
