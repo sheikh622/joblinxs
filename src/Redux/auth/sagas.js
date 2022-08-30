@@ -34,7 +34,7 @@ function* loginRequestSaga({ payload }) {
         : "/dashboard";
     payload.history.push(path);
     payload.resetForm();
-   
+
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -53,6 +53,7 @@ function* forgetRequestSaga({ payload }) {
     yield put(resetPasswordSuccess(response.data.reset_token));
     toast.success("Email sent successfully");
     yield put(push("/forget-password"));
+    payload.setLoader(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -67,10 +68,11 @@ function* resetRequestSaga({ payload }) {
   };
   try {
     const response = yield axios.post(`/user/admin/reset-password`, data);
-
     toast.success("Password Reset Successfully");
     // toast.success("Password is old.Kindly enter new password ");
     payload.history.push("/");
+    payload.setLoader(false);
+
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

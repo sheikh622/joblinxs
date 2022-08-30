@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 //saga
-
 import { updatetPassword } from "../Redux/auth/actions";
 
 export default ({ showDefault, setShowDefault }) => {
@@ -22,7 +21,6 @@ export default ({ showDefault, setShowDefault }) => {
     }),
   });
   const formOptions = { resolver: yupResolver(CategorySchema) };
-
   // get functions to build form with useForm() hook
   const { register, handleSubmit, reset, formState } = useForm(formOptions);
   const { errors } = formState;
@@ -54,9 +52,8 @@ export default ({ showDefault, setShowDefault }) => {
           name="currentpassword"
           type="password"
           {...register("currentpassword")}
-          className={`form-control ${
-            errors.currentpassword ? "is-invalid" : ""
-          }`}
+          className={`form-control ${errors.currentpassword ? "is-invalid" : ""
+            }`}
         />
         <div className="invalid-feedback">
           {errors.currentpassword?.message}
@@ -73,14 +70,13 @@ export default ({ showDefault, setShowDefault }) => {
         <div className="invalid-feedback">{errors.newpassword?.message}</div>
       </Form.Group>
       <Form.Group className="mt-3">
-        <Form.Label>New Password</Form.Label>
+        <Form.Label>Confirm New Password</Form.Label>
         <Form.Control
           name="confirmpassword"
           type="password"
           {...register("confirmpassword")}
-          className={`form-control ${
-            errors.confirmpassword ? "is-invalid" : ""
-          }`}
+          className={`form-control ${errors.confirmpassword ? "is-invalid" : ""
+            }`}
         />
         <div className="invalid-feedback">
           {errors.confirmpassword?.message}
@@ -95,7 +91,7 @@ export default ({ showDefault, setShowDefault }) => {
             size="sm"
             type="submit"
           >
-            Confirm Password
+            Update Password
           </Button>
         </div>
       </Form.Group>

@@ -113,7 +113,6 @@ const Mainchat = () => {
       });
     }
   }, [currentUser, users]);
-
   const handleChat = (firebaseId, index, id) => {
     if (id) {
       setChatId(firebaseId);
