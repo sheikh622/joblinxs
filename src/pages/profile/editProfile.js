@@ -75,7 +75,7 @@ export default () => {
       phoneNumber: getById.phoneNumber,
       city: getById.city,
       postalCode: getById.postalCode,
-      setLoader: setLoader,
+      // setLoader: setLoader,
 
     });
     // setDateofBirth(moment(new Date(getById?.dateOfBirth)));
@@ -136,10 +136,6 @@ export default () => {
         {user && (
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Row>
-              {loader ? (
-                <Spinner />
-              ) : (
-                <>
                   <div className="mt-2 mb-3 d-flex justify-content-end">
                     <Link className="text-white fw-bold" to={Routes.Profile.path}>
                       <Button variant="primary">Back</Button>
@@ -329,9 +325,6 @@ export default () => {
                       </Card.Body>
                     </Card>
                   </Col>
-
-                </>
-              )}
             </Row>
           </Form>
         )}

@@ -18,7 +18,7 @@ function* getProfileById({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     });
-    payload.setLoader(false);
+    // payload.setLoader(false);
     yield put(getProfileSuccess(response.data.data.user));
   } catch (error) {
     yield sagaErrorHandler(error.response);
