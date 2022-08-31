@@ -14,10 +14,8 @@ const WorkExperience = () => {
     const dispatch = useDispatch();
     const login = useSelector((state) => state.auth.Auther);
     const getById = useSelector((state) => state?.ProfileReducer?.profile);
-    console.log("getById", getById)
     const params = useLocation();
     let profileId = params.state;
-    console.log("pro========", profileId)
     useEffect(() => {
         dispatch(
             getProfile({
@@ -33,9 +31,7 @@ const WorkExperience = () => {
                 <h2>
                     WorkExperience
                 </h2>
-                {/* <Col xs={12} xl={12} className={'d-flex justify-content-end mb-2'}>
-                    <Button onClick={() => history.goBack()}>Back</Button>
-                </Col> */}
+              
                 <Card border="light" className="shadow-sm selfCard">
                     {getById?.workExperience?.length > 0 ? (
                         <>

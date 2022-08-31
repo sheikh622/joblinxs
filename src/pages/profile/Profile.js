@@ -67,7 +67,6 @@ export default () => {
       <Navbar module={"Profile"} />
       <Container>
         <Row>
-       
               <div className="mt-2 mb-3 d-flex justify-content-end">
                 <Button variant="primary" type="submit" onClick={editProfile}>
                   <svg
