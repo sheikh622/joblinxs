@@ -6,9 +6,14 @@ import { history, persistor, store } from "../Store";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import App from "./App";
-
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+const stripePromise = loadStripe(
+  "pk_test_51LamT7CQo8XqKBkeWbqXJOa27a9Zgz123u3YYbL2vsPuHT3Fmss9OUXywVcRCSWw47HDk4UuzgpPifXT7EJ6T0aq00bFlSGGV0"
+);
 
 export default () => (
+  <Elements stripe={stripePromise}>
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <PersistGate persistor={persistor}>
@@ -17,4 +22,5 @@ export default () => (
       </PersistGate>
     </ConnectedRouter>
   </Provider>
+  </Elements>
 );

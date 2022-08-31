@@ -33,16 +33,19 @@ import Users from "./user/users";
 import editAdminProfile from "./AdminProfile/editAdminProfile";
 import adminProfile from "./AdminProfile/adminProfile";
 import MyJobDetails from "./jobs/myJobDetails";
-import BusinessCategories from "./businessCategory/index"
-import Settings from "./Settings/index"
-import Chat from "./Chat/main"
+import BusinessCategories from "./businessCategory/index";
+import Settings from "./Settings/index";
+import Chat from "./Chat/main";
 import ReportManagement from "./Report Management";
 import ChangePassword from "./Settings/changePassword";
-import TermsandConditions from "./Settings/TermsandConditions"
+import TermsandConditions from "./Settings/TermsandConditions";
 import PrivacyPolicy from "./Settings/PrivacyPolicy";
+import PayementMethod from "./payementMethod"
 import WorkExperience from "./WorkExperience";
 import Achievement from "./Achievement"
 // changes merge
+
+
 export default () => (
   <BrowserRouter>
     <Switch>
@@ -69,11 +72,7 @@ export default () => (
         path={Routes.PrivacyPolicy.path}
         component={PrivacyPolicy}
       />
-      <PrivateRoute
-        exact
-        path={Routes.Chat.path}
-        component={Chat}
-      />
+      <PrivateRoute exact path={Routes.Chat.path} component={Chat} />
       <PrivateRoute
         exact
         path={Routes.DashboardOverview.path}
@@ -93,6 +92,12 @@ export default () => (
         exact
         path={Routes.Recommended.path}
         component={Recommend}
+      />
+
+      <PrivateRoute
+        exact
+        path={Routes.PayementMethod.path}
+        component={PayementMethod}
       />
 
       <PrivateRoute exact path={Routes.Profile.path} component={Profile} />
@@ -121,7 +126,11 @@ export default () => (
         component={Applicants}
       />
       <PrivateRoute exact path={Routes.LogHours.path} component={LogHours} />
-      <PrivateRoute exact path={Routes.LogHoursDetails.path} component={LogHourDetails} />
+      <PrivateRoute
+        exact
+        path={Routes.LogHoursDetails.path}
+        component={LogHourDetails}
+      />
 
       <PrivateRoute
         exact
@@ -148,11 +157,7 @@ export default () => (
         path={Routes.ChangePassword.path}
         component={ChangePassword}
       />
-      <PrivateRoute
-        exact
-        path={Routes.Search.path}
-        component={Search}
-      />
+      <PrivateRoute exact path={Routes.Search.path} component={Search} />
       <PrivateRoute
         exact
         path={Routes.Categories.path}
