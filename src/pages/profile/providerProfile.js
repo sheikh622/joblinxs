@@ -48,6 +48,8 @@ const ProviderProfile = (props) => {
 
   const params = useLocation();
   let profileId = params.pathname.split("/")[2];
+  console.log("pro========", profileId)
+
   useEffect(() => {
     dispatch(
       getProfile({
@@ -67,9 +69,9 @@ const ProviderProfile = (props) => {
       <Navbar module={"Detail Profile"} />
       <Container>
         <Col xs={12} xl={12} className={'d-flex justify-content-end mb-2'}>
-        <Button onClick={() => history.goBack()}>Back</Button>
+          <Button onClick={() => history.goBack()}>Back</Button>
         </Col>
-        
+
         <Row>
           <Col lg={4} md={6} xs={12} className="pb-3 mb-3">
             <Card border="light" className="card-box-shadow py-3 px-4 mb-3">
@@ -210,16 +212,20 @@ const ProviderProfile = (props) => {
               </Card.Body>
 
               <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">
-                <Card.Text className="text-black mb-2">
-                  Work Experience
-                </Card.Text>
+                <Link className="fw-bold" to={{pathname:`/workexperience`,state:profileId}}>
+                  <Card.Text className="text-black mb-2">
+                    Work Experience
+                  </Card.Text>
+                </Link>
                 <FontAwesomeIcon color="#12499C" icon={faChevronRight} />
               </Card.Body>
 
               <Card.Body className="mb-2 d-flex justify-content-between align-items-baseline">
+              <Link className="fw-bold" to={{pathname:`/achievement`,state:profileId}}>
                 <Card.Text className="text-black mb-2">
                   Achievement/Certification
                 </Card.Text>
+                </Link>
                 <FontAwesomeIcon color="#12499C" icon={faChevronRight} />
               </Card.Body>
             </Card>

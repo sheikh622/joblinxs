@@ -1,6 +1,6 @@
 import {
   faAngleDoubleLeft,
-  faAngleDoubleRight, faCheck, faEllipsisH,faEye, faMinus, faTrashAlt
+  faAngleDoubleRight, faCheck, faEllipsisH, faEye, faMinus, faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,12 +8,13 @@ import {
 } from "@themesberg/react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link,useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { deleteJob, getJobListing, getJobProfile, getCategoryJob, changeJobStatus } from "../../Redux/JobManagement/actions";
 import { getCategoryList } from "../../Redux/Category/actions";
 import NoRecordFound from "../../components/NoRecordFound";
 import { Routes } from "../../routes";
+import Spinner from "../../components/spinner";
 
 const JobManagement = (row) => {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ const JobManagement = (row) => {
   );
   const [adminId, setAdminId] = useState(0);
   const [type, setType] = React.useState("");
+  const [loader, setLoader] = useState(true);
   const handleJobAction = (data) => {
     dispatch(
       changeJobStatus({
@@ -109,6 +111,7 @@ const JobManagement = (row) => {
         limit: limit,
         search: search,
         type: type,
+        setLoader: setLoader,
         category: categoryType,
       })
     );
@@ -233,128 +236,134 @@ const JobManagement = (row) => {
       <Navbar module={"Job Management"} />
       <Container>
         <Row className="py-2">
-          <Col lg={12} md={12} sm={12} xs={12} className="pb-3">
-            <Card
-              border="light"
-              className="table-wrapper table-responsive shadow-sm"
-            >
-              <Card.Header className="pt-0 d-flex justify-content-between">
-                <Col lg={3} md={5}>
-                  <Form.Group className="mt-3">
-                    <Form.Control type="text" placeholder="Search"
-                      label="Search"
-                      value={search}
-                      onChange={(event) => {
-                        setSearch(event.target.value);
-                      }}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col lg={3} md={5}>
-                  <Form.Group className="mt-3">
-                    <Form.Select defaultValue="1" label="Select"
-                      value={categoryType}
-                      onChange={handleClick}
-                    >
-                      {category.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </Form.Group>
-                </Col>
-                <Col lg={3} md={5}>
-                  <Form.Group className="mt-3">
-                    <Form.Select
-                      defaultValue="1"
-                      label="Select"
-                      value={type}
-                      onChange={handleChange}
-                    >
-                      {currencies.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </Form.Group>
-                </Col>
-              </Card.Header>
-              <Card.Body className="pt-0">
-                {JobList?.jobs?.length > 0 ? (
-                  <>
-                    <Table hover className="user-table align-items-center management_table">
-                      <thead>
-                        <tr>
-                          <th className="border-bottom">Job Name</th>
-                          <th className="border-bottom">Status</th>
-                          <th className="border-bottom">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {JobList?.jobs?.map((t, index) => (
-                          <TableRow key={index} item={t} />
-                        ))}
-                      </tbody>
-                    </Table>
-                    <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
-                      <Nav>
-                        <Pagination size={"sm"} className="mb-2 mb-lg-0">
-                          <Pagination.Prev onClick={() => previousPage()}>
-                            <FontAwesomeIcon icon={faAngleDoubleLeft} />
-                          </Pagination.Prev>
-                          {paginationItems()}
-                          <Pagination.Next onClick={() => nextPage()}>
-                            <FontAwesomeIcon icon={faAngleDoubleRight} />
-                          </Pagination.Next>
-                        </Pagination>
-                      </Nav>
-                      <small className="fw-bold">
-                        Showing <b>{JobList?.jobs?.length}</b> out of <b>{JobList?.total_jobs}</b> entries
-                      </small>
-                    </Card.Footer>
-                  </>
-                ) : (
-                  <NoRecordFound />
+          {loader ? (
+            <Spinner />
+          ) : (
+            <>
+              <Col lg={12} md={12} sm={12} xs={12} className="pb-3">
+                <Card
+                  border="light"
+                  className="table-wrapper table-responsive shadow-sm"
+                >
+                  <Card.Header className="pt-0 d-flex justify-content-between">
+                    <Col lg={3} md={5}>
+                      <Form.Group className="mt-3">
+                        <Form.Control type="text" placeholder="Search"
+                          label="Search"
+                          value={search}
+                          onChange={(event) => {
+                            setSearch(event.target.value);
+                          }}
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col lg={3} md={5}>
+                      <Form.Group className="mt-3">
+                        <Form.Select defaultValue="1" label="Select"
+                          value={categoryType}
+                          onChange={handleClick}
+                        >
+                          {category.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </Form.Select>
+                      </Form.Group>
+                    </Col>
+                    <Col lg={3} md={5}>
+                      <Form.Group className="mt-3">
+                        <Form.Select
+                          defaultValue="1"
+                          label="Select"
+                          value={type}
+                          onChange={handleChange}
+                        >
+                          {currencies.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </Form.Select>
+                      </Form.Group>
+                    </Col>
+                  </Card.Header>
+                  <Card.Body className="pt-0">
+                    {JobList?.jobs?.length > 0 ? (
+                      <>
+                        <Table hover className="user-table align-items-center management_table">
+                          <thead>
+                            <tr>
+                              <th className="border-bottom">Job Name</th>
+                              <th className="border-bottom">Status</th>
+                              <th className="border-bottom">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {JobList?.jobs?.map((t, index) => (
+                              <TableRow key={index} item={t} />
+                            ))}
+                          </tbody>
+                        </Table>
+                        <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+                          <Nav>
+                            <Pagination size={"sm"} className="mb-2 mb-lg-0">
+                              <Pagination.Prev onClick={() => previousPage()}>
+                                <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                              </Pagination.Prev>
+                              {paginationItems()}
+                              <Pagination.Next onClick={() => nextPage()}>
+                                <FontAwesomeIcon icon={faAngleDoubleRight} />
+                              </Pagination.Next>
+                            </Pagination>
+                          </Nav>
+                          <small className="fw-bold">
+                            Showing <b>{JobList?.jobs?.length}</b> out of <b>{JobList?.total_jobs}</b> entries
+                          </small>
+                        </Card.Footer>
+                      </>
+                    ) : (
+                      <NoRecordFound />
 
-                )}
-              </Card.Body>
-            </Card>
-          </Col>
-          <Modal as={Modal.Dialog} centered show={showDefault} onHide={handlefalse} >
-            <Modal.Header>
-              <Modal.Title className="h5">
-                Delete Job
-              </Modal.Title>
-              <Button variant="close" aria-label="Close" onClick={handlefalse} />
-            </Modal.Header>
-            <Modal.Body>
-              <Form >
-                <Form.Group>
-                  Are you sure you want to delete this Job?
-                </Form.Group>
-                <Form.Group>
-                  <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
-                    <Button
-                      variant="primary"
-                      onHide={handlefalse}
-                      color="dark"
-                      size="sm"
-                      // type="submit"
-                      onClick={() => {
-                        handleDelete();
-                        handlefalse();
-                      }}
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                </Form.Group>
-              </Form>
+                    )}
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Modal as={Modal.Dialog} centered show={showDefault} onHide={handlefalse} >
+                <Modal.Header>
+                  <Modal.Title className="h5">
+                    Delete Job
+                  </Modal.Title>
+                  <Button variant="close" aria-label="Close" onClick={handlefalse} />
+                </Modal.Header>
+                <Modal.Body>
+                  <Form >
+                    <Form.Group>
+                      Are you sure you want to delete this Job?
+                    </Form.Group>
+                    <Form.Group>
+                      <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
+                        <Button
+                          variant="primary"
+                          onHide={handlefalse}
+                          color="dark"
+                          size="sm"
+                          // type="submit"
+                          onClick={() => {
+                            handleDelete();
+                            handlefalse();
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    </Form.Group>
+                  </Form>
 
-            </Modal.Body>
-          </Modal>
+                </Modal.Body>
+              </Modal>
+            </>
+          )}
         </Row>
       </Container>
     </>

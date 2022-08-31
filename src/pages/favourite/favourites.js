@@ -28,16 +28,21 @@ import { favouriteJobList } from "../../Redux/addJob/actions";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import NoRecordFound from "../../components/NoRecordFound";
+import Spinner from "../../components/spinner";
 
 const Favourites = () => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const history = useHistory();
   const JobList = useSelector((state) => state.addJob?.favouriteJob);
+  const [loader, setLoader] = useState(true);
+
   useEffect(() => {
     dispatch(
       favouriteJobList({
         page: page,
+        setLoader: setLoader,
+
       })
     );
   }, [page]);
@@ -74,53 +79,59 @@ const Favourites = () => {
       <Navbar module={"Favourites"} />
       <Container>
         {/* Featured */}
-        {JobList?.jobs?.length > 0 ? (
-          <Row className="py-2">
-            {JobList?.jobs?.map((item) => {
-              return (
-                <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
-                  <CommonCard
-                    id={item.id}
-                    img={item.image}
-                    name={item.name}
-                    isFavourite={item.isFavourite}
-                    type={item?.jobType?.name}
-                    rate={item.rate}
-                    completed={"90"}
-                    star={item.rating}
-                    page={item.page}
-                    limit={item.limit}
-                    category={item.categoryType}
-                  />
-                </Col>
-              );
-            })}
-            <Col
-              lg={12}
-              md={12}
-              sm={12}
-              xs={12}
-              className="d-flex justify-content-between"
-            >
-              <Nav>
-                <Pagination size={"sm"} className="mb-2 mb-lg-0">
-                  <Pagination.Prev onClick={() => previousPage()}>
-                    <FontAwesomeIcon icon={faAngleDoubleLeft} />
-                  </Pagination.Prev>
-                  {paginationItems()}
-                  <Pagination.Next onClick={() => nextPage()}>
-                    <FontAwesomeIcon icon={faAngleDoubleRight} />
-                  </Pagination.Next>
-                </Pagination>
-              </Nav>
-              <small className="fw-bold">
-                Showing <b>{JobList?.jobs?.length}</b> out of{" "}
-                <b>{JobList?.total_jobs}</b> entries
-              </small>
-            </Col>
-          </Row>
+        {loader ? (
+          <Spinner />
         ) : (
-          <NoRecordFound />
+          <>
+            {JobList?.jobs?.length > 0 ? (
+              <Row className="py-2">
+                {JobList?.jobs?.map((item) => {
+                  return (
+                    <Col lg={2} md={4} sm={6} xs={12} className="pb-3">
+                      <CommonCard
+                        id={item.id}
+                        img={item.image}
+                        name={item.name}
+                        isFavourite={item.isFavourite}
+                        type={item?.jobType?.name}
+                        rate={item.rate}
+                        completed={"90"}
+                        star={item.rating}
+                        page={item.page}
+                        limit={item.limit}
+                        category={item.categoryType}
+                      />
+                    </Col>
+                  );
+                })}
+                <Col
+                  lg={12}
+                  md={12}
+                  sm={12}
+                  xs={12}
+                  className="d-flex justify-content-between"
+                >
+                  <Nav>
+                    <Pagination size={"sm"} className="mb-2 mb-lg-0">
+                      <Pagination.Prev onClick={() => previousPage()}>
+                        <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                      </Pagination.Prev>
+                      {paginationItems()}
+                      <Pagination.Next onClick={() => nextPage()}>
+                        <FontAwesomeIcon icon={faAngleDoubleRight} />
+                      </Pagination.Next>
+                    </Pagination>
+                  </Nav>
+                  <small className="fw-bold">
+                    Showing <b>{JobList?.jobs?.length}</b> out of{" "}
+                    <b>{JobList?.total_jobs}</b> entries
+                  </small>
+                </Col>
+              </Row>
+            ) : (
+              <NoRecordFound />
+            )}
+          </>
         )}
       </Container>
     </>

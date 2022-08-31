@@ -24,12 +24,16 @@ import * as Yup from "yup";
 import Navbar from "../../components/Navbar";
 import NoRecordFound from "../../components/NoRecordFound";
 import { addAdminCategory, deleteCategory, getCategoryList, updateCategory } from "../../Redux/Category/actions";
+import Spinner from "../../components/spinner";
+
 const Categories = (item) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [search, setSearch] = useState("");
   const [adminId, setAdminId] = useState(0);
   const [delCategory, setDelCategory] = useState(false)
+  const [loader, setLoader] = useState(true);
+
   const {
     location: { state },
   } = history;
@@ -39,9 +43,9 @@ const Categories = (item) => {
   useEffect(() => {
     dispatch(
       getCategoryList({
-        
+        setLoader: setLoader,
         search: search,
-        role:"admin"
+        role: "admin"
       })
     );
   }, [search]);
@@ -86,30 +90,30 @@ const Categories = (item) => {
     onSubmit: async (values, action) => {
       selectedItem
         ? dispatch(
-            updateCategory({
-              id: values.id,
-              title: values.title,
-              categoryImg: selectedImage,
-              details: values.details,
-              setReset: action.resetForm,
-              setShowDefault: setShowDefault,
-              // showDefault: showDefault,
-              setSelectedImage: setSelectedImage,
+          updateCategory({
+            id: values.id,
+            title: values.title,
+            categoryImg: selectedImage,
+            details: values.details,
+            setReset: action.resetForm,
+            setShowDefault: setShowDefault,
+            // showDefault: showDefault,
+            setSelectedImage: setSelectedImage,
 
-              history: history,
-            })
-          )
+            history: history,
+          })
+        )
         : dispatch(
-            addAdminCategory({
-              title: values.title,
-              details: values.details,
-              categoryImg: selectedImage,
-              setReset: action.resetForm,
-              setShowDefault: setShowDefault,
-              showDefault: showDefault,
-              setSelectedImage: setSelectedImage,
-            })
-          );
+          addAdminCategory({
+            title: values.title,
+            details: values.details,
+            categoryImg: selectedImage,
+            setReset: action.resetForm,
+            setShowDefault: setShowDefault,
+            showDefault: showDefault,
+            setSelectedImage: setSelectedImage,
+          })
+        );
     },
   });
   const imageChange = (e) => {
@@ -117,7 +121,7 @@ const Categories = (item) => {
       setSelectedImage(e.target.files[0]);
     }
   };
-  useEffect(() => {}, [CategoryFormik.values]);
+  useEffect(() => { }, [CategoryFormik.values]);
   const addCategories = () => {
     setEdit(false);
     setSelectedItem(null);
@@ -127,132 +131,139 @@ const Categories = (item) => {
     <>
       <Navbar module={"Categories"} />
       <Container>
-        <Row className="py-2 justify-content-between align-items-baseline">
-          <Col lg={3} md={5}>
-            <Form.Group className="mt-3">
-              <Form.Control
-                type="text"
-                select
-                placeholder="Search"
-                label="Search"
-                value={search}
-                onChange={(event) => {
-                  setSearch(event.target.value);
-                }}
-              />
-            </Form.Group>
-          </Col>
-          <Col lg={3} md={5} className="justify-content-end d-flex">
-            <Button
-              variant="primary"
-              className="mx-2"
-              onClick={() => addCategories()}
-            >
-              <svg
-                width="17"
-                height="17"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 12H8M12 8V12V8ZM12 12V16V12ZM12 12H16H12Z"
-                  stroke="white"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-                  stroke="white"
-                  stroke-width="2"
-                />
-              </svg>
-              {"  "}
-              Add Category
-            </Button>
-          </Col>
+        {loader ? (
+          <Spinner />
+        ) : (
+          <>
+            <Row className="py-2 justify-content-between align-items-baseline">
 
-          <Col lg={12} md={12} sm={12} xs={12} className="pt-4 pb-1">
-            <div className="d-flex justify-content-between"></div>
-          </Col>
-        </Row>
-        {CategoryData?.length ? <>
-        
-        <Row className="pb-1">
-          {CategoryData?.map((value, index, row) => {
-            return (
-              <>
-                <Col lg={4} md={12} xs={12} sm={12} className="pb-3 introCardParent" >
-                  <Card border="light" className="shadow-sm introCard">
-                    <Image
-                      src={value.categoryImg}
-                      className="navbar-brand-light"
+              <Col lg={3} md={5}>
+                <Form.Group className="mt-3">
+                  <Form.Control
+                    type="text"
+                    select
+                    placeholder="Search"
+                    label="Search"
+                    value={search}
+                    onChange={(event) => {
+                      setSearch(event.target.value);
+                    }}
+                  />
+                </Form.Group>
+              </Col>
+              <Col lg={3} md={5} className="justify-content-end d-flex">
+                <Button
+                  variant="primary"
+                  className="mx-2"
+                  onClick={() => addCategories()}
+                >
+                  <svg
+                    width="17"
+                    height="17"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 12H8M12 8V12V8ZM12 12V16V12ZM12 12H16H12Z"
+                      stroke="white"
+                      stroke-width="2"
+                      stroke-linecap="round"
                     />
-                    <div className="detailSection">
-                      <span className="left">
-                        <h3>{value.title}</h3>
-                        <p>{value.details}</p>
-                      </span>
-                      <span className="right">
-                        <Dropdown as={ButtonGroup} className="me-3 mt-1">
-                          <Dropdown.Toggle
-                            as={Button}
-                            split
-                            variant="link"
-                            className="text-dark m-0 p-0"
-                          >
-                            <span className="icon icon-sm">
-                              <FontAwesomeIcon
-                                icon={faEllipsisV}
-                                className="icon-dark"
-                              />
-                            </span>
-                          </Dropdown.Toggle>
-                          <Dropdown.Menu className="custom_menu">
-                            <Dropdown.Item onClick={() => activeButton(value)}>
-                              <FontAwesomeIcon icon={faEdit} className="me-2" />{" "}
-                              Edit
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              className="text-danger"
-                              onClick={() => {
-                                setDelCategory(true);
-                                setAdminId(value.id);
-                              }}
-                            >
-                              <FontAwesomeIcon
-                                icon={faTrashAlt}
-                                className="me-2"
-                              />{" "}
-                              Remove
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      </span>
-                    </div>
-                  </Card>
-                </Col>
-              </>
-            );
-          })}
-        </Row>
-        
-        </> : <>
-        <NoRecordFound/>
-        </>
-        }
+                    <path
+                      d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                      stroke="white"
+                      stroke-width="2"
+                    />
+                  </svg>
+                  {"  "}
+                  Add Category
+                </Button>
+              </Col>
 
-        {auth.Auther.userRole != "Admin" && (
-          <Row className="py-2 justify-content-between">
-            <div class="d-grid gap-2 col-3 text-center  mx-auto">
-              <span className="text-gray">
-                You can select multiple categories
-              </span>
-              <Button variant="primary" color="dark" size="sm">
-                Save
-              </Button>
-            </div>
-          </Row>
+              <Col lg={12} md={12} sm={12} xs={12} className="pt-4 pb-1">
+                <div className="d-flex justify-content-between"></div>
+              </Col>
+            </Row>
+            {CategoryData?.length ? <>
+
+              <Row className="pb-1">
+                {CategoryData?.map((value, index, row) => {
+                  return (
+                    <>
+                      <Col lg={4} md={12} xs={12} sm={12} className="pb-3 introCardParent" >
+                        <Card border="light" className="shadow-sm introCard">
+                          <Image
+                            src={value.categoryImg}
+                            className="navbar-brand-light"
+                          />
+                          <div className="detailSection">
+                            <span className="left">
+                              <h3>{value.title}</h3>
+                              <p>{value.details}</p>
+                            </span>
+                            <span className="right">
+                              <Dropdown as={ButtonGroup} className="me-3 mt-1">
+                                <Dropdown.Toggle
+                                  as={Button}
+                                  split
+                                  variant="link"
+                                  className="text-dark m-0 p-0"
+                                >
+                                  <span className="icon icon-sm">
+                                    <FontAwesomeIcon
+                                      icon={faEllipsisV}
+                                      className="icon-dark"
+                                    />
+                                  </span>
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu className="custom_menu">
+                                  <Dropdown.Item onClick={() => activeButton(value)}>
+                                    <FontAwesomeIcon icon={faEdit} className="me-2" />{" "}
+                                    Edit
+                                  </Dropdown.Item>
+                                  <Dropdown.Item
+                                    className="text-danger"
+                                    onClick={() => {
+                                      setDelCategory(true);
+                                      setAdminId(value.id);
+                                    }}
+                                  >
+                                    <FontAwesomeIcon
+                                      icon={faTrashAlt}
+                                      className="me-2"
+                                    />{" "}
+                                    Remove
+                                  </Dropdown.Item>
+                                </Dropdown.Menu>
+                              </Dropdown>
+                            </span>
+                          </div>
+                        </Card>
+                      </Col>
+                    </>
+                  );
+                })}
+              </Row>
+
+            </> : <>
+              <NoRecordFound />
+            </>
+            }
+
+            {auth.Auther.userRole != "Admin" && (
+              <Row className="py-2 justify-content-between">
+                <div class="d-grid gap-2 col-3 text-center  mx-auto">
+                  <span className="text-gray">
+                    You can select multiple categories
+                  </span>
+                  <Button variant="primary" color="dark" size="sm">
+                    Save
+                  </Button>
+                </div>
+              </Row>
+            )}
+          </>
         )}
       </Container>
       <Modal as={Modal.Dialog} centered show={delCategory} onHide={handleClose}>
@@ -292,7 +303,7 @@ const Categories = (item) => {
           <Modal.Title className="h5">
             {isEdit ? "Edit Category" : "Add Category"}
           </Modal.Title>
-          <Button variant="close" aria-label="Close" onClick={handleClose}/>
+          <Button variant="close" aria-label="Close" onClick={handleClose} />
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={CategoryFormik.handleSubmit}>
@@ -331,7 +342,7 @@ const Categories = (item) => {
                 }}
               />
               {CategoryFormik.touched.details &&
-              CategoryFormik.errors.details ? (
+                CategoryFormik.errors.details ? (
                 <div style={{ color: "red" }}>
                   {CategoryFormik.errors.details}
                 </div>
@@ -344,7 +355,7 @@ const Categories = (item) => {
                 onChange={imageChange}
                 accept="image/png, image/gif, image/jpeg"
               />
-              
+
               <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
                 <Button
                   variant="primary"

@@ -12,6 +12,7 @@ import { useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { getCategoryListing, getCategoryProfile } from "../../Redux/categoryManagement/actions";
 import NoRecordFound from "../../components/NoRecordFound";
+import Spinner from "../../components/spinner";
 
 const CategoryManagement = (row) => {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const CategoryManagement = (row) => {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [limit] = useState("10");
+  const [loader, setLoader] = useState(true);
 
   const CategoryList = useSelector(
     (state) => state?.CategoryListing?.getCategoryListing
@@ -44,6 +46,8 @@ const CategoryManagement = (row) => {
         page: page,
         limit: limit,
         search: search,
+        setLoader: setLoader,
+
       })
     );
   },
@@ -144,70 +148,76 @@ const CategoryManagement = (row) => {
       <Navbar module={"Category Management"} />
       <Container>
         <Row className="py-2">
-          <Col lg={12} md={12} sm={12} xs={12} className="pb-3">
-            <Card
-              border="light"
-              className="table-wrapper table-responsive shadow-sm"
-            >
-              <Card.Header className="pt-0 d-flex justify-content-between">
-                <Col lg={3} md={5}>
-                  <Form.Group className="mt-3">
-                    <Form.Control type="text" placeholder="Search"
-                      label="Search"
-                      value={search}
-                      onChange={(event) => {
-                        setSearch(event.target.value);
-                      }}
-                    />
-                  </Form.Group>
-                </Col>
-              </Card.Header>
-              <Card.Body className="pt-0">
-                {CategoryList?.categroies?.length > 0 ? (
-                  <>
-                    <Table hover className="user-table align-items-center management_table">
-                      <thead>
-                        <tr>
-                          <th className="border-bottom">Category Name</th>
-                          <th className="border-bottom">Description</th>
-                          <th className="border-bottom">Status</th>
-                          <th className="border-bottom">Action</th>
-                        </tr>
-                      </thead>
+          {loader ? (
+            <Spinner />
+          ) : (
+            <>
+              <Col lg={12} md={12} sm={12} xs={12} className="pb-3">
+                <Card
+                  border="light"
+                  className="table-wrapper table-responsive shadow-sm"
+                >
+                  <Card.Header className="pt-0 d-flex justify-content-between">
+                    <Col lg={3} md={5}>
+                      <Form.Group className="mt-3">
+                        <Form.Control type="text" placeholder="Search"
+                          label="Search"
+                          value={search}
+                          onChange={(event) => {
+                            setSearch(event.target.value);
+                          }}
+                        />
+                      </Form.Group>
+                    </Col>
+                  </Card.Header>
+                  <Card.Body className="pt-0">
+                    {CategoryList?.categroies?.length > 0 ? (
+                      <>
+                        <Table hover className="user-table align-items-center management_table">
+                          <thead>
+                            <tr>
+                              <th className="border-bottom">Category Name</th>
+                              <th className="border-bottom">Description</th>
+                              <th className="border-bottom">Status</th>
+                              <th className="border-bottom">Action</th>
+                            </tr>
+                          </thead>
 
 
 
-                      <tbody>
-                        {CategoryList?.categroies?.map((t, index) => (
-                          <TableRow key={index} item={t} />
-                        ))}
-                      </tbody>
+                          <tbody>
+                            {CategoryList?.categroies?.map((t, index) => (
+                              <TableRow key={index} item={t} />
+                            ))}
+                          </tbody>
 
 
-                    </Table>
-                    <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
-                      <Nav>
-                        <Pagination size={"sm"} className="mb-2 mb-lg-0">
-                          <Pagination.Prev onClick={() => previousPage()}>
-                            <FontAwesomeIcon icon={faAngleDoubleLeft} />
-                          </Pagination.Prev>
-                          {paginationItems()}
-                          <Pagination.Next onClick={() => nextPage()}>
-                            <FontAwesomeIcon icon={faAngleDoubleRight} />
-                          </Pagination.Next>
-                        </Pagination>
-                      </Nav>
-                      <small className="fw-bold">
-                        Showing <b>{CategoryList?.categroies?.length}</b> out of <b>{CategoryList?.total_categories}</b> entries
-                      </small>
-                    </Card.Footer>
-                  </>
-                ) : (
-                  <NoRecordFound />
-                )}
-              </Card.Body>
-            </Card>
-          </Col>
+                        </Table>
+                        <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+                          <Nav>
+                            <Pagination size={"sm"} className="mb-2 mb-lg-0">
+                              <Pagination.Prev onClick={() => previousPage()}>
+                                <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                              </Pagination.Prev>
+                              {paginationItems()}
+                              <Pagination.Next onClick={() => nextPage()}>
+                                <FontAwesomeIcon icon={faAngleDoubleRight} />
+                              </Pagination.Next>
+                            </Pagination>
+                          </Nav>
+                          <small className="fw-bold">
+                            Showing <b>{CategoryList?.categroies?.length}</b> out of <b>{CategoryList?.total_categories}</b> entries
+                          </small>
+                        </Card.Footer>
+                      </>
+                    ) : (
+                      <NoRecordFound />
+                    )}
+                  </Card.Body>
+                </Card>
+              </Col>
+            </>
+          )}
         </Row>
       </Container>
     </>

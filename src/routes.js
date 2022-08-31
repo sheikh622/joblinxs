@@ -13,6 +13,8 @@ export const Routes = {
     DetailJob: { path: '/detailJob/:id' },
     MyJobDetail: { path: '/job-management/jobDetail/:id' },
     DetailProvider: { path: '/detailProvider/:id' },
+    WorkExperience:  { path: "/workexperience" },
+    Achievement:  { path: "/achievement" },
     UserDetail: { path: '/user_management/userDetail' },
     JobDetails: { path: '/jobDetails' },
     PayementMethod: { path: '/PayementMethod' },

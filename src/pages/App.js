@@ -41,6 +41,8 @@ import ChangePassword from "./Settings/changePassword";
 import TermsandConditions from "./Settings/TermsandConditions";
 import PrivacyPolicy from "./Settings/PrivacyPolicy";
 import PayementMethod from "./payementMethod"
+import WorkExperience from "./WorkExperience";
+import Achievement from "./Achievement"
 // changes merge
 
 
@@ -135,7 +137,21 @@ export default () => (
         path={Routes.Favourites.path}
         component={Favourites}
       />
-      <PrivateRoute exact path={Routes.Settings.path} component={Settings} />
+      <PrivateRoute
+        exact
+        path={Routes.WorkExperience.path}
+        component={WorkExperience}
+      />
+      <PrivateRoute
+        exact
+        path={Routes.Achievement.path}
+        component={Achievement}
+      />
+      <PrivateRoute
+        exact
+        path={Routes.Settings.path}
+        component={Settings}
+      />
       <PrivateRoute
         exact
         path={Routes.ChangePassword.path}

@@ -79,7 +79,7 @@ function* addJob({ payload }) {
   formData.append("isPost", payload.isPost);
   try {
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.post(`${repost ? "job/repost":"job/seeker"}`, formData, {
+    const response = yield axios.post(`${repost ? "job/repost" : "job/seeker"}`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -88,7 +88,7 @@ function* addJob({ payload }) {
     toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getJobListingSuccess(response.data.data));
     payload.history.push("/job");
-  
+
     payload.setReset();
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -110,6 +110,8 @@ function* getJobList({ payload }) {
       }
     );
     yield put(getJobsSuccess(response.data.data));
+    payload.setLoader(false);
+
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -130,6 +132,7 @@ function* getFavoutiteJobList({ payload }) {
     );
     // toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(favouriteJobListSuccess(response.data.data));
+    payload.setLoader(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -268,7 +271,7 @@ function* watchGetApplicants() {
 }
 function* gethiredApplicantsSaga(payload) {
   try {
-    const { id,setLoader } = payload.payload;
+    const { id, setLoader } = payload.payload;
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
       `job/hiredApplicants/${id}?page=${payload.payload.page}&count=${payload.payload.limit}`,
@@ -326,13 +329,13 @@ function* getLogHours({ payload }) {
         }
       })
     yield put(getLogHoursSuccess(response.data.data));
-    }catch (error) {
-      yield sagaErrorHandler(error.response);
-    }
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
   }
-  function* watchGetLogHours() {
-    yield takeLatest(GET_LOG_HOURS, getLogHours);
-  }
+}
+function* watchGetLogHours() {
+  yield takeLatest(GET_LOG_HOURS, getLogHours);
+}
 function* RateJobSaga({ payload }) {
   try {
     let Data = {
@@ -363,7 +366,7 @@ function* ApprovedHoursSaga({ payload }) {
       id: payload.id,
       status: payload.status
     }
-    
+
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.patch(
       `job/approveHours`, data,
@@ -433,7 +436,7 @@ function* watchCompleteJob() {
 
 function* getApplicantsByUserId(payload) {
   try {
-    const { id,usersId, page, limit } = payload.payload;
+    const { id, usersId, page, limit } = payload.payload;
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
       `job/getLogHours/${id}/${usersId}?page=${page}&count=${limit}`,
@@ -451,10 +454,10 @@ function* getApplicantsByUserId(payload) {
 function* watchGetApplicantsByUserId() {
   yield takeLatest(GET_APPLICANTS_BYUSERID, getApplicantsByUserId);
 }
-function* emergencyJobSaga({payload}) {
+function* emergencyJobSaga({ payload }) {
   try {
     const data = {
-      id:payload.id,
+      id: payload.id,
     };
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.patch(
