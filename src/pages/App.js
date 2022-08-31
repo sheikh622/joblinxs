@@ -40,6 +40,8 @@ import ReportManagement from "./Report Management";
 import ChangePassword from "./Settings/changePassword";
 import TermsandConditions from "./Settings/TermsandConditions"
 import PrivacyPolicy from "./Settings/PrivacyPolicy";
+import WorkExperience from "./WorkExperience";
+import Achievement from "./Achievement"
 // changes merge
 export default () => (
   <BrowserRouter>
@@ -55,7 +57,7 @@ export default () => (
         component={ResetPassword}
       />
       <PublicRoute exact path={Routes.NotFound.path} component={NotFoundPage} />
-      
+
       <PublicRoute exact path={Routes.Signin.path} component={Signin} />
       <PrivateRoute
         exact
@@ -126,12 +128,22 @@ export default () => (
         path={Routes.Favourites.path}
         component={Favourites}
       />
-       <PrivateRoute
+      <PrivateRoute
+        exact
+        path={Routes.WorkExperience.path}
+        component={WorkExperience}
+      />
+      <PrivateRoute
+        exact
+        path={Routes.Achievement.path}
+        component={Achievement}
+      />
+      <PrivateRoute
         exact
         path={Routes.Settings.path}
         component={Settings}
       />
-        <PrivateRoute
+      <PrivateRoute
         exact
         path={Routes.ChangePassword.path}
         component={ChangePassword}

@@ -13,7 +13,6 @@ const Settings = (props, row) => {
         location: { state },
     } = history;
     const login = useSelector((state) => state.auth.Auther);
-    console.log("3333333333",login.id)
     const [blockUser, setBlockUser] = useState(login?.isShowNotification);
     const handleJobAction = (data) => {
         dispatch(
