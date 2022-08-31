@@ -152,7 +152,6 @@ const ReportManagement = (row) => {
                                 </thead>
                                 <tbody>
                                     {ReportList?.reportedUsers?.map((obj, index) => {
-                                       
                                         return (
                                             <TableRow key={index} item={obj} />
                                         )

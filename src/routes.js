@@ -15,6 +15,7 @@ export const Routes = {
     DetailProvider: { path: '/detailProvider/:id' },
     UserDetail: { path: '/user_management/userDetail' },
     JobDetails: { path: '/jobDetails' },
+    PayementMethod: { path: '/PayementMethod' },
     Favourites: { path: '/favourites' },
     Search: { path: '/search' },
     Settings: { path: '/settings' },

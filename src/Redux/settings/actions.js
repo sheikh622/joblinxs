@@ -1,6 +1,6 @@
 import {
-GET_USER_NOTIFICATION,GET_USER_NOTIFICATION_SUCCESS,ON_NOTIFICATION,ON_NOTIFICATION_SUCCESS
-  
+GET_USER_NOTIFICATION,GET_USER_NOTIFICATION_SUCCESS,ON_NOTIFICATION,ON_NOTIFICATION_SUCCESS,
+ADD_CARD_DETAILS,GET_CARD_DETAILS,GET_CARD_DETAILS_SUCCESS
 } from "./constants";
 
 export const getUserNotification = (data) => ({
@@ -17,5 +17,18 @@ export const getONNotification = (data) => ({
 });
 export const getONNotificationSuccess = () => ({
   type: ON_NOTIFICATION_SUCCESS,
+});
+
+export const addCardDetails = (data) => ({
+  type: ADD_CARD_DETAILS,
+  payload: data,
+});
+export const getCardDetails = (data) => ({
+  type: GET_CARD_DETAILS,
+  payload: data,
+});
+export const getCardDetailsSuccess = (data) => ({
+  type: GET_CARD_DETAILS_SUCCESS,
+  payload: data,
 });
 
