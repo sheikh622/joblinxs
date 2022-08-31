@@ -33,6 +33,7 @@ import { deleteAddJob, } from "../../Redux/addJob/actions";
 import {emergencyJob } from "../../Redux/addJob/actions";
 import { Rating } from "react-simple-star-rating";
 import { hiredApplicant } from "../../Redux/profile/actions";
+import Spinner from "../../components/spinner";
 
 const MyJobDetails = (item, props, data) => {
   const dispatch = useDispatch();
@@ -50,9 +51,9 @@ const MyJobDetails = (item, props, data) => {
     }
   }, [newArrivalData])
   const SingleId = useSelector((state) => state?.addJob?.jobById);
-  console.log("333",SingleId?.user?.id)
   const Login = useSelector((state) => state?.auth?.Auther);
-  console.log("tyui0",Login.id)
+  const [loader, setLoader] = useState(true);
+
   const [showDefault, setShowDefault] = useState(false);
   const [rating, setRating] = useState(0); // initial rating value
   const [rate, setRate] = useState();

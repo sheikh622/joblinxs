@@ -229,3 +229,18 @@ svg {
     right: 15px;
   }
 }
+.carfForm{
+  margin: 19px 85px;
+  .cardNumber{
+    width: 100%;
+    border: 0.10rem solid #12499C;
+    padding: 10px;
+    border-radius: 15px;
+  }
+  .cardexpiray{
+    width: 49%;
+    border: 0.10rem solid #12499C;
+    padding: 10px;
+    border-radius: 15px;
+  }
+}

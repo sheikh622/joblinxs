@@ -27,6 +27,7 @@ import * as Yup from "yup";
 import Navbar from "../../components/Navbar";
 import NoRecordFound from "../../components/NoRecordFound";
 import { getReportList, getReportBlock } from "../../Redux/ReportManagement/actions";
+import Spinner from "../../components/spinner";
 
 const ReportManagement = (row) => {
     const label = { inputProps: { "aria-label": "Switch demo" } };
@@ -35,6 +36,8 @@ const ReportManagement = (row) => {
     const ReportList = useSelector((state) => state.ReportListing?.Reports);
     const [page, setPage] = useState(1);
     const [limit] = useState("10");
+    const [loader, setLoader] = useState(true);
+
     const [blockUser, setBlockUser] = useState(row.isActive);
     useEffect(() => {
         setBlockUser(row.isActive);
@@ -44,6 +47,8 @@ const ReportManagement = (row) => {
             getReportList({
                 page: page,
                 limit: limit,
+                setLoader: setLoader,
+
             })
         );
     }, [page, limit]);
@@ -138,50 +143,56 @@ const ReportManagement = (row) => {
         <>
             <Navbar module={"Report"} />
             <Container>
-                <Card.Body className="pt-0">
-                    {ReportList?.reportedUsers?.length > 0 ? (
-                        <>
-                            <Table hover className="user-table align-items-center">
-                                <thead>
-                                    <tr>
-                                        <th className="border-bottom">Report By</th>
-                                        <th className="border-bottom">Description</th>
-                                        <th className="border-bottom">Report To</th>
-                                        <th className="border-bottom ">Block / Unblock</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {ReportList?.reportedUsers?.map((obj, index) => {
-                                       
-                                        return (
-                                            <TableRow key={index} item={obj} />
-                                        )
-                                    })}
-                                </tbody>
-                            </Table>
-                            <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
-                                <Nav>
-                                    <Pagination size={"sm"} className="mb-2 mb-lg-0">
-                                        <Pagination.Prev onClick={() => previousPage()}>
-                                            <FontAwesomeIcon icon={faAngleDoubleLeft} />
-                                        </Pagination.Prev>
-                                        {paginationItems()}
-                                        <Pagination.Next onClick={() => nextPage()}>
-                                            <FontAwesomeIcon icon={faAngleDoubleRight} />
-                                        </Pagination.Next>
-                                    </Pagination>
-                                </Nav>
-                                .
-                                <small className="fw-bold">
-                                    Showing <b>{ReportList?.reportedUsers?.length}</b> out of{" "}
-                                    <b>{ReportList?.total_reportedUsers}</b> entries
-                                </small>
-                            </Card.Footer>
-                        </>
-                    ) : (
-                        <NoRecordFound />
-                    )}
-                </Card.Body>
+                {loader ? (
+                    <Spinner />
+                ) : (
+                    <>
+                        <Card.Body className="pt-0">
+                            {ReportList?.reportedUsers?.length > 0 ? (
+                                <>
+                                    <Table hover className="user-table align-items-center">
+                                        <thead>
+                                            <tr>
+                                                <th className="border-bottom">Report By</th>
+                                                <th className="border-bottom">Description</th>
+                                                <th className="border-bottom">Report To</th>
+                                                <th className="border-bottom ">Block / Unblock</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {ReportList?.reportedUsers?.map((obj, index) => {
+
+                                                return (
+                                                    <TableRow key={index} item={obj} />
+                                                )
+                                            })}
+                                        </tbody>
+                                    </Table>
+                                    <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+                                        <Nav>
+                                            <Pagination size={"sm"} className="mb-2 mb-lg-0">
+                                                <Pagination.Prev onClick={() => previousPage()}>
+                                                    <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                                                </Pagination.Prev>
+                                                {paginationItems()}
+                                                <Pagination.Next onClick={() => nextPage()}>
+                                                    <FontAwesomeIcon icon={faAngleDoubleRight} />
+                                                </Pagination.Next>
+                                            </Pagination>
+                                        </Nav>
+                                        .
+                                        <small className="fw-bold">
+                                            Showing <b>{ReportList?.reportedUsers?.length}</b> out of{" "}
+                                            <b>{ReportList?.total_reportedUsers}</b> entries
+                                        </small>
+                                    </Card.Footer>
+                                </>
+                            ) : (
+                                <NoRecordFound />
+                            )}
+                        </Card.Body>
+                    </>
+                )}
             </Container>
 
         </>

@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,13 +13,13 @@ import {
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-
 import Profile1 from "../../assets/img/team/profile-picture-1.jpg";
 import DetailHeading from "../../components/DetailHeading";
 import Navbar from "../../components/Navbar";
 import { Routes } from "../../routes";
 import ChangePassword from "../../components/changePassword";
-import {getProfile} from "../../Redux/profile/actions"
+import { getProfile } from "../../Redux/profile/actions"
+
 
 export default () => {
   const dispatch = useDispatch();
@@ -51,6 +51,7 @@ export default () => {
       <Navbar module={"Admin Profile"} />
       <Container>
         <Row>
+
           <div className="mt-2 mb-3 d-flex justify-content-end">
             <Button variant="primary" type="submit" onClick={editProfile}>
               <svg
@@ -81,7 +82,7 @@ export default () => {
                   className="text-center p-0 mb-4 profileView"
                 >
                   <Card.Body className="pb-2">
-                  {getProfileData?.profileImg ? (
+                    {getProfileData?.profileImg ? (
                       <Card.Img
                         src={getProfileData?.profileImg}
                         alt="Neil Portrait"
@@ -162,6 +163,7 @@ export default () => {
               </Col>
             </Row>
           </Col>
+
         </Row>
       </Container>
       <Modal as={Modal.Dialog} centered show={showDefault}>

@@ -13,18 +13,14 @@ const Settings = (props, row) => {
         location: { state },
     } = history;
     const login = useSelector((state) => state.auth.Auther);
-    console.log("================", login)
     const [blockUser, setBlockUser] = useState(login?.isShowNotification);
-    const handleJobAction = () => {
-        console.log(blockUser, "ajhsvdajsd")
-
-        return 0;
-        // dispatch(
-        //     getONNotification({
-        //         id: login?.id,
-        //         isShowNotification: blockUser,
-        //     })
-        // );
+    const handleJobAction = (data) => {
+        dispatch(
+            getONNotification({
+                userId: login.id,
+                isShowNotification: blockUser,
+            })
+        );
     }
     return (
         <>
@@ -76,6 +72,7 @@ const Settings = (props, row) => {
                         </Card.Body>
 
                     </Col>
+
                 </Row>
             </Container>
 
