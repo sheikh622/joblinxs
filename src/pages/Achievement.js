@@ -31,7 +31,28 @@ const Achievement = () => {
                     Achievement/Certification
                 </h2>
                 <Card border="light" className="shadow-sm selfCard">
-                    {getById?.achievements?.length > 0 ? (
+                    <div className=" p-4 ">
+                        <tr>
+                            <td>
+                                weewewe{" : "}ewewewewe
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>
+                                    <Card.Title>
+                                        eweqeqweqweq
+                                    </Card.Title>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                qwewqeqwewq
+                            </td>
+                        </tr>
+                    </div>
+                    {/* {getById?.achievements?.length > 0 ? (
                         <>
                             {getById?.achievements?.map((t, index) => (
                                 <div className=" pb-2 mb-4">
@@ -41,15 +62,19 @@ const Achievement = () => {
                                     />
                                     <DetailHeading
                                         heading={"details"}
+                                       
+                                    />
+                                    <DetailHeading
+                                        heading={"Year"}
                                         value={t?.details ? t?.details : " --"}
                                     />
-                                    
+
                                 </div>
                             ))}
                         </>
                     ) : (
                         <NoRecordFound />
-                    )}
+                    )} */}
                 </Card>
             </Container>
         </>

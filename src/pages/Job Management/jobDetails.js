@@ -1,17 +1,11 @@
-import { Grid } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
 import {
-    Button, Card, Col, Container,
-    Image, Row
+    Button, Card, Col, Container, Row
 } from "@themesberg/react-bootstrap";
-import { useHistory } from "react-router-dom";
-import moment from "moment";
-import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import Profile1 from "../../assets/img/team/profile-picture-1.jpg";
 import DetailHeading from "../../components/DetailHeading";
 import Navbar from "../../components/Navbar";
-import { Routes } from "../../routes";
 
 const JobDetails = (item) => {
     const history = useHistory();

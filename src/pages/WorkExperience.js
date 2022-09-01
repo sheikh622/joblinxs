@@ -25,38 +25,40 @@ const WorkExperience = () => {
     }, []);
     return (
         <>
-
             <Navbar module={"WorkExperience"} />
             <Container>
                 <h2>
                     WorkExperience
                 </h2>
-              
                 <Card border="light" className="shadow-sm selfCard">
+
                     {getById?.workExperience?.length > 0 ? (
                         <>
                             {getById?.workExperience?.map((t, index) => (
-                                <div className=" pt-4 pb-2 mb-2 ">
-                                    <DetailHeading
-                                        heading={"Job Title"}
-                                        value={t?.jobTitle ? t.jobTitle : " --"}
-                                    />
-                                    <DetailHeading
-                                        heading={"details"}
-                                        value={t?.details ? t?.details : " --"}
-                                    />
-                                    <DetailHeading
-                                        heading={"startDate"}
-                                        value={t?.startDate
-                                            ? moment(t?.startDate).format("DD-MM-YYYY")
-                                            : " --"}
-                                    />
-                                    <DetailHeading
-                                        heading={"endDate"}
-                                        value={t?.endDate
-                                            ? moment(t?.endDate).format("DD-MM-YYYY")
-                                            : " --"}
-                                    />
+                                <div className=" p-4 ">
+                                    <tr>
+                                        <td>
+                                            {t?.startDate
+                                                ? moment(t?.startDate).format("DD-MM-YYYY")
+                                                : " --"}{" : "}{t?.endDate
+                                                    ? moment(t?.endDate).format("DD-MM-YYYY")
+                                                    : " --"}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span>
+                                                <Card.Title>
+                                                    {t?.jobTitle ? t.jobTitle : " --"}
+                                                </Card.Title>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            {t?.details ? t.details : " --"}
+                                        </td>
+                                    </tr>
                                 </div>
                             ))}
                         </>
