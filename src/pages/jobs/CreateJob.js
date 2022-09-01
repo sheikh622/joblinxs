@@ -1,10 +1,8 @@
-import { Button, Col, Container, Row } from "@themesberg/react-bootstrap";
+import { Col, Container, Row } from "@themesberg/react-bootstrap";
 import React from "react";
-import { Link} from "react-router-dom";
-import { GeneralInfoForm } from "./Forms";
-import Navbar from "../../components/Navbar";
-import { Routes } from "../../routes";
 import { useHistory, useLocation } from "react-router-dom";
+import Navbar from "../../components/Navbar";
+import { GeneralInfoForm } from "./Forms";
 
 const CreateJob = () => {
   const history = useHistory();

@@ -1,6 +1,4 @@
-import {
-    Button, Card, Col, Container, Row
-} from "@themesberg/react-bootstrap";
+import { Card, Col, Container, Row } from "@themesberg/react-bootstrap";
 import React from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import Profile1 from "../../assets/img/team/profile-picture-1.jpg";

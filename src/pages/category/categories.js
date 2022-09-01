@@ -1,7 +1,7 @@
 import {
   faEdit,
   faEllipsisV,
-  faTrashAlt,
+  faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -14,7 +14,7 @@ import {
   Form,
   Image,
   Modal,
-  Row,
+  Row
 } from "@themesberg/react-bootstrap";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
@@ -23,8 +23,8 @@ import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import Navbar from "../../components/Navbar";
 import NoRecordFound from "../../components/NoRecordFound";
-import { addAdminCategory, deleteCategory, getCategoryList, updateCategory } from "../../Redux/Category/actions";
 import Spinner from "../../components/spinner";
+import { addAdminCategory, deleteCategory, getCategoryList, updateCategory } from "../../Redux/Category/actions";
 
 const Categories = (item) => {
   const dispatch = useDispatch();

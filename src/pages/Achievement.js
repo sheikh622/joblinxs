@@ -1,14 +1,9 @@
-import { Button, Col, Container, Card } from "@themesberg/react-bootstrap";
-import React, { useState, useEffect } from 'react';
+import { Card, Col, Container } from "@themesberg/react-bootstrap";
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { Routes } from "../routes";
-import { Link } from "react-router-dom";
-import { getProfile } from "../Redux/profile/actions";
-import DetailHeading from "../components/DetailHeading";
-import moment from "moment";
-import NoRecordFound from "../components/NoRecordFound";
 import Navbar from "../components/Navbar";
+import { getProfile } from "../Redux/profile/actions";
 
 const Achievement = () => {
     const history = useHistory();

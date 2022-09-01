@@ -1,16 +1,12 @@
-import { Container, Col, Card, Row, Form, Button, InputGroup, Modal, } from "@themesberg/react-bootstrap";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
-import Navbar from "../../components/Navbar";
-import { Routes } from "../../routes";
-import * as Yup from "yup";
-import { useFormik } from "formik";
-import { faAngleLeft, faUnlockAlt } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { updatetPassword } from "../../Redux/auth/actions";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Button, Col, Container, Form, Row } from "@themesberg/react-bootstrap";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import * as Yup from "yup";
+import Navbar from "../../components/Navbar";
+import { updatetPassword } from "../../Redux/auth/actions";
 
 const ChangePassword = (props, row) => {
     const history = useHistory();

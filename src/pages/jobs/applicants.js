@@ -1,17 +1,14 @@
-import React, { useState } from "react";
 import {
-  Container,
+  Col, Container,
   Row,
   Tab,
-  Tabs,
-  Col,
-  Button,
+  Tabs
 } from "@themesberg/react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
-import { Routes } from "../../routes";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import AppliedApplicants from "./appliedApplicants";
-import HiredApplicants from "./hiredApplicants"
+import HiredApplicants from "./hiredApplicants";
 
 const Applicants = (value) => {
   const history = useHistory();

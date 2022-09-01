@@ -1,37 +1,22 @@
-import React, { useEffect, useState } from "react";
 import {
-  Container,
-  Image,
-  Col,
-  Row,
-  Card,
-  Button,
-  Dropdown,
-  ButtonGroup,
-  Modal,
-  Form
-} from "@themesberg/react-bootstrap";
-import Navbar from "../../components/Navbar";
+  faChevronRight
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faStar,
-  faChevronRight,
-  faEllipsisV,
-} from "@fortawesome/free-solid-svg-icons";
-import { useHistory, useLocation } from "react-router-dom";
-import Profile from "../../assets/img/team/profile.png";
-import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
-import RecommendCard from "../../components/RecommendCard";
-import DetailHeading from "../../components/DetailHeading";
-import { useParams } from "react-router";
+  Card, Col, Container,
+  Image, Row
+} from "@themesberg/react-bootstrap";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
+import DetailHeading from "../../components/DetailHeading";
+import Navbar from "../../components/Navbar";
+import RecommendCard from "../../components/RecommendCard";
 // saga actions here
-import { getProfile, blockUser } from "../../Redux/profile/actions";
-import NoRecordFound from "../../components/NoRecordFound";
-import Report from "../../components/report";
-import { Routes } from "../../routes";
 import { Link } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
+import NoRecordFound from "../../components/NoRecordFound";
+import { getProfile } from "../../Redux/profile/actions";
 
 
 

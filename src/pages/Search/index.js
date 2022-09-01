@@ -1,36 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { Col, Container, Row, Form, Modal, Button, Card, Pagination, Nav, } from "@themesberg/react-bootstrap";
 import {
     faAngleDoubleLeft,
-    faAngleDoubleRight,
-    faCheck,
-    faEllipsisH,
-    faMinus,
-    faTrashAlt,
+    faAngleDoubleRight
 } from "@fortawesome/free-solid-svg-icons";
-import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Card, Col, Container, Form, Modal, Nav, Pagination, Row } from "@themesberg/react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { usePlacesWidget } from "react-google-autocomplete";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
+import Select from "react-select";
 import Profile from "../../assets/img/team/profile.png";
 import CommonCard from "../../components/CommonCard";
 import Navbar from "../../components/Navbar";
-import RecommendCard from "../../components/RecommendCard";
-import { useDispatch, useSelector } from "react-redux";
-import Spinner from "../../components/spinner";
-import {
-    getSeekerListing,
-    getCategoryListing,
-    getJobFilter
-} from "../../Redux/Dashboard/actions";
 import NoRecordFound from "../../components/NoRecordFound";
-import { useHistory, useLocation } from "react-router-dom";
+import Spinner from "../../components/spinner";
 import { markAsFavouriteJob } from "../../Redux/addJob/actions";
-import Select from "react-select";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { usePlacesWidget } from "react-google-autocomplete";
-import Autocomplete from "react-google-autocomplete";
-import { Rating } from "react-simple-star-rating";
-import Slider from "@mui/material/Slider";
-import { setDate } from "date-fns";
+import {
+    getCategoryListing,
+    getJobFilter, getSeekerListing
+} from "../../Redux/Dashboard/actions";
 
 
 const Search = (props) => {

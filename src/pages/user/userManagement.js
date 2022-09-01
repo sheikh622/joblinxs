@@ -13,18 +13,17 @@ import {
   Col,
   Container,
   Dropdown,
-  Form,
-  Nav,
+  Form, Modal, Nav,
   Pagination,
   Row,
-  Table,
-  Modal,
-  FormGroup
+  Table
 } from "@themesberg/react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
+import NoRecordFound from "../../components/NoRecordFound";
+import Spinner from "../../components/spinner";
 import {
   deleteUser,
   getUserBlock,
@@ -32,8 +31,6 @@ import {
   getUsersList
 } from "../../Redux/userManagement/actions";
 import { Routes } from "../../routes";
-import NoRecordFound from "../../components/NoRecordFound";
-import Spinner from "../../components/spinner";
 
 const UserManagement = (row, item) => {
   const label = { inputProps: { "aria-label": "Switch demo" } };

@@ -1,24 +1,21 @@
-import React, { useEffect } from "react";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Card,
   Col,
-  Container,
-  Form,
-  Modal,
-  Row,
+  Container, Modal,
+  Row
 } from "@themesberg/react-bootstrap";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Profile1 from "../../assets/img/team/profile-picture-1.jpg";
+import ChangePassword from "../../components/changePassword";
 import DetailHeading from "../../components/DetailHeading";
 import Navbar from "../../components/Navbar";
+import { getProfile } from "../../Redux/profile/actions";
 import { Routes } from "../../routes";
-import ChangePassword from "../../components/changePassword";
-import { getProfile } from "../../Redux/profile/actions"
 
 
 export default () => {

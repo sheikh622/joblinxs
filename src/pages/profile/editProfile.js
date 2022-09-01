@@ -1,42 +1,29 @@
-import React, { useRef, useState, useEffect } from "react";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Button,
   Card,
   Col,
-  Container,
-  Form,
-  Row,
-  Dropdown,
+  Container, Dropdown, Form,
+  Row
 } from "@themesberg/react-bootstrap";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
-import Navbar from "../../components/Navbar";
-import { Routes } from "../../routes";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { updateAdminProfile } from "../../Redux/profile/actions";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { getProfile } from "../../Redux/profile/actions";
+import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
+import Navbar from "../../components/Navbar";
+import { getProfile, updateAdminProfile } from "../../Redux/profile/actions";
 // import PhoneInput from 'react-phone-input-2'
-import "react-phone-input-2/lib/bootstrap.css";
-import PhoneInput, {
-  formatPhoneNumber,
-  formatPhoneNumberIntl,
-  isValidPhoneNumber,
-} from "react-phone-number-input";
-import "react-phone-number-input/style.css";
-import { getMultiValue } from "chartist";
-import { height, width } from "@mui/system";
-import startsWith from "lodash.startswith";
-import { gridColumnLookupSelector } from "@mui/x-data-grid";
+import moment from "moment";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useHistory, useLocation } from "react-router-dom";
-import moment from "moment";
-import Spinner from "../../components/spinner";
+import "react-phone-input-2/lib/bootstrap.css";
+import PhoneInput, {
+  isValidPhoneNumber
+} from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import { useHistory } from "react-router-dom";
 
 export default () => {
   const dispatch = useDispatch();

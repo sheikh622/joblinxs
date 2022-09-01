@@ -1,39 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Switch, useLocation } from "react-router-dom";
 import {
-  Container,
-  Image,
-  Col,
-  Row,
-  Card,
-  Button,
-  Dropdown,
-  ButtonGroup,
-  Modal,
-  Form,
+  Button, Card, Col, Container, Form, Image, Modal, Row
 } from "@themesberg/react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faStar,
-  faChevronRight,
-  faEllipsisV,
-} from "@fortawesome/free-solid-svg-icons";
-import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { Routes } from "../../routes";
 import { jobById } from "../../Redux/addJob/actions";
 // import Profile from "../../assets/img/team/profile.png";
-import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
-import RateModal from "../../components/modal";
-import RecommendCard from "../../components/RecommendCard";
-import DetailHeading from "../../components/DetailHeading";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteAddJob, } from "../../Redux/addJob/actions";
-import {emergencyJob } from "../../Redux/addJob/actions";
 import { Rating } from "react-simple-star-rating";
+import DetailHeading from "../../components/DetailHeading";
+import RateModal from "../../components/modal";
+import { deleteAddJob, emergencyJob } from "../../Redux/addJob/actions";
 import { hiredApplicant } from "../../Redux/profile/actions";
-import Spinner from "../../components/spinner";
 
 const MyJobDetails = (item, props, data) => {
   const dispatch = useDispatch();

@@ -1,26 +1,15 @@
 import {
-  faEdit,
-  faEllipsisV,
-  faTrashAlt,
   faAngleDoubleLeft,
-  faAngleDoubleRight,
+  faAngleDoubleRight
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Button,
-  ButtonGroup,
-  Card,
+  Button, Card,
   Col,
-  Container,
-  Dropdown,
-  Form,
+  Container, Form,
   Image,
-  Modal,
-  Row,
-  Pagination,
-  Nav,
+  Modal, Nav, Pagination, Row
 } from "@themesberg/react-bootstrap";
-import axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,12 +17,12 @@ import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import Navbar from "../../components/Navbar";
 import NoRecordFound from "../../components/NoRecordFound";
+import Spinner from "../../components/spinner";
 import {
   addCategory,
   getBusinessCategoryList,
-  saveCategory,
+  saveCategory
 } from "../../Redux/BusinessCategory/actions";
-import Spinner from "../../components/spinner";
 const BusinessCategories = (item) => {
   const dispatch = useDispatch();
   const history = useHistory();

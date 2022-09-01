@@ -1,5 +1,6 @@
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Button,
   Card,
@@ -8,16 +9,14 @@ import {
   Form,
   Image,
   Modal,
-  Row,
+  Row
 } from "@themesberg/react-bootstrap";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as Yup from "yup";
 import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
 import Profile from "../../assets/img/team/profile.png";
 import Navbar from "../../components/Navbar";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
 
 const Users = () => {
   const [showDefault, setShowDefault] = useState(false);

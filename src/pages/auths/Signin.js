@@ -11,15 +11,14 @@ import {
   Button, Card, Col, Container, Form, InputGroup, Row
 } from "@themesberg/react-bootstrap";
 import { useFormik } from "formik";
-import { fetchToken } from "../../firebase"
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import BgImage from "../../assets/img/illustrations/signin.svg";
+import { fetchToken } from "../../firebase";
 import { loginRequest } from "../../Redux/auth/actions";
 import { Routes } from "../../routes";
-import Spinner from "../../components/spinner";
 
 const LoginPage = () => {
   const [isTokenFound, setTokenFound] = useState(false);

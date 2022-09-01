@@ -1,33 +1,18 @@
 import {
     faAngleDoubleLeft,
-    faAngleDoubleRight,
-    faEllipsisH,
-    faEye,
-    faTrashAlt
+    faAngleDoubleRight
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    Button,
-    ButtonGroup,
-    Card,
-    Col,
-    Container,
-    Dropdown,
-    Form,
-    Image,
-    Modal,
-    Row,
-    Pagination, Table, TableRow, Nav
+    Card, Container, Form, Nav, Pagination, Table
 } from "@themesberg/react-bootstrap";
-import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
 import Navbar from "../../components/Navbar";
 import NoRecordFound from "../../components/NoRecordFound";
-import { getReportList, getReportBlock } from "../../Redux/ReportManagement/actions";
 import Spinner from "../../components/spinner";
+import { getReportBlock, getReportList } from "../../Redux/ReportManagement/actions";
 
 const ReportManagement = (item) => {
     const label = { inputProps: { "aria-label": "Switch demo" } };
