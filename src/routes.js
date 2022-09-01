@@ -17,6 +17,7 @@ export const Routes = {
     Achievement:  { path: "/achievement" },
     UserDetail: { path: '/user_management/userDetail' },
     JobDetails: { path: '/jobDetails' },
+    PayementMethod: { path: '/PayementMethod' },
     Favourites: { path: '/favourites' },
     Search: { path: '/search' },
     Settings: { path: '/settings' },
