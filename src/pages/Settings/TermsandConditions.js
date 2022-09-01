@@ -16,15 +16,13 @@ const TermsandConditions = (props, row) => {
     return (
         <>
             <Navbar module={"Terms and Conditions"} />
+            <Col xs={12} xl={12} className={'d-flex justify-content-start mb-2'}>
+                <svg width="11" height="16" viewBox="0 0 11 16" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => history.goBack()}>
+                    <path d="M9.79591 14.8435L9.79557 14.8439C9.56284 15.0818 9.2503 15.2 8.93911 15.2C8.65838 15.2 8.37589 15.1036 8.15012 14.9076L8.14971 14.9073L1.18041 8.82491C0.939515 8.61471 0.799112 8.31587 0.799112 7.99906C0.799112 7.68333 0.93963 7.38454 1.18041 7.17445L8.14971 1.09206L8.15005 1.09176C8.62347 0.6805 9.35494 0.706129 9.79539 1.15531L9.79539 1.15531L9.79591 1.15584C10.2386 1.6107 10.2057 2.32402 9.72866 2.74114L9.72851 2.74128L3.7035 7.99908L9.72853 13.2581L9.72866 13.2582C10.2057 13.6753 10.2386 14.3887 9.79591 14.8435Z" fill="#12499C" stroke="#12499C" stroke-width="0.4" />
+                </svg>
+
+            </Col>
             <Container>
-                <Col xs={12} xl={12} className={'d-flex justify-content-end mb-4 pb-2'}>
-                    <Link className="text-white fw-bold" to={Routes.Settings.path}>
-                        <Button variant="primary" type="submit">
-                            {"  "}
-                            Back
-                        </Button>
-                    </Link>
-                </Col>
                 <Row>
                     <Col xs={9} xl={9}>
 
@@ -577,7 +575,7 @@ const TermsandConditions = (props, row) => {
                         <span>
                             <Card.Title>
                                 <h3>
-                                18.	Restrictions
+                                    18.	Restrictions
                                 </h3>
                             </Card.Title>
                         </span>
@@ -607,7 +605,7 @@ const TermsandConditions = (props, row) => {
                         <span>
                             <Card.Title>
                                 <h3>
-                                19.	Intellectual Property Rights
+                                    19.	Intellectual Property Rights
                                 </h3>
                             </Card.Title>
                         </span>
@@ -704,7 +702,7 @@ const TermsandConditions = (props, row) => {
                         <span>
                             <Card.Title>
                                 <h3>
-                                20.	Acceptable Use Policy
+                                    20.	Acceptable Use Policy
                                 </h3>
                             </Card.Title>
                         </span>
@@ -757,7 +755,7 @@ const TermsandConditions = (props, row) => {
                         <span>
                             <Card.Title>
                                 <h3>
-                                21.	Suspension
+                                    21.	Suspension
                                 </h3>
                             </Card.Title>
                         </span>
@@ -802,7 +800,7 @@ const TermsandConditions = (props, row) => {
                         <span>
                             <Card.Title>
                                 <h3>
-                                22.	Submissions
+                                    22.	Submissions
                                 </h3>
                             </Card.Title>
                         </span>
@@ -819,7 +817,7 @@ const TermsandConditions = (props, row) => {
                         <span>
                             <Card.Title>
                                 <h3>
-                                23.	APP Management
+                                    23.	APP Management
                                 </h3>
                             </Card.Title>
                         </span>
@@ -846,7 +844,7 @@ const TermsandConditions = (props, row) => {
                         <span>
                             <Card.Title>
                                 <h3>
-                                24.	Modifications And Interruptions
+                                    24.	Modifications And Interruptions
                                 </h3>
                             </Card.Title>
                         </span>
@@ -883,7 +881,7 @@ const TermsandConditions = (props, row) => {
                         <span>
                             <Card.Title>
                                 <h3>
-                                25.	Availability of the APP
+                                    25.	Availability of the APP
                                 </h3>
                             </Card.Title>
                         </span>
@@ -900,7 +898,7 @@ const TermsandConditions = (props, row) => {
                         <span>
                             <Card.Title>
                                 <h3>
-                                26.	Corrections
+                                    26.	Corrections
                                 </h3>
                             </Card.Title>
                         </span>
@@ -912,7 +910,7 @@ const TermsandConditions = (props, row) => {
                         <span>
                             <Card.Title>
                                 <h3>
-                                27.	Privacy
+                                    27.	Privacy
                                 </h3>
                             </Card.Title>
                         </span>
@@ -940,7 +938,7 @@ const TermsandConditions = (props, row) => {
                         <span>
                             <Card.Title>
                                 <h3>
-                                28.	Term and Termination
+                                    28.	Term and Termination
                                 </h3>
                             </Card.Title>
                         </span>
@@ -962,7 +960,7 @@ const TermsandConditions = (props, row) => {
                         <span>
                             <Card.Title>
                                 <h3>
-                                29.	Limitation of Liability
+                                    29.	Limitation of Liability
                                 </h3>
                             </Card.Title>
                         </span>
@@ -1019,7 +1017,7 @@ const TermsandConditions = (props, row) => {
                         <span>
                             <Card.Title>
                                 <h3>
-                                30.	No Waiver
+                                    30.	No Waiver
                                 </h3>
                             </Card.Title>
                         </span>
@@ -1031,7 +1029,7 @@ const TermsandConditions = (props, row) => {
                         <span>
                             <Card.Title>
                                 <h3>
-                                31.	Previous Terms and Conditions
+                                    31.	Previous Terms and Conditions
                                 </h3>
                             </Card.Title>
                         </span>
@@ -1043,7 +1041,7 @@ const TermsandConditions = (props, row) => {
                         <span>
                             <Card.Title>
                                 <h3>
-                                32.	Law and Jurisdiction
+                                    32.	Law and Jurisdiction
                                 </h3>
                             </Card.Title>
                         </span>
