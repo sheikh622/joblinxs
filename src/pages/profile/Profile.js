@@ -1,28 +1,20 @@
-import React, { useEffect } from "react";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Card,
   Col,
-  Container,
-  Form,
-  Modal,
-  Row,
+  Container, Row
 } from "@themesberg/react-bootstrap";
-import { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import Profile1 from "../../assets/img/team/profile-picture-1.jpg";
 import DetailHeading from "../../components/DetailHeading";
 import Navbar from "../../components/Navbar";
 import { Routes } from "../../routes";
-import { useDispatch, useSelector } from "react-redux";
 // saga actions here
-import { getProfile } from "../../Redux/profile/actions";
-import ChangePassword from "../../components/changePassword";
 import moment from "moment";
 import { Rating } from "react-simple-star-rating";
-import Spinner from "../../components/spinner";
+import { getProfile } from "../../Redux/profile/actions";
 
 export default () => {
   const dispatch = useDispatch();
@@ -203,7 +195,6 @@ export default () => {
                   </Col>
                 </Row>
               </Col>
-            
         </Row>
       </Container>
     </>

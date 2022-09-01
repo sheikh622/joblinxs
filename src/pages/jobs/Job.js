@@ -1,38 +1,22 @@
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Col,
-  Container,
-  Row,
-  Form,
-  Pagination,
-  Card,
-  Nav,
-} from "@themesberg/react-bootstrap";
 import {
   faAngleDoubleLeft,
-  faAngleDoubleRight,
-  faCheck,
-  faEllipsisH,
-  faMinus,
-  faTrashAlt,
+  faAngleDoubleRight
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Swiper, SwiperSlide } from "swiper/react";
+import {
+  Button, Card, Col,
+  Container, Form, Nav, Pagination, Row
+} from "@themesberg/react-bootstrap";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
-import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
 import Profile from "../../assets/img/team/profile.png";
 import CommonCard from "../../components/CommonCard";
 import Navbar from "../../components/Navbar";
-import RecommendCard from "../../components/RecommendCard";
-import { Routes } from "../../routes";
-import { getJobs } from "../../Redux/addJob/actions";
-import { display } from "@mui/system";
 import NoRecordFound from "../../components/NoRecordFound";
-import Select from "react-select";
 import Spinner from "../../components/spinner";
+import { getJobs } from "../../Redux/addJob/actions";
+import { Routes } from "../../routes";
 
 const Job = () => {
   const dispatch = useDispatch();

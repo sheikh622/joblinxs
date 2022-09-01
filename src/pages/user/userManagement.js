@@ -13,18 +13,17 @@ import {
   Col,
   Container,
   Dropdown,
-  Form,
-  Nav,
+  Form, Modal, Nav,
   Pagination,
   Row,
-  Table,
-  Modal,
-  FormGroup
+  Table
 } from "@themesberg/react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
+import NoRecordFound from "../../components/NoRecordFound";
+import Spinner from "../../components/spinner";
 import {
   deleteUser,
   getUserBlock,
@@ -32,10 +31,8 @@ import {
   getUsersList
 } from "../../Redux/userManagement/actions";
 import { Routes } from "../../routes";
-import NoRecordFound from "../../components/NoRecordFound";
-import Spinner from "../../components/spinner";
 
-const UserManagement = (row) => {
+const UserManagement = (row, item) => {
   const label = { inputProps: { "aria-label": "Switch demo" } };
   const dispatch = useDispatch();
   const history = useHistory();
@@ -49,6 +46,13 @@ const UserManagement = (row) => {
   const [category, setCategory] = useState([]);
   const [status, setStatus] = useState("");
   const [loader, setLoader] = useState(true);
+  const [dataList, setDataList] = useState();
+  const [blockUser, setBlockUser] = useState();
+  useEffect(() => {
+    if (userList !== undefined) {
+      setDataList(userList?.users);
+    }
+  }, [userList]);
 
   const addUsers = () => {
     setShowDefault(true);
@@ -62,10 +66,24 @@ const UserManagement = (row) => {
   const handleFilter = (event) => {
     setStatus(event.target.value)
   }
-  const [blockUser, setBlockUser] = useState(row.isActive);
-  useEffect(() => {
-    setBlockUser(row.isActive);
-  }, [row.isActive]);
+
+  const handleBlock = (isActive, index, id) => {
+    let newArray = dataList;
+    newArray[index].isActive = !isActive;
+    setDataList(() => {
+      return [...newArray]
+    })
+    dispatch(
+      getUserBlock({
+        userId: id,
+        page: page,
+        limit: limit,
+        type: type,
+        search: search,
+        status: status,
+      })
+    );
+  };
   const [ProfileUser, setProfileUser] = useState(row.isApproved);
   useEffect(() => {
     setProfileUser(row.isApproved);
@@ -138,6 +156,8 @@ const UserManagement = (row) => {
       dueDate,
       status,
       item,
+      index
+
     } = props;
     const statusVariant =
       status === "Paid"
@@ -198,19 +218,23 @@ const UserManagement = (row) => {
               className="text-center cursorPointer"
               name="paymentType"
               {...label}
-              checked={item.isActive}
+              checked={blockUser !== undefined ? blockUser : item?.isActive}
               onChange={(e) => {
-                dispatch(
-                  getUserBlock({
-                    userId: item.id,
-                    page: page,
-                    limit: limit,
-                    type: type,
-                    search: search,
-                    status: status,
-                  })
-                );
+                handleBlock(item?.isActive, index, item?.id)
               }}
+            // checked={item.isActive}
+            // onChange={(e) => {
+            //   dispatch(
+            //     getUserBlock({
+            //       userId: item.id,
+            //       page: page,
+            //       limit: limit,
+            //       type: type,
+            //       search: search,
+            //       status: status,
+            //     })
+            //   );
+            // }}
             />
           </span>
         </td>
@@ -357,7 +381,7 @@ const UserManagement = (row) => {
 
                           <tbody>
                             {userList?.users?.map((t, index) => (
-                              <TableRow key={index} item={t} />
+                              <TableRow index={index} item={t} />
                             ))}
                           </tbody>
 

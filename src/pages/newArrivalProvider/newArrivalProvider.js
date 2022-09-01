@@ -1,31 +1,21 @@
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Col,
-  Container,
-  Row,
-  Form,
-  Pagination,
-  Card,
-  Nav,
-} from "@themesberg/react-bootstrap";
-import Spinner from "../../components/spinner";
 import {
   faAngleDoubleLeft,
-  faAngleDoubleRight,
-  faCheck,
-  faEllipsisH,
-  faMinus,
-  faTrashAlt,
+  faAngleDoubleRight
 } from "@fortawesome/free-solid-svg-icons";
+import {
+  Card, Col,
+  Container, Nav, Pagination, Row
+} from "@themesberg/react-bootstrap";
+import React, { useEffect, useState } from "react";
+import Spinner from "../../components/spinner";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useDispatch, useSelector } from "react-redux";
 import CommonCard from "../../components/CommonCard";
 import Navbar from "../../components/Navbar";
-import { useDispatch, useSelector } from "react-redux";
-import { newArrival } from "../../Redux/Dashboard/actions";
 import NoRecordFound from "../../components/NoRecordFound";
 import { markAsFavouriteJob } from "../../Redux/addJob/actions";
+import { newArrival } from "../../Redux/Dashboard/actions";
 
 const DashboardOverview = () => {
   const dispatch = useDispatch();
