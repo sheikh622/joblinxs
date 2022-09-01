@@ -10,11 +10,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import { deleteJob, getJobListing, getJobProfile, getCategoryJob, changeJobStatus } from "../../Redux/JobManagement/actions";
-import { getCategoryList } from "../../Redux/Category/actions";
 import NoRecordFound from "../../components/NoRecordFound";
-import { Routes } from "../../routes";
 import Spinner from "../../components/spinner";
+import { changeJobStatus, deleteJob, getJobListing } from "../../Redux/JobManagement/actions";
+import { Routes } from "../../routes";
 
 const JobManagement = (row) => {
   const dispatch = useDispatch();

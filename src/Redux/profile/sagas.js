@@ -124,8 +124,8 @@ function* watchReportUser() {
 function* reportedSaga({ payload }) {
   try {
     let data = {
-      blockedTo: payload.blockedTo,
-      blockedBy: payload.blockedBy,
+      reportedTo: payload.reportedTo,
+      reportedBy: payload.reportedBy,
       description: payload.description,
       reportId: payload.reportId,
     };

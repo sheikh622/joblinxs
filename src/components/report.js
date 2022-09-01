@@ -70,8 +70,8 @@ const Report = ({ item, setShow, show, id }) => {
   const handleReport = () => {
     dispatch(
       reportedUser({
-        blockedTo: profileId ? profileId : id,
-        blockedBy: login?.id,
+        reportedTo: profileId ? profileId : id,
+        reportedBy: login?.id,
         description: CategoryFormik?.values?.description
           ? CategoryFormik?.values?.description
           : "",

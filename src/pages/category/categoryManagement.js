@@ -10,9 +10,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import { getCategoryListing, getCategoryProfile } from "../../Redux/categoryManagement/actions";
 import NoRecordFound from "../../components/NoRecordFound";
 import Spinner from "../../components/spinner";
+import { getCategoryListing, getCategoryProfile } from "../../Redux/categoryManagement/actions";
 
 const CategoryManagement = (row) => {
   const dispatch = useDispatch();

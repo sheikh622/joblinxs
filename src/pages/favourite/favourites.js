@@ -1,34 +1,22 @@
-import React, { useEffect, useState } from "react";
 import {
   faAngleDoubleLeft,
-  faAngleDoubleRight,
-  faCheck,
-  faEllipsisH,
-  faMinus,
-  faTrashAlt,
+  faAngleDoubleRight
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Button,
-  ButtonGroup,
-  Card,
   Col,
-  Container,
-  Dropdown,
-  Form,
-  Modal,
-  Nav,
+  Container, Nav,
   Pagination,
-  Row,
-  Table,
+  Row
 } from "@themesberg/react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import CommonCard from "../../components/CommonCard";
 import Navbar from "../../components/Navbar";
-import { favouriteJobList } from "../../Redux/addJob/actions";
-import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import NoRecordFound from "../../components/NoRecordFound";
 import Spinner from "../../components/spinner";
+import { favouriteJobList } from "../../Redux/addJob/actions";
 
 const Favourites = () => {
   const dispatch = useDispatch();
