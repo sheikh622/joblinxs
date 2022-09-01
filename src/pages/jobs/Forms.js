@@ -4,26 +4,21 @@ import {
   Col,
   Form,
   Modal,
-  Row,
+  Row
 } from "@themesberg/react-bootstrap";
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { usePlacesWidget } from "react-google-autocomplete";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import Select from "react-select";
 import * as Yup from "yup";
 import profile from "../../assets/img/upload.png";
 import AddCategory from "../../components/addCategory";
-import { getJobListing, updateJob, jobById, emergencyJob } from "../../Redux/addJob/actions";
+import { emergencyJob, getJobListing, jobById, updateJob } from "../../Redux/addJob/actions";
 import { getCategoryList } from "../../Redux/Category/actions";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 export const GeneralInfoForm = () => {
   const provide = [
     { value: "1", label: "1" },

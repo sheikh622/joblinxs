@@ -271,7 +271,7 @@ export default (props = {}) => {
                     link={Routes.Profile.path}
                   />
 
-                  <NavItem
+                  {/* <NavItem
                     title="My Users"
                     SVG={
                       <svg
@@ -288,7 +288,7 @@ export default (props = {}) => {
                       </svg>
                     }
                     link={Routes.Users.path}
-                  />
+                  /> */}
                   <NavItem
                     title="Payments Methods "
                     SVG={

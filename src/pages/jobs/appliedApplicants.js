@@ -1,41 +1,21 @@
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleDoubleLeft,
+  faAngleDoubleRight
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Card,
   Col,
-  Container,
-  Form,
-  Image,
-  Modal,
-  Row,
-  Pagination,
-  Nav,
-  Tab,
-  Tabs,
+  Container, Image, Nav, Pagination, Row
 } from "@themesberg/react-bootstrap";
-import Spinner from "../../components/spinner";
-import {
-  faAngleDoubleLeft,
-  faAngleDoubleRight,
-  faCheck,
-  faEllipsisH,
-  faMinus,
-} from "@fortawesome/free-solid-svg-icons";
 import React, { useEffect, useState } from "react";
-import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
-import Profile from "../../assets/img/team/profile.png";
-import Navbar from "../../components/Navbar";
-import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-import { getApplicants } from "../../Redux/addJob/actions";
 import { useHistory, useLocation } from "react-router-dom";
-import { height, width } from "@mui/system";
-import { getConfirmApplicants } from "../../Redux/addJob/actions";
-import NoRecordFound from "../../components/NoRecordFound";
 import { Rating } from "react-simple-star-rating";
+import NoRecordFound from "../../components/NoRecordFound";
+import Spinner from "../../components/spinner";
+import { getApplicants, getConfirmApplicants } from "../../Redux/addJob/actions";
 
 // import Tab from "react-bootstrap/Tab";
 // import Tabs from "react-bootstrap/Tabs";
