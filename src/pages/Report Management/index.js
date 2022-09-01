@@ -70,7 +70,6 @@ const ReportManagement = (item) => {
             })
         );
     };
-    console.log(dataList, "lkjhgf")
     const nextPage = () => {
         if (page < ReportList?.pages) {
             setPage(page + 1);
