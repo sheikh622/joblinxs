@@ -1,14 +1,17 @@
 import {
   faAngleDoubleLeft,
-  faAngleDoubleRight
+  faAngleDoubleRight,
 } from "@fortawesome/free-solid-svg-icons";
 import {
-  Card, Col,
-  Container, Nav, Pagination, Row
+  Card,
+  Col,
+  Container,
+  Nav,
+  Pagination,
+  Row,
 } from "@themesberg/react-bootstrap";
 import React, { useEffect, useState } from "react";
 import Spinner from "../../components/spinner";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import CommonCard from "../../components/CommonCard";
@@ -21,14 +24,14 @@ const DashboardOverview = () => {
   const dispatch = useDispatch();
   const [loader, setLoader] = useState(true);
   const [page, setPage] = useState(1);
-  const [newArrivalProvider, setNewArrivalProvider] = useState()
+  const [newArrivalProvider, setNewArrivalProvider] = useState();
   const auth = useSelector((state) => state.auth.Auther);
   const newArrivalData = useSelector((state) => state?.Seeker?.newArrival);
-  useEffect(()=>{
-    if(newArrivalData !== undefined){
-      setNewArrivalProvider(newArrivalData?.data)
+  useEffect(() => {
+    if (newArrivalData !== undefined) {
+      setNewArrivalProvider(newArrivalData?.data);
     }
-  },[newArrivalData])
+  }, [newArrivalData]);
   useEffect(() => {
     dispatch(
       newArrival({
@@ -51,7 +54,7 @@ const DashboardOverview = () => {
   };
 
   const paginationItems = () => {
-    console.log(newArrivalData)
+    console.log(newArrivalData);
     let items = [];
     for (let number = 1; number <= newArrivalData?.pages; number++) {
       items.push(
@@ -66,12 +69,9 @@ const DashboardOverview = () => {
         </Pagination.Item>
       );
     }
-
     return items;
   };
-  const handleClick =(id, value, isFavourite,title)=>{
-    // console.log(newArrivalData?.data)
-    // return 0;
+  const handleClick = (id, value, isFavourite, title) => {
     let newArray = newArrivalData?.data;
     newArray[value].isFavourite = !isFavourite;
     setNewArrivalProvider(() => {
@@ -80,10 +80,10 @@ const DashboardOverview = () => {
     dispatch(
       markAsFavouriteJob({
         id: id,
-        setLoader:setLoader,
+        setLoader: setLoader,
       })
-      );
-    }
+    );
+  };
   return (
     <>
       <Navbar module={"New Arrival Seekers"} />
