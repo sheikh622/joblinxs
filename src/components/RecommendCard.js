@@ -27,7 +27,7 @@ const RecommendCard = (props) => {
         <Image src={props.img} className="navbar-brand-light" />
         <div className="detailSection">
           <span className="left">
-            <Link className="fw-bold" to={`/detailJob/${props.id}`}>
+            {/* <Link className="fw-bold" to={`/detailJob/${props.id}`}> */}
               <h3>{props.name}</h3>
               <h4>{props.type}</h4>
               <p>
@@ -36,7 +36,7 @@ const RecommendCard = (props) => {
               <p>
                 Jobs Completed: <span>{props.completed} </span>
               </p>
-            </Link>
+            {/* </Link> */}
           </span>
           <span className="right">
             <span className="starSpan" >
