@@ -16,7 +16,7 @@ import RecommendCard from "../../components/RecommendCard";
 import { Link } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
 import NoRecordFound from "../../components/NoRecordFound";
-import { getProfile } from "../../Redux/profile/actions";
+import { getProfile, getReviews } from "../../Redux/profile/actions";
 
 
 
@@ -25,6 +25,7 @@ const ProviderProfile = (props) => {
   const history = useHistory();
   const login = useSelector((state) => state.auth.Auther);
   const getById = useSelector((state) => state.ProfileReducer.profile);
+  const Reviews = useSelector((state) => state.ProfileReducer.Reviews);
   const [show, setShow] = useState();
   const [BlockUserSaga, setBlockUserSaga] = useState(false)
   const [showDefault, setShowDefault] = useState(false);
@@ -33,12 +34,19 @@ const ProviderProfile = (props) => {
 
   const params = useLocation();
   let profileId = params.pathname.split("/")[2];
-  console.log("pro========", profileId)
+  console.log("pro========", Reviews)
 
   useEffect(() => {
     dispatch(
       getProfile({
         id: profileId,
+      })
+    );
+  }, []);
+  useEffect(() => {
+    dispatch(
+      getReviews({
+        userId: profileId,
       })
     );
   }, []);
@@ -214,6 +222,33 @@ const ProviderProfile = (props) => {
                 </Link>
                 <FontAwesomeIcon color="#12499C" icon={faChevronRight} />
               </Card.Body>
+            </Card>
+            <Card
+              border="light"
+              className="card-box-shadow py-1 px-4 mb-2 job-list"
+            >
+              <h3 className="mb-3 mt-2 text-center">Reviews</h3>
+              {Reviews?.length > 0 ? (
+                <>
+                  {Reviews?.map((item) => {
+                    return (
+                      <Col xs={12} className="pb-3">
+                        <RecommendCard
+                          img={item.jobs.image}
+                          name={item.jobs.name}
+                          type={item.jobs.paymentType}
+                          rate={item.jobs.rate}
+                          // id={item.id}
+                          completed={"10"}
+                          star={item.rating}
+                        />
+                      </Col>
+                    );
+                  })}
+                </>
+              ) : (
+                <NoRecordFound />
+              )}
             </Card>
           </Col>
         </Row>
