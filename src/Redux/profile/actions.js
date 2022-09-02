@@ -11,7 +11,9 @@ import {
   UNBLOCK_USER,
   UNBLOCK_USER_SUCCESS,
   HIRED_APPLICANTS,
-  HIRED_APPLICANTS_SUCCESS
+  HIRED_APPLICANTS_SUCCESS,
+  GET_REVIEWS,
+  GET_REVIEWS_SUCCESS
 } from "./constants";
 
 export const getProfile = (data) => ({
@@ -71,5 +73,14 @@ export const hiredApplicant = (data) => (
 });
 export const hiredApplicantSuccess = (data) => ({
   type:  HIRED_APPLICANTS_SUCCESS,
+  payload: data,
+});
+export const getReviews = (data) => ({
+  type:  GET_REVIEWS,
+  payload: data,
+});
+export const getReviewsSuccess = (data) => (
+  {
+  type: GET_REVIEWS_SUCCESS,
   payload: data,
 });
