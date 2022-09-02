@@ -252,7 +252,6 @@ const ProviderProfile = (props) => {
             </Card>
           </Col>
         </Row>
-
       </Container>
 
     </>
