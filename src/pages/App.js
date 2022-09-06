@@ -63,6 +63,16 @@ export default () => (
       <PublicRoute exact path={Routes.NotFound.path} component={NotFoundPage} />
 
       <PublicRoute exact path={Routes.Signin.path} component={Signin} />
+      <PublicRoute
+        exact
+        path={Routes.TermsandConditionsPublic.path}
+        component={TermsandConditions}
+      />
+      <PublicRoute
+        exact
+        path={Routes.PrivacyPolicyPublic.path}
+        component={PrivacyPolicy}
+      />
       <PrivateRoute
         exact
         path={Routes.TermsandConditions.path}
