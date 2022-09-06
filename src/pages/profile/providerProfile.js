@@ -13,11 +13,11 @@ import DetailHeading from "../../components/DetailHeading";
 import Navbar from "../../components/Navbar";
 import RecommendCard from "../../components/RecommendCard";
 // saga actions here
+import moment from "moment";
 import { Link } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
 import NoRecordFound from "../../components/NoRecordFound";
 import { getProfile, getReviews } from "../../Redux/profile/actions";
-import moment from "moment";
 
 
 const ProviderProfile = (props) => {
