@@ -23,6 +23,8 @@ export const Routes = {
     Settings: { path: '/settings' },
     ChangePassword:{path: '/changePassword'},
     TermsandConditions:{path: '/terms'},
+    PrivacyPolicyPublic:{path: '/privacy-public'},
+    TermsandConditionsPublic:{path: '/terms-public'},
     PrivacyPolicy:{path: '/privacy'},
     Job: { path: '/job' },
     EditProfile: { path: "/profile/editProfile" },
