@@ -56,7 +56,6 @@ const ProviderProfile = (props) => {
   const handleRating = (rate) => {
     setRating(rate);
   };
-
   return (
     <>
       <Navbar module={"Detail Profile"} />
