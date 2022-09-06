@@ -13,11 +13,11 @@ import DetailHeading from "../../components/DetailHeading";
 import Navbar from "../../components/Navbar";
 import RecommendCard from "../../components/RecommendCard";
 // saga actions here
+import moment from "moment";
 import { Link } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
 import NoRecordFound from "../../components/NoRecordFound";
 import { getProfile, getReviews } from "../../Redux/profile/actions";
-
 
 
 const ProviderProfile = (props) => {
@@ -34,7 +34,7 @@ const ProviderProfile = (props) => {
 
   const params = useLocation();
   let profileId = params.pathname.split("/")[2];
- 
+  console.log("Review", Reviews)
 
   useEffect(() => {
     dispatch(
@@ -82,7 +82,6 @@ const ProviderProfile = (props) => {
                   allowHover={false}
                   ratingValue={getById?.profile_rating ? getById?.profile_rating * 20 : "0"} /* Available Props */
                 />
-                <span className="text-gray d-block">(7Reviews)</span>
                 <span className="text-gray d-block mt-2">
                   Overall Jobs: <span className="text-black">25</span>
                 </span>
@@ -91,7 +90,6 @@ const ProviderProfile = (props) => {
                 </span>
               </div>
             </Card>
-
             <Card
               border="light"
               className="card-box-shadow py-1 px-4 mb-2 job-list"
@@ -233,15 +231,33 @@ const ProviderProfile = (props) => {
                   {Reviews?.map((item) => {
                     return (
                       <Col xs={12} className="pb-3">
-                        <RecommendCard
-                          img={item.jobs.image}
-                          name={item.jobs.name}
-                          type={item.jobs.paymentType}
-                          rate={item.jobs.rate}
-                          // id={item.id}
-                          completed={"10"}
-                          star={item.rating}
-                        />
+                        <Card border="light" className="shadow-sm introCard">
+                          <div className="detailSection">
+                            <span className="left">
+                              {/* <Link className="fw-bold" to={`/detailJob/${props.id}`}> */}
+                              <h3><span>{item.jobs.name}
+                                -
+                                <Rating
+                                  style={{ marginTop: "-7%" }}
+                                  size={20}
+                                  onClick={handleRating}
+                                  readonly={true}
+                                  allowHover={false}
+                                  ratingValue={item?.rating ? item?.rating * 20 : "0"} /* Available Props */
+                                />
+                              </span>
+                              </h3>
+                              {/* <h5>{item.description}</h5> */}
+                            </span>
+                            <span className="right p-2">
+                              <h6>{item.jobs.paymentType}</h6>
+                              <h6>{item?.insertedDate ? moment(item?.insertedDate).format("DD-MM-YYYY") : " --"}</h6>
+                              <h6>
+                                Rate: <span>${item.jobs.rate}hr</span>{" "}
+                              </h6>
+                            </span>
+                          </div>
+                        </Card>
                       </Col>
                     );
                   })}

@@ -32,6 +32,7 @@ export const Routes = {
     BusinessCategory: { path: "/businessCategory" },
     Categories_Management: { path: "/category-management" },
     Report_Management: { path: "/Report-management" },
+    Dispute_Management: { path: "/dispute-management" },
     Job_Management: { path: "/job-management" },
     Users: { path: "/users" },
     EditAdminProfile: { path: "/AdminProfile/editAdminProfile" },

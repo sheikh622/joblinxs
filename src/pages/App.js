@@ -43,6 +43,7 @@ import PrivacyPolicy from "./Settings/PrivacyPolicy";
 import PayementMethod from "./payementMethod"
 import WorkExperience from "./WorkExperience";
 import Achievement from "./Achievement"
+import DisputeManagement from "./Dispute Management";
 // changes merge
 
 
@@ -172,6 +173,11 @@ export default () => (
         exact
         path={Routes.Report_Management.path}
         component={ReportManagement}
+      />
+      <PrivateRoute
+        exact
+        path={Routes.Dispute_Management.path}
+        component={DisputeManagement}
       />
       <PrivateRoute
         exact
