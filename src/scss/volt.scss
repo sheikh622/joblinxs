@@ -210,7 +210,10 @@ svg {
   overflow: hidden;
   text-overflow: ellipsis;
   // width: 130px;
-  display: flex;
+  svg{
+    position: absolute;
+    right: 10px;
+  }
 }
 
 .chatInput {
@@ -243,4 +246,10 @@ svg {
     padding: 10px;
     border-radius: 15px;
   }
+}
+.tablelisted {
+  width: 170px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

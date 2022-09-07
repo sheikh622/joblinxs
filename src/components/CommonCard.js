@@ -31,9 +31,11 @@ const CommonCard = (props) => {
         </div>
         <div className="detailSection">
           <span className="left card-details">
-            <Link className="fw-bold" to={`/detailJob/${props.id}`}>
+            
               <div className="icon-div">
+              <Link className="fw-bold" to={`/detailJob/${props.id}`}>
               <span className="listedName">{props.name}</span>
+                </Link>
               {!props.myJobs && (
             <span>
               {props?.isFavourite ? (
@@ -88,6 +90,7 @@ const CommonCard = (props) => {
               )}
             </span>
           )}
+          <Link className="fw-bold" to={`/detailJob/${props.id}`}>
               {props?.item?.isEmergency ? (
                 <svg
                 className="float-end"
@@ -105,16 +108,17 @@ const CommonCard = (props) => {
               ) : (
                 ""
               )}
+              </Link>
               </div>
+              <Link className="fw-bold" to={`/detailJob/${props.id}`}>
               <h4>{props.type}</h4>
-
               <p>
                 Rate: <span>${props.rate}</span>{" "}
               </p>
               <p>
                 Jobs Completed: <span>{props.completed} </span>
               </p>
-            </Link>
+              </Link>
             {/* </div> */}
           </span>
          
