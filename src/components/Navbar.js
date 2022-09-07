@@ -3,18 +3,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Col,
   Container,
-  Dropdown,
-  Image,
-  ListGroup,
+  Dropdown, ListGroup,
   Nav,
   Navbar,
-  Row,
+  Row
 } from "@themesberg/react-bootstrap";
-import { toast } from "react-toastify";
 import moment from "moment";
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import { onMessageListener } from "../firebase";
 import { getNotifiaction } from "../Redux/notification/actions";
 import Spinner from "./spinner";
