@@ -43,6 +43,7 @@ const ReportManagement = (item) => {
 
     const handleClick = (isActive, index, id) => {
         let newArray = dataList;
+        setBlockUser(isActive);
         newArray[index].reportedTo.isActive = !isActive;
         setDataList(() => {
             return [...newArray]
@@ -116,12 +117,12 @@ const ReportManagement = (item) => {
                     <span>
                         <Form.Switch
                             type="switch"
-                            // defaultValue="fixed"
+                            defaultValue="fixed"
                             label=""
                             className="text-left cursorPointer "
                             name="reportUser"
                             {...label}
-                            checked={blockUser !== undefined ? blockUser : item?.reportedTo?.isActive}
+                            checked={!blockUser === undefined ? blockUser : item?.reportedTo?.isActive}
                             onChange={(e) => {
                                 handleClick(item?.reportedTo?.isActive, index, item?.reportedTo?.id)
 
@@ -149,7 +150,7 @@ const ReportManagement = (item) => {
                                                 <th className="border-bottom">Report By</th>
                                                 <th className="border-bottom">Description</th>
                                                 <th className="border-bottom">Report To</th>
-                                                <th className="border-bottom ">Block / Unblock</th>
+                                                <th className="border-bottom ">Unblock / Block</th>
                                             </tr>
                                         </thead>
                                         <tbody>

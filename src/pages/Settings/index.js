@@ -39,7 +39,7 @@ const Settings = (props, row) => {
                                         className="text-center cursorPointer display-inline-block"
                                         name="paymentType"
                                         {...label}
-                                        checked={blockUser}
+                                        checked={!blockUser}
                                         onClick={(e) => {
                                             handleJobAction();
                                             setBlockUser(!blockUser)

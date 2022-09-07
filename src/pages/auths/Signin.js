@@ -74,7 +74,7 @@ const LoginPage = () => {
   return (
     <main>
       <section className="d-flex align-items-center mt-5 mb-2">
-        <div className="mx-5">
+        <Container>
           <Row
             className="justify-content-center form-bg-image"
             style={{ backgroundImage: `url(${BgImage})` }}
@@ -187,7 +187,7 @@ const LoginPage = () => {
             {/* </>
             } */}
           </Row>
-        </div>
+        </Container>
       </section>
     </main>
   );
