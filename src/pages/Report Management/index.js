@@ -100,15 +100,22 @@ const ReportManagement = (item) => {
 
         return (
             <tr>
-                <td>
+                <td style={{ paddingLeft: "16px" }}>
                     <span className="fw-normal">
                         {item?.reportedBy?.fullName ? item?.reportedBy?.fullName : "N/A"}
                     </span>
                 </td>
-                <td style={{ paddingLeft: "2%" }}>
+                <td style={{ paddingLeft: "16px" }}>
+                    <div className="tablelisted">
                     <span className="fw-normal">{item?.description ? item?.description : "N/A"}</span>
+                    </div>
                 </td>
-                <td>
+                <td style={{ paddingLeft: "16px" }}>
+                    <span className="fw-normal">
+                        {item?.reportedTo?.email ? item?.reportedTo?.email : "N/A"}
+                    </span>
+                </td>
+                <td style={{ paddingLeft: "16px" }}>
                     <span className="fw-normal">
                         {item?.reportedTo?.fullName ? item?.reportedTo?.fullName : " N/A"}
                     </span>
@@ -124,8 +131,7 @@ const ReportManagement = (item) => {
                             {...label}
                             checked={!blockUser === undefined ? blockUser : item?.reportedTo?.isActive}
                             onChange={(e) => {
-                                handleClick(item?.reportedTo?.isActive, index, item?.reportedTo?.id)
-
+                                handleClick(item?.reportedTo?.isActive, index, item?.reportedBy?.id)
                             }}
                         />
                     </span>
@@ -149,6 +155,7 @@ const ReportManagement = (item) => {
                                             <tr>
                                                 <th className="border-bottom">Report By</th>
                                                 <th className="border-bottom">Description</th>
+                                                <th className="border-bottom">Email</th>
                                                 <th className="border-bottom">Report To</th>
                                                 <th className="border-bottom ">Unblock / Block</th>
                                             </tr>
