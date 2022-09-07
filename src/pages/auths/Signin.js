@@ -74,7 +74,7 @@ const LoginPage = () => {
   return (
     <main>
       <section className="d-flex align-items-center mt-5 mb-2">
-        <div className="container">
+        <Container>
           <Row
             className="justify-content-center form-bg-image"
             style={{ backgroundImage: `url(${BgImage})` }}
