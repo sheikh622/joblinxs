@@ -22,7 +22,7 @@ const TermsandConditions = (props, row) => {
                     </svg>
                 </Col>
             )}
-            <Container>
+            <div className="mx-5">
                 <Row>
                     <Col xs={9} xl={9}>
 
@@ -1054,7 +1054,7 @@ const TermsandConditions = (props, row) => {
 
 
                 </Row>
-            </Container>
+            </div>
 
         </>
     );

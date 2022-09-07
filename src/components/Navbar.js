@@ -3,18 +3,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Col,
   Container,
-  Dropdown,
-  Image,
-  ListGroup,
+  Dropdown, ListGroup,
   Nav,
   Navbar,
-  Row,
+  Row
 } from "@themesberg/react-bootstrap";
-import { toast } from "react-toastify";
 import moment from "moment";
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import { onMessageListener } from "../firebase";
 import { getNotifiaction } from "../Redux/notification/actions";
 import Spinner from "./spinner";
@@ -62,7 +60,6 @@ export default (props) => {
     if (heightBound > window.scrollY) {
     }
   };
-  console.log("window?.location?.pathname", window?.location?.pathname)
   const handleRedirection = (jobs, users, title) => {
     if (title === "provider appply for job" || title === "provider confirm the job") {
       history.push(`/Applicants/${jobs.id}`);
@@ -132,7 +129,7 @@ export default (props) => {
   };
   return (
     <Navbar variant="dark" expanded className="mb-3">
-      <Container fluid className="px-0">
+      <Container>
         <div className="d-flex justify-content-between w-100">
           <div className="d-flex align-items-center">
             <h2>{props?.module}</h2>

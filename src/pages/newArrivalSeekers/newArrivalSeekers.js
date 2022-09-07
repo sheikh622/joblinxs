@@ -95,7 +95,7 @@ const DashboardOverview = () => {
   return (
     <>
       <Navbar module={"Top Rated Providers"} />
-      <Container>
+      <div className="mx-5">
      
         <Row className="py-2">
           {loader ? (
@@ -142,7 +142,7 @@ const DashboardOverview = () => {
             </>
           )}
         </Row>
-      </Container>
+      </div>
     </>
   );
 };

@@ -65,7 +65,7 @@ const Favourites = () => {
   return (
     <>
       <Navbar module={"Favourites"} />
-      <Container>
+      <div className="mx-5">
         {/* Featured */}
         {loader ? (
           <Spinner />
@@ -121,7 +121,7 @@ const Favourites = () => {
             )}
           </>
         )}
-      </Container>
+      </div>
     </>
   );
 };

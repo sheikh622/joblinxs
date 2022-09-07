@@ -87,7 +87,7 @@ const DashboardOverview = () => {
   return (
     <>
       <Navbar module={"New Arrival Seekers"} />
-      <Container>
+      <div className="mx-5">
         <Row className="py-2">
           {loader ? (
             <Spinner />
@@ -133,7 +133,7 @@ const DashboardOverview = () => {
             </>
           )}
         </Row>
-      </Container>
+      </div>
     </>
   );
 };

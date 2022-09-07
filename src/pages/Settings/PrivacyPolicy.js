@@ -23,7 +23,7 @@ const PrivacyPolicy = (props, row) => {
 
 
 
-            <Container>
+            <div className="mx-5">
 
                 <Row>
                     <Col xs={12} xl={12}
@@ -750,7 +750,7 @@ const PrivacyPolicy = (props, row) => {
 
                     </Col>
                 </Row>
-            </Container>
+            </div>
 
         </>
     );

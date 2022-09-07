@@ -38,7 +38,7 @@ const ForgetPage = () => {
   return (
     <main>
       <section className="vh-lg-100 mt-4 mt-lg-0 bg-soft d-flex align-items-center">
-        <Container>
+        <div className="mx-5">
           <Row className="justify-content-center">
             <Col
               xs={12}
@@ -96,7 +96,7 @@ const ForgetPage = () => {
               </div>
             </Col>
           </Row>
-        </Container>
+        </div>
       </section>
     </main>
   );

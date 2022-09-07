@@ -46,7 +46,7 @@ export default () => {
   return (
     <>
       <Navbar module={"Admin Profile"} />
-      <Container>
+      <div className="mx-5">
         <Row>
 
           <div className="mt-2 mb-3 d-flex justify-content-end">
@@ -162,7 +162,7 @@ export default () => {
           </Col>
 
         </Row>
-      </Container>
+      </div>
       <Modal as={Modal.Dialog} centered show={showDefault}>
         <Modal.Header>
           <Modal.Title className="h5">Change Password</Modal.Title>

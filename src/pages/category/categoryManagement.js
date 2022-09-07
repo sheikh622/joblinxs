@@ -146,7 +146,7 @@ const CategoryManagement = (row) => {
   return (
     <>
       <Navbar module={"Category Management"} />
-      <Container>
+      <div className="mx-5">
         <Row className="py-2">
           {loader ? (
             <Spinner />
@@ -219,7 +219,7 @@ const CategoryManagement = (row) => {
             </>
           )}
         </Row>
-      </Container>
+      </div>
     </>
   );
 };

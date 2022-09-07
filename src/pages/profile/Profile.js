@@ -57,7 +57,7 @@ export default () => {
   return (
     <>
       <Navbar module={"Profile"} />
-      <Container>
+      <div className="mx-5">
         <Row>
               <div className="mt-2 mb-3 d-flex justify-content-end">
                 <Button variant="primary" type="submit" onClick={editProfile}>
@@ -196,7 +196,7 @@ export default () => {
                 </Row>
               </Col>
         </Row>
-      </Container>
+      </div>
     </>
   );
 };
