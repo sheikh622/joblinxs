@@ -164,7 +164,7 @@ const Job = () => {
   return (
     <>
       <Navbar module={"My Jobs"} />
-      <Container>
+      <div className="mx-5">
         {/* < Slideshow/> */}
         <Row className="pt-2 pb-4">
           {loader ? (
@@ -280,7 +280,7 @@ const Job = () => {
             </>
           )}
         </Row>
-      </Container>
+      </div>
     </>
   );
 };

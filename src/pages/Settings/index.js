@@ -25,7 +25,7 @@ const Settings = (props, row) => {
     return (
         <>
             <Navbar module={"Settings"} />
-            <Container>
+            <div className="mx-5">
                 <Row>
                     <Col xs={12} xl={12}>
                         <Card.Body className="">
@@ -74,7 +74,7 @@ const Settings = (props, row) => {
                     </Col>
 
                 </Row>
-            </Container>
+            </div>
 
         </>
     );

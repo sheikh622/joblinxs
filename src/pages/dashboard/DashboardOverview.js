@@ -138,7 +138,7 @@ const DashboardOverview = (props) => {
   return (
     <>
       <Navbar module={"Dashboard"} />
-      <Container>
+      <div className="mx-5">
         {/* Recommended */}
         <Row className="pt-2 pb-4">
           <div className="d-flex justify-content-between mt-0 mb-4 headerBorder">
@@ -228,7 +228,6 @@ const DashboardOverview = (props) => {
             </>
           )}
         </Row>
-
         {/* Plumber */}
         <Row className="py-2">
           <div className="d-flex justify-content-between mt-0 mb-4 headerBorder">
@@ -269,9 +268,7 @@ const DashboardOverview = (props) => {
             </>
           )}
         </Row>
-
-      </Container>
-
+      </div>
     </>
   );
 };

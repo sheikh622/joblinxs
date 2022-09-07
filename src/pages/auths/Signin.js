@@ -19,7 +19,7 @@ import BgImage from "../../assets/img/illustrations/signin.svg";
 import { fetchToken } from "../../firebase";
 import { loginRequest } from "../../Redux/auth/actions";
 import { Routes } from "../../routes";
-
+import { eyeIcon } from "../../assets/img/eyeON.svg";
 const LoginPage = () => {
   const [isTokenFound, setTokenFound] = useState(false);
   const [token, setToken] = useState("");
@@ -44,14 +44,7 @@ const LoginPage = () => {
     location: { state },
   } = history;
   const dispatch = useDispatch();
-  const [showPassword, setShowPassword] = useState("password");
-  const changePasswordState = () => {
-    if (showPassword === "password") {
-      setShowPassword("text");
-    } else {
-      setShowPassword("password");
-    }
-  };
+  const [showPassword, setShowPassword] = useState(false);
   const LoginSchema = Yup.object().shape({
     email: Yup.string()
       .email("Email must be a valid email address")
@@ -81,7 +74,7 @@ const LoginPage = () => {
   return (
     <main>
       <section className="d-flex align-items-center mt-5 mb-2">
-        <Container>
+        <div className="mx-5">
           <Row
             className="justify-content-center form-bg-image"
             style={{ backgroundImage: `url(${BgImage})` }}
@@ -133,14 +126,20 @@ const LoginPage = () => {
                         <Form.Control
                           // required
                           name="password"
-                          type="password"
+                          type={showPassword ? "text" : "password"}
                           placeholder="Password"
                           label="Password"
                           value={loginFormik.values.password}
                           onChange={(e) => {
                             loginFormik.setFieldValue("password", e.target.value);
                           }}
+
                         />
+                        <InputGroup.Text onClick={() => setShowPassword(!showPassword)}>
+                          <svg width="22" height="15" viewBox="0 0 27 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13.36 0C7.28727 0 2.10116 3.77724 0 9.10909C2.10116 14.4409 7.28727 18.2182 13.36 18.2182C19.4327 18.2182 24.6188 14.4409 26.72 9.10909C24.6188 3.77724 19.4327 0 13.36 0ZM13.36 15.1818C10.0079 15.1818 7.28727 12.4612 7.28727 9.10909C7.28727 5.75695 10.0079 3.03636 13.36 3.03636C16.7121 3.03636 19.4327 5.75695 19.4327 9.10909C19.4327 12.4612 16.7121 15.1818 13.36 15.1818ZM13.36 5.46545C11.3439 5.46545 9.71636 7.09295 9.71636 9.10909C9.71636 11.1252 11.3439 12.7527 13.36 12.7527C15.3761 12.7527 17.0036 11.1252 17.0036 9.10909C17.0036 7.09295 15.3761 5.46545 13.36 5.46545Z" fill="#66707C" />
+                          </svg>
+                        </InputGroup.Text>
 
                       </InputGroup>
                       {loginFormik.touched.password && loginFormik.errors.password ? (
@@ -188,7 +187,7 @@ const LoginPage = () => {
             {/* </>
             } */}
           </Row>
-        </Container>
+        </div>
       </section>
     </main>
   );

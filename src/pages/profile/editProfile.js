@@ -125,7 +125,7 @@ export default () => {
                     </svg>
 
                 </Col>
-      <Container>
+      <div className="mx-5">
         {user && (
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Row>
@@ -317,7 +317,7 @@ export default () => {
             </Row>
           </Form>
         )}
-      </Container>
+      </div>
     </>
   );
 };

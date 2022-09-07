@@ -22,7 +22,7 @@ const JobDetails = (item) => {
 
             </Col>
 
-            <Container>
+            <div className="mx-5">
                 <Row>
                     <Col xs={12} xl={4}>
                         <Row>
@@ -157,7 +157,7 @@ const JobDetails = (item) => {
                         </Row>
                     </Col>
                 </Row>
-            </Container >
+            </div >
         </>
     );
 };

@@ -17,7 +17,7 @@ import Documentation from "../../components/Documentation";
 export default () => {
   return (
     <article>
-      <Container className="px-0">
+      <div className="mx-5">
         <Row className="d-flex flex-wrap flex-md-nowrap align-items-center py-4">
           <Col className="d-block mb-4 mb-md-0">
             <h1 className="h2">Forms</h1>
@@ -329,7 +329,7 @@ import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";`}
 
 render( <Datepicker /> )`}
         />
-      </Container>
+      </div>
     </article>
   );
 };
