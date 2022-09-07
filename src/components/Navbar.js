@@ -60,6 +60,7 @@ export default (props) => {
     if (heightBound > window.scrollY) {
     }
   };
+  console.log("window?.location?.pathname", window?.location?.pathname)
   const handleRedirection = (jobs, users, title) => {
     if (title === "provider appply for job" || title === "provider confirm the job") {
       history.push(`/Applicants/${jobs.id}`);

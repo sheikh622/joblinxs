@@ -10,6 +10,7 @@ const PrivacyPolicy = (props, row) => {
     const dispatch = useDispatch();
     const history = useHistory();
 
+
     return (
         <>
             <Navbar module={"Privacy Policy"} />
