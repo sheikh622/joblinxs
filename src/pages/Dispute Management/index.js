@@ -19,9 +19,9 @@ const   DisputeManagement = (item) => {
     const label = { inputProps: { "aria-label": "Switch demo" } };
     const dispatch = useDispatch();
     const history = useHistory();
-    const ReportList = useSelector((state) => state.ReportListing?.Reports);
+    // const ReportList = useSelector((state) => state.ReportListing?.Reports);
     const DisputeList = useSelector((state) => state.DisputeListing?.Reports?.disputedJobListing);
-    console.log("diiiiiiiiiii",DisputeList)
+    console.log("DisputeList",DisputeList)
     const [page, setPage] = useState(1);
     const [limit] = useState("10");
     const [loader, setLoader] = useState(true);
@@ -50,13 +50,13 @@ const   DisputeManagement = (item) => {
         setDataList(() => {
             return [...newArray]
         })
-        dispatch(
-            getReportBlock({
-                userId: id,
-                page: page,
-                limit: limit,
-            })
-        );
+        // dispatch(
+        //     getReportBlock({
+        //         userId: id,
+        //         page: page,
+        //         limit: limit,
+        //     })
+        // );
     };
     const nextPage = () => {
         if (page < DisputeList?.pages) {
@@ -99,12 +99,11 @@ const   DisputeManagement = (item) => {
                     : status === "Canceled"
                         ? "danger"
                         : "primary";
-
         return (
             <tr>
                 <td>
                     <span className="fw-normal">
-                        {item?.reportedBy?.fullName ? item?.reportedBy?.fullName : "N/A"}
+                        {/* {item?.reportedBy?.fullName ? item?.reportedBy?.fullName : "N/A"} */}
                     </span>
                 </td>
                 <td style={{ paddingLeft: "2%" }}>
@@ -112,11 +111,11 @@ const   DisputeManagement = (item) => {
                 </td>
                 <td>
                     <span className="fw-normal">
-                        {item?.reportedTo?.fullName ? item?.reportedTo?.fullName : " N/A"}
+                        {/* {item?.reportedTo?.fullName ? item?.reportedTo?.fullName : " N/A"} */}
                     </span>
                 </td>
                 <td style={{ paddingLeft: "7%" }}>
-                    <span>
+                    {/* <span>
                         <Form.Switch
                             type="switch"
                             // defaultValue="fixed"
@@ -130,7 +129,7 @@ const   DisputeManagement = (item) => {
 
                             }}
                         />
-                    </span>
+                    </span> */}
                 </td>
             </tr>
         );
@@ -138,14 +137,14 @@ const   DisputeManagement = (item) => {
     return (
         <>
             <Navbar module={"Dispute"} />
-            <Container>
+            <div className="mx-5">
                 {/* {loader ? (
                     <Spinner />
                 ) : (
                     <> */}
                         <Card.Body className="pt-0">
-                            {dataList?.length > 0 ? (
-                                <>
+                            {/* {dataList?.length > 0 ? (
+                                <> */}
                                     <Table hover className="user-table align-items-center">
                                         <thead>
                                             <tr>
@@ -181,14 +180,14 @@ const   DisputeManagement = (item) => {
                                             <b>{DisputeList?.total_reportedUsers}</b> entries
                                         </small>
                                     </Card.Footer>
-                                </>
+                                {/* </>
                             ) : (
                                 <NoRecordFound />
-                            )}
+                            )} */}
                         </Card.Body>
                     {/* </>
                 )} */}
-            </Container>
+            </div>
 
         </>
     );

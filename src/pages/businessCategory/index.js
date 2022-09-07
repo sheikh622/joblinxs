@@ -180,7 +180,7 @@ const BusinessCategories = (item) => {
   return (
     <>
       <Navbar module={"Categories"} />
-      <Container>
+      <div className="mx-5">
         <Row className="py-2 justify-content-between align-items-baseline">
           <Col lg={3} md={5}>
             <Form.Group className="mt-3">
@@ -318,7 +318,7 @@ const BusinessCategories = (item) => {
             </Button>
           </div>
         </Row>
-      </Container>
+      </div>
       {/* Modal */}
       <Modal as={Modal.Dialog} centered show={showDefault}>
         <Modal.Header>

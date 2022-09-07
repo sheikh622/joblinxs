@@ -69,7 +69,7 @@ const ResetPassword = () => {
   return (
     <main>
       <section className="bg-soft d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
-        <Container>
+        <div className="mx-5">
           <Row className="justify-content-center">
             <p className="text-center">
               <Card.Link as={Link} to={Routes.Signin.path} className="text-gray-700">
@@ -129,7 +129,7 @@ const ResetPassword = () => {
               </div>
             </Col>
           </Row>
-        </Container>
+        </div>
       </section>
     </main>
   );

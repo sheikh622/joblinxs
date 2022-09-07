@@ -135,7 +135,7 @@ const ReportManagement = (item) => {
     return (
         <>
             <Navbar module={"Report"} />
-            <Container>
+            <div className="mx-5">
                 {loader ? (
                     <Spinner />
                 ) : (
@@ -185,7 +185,7 @@ const ReportManagement = (item) => {
                         </Card.Body>
                     </>
                 )}
-            </Container>
+            </div>
 
         </>
     );

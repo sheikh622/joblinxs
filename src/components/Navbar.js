@@ -62,7 +62,6 @@ export default (props) => {
     if (heightBound > window.scrollY) {
     }
   };
-  console.log("window?.location?.pathname", window?.location?.pathname)
   const handleRedirection = (jobs, users, title) => {
     if (title === "provider appply for job" || title === "provider confirm the job") {
       history.push(`/Applicants/${jobs.id}`);
@@ -132,7 +131,7 @@ export default (props) => {
   };
   return (
     <Navbar variant="dark" expanded className="mb-3">
-      <Container fluid className="px-0">
+      <Container>
         <div className="d-flex justify-content-between w-100">
           <div className="d-flex align-items-center">
             <h2>{props?.module}</h2>

@@ -92,7 +92,7 @@ const DashboardOverview = () => {
   return (
     <>
       <Navbar module={"Recommended For You"} />
-      <Container>
+      <div className="mx-5">
         {/* Recommended */}
         <Row className="pt-2 pb-4">
           {loader ? (
@@ -146,7 +146,7 @@ const DashboardOverview = () => {
             </>
           )}
         </Row>
-      </Container>
+      </div>
     </>
   );
 };

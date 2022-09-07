@@ -11,7 +11,7 @@ export default () => {
   return (
     <main>
       <section className="vh-100 d-flex align-items-center justify-content-center">
-        <Container>
+        <div className="mx-5">
           <Row>
             <Col xs={12} className="text-center d-flex align-items-center justify-content-center">
               <div>
@@ -32,7 +32,7 @@ export default () => {
               </div>
             </Col>
           </Row>
-        </Container>
+        </div>
       </section>
     </main>
   );
