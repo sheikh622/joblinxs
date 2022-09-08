@@ -129,7 +129,7 @@ const ReportManagement = (item) => {
                             className="text-left cursorPointer "
                             name="reportUser"
                             {...label}
-                            checked={!blockUser === undefined ? blockUser : item?.reportedTo?.isActive}
+                            checked={!blockUser === undefined ? blockUser : !item?.reportedTo?.isActive}
                             onChange={(e) => {
                                 handleClick(item?.reportedTo?.isActive, index, item?.reportedBy?.id)
                             }}
