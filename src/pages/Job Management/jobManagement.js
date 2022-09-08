@@ -233,7 +233,7 @@ const JobManagement = (row) => {
   return (
     <>
       <Navbar module={"Job Management"} />
-      <Container>
+      <div className="mx-5">
         <Row className="py-2">
           {loader ? (
             <Spinner />
@@ -364,7 +364,7 @@ const JobManagement = (row) => {
             </>
           )}
         </Row>
-      </Container>
+      </div>
     </>
   );
 };

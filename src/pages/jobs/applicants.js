@@ -23,7 +23,7 @@ const Applicants = (value) => {
         </svg>
 
       </Col>
-      <Container>
+      <div className="mx-5">
         <Row className="py-2 ">
           <Tabs
             id="controlled-tab-example"
@@ -40,7 +40,7 @@ const Applicants = (value) => {
             </Tab>
           </Tabs>
         </Row>
-      </Container>
+      </div>
     </>
   );
 };

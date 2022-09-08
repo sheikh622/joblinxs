@@ -307,7 +307,7 @@ const UserManagement = (row, item) => {
   return (
     <>
       <Navbar module={"User Management"} />
-      <Container>
+      <div className="mx-5">
         <Row className="py-2">
           {loader ? (
             <Spinner />
@@ -374,7 +374,7 @@ const UserManagement = (row, item) => {
                               <th className="border-bottom">Email</th>
                               <th className="border-bottom">Phone number</th>
                               <th className="border-bottom">User status</th>
-                              <th className="border-bottom">Block / Unblock</th>
+                              <th className="border-bottom">Unblock / Block</th>
                               <th className="border-bottom">Action</th>
                             </tr>
                           </thead>
@@ -448,7 +448,7 @@ const UserManagement = (row, item) => {
           )}
         </Row>
 
-      </Container>
+      </div>
 
     </>
   );

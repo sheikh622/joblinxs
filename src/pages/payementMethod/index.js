@@ -9,6 +9,8 @@ import {
   Card,
   Pagination,
   Nav,
+  Expire,
+
 } from "@themesberg/react-bootstrap";
 import Navbar from "../../components/Navbar";
 import cardSvg from "./card.svg";
@@ -23,6 +25,10 @@ import {
 } from "@stripe/react-stripe-js";
 import { useDispatch, useSelector } from "react-redux";
 import { addCardDetails, getCardDetails } from "../../Redux/settings/actions";
+import Visa from "../../assets/img/visa.png";
+import MasterCard from "../../assets/img/mastercard.jpeg";
+import American from "../../assets/img/american-express.png";
+import Club from "../../assets/img/diners-club.png";
 
 const Payment = () => {
   const stripe = useStripe();
@@ -47,7 +53,7 @@ const Payment = () => {
       if (res.error) {
         toast.error(res.error.message);
       } else {
-        let data = { token: res.token.id, userId: login?.id, setShowModal:setShowModal };
+        let data = { token: res.token.id, userId: login?.id, setShowModal: setShowModal };
         dispatch(addCardDetails(data));
       }
     });
@@ -62,9 +68,11 @@ const Payment = () => {
               <span>Credit/Debit Card Details</span>
             </Card.Header>
             <Card.Body>
+
               <div className="text-center">
                 <img src={cardSvg} alt="" />
               </div>
+
               <Table
                 hover
                 className="user-table align-items-center management_table mt-5"
@@ -79,7 +87,28 @@ const Payment = () => {
                 <tbody>
                   <tr>
                     <td>
-                      <span className="fw-normal">{cardDetail?.brand}</span>
+                      <span className="fw-normal">
+                        {cardDetail.brand == "Visa" && (
+                          <>
+                            <img src={Visa} alt="" width="25px" />
+                          </>
+                        )}
+                        {cardDetail.brand == "American Express" && (
+                          <>
+                            <img src={American} alt="" width="25px" />
+                          </>
+                        )}
+                        {cardDetail.brand == "Diners Club" && (
+                          <>
+                            <img src={Club} alt="" width="25px" />
+                          </>
+                        )}
+                        {cardDetail.brand == "MasterCard" && (
+                          <>
+                            <img src={MasterCard} alt=""width="25px" />
+                          </>
+                        )}
+                        {cardDetail?.brand}</span>
                     </td>
                     <td>
                       <span className="fw-normal">
@@ -101,7 +130,7 @@ const Payment = () => {
                 className="mx-2"
                 onClick={() => setShowModal(true)}
               >
-                {cardDetail?.id ? "Update Card" :"Add Card"}
+                {cardDetail?.id ? "Add Another Card" : "Add Card"}
               </Button>
             </Card.Footer>
           </Card>

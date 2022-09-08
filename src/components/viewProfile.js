@@ -22,7 +22,7 @@ const viewProfile = () => {
   return (
     <>
       <Navbar module={"Job Detail"} />
-      <Container>
+      <div className="mx-5">
         <Card border="light" className="card-box-shadow py-3 px-4 pb-1 mb-3">
           <Row>
             <Col lg={12} xs={12} className="pb-3">
@@ -108,7 +108,7 @@ const viewProfile = () => {
             </Col>
           </Row>
         </Card>
-      </Container>
+      </div>
     </>
   );
 };

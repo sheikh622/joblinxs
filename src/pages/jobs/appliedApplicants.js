@@ -124,7 +124,7 @@ const Applicants = ({ id }) => {
   };
   return (
     <>
-      <Container>
+      <div className="mx-5">
         <Row className="py-2 justify-content-between">
           {loader ? (
             <Spinner />
@@ -197,7 +197,7 @@ const Applicants = ({ id }) => {
             </small>
           </Card.Footer>
         </Row>
-      </Container>
+      </div>
     </>
   );
 };

@@ -122,7 +122,7 @@ const MyJobDetails = (item, props, data) => {
                     </svg>
 
                 </Col>
-      <Container>
+      <div className="mx-5">
         <Row>
         
           {SingleId.createdBy === "seeker" && (
@@ -346,7 +346,7 @@ const MyJobDetails = (item, props, data) => {
 
           </Col>
         </Row>
-      </Container>
+      </div>
       <Modal as={Modal.Dialog} centered show={showDefault} onHide={handlefalse}>
         <Modal.Header>
           <Modal.Title className="h5">Delete Job</Modal.Title>

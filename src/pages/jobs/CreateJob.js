@@ -18,14 +18,14 @@ const CreateJob = () => {
         </svg>
 
       </Col>
-      <Container>
+      <div className="mx-5">
         <Row className="py-2">
 
           <Col xs={12} xl={12}>
             <GeneralInfoForm />
           </Col>
         </Row>
-      </Container>
+      </div>
     </>
   );
 };

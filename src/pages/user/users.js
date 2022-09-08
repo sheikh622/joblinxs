@@ -48,7 +48,7 @@ const Users = () => {
   return (
     <>
       <Navbar module={"My Users"} />
-      <Container>
+      <div className="mx-5">
         <Row className="py-2 ">
           <Col lg={12} md={12} className="justify-content-end d-flex">
             <Button
@@ -130,7 +130,7 @@ const Users = () => {
             </Card>
           </Col>
         </Row>
-      </Container>
+      </div>
       {/* Modal */}
       <Modal as={Modal.Dialog} centered show={showDefault} onHide={handleClose}>
         <Modal.Header>

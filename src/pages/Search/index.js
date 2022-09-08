@@ -215,7 +215,7 @@ const Search = (props) => {
     return (
         <>
             <Navbar module={"Search By Category"} />
-            <Container>
+            <div className="mx-5">
                 <Row className="pt-2 pb-4">
                     <Col lg={12} md={12} xs={12} className="pb-3 mb-3">
                         <Modal.Header>
@@ -350,7 +350,7 @@ const Search = (props) => {
                         </>
                     )}
                 </Row>
-            </Container>
+            </div>
 
         </>
     );

@@ -43,6 +43,7 @@ const ReportManagement = (item) => {
 
     const handleClick = (isActive, index, id) => {
         let newArray = dataList;
+        setBlockUser(isActive);
         newArray[index].reportedTo.isActive = !isActive;
         setDataList(() => {
             return [...newArray]
@@ -99,15 +100,22 @@ const ReportManagement = (item) => {
 
         return (
             <tr>
-                <td>
+                <td style={{ paddingLeft: "16px" }}>
                     <span className="fw-normal">
                         {item?.reportedBy?.fullName ? item?.reportedBy?.fullName : "N/A"}
                     </span>
                 </td>
-                <td style={{ paddingLeft: "2%" }}>
+                <td style={{ paddingLeft: "16px" }}>
+                    <div className="tablelisted">
                     <span className="fw-normal">{item?.description ? item?.description : "N/A"}</span>
+                    </div>
                 </td>
-                <td>
+                <td style={{ paddingLeft: "16px" }}>
+                    <span className="fw-normal">
+                        {item?.reportedTo?.email ? item?.reportedTo?.email : "N/A"}
+                    </span>
+                </td>
+                <td style={{ paddingLeft: "16px" }}>
                     <span className="fw-normal">
                         {item?.reportedTo?.fullName ? item?.reportedTo?.fullName : " N/A"}
                     </span>
@@ -116,15 +124,14 @@ const ReportManagement = (item) => {
                     <span>
                         <Form.Switch
                             type="switch"
-                            // defaultValue="fixed"
+                            defaultValue="fixed"
                             label=""
                             className="text-left cursorPointer "
                             name="reportUser"
                             {...label}
-                            checked={blockUser !== undefined ? blockUser : item?.reportedTo?.isActive}
+                            checked={!blockUser === undefined ? blockUser : item?.reportedTo?.isActive}
                             onChange={(e) => {
-                                handleClick(item?.reportedTo?.isActive, index, item?.reportedTo?.id)
-
+                                handleClick(item?.reportedTo?.isActive, index, item?.reportedBy?.id)
                             }}
                         />
                     </span>
@@ -135,7 +142,7 @@ const ReportManagement = (item) => {
     return (
         <>
             <Navbar module={"Report"} />
-            <Container>
+            <div className="mx-5">
                 {loader ? (
                     <Spinner />
                 ) : (
@@ -148,8 +155,9 @@ const ReportManagement = (item) => {
                                             <tr>
                                                 <th className="border-bottom">Report By</th>
                                                 <th className="border-bottom">Description</th>
+                                                <th className="border-bottom">Email</th>
                                                 <th className="border-bottom">Report To</th>
-                                                <th className="border-bottom ">Block / Unblock</th>
+                                                <th className="border-bottom ">Unblock / Block</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -185,7 +193,7 @@ const ReportManagement = (item) => {
                         </Card.Body>
                     </>
                 )}
-            </Container>
+            </div>
 
         </>
     );

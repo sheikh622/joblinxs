@@ -10,9 +10,7 @@ const initialState = {
   Notification: [],
   onNotification: [],
   cardDetails : "",
-
 };
-
 const PushNotification = produce((state = initialState, action) => {
   switch (action.type) {
     case GET_USER_NOTIFICATION_SUCCESS:

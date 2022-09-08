@@ -130,7 +130,7 @@ const Categories = (item) => {
   return (
     <>
       <Navbar module={"Categories"} />
-      <Container>
+      <div className="mx-5">
         {loader ? (
           <Spinner />
         ) : (
@@ -265,7 +265,7 @@ const Categories = (item) => {
             )}
           </>
         )}
-      </Container>
+      </div>
       <Modal as={Modal.Dialog} centered show={delCategory} onHide={handleClose}>
         <Modal.Header>
           <Modal.Title className="h5">Delete User</Modal.Title>
