@@ -42,6 +42,7 @@ export const GeneralInfoForm = () => {
   const activeForm = history?.location?.state
   const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
   const SingleId = useSelector((state) => state?.addJob?.jobById);
+  let str = SingleId?.job_categories?.length > 0 ? SingleId?.job_categories[0]?.category : "false";
 
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
@@ -261,7 +262,6 @@ export const GeneralInfoForm = () => {
       return false;
     }
   }
-  let str = SingleId?.job_categories?.length > 0 ? SingleId?.job_categories[0]?.category : "false";
  
   return (
     <>
@@ -553,8 +553,8 @@ export const GeneralInfoForm = () => {
                   <Form.Control
                     //  required
                     type="number"
-                    // placeholder="$"
-                    // value={CategoryFormik.values.rate}
+                    placeholder="$"
+                    value={CategoryFormik.values.rate}
                     name="rate"
                     label="rate"
                     onKeyPress={(event) => PreventFirstZero(event)}
