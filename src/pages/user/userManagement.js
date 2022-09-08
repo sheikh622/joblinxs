@@ -222,19 +222,6 @@ const UserManagement = (row, item) => {
               onChange={(e) => {
                 handleBlock(item?.isActive, index, item?.id)
               }}
-            // checked={item.isActive}
-            // onChange={(e) => {
-            //   dispatch(
-            //     getUserBlock({
-            //       userId: item.id,
-            //       page: page,
-            //       limit: limit,
-            //       type: type,
-            //       search: search,
-            //       status: status,
-            //     })
-            //   );
-            // }}
             />
           </span>
         </td>
