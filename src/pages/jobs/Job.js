@@ -49,14 +49,11 @@ const Job = () => {
   const cardDetail = useSelector(
     (state) => state?.PushNotification?.cardDetails
   );
-  console.log("cardDetail", cardDetail)
-
   useEffect(() => {
     dispatch(getCardDetails(login?.id));
   }, []);
   const [addCard, setAddCard] = useState(false);
   const [addCardModal, setAddCardModal]= useState(false);
-  console.log(addCard);
   useEffect(() => {
     if (cardDetail !== null) {
       setAddCard(false)
@@ -67,7 +64,6 @@ const Job = () => {
     }
   }, [cardDetail]);
   const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
-  console.log("adsdasda", CategoryData)
   //   useEffect(() => {
   //     let array = [
   //       {
