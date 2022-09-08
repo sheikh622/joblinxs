@@ -3,12 +3,13 @@ import { all, fork, put, select, takeLatest } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
-import { getProfileSuccess, blockUserSuccess, reportListSuccess, reportedUserSuccess, unblockUserSuccess, hiredApplicantSuccess, getReviewsSuccess } from "./actions";
+import { getProfileSuccess, blockUserSuccess, blockUser,reportListSuccess, reportedUserSuccess, unblockUserSuccess, hiredApplicantSuccess, getReviewsSuccess } from "./actions";
 import { getList } from "../chat/actions";
 import { loginRequestSuccess } from "../auth/actions";
 import { GET_PROFILE, UPDATE_PROFILE, BLOCK_USER, REPORT_USER_LIST, REPORTED_USER, UNBLOCK_USER, HIRED_APPLICANTS, GET_REVIEWS } from "./constants";
 // import { CapitalizeFirstLetter } from "../../utils/Global";
 import { adminUpdatedSuccess } from "../auth/actions";
+import {getReportBlock} from "../../Redux/ReportManagement/actions"
 
 function* getProfileById({ payload }) {
   try {
@@ -123,12 +124,17 @@ function* watchReportUser() {
 }
 function* reportedSaga({ payload }) {
   try {
+    let blockedData = {
+      blockedTo: payload.reportedTo,
+      blockedBy: payload.reportedBy,
+    };
     let data = {
       reportedTo: payload.reportedTo,
       reportedBy: payload.reportedBy,
       description: payload.description,
       reportId: payload.reportId,
     };
+    console.log("payload.reportId",payload.reportId)
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.post(`reported-user/reports`, data, {
       headers: {
@@ -136,7 +142,8 @@ function* reportedSaga({ payload }) {
       },
     });
     toast.success(response.data.message);
-    yield put(reportedUserSuccess(response.data.data.user));
+    // yield put(reportedUserSuccess(response.data.data.user));
+    yield put(blockUser(blockedData));
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

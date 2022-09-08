@@ -130,7 +130,7 @@ const Payment = () => {
                 className="mx-2"
                 onClick={() => setShowModal(true)}
               >
-                {cardDetail?.id ? "Update Card" : "Add Card"}
+                {cardDetail?.id ? "Add Another Card" : "Add Card"}
               </Button>
             </Card.Footer>
           </Card>

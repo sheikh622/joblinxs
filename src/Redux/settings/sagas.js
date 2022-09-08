@@ -25,12 +25,12 @@ function* NotificationSaga({ payload }) {
       headers: { authorization: yield select(makeSelectAuthToken()) },
     };
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.get(`job/notification/${payload.userId}`, {
+    const response = yield axios.get(`job/getNotificationKey/${payload.userId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    yield put(getUserNotificationSuccess(response.data.data));
+    yield put(getUserNotificationSuccess(response.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -49,6 +49,9 @@ function* onNotificationSaga({ payload }) {
     });
     toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getONNotificationSuccess());
+    // yield put(getUserNotification({
+    //   userId: login.id,
+    // }))
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
