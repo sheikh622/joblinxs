@@ -17,6 +17,8 @@ import NoRecordFound from "../../components/NoRecordFound";
 import Spinner from "../../components/spinner";
 import { getJobs } from "../../Redux/addJob/actions";
 import { Routes } from "../../routes";
+import AddCard from "../../components/addCard";
+import { getCardDetails } from "../../Redux/settings/actions";
 
 const Job = () => {
   const dispatch = useDispatch();
@@ -44,9 +46,24 @@ const Job = () => {
     setType(event.target.value);
   };
 
+  const cardDetail = useSelector(
+    (state) => state?.PushNotification?.cardDetails
+  );
+  useEffect(() => {
+    dispatch(getCardDetails(login?.id));
+  }, []);
+  const [addCard, setAddCard] = useState(false);
+  const [addCardModal, setAddCardModal]= useState(false);
+  useEffect(() => {
+    if (cardDetail !== null) {
+      setAddCard(false)
+    }
+    else {
+      setAddCard(true)
 
+    }
+  }, [cardDetail]);
   const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
-  console.log("adsdasda", CategoryData)
   //   useEffect(() => {
   //     let array = [
   //       {
@@ -204,8 +221,12 @@ const Job = () => {
                   </Form.Group>
                 </Col> */}
                 <span className="d-flex align-items-baseline mb-3">
-                  <a className="text-white fw-bold" href={Routes.CreateJob.path}>
-                    <Button variant="primary" className="mx-2">
+                  {/* <a className="text-white fw-bold" href={Routes.CreateJob.path}> */}
+                                       
+                    <Button variant="primary" className="mx-2" 
+                    onClick={()=> {addCard? setAddCardModal(true) :history.push(Routes.CreateJob.path); 
+                    
+                    }}>
                       <svg
                         width="17"
                         height="17"
@@ -228,7 +249,7 @@ const Job = () => {
                       {"  "}
                       Add Job
                     </Button>
-                  </a>
+                  {/* </a> */}
                 </span>
               </div>
               {JobList?.jobs?.length > 0 ? (
@@ -279,8 +300,16 @@ const Job = () => {
               )}
             </>
           )}
+
         </Row>
       </div>
+      <AddCard
+            addCard={addCardModal}
+            setAddCard={setAddCardModal}
+            
+            // onHide={() => setAddCard(true)
+            // }
+          />
     </>
   );
 };

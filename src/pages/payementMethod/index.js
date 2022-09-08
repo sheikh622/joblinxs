@@ -88,22 +88,22 @@ const Payment = () => {
                   <tr>
                     <td>
                       <span className="fw-normal">
-                        {cardDetail.brand == "Visa" && (
+                        {cardDetail?.brand == "Visa" && (
                           <>
                             <img src={Visa} alt="" width="25px" />
                           </>
                         )}
-                        {cardDetail.brand == "American Express" && (
+                        {cardDetail?.brand == "American Express" && (
                           <>
                             <img src={American} alt="" width="25px" />
                           </>
                         )}
-                        {cardDetail.brand == "Diners Club" && (
+                        {cardDetail?.brand == "Diners Club" && (
                           <>
                             <img src={Club} alt="" width="25px" />
                           </>
                         )}
-                        {cardDetail.brand == "MasterCard" && (
+                        {cardDetail?.brand == "MasterCard" && (
                           <>
                             <img src={MasterCard} alt=""width="25px" />
                           </>
