@@ -131,7 +131,7 @@ const ReportManagement = (item) => {
                             {...label}
                             checked={!blockUser === undefined ? blockUser : !item?.reportedTo?.isActive}
                             onChange={(e) => {
-                                handleClick(item?.reportedTo?.isActive, index, item?.reportedBy?.id)
+                                handleClick(item?.reportedTo?.isActive, index, item?.reportedTo?.id)
                             }}
                         />
                     </span>

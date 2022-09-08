@@ -142,6 +142,7 @@ export default (props = {}) => {
               </Nav.Link>
             </div>
             <Nav className="flex-column pt-3 pt-md-0 mt-4">
+              {/* businnes seeker here */}
               {auth?.Auther?.userRole == "User" && (
                 <>
                   <NavItem
