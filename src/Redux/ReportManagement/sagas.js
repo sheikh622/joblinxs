@@ -53,6 +53,7 @@ function* reportBlockSaga({ payload }) {
       })
     );
     yield put(getReportBlockSuccess());
+
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

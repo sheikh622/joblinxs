@@ -180,7 +180,9 @@ const Mainchat = () => {
             >
               {blockedBy ? "Unblock" : "Block"}
             </Dropdown.Item>
+            {blockedBy ? "":(
             <Dropdown.Item onClick={() => setShow(true)}>Report</Dropdown.Item>
+            )}
           </Dropdown.Menu>
         </Dropdown>
       </li>

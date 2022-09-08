@@ -19,6 +19,8 @@ import profile from "../../assets/img/upload.png";
 import AddCategory from "../../components/addCategory";
 import { emergencyJob, getJobListing, jobById, updateJob } from "../../Redux/addJob/actions";
 import { getCategoryList } from "../../Redux/Category/actions";
+import {  getCardDetails } from "../../Redux/settings/actions";
+
 export const GeneralInfoForm = () => {
   const provide = [
     { value: "1", label: "1" },
@@ -41,6 +43,10 @@ export const GeneralInfoForm = () => {
   const activeForm = history?.location?.state
   const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
   const SingleId = useSelector((state) => state?.addJob?.jobById);
+  const login = useSelector((state) => state.auth.Auther);
+  const cardDetail = useSelector(
+    (state) => state?.PushNotification?.cardDetails
+  );
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
   const [hours, setHours] = useState("1");
@@ -191,10 +197,10 @@ export const GeneralInfoForm = () => {
         history: history,
         existImg: SingleId?.image,
         isPost: isPost,
-        setPostJob:setPostJob,
+        setPostJob: setPostJob,
       };
       if (!id) {
-        
+
         dispatch(getJobListing(data));
       } else {
         if (postItem) {
@@ -253,12 +259,21 @@ export const GeneralInfoForm = () => {
     },
     defaultValue: location,
   });
-  const PreventFirstZero=(e)=>{
+  const PreventFirstZero = (e) => {
     if (e.target.value.length == 0 && e.which == "0".charCodeAt(0)) {
       e.preventDefault();
       return false;
-  }}
+    }
+  }
   let str = SingleId?.job_categories?.length > 0 ? SingleId?.job_categories[0]?.category : "false";
+
+
+  useEffect(() => {
+    dispatch(getCardDetails(login?.id));
+  }, []);
+
+
+
   return (
     <>
       <Col className={"d-flex justify-content-center"}>
@@ -553,7 +568,7 @@ export const GeneralInfoForm = () => {
                     // value={CategoryFormik.values.rate}
                     name="rate"
                     label="rate"
-                    onKeyPress={(event)=>PreventFirstZero(event)}
+                    onKeyPress={(event) => PreventFirstZero(event)}
                     onChange={(e) => {
                       CategoryFormik.setFieldValue("rate", e.target.value);
                     }}
@@ -575,7 +590,7 @@ export const GeneralInfoForm = () => {
                     value={CategoryFormik.values.unit}
                     name="unit"
                     label="unit"
-                    onKeyPress={(event)=>PreventFirstZero(event)}
+                    onKeyPress={(event) => PreventFirstZero(event)}
                     onChange={(e) => {
                       CategoryFormik.setFieldValue("unit", e.target.value);
                     }}
