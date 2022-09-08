@@ -218,7 +218,7 @@ const UserManagement = (row, item) => {
               className="text-center cursorPointer"
               name="paymentType"
               {...label}
-              checked={blockUser !== undefined ? blockUser : item?.isActive}
+              checked={blockUser !== undefined ? blockUser : !item?.isActive}
               onChange={(e) => {
                 handleBlock(item?.isActive, index, item?.id)
               }}
