@@ -1,9 +1,10 @@
 import { Card, Col, Container, Form, Row } from "@themesberg/react-bootstrap";
-import React, { useState } from "react";
+import { set } from "date-fns";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import { getONNotification } from "../../Redux/settings/actions";
+import { getONNotification, getUserNotification } from "../../Redux/settings/actions";
 
 const Settings = (props, row) => {
     const label = { inputProps: { "aria-label": "Switch demo" } };
@@ -13,15 +14,31 @@ const Settings = (props, row) => {
         location: { state },
     } = history;
     const login = useSelector((state) => state.auth.Auther);
-    const [blockUser, setBlockUser] = useState(login?.isShowNotification);
-    const handleJobAction = (data) => {
+    const NotificationData = useSelector((state) => state?.PushNotification?.Notification);
+    const [data, setData] = useState();
+    const [blockUser, setBlockUser] = useState();
+    useEffect(()=>{
+    if(NotificationData !== undefined){
+        setData(NotificationData)
+        setBlockUser(NotificationData.NotificationKey)
+    }
+    },[NotificationData])
+    const handleJobAction = (blockUser) => {
+        setBlockUser(!blockUser)
         dispatch(
             getONNotification({
                 userId: login.id,
-                isShowNotification: blockUser,
+                isShowNotification: !blockUser,
             })
         );
     }
+    useEffect(() => {
+        dispatch(
+            getUserNotification({
+                userId: login.id,
+            })
+        );
+    },[]);
     return (
         <>
             <Navbar module={"Settings"} />
@@ -39,10 +56,9 @@ const Settings = (props, row) => {
                                         className="text-center cursorPointer display-inline-block"
                                         name="paymentType"
                                         {...label}
-                                        checked={!blockUser}
+                                        checked={blockUser}
                                         onClick={(e) => {
-                                            handleJobAction();
-                                            setBlockUser(!blockUser)
+                                            handleJobAction(blockUser);
                                         }}
                                     />
                                 </Card.Title>

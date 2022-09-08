@@ -19,6 +19,8 @@ import profile from "../../assets/img/upload.png";
 import AddCategory from "../../components/addCategory";
 import { emergencyJob, getJobListing, jobById, updateJob } from "../../Redux/addJob/actions";
 import { getCategoryList } from "../../Redux/Category/actions";
+import {  getCardDetails } from "../../Redux/settings/actions";
+
 export const GeneralInfoForm = () => {
   const provide = [
     { value: "1", label: "1" },
@@ -41,6 +43,10 @@ export const GeneralInfoForm = () => {
   const activeForm = history?.location?.state
   const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
   const SingleId = useSelector((state) => state?.addJob?.jobById);
+  const login = useSelector((state) => state.auth.Auther);
+  const cardDetail = useSelector(
+    (state) => state?.PushNotification?.cardDetails
+  );
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
   const [hours, setHours] = useState("1");
@@ -260,6 +266,13 @@ export const GeneralInfoForm = () => {
     }
   }
   let str = SingleId?.job_categories?.length > 0 ? SingleId?.job_categories[0]?.category : "false";
+
+
+  useEffect(() => {
+    dispatch(getCardDetails(login?.id));
+  }, []);
+
+
 
   return (
     <>
