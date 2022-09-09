@@ -3,6 +3,7 @@ import { all, fork, put, select, takeLatest } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
+import {logoutRequest} from "../auth/actions";
 import {
   getCategoryJobSuccess,
   getJobListing,
@@ -32,6 +33,9 @@ function* getJobList({ payload }) {
     yield put(getJobListingSuccess(response.data.data));
     payload.setLoader(false);
   } catch (error) {
+    if(error.response.status == 401){
+      yield put(logoutRequest());
+    }
     yield sagaErrorHandler(error.response);
   }
 }

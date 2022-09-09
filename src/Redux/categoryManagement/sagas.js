@@ -3,6 +3,7 @@ import { all, fork, put, select, takeLatest } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
+import {logoutRequest} from "../auth/actions";
 import {
   getCategoryListing,
   getCategoryListingSuccess,
@@ -25,6 +26,9 @@ function* getcategory({ payload }) {
     payload.setLoader(false);
     yield put(getCategoryListingSuccess(response.data.data));
   } catch (error) {
+    if(error.response.status == 401){
+      yield put(logoutRequest());
+    }
     yield sagaErrorHandler(error.response);
   }
 }

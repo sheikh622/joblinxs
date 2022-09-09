@@ -2,6 +2,7 @@ import { all, fork, put, select, takeLatest } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
+import {logoutRequest} from "../auth/actions";
 import { getSeekerListingSuccess,newArrivalSuccess ,topRatedSuccess,getCategoryListingSuccess,getJobFilterSuccess} from "./actions";
 import { GET_SEEKER_LISTING,NEW_ARRIVAL,TOP_RATED,GET_CATEGORY,GET_JOB_FILTER } from "./constants";
 function* getSeekerList({ payload }) {
@@ -18,6 +19,9 @@ function* getSeekerList({ payload }) {
     yield put(getSeekerListingSuccess(response.data.data));
     payload.setLoader(false);
   } catch (error) {
+    if(error.response.status == 401){
+      yield put(logoutRequest());
+    }
     yield sagaErrorHandler(error.response);
   }
 }
@@ -39,6 +43,9 @@ function* newArrivalSaga({ payload }) {
     yield put(newArrivalSuccess(response.data.data));
     payload.setLoader(false);
   } catch (error) {
+    if(error.response.status == 401){
+      yield put(logoutRequest());
+    }
     yield sagaErrorHandler(error.response);
   }
 }
@@ -60,6 +67,9 @@ function* topRatedSaga({ payload }) {
     yield put(topRatedSuccess(response.data.data));
     payload.setLoader(false);
   } catch (error) {
+    if(error.response.status == 401){
+      yield put(logoutRequest());
+    }
     yield sagaErrorHandler(error.response);
   }
 }
@@ -80,6 +90,9 @@ function* getCategorySaga({ payload }) {
     yield put(getCategoryListingSuccess(response.data.data));
     payload.setLoader(false);
   } catch (error) {
+    if(error.response.status == 401){
+      yield put(logoutRequest());
+    }
     yield sagaErrorHandler(error.response);
   }
 }
@@ -101,6 +114,9 @@ function* getFilterSaga({ payload }) {
     yield put(getJobFilterSuccess(response.data.data));
     payload.setLoader(false);
   } catch (error) {
+    if(error.response.status == 401){
+      yield put(logoutRequest());
+    }
     yield sagaErrorHandler(error.response);
   }
 }
