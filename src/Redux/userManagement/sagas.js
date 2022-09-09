@@ -58,6 +58,7 @@ function* userBlockSaga({ payload }) {
         type: payload.type,
         search: payload.search,
         status: payload.status,
+        setLoader :payload.setLoader,
       })
     );
     yield put(getUserBlockSuccess());
@@ -84,6 +85,8 @@ function* userProfileSaga({ payload }) {
         limit: payload.limit,
         type: payload.type,
         search: payload.search,
+        status: payload.status,
+        setLoader :payload.setLoader,
       })
     );
   } catch (error) {
