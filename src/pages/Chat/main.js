@@ -74,6 +74,7 @@ const Mainchat = () => {
         blockedTo: selectedUser,
         blockedBy: currentUser?.id,
         setBlockUserSaga: setBlockUserSaga,
+        setBlockedBy:setBlockedBy
       })
     );
   };
@@ -83,6 +84,7 @@ const Mainchat = () => {
         blockedTo: selectedUser,
         blockedBy: currentUser?.id,
         setBlockUserSaga: setBlockUserSaga,
+        setBlockedBy:setBlockedBy
       })
     );
   };
@@ -355,7 +357,7 @@ const Mainchat = () => {
           </Row>
         </Col>
       </Row>
-      <Report show={show} setShow={setShow} id={userId}/>
+      <Report show={show} setShow={setShow} id={userId} setBlockedBy={setBlockedBy} blockedBy={blockedBy}/>
       <Modal
         as={Modal.Dialog}
         centered

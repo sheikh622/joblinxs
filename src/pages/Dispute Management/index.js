@@ -21,7 +21,6 @@ const   DisputeManagement = (item) => {
     const history = useHistory();
     // const ReportList = useSelector((state) => state.ReportListing?.Reports);
     const DisputeList = useSelector((state) => state.DisputeListing?.Reports?.disputedJobListing);
-    console.log("DisputeList",DisputeList)
     const [page, setPage] = useState(1);
     const [limit] = useState("10");
     const [loader, setLoader] = useState(true);
