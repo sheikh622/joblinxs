@@ -115,7 +115,7 @@ const JobManagement = (row) => {
       })
     );
   },
-    [page, limit, type, search, categoryType]
+    [page, limit, type, search, categoryType,]
   );
   const [JobProfile, setJobProfile] = useState(row.isApproved);
   useEffect(() => {

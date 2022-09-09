@@ -101,6 +101,7 @@ const UserManagement = (row, item) => {
         search: search,
         data: userList,
         status: status,
+        setLoader: setLoader,
       })
     );
   };

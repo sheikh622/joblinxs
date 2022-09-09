@@ -3,6 +3,7 @@ import { all, fork, put, select, takeLatest } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
+import {logoutRequest} from "../auth/actions";
 import {
   getCategoryJobSuccess,
   getJobListing,
@@ -29,9 +30,12 @@ function* getJobList({ payload }) {
         },
       }
     );
-    payload.setLoader(false);
     yield put(getJobListingSuccess(response.data.data));
+    payload.setLoader(false);
   } catch (error) {
+    if(error.response.status == 401){
+      yield put(logoutRequest());
+    }
     yield sagaErrorHandler(error.response);
   }
 }
@@ -78,6 +82,7 @@ function* changeJobStatusSaga({ payload }) {
       },
     });
     toast.success(CapitalizeFirstLetter(response.data.message));
+    // yield put(getJobListingSuccess(response.data.data));
     yield put(
       getJobListing({
         page: payload.page,
@@ -85,9 +90,9 @@ function* changeJobStatusSaga({ payload }) {
         type: payload.type,
         search: payload.search,
         category: payload.category,
+        setLoader :payload.setLoader,
       })
     );
-    yield put(getJobListingSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
