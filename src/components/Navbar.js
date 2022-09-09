@@ -60,7 +60,6 @@ export default (props) => {
     if (heightBound > window.scrollY) {
     }
   };
-  console.log("window?.location?.pathname", window?.location?.pathname)
   const handleRedirection = (jobs, users, title) => {
     if (title === "provider appply for job" || title === "provider confirm the job") {
       history.push(`/Applicants/${jobs.id}`);
@@ -130,59 +129,60 @@ export default (props) => {
   };
   return (
     <Navbar variant="dark" expanded className="mb-3">
-      <Container>
-        <div className="d-flex justify-content-between w-100">
-          <div className="d-flex align-items-center">
-            <h2>{props?.module}</h2>
-          </div>
-          {auth?.Auther?.userRole != "Admin" && (
-            <Nav className="align-items-center" onScroll={handleScroll}>
 
-              {window?.location?.pathname !== "/privacy-public" && window?.location?.pathname !== "/terms-public" && (
-                <Dropdown as={Nav.Item}>
-                  <Dropdown.Toggle
-                    as={Nav.Link}
-                    className="text-primary icon-notifications me-lg-3"
-                  >
-                    <span className="icon icon-sm" onClick={notificationList}>
-                      <FontAwesomeIcon icon={faBell} className="bell-shake" />
-                      {notification?.length > 0 && (
-                        <span className="icon-badge rounded-circle unread-notifications" />
-                      )}
-                    </span>
-                  </Dropdown.Toggle>
+      <div className="d-flex justify-content-between w-100">
+        <div className="d-flex align-items-center">
+          <h2>{props?.module}</h2>
+        </div>
+        {auth?.Auther?.userRole != "Admin" && (
+          <Nav className="align-items-center" onScroll={handleScroll}>
 
-                  <Dropdown.Menu className="dashboard-dropdown notifications-dropdown dropdown-menu-lg dropdown-menu-center mt-2 py-0">
-                    <ListGroup className="list-group-flush notification-list">
-                      <Nav.Link
-                        href="#"
-                        className="text-center text-primary fw-bold border-bottom border-light py-3"
-                      >
-                        Notifications
-                      </Nav.Link>
-                      {loader ? (
-                        <Spinner />
-                      ) : (
-                        <>
-                          {notification?.map((n) => (
-                            <Notification key={`notification-${n.id}`} {...n} />
-                          ))}
-                        </>
-                      )
-                      }
+            {window?.location?.pathname !== "/privacy-public" && window?.location?.pathname !== "/terms-public" && (
+              <Dropdown as={Nav.Item}>
+                <Dropdown.Toggle
+                  as={Nav.Link}
+                  className="text-primary icon-notifications me-lg-3"
 
-                      {/* <Dropdown.Item className="text-center text-primary fw-bold py-3">
+                >
+                  <span className="icon icon-sm" onClick={notificationList}>
+                    <FontAwesomeIcon icon={faBell} className="bell-shake" />
+                    {notification?.length > 0 && (
+                      <span className="icon-badge rounded-circle unread-notifications" />
+                    )}
+                  </span>
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu className="dashboard-dropdown notifications-dropdown dropdown-menu-lg dropdown-menu-center mt-2 py-0">
+                  <ListGroup className="list-group-flush notification-list">
+                    <Nav.Link
+                      href="#"
+                      className="text-center text-primary fw-bold border-bottom border-light py-3"
+                    >
+                      Notifications
+                    </Nav.Link>
+                    {loader ? (
+                      <Spinner />
+                    ) : (
+                      <>
+                        {notification?.map((n) => (
+                          <Notification key={`notification-${n.id}`} {...n} />
+                        ))}
+                      </>
+                    )
+                    }
+
+                    {/* <Dropdown.Item className="text-center text-primary fw-bold py-3">
                         View all
                       </Dropdown.Item> */}
-                    </ListGroup>
-                  </Dropdown.Menu>
+                  </ListGroup>
+                </Dropdown.Menu>
 
-                </Dropdown>
-              ) }
-            </Nav>
-          )}
-        </div>
-      </Container>
+              </Dropdown>
+            )}
+          </Nav>
+        )}
+      </div>
+
     </Navbar>
   );
 };

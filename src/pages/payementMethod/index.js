@@ -87,37 +87,37 @@ const Payment = () => {
                 <tbody>
                   <tr>
                     <td>
-                      <span className="fw-normal">
+                      <span className="fw-normal ">
                         {cardDetail?.brand == "Visa" && (
                           <>
-                            <img src={Visa} alt="" width="25px" />
+                            <img src={Visa} alt="" width="25px" className="mx-2" />
                           </>
                         )}
                         {cardDetail?.brand == "American Express" && (
                           <>
-                            <img src={American} alt="" width="25px" />
+                            <img src={American} alt="" width="25px" className="mx-2" />
                           </>
                         )}
                         {cardDetail?.brand == "Diners Club" && (
                           <>
-                            <img src={Club} alt="" width="25px" />
+                            <img src={Club} alt="" width="25px" className="mx-2" />
                           </>
                         )}
                         {cardDetail?.brand == "MasterCard" && (
                           <>
-                            <img src={MasterCard} alt=""width="25px" />
+                            <img src={MasterCard} alt=""width="25px" className="mx-2" />
                           </>
                         )}
                         {cardDetail?.brand}</span>
                     </td>
                     <td>
                       <span className="fw-normal">
-                        {`****-****-${cardDetail?.last4}`}
+                        {`****-****-${cardDetail?.last4 !==undefined ? cardDetail?.last4 :"N/A"}`}
                       </span>
                     </td>
                     <td>
                       <span className="fw-normal">
-                        {`${cardDetail?.exp_month}/${cardDetail?.exp_year}`}
+                        {`${cardDetail?.exp_month !==undefined ? cardDetail?.exp_year : "-"}${cardDetail?.exp_year !==undefined ? cardDetail?.exp_year : "N/A"}`}
                       </span>
                     </td>
                   </tr>

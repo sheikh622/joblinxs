@@ -34,7 +34,7 @@ const CommonCard = (props) => {
             
               <div className="icon-div">
               <Link className="fw-bold" to={`/detailJob/${props.id}`}>
-              <span className="listedName">{props.name}</span>
+              <span className="">{props.name}</span>
                 </Link>
               {!props.myJobs && (
             <span>
