@@ -34,7 +34,6 @@ const ProviderProfile = (props) => {
 
   const params = useLocation();
   let profileId = params.pathname.split("/")[2];
-  console.log("Review", Reviews)
 
   useEffect(() => {
     dispatch(

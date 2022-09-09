@@ -23,8 +23,6 @@ const AddCard = ({addCard, setAddCard, onHide}) => {
 
     return (
         <>
-
-
             <Modal as={Modal.Dialog} centered show={addCard} >
                 <Modal.Header>
                     <Modal.Title className="h5">

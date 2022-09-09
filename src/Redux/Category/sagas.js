@@ -61,9 +61,9 @@ function* getcategory({ payload }) {
         },
       });
     }
-    payload.setLoader(false);
-    // toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getCategoryListSuccess(response.data.data));
+    payload.setLoader(false);
+
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

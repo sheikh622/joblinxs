@@ -53,7 +53,6 @@ const UserManagement = (row, item) => {
       setDataList(userList?.users);
     }
   }, [userList]);
-
   const addUsers = () => {
     setShowDefault(true);
   }

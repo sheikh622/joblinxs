@@ -117,6 +117,11 @@ const ReportManagement = (item) => {
                 </td>
                 <td style={{ paddingLeft: "16px" }}>
                     <span className="fw-normal">
+                        {item?.report?.details ? item?.report?.details : "N/A"}
+                    </span>
+                </td>
+                <td style={{ paddingLeft: "16px" }}>
+                    <span className="fw-normal">
                         {item?.reportedTo?.fullName ? item?.reportedTo?.fullName : " N/A"}
                     </span>
                 </td>
@@ -156,6 +161,7 @@ const ReportManagement = (item) => {
                                                 <th className="border-bottom">Report By</th>
                                                 <th className="border-bottom">Description</th>
                                                 <th className="border-bottom">Email</th>
+                                                <th className="border-bottom">Reason</th>
                                                 <th className="border-bottom">Report To</th>
                                                 <th className="border-bottom ">Unblock / Block</th>
                                             </tr>

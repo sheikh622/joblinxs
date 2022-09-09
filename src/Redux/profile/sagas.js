@@ -72,7 +72,10 @@ function* BlockUserSaga({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     });
-    toast.success(response.data.message);
+    if(payload.isreported){
+      toast.success(response.data.message);
+    }
+    payload.setBlockedBy(true)
     yield put(
       getList(payload.blockedBy));
     payload.setBlockUserSaga(false);
@@ -96,6 +99,7 @@ function* UnblockUserSaga({ payload }) {
       },
     });
     toast.success(response.data.message);
+    payload.setBlockedBy(null)
     yield put(
       getList(payload.blockedBy));
     payload.setBlockUserSaga(false);
@@ -127,6 +131,8 @@ function* reportedSaga({ payload }) {
     let blockedData = {
       blockedTo: payload.reportedTo,
       blockedBy: payload.reportedBy,
+      setBlockedBy:payload.setBlockedBy,
+      isreported: false
     };
     let data = {
       reportedTo: payload.reportedTo,
@@ -134,7 +140,6 @@ function* reportedSaga({ payload }) {
       description: payload.description,
       reportId: payload.reportId,
     };
-    console.log("payload.reportId",payload.reportId)
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.post(`reported-user/reports`, data, {
       headers: {

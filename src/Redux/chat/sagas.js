@@ -55,7 +55,6 @@ function* watchSendMEssages() {
 }
 
 function* customOfferSaga({ payload }) {
-  console.log(payload,"isAcceptedisAccepted")
   let data ={
     jobId:payload.jobId ?payload.jobId :"",
     userId: payload.userId,
