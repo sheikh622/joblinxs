@@ -51,7 +51,6 @@ export default () => {
     setRating(rate);
   };
   const handleSubmit = () => {
-    console.log('Your button was clicked and is now disabled');
     setDisabled(true);
   }
   return (

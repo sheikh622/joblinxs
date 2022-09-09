@@ -54,7 +54,6 @@ const DashboardOverview = () => {
   };
 
   const paginationItems = () => {
-    console.log(newArrivalData);
     let items = [];
     for (let number = 1; number <= newArrivalData?.pages; number++) {
       items.push(
