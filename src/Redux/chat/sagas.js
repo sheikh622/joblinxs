@@ -2,6 +2,7 @@ import { all, fork, put, select, takeLatest } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
+import {logoutRequest} from "../auth/actions";
 import {
   getListSuccess,
   getList,
@@ -26,6 +27,9 @@ function* getListById({ payload }) {
     );
     yield put(getListSuccess(response.data.data));
   } catch (error) {
+    if(error.response.status == 401){
+      yield put(logoutRequest());
+    }
     yield sagaErrorHandler(error.response);
   }
 }
@@ -47,6 +51,9 @@ function* getSendMessages({ payload }) {
     yield put(getList(payload.data.senderId));
    yield put(sendMessage(payload.message, payload.users, payload.currentUser, payload.customKey))
   } catch (error) {
+    if(error.response.status == 401){
+      yield put(logoutRequest());
+    }
     yield sagaErrorHandler(error.response);
   }
 }

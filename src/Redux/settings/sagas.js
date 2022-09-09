@@ -3,6 +3,7 @@ import { all, fork, put, select, takeLatest } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
+import {logoutRequest} from "../auth/actions";
 import {
   getUserNotificationSuccess,
   getONNotification,
@@ -32,6 +33,9 @@ function* NotificationSaga({ payload }) {
     });
     yield put(getUserNotificationSuccess(response.data));
   } catch (error) {
+    if(error.response.status == 401){
+      yield put(logoutRequest());
+    }
     yield sagaErrorHandler(error.response);
   }
 }
@@ -93,6 +97,9 @@ function* getCardSaga({ payload }) {
     });
     yield put(getCardDetailsSuccess(response.data.data));
   } catch (error) {
+    if(error.response.status == 401){
+      yield put(logoutRequest());
+    }
     yield sagaErrorHandler(error.response);
   }
 }
