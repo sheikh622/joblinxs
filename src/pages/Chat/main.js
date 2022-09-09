@@ -357,7 +357,7 @@ const Mainchat = () => {
           </Row>
         </Col>
       </Row>
-      <Report show={show} setShow={setShow} id={userId} setBlockedBy={setBlockedBy} blockedBy={blockedBy}/>
+      <Report show={show} setShow={setShow} id={userId}/>
       <Modal
         as={Modal.Dialog}
         centered
