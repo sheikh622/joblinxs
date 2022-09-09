@@ -46,14 +46,13 @@ function* reportBlockSaga({ payload }) {
       }
     );
     toast.success(CapitalizeFirstLetter(response.data.message));
+    yield put(getReportBlockSuccess());
     yield put(
       getReportList({
         page: payload.page,
         limit: payload.limit,
       })
     );
-    yield put(getReportBlockSuccess());
-
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -64,8 +63,6 @@ function* watchGetReport() {
 function* watchReportBlock() {
   yield takeLatest(GET_REPORT_BLOCK, reportBlockSaga);
 }
-
-
 export default function* ReportSaga() {
   yield all([fork(watchGetReport)]);
   yield all([fork(watchReportBlock)]);
