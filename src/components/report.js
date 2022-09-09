@@ -23,7 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import * as Yup from "yup";
 import { reportUserList, reportedUser } from "../Redux/profile/actions";
-const Report = ({ item, setShow, show, id, setBlockedBy }) => {
+const Report = ({ item, setShow, show, id }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [search, setSearch] = useState("");
@@ -76,7 +76,6 @@ const Report = ({ item, setShow, show, id, setBlockedBy }) => {
           ? CategoryFormik?.values?.description
           : "",
         reportId: selectedCategory ? selectedCategory : "",
-        setBlockedBy:setBlockedBy
       })
     );
     handleClose();
