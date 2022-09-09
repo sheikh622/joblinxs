@@ -21,7 +21,6 @@ export const fetchToken = (setTokenFound,setToken) => {
     if (currentToken) {
       setTokenFound(true);
       setToken(currentToken)
-      console.log(currentToken,  "currentToken err here")
       // Track the token -> client mapping, by sending to backend server
       // show on the UI that permission is secured
     } else {
@@ -29,7 +28,6 @@ export const fetchToken = (setTokenFound,setToken) => {
       // shows on the UI that permission is required 
     }
   }).catch((err) => {
-    console.log(err,  "firebase err here")
     // catch error while creating client token
   });
 }
