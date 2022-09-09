@@ -39,7 +39,6 @@ const LoginPage = () => {
 
     tokenFunc();
   }, [setTokenFound]);
-  console.log(token, "here is token")
   const history = useHistory();
   const {
     location: { state },
