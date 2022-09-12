@@ -31,7 +31,7 @@ function* DisputeListRequest({ payload }) {
     payload.setLoader(false);
     yield put(getDisputeListSuccess(response.data.data));
   } catch (error) {
-    if(error.response.status == 401){
+    if(error?.response?.status == 401){
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);

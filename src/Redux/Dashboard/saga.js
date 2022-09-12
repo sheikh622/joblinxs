@@ -19,7 +19,7 @@ function* getSeekerList({ payload }) {
     yield put(getSeekerListingSuccess(response.data.data));
     payload.setLoader(false);
   } catch (error) {
-    if(error.response.status == 401){
+    if(error?.response?.status == 401){
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);
@@ -43,7 +43,7 @@ function* newArrivalSaga({ payload }) {
     yield put(newArrivalSuccess(response.data.data));
     payload.setLoader(false);
   } catch (error) {
-    if(error.response.status == 401){
+    if(error?.response?.status == 401){
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);
@@ -67,7 +67,7 @@ function* topRatedSaga({ payload }) {
     yield put(topRatedSuccess(response.data.data));
     payload.setLoader(false);
   } catch (error) {
-    if(error.response.status == 401){
+    if(error?.response?.status == 401){
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);
@@ -90,7 +90,7 @@ function* getCategorySaga({ payload }) {
     yield put(getCategoryListingSuccess(response.data.data));
     payload.setLoader(false);
   } catch (error) {
-    if(error.response.status == 401){
+    if(error?.response?.status == 401){
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);
@@ -114,7 +114,7 @@ function* getFilterSaga({ payload }) {
     yield put(getJobFilterSuccess(response.data.data));
     payload.setLoader(false);
   } catch (error) {
-    if(error.response.status == 401){
+    if(error?.response?.status == 401){
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);

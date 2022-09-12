@@ -33,7 +33,7 @@ function* getJobList({ payload }) {
     yield put(getJobListingSuccess(response.data.data));
     payload.setLoader(false);
   } catch (error) {
-    if(error.response.status == 401){
+    if(error?.response?.status == 401){
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);

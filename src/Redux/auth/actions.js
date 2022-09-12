@@ -1,7 +1,8 @@
 import {
   FORGOT_PASSWORD, LOGIN,
   LOGIN_SUCCESS, LOGOUT, RESET_PASSWORD, RESET_PASSWORD_SUCCESS, SET_LOADER,
-  UPDATE_PASSWORD_SUCCESS,UPDATE_PASSWORD,ADMIN_UPDATED_SUCCESS
+  UPDATE_PASSWORD_SUCCESS,UPDATE_PASSWORD,ADMIN_UPDATED_SUCCESS,LOGIN_FACEBOOK_SUCCESS,LOGIN_FACEBOOK,
+  LOGIN_GOOGLE_SUCCESS,LOGIN_GOOGLE
 } from "./constants";
   
   export const logoutRequest = () => ({
@@ -57,6 +58,30 @@ import {
   export const adminUpdatedSuccess = (data) => {
     return {
       type: ADMIN_UPDATED_SUCCESS,
+      payload: data
+    };
+  };
+  export const facebookLogin = (data) => {
+    return {
+      type: LOGIN_FACEBOOK,
+      payload: data
+    };
+  };
+  export const facebookLoginSuccess = (data) => {
+    return {
+      type: LOGIN_FACEBOOK_SUCCESS,
+      payload: data
+    };
+  };
+  export const googleLogin = (data) => {
+    return {
+      type: LOGIN_GOOGLE,
+      payload: data
+    };
+  };
+  export const googleLoginSuccess = (data) => {
+    return {
+      type: LOGIN_GOOGLE_SUCCESS,
       payload: data
     };
   };

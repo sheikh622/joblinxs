@@ -17,9 +17,13 @@ import { Link, useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import BgImage from "../../assets/img/illustrations/signin.svg";
 import { fetchToken } from "../../firebase";
-import { loginRequest } from "../../Redux/auth/actions";
+import { loginRequest, facebookLogin, googleLogin } from "../../Redux/auth/actions";
 import { Routes } from "../../routes";
 import { eyeIcon } from "../../assets/img/eyeON.svg";
+import { GoogleLogin } from "@react-oauth/google";
+// import { useGoogleLogin } from '@react-oauth/google';
+import FacebookLogin from "react-facebook-login";
+
 const LoginPage = () => {
   const [isTokenFound, setTokenFound] = useState(false);
   const [token, setToken] = useState("");
@@ -71,6 +75,22 @@ const LoginPage = () => {
       );
     },
   });
+  const responseFacebook = (response) => {
+    let facebookId = response.id;
+    let firstName = response.firstName;
+    let lastName = response.lastName;
+    let email = response.email;
+    console.log(facebookId, "====facebookId===========")
+    dispatch(
+      facebookLogin({
+        facebookId: facebookId,
+        firstName: firstName,
+        email:email,
+        lastName:lastName,
+      })
+    )
+    console.log(response, "here is response");
+  };
   return (
     <main>
       <section className="d-flex align-items-center mt-5 mb-2">
@@ -188,6 +208,40 @@ const LoginPage = () => {
                     <FontAwesomeIcon icon={faGoogle} />
                   </Button>
                 </div>
+                {/* <div
+                //  className={`col-lg-12
+                //   // ${styles.socialLogin}`
+                // }
+                 >
+                  <GoogleLogin
+                    width="368px"
+                    height="450px"
+                    context="Google"
+                    text="Google"
+                    buttonText="Google"
+                    onSuccess={(credentialResponse) => {
+                      console.log(credentialResponse, "==================credentialResponse==========")
+                      dispatch(
+                        googleLogin({
+                          idToken: credentialResponse.credential,
+                        })
+                      );
+                    }}
+                    onError={() => {                               
+                      console.log("Login Failed");
+                    }}
+                  />
+                  <FacebookLogin
+                    appId="652637439522601"
+                    autoLoad={false}
+                    textButton="Facebook"
+                    icon="fa-facebook"
+                    // cssClass={styles.butonfacebook}
+                    fields="name,email,picture"
+                    onClick={responseFacebook}
+                    callback={responseFacebook}
+                  />
+                </div> */}
               </div>
             </Col>
             {/* </>
