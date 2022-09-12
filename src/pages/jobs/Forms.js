@@ -17,7 +17,7 @@ import Select from "react-select";
 import * as Yup from "yup";
 import profile from "../../assets/img/upload.png";
 import AddCategory from "../../components/addCategory";
-import { emergencyJob, getJobListing, jobById, updateJob } from "../../Redux/addJob/actions";
+import { emergencyJob, addFormJob, jobById, updateJob } from "../../Redux/addJob/actions";
 import { getCategoryList } from "../../Redux/Category/actions";
 
 export const GeneralInfoForm = () => {
@@ -198,13 +198,13 @@ export const GeneralInfoForm = () => {
       };
       if (!id) {
 
-        dispatch(getJobListing(data));
+        dispatch(addFormJob(data));
       } else {
         if (postItem) {
           if (isPost) {
             setShowDefaultEmergency(true);
 
-            dispatch(getJobListing(data));
+            dispatch(addFormJob(data));
           } else {
 
             dispatch(emergencyJob({
@@ -262,7 +262,7 @@ export const GeneralInfoForm = () => {
       return false;
     }
   }
- 
+ console.log(SingleId)
   return (
     <>
       <Col className={"d-flex justify-content-center"}>
@@ -716,8 +716,10 @@ export const GeneralInfoForm = () => {
                   variant="primary"
                   type="submit"
                   onClick={() => {
-                    setShowDefaultEmergency(true);
-                    // setIsPost(true)
+                    // setShowDefaultEmergency(true);
+                    setIsPost(true)
+                    // setPostJob(false);
+                    // setPostItem(true);
                   }}
                 >
                   Repost Job
@@ -729,7 +731,7 @@ export const GeneralInfoForm = () => {
       </Card>
 
       {/* Modal */}
-      <Modal
+      {/* <Modal
         as={Modal.Dialog}
         centered
         show={showDefaultEmergency}
@@ -755,9 +757,9 @@ export const GeneralInfoForm = () => {
                   variant="primary"
                   type="submit"
                   onClick={() => {
-                    setPostItem(true);
+                    
                     CategoryFormik.handleSubmit();
-                    setPostJob(false);
+                   
                   }}
                   className="mx-2"
                 >
@@ -767,7 +769,7 @@ export const GeneralInfoForm = () => {
             </Form.Group>
           </Form>
         </Modal.Body>
-      </Modal>
+      </Modal> */}
 
       {/* Congratulations Modal */}
       <Modal

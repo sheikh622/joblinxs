@@ -44,7 +44,7 @@ function* addCategoryRequest({ payload }) {
     );
     payload.setLoader(false);
   } catch (error) {
-    if(error.response.status == 401){
+    if(error?.response?.status == 401){
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);
@@ -81,7 +81,7 @@ function* getcategory({ payload }) {
     yield put(getBusinessCategoryListSuccess(finalResponse));
     payload.setLoader(false);
   } catch (error) {
-    if(error.response.status == 401){
+    if(error?.response?.status == 401){
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);
@@ -105,7 +105,7 @@ function* saveCategorySaga({ payload }) {
     yield put(saveCategorySuccess(response.data.data));
     payload.setLoader(false);
   } catch (error) {
-    if(error.response.status == 401){
+    if(error?.response?.status == 401){
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);

@@ -112,12 +112,12 @@ const Payment = () => {
                     </td>
                     <td>
                       <span className="fw-normal">
-                        {`****-****-${cardDetail?.last4 !==undefined ? cardDetail?.last4 :"N/A"}`}
+                        {`****-****-${cardDetail?.last4 !==undefined ? cardDetail?.last4 :"********"}`}
                       </span>
                     </td>
                     <td>
                       <span className="fw-normal">
-                        {`${cardDetail?.exp_month !==undefined ? cardDetail?.exp_year : "-"}${cardDetail?.exp_year !==undefined ? cardDetail?.exp_year : "N/A"}`}
+                        {`${cardDetail?.exp_month !==undefined ? cardDetail?.exp_year : "****"}${cardDetail?.exp_year !==undefined ? cardDetail?.exp_year : "****"}`}
                       </span>
                     </td>
                   </tr>

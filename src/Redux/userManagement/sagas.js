@@ -36,7 +36,7 @@ function* userListRequest({ payload }) {
     payload.setLoader(false);
     yield put(getUsersListSuccess(response.data.data));
   } catch (error) {
-    if(error.response.status == 401){
+    if(error?.response?.status == 401){
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);
@@ -67,7 +67,7 @@ function* userBlockSaga({ payload }) {
     );
     yield put(getUserBlockSuccess());
   } catch (error) {
-    if(error.response.status == 401){
+    if(error?.response?.status == 401){
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);
@@ -97,7 +97,7 @@ function* userProfileSaga({ payload }) {
       })
     );
   } catch (error) {
-    if(error.response.status == 401){
+    if(error?.response?.status == 401){
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);
@@ -125,7 +125,7 @@ function* deleteUserSaga({ payload }) {
     );
     yield put(getUsersListSuccess(response.data.data));
   } catch (error) {
-    if(error.response.status == 401){
+    if(error?.response?.status == 401){
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);

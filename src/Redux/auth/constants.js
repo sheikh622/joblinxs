@@ -8,3 +8,7 @@ export const SET_LOADER ="set_loader";
 export const UPDATE_PASSWORD = 'update_password';
 export const UPDATE_PASSWORD_SUCCESS = 'update_password_success';
 export const ADMIN_UPDATED_SUCCESS = 'Amin_Updated_Success';
+export const LOGIN_FACEBOOK = 'LOGIN_FACEBOOK';
+export const LOGIN_FACEBOOK_SUCCESS = 'LOGIN_FACEBOOK_success';
+export const LOGIN_GOOGLE = 'LOGIN_GOOGLE';
+export const LOGIN_GOOGLE_SUCCESS = 'LOGIN_GOOGLE_success';

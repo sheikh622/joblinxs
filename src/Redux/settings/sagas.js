@@ -33,7 +33,7 @@ function* NotificationSaga({ payload }) {
     });
     yield put(getUserNotificationSuccess(response.data));
   } catch (error) {
-    if(error.response.status == 401){
+    if(error?.response?.status == 401){
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);
@@ -97,7 +97,7 @@ function* getCardSaga({ payload }) {
     });
     yield put(getCardDetailsSuccess(response.data.data));
   } catch (error) {
-    if(error.response.status == 401){
+    if(error?.response?.status == 401){
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);

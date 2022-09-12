@@ -8,12 +8,16 @@ import {
   loginRequestSuccess,
   resetPasswordSuccess,
   updatetPasswordSuccess,
+  facebookLoginSuccess,
+  googleLoginSuccess
 } from "./actions";
 import {
   FORGOT_PASSWORD,
   LOGIN,
   RESET_PASSWORD,
   UPDATE_PASSWORD,
+  LOGIN_FACEBOOK,
+  LOGIN_GOOGLE
 } from "./constants";
 
 function* loginRequestSaga({ payload }) {
@@ -111,11 +115,74 @@ function* watchUpdatePassword() {
   yield takeLatest(UPDATE_PASSWORD, updatePasswordSaga);
 }
 
+
+function* LoginFacebookSaga({ payload }) {
+  const token = yield select(makeSelectAuthToken());
+  let data = {
+    email: payload.email,
+    facebookId: payload.facebookId,
+    firstName: payload.firstName,
+    lastName: payload.lastName,
+  };
+  try {
+    const response = yield axios.post(`facebook-authentication`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    toast.success(response.data.message);
+    payload.setLoader(false);
+
+    yield put(facebookLoginSuccess(response.data.data));
+   
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+
+function* watchFacebookLogin() {
+  yield takeLatest(LOGIN_FACEBOOK, LoginFacebookSaga);
+}
+
+function* LogingoogleSaga({ payload }) {
+  const token = yield select(makeSelectAuthToken());
+  let data = {
+    email: payload.email,
+    displayName: payload.displayName,
+    emailVerified: payload.emailVerified,
+    phoneNumber: payload.phoneNumber,
+    uid: payload.uid,
+
+  };
+  try {
+    const response = yield axios.post(`google-authentication`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    toast.success(response.data.message);
+    payload.setLoader(false);
+
+    yield put(googleLoginSuccess(response.data.data));
+   
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+
+function* watchGoogleLogin() {
+  yield takeLatest(LOGIN_GOOGLE, LogingoogleSaga);
+}
 export default function* AuthSaga() {
   yield all([
     fork(watchLogin),
     fork(watchForget),
     fork(watchReset),
     fork(watchUpdatePassword),
+    fork(watchFacebookLogin),
+    fork(watchGoogleLogin),
+
   ]);
 }

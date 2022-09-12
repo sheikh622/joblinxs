@@ -1,51 +1,52 @@
 import {
-    ADD_JOB,
-    ADD_JOB_SUCCESS,
-    GET_JOB_SUCCESS,
-    GET_JOB,
-    FAVOURITE_JOB_LIST_SUCCESS,
-    FAVOURITE_JOB_LIST,
-    DELETE_ADD_JOB,
-    MARK_AS_FAVOURITE_JOB,
-    JOB_BY_ID,
-    JOB_BY_ID_SUCCESS,
-    UPDATE_JOB_SUCCESS,
-    UPDATE_JOB,
-    GET_JOB_APPLICANTS,
-    GET_JOB_APPLICANTS_SUCCESS,
-    CONFIRM_APPLICANTS,
-    CONFIRM_APPLICANTS_SUCCESS,
-    GET_LOG_HOURS_SUCCESS,
-    GET_LOG_HOURS,
-    APPROVED_LOG_HOURS,
-    APPROVED_LOG_HOURS_SUCCESS,
-    GET_SINGLE_USER,
-    GET_SINGLE_USER_SUCCESS,
-    EMERGENCY_JOB,
-    RATE_PROVIDER,
-    GET_HIRED_APPLICANTS,
-    GET_HIRED_APPLICANTS_SUCCESS,
-    COMPLETE_JOB,
-    GET_APPLICANTS_BYUSERID
-  } from "./constants";
-  
-  export const getJobListing = (data) => ({
+  ADD_JOB,
+  ADD_JOB_SUCCESS,
+  GET_JOB_SUCCESS,
+  GET_JOB,
+  FAVOURITE_JOB_LIST_SUCCESS,
+  FAVOURITE_JOB_LIST,
+  DELETE_ADD_JOB,
+  MARK_AS_FAVOURITE_JOB,
+  JOB_BY_ID,
+  JOB_BY_ID_SUCCESS,
+  UPDATE_JOB_SUCCESS,
+  UPDATE_JOB,
+  GET_JOB_APPLICANTS,
+  GET_JOB_APPLICANTS_SUCCESS,
+  CONFIRM_APPLICANTS,
+  CONFIRM_APPLICANTS_SUCCESS,
+  GET_LOG_HOURS_SUCCESS,
+  GET_LOG_HOURS,
+  APPROVED_LOG_HOURS,
+  APPROVED_LOG_HOURS_SUCCESS,
+  GET_SINGLE_USER,
+  GET_SINGLE_USER_SUCCESS,
+  EMERGENCY_JOB,
+  RATE_PROVIDER,
+  GET_HIRED_APPLICANTS,
+  GET_HIRED_APPLICANTS_SUCCESS,
+  COMPLETE_JOB,
+  GET_APPLICANTS_BYUSERID
+} from "./constants";
+
+export const addFormJob = (data) => (
+  {
     type: ADD_JOB,
     payload: data,
   });
-  export const getJobListingSuccess = (data) => ({
-    type:  ADD_JOB_SUCCESS,
-    payload: data,
-  });
-  export const getJobs = (data) => ({
-    type: GET_JOB,
-    payload: data,
-  });
-  export const getJobsSuccess = (data) => ({
-    type:  GET_JOB_SUCCESS,
-    payload: data,
-  });
-  
+export const getJobListingSuccess = (data) => ({
+  type: ADD_JOB_SUCCESS,
+  payload: data,
+});
+export const getJobs = (data) => ({
+  type: GET_JOB,
+  payload: data,
+});
+export const getJobsSuccess = (data) => ({
+  type: GET_JOB_SUCCESS,
+  payload: data,
+});
+
 export const favouriteJobList = (data) => ({
   type: FAVOURITE_JOB_LIST,
   payload: data,
@@ -69,7 +70,7 @@ export const jobById = (data) => ({
   payload: data,
 });
 export const jobByIdSuccess = (data) => ({
-  type:  JOB_BY_ID_SUCCESS,
+  type: JOB_BY_ID_SUCCESS,
   payload: data,
 });
 export const updateJob = (data) => ({
@@ -77,7 +78,7 @@ export const updateJob = (data) => ({
   payload: data,
 });
 export const updateJobSuccess = (data) => ({
-  type:  UPDATE_JOB_SUCCESS,
+  type: UPDATE_JOB_SUCCESS,
   payload: data,
 });
 export const getApplicants = (data) => ({
@@ -85,7 +86,7 @@ export const getApplicants = (data) => ({
   payload: data,
 });
 export const getApplicantsSuccess = (data) => ({
-  type:  GET_JOB_APPLICANTS_SUCCESS,
+  type: GET_JOB_APPLICANTS_SUCCESS,
   payload: data,
 });
 export const getHiredApplicants = (data) => ({
@@ -93,7 +94,7 @@ export const getHiredApplicants = (data) => ({
   payload: data,
 });
 export const getHiredApplicantsSuccess = (data) => ({
-  type:  GET_HIRED_APPLICANTS_SUCCESS,
+  type: GET_HIRED_APPLICANTS_SUCCESS,
   payload: data,
 });
 export const getConfirmApplicants = (data) => ({
@@ -101,7 +102,7 @@ export const getConfirmApplicants = (data) => ({
   payload: data,
 });
 export const getConfirmSuccess = (data) => ({
-  type:  CONFIRM_APPLICANTS_SUCCESS,
+  type: CONFIRM_APPLICANTS_SUCCESS,
   payload: data,
 });
 export const getLogHours = (data) => ({
@@ -109,7 +110,7 @@ export const getLogHours = (data) => ({
   payload: data,
 });
 export const getLogHoursSuccess = (data) => ({
-  type:  GET_LOG_HOURS_SUCCESS,
+  type: GET_LOG_HOURS_SUCCESS,
   payload: data,
 });
 export const getApprovedHours = (data) => ({
@@ -117,7 +118,7 @@ export const getApprovedHours = (data) => ({
   payload: data,
 });
 export const getApprovedHoursSuccess = (data) => ({
-  type:  APPROVED_LOG_HOURS_SUCCESS,
+  type: APPROVED_LOG_HOURS_SUCCESS,
   payload: data,
 });
 export const getSingleUser = (data) => ({
@@ -125,22 +126,22 @@ export const getSingleUser = (data) => ({
   payload: data,
 });
 export const getSingleUserSuccess = (data) => ({
-  type:  GET_SINGLE_USER_SUCCESS,
+  type: GET_SINGLE_USER_SUCCESS,
   payload: data,
 });
 export const rateProvider = (data) => ({
-  type:  RATE_PROVIDER,
+  type: RATE_PROVIDER,
   payload: data,
 });
 export const completeJob = (data) => ({
-  type:  COMPLETE_JOB,
+  type: COMPLETE_JOB,
   payload: data,
 });
 export const getApplicantsByUserId = (data) => ({
-  type:  GET_APPLICANTS_BYUSERID,
+  type: GET_APPLICANTS_BYUSERID,
   payload: data,
 });
 export const emergencyJob = (data) => ({
-  type:  EMERGENCY_JOB,
+  type: EMERGENCY_JOB,
   payload: data,
 });
