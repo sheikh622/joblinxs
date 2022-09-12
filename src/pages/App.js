@@ -37,7 +37,7 @@ import BusinessCategories from "./businessCategory/index";
 import Settings from "./Settings/index";
 import Chat from "./Chat/main";
 import ReportManagement from "./Report Management";
-import ChangePassword from "./Settings/changePassword";
+import ChangePassword from "../components/changePassword";
 import TermsandConditions from "./Settings/TermsandConditions";
 import PrivacyPolicy from "./Settings/PrivacyPolicy";
 import PayementMethod from "./payementMethod"

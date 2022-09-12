@@ -91,7 +91,6 @@ const Settings = (props, row) => {
 
                 </Row>
             </div>
-
         </>
     );
 };

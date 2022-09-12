@@ -76,9 +76,7 @@ function* BlockUserSaga({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     });
-    if(payload.isreported){
       toast.success(response.data.message);
-    }
     payload.setBlockedBy(true)
     yield put(
       getList(payload.blockedBy));
@@ -139,7 +137,6 @@ function* reportedSaga({ payload }) {
       blockedTo: payload.reportedTo,
       blockedBy: payload.reportedBy,
       setBlockedBy:payload.setBlockedBy,
-      isreported: false
     };
     let data = {
       reportedTo: payload.reportedTo,
@@ -155,7 +152,6 @@ function* reportedSaga({ payload }) {
     });
     toast.success(response.data.message);
     // yield put(reportedUserSuccess(response.data.data.user));
-    yield put(blockUser(blockedData));
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
