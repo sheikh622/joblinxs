@@ -23,7 +23,7 @@ function* getProfileById({ payload }) {
     // payload.setLoader(false);
     yield put(getProfileSuccess(response.data.data.user));
   } catch (error) {
-    if(error.response.status == 401){
+    if(error?.response?.status == 401){
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);
@@ -122,7 +122,7 @@ function* getReportUser({ payload }) {
     });
     yield put(reportListSuccess(response.data.data));
   } catch (error) {
-    if(error.response.status == 401){
+    if(error?.response?.status == 401){
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);
@@ -198,7 +198,7 @@ function* getReviewsById({ payload }) {
     // payload.setLoader(false);
     yield put(getReviewsSuccess(response.data.data));
   } catch (error) {
-    if(error.response.status == 401){
+    if(error?.response?.status == 401){
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);

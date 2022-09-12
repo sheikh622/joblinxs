@@ -50,8 +50,10 @@ import {
   EMERGENCY_JOB
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
-function* addJob({ payload }) {
-  let repost = payload.isPost;
+
+ function* addJob({ payload }) {
+   let repost = payload.isPost;
+   console.log(repost, "====================================================payload====", payload)
   const formData = new FormData();
   formData.append("id", payload.id);
   formData.append("name", payload.name);
@@ -86,9 +88,7 @@ function* addJob({ payload }) {
     });
 
     toast.success(CapitalizeFirstLetter(response.data.message));
-    yield put(getJobListingSuccess(response.data.data));
     payload.history.push("/job");
-
     payload.setReset();
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -111,6 +111,7 @@ function* getJobList({ payload }) {
     );
     yield put(getJobsSuccess(response.data.data));
     payload.setLoader(false);
+    toast.success(CapitalizeFirstLetter(response.data.message));
 
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -130,7 +131,7 @@ function* getFavoutiteJobList({ payload }) {
         },
       }
     );
-    // toast.success(CapitalizeFirstLetter(response.data.message));
+    toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(favouriteJobListSuccess(response.data.data));
     payload.setLoader(false);
   } catch (error) {
@@ -149,7 +150,7 @@ function* deleteJobSaga({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     });
-    toast.success(CapitalizeFirstLetter(response.data.message));
+    // toast.success(CapitalizeFirstLetter(response.data.message));
     payload.setShowDefault(false);
     payload.history.push("/job");
     const filteredData = payload.data.filter(
@@ -237,10 +238,12 @@ function* updateJobSaga(payload) {
         },
       }
     );
-    // toast.success(CapitalizeFirstLetter(response.data.message));
+    toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(updateJobSuccess(response.data));
     payload.history.push(`/detailJob/${payload.id}`);
-    payload.setPostJob(false);
+    // yield put(getJobListingSuccess(response.data.data));
+    payload.history.push("/job");
+    // payload.setPostJob(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
