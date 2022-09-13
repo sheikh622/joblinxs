@@ -23,6 +23,7 @@ import {
   getSingleUser,
   getSingleUserSuccess,
   getHiredApplicantsSuccess,
+  getHiredApplicants
 } from "./actions";
 import {
   ADD_JOB,
@@ -297,7 +298,6 @@ function* watchGetHiredApplicants() {
   yield takeLatest(GET_HIRED_APPLICANTS, gethiredApplicantsSaga);
 }
 function* ConfirmSaga(payload) {
-  console.log("payload.....noor jah",payload)
   try {
     let data = {
       isAccepted: payload.payload.isAccepted,
@@ -434,6 +434,11 @@ function* CompletejobSaga({ payload }) {
     });
     toast.success(CapitalizeFirstLetter(response.data.message));
     payload.setLoader(false);
+    yield put(getHiredApplicants({
+      id: payload.payload.id,
+      page: payload.payload.page,
+      limit: payload.payload.limit,
+    }));
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
