@@ -39,10 +39,10 @@ const Report = ({ item, setShow, show, id }) => {
   const [showDefault, setShowDefault] = useState(false);
   const [reportList, setReportList] = useState([]);
   const [categories, setCategories] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState();
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const params = useLocation();
   let profileId = params.pathname.split("/")[2];
-
+  console.log("selectedCategories", categories)
   const handleClose = () => {
     setShow(false);
     CategoryFormik.resetForm();
@@ -52,7 +52,7 @@ const Report = ({ item, setShow, show, id }) => {
     enableReinitialize: true,
     initialValues: {},
     validationSchema: CategorySchema,
-    onSubmit: async (values, action) => {},
+    onSubmit: async (values, action) => { },
   });
   useEffect(() => {
     let data;
@@ -76,12 +76,15 @@ const Report = ({ item, setShow, show, id }) => {
           ? CategoryFormik?.values?.description
           : "",
         reportId: selectedCategory ? selectedCategory : "",
+        setSelectedCategory: setSelectedCategory,
+        setCategories: setCategories,
+
       })
     );
     handleClose();
   };
   return (
-    <Modal as={Modal.Dialog} centered show={show} onHide={handleClose}>
+    <Modal as={Modal.Dialog} centered show={show} onHide={() => { handleClose(); setSelectedCategory(null); setCategories(null) }}>
       <Modal.Header>
         <Modal.Title className="h5">{"Report"}</Modal.Title>
         <Button variant="close" aria-label="Close" onClick={handleClose} />
@@ -129,6 +132,7 @@ const Report = ({ item, setShow, show, id }) => {
             <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
               <Button
                 variant="primary"
+                disabled={selectedCategory !== null ? false : true}
                 // onHide={handleClose}
                 color="dark"
                 size="sm"
