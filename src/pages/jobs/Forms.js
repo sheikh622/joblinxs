@@ -17,7 +17,7 @@ import Select from "react-select";
 import * as Yup from "yup";
 import profile from "../../assets/img/upload.png";
 import AddCategory from "../../components/addCategory";
-import { emergencyJob, addFormJob, jobById, updateJob } from "../../Redux/addJob/actions";
+import { addFormJob, emergencyJob, jobById, updateJob } from "../../Redux/addJob/actions";
 import { getCategoryList } from "../../Redux/Category/actions";
 
 export const GeneralInfoForm = () => {
@@ -43,7 +43,6 @@ export const GeneralInfoForm = () => {
   const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
   const SingleId = useSelector((state) => state?.addJob?.jobById);
   let str = SingleId?.job_categories?.length > 0 ? SingleId?.job_categories[0]?.category : "false";
-
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
   const [hours, setHours] = useState("1");
@@ -61,6 +60,7 @@ export const GeneralInfoForm = () => {
   const [paymentType, setPaymentType] = useState(
     SingleId?.paymentType ? SingleId?.paymentType : ""
   );
+  console.log("singleId",SingleId)
   const [jobNature, setJobNature] = useState(
     SingleId?.jobNature ? SingleId?.jobNature : ""
   );
@@ -85,10 +85,12 @@ export const GeneralInfoForm = () => {
     setUnit(SingleId?.unit ? SingleId?.unit : "");
     setRate(SingleId?.rate ? SingleId?.rate : "")
     setProviders(
-      provide.filter((option) => option.label == SingleId.noOfProviders)
+      provide.filter((option) => option.label == SingleId?.noOfProviders)
     );
-    setExperience(experienced.filter((option) => option.label == SingleId.experienceRequired));
+    setExperience(experienced.filter((option) => option.label == SingleId?.experienceRequired));
     setLocation(SingleId?.location ? SingleId?.location[0] : "");
+    setCategories({value: [{ id: str.id, title: str.title, details: str.details }],
+      label: str?.title})
   }, [SingleId]);
   useEffect(() => {
     dispatch(
@@ -691,6 +693,7 @@ export const GeneralInfoForm = () => {
                 <Form.Group>
                   <Select
                     placeholder={str?.title}
+                    value={categories}
                     onChange={setCategories}
                     options={categoryList}
                   />

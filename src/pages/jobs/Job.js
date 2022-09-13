@@ -15,7 +15,7 @@ import CommonCard from "../../components/CommonCard";
 import Navbar from "../../components/Navbar";
 import NoRecordFound from "../../components/NoRecordFound";
 import Spinner from "../../components/spinner";
-import { getJobs } from "../../Redux/addJob/actions";
+import { getJobs, jobByIdSuccess } from "../../Redux/addJob/actions";
 import { Routes } from "../../routes";
 import AddCard from "../../components/addCard";
 import { getCardDetails } from "../../Redux/settings/actions";
@@ -34,7 +34,8 @@ const Job = () => {
   const [categories, setCategories] = useState(null);
   const [categoryList, setCategoryList] = useState([]);
   const [loader, setLoader] = useState(true);
-
+  const [resetForm, setResetForm] = useState();
+  console.log(resetForm,"jbdab")
   const [limit] = useState("10");
   const [adminId, setAdminId] = useState("");
   const [categoryType, setCategoryType] = useState("");
@@ -225,7 +226,9 @@ const Job = () => {
                                        
                     <Button variant="primary" className="mx-2" 
                     onClick={()=> {addCard? setAddCardModal(true) :history.push(Routes.CreateJob.path); 
-                    
+                      dispatch(
+                        jobByIdSuccess(null)
+                      );
                     }}>
                       <svg
                         width="17"

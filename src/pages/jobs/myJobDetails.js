@@ -1,5 +1,5 @@
 import {
-  Button, Card, Col, Container, Form, Image, Modal, Row
+  Button, Card, Col, Form, Image, Modal, Row
 } from "@themesberg/react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
@@ -125,7 +125,7 @@ const MyJobDetails = (item, props, data) => {
       <div className="mx-5">
         <Row>
         
-          {SingleId.createdBy === "seeker" && (
+          {SingleId?.createdBy === "seeker" && (
 
             <Col lg={4} md={6} xs={12} className="pb-3 mb-3 mt-2">
 
@@ -137,8 +137,8 @@ const MyJobDetails = (item, props, data) => {
           )}
 
           <Col
-            lg={SingleId.createdBy === "provider" ? 12 : 8}
-            md={SingleId.createdBy === "provider" ? 12 : 6}
+            lg={SingleId?.createdBy === "provider" ? 12 : 8}
+            md={SingleId?.createdBy === "provider" ? 12 : 6}
             xs={12}
             className="pb-3 mb-3"
           >
@@ -149,7 +149,7 @@ const MyJobDetails = (item, props, data) => {
               className="text-left p-0 mb-4 profileView info p-3 mt-2 mt-2"
             >
 
-              {SingleId.createdBy === "provider" && profileCard()}
+              {SingleId?.createdBy === "provider" && profileCard()}
               <Card.Body className="pb-2 border_bottom mb-1">
                 <div className="pb-2 d-flex justify-content-between align-items-baseline">
 
@@ -157,7 +157,7 @@ const MyJobDetails = (item, props, data) => {
                     User Information
                   </Card.Title>
                 </div>
-                {SingleId.createdBy === "seeker" && (
+                {SingleId?.createdBy === "seeker" && (
                   <>
                     <DetailHeading
                       heading={"JobRequirement"}
@@ -198,7 +198,7 @@ const MyJobDetails = (item, props, data) => {
                   heading={"Location"}
                   value={SingleId?.location ? SingleId?.location?.[0] : "-"}
                 />
-                {SingleId.createdBy === "seeker" && (
+                {SingleId?.createdBy === "seeker" && (
                   <>
                     <DetailHeading
                       heading={"Providers Required"}
@@ -217,7 +217,7 @@ const MyJobDetails = (item, props, data) => {
                   </>
                 )}
               </Card.Body>
-              {SingleId.createdBy === "seeker" ? (
+              {SingleId?.createdBy === "seeker" ? (
                 <>
                   <Link
                     className="text-white fw-bold"
@@ -266,7 +266,7 @@ const MyJobDetails = (item, props, data) => {
                 </>
               )}
             </Card>
-            {SingleId.createdBy === "seeker" && (
+            {SingleId?.createdBy === "seeker" && (
               <>
                 {SingleId?.status === "completed" || SingleId?.status === "inprogress" || SingleId?.status === "upcoming" ? (
                   <>
@@ -285,7 +285,7 @@ const MyJobDetails = (item, props, data) => {
                 ) : (
                   <div>
                     <div class="float-end">
-                      {SingleId.status === "Accepted" || SingleId?.status === "canceled" ? (
+                      {SingleId?.status === "Accepted" || SingleId?.status === "canceled" ? (
                         <>
                           <Button
                             variant="primary"

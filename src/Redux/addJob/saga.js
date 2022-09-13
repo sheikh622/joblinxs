@@ -87,8 +87,8 @@ import { CapitalizeFirstLetter } from "../../utils/Global";
     });
 
     toast.success(CapitalizeFirstLetter(response.data.message));
-    payload.history.push("/job");
     payload.setReset();
+    payload.history.push("/job");
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -193,6 +193,7 @@ function* jobByIdSaga(payload) {
       },
     });
     yield put(jobByIdSuccess(response.data.data));
+    payload.setReset(); 
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -236,10 +237,11 @@ function* updateJobSaga(payload) {
       }
     );
     toast.success(CapitalizeFirstLetter(response.data.message));
-    yield put(updateJobSuccess(response.data));
     payload.history.push(`/detailJob/${payload.id}`);
+    payload.setReset(); 
+    yield put(updateJobSuccess(response.data));
+    
     // yield put(getJobListingSuccess(response.data.data));
-    payload.history.push("/job");
     // payload.setPostJob(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -249,6 +251,8 @@ function* watchUpdateJob() {
   yield takeLatest(UPDATE_JOB, updateJobSaga);
 }
 function* getApplicantsRequest(payload) {
+  console.log("payload================",payload)
+
   try {
     const { id, setLoader } = payload.payload;
     const token = yield select(makeSelectAuthToken());
@@ -270,6 +274,7 @@ function* watchGetApplicants() {
   yield takeLatest(GET_JOB_APPLICANTS, getApplicantsRequest);
 }
 function* gethiredApplicantsSaga(payload) {
+  
   try {
     const { id, setLoader } = payload.payload;
     const token = yield select(makeSelectAuthToken());
@@ -291,25 +296,27 @@ function* watchGetHiredApplicants() {
   yield takeLatest(GET_HIRED_APPLICANTS, gethiredApplicantsSaga);
 }
 function* ConfirmSaga(payload) {
+  console.log("payload.....noor jah",payload)
   try {
     let data = {
       isAccepted: payload.payload.isAccepted,
     };
-    const { id } = payload.payload;
+    const { userId } = payload.payload;
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.post(`job/approve/${id}`, data, {
+    const response = yield axios.post(`job/approve/${userId}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     toast.success(CapitalizeFirstLetter(response.data.message));
-    payload.setLoader(false);
-    yield put(getConfirmSuccess(response.data));
+    // payload.setLoader(false);
+    // yield put(getConfirmSuccess(response.data));
     yield put(getApplicants({
-      id: payload.payload.jobId,
+      id: payload.payload.id,
       page: payload.payload.page,
       limit: payload.payload.limit,
     }));
+
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

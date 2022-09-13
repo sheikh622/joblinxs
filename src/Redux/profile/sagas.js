@@ -152,6 +152,9 @@ function* reportedSaga({ payload }) {
     });
     toast.success(response.data.message);
     // yield put(reportedUserSuccess(response.data.data.user));
+    payload.setSelectedCategory(null);
+    payload.setCategories(null);
+
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
