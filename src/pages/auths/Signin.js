@@ -199,13 +199,13 @@ const LoginPage = () => {
                   <span className="fw-normal">or login with</span>
                 </div>
                 <div className="d-flex justify-content-center my-4">
-                  {/* <Button
+                  <Button
                     variant="outline-light"
                     className="btn-icon-only card-box-shadow btn-pill text-facebook me-2"
                     
                   >
                     <FontAwesomeIcon icon={faFacebookF} />
-                  </Button> */}
+                  </Button>
                   <Button
                     variant="outline-light"
                     className="btn-icon-only card-box-shadow btn-pill text-google me-2 "
@@ -237,7 +237,7 @@ const LoginPage = () => {
                       console.log("Login Failed");
                     }}
                   /> */}
-                  <FacebookLogin
+                  {/* <FacebookLogin
                     appId="652637439522601"
                     autoLoad={false}
                     textButton="Facebook"
@@ -246,7 +246,7 @@ const LoginPage = () => {
                     fields="name,email,picture"
                     onClick={responseFacebook}
                     callback={responseFacebook}
-                  />
+                  /> */}
                 </div>
               </div>
             </Col>
