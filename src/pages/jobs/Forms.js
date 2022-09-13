@@ -138,7 +138,7 @@ export const GeneralInfoForm = () => {
       jobRequirements: SingleId?.requirement ? SingleId?.requirement : "",
       toolsNeeded: SingleId?.toolsNeeded ? SingleId?.toolsNeeded : "",
       rate: SingleId?.rate ? SingleId?.rate : "--",
-      unit: SingleId?.unit ? SingleId?.unit : "--",
+      unit: SingleId?.unit ? SingleId?.unit : "0",
       onGoing: SingleId?.onGoing ? SingleId?.onGoing : "",
       jobType: SingleId?.jobType ? SingleId?.jobType : "",
       // jobImg: SingleId?.image ? SingleId?.image : "",
@@ -197,7 +197,6 @@ export const GeneralInfoForm = () => {
         setPostJob: setPostJob,
       };
       if (!id) {
-
         dispatch(addFormJob(data));
       } else {
         if (postItem) {
@@ -262,7 +261,6 @@ export const GeneralInfoForm = () => {
       return false;
     }
   }
- console.log(SingleId)
   return (
     <>
       <Col className={"d-flex justify-content-center"}>
@@ -944,10 +942,10 @@ export const GeneralInfoForm = () => {
             setCategories={setCategories}
             onHide={() => setShowDefaultCategory(false)}
           />
-          
+
         </Modal.Body>
       </Modal>
-    
+
     </>
   );
 };
