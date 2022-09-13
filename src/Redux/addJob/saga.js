@@ -111,8 +111,6 @@ function* getJobList({ payload }) {
     );
     yield put(getJobsSuccess(response.data.data));
     payload.setLoader(false);
-    toast.success(CapitalizeFirstLetter(response.data.message));
-
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
