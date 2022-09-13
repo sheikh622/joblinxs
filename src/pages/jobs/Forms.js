@@ -17,7 +17,7 @@ import Select from "react-select";
 import * as Yup from "yup";
 import profile from "../../assets/img/upload.png";
 import AddCategory from "../../components/addCategory";
-import { emergencyJob, addFormJob, jobById, updateJob } from "../../Redux/addJob/actions";
+import { addFormJob, emergencyJob, jobById, updateJob } from "../../Redux/addJob/actions";
 import { getCategoryList } from "../../Redux/Category/actions";
 
 export const GeneralInfoForm = () => {
