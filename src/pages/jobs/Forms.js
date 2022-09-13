@@ -263,6 +263,7 @@ export const GeneralInfoForm = () => {
       return false;
     }
   }
+  console.log(SingleId, "==========SingleId============")
   return (
     <>
       <Col className={"d-flex justify-content-center"}>
@@ -708,7 +709,7 @@ export const GeneralInfoForm = () => {
             </Row>
 
             <div className="mt-3 d-flex justify-content-end">
-              {SingleId?.length === 0 || SingleId?.status === "pending" ? (
+              {SingleId === null || SingleId?.length === 0 || SingleId?.status === "pending" ? (
                 <Button variant="primary" type="submit" show={showDefaults} className="mx-2">
                   {id ? "Update Job" : "Post Job"}
                 </Button>) : ""}
