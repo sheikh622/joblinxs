@@ -29,6 +29,7 @@ const Applicants = ({ id }) => {
   const params = useLocation();
 
   let jobId = params.pathname.split("/")[2];
+  console.log("jobId",jobId)
   const login = useSelector((state) => state?.auth.Auther);
   const [showDefault, setShowDefault] = useState(false);
   const handleClose = () => setShowDefault(false);
@@ -80,10 +81,11 @@ const Applicants = ({ id }) => {
     }
     return items;
   };
-  const handleConfirm = (data) => {
+  const handleConfirm = (data, action) => {
     dispatch(
       getConfirmApplicants({
-        id: data.id.id,
+        userId: data.id.id,
+        id : jobId,
         isAccepted: data.isAccepted,
         page: page,
         limit: limit,

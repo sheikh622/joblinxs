@@ -61,6 +61,7 @@
     "react-github-btn": "^1.2.0",
     "react-google-autocomplete": "^2.7.0",
     "react-google-location": "^1.2.2",
+    "react-google-login": "^5.2.2",
     "react-google-maps-loader": "^4.3.0",
     "react-hook-form": "^7.32.2",
     "react-icons": "^4.4.0",

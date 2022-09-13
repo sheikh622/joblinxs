@@ -93,7 +93,6 @@ const Applicants = ({ id }) => {
         jobId: jobId,
         userId: data.id,
         isCompleted: data.isCompleted,
-        isDisputed: data.isDisputed,
         setLoader: setLoader,
       })
     );
@@ -127,7 +126,6 @@ const Applicants = ({ id }) => {
                 handleComplete({
                   id: item?.users?.id,
                   isCompleted: true,
-                  isDisputed: true,
                 })
               }
             >
