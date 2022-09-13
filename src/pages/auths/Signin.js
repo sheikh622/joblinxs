@@ -237,7 +237,7 @@ const LoginPage = () => {
                       console.log("Login Failed");
                     }}
                   /> */}
-                  {/* <FacebookLogin
+                  <FacebookLogin
                     appId="652637439522601"
                     autoLoad={false}
                     textButton="Facebook"
@@ -246,7 +246,7 @@ const LoginPage = () => {
                     fields="name,email,picture"
                     onClick={responseFacebook}
                     callback={responseFacebook}
-                  /> */}
+                  />
                 </div>
               </div>
             </Col>
