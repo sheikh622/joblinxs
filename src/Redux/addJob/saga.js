@@ -54,7 +54,6 @@ import { CapitalizeFirstLetter } from "../../utils/Global";
 
  function* addJob({ payload }) {
    let repost = payload.isPost;
-   console.log(repost, "====================================================payload====", payload)
   const formData = new FormData();
   formData.append("id", payload.id);
   formData.append("name", payload.name);
@@ -384,9 +383,10 @@ function* ApprovedHoursSaga({ payload }) {
         },
       }
     );
+    console.log(response.data, "=========================")
     toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getApprovedHoursSuccess(response.data.data));
-    window.location.reload()
+    // window.location.reload()
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -424,7 +424,6 @@ function* CompletejobSaga({ payload }) {
       jobId: payload.jobId,
       userId: payload.userId,
       isCompleted: payload.isCompleted,
-      isDisputed: payload.isDisputed,
     };
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.patch(`job/confirmBySeeker`, Data, {
