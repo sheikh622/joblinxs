@@ -138,7 +138,7 @@ export const GeneralInfoForm = () => {
       jobRequirements: SingleId?.requirement ? SingleId?.requirement : "",
       toolsNeeded: SingleId?.toolsNeeded ? SingleId?.toolsNeeded : "",
       rate: SingleId?.rate ? SingleId?.rate : "--",
-      unit: SingleId?.unit ? SingleId?.unit : "--",
+      unit: SingleId?.unit ? SingleId?.unit : "0",
       onGoing: SingleId?.onGoing ? SingleId?.onGoing : "",
       jobType: SingleId?.jobType ? SingleId?.jobType : "",
       // jobImg: SingleId?.image ? SingleId?.image : "",
