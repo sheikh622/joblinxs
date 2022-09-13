@@ -20,7 +20,7 @@ import { fetchToken } from "../../firebase";
 import { loginRequest, facebookLogin, googleLogin } from "../../Redux/auth/actions";
 import { Routes } from "../../routes";
 import { eyeIcon } from "../../assets/img/eyeON.svg";
-import { GoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 // import { useGoogleLogin } from '@react-oauth/google';
 import FacebookLogin from "react-facebook-login";
 
@@ -91,6 +91,10 @@ const LoginPage = () => {
     )
     console.log(response, "here is response");
   };
+
+  const Goolelogin = useGoogleLogin({
+    onSuccess: tokenResponse => console.log(tokenResponse),
+  });
   return (
     <main>
       <section className="d-flex align-items-center mt-5 mb-2">
@@ -195,25 +199,27 @@ const LoginPage = () => {
                   <span className="fw-normal">or login with</span>
                 </div>
                 <div className="d-flex justify-content-center my-4">
-                  <Button
+                  {/* <Button
                     variant="outline-light"
                     className="btn-icon-only card-box-shadow btn-pill text-facebook me-2"
+                    
                   >
                     <FontAwesomeIcon icon={faFacebookF} />
-                  </Button>
+                  </Button> */}
                   <Button
                     variant="outline-light"
                     className="btn-icon-only card-box-shadow btn-pill text-google me-2 "
+                    onClick={() => Goolelogin()}
                   >
                     <FontAwesomeIcon icon={faGoogle} />
                   </Button>
                 </div>
-                {/* <div
+                <div
                 //  className={`col-lg-12
                 //   // ${styles.socialLogin}`
                 // }
                  >
-                  <GoogleLogin
+                  {/* <GoogleLogin
                     width="368px"
                     height="450px"
                     context="Google"
@@ -230,7 +236,7 @@ const LoginPage = () => {
                     onError={() => {                               
                       console.log("Login Failed");
                     }}
-                  />
+                  /> */}
                   <FacebookLogin
                     appId="652637439522601"
                     autoLoad={false}
@@ -241,7 +247,7 @@ const LoginPage = () => {
                     onClick={responseFacebook}
                     callback={responseFacebook}
                   />
-                </div> */}
+                </div>
               </div>
             </Col>
             {/* </>
