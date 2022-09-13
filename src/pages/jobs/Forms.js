@@ -197,7 +197,6 @@ export const GeneralInfoForm = () => {
         setPostJob: setPostJob,
       };
       if (!id) {
-
         dispatch(addFormJob(data));
       } else {
         if (postItem) {
@@ -262,7 +261,7 @@ export const GeneralInfoForm = () => {
       return false;
     }
   }
- console.log(SingleId)
+  console.log(SingleId)
   return (
     <>
       <Col className={"d-flex justify-content-center"}>
@@ -944,10 +943,10 @@ export const GeneralInfoForm = () => {
             setCategories={setCategories}
             onHide={() => setShowDefaultCategory(false)}
           />
-          
+
         </Modal.Body>
       </Modal>
-    
+
     </>
   );
 };
