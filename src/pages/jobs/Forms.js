@@ -261,7 +261,6 @@ export const GeneralInfoForm = () => {
       return false;
     }
   }
-  console.log(SingleId)
   return (
     <>
       <Col className={"d-flex justify-content-center"}>
