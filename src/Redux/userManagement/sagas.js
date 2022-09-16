@@ -33,8 +33,9 @@ function* userListRequest({ payload }) {
         },
       }
     );
-    payload.setLoader(false);
     yield put(getUsersListSuccess(response.data.data));
+    payload.setLoader(false);
+
   } catch (error) {
     if(error?.response?.status == 401){
       yield put(logoutRequest());
@@ -74,6 +75,7 @@ function* userBlockSaga({ payload }) {
   }
 }
 function* userProfileSaga({ payload }) {
+  console.log("payload",payload)
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
@@ -85,7 +87,7 @@ function* userProfileSaga({ payload }) {
       }
     );
     toast.success(CapitalizeFirstLetter(response.data.message));
-    yield put(getUserProfileSuccess());
+    // yield put(getUserProfileSuccess());
     yield put(
       getUsersList({
         page: payload.page,

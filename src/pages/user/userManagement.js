@@ -119,6 +119,7 @@ const UserManagement = (row, item) => {
     );
   }, [page, limit, type, search, status]);
 
+  console.log("status",status)
   const filter = [
     {
       value: "all",
@@ -154,7 +155,7 @@ const UserManagement = (row, item) => {
       price,
       issueDate,
       dueDate,
-      status,
+      // status,
       item,
       index
 
