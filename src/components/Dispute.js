@@ -27,7 +27,6 @@ import {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const params = useLocation();
     let profileId = params.pathname.split("/")[2];
-    console.log("selectedCategories", categories)
     const handleClose = () => {
       setShow(false);
       CategoryFormik.resetForm();

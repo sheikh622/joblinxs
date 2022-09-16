@@ -75,7 +75,6 @@ function* userBlockSaga({ payload }) {
   }
 }
 function* userProfileSaga({ payload }) {
-  console.log("payload",payload)
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(

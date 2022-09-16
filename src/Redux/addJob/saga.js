@@ -252,8 +252,6 @@ function* watchUpdateJob() {
   yield takeLatest(UPDATE_JOB, updateJobSaga);
 }
 function* getApplicantsRequest(payload) {
-  console.log("payload================",payload)
-
   try {
     const { id, setLoader } = payload.payload;
     const token = yield select(makeSelectAuthToken());

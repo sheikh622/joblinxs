@@ -29,7 +29,6 @@ const ReportManagement = (item) => {
             setDataList(ReportList?.reportedUsers);
         }
     }, [ReportList]);
-    console.log("ReportList", dataList)
     let ReportByData = dataList?.length > 0 ? dataList[0]?.reportedBy : "false";
     let ReportToData = dataList?.length > 0 ? dataList[0]?.reportedTo : "false";
     useEffect(() => {
@@ -84,7 +83,6 @@ const ReportManagement = (item) => {
         }
         return items;
     };
-    console.log(item,"00000000000000000")
     const TableRow = (props) => {
         const {
             status,

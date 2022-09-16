@@ -89,7 +89,6 @@ const LoginPage = () => {
         lastName:lastName,
       })
     )
-    console.log(response, "here is response");
   };
 
   const Goolelogin = useGoogleLogin({
@@ -234,7 +233,6 @@ const LoginPage = () => {
                       );
                     }}
                     onError={() => {                               
-                      console.log("Login Failed");
                     }}
                   /> */}
                   {/* <FacebookLogin

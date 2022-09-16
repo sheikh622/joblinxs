@@ -35,7 +35,6 @@ const Job = () => {
   const [categoryList, setCategoryList] = useState([]);
   const [loader, setLoader] = useState(true);
   const [resetForm, setResetForm] = useState();
-  console.log(resetForm,"jbdab")
   const [limit] = useState("10");
   const [adminId, setAdminId] = useState("");
   const [categoryType, setCategoryType] = useState("");

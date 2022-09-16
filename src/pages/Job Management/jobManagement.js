@@ -90,7 +90,6 @@ const JobManagement = (row) => {
     setCategoryType(event.target.value)
   }
   const CategoryList = useSelector((state) => state?.Category?.getCategoryList);
-console.log("item?.title",CategoryList)
   useEffect(() => {
     let array = [
       {
