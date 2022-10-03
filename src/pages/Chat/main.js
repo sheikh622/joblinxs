@@ -1,4 +1,4 @@
-import React, { useEffect, useState ,useCallback  } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import ChatBoard from "./chatBoard";
 import {
@@ -51,7 +51,7 @@ const Mainchat = () => {
   const currentUser = useSelector((state) => state.auth.Auther);
   const contactsList = useSelector((state) => state?.ChatReducer?.ListData);
   const TokenResponse = useSelector((state) => state?.ChatReducer?.Token);
-  console.log("12345", TokenResponse.access_token)
+  const MeetingResponse = useSelector((state) => state?.ChatReducer?.Meeting?.join_url);
   const [currentUsers, setCurrentUsers] = useState(false);
   const [oneToOneChat, setOneToOneChat] = useState([]);
   const [selectedUser, setSelectedUser] = useState();
@@ -64,16 +64,17 @@ const Mainchat = () => {
   const [dataList, setDataList] = useState();
   const [users, setUsers] = useState([]);
   const [chatId, setChatId] = useState(fireId);
+  const [zoom, setZoom] = useState(false);
+  const [zoomUrl, setZoomUrl] = useState("");
   const onSend = useCallback(
     (message) => {
       let data = {
         senderId: currentUser.id,
-        receiverId: id,
-        message: message,
-
+        receiverId: userId,
+        message: "https://us05web.zoom.us/j/88570507975?pwd=SVRwakk0WVErZTZmRExWL3oyaitDdz09",
       };
       if (blockedBy === null) {
-        dispatch(SendMessage({ data, message, users, currentUser, customKey, zoom: false }));
+        dispatch(SendMessage({ data, message, users, currentUser, customKey, zoom: zoom }));
       } else {
         if (blockedBy) {
           toast.error("You have blocked this user");
@@ -121,10 +122,14 @@ const Mainchat = () => {
   }, []);
 
   const handleMeeting = () => {
+    // setZoom(true);
+    // setZoomUrl("https://us05web.zoom.us/j/88570507975?pwd=SVRwakk0WVErZTZmRExWL3oyaitDdz09")
     dispatch(
       getMeeting({
         access_token: TokenResponse.access_token,
         agenda: "mymeetings",
+        // setZoom: setZoom,
+        setZoomUrl: setZoomUrl
       })
     );
   };
@@ -156,7 +161,6 @@ const Mainchat = () => {
       });
     }
   }, [currentUser, users]);
-
   const handleChat = (firebaseId, index, id) => {
     if (id) {
       setChatId(firebaseId);
@@ -215,10 +219,8 @@ const Mainchat = () => {
           <Dropdown.Menu className="custom_menu">
             <Dropdown.Item
               onClick={() => {
-                // <img src={Zoom} alt="" width="25px" />
+                setZoom(true);
                 handleMeeting();
-                // onSend(message)
-
               }}
             >
               Zoom Meeting
@@ -241,13 +243,6 @@ const Mainchat = () => {
               />
             </span>
           </Dropdown.Toggle>
-          <a href='https://us05web.zoom.us/j/88570507975?pwd=SVRwakk0WVErZTZmRExWL3oyaitDdz09' target="_blank">
-            <Card.Img
-              src={Zoom}
-              alt="Neil Portrait"
-              className="user-avatar rounded-circle"
-            />
-          </a>
           <Dropdown.Menu className="custom_menu">
             <Dropdown.Item
               onClick={() => {
@@ -275,7 +270,6 @@ const Mainchat = () => {
           }`}
         onClick={() =>
           renderChat(item, index, data)
-          // console.log("jhgfd", data, index, item)
           // setCurrentUsers(true)
         }
       >
@@ -287,7 +281,9 @@ const Mainchat = () => {
         <span className="mx-2 listedName">
           {data?.fullName !== undefined ? data?.fullName : item?.fullName}
         </span>
+
       </li>
+
     );
   };
   useEffect(() => {
@@ -423,6 +419,8 @@ const Mainchat = () => {
                         users={users}
                         setJobId={setJobId}
                         jobId={jobId}
+                        zoom={zoom}
+                        zoomUrl={zoomUrl}
                         setUsers={setUsers}
                         id={userId}
                         blockedBy={blockedBy}
