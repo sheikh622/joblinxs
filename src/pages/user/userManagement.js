@@ -119,7 +119,6 @@ const UserManagement = (row, item) => {
     );
   }, [page, limit, type, search, status]);
 
-  console.log("status",status)
   const filter = [
     {
       value: "all",

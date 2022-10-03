@@ -47,6 +47,7 @@ import {
   GET_SINGLE_USER,
   RATE_PROVIDER,
   COMPLETE_JOB,
+  CONFIRM_JOB,
   GET_APPLICANTS_BYUSERID,
   EMERGENCY_JOB
 } from "./constants";
@@ -381,7 +382,6 @@ function* ApprovedHoursSaga({ payload }) {
         },
       }
     );
-    console.log(response.data, "=========================")
     toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getApprovedHoursSuccess(response.data.data));
     // window.location.reload()
@@ -421,6 +421,34 @@ function* CompletejobSaga({ payload }) {
     let Data = {
       jobId: payload.jobId,
       userId: payload.userId,
+      jobStatus: payload.jobStatus,
+
+    };
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.patch(`job/completdBySeeker`, Data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    toast.success(CapitalizeFirstLetter(response.data.message));
+    payload.setLoader(false);
+    yield put(getHiredApplicants({
+      id: payload.payload.id,
+      page: payload.payload.page,
+      limit: payload.payload.limit,
+    }));
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchCompleteJob() {
+  yield takeLatest(COMPLETE_JOB, CompletejobSaga);
+}
+function* ConfirmjobSaga({ payload }) {
+  try {
+    let Data = {
+      jobId: payload.jobId,
+      userId: payload.userId,
       isCompleted: payload.isCompleted,
     };
     const token = yield select(makeSelectAuthToken());
@@ -440,8 +468,8 @@ function* CompletejobSaga({ payload }) {
     yield sagaErrorHandler(error.response);
   }
 }
-function* watchCompleteJob() {
-  yield takeLatest(COMPLETE_JOB, CompletejobSaga);
+function* watchConfirmJob() {
+  yield takeLatest(CONFIRM_JOB, ConfirmjobSaga);
 }
 
 function* getApplicantsByUserId(payload) {
@@ -507,6 +535,7 @@ export default function* addJobSaga() {
   yield all([fork(watchRateJob)]);
   yield all([fork(watchGetHiredApplicants)]);
   yield all([fork(watchCompleteJob)]);
+  yield all([fork(watchConfirmJob)]);
   yield all([fork(watchGetApplicantsByUserId)]);
   yield all([fork(watchemergencyJob)]);
 }

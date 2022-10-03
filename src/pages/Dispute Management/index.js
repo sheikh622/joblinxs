@@ -21,7 +21,6 @@ const DisputeManagement = (item) => {
     const history = useHistory();
     // const ReportList = useSelector((state) => state.ReportListing?.Reports);
     const DisputeList = useSelector((state) => state.DisputeListing?.Reports?.disputedJobListing);
-    console.log(DisputeList, "========vDisputeList=========")
     const [page, setPage] = useState(1);
     const [limit] = useState("10");
     const [loader, setLoader] = useState(true);
@@ -46,8 +45,6 @@ const DisputeManagement = (item) => {
 let DisputeUsers = DisputeList?.length > 0 ? DisputeList[0]?.user : "false";
 let DisputeJob = DisputeList?.length > 0 ? DisputeList[0]?.jobs : "false";
 
-console.log(DisputeUsers,"-----")
-
     const handleClick = (isActive, index, id) => {
         let newArray = dataList;
         newArray[index].reportedTo.isActive = !isActive;
@@ -58,7 +55,7 @@ console.log(DisputeUsers,"-----")
         //     getReportBlock({
         //         userId: id,
         //         page: page,
-        //         limit: limit,
+        //         limit: limit,    
         //     })
         // );
     };
@@ -180,7 +177,7 @@ console.log(DisputeUsers,"-----")
                                 </Pagination.Next>
                             </Pagination>
                         </Nav>
-                        .
+                        
                         <small className="fw-bold">
                             Showing <b>{DisputeList?.length}</b> out of{" "}
                             <b>{DisputeList?.total_reportedUsers}</b> entries

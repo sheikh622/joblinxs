@@ -143,7 +143,7 @@ export default (props = {}) => {
             </div>
             <Nav className="flex-column pt-3 pt-md-0 mt-4">
               {/* businnes seeker here */}
-              {auth?.Auther?.userRole == "User" && (
+              {auth?.Auther?.role?.name == "User" && (
                 <>
                   <NavItem
                     title="Home"
@@ -471,7 +471,7 @@ export default (props = {}) => {
                     }
                     link={Routes.Report_Management.path}
                   />
-                   {/* <NavItem
+                   <NavItem
                     title="Dispute Management"
                     SVG={
                       <svg
@@ -489,7 +489,7 @@ export default (props = {}) => {
                       </svg>
                     }
                     link={Routes.Dispute_Management.path}
-                  /> */}
+                  />
                 </>
               )}
 

@@ -110,6 +110,7 @@ const MyJobDetails = (item, props, data) => {
           {SingleId?.profileType ? SingleId.profileType : ""}
         </h5>
         <Rating
+          size={25}
           onClick={handleRating}
           readonly={true}
           allowHover={false}
@@ -355,7 +356,7 @@ const MyJobDetails = (item, props, data) => {
           </Col>
         </Row>
       </div>
-      <Dispute setReason={setReason} reason={reason} id={userId}/>
+      <Dispute setReason={setReason} reason={reason} id={userId} />
       <Modal as={Modal.Dialog} centered show={showDefault} onHide={handlefalse}>
         <Modal.Header>
           <Modal.Title className="h5">Delete Job</Modal.Title>

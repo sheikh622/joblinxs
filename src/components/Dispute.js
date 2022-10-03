@@ -8,7 +8,8 @@ import {
   import Select from "react-select";
   import * as Yup from "yup";
   import { reportedUser, reportUserList } from "../Redux/profile/actions";
-  const Dispute = ({ item, setShow, show, id }) => {
+  import {getAddDispute, getDisputeReason} from "../Redux/DisputeManagement/actions"
+  const Dispute = ({ item, setDispute, dispute, id }) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [search, setSearch] = useState("");
@@ -19,16 +20,18 @@ import {
     const login = useSelector((state) => state.auth.Auther);
     const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
     const ReportData = useSelector((state) => state.ProfileReducer.ReportList);
+    const ReasonList = useSelector((state)=> state?.DisputeListing?.Reasons?.data);
     const auth = useSelector((state) => state.auth);
     const forAction = history?.location?.state?.from;
     const [showDefault, setShowDefault] = useState(false);
     const [reportList, setReportList] = useState([]);
+    // const [dispute, setDispute] = useState(false);
     const [categories, setCategories] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const params = useLocation();
     let profileId = params.pathname.split("/")[2];
     const handleClose = () => {
-      setShow(false);
+      setDispute(false);
       CategoryFormik.resetForm();
     };
     const CategorySchema = Yup.object().shape({});
@@ -40,35 +43,35 @@ import {
     });
     useEffect(() => {
       let data;
-      if (ReportData) {
-        data = ReportData?.map((item) => ({
+      if (ReasonList) {
+        data = ReasonList?.map((item) => ({
           label: item?.details,
           value: item?.id,
         }));
         setReportList(data);
       }
-    }, [ReportData]);
+    }, [ReasonList]);
     useEffect(() => {
-      dispatch(reportUserList({}));
+      dispatch(getDisputeReason({}));
     }, []);
-    // const handleReport = () => {
-    //   dispatch(
-    //     reportedUser({
-    //       reportedTo: profileId ? profileId : id,
-    //       reportedBy: login?.id,
-    //       description: CategoryFormik?.values?.description
-    //         ? CategoryFormik?.values?.description
-    //         : "",
-    //       reportId: selectedCategory ? selectedCategory : "",
-    //       setSelectedCategory: setSelectedCategory,
-    //       setCategories: setCategories,
+    const handleReport = () => {
+      dispatch(
+        reportedUser({
+          reportedTo: profileId ? profileId : id,
+          reportedBy: login?.id,
+          description: CategoryFormik?.values?.description
+            ? CategoryFormik?.values?.description
+            : "",
+          reportId: selectedCategory ? selectedCategory : "",
+          setSelectedCategory: setSelectedCategory,
+          setCategories: setCategories,
   
-    //     })
-    //   );
-    //   handleClose();
-    // };
+        })
+      );
+      handleClose();
+    };
     return (
-      <Modal as={Modal.Dialog} centered show={show} onHide={() => { handleClose(); setSelectedCategory(null); setCategories(null) }}>
+      <Modal as={Modal.Dialog} centered show={dispute} onHide={() => { handleClose(); setSelectedCategory(null); setCategories(null) }}>
         <Modal.Header>
           <Modal.Title className="h5">{"Dispute"}</Modal.Title>
           <Button variant="close" aria-label="Close" onClick={handleClose} />
@@ -125,14 +128,14 @@ import {
                 //     handleReport();
                 //   }}
                 >
-                  Report
+                  Confirm Dispute
                 </Button>
               </div>
             </Form.Group>
           </Form>
         </Modal.Body>
       </Modal>
-    );
+    );  
   };
   export default Dispute;
   

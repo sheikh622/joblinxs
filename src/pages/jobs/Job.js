@@ -127,11 +127,6 @@ const Job = () => {
       value: "inprogress",
       label: "Inprogress"
     },
-    // {
-    //   value: "canceled",
-    //   label: "Canceled"
-
-    // }
   ];
   useEffect(
     (action) => {
@@ -149,7 +144,6 @@ const Job = () => {
     },
     [page, limit, type, categoryType]
   );
-
   const nextPage = () => {
     if (page < JobList?.pages) {
       setPage(page + 1);
