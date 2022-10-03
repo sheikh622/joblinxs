@@ -133,7 +133,6 @@ const Mainchat = () => {
       })
     );
   };
-
   useEffect(() => {
     dispatch(getToken());
   }, []);
