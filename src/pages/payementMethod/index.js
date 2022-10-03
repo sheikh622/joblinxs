@@ -117,7 +117,7 @@ const Payment = () => {
                     </td>
                     <td>
                       <span className="fw-normal">
-                        {`${cardDetail?.exp_month !==undefined ? cardDetail?.exp_year : "****"}${cardDetail?.exp_year !==undefined ? cardDetail?.exp_year : "****"}`}
+                        {`${cardDetail?.exp_month !==undefined ? cardDetail?.exp_month : "****"}-${cardDetail?.exp_year !==undefined ? cardDetail?.exp_year : "****"}`}
                       </span>
                     </td>
                   </tr>
