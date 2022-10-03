@@ -33,6 +33,7 @@ export default (props = {}) => {
     setShowDefaultCategory(false);
   };
   const auth = useSelector((state) => state.auth);
+  console.log(auth?.Auther?.role?.name, "login data here")
   const onCollapse = () => setShow(!show);
 
   const NavItem = (props) => {
@@ -128,7 +129,7 @@ export default (props = {}) => {
                 <div className="d-block">
                   <h4>{auth?.Auther?.fullName}</h4>
                   <span>
-                    {auth?.Auther?.userRole == "Admin"
+                    {auth?.Auther?.role?.name == "Admin"
                       ? CapitalizeFirstLetter(auth?.Auther?.userRole)
                       : CapitalizeFirstLetter(auth?.Auther?.profileType)}
                   </span>
@@ -368,7 +369,7 @@ export default (props = {}) => {
                 </>
               )}
 
-              {auth?.Auther?.userRole == "Admin" && (
+              {auth?.Auther?.role?.name == "Admin" && (
                 <NavItem
                   title="User Management"
                   icon={faThList}
@@ -376,7 +377,7 @@ export default (props = {}) => {
                 />
               )}
 
-              {auth?.Auther?.userRole == "Admin" && (
+              {auth?.Auther?.role?.name == "Admin" && (
                 <>
                   <NavItem
                     title="Categories"
