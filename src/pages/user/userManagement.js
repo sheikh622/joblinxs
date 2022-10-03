@@ -154,7 +154,7 @@ const UserManagement = (row, item) => {
       price,
       issueDate,
       dueDate,
-      status,
+      // status,
       item,
       index
 

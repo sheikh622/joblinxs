@@ -1,28 +1,13 @@
 import {
-  faEdit,
-  faEllipsisV,
-  faTrashAlt,
-} from "@fortawesome/free-solid-svg-icons";
-import { toast } from "react-toastify";
-import {
-  Button,
-  ButtonGroup,
-  Card,
-  Col,
-  Container,
-  Dropdown,
-  Form,
-  Image,
-  Modal,
-  Row,
+  Button, Col, Form, Modal
 } from "@themesberg/react-bootstrap";
-import Select from "react-select";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
+import Select from "react-select";
 import * as Yup from "yup";
-import { reportUserList, reportedUser } from "../Redux/profile/actions";
+import { reportedUser, reportUserList } from "../Redux/profile/actions";
 const Report = ({ item, setShow, show, id }) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -42,7 +27,6 @@ const Report = ({ item, setShow, show, id }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const params = useLocation();
   let profileId = params.pathname.split("/")[2];
-  console.log("selectedCategories", categories)
   const handleClose = () => {
     setShow(false);
     CategoryFormik.resetForm();

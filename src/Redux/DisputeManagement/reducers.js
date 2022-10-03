@@ -2,7 +2,9 @@ import produce from "immer";
 import {
   GET_DISPUTE_LIST_SUCCESS,
   CHANGE_DISPUTE_ACTIVE_PAGE,
-  // GET_REPORT_BLOCK_SUCCESS
+  // GET_REPORT_BLOCK_SUCCESS,
+  DISPUTE_REASON_SUCCESS,
+  ADD_DISPUTE_SUCCESS,
 } from "./constants";
 
 
@@ -10,7 +12,8 @@ const initialState = {
   Dispute: [],
   DisputeActivePage: 0,
   // ReportBlock: [],
-  
+  Reasons: [],
+  addDispute:[],
 
 };
 
@@ -25,6 +28,12 @@ const DisputeListing = produce((state = initialState, action) => {
     // case GET_REPORT_BLOCK_SUCCESS:
     //   state.ReportBlock = action.payload;
     //   break;
+    case DISPUTE_REASON_SUCCESS:
+      state.Reasons = action.payload;
+      break;
+    case ADD_DISPUTE_SUCCESS:
+      state.addDispute = action.payload;
+      break;
     default:
   }
 }, initialState);
