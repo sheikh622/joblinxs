@@ -23,7 +23,7 @@ function* getJobList({ payload }) {
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      `job/admin/?page=${payload.page}&count=${payload.limit}&status=&search=${payload.search}&type=${payload.type}&category=${payload.category}`,
+      `job/admin/?page=${payload.page}&count=${payload.limit}&status=${payload.status}&search=${payload.search}&type=${payload.type}&category=${payload.category}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -55,6 +55,7 @@ function* deleteJob({ payload }) {
     let data = {
       page: payload.page,
       limit: payload.limit,
+      status:payload.status,
       type: payload.type,
       search: payload.search,
       category: payload.category,
@@ -87,6 +88,7 @@ function* changeJobStatusSaga({ payload }) {
       getJobListing({
         page: payload.page,
         limit: payload.limit,
+        status:payload.status,
         type: payload.type,
         search: payload.search,
         category: payload.category,

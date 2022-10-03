@@ -13,6 +13,7 @@ import Navbar from "../../components/Navbar";
 import NoRecordFound from "../../components/NoRecordFound";
 import Spinner from "../../components/spinner";
 import { changeJobStatus, deleteJob, getJobListing } from "../../Redux/JobManagement/actions";
+import { getCategoryList } from "../../Redux/Category/actions";
 import { Routes } from "../../routes";
 
 const JobManagement = (row) => {
@@ -24,6 +25,7 @@ const JobManagement = (row) => {
   const JobList = useSelector(
     (state) => state?.Job?.Jobs
   );
+ 
   const [adminId, setAdminId] = useState(0);
   const [type, setType] = React.useState("");
   const [loader, setLoader] = useState(true);
@@ -34,6 +36,7 @@ const JobManagement = (row) => {
         isApproved: data.isApproved,
         page: page,
         limit: limit,
+        status: status,
         search: search,
         type: type,
         category: categoryType,
@@ -46,6 +49,7 @@ const JobManagement = (row) => {
         jobId: adminId,
         page: page,
         limit: limit,
+        status: status,
         search: search,
         type: type,
         data: JobList,
@@ -53,7 +57,18 @@ const JobManagement = (row) => {
       })
     );
   };
+  useEffect(() => {
+    dispatch(
+      getCategoryList(
+        {
+          search: "",
+          role: "admin"
+        }
+      )
+    );
+  }, []);
   const [search, setSearch] = useState("");
+  const [status, setStatus] = useState("");
   const [page, setPage] = useState(1);
   const [limit] = useState("10");
   const [categoryType, setCategoryType] = useState("");
@@ -68,11 +83,13 @@ const JobManagement = (row) => {
   const handleChange = (event) => {
     setType(event.target.value);
   };
+  const handleStatus = (event) => {
+    setStatus(event.target.value)
+  }
   const handleClick = (event) => {
     setCategoryType(event.target.value)
   }
-  const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
-
+  const CategoryList = useSelector((state) => state?.Category?.getCategoryList);
   useEffect(() => {
     let array = [
       {
@@ -80,7 +97,7 @@ const JobManagement = (row) => {
         label: "All"
       }
     ];
-    CategoryData.map((item) => {
+    CategoryList.map((item) => {
       array.push({
         value: item?.title,
         label: item?.title,
@@ -88,7 +105,7 @@ const JobManagement = (row) => {
       })
     })
     setCategory(array);
-  }, [CategoryData])
+  }, [CategoryList])
   const currencies = [
     {
       value: "",
@@ -103,11 +120,42 @@ const JobManagement = (row) => {
       label: "Service Seeker",
     },
   ];
+  const arr = [
+    {
+      value: "",
+      label: "All Status",
+    },
+    {
+      value: "pending",
+      label: "Pending",
+    },
+    {
+      value: "completed",
+      label: "Completed",
+    },
+    {
+      value: "Accepted",
+      label: "Accepted",
+    },
+    {
+      value: "inprogress",
+      label: "Inprogress",
+    },
+    {
+      value: "Rejected",
+      label: "Rejected",
+    },
+    {
+      value: "upcoming",
+      label: "Upcoming",
+    },
+  ];
   useEffect(() => {
     dispatch(
       getJobListing({
         page: page,
         limit: limit,
+        status: status,
         search: search,
         type: type,
         setLoader: setLoader,
@@ -115,8 +163,9 @@ const JobManagement = (row) => {
       })
     );
   },
-    [page, limit, type, search, categoryType,]
+    [page, limit, status, type, search, categoryType,]
   );
+
   const [JobProfile, setJobProfile] = useState(row.isApproved);
   useEffect(() => {
     setJobProfile(row.isApproved);
@@ -245,7 +294,7 @@ const JobManagement = (row) => {
                   className="table-wrapper table-responsive shadow-sm"
                 >
                   <Card.Header className="pt-0 d-flex justify-content-between">
-                    <Col lg={3} md={5}>
+                    <Col lg={2} md={5}>
                       <Form.Group className="mt-3">
                         <Form.Control type="text" placeholder="Search"
                           label="Search"
@@ -256,9 +305,10 @@ const JobManagement = (row) => {
                         />
                       </Form.Group>
                     </Col>
-                    <Col lg={3} md={5}>
+                    <Col lg={2} md={5}>
                       <Form.Group className="mt-3">
-                        <Form.Select defaultValue="1" label="Select"
+                        <Form.Select defaultValue="1"
+                          label="Select"
                           value={categoryType}
                           onChange={handleClick}
                         >
@@ -270,7 +320,23 @@ const JobManagement = (row) => {
                         </Form.Select>
                       </Form.Group>
                     </Col>
-                    <Col lg={3} md={5}>
+                    <Col lg={2} md={5}>
+                      <Form.Group className="mt-3">
+                        <Form.Select
+                          defaultValue="1"
+                          label="Select"
+                          value={status}
+                          onChange={handleStatus}
+                        >
+                          {arr.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </Form.Select>
+                      </Form.Group>
+                    </Col>
+                    <Col lg={2} md={5}>
                       <Form.Group className="mt-3">
                         <Form.Select
                           defaultValue="1"

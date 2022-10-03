@@ -5,6 +5,7 @@
   border-radius: 12px;
   box-shadow: 0px 4px 5px #ddd !important;
   padding: 0px 0px 5px 5px;
+
   img {
     width: 80px !important;
     border-radius: 8px;
@@ -17,6 +18,7 @@
     display: flex;
     flex-grow: 1;
     justify-content: space-between;
+
     .left {
       h3 {
         font-size: 18px;
@@ -251,4 +253,79 @@
 
     // }
   }
+}
+
+.applicantCard {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+
+  img {
+    height: 130px !important;
+    width: 130px !important;
+    border-radius: 12px 0px 0px 12px;
+  }
+
+  .detailSection {
+    padding-left: 20px !important;
+    display: flex;
+    flex-grow: 2;
+    justify-content: space-between;
+
+    .left {
+      h3 {
+        font-size: 18px;
+        margin-top: 15px;
+        margin-bottom: 0px;
+      }
+
+      h4 {
+        font-size: 15px;
+        margin: 0px;
+        margin-bottom: 2px;
+      }
+
+      p {
+        margin: 0;
+        font-size: 12px;
+        color: #66707c;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        span {
+          color: #000;
+        }
+      }
+    }
+
+    .starSpan {
+      svg {
+        color: #e3b336;
+        font-size: 12px;
+      }
+    }
+
+
+  }
+}
+.cardShadow{
+  border-radius: 12px;
+  box-shadow: 0px 4px 5px #ddd !important;
+}
+.kep-login-facebook {
+  background: yellow;
+}
+.fbIcon{
+  // border-radius: 12px;
+  // background-color: none;
+  // padding: 7px 17px;
+  border: none;
+  color: blue;
+  font-size: 16px;
+  // border-color:white ;
+  background: transparent;
 }

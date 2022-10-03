@@ -17,14 +17,16 @@ import {
   faAngleDoubleLeft,
   faAngleDoubleRight,
 } from "@fortawesome/free-solid-svg-icons";
-import { getHiredApplicants, completeJob } from "../../Redux/addJob/actions";
+import { getHiredApplicants, completeJob, confirmJob } from "../../Redux/addJob/actions";
 import { useHistory, useLocation } from "react-router-dom";
 import NoRecordFound from "../../components/NoRecordFound";
 import RateModal from "../../components/modal";
 import { Rating } from "react-simple-star-rating";
+import Dispute from "../../components/Dispute";
 
 const Applicants = ({ id }) => {
   const [show, setShow] = useState(false);
+  const [dispute, setDispute] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   const {
@@ -58,9 +60,8 @@ const Applicants = ({ id }) => {
       );
     }
   }, [page, limit, id]);
-
   const nextPage = () => {
-    if (page < Pageination?.pages) {
+    if (page < applicantsData?.pages) {
       setPage(page + 1);
     }
   };
@@ -71,7 +72,7 @@ const Applicants = ({ id }) => {
   };
   const paginationItems = () => {
     let items = [];
-    for (let number = 1; number <= Pageination?.pages; number++) {
+    for (let number = 1; number <= applicantsData?.pages; number++) {
       items.push(
         <Pagination.Item
           key={number}
@@ -86,10 +87,9 @@ const Applicants = ({ id }) => {
     }
     return items;
   };
-
-  const handleComplete = (data) => {
+  const handleConfirm = (data) => {
     dispatch(
-      completeJob({
+      confirmJob({
         jobId: jobId,
         userId: data.id,
         isCompleted: data.isCompleted,
@@ -97,56 +97,14 @@ const Applicants = ({ id }) => {
       })
     );
   };
-
-  const handleClick = (item) => {
-    return (
-      <div>
-        {item?.completedBySeeker ? (
-          <div class="">
-            <Button
-              variant="primary"
-              color="dark"
-              size="sm"
-              style={{ width: "100px", height: "40px" }}
-              onClick={() => {
-                setShow(true);
-              }}
-            >
-              Rate Provider
-            </Button>
-          </div>
-        ) : (
-          <div class="">
-            <Button
-              variant="primary"
-              color="dark"
-              size="sm"
-              style={{ width: "100px", height: "40px" }}
-              onClick={() =>
-                handleComplete({
-                  id: item?.users?.id,
-                  isCompleted: true,
-                })
-              }
-            >
-              Complete Job
-            </Button>
-          </div>
-        )}
-        <div class=" mt-5 ml-auto">
-          <Button
-            variant="primary"
-            color="dark"
-            size="sm"
-            style={{ width: "100px", height: "40px" }}
-            onClick={() => {
-              handleMove(item);
-            }}
-          >
-            Log Hours
-          </Button>
-        </div>
-      </div>
+  const handleComplete = (data) => {
+    dispatch(
+      completeJob({
+        jobId: jobId,
+        userId: data.id,
+        jobStatus: data.jobStatus,
+        setLoader: setLoader,
+      })
     );
   };
   const handleMove = (item) => {
@@ -171,48 +129,108 @@ const Applicants = ({ id }) => {
                         <>
                           <Card
                             border="light"
-                            className="shadow-sm userCard"
+                            className="shadow-sm cardShadow"
                             style={{ marginTop: "15px" }}
                           >
-                            <Image
+                            <div className="applicantCard"> <Image
                               src={item?.users ? item?.users?.profileImg : ""}
                               className="navbar-brand-light"
                             />
-                            <div className="detailSection">
-                              <span className="left">
-                                <h3 className="mb-1 mt-2">
-                                  {item?.users ? item?.users?.fullName : ""}{" "}
-                                </h3>
-                                {/* <span className="starSpan">
-                                  <FontAwesomeIcon icon={faStar} />
-                                  <FontAwesomeIcon icon={faStar} />
-                                  <FontAwesomeIcon icon={faStar} />
-                                  <FontAwesomeIcon icon={faStar} />
-                                  <FontAwesomeIcon icon={faStar} />{" "} */}
-                                <Rating
-                                  onClick={handleRating}
-                                  ratingValue={item?.users?.profile_rating ? item?.users?.profile_rating*20 : ""} /* Available Props */
-                                />
-                                <span>
-                                  {item?.users?.profile_rating ? item?.users?.profile_rating : ""}
+                              <div className="detailSection">
+                                <span className="">
+                                  <h3 className="mb-1 mt-2">
+                                    {item?.users ? item?.users?.fullName : ""}{" "}
+                                  </h3>
+                                  <Rating
+                                    readonly={true}
+                                    allowHover={false}
+                                    size={25}
+                                    onClick={handleRating}
+                                    ratingValue={item?.users?.profile_rating ? item?.users?.profile_rating * 20 : ""} /* Available Props */
+                                  />
+                                  <h4>
+                                    {item?.completedByProvider && !item?.completedBySeeker && "Job is Completed By Provider"}
+                                  </h4>
+                                  <div className="mt-3">
+                                    <a
+                                      href={`/detailProvider/${item?.users?.id}`}
+                                    >
+                                      view profile
+                                    </a>
+                                  </div>
                                 </span>
-                                {/* </span> */}
-                                <p className="mt-2">
-                                  Jobs Completed: <span>25</span>{" "}
-                                </p>
-                                <p>
-                                  Jobs Completed as Plumber: <span>14 </span>
-                                </p>
-                                <div className="mt-1">
-                                  <a
-                                    href={`/detailProvider/${item?.users?.id}`}
-                                  >
-                                    view profile
-                                  </a>
-                                </div>
-                              </span>
+
+                              </div>
                             </div>
-                            {handleClick(item)}
+
+                            {/* {handleClick(item)} */}
+                            <div style={{ display: "flex", marginLeft: "auto" }}>
+                              {item?.completedBySeeker ? (
+                                <div>
+                                  <Button
+                                    variant="primary"
+                                    color="dark"
+                                    size="sm"
+                                    style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
+                                    onClick={() => {
+                                      setShow(true);
+                                    }}
+                                  >
+                                    Rate Provider
+                                  </Button>
+                                </div>
+                              ) : (
+                                <div class="">
+                                  <Button
+                                    variant="primary"
+                                    color="dark"
+                                    size="sm"
+                                    style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
+                                    onClick={() => {
+                                      item.completedByProvider == true ? (handleConfirm({
+                                        id: item?.users?.id,
+                                        isCompleted: true,
+                                      })) : handleComplete(
+                                        ({
+                                          id: item?.users?.id,
+                                          jobStatus: true,
+                                        })
+                                      )
+                                    }}
+                                  >
+                                    Complete Job
+                                  </Button>
+                                </div>
+                              )}
+                              <div class="ml-auto">
+                                <Button
+                                  variant="primary"
+                                  color="dark"
+                                  size="sm"
+                                  style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
+                                  onClick={() => {
+                                    handleMove(item);
+                                  }}
+                                >
+                                  Log Hours
+                                </Button>
+                              </div>
+                              {item?.completedByProvider && !item?.completedBySeeker &&
+                                <div class="ml-auto">
+                                  <Button
+                                    variant="primary"
+                                    color="dark"
+                                    size="sm"
+                                    style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
+                                    onClick={() => {
+                                      setDispute(true);
+                                    }}
+                                  >
+                                    Dispute
+                                  </Button>
+                                </div>
+                              }
+                            </div>
                           </Card>
                           {show && (
                             <RateModal
@@ -226,6 +244,13 @@ const Applicants = ({ id }) => {
                               jobId={item?.jobs?.id}
                               ratedTo={item?.users?.id}
                               ratedBy={auth?.id}
+                            />
+                          )}
+                          {dispute && (
+                            <Dispute
+                              dispute={dispute}
+                              setDispute={setDispute}
+
                             />
                           )}
                         </>
@@ -252,7 +277,8 @@ const Applicants = ({ id }) => {
               </Pagination>
             </Nav>
             <small className="fw-bold">
-              Total Applicants <b>{Pageination?.total_jobs}</b>
+              Showing <b>{applicantsData?.length}</b> out of{" "}
+              <b>{applicantsData?.total_applicants}</b> entries
             </small>
           </Card.Footer>
         </Row>

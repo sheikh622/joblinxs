@@ -29,7 +29,8 @@ const ReportManagement = (item) => {
             setDataList(ReportList?.reportedUsers);
         }
     }, [ReportList]);
-
+    let ReportByData = dataList?.length > 0 ? dataList[0]?.reportedBy : "false";
+    let ReportToData = dataList?.length > 0 ? dataList[0]?.reportedTo : "false";
     useEffect(() => {
         dispatch(
             getReportList({
@@ -40,7 +41,6 @@ const ReportManagement = (item) => {
             })
         );
     }, [page, limit]);
-
     const handleClick = (isActive, index, id) => {
         let newArray = dataList;
         setBlockUser(isActive);
@@ -100,14 +100,17 @@ const ReportManagement = (item) => {
 
         return (
             <tr>
+
                 <td style={{ paddingLeft: "16px" }}>
-                    <span className="fw-normal">
-                        {item?.reportedBy?.fullName ? item?.reportedBy?.fullName : "N/A"}
-                    </span>
+                    <a href={`/detailProvider/${ReportByData?.id}`}>
+                        <span className="fw-normal">
+                            {item?.reportedBy?.fullName ? item?.reportedBy?.fullName : "N/A"}
+                        </span>
+                    </a>
                 </td>
                 <td style={{ paddingLeft: "16px" }}>
                     <div className="tablelisted">
-                    <span className="fw-normal">{item?.description ? item?.description : "N/A"}</span>
+                        <span className="fw-normal">{item?.description ? item?.description : "N/A"}</span>
                     </div>
                 </td>
                 <td style={{ paddingLeft: "16px" }}>
@@ -121,9 +124,11 @@ const ReportManagement = (item) => {
                     </span>
                 </td>
                 <td style={{ paddingLeft: "16px" }}>
-                    <span className="fw-normal">
-                        {item?.reportedTo?.fullName ? item?.reportedTo?.fullName : " N/A"}
-                    </span>
+                    <a href={`/detailProvider/${ReportToData?.id}`}>
+                        <span className="fw-normal">
+                            {item?.reportedTo?.fullName ? item?.reportedTo?.fullName : " N/A"}
+                        </span>
+                    </a>
                 </td>
                 <td style={{ paddingLeft: "7%" }}>
                     <span>
@@ -158,6 +163,7 @@ const ReportManagement = (item) => {
                                     <Table hover className="user-table align-items-center">
                                         <thead>
                                             <tr>
+
                                                 <th className="border-bottom">Report By</th>
                                                 <th className="border-bottom">Description</th>
                                                 <th className="border-bottom">Email</th>

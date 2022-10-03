@@ -1,6 +1,7 @@
 import {
 
-  CHANGE_DISPUTE_ACTIVE_PAGE, GET_DISPUTE_LIST_SUCCESS, GET_DISPUTE_LIST
+  CHANGE_DISPUTE_ACTIVE_PAGE, GET_DISPUTE_LIST_SUCCESS, GET_DISPUTE_LIST, DISPUTE_REASON,DISPUTE_REASON_SUCCESS,
+  ADD_DISPUTE,ADD_DISPUTE_SUCCESS
 
 } from "./constants";
 
@@ -23,4 +24,19 @@ export const changeDisputeActivePage = (data) => ({
 // export const getReportBlockSuccess = () => ({
 //   type: GET_REPORT_BLOCK_SUCCESS,
 // });
-
+export const getDisputeReason = (data) => ({
+  type: DISPUTE_REASON,
+  payload: data,
+});
+export const DisputeReasonSuccess = (data) => ({
+  type: DISPUTE_REASON_SUCCESS,
+  payload: data,
+});
+export const getAddDispute = (data) => ({
+  type: ADD_DISPUTE,
+  payload: data,
+});
+export const addDisputeSuccess = (data) => ({
+  type: ADD_DISPUTE_SUCCESS,
+  payload: data,
+});

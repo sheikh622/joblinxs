@@ -38,16 +38,17 @@ const Chatboard = ({
         senderId: currentUser.id,
         receiverId: id,
         message: message,
+
       };
-    if(blockedBy === null){
-      dispatch(SendMessage({data,message, users, currentUser, customKey}));
-    }else{
-      if(blockedBy){
-        toast.error("You have blocked this user");
-      }else{
-        toast.error("You have been blocked by this user");
+      if (blockedBy === null) {
+        dispatch(SendMessage({ data, message, users, currentUser, customKey, zoom: false }));
+      } else {
+        if (blockedBy) {
+          toast.error("You have blocked this user");
+        } else {
+          toast.error("You have been blocked by this user");
+        }
       }
-    }
     },
     [users]
   );
@@ -60,30 +61,30 @@ const Chatboard = ({
           <>
             {blockedBy === null ? (
               <>
-              <TextareaAutosize
-              maxRows={3}
-              className="textarea mt-2"
-              placeholder="Text Message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              style={{ width: 200 }}
-            />
-             {message && (
-           <svg
-             width="22"
-             height="20"
-             viewBox="0 0 22 20"
-             fill="none"
-             onClick={()=>onSend(message)}
-             xmlns="http://www.w3.org/2000/svg"
-           >
-             <path
-               d="M21.9999 9.99991C21.9658 9.15273 21.6078 8.35094 20.9999 7.75991C20.4268 7.16953 19.7485 6.69134 18.9999 6.34991C18.9999 6.34991 18.9499 6.34991 18.9099 6.28991L5.25992 0.539912C4.8624 0.365934 4.43382 0.274095 3.99992 0.269912C3.565 0.263282 3.1331 0.343225 2.72936 0.505089C2.32562 0.666953 1.95811 0.907505 1.64822 1.21274C1.33833 1.51798 1.09225 1.88181 0.924292 2.28305C0.756339 2.6843 0.669871 3.11494 0.669922 3.54991C0.687102 4.13249 0.826801 4.70492 1.07992 5.22991L2.92992 9.99991L1.07992 14.7799C0.829294 15.3058 0.689725 15.8777 0.669922 16.4599C0.66989 16.8953 0.756295 17.3265 0.924129 17.7282C1.09196 18.13 1.33789 18.4945 1.64764 18.8006C1.95739 19.1066 2.32482 19.3481 2.72861 19.5111C3.1324 19.674 3.56452 19.7552 3.99992 19.7499C4.44057 19.7484 4.87622 19.6565 5.27992 19.4799V19.4799L18.8899 13.7299C18.937 13.7058 18.9807 13.6755 19.0199 13.6399C19.7766 13.2685 20.4555 12.756 21.0199 12.1299C21.296 11.833 21.5252 11.4958 21.6999 11.1299C21.8809 10.7796 21.9833 10.3939 21.9999 9.99991V9.99991ZM3.99992 2.26991C4.21987 2.27073 4.43624 2.32568 4.62992 2.42991C4.67425 2.45252 4.7213 2.46932 4.76992 2.47991L17.5999 7.91991C18.2598 8.16903 18.8696 8.53486 19.3999 8.99991H4.68992L2.76992 4.05991C2.71263 3.89933 2.68222 3.73039 2.67992 3.55991C2.67849 3.38756 2.71188 3.2167 2.7781 3.05756C2.84431 2.89843 2.94198 2.75431 3.06524 2.63385C3.18851 2.51338 3.33484 2.41905 3.49545 2.35651C3.65606 2.29398 3.82765 2.26452 3.99992 2.26991V2.26991ZM2.66992 16.4599C2.67563 16.3028 2.706 16.1476 2.75992 15.9999V15.9999L4.68992 10.9999H19.3199C18.8188 11.4613 18.2353 11.8243 17.5999 12.0699V12.0699L4.71992 17.5299H4.57992C4.38887 17.6418 4.17133 17.7005 3.94992 17.6999C3.61801 17.6976 3.29977 17.5674 3.06138 17.3365C2.82298 17.1055 2.68278 16.7916 2.66992 16.4599V16.4599Z"
-               fill="#12499C"
-             />
-           </svg>
-         )}
-            </>
+                <TextareaAutosize
+                  maxRows={3}
+                  className="textarea mt-2"
+                  placeholder="Text Message"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  style={{ width: 200 }}
+                />
+                {message && (
+                  <svg
+                    width="22"
+                    height="20"
+                    viewBox="0 0 22 20"
+                    fill="none"
+                    onClick={() => onSend(message)}
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M21.9999 9.99991C21.9658 9.15273 21.6078 8.35094 20.9999 7.75991C20.4268 7.16953 19.7485 6.69134 18.9999 6.34991C18.9999 6.34991 18.9499 6.34991 18.9099 6.28991L5.25992 0.539912C4.8624 0.365934 4.43382 0.274095 3.99992 0.269912C3.565 0.263282 3.1331 0.343225 2.72936 0.505089C2.32562 0.666953 1.95811 0.907505 1.64822 1.21274C1.33833 1.51798 1.09225 1.88181 0.924292 2.28305C0.756339 2.6843 0.669871 3.11494 0.669922 3.54991C0.687102 4.13249 0.826801 4.70492 1.07992 5.22991L2.92992 9.99991L1.07992 14.7799C0.829294 15.3058 0.689725 15.8777 0.669922 16.4599C0.66989 16.8953 0.756295 17.3265 0.924129 17.7282C1.09196 18.13 1.33789 18.4945 1.64764 18.8006C1.95739 19.1066 2.32482 19.3481 2.72861 19.5111C3.1324 19.674 3.56452 19.7552 3.99992 19.7499C4.44057 19.7484 4.87622 19.6565 5.27992 19.4799V19.4799L18.8899 13.7299C18.937 13.7058 18.9807 13.6755 19.0199 13.6399C19.7766 13.2685 20.4555 12.756 21.0199 12.1299C21.296 11.833 21.5252 11.4958 21.6999 11.1299C21.8809 10.7796 21.9833 10.3939 21.9999 9.99991V9.99991ZM3.99992 2.26991C4.21987 2.27073 4.43624 2.32568 4.62992 2.42991C4.67425 2.45252 4.7213 2.46932 4.76992 2.47991L17.5999 7.91991C18.2598 8.16903 18.8696 8.53486 19.3999 8.99991H4.68992L2.76992 4.05991C2.71263 3.89933 2.68222 3.73039 2.67992 3.55991C2.67849 3.38756 2.71188 3.2167 2.7781 3.05756C2.84431 2.89843 2.94198 2.75431 3.06524 2.63385C3.18851 2.51338 3.33484 2.41905 3.49545 2.35651C3.65606 2.29398 3.82765 2.26452 3.99992 2.26991V2.26991ZM2.66992 16.4599C2.67563 16.3028 2.706 16.1476 2.75992 15.9999V15.9999L4.68992 10.9999H19.3199C18.8188 11.4613 18.2353 11.8243 17.5999 12.0699V12.0699L4.71992 17.5299H4.57992C4.38887 17.6418 4.17133 17.7005 3.94992 17.6999C3.61801 17.6976 3.29977 17.5674 3.06138 17.3365C2.82298 17.1055 2.68278 16.7916 2.66992 16.4599V16.4599Z"
+                      fill="#12499C"
+                    />
+                  </svg>
+                )}
+              </>
             ) : (
               <h3 className="text-center">You have been blocked by this user</h3>
             )}
@@ -99,66 +100,66 @@ const Chatboard = ({
   const handleAccept = useCallback(
     (data) => {
       jobOffer = {
-        offeredPrice: data?.jobOffer?.offeredPrice?data?.jobOffer?.offeredPrice :"",
-        title: data?.jobOffer?.title ? data?.jobOffer?.title:"",
-        offerTo: data?.jobOffer?.title ? data?.jobOffer?.title:"",
-        offerDays: data?.jobOffer?.offerDays ? data?.jobOffer?.offerDays:0,
-        offerHours: data?.jobOffer?.offerHours ? data?.jobOffer?.offerHours:0,
+        offeredPrice: data?.jobOffer?.offeredPrice ? data?.jobOffer?.offeredPrice : "",
+        title: data?.jobOffer?.title ? data?.jobOffer?.title : "",
+        offerTo: data?.jobOffer?.title ? data?.jobOffer?.title : "",
+        offerDays: data?.jobOffer?.offerDays ? data?.jobOffer?.offerDays : 0,
+        offerHours: data?.jobOffer?.offerHours ? data?.jobOffer?.offerHours : 0,
         offerStatus: "Accepted",
-        jobId: data?.jobId ?data?.jobId :"",
+        jobId: data?.jobId ? data?.jobId : "",
       };
-      let newData ={
-        jobOffer :jobOffer,
-        users:users,
-        jobId:data.jobOffer.jobId,
+      let newData = {
+        jobOffer: jobOffer,
+        users: users,
+        jobId: data.jobOffer.jobId,
         userId: currentUser?.id,
-        isAccepted:true,
-        id:data.id,
+        isAccepted: true,
+        id: data.id,
       }
-      if(blockedBy === null){
+      if (blockedBy === null) {
         dispatch(
           CustomOfferAccept(newData)
         )
         // updateCustomOffer(data.id, users, jobOffer, currentUser?.id);
-      }else{
-        if(blockedBy){
+      } else {
+        if (blockedBy) {
           toast.error("You have blocked this user");
-        }else{
+        } else {
           toast.error("You have been blocked by this user");
         }
       }
-      
+
     },
     [users]
   );
   const handleDecline = useCallback(
     (data) => {
       jobOffer = {
-        offeredPrice: data?.jobOffer?.offeredPrice?data?.jobOffer?.offeredPrice :"",
-        title: data?.jobOffer?.title ? data?.jobOffer?.title:"",
-        offerTo: data?.jobOffer?.title ? data?.jobOffer?.title:"",
-        offerDays: data?.jobOffer?.offerDays ? data?.jobOffer?.offerDays:0,
-        offerHours: data?.jobOffer?.offerHours ? data?.jobOffer?.offerHours:0,
+        offeredPrice: data?.jobOffer?.offeredPrice ? data?.jobOffer?.offeredPrice : "",
+        title: data?.jobOffer?.title ? data?.jobOffer?.title : "",
+        offerTo: data?.jobOffer?.title ? data?.jobOffer?.title : "",
+        offerDays: data?.jobOffer?.offerDays ? data?.jobOffer?.offerDays : 0,
+        offerHours: data?.jobOffer?.offerHours ? data?.jobOffer?.offerHours : 0,
         offerStatus: "Rejected",
-        jobId: data?.jobId ?data?.jobId :"",
+        jobId: data?.jobId ? data?.jobId : "",
       };
-      let newData ={
-        jobOffer :jobOffer,
-        users:users,
-        jobId:data.jobOffer.jobId,
+      let newData = {
+        jobOffer: jobOffer,
+        users: users,
+        jobId: data.jobOffer.jobId,
         userId: currentUser?.id,
-        isAccepted:false,
-        id:data.id,
+        isAccepted: false,
+        id: data.id,
       }
-      if(blockedBy === null){
-         dispatch(
+      if (blockedBy === null) {
+        dispatch(
           CustomOfferAccept(newData)
         )
         // updateCustomOffer(data.id, users, jobOffer);
-      }else{
-        if(blockedBy){
+      } else {
+        if (blockedBy) {
           toast.error("You have blocked this user");
-        }else{
+        } else {
           toast.error("You have been blocked by this user");
         }
       }
@@ -241,11 +242,11 @@ const Chatboard = ({
       }
     }
   };
-  
+
   return (
     <GiftedChat
       messages={messages}
-      renderBubble={(props)=>renderBubble(props)}
+      renderBubble={(props) => renderBubble(props)}
       // onSend={(messages) => onSend(messages)}
       user={{
         _id: currentUser?.id,
