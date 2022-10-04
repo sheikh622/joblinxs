@@ -42,6 +42,7 @@ function* watchGetList() {
 }
 
 function* getSendMessages({ payload }) {
+
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.post(
@@ -113,7 +114,6 @@ function* watchGetToken() {
   yield takeLatest(GENERATE_TOKEN, generateToken);
 }
 function* getMeeting({ payload }) {
-  console.log("payoad", payload)
   let data = {
     access_token: payload.access_token,
     agenda: payload.agenda,
@@ -129,6 +129,8 @@ function* getMeeting({ payload }) {
       }
     );
     yield put(getMeetingSuccess(response.data.data));
+    // payload.setZoom(true);
+    payload.setZoomUrl(response.data?.data?.join_url);
   } catch (error) {
     if (error?.response?.status == 401) {
       yield put(logoutRequest());

@@ -6,7 +6,18 @@ import { SendMessage, CustomOfferAccept } from "../../Redux/chat/actions";
 import moment from "moment";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import { deleteMessage, updateCustomOffer } from "./FirestoreMethods";
-
+import Zoom from "../../assets/img/zoom.svg";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Dropdown,
+  ButtonGroup,
+  Modal,
+  Row,
+} from "@themesberg/react-bootstrap";
 let jobOffer = {
   offeredPrice: 0,
   title: "",
@@ -22,26 +33,34 @@ const Chatboard = ({
   users,
   currentUser,
   id,
+  zoom,
+  zoomUrl
 }) => {
   const dispatch = useDispatch();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  // const [zoomKey, setZoomKey] = useState(zoom);
   const [status, setStatus] = useState(null);
   useEffect(() => {
     setMessages(oneToOneChat);
     setMessage("")
   }, [oneToOneChat]);
 
+  useEffect(() => {
+    // setMessage(zoomUrl);
+    if (zoomUrl) {
+      onSend(zoomUrl, zoom)
+    }
+  }, [zoom, zoomUrl])
   const onSend = useCallback(
     (message) => {
       let data = {
         senderId: currentUser.id,
         receiverId: id,
-        message: message,
-
+        message: message ? message : zoomUrl
       };
       if (blockedBy === null) {
-        dispatch(SendMessage({ data, message, users, currentUser, customKey, zoom: false }));
+        dispatch(SendMessage({ data, message, users, currentUser, customKey, zoom, }));
       } else {
         if (blockedBy) {
           toast.error("You have blocked this user");
@@ -50,7 +69,7 @@ const Chatboard = ({
         }
       }
     },
-    [users]
+    [users, zoom]
   );
   const handleInput = (props) => {
     return (
@@ -171,7 +190,20 @@ const Chatboard = ({
       return (
         <>
           <div className="sendMessage">
-            <p>{currentMessage?.text}</p>
+            {currentMessage.zoom == true ? (
+              <a href={currentMessage?.text} target="_blank">
+                <div className="card shadow bg-transparent p-2 cursor-pointer">
+                  <Card.Img
+                    src={Zoom}
+                    alt="Neil Portrait"
+                    className="user-avatar rounded-circle"
+
+                  /> <p className="black" style={{color:"white"}}>Join Instant Zoom Meeting</p>
+                </div>
+              </a>
+            ) :
+              <p>{currentMessage?.text}</p>
+            }
             <span>{moment(currentMessage.createdAt).format("hh:mm a")}</span>
           </div>
           <svg
@@ -235,7 +267,21 @@ const Chatboard = ({
       } else {
         return (
           <div className="receivedMessage">
-            <p>{currentMessage?.text}</p>
+            {currentMessage.zoom == true ? (
+              <a href={currentMessage?.text} target="_blank">
+                <div className="card shadow bg-transparent p-2 cursor-pointer">
+                  <Card.Img
+                    src={Zoom}
+                    alt="Neil Portrait"
+                    className="user-avatar rounded-circle"
+
+                  /> <p className="black" style={{color:"black"}}>Join Instant Zoom Meeting</p>
+                </div>
+              </a>
+            ) :
+              <p>{currentMessage?.text}</p>
+            }
+            
             <span>{moment(currentMessage.createdAt).format("hh:mm:a")}</span>
           </div>
         );
