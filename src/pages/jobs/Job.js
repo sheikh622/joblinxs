@@ -183,7 +183,6 @@ const Job = () => {
                       ))}
                     </Form.Select>
                   </Form.Group>
-
                 </Col>
                 <Col lg={4} md={4}>
                   <Form.Group>
