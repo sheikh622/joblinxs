@@ -42,7 +42,7 @@ function* watchGetList() {
 }
 
 function* getSendMessages({ payload }) {
- 
+
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.post(
