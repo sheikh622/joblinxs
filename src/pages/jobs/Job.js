@@ -19,6 +19,7 @@ import { getJobs, jobByIdSuccess } from "../../Redux/addJob/actions";
 import { Routes } from "../../routes";
 import AddCard from "../../components/addCard";
 import { getCardDetails } from "../../Redux/settings/actions";
+import { getCategoryList } from "../../Redux/Category/actions";
 
 const Job = () => {
   const dispatch = useDispatch();
@@ -32,10 +33,9 @@ const Job = () => {
   const [type, setType] = useState("");
   const [category, setCategory] = useState([]);
   const [categories, setCategories] = useState(null);
-  const [categoryList, setCategoryList] = useState([]);
+  // const [categoryList, setCategoryList] = useState([]);
   const [loader, setLoader] = useState(true);
   const [resetForm, setResetForm] = useState();
-  console.log(resetForm,"jbdab")
   const [limit] = useState("10");
   const [adminId, setAdminId] = useState("");
   const [categoryType, setCategoryType] = useState("");
@@ -54,7 +54,7 @@ const Job = () => {
     dispatch(getCardDetails(login?.id));
   }, []);
   const [addCard, setAddCard] = useState(false);
-  const [addCardModal, setAddCardModal]= useState(false);
+  const [addCardModal, setAddCardModal] = useState(false);
   useEffect(() => {
     if (cardDetail !== null) {
       setAddCard(false)
@@ -64,49 +64,23 @@ const Job = () => {
 
     }
   }, [cardDetail]);
-  const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
-  //   useEffect(() => {
-  //     let array = [
-  //       {
-  //         value: "ALL",
-  //         label: "All",
-  //       },
-  //     ];
-  //     CategoryData.map((item) => {
-  //       array.push({
-  //         value: item?.title,
-  //         label: item?.title,
-  //       });
-  //     });
-  //     setCategory(array);
-  //   }, [CategoryData]);
-  //   useEffect(() => {
-  //     let array = [];
-  //     CategoryData.map((item) => {
-  //         array.push({
-  //             value: [{ id: item.id, title: item.title, details: item.details }],
-  //             label: item?.title,
-  //         });
-  //     });
-  //     setCategoryList(array);
-  // }, [CategoryData]);
-  // const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
-  // useEffect(() => {
-  //   let array = [
-  //     {
-  //       value: "ALL",
-  //       label: "All"
-  //     }
-  //   ];
-  //   CategoryData.map((item) => {
-  //     array.push({
-  //       value: item?.title,
-  //       label: item?.title,
+  const CategoryList = useSelector((state) => state?.Category?.getCategoryList);
+  useEffect(() => {
+    let array = [
+      {
+        value: "ALL",
+        label: "All"
+      }
+    ];
+    CategoryList.map((item) => {
+      array.push({
+        value: item?.title,
+        label: item?.title,
 
-  //     })
-  //   })
-  //   setCategory(array);
-  // }, [CategoryData])
+      })
+    })
+    setCategory(array);
+  }, [CategoryList])
   const currencies = [
     {
       value: "all",
@@ -128,11 +102,6 @@ const Job = () => {
       value: "inprogress",
       label: "Inprogress"
     },
-    // {
-    //   value: "canceled",
-    //   label: "Canceled"
-
-    // }
   ];
   useEffect(
     (action) => {
@@ -150,7 +119,16 @@ const Job = () => {
     },
     [page, limit, type, categoryType]
   );
-
+  useEffect(() => {
+    dispatch(
+      getCategoryList(
+        {
+          search: "",
+          role: "user"
+        }
+      )
+    );
+  }, []);
   const nextPage = () => {
     if (page < JobList?.pages) {
       setPage(page + 1);
@@ -190,7 +168,7 @@ const Job = () => {
           ) : (
             <>
               <div className="d-flex justify-content-between mt-0 mb-4 headerBorder">
-                <Col lg={9} md={9}>
+                <Col lg={4} md={4}>
                   <Form.Group>
                     <Form.Select
                       defaultValue="1"
@@ -205,10 +183,9 @@ const Job = () => {
                       ))}
                     </Form.Select>
                   </Form.Group>
-
                 </Col>
-                {/* <Col lg={4} md={4}>
-                  <Form.Group className="mt-3">
+                <Col lg={4} md={4}>
+                  <Form.Group>
                     <Form.Select defaultValue="1" label="Select"
                       value={categoryType}
                       onChange={handleClick}
@@ -220,38 +197,39 @@ const Job = () => {
                       ))}
                     </Form.Select>
                   </Form.Group>
-                </Col> */}
+                </Col>
                 <span className="d-flex align-items-baseline mb-3">
                   {/* <a className="text-white fw-bold" href={Routes.CreateJob.path}> */}
-                                       
-                    <Button variant="primary" className="mx-2" 
-                    onClick={()=> {addCard? setAddCardModal(true) :history.push(Routes.CreateJob.path); 
+
+                  <Button variant="primary" className="mx-2"
+                    onClick={() => {
+                      addCard ? setAddCardModal(true) : history.push(Routes.CreateJob.path);
                       dispatch(
                         jobByIdSuccess(null)
                       );
                     }}>
-                      <svg
-                        width="17"
-                        height="17"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M12 12H8M12 8V12V8ZM12 12V16V12ZM12 12H16H12Z"
-                          stroke="white"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                        />
-                        <path
-                          d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-                          stroke="white"
-                          stroke-width="2"
-                        />
-                      </svg>
-                      {"  "}
-                      Add Job
-                    </Button>
+                    <svg
+                      width="17"
+                      height="17"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 12H8M12 8V12V8ZM12 12V16V12ZM12 12H16H12Z"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                        stroke="white"
+                        stroke-width="2"
+                      />
+                    </svg>
+                    {"  "}
+                    Add Job
+                  </Button>
                   {/* </a> */}
                 </span>
               </div>
@@ -307,12 +285,12 @@ const Job = () => {
         </Row>
       </div>
       <AddCard
-            addCard={addCardModal}
-            setAddCard={setAddCardModal}
-            
-            // onHide={() => setAddCard(true)
-            // }
-          />
+        addCard={addCardModal}
+        setAddCard={setAddCardModal}
+
+      // onHide={() => setAddCard(true)
+      // }
+      />
     </>
   );
 };

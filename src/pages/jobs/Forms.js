@@ -60,7 +60,6 @@ export const GeneralInfoForm = () => {
   const [paymentType, setPaymentType] = useState(
     SingleId?.paymentType ? SingleId?.paymentType : ""
   );
-  console.log("singleId",SingleId)
   const [jobNature, setJobNature] = useState(
     SingleId?.jobNature ? SingleId?.jobNature : ""
   );

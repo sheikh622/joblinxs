@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import ChatBoard from "./chatBoard";
 import {
@@ -17,6 +17,8 @@ import Navbar from "../../components/Navbar";
 import profile from "../../assets/img/team/profile-picture-1.jpg";
 import NoRecordFound from "../../components/NoRecordFound";
 import Report from "../../components/report";
+import { SendMessage, CustomOfferAccept } from "../../Redux/chat/actions";
+
 import {
   collection as col,
   onSnapshot,
@@ -28,15 +30,19 @@ import { db } from "../../firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { sendMessage } from "./FirestoreMethods";
 import createChatId from "./CreateChatId.js";
-import { getList } from "../../Redux/chat/actions";
+import { getList, getToken, getMeeting } from "../../Redux/chat/actions";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { blockUser, unblockUser } from "../../Redux/profile/actions";
+import phone from "../../assets/img/phone-call.svg";
+import Zoom from "../../assets/img/zoom.svg";
+import { toast } from "react-toastify";
 
 let selectedIndex;
 let finalData = {
   blockListing: "",
   blockedDataListing: "",
 };
+let customKey = false;
 const Mainchat = () => {
   const dispatch = useDispatch();
   const params = useLocation();
@@ -44,6 +50,8 @@ const Mainchat = () => {
   let fireId = parseInt(params.search.split("?")[2]);
   const currentUser = useSelector((state) => state.auth.Auther);
   const contactsList = useSelector((state) => state?.ChatReducer?.ListData);
+  const TokenResponse = useSelector((state) => state?.ChatReducer?.Token);
+  const MeetingResponse = useSelector((state) => state?.ChatReducer?.Meeting?.join_url);
   const [currentUsers, setCurrentUsers] = useState(false);
   const [oneToOneChat, setOneToOneChat] = useState([]);
   const [selectedUser, setSelectedUser] = useState();
@@ -56,12 +64,32 @@ const Mainchat = () => {
   const [dataList, setDataList] = useState();
   const [users, setUsers] = useState([]);
   const [chatId, setChatId] = useState(fireId);
+  const [zoom, setZoom] = useState(false);
+  const [zoomUrl, setZoomUrl] = useState("");
+  const onSend = useCallback(
+    (message) => {
+      let data = {
+        senderId: currentUser.id,
+        receiverId: userId,
+        message: "https://us05web.zoom.us/j/88570507975?pwd=SVRwakk0WVErZTZmRExWL3oyaitDdz09",
+      };
+      if (blockedBy === null) {
+        dispatch(SendMessage({ data, message, users, currentUser, customKey, zoom: zoom }));
+      } else {
+        if (blockedBy) {
+          toast.error("You have blocked this user");
+        } else {
+          toast.error("You have been blocked by this user");
+        }
+      }
+    },
+    [users]
+  );
   useEffect(() => {
     if (contactsList !== undefined) {
       setDataList(contactsList);
     }
   }, [contactsList]);
-
   useEffect(() => {
     if (chatId) {
       let usersList = [currentUser.firebaseId, chatId];
@@ -74,7 +102,7 @@ const Mainchat = () => {
         blockedTo: selectedUser,
         blockedBy: currentUser?.id,
         setBlockUserSaga: setBlockUserSaga,
-        setBlockedBy:setBlockedBy
+        setBlockedBy: setBlockedBy
       })
     );
   };
@@ -84,7 +112,7 @@ const Mainchat = () => {
         blockedTo: selectedUser,
         blockedBy: currentUser?.id,
         setBlockUserSaga: setBlockUserSaga,
-        setBlockedBy:setBlockedBy
+        setBlockedBy: setBlockedBy
       })
     );
   };
@@ -92,6 +120,21 @@ const Mainchat = () => {
   useEffect(() => {
     dispatch(getList(currentUser.id));
   }, []);
+
+  const handleMeeting = () => {
+    dispatch(
+      getMeeting({
+        access_token: TokenResponse.access_token,
+        agenda: "mymeetings",
+        // setZoom: setZoom,
+        setZoomUrl: setZoomUrl
+      })
+    );
+  };
+  useEffect(() => {
+    dispatch(getToken());
+  }, []);
+
   const handleClose = () => {
     setBlockUserSaga(false);
   };
@@ -115,7 +158,6 @@ const Mainchat = () => {
       });
     }
   }, [currentUser, users]);
-
   const handleChat = (firebaseId, index, id) => {
     if (id) {
       setChatId(firebaseId);
@@ -126,6 +168,7 @@ const Mainchat = () => {
   };
   const renderChat = (item, index, list) => {
     selectedIndex = index;
+    setCurrentUsers(true);
     handleChat(item?.firebaseId, index, item?.id);
     handleClick(list?.blockedBy?.id);
   };
@@ -156,6 +199,32 @@ const Mainchat = () => {
         <span className="mx-2 listedName">
           {blockedDataListing != undefined ? blockedDataListing?.fullName : ""}
         </span>
+        <Dropdown as={ButtonGroup} className="me-2 mt-1 ms-2">
+          <Dropdown.Toggle
+            as={Button}
+            split
+            variant="link"
+            className="text-dark m-0 p-0 ellipsisIcon"
+          >
+            <span className="icon icon-sm">
+              <img src={phone} alt="" width="25px" />
+
+            </span>
+
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu className="custom_menu">
+            <Dropdown.Item
+              onClick={() => {
+                setZoom(true);
+                handleMeeting();
+              }}
+            >
+              Zoom Meeting
+            </Dropdown.Item>
+
+          </Dropdown.Menu>
+        </Dropdown>
         <Dropdown as={ButtonGroup} className="me-3 mt-1 ms-4">
           <Dropdown.Toggle
             as={Button}
@@ -182,21 +251,24 @@ const Mainchat = () => {
             >
               {blockedBy ? "Unblock" : "Block"}
             </Dropdown.Item>
-            {blockedBy ? "":(
-            <Dropdown.Item onClick={() => setShow(true)}>Report</Dropdown.Item>
+            {blockedBy ? "" : (
+              <Dropdown.Item onClick={() => setShow(true)}>Report</Dropdown.Item>
             )}
           </Dropdown.Menu>
         </Dropdown>
       </li>
     );
   };
+
   const renderListUser = (item, index, blockedId, data) => {
     return (
       <li
-        className={`align-items-center list-group-item d-flex pt-2 ${
-          selectedIndex === index ? "active" : ""
-        }`}
-        onClick={() => renderChat(item, index, data)}
+        className={`align-items-center list-group-item d-flex pt-2 ${selectedIndex === index ? "active" : ""
+          }`}
+        onClick={() =>
+          renderChat(item, index, data)
+          // setCurrentUsers(true)
+        }
       >
         <Card.Img
           src={item?.profileImg ? item?.profileImg : profile}
@@ -206,7 +278,9 @@ const Mainchat = () => {
         <span className="mx-2 listedName">
           {data?.fullName !== undefined ? data?.fullName : item?.fullName}
         </span>
+
       </li>
+
     );
   };
   useEffect(() => {
@@ -260,7 +334,7 @@ const Mainchat = () => {
       blockListing: blockedlist?.list,
       blockedDataListing: blockedData?.data,
     };
-    
+
     handleChat(firebaseId?.firebaseId, selectedIndex, id);
   }, [selectedIndex, contactsList, userId]);
   return (
@@ -342,6 +416,8 @@ const Mainchat = () => {
                         users={users}
                         setJobId={setJobId}
                         jobId={jobId}
+                        zoom={zoom}
+                        zoomUrl={zoomUrl}
                         setUsers={setUsers}
                         id={userId}
                         blockedBy={blockedBy}
@@ -357,7 +433,7 @@ const Mainchat = () => {
           </Row>
         </Col>
       </Row>
-      <Report show={show} setShow={setShow} id={userId}/>
+      <Report show={show} setShow={setShow} id={userId} />
       <Modal
         as={Modal.Dialog}
         centered

@@ -40,7 +40,6 @@ const LoginPage = () => {
       }
       return data;
     }
-
     tokenFunc();
   }, [setTokenFound]);
   const history = useHistory();
@@ -76,24 +75,33 @@ const LoginPage = () => {
     },
   });
   const responseFacebook = (response) => {
-    let facebookId = response.id;
-    let firstName = response.firstName;
-    let lastName = response.lastName;
+    // let facebookId = response.id;
+    // let firstName = response.firstName;
+    // let lastName = response.lastName;
     let email = response.email;
-    console.log(facebookId, "====facebookId===========")
+    // let name = response.name;
     dispatch(
       facebookLogin({
-        facebookId: facebookId,
-        firstName: firstName,
-        email:email,
-        lastName:lastName,
+        // facebookId: facebookId,
+        // firstName: firstName,
+        email: email,
+        // name: name,
+        // lastName:lastName,
+        // fcmToken: token,
       })
     )
-    console.log(response, "here is response");
   };
 
   const Goolelogin = useGoogleLogin({
-    onSuccess: tokenResponse => console.log(tokenResponse),
+    onSuccess: tokenResponse => {
+      dispatch(
+        googleLogin({
+          token: tokenResponse?.access_token,
+          // webFcmToken: token,
+        })
+      );
+    }
+    ,
   });
   return (
     <main>
@@ -166,11 +174,7 @@ const LoginPage = () => {
                             <path d="M15.117 11.7189C14.2467 11.7189 13.4121 12.0646 12.7968 12.68C12.1814 13.2953 11.8357 14.1299 11.8357 15.0002C11.8357 15.0962 11.8401 15.1915 11.8483 15.2855L15.4023 11.7315C15.3083 11.7233 15.2134 11.7189 15.117 11.7189ZM4.25603 25.1498L5.5076 26.4002C5.55154 26.4441 5.61114 26.4688 5.67327 26.4688C5.7354 26.4688 5.79499 26.4441 5.83894 26.4002L9.04168 23.1965C10.8085 24.0995 12.7945 24.5509 14.9998 24.5509C20.6306 24.5509 24.8318 21.6183 27.6033 15.7531C27.7147 15.5172 27.7725 15.2596 27.7725 14.9987C27.7725 14.7378 27.7147 14.4802 27.6033 14.2443C26.4959 11.9117 25.1624 10.042 23.6028 8.6354L26.7021 5.53726C26.746 5.49331 26.7707 5.43371 26.7707 5.37158C26.7707 5.30945 26.746 5.24986 26.7021 5.20591L25.4514 3.95522C25.4075 3.9113 25.3479 3.88663 25.2858 3.88663C25.2236 3.88663 25.164 3.9113 25.1201 3.95522L4.25603 24.8181C4.23424 24.8399 4.21696 24.8657 4.20516 24.8942C4.19337 24.9226 4.1873 24.9531 4.1873 24.9839C4.1873 25.0147 4.19337 25.0452 4.20516 25.0737C4.21696 25.1022 4.23424 25.128 4.25603 25.1498ZM20.2732 15.0002C20.2733 15.8908 20.0427 16.7662 19.6039 17.5412C19.1651 18.3162 18.533 18.9643 17.7692 19.4224C17.0055 19.8805 16.1361 20.133 15.2458 20.1553C14.3554 20.1775 13.4745 19.9688 12.6888 19.5494L14.1133 18.125C14.6877 18.3089 15.3017 18.331 15.8879 18.189C16.4742 18.0469 17.0099 17.7461 17.4364 17.3196C17.8629 16.8931 18.1637 16.3573 18.3058 15.7711C18.4479 15.1849 18.4257 14.5709 18.2418 13.9964L19.6662 12.572C20.0659 13.3189 20.2745 14.1531 20.2732 15.0002Z" fill="#66707C" />
                             <path d="M2.39668 15.7559C3.42793 17.9277 4.65537 19.6987 6.079 21.0688L10.3019 16.8457C9.94589 15.9152 9.86699 14.9015 10.0747 13.9271C10.2824 12.9527 10.7678 12.0593 11.4723 11.3549C12.1767 10.6504 13.0701 10.165 14.0445 9.9573C15.0189 9.7496 16.0326 9.82851 16.9631 10.1845L20.5449 6.60264C18.8832 5.83369 17.035 5.44922 15.0002 5.44922C9.36934 5.44922 5.16816 8.38183 2.39668 14.2471C2.28526 14.483 2.22747 14.7406 2.22747 15.0015C2.22747 15.2623 2.28526 15.52 2.39668 15.7559Z" fill="#66707C" />
                           </svg>}
-
-
-
                         </InputGroup.Text>
-
                       </InputGroup>
                       {loginFormik.touched.password && loginFormik.errors.password ? (
                         <div style={{ color: "red" }}>{loginFormik.errors.password}</div>
@@ -194,18 +198,10 @@ const LoginPage = () => {
                     </Button>
                   </Card.Link>
                 </Form>
-
                 <div className="mt-3 mb-4 text-center">
                   <span className="fw-normal">or login with</span>
                 </div>
                 <div className="d-flex justify-content-center my-4">
-                  <Button
-                    variant="outline-light"
-                    className="btn-icon-only card-box-shadow btn-pill text-facebook me-2"
-                    
-                  >
-                    <FontAwesomeIcon icon={faFacebookF} />
-                  </Button>
                   <Button
                     variant="outline-light"
                     className="btn-icon-only card-box-shadow btn-pill text-google me-2 "
@@ -213,40 +209,21 @@ const LoginPage = () => {
                   >
                     <FontAwesomeIcon icon={faGoogle} />
                   </Button>
-                </div>
-                <div
-                //  className={`col-lg-12
-                //   // ${styles.socialLogin}`
-                // }
-                 >
-                  {/* <GoogleLogin
-                    width="368px"
-                    height="450px"
-                    context="Google"
-                    text="Google"
-                    buttonText="Google"
-                    onSuccess={(credentialResponse) => {
-                      console.log(credentialResponse, "==================credentialResponse==========")
-                      dispatch(
-                        googleLogin({
-                          idToken: credentialResponse.credential,
-                        })
-                      );
-                    }}
-                    onError={() => {                               
-                      console.log("Login Failed");
-                    }}
-                  /> */}
-                  {/* <FacebookLogin
-                    appId="652637439522601"
-                    autoLoad={false}
-                    textButton="Facebook"
-                    icon="fa-facebook"
-                    // cssClass={styles.butonfacebook}
-                    fields="name,email,picture"
-                    onClick={responseFacebook}
-                    callback={responseFacebook}
-                  /> */}
+                  <Button
+                    variant="outline-light"
+                    className="btn-icon-only card-box-shadow btn-pill text-google me-2 "
+                  >
+                    <FacebookLogin
+                      appId="3129883347328362"
+                      autoLoad={false}
+                      textButton=""
+                      icon="fa-facebook"
+                      cssClass="border-none fbIcon"
+                      fields="name,email,picture"
+                      // onClick={responseFacebook}
+                      callback={responseFacebook}
+                    />
+                  </Button>
                 </div>
               </div>
             </Col>

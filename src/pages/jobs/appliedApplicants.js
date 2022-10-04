@@ -16,7 +16,8 @@ import { Rating } from "react-simple-star-rating";
 import NoRecordFound from "../../components/NoRecordFound";
 import Spinner from "../../components/spinner";
 import { getApplicants, getConfirmApplicants } from "../../Redux/addJob/actions";
-
+import { InlineWidget } from "react-calendly";
+import { PopupWidget } from "react-calendly";
 // import Tab from "react-bootstrap/Tab";
 // import Tabs from "react-bootstrap/Tabs";
 const Applicants = ({ id }) => {
@@ -29,18 +30,17 @@ const Applicants = ({ id }) => {
   const params = useLocation();
 
   let jobId = params.pathname.split("/")[2];
-  console.log("jobId",jobId)
   const login = useSelector((state) => state?.auth.Auther);
   const [showDefault, setShowDefault] = useState(false);
   const handleClose = () => setShowDefault(false);
   const [page, setPage] = useState(1);
+  const [open, setOpen] = useState(false);
   const [limit] = useState("5");
   const Applicants = useSelector(
     (state) => state?.addJob?.Applicants?.data?.jobs
   );
   const Pageination = useSelector((state) => state?.addJob?.Applicants?.data);
   const [rating, setRating] = useState(0); // initial rating value
-
   useEffect(() => {
     if (id === "Applied") {
       dispatch(
@@ -85,40 +85,12 @@ const Applicants = ({ id }) => {
     dispatch(
       getConfirmApplicants({
         userId: data.id.id,
-        id : jobId,
+        id: jobId,
         isAccepted: data.isAccepted,
         page: page,
         limit: limit,
         setLoader: setLoader,
       })
-    );
-  };
-
-  const handleClick = (item) => {
-    return (
-      <div>
-        <div class="">
-          <Button
-            variant="primary"
-            color="dark"
-            size="sm"
-            style={{ width: "100px", height: "40px" }}
-            onClick={() => handleConfirm({ id: item, isAccepted: true })}
-          >
-            Accept
-          </Button>
-        </div>
-        <div class=" mt-5 ml-auto">
-          <Button
-            variant="danger"
-            color="dark"
-            size="sm"
-            style={{ width: "100px", height: "40px" }}
-          >
-            Decline
-          </Button>
-        </div>
-      </div>
     );
   };
   const handleRating = (rate) => {
@@ -140,36 +112,72 @@ const Applicants = ({ id }) => {
                         <>
                           <Card
                             border="light"
-                            className="shadow-sm userCard"
+                            className="shadow-sm cardShadow"
                             style={{ marginTop: "15px" }}
                           >
-                            <Image
-                              src={item?.user ? item?.user?.profileImg : ""}
-                              className="navbar-brand-light"
-                            />
-                            <div className="detailSection">
-                              <span className="left">
-                                <h3 className="mb-1 mt-2">
-                                  {item?.user ? item?.user?.fullName : ""}{" "}
-                                </h3>
-                                
+                            <div className="applicantCard">
+                              <Image
+                                src={item?.user ? item?.user?.profileImg : ""}
+                                className="navbar-brand-light"
+                              />
+                              <div className="detailSection">
+                                <span className="left">
+                                  <h3 className="mb-1 mt-2">
+                                    {item?.user ? item?.user?.fullName : ""}{" "}
+                                  </h3>
                                   <Rating
                                     onClick={handleRating}
-                                    ratingValue={item?.rating ? item?.rating*20 : ""} /* Available Props */
+                                    ratingValue={item?.rating ? item?.rating * 20 : ""} /* Available Props */
                                   />
                                   <span>
                                     {item?.rating ? item?.rating : ""}
                                   </span>
-                                
-                                <p className="mt-2">
-                                  Jobs Completed: <span>25</span>{" "}
-                                </p>
-                                <p>
-                                  Jobs Completed as Plumber: <span>14 </span>
-                                </p>
-                              </span>
+                                  <p className="mt-2">
+                                    Jobs Completed: <span>25</span>{" "}
+                                  </p>
+                                  <p>
+                                    Jobs Completed as Plumber: <span>14 </span>
+                                  </p>
+                                </span>
+                              </div>
                             </div>
-                            {handleClick(item)}
+
+                            <div style={{ display: "flex", marginLeft: "auto" }}>
+                              <div class="">
+                                <Button
+                                  variant="primary"
+                                  color="dark"
+                                  size="sm"
+                                  style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
+                                  onClick={() => handleConfirm({ id: item, isAccepted: true })}
+                                >
+                                  Accept
+                                </Button>
+                              </div>
+                              <div class="">
+                                <Button
+                                  variant="danger"
+                                  color="dark"
+                                  size="sm"
+                                  style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
+                                >
+                                  Decline
+                                </Button>
+                              </div>
+                              {/* <div class="">
+                                <Button
+                                  variant="danger"
+                                  color="dark"
+                                  size="sm"
+                                  style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
+                                  onClick={() => {
+                                    setOpen(!open)
+                                  }}
+                                >
+                                  Interview
+                                </Button>
+                              </div> */}
+                            </div>
                           </Card>
                         </>
                       );
@@ -195,11 +203,17 @@ const Applicants = ({ id }) => {
               </Pagination>
             </Nav>
             <small className="fw-bold">
-              Total Applicants <b>{Pageination?.total_jobs}</b>
+              Showing <b>{Pageination?.jobs?.length}</b> out of{" "}
+              <b>{Pageination?.total_applicants}</b> entries
             </small>
           </Card.Footer>
         </Row>
       </div>
+      {/* {open && (
+        <InlineWidget url="https://calendly.com/arslansaleem622/30min"
+
+        />
+      )} */}
     </>
   );
 };

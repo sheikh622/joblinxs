@@ -32,8 +32,9 @@ function* loginRequestSaga({ payload }) {
     toast.success("Login Successfully");
     yield put(loginRequestSuccess(response.data.data));
     payload.setLoader(false);
+    console.log(response.data.data.user.role.name, "here is login data")
     let path =
-      response.data.data.user.userRole == "Admin"
+      response.data.data.user.role.name== "Admin"
         ? "/user_management"
         : "/dashboard";
     payload.history.push(path);
@@ -120,22 +121,25 @@ function* LoginFacebookSaga({ payload }) {
   const token = yield select(makeSelectAuthToken());
   let data = {
     email: payload.email,
-    facebookId: payload.facebookId,
-    firstName: payload.firstName,
-    lastName: payload.lastName,
+    // name: payload.name,
+    // facebookId: payload.facebookId,
+    // firstName: payload.firstName,
+    // lastName: payload.lastName,
+    // fcmToken:payload.fcmToken,
   };
   try {
-    const response = yield axios.post(`facebook-authentication`, data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
+    const response = yield axios.post(`facebook-authentication`, data);
+    localStorage.setItem("Token", response.data.data.access_token);
     toast.success(response.data.message);
-    payload.setLoader(false);
+    // payload.setLoader(false);
+    yield put(loginRequestSuccess(response.data.data));
+    // payload.setLoader(false);
+    let path =
+      response.data.data.user.userRole == "Admin"
+        ? "/user_management"
+        : "/dashboard";
+    payload.history.push(path);
 
-    yield put(facebookLoginSuccess(response.data.data));
-   
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -146,27 +150,23 @@ function* watchFacebookLogin() {
 }
 
 function* LogingoogleSaga({ payload }) {
-  const token = yield select(makeSelectAuthToken());
-  let data = {
-    email: payload.email,
-    displayName: payload.displayName,
-    emailVerified: payload.emailVerified,
-    phoneNumber: payload.phoneNumber,
-    uid: payload.uid,
-
-  };
+  let data={
+    token:payload.token,
+    // webFcmToken:payload.webFcmToken
+  }
   try {
-    const response = yield axios.post(`google-authentication`, data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
+    const response = yield axios.post(`google-authentication`, data);
+    localStorage.setItem("Token", response.data.data.access_token);
     toast.success(response.data.message);
-    payload.setLoader(false);
+    // payload.setLoader(false);
+    yield put(loginRequestSuccess(response.data.data));
+    // payload.setLoader(false);
+    let path =
+      response.data.data.user.userRole == "Admin"
+        ? "/user_management"
+        : "/dashboard";
+    payload.history.push(path);
 
-    yield put(googleLoginSuccess(response.data.data));
-   
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

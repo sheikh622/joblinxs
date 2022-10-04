@@ -33,8 +33,9 @@ function* userListRequest({ payload }) {
         },
       }
     );
-    payload.setLoader(false);
     yield put(getUsersListSuccess(response.data.data));
+    payload.setLoader(false);
+
   } catch (error) {
     if(error?.response?.status == 401){
       yield put(logoutRequest());
@@ -85,7 +86,7 @@ function* userProfileSaga({ payload }) {
       }
     );
     toast.success(CapitalizeFirstLetter(response.data.message));
-    yield put(getUserProfileSuccess());
+    // yield put(getUserProfileSuccess());
     yield put(
       getUsersList({
         page: payload.page,
