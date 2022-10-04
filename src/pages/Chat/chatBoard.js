@@ -192,13 +192,13 @@ const Chatboard = ({
           <div className="sendMessage">
             {currentMessage.zoom == true ? (
               <a href={currentMessage?.text} target="_blank">
-                <div className="card shadow bg-white p-2 cursor-pointer">
+                <div className="card shadow bg-transparent p-2 cursor-pointer">
                   <Card.Img
                     src={Zoom}
                     alt="Neil Portrait"
                     className="user-avatar rounded-circle"
 
-                  /> Join Instant Zoom Meeting
+                  /> <p className="black" style={{color:"white"}}>Join Instant Zoom Meeting</p>
                 </div>
               </a>
             ) :
@@ -267,7 +267,21 @@ const Chatboard = ({
       } else {
         return (
           <div className="receivedMessage">
-            <p>{currentMessage?.text}</p>
+            {currentMessage.zoom == true ? (
+              <a href={currentMessage?.text} target="_blank">
+                <div className="card shadow bg-transparent p-2 cursor-pointer">
+                  <Card.Img
+                    src={Zoom}
+                    alt="Neil Portrait"
+                    className="user-avatar rounded-circle"
+
+                  /> <p className="black" style={{color:"black"}}>Join Instant Zoom Meeting</p>
+                </div>
+              </a>
+            ) :
+              <p>{currentMessage?.text}</p>
+            }
+            
             <span>{moment(currentMessage.createdAt).format("hh:mm:a")}</span>
           </div>
         );

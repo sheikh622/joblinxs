@@ -122,8 +122,6 @@ const Mainchat = () => {
   }, []);
 
   const handleMeeting = () => {
-    // setZoom(true);
-    // setZoomUrl("https://us05web.zoom.us/j/88570507975?pwd=SVRwakk0WVErZTZmRExWL3oyaitDdz09")
     dispatch(
       getMeeting({
         access_token: TokenResponse.access_token,

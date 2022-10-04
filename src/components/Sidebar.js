@@ -33,7 +33,6 @@ export default (props = {}) => {
     setShowDefaultCategory(false);
   };
   const auth = useSelector((state) => state.auth);
-  console.log(auth?.Auther?.role?.name, "login data here")
   const onCollapse = () => setShow(!show);
 
   const NavItem = (props) => {
@@ -472,7 +471,7 @@ export default (props = {}) => {
                     }
                     link={Routes.Report_Management.path}
                   />
-                   <NavItem
+                  <NavItem
                     title="Dispute Management"
                     SVG={
                       <svg
