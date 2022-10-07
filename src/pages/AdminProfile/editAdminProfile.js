@@ -15,15 +15,16 @@ import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import profile from "../../assets/img/team/profile-picture-1.jpg";
 import Navbar from "../../components/Navbar";
-import { getProfile, updateAdminProfile } from "../../Redux/profile/actions";
-
+import {  updateAdminProfile } from "../../Redux/profile/actions";
+import { getAdminProfile } from "../../Redux/AdminProfile/actions";
 
 export default () => {
   const history = useHistory();
 
   const dispatch = useDispatch();
   const login = useSelector((state) => state.auth.Auther);
-  const getById = useSelector((state) => state.ProfileReducer.profile);
+  const getProfileData = useSelector((state) => state.AdminProfile?.Adminprofile);
+  console.log("0000000000000",getProfileData)
   const [selectedImage, setSelectedImage] = useState();
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().trim().required("Full name is required"),
@@ -39,23 +40,29 @@ export default () => {
   }, [user]);
 
   useEffect(() => {
-    setUser({ fullName: getById?.fullName, email: getById?.email })
-  }, [getById])
+    setUser({ fullName: getProfileData?.fullName, email: getProfileData?.email })
+  }, [getProfileData])
 
   useEffect(() => {
     dispatch(
-      getProfile({
+      getAdminProfile({
         id: login?.id,
       })
     );
   }, []);
   function onSubmit(data) {
+    console.log("data",data)
     // display form data on success
     let Data = new FormData();
     Data.append("fullName", data.fullName)
-    Data.append("id", getById.id)
-    Data.append("profileImg", selectedImage ? selectedImage : getById?.profileImg)
-    dispatch(updateAdminProfile(Data));
+    Data.append("id", getProfileData.id)
+    Data.append("profileImg", selectedImage ? selectedImage : getProfileData?.profileImg)
+    dispatch(updateAdminProfile({
+      fullName: data.fullName,
+      profileImg: selectedImage ? selectedImage : getProfileData?.profileImg,
+      admin:true
+
+    }));
   }
   // effect runs when user state is updated
   const imageChange = (e) => {
@@ -100,7 +107,7 @@ export default () => {
                       ) : (
                         <Card.Img
                           style={{ cursor: "pointer" }}
-                          src={getById?.profileImg ? getById?.profileImg : profile}
+                          src={getProfileData?.profileImg ? getProfileData?.profileImg : profile}
                           alt="Neil Portrait"
                           onClick={onButtonClick}
                           ref={inputEl}

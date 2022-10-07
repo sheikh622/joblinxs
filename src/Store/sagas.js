@@ -14,6 +14,8 @@ import ChatSaga from "../Redux/chat/sagas"
 import ReportSaga from "../Redux/ReportManagement/sagas";
 import PushNotificationSaga from "../Redux/settings/sagas";
 import DisputeSaga from "../Redux/DisputeManagement/sagas";
+import AdminProfileSaga from "../Redux/AdminProfile/sagas";
+
 export default function* rootSaga() {
   yield all([
     AuthSaga(),
@@ -30,5 +32,7 @@ export default function* rootSaga() {
     ReportSaga(),
     PushNotificationSaga(),
     DisputeSaga(),
+    AdminProfileSaga(),
+
   ]);
 }
