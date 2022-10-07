@@ -126,6 +126,9 @@ const Applicants = ({ id }) => {
                                     {item?.user ? item?.user?.fullName : ""}{" "}
                                   </h3>
                                   <Rating
+                                   readonly={true}
+                                   allowHover={false}
+                                   size={25}
                                     onClick={handleRating}
                                     ratingValue={item?.rating ? item?.rating * 20 : ""} /* Available Props */
                                   />
