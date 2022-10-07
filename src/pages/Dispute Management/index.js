@@ -136,7 +136,7 @@ const DisputeManagement = (item) => {
                     </span>
                 </td>
                 <td style={{ paddingLeft: "2%" }}>
-                    <span className="fw-normal">{item?.description ? item?.description : "N/A"}</span>
+                    <span className="fw-normal">{DisputeList?.description ? DisputeList?.description : "N/A"}</span>
                 </td>
                 <td>
                     <span className="fw-normal">
@@ -217,7 +217,6 @@ const DisputeManagement = (item) => {
                                 </Pagination.Next>
                             </Pagination>
                         </Nav>
-
                         <small className="fw-bold">
                             Showing <b>{DisputeList?.length}</b> out of{" "}
                             <b>{DisputeList?.total_reportedUsers}</b> entries

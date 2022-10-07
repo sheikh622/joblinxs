@@ -70,7 +70,6 @@ function* watchReasonDispute() {
 }
 function* AddDispute({ payload }) {
   try {
-
     const headers = {
       headers: { authorization: yield select(makeSelectAuthToken()) },
     };
