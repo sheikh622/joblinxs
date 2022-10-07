@@ -14,15 +14,20 @@ import Profile1 from "../../assets/img/team/profile-picture-1.jpg";
 import ChangePassword from "../../components/changePassword";
 import DetailHeading from "../../components/DetailHeading";
 import Navbar from "../../components/Navbar";
-import { getProfile } from "../../Redux/profile/actions";
+import { getAdminProfile } from "../../Redux/AdminProfile/actions";
 import { Routes } from "../../routes";
+import { Rating } from "react-simple-star-rating";
 
 
 export default () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const login = useSelector((state) => state.auth.Auther);
-  const getProfileData = useSelector((state) => state.ProfileReducer.profile);
+  const getProfileData = useSelector((state) => state.AdminProfile?.Adminprofile);
+  const [rating, setRating] = useState(0); // initial rating value
+
+  console.log(
+    "fhdskj", getProfileData)
   const {
     location: { state },
   } = history;
@@ -35,13 +40,16 @@ export default () => {
   };
   useEffect(() => {
     dispatch(
-      getProfile({
+      getAdminProfile({
         id: login?.id,
       })
     );
   }, []);
   const editProfile = () => {
     history.push(Routes.EditAdminProfile.path);
+  };
+  const handleRating = (rate) => {
+    setRating(rate);
   };
   return (
     <>
@@ -100,17 +108,13 @@ export default () => {
                       <Card.Text className="text-gray mb-2">
                         Overall Rating
                       </Card.Text>
-                      <Card.Text className="text-gray mb-0 starIcon">
-                        <FontAwesomeIcon icon={faStar} />
-                        <FontAwesomeIcon icon={faStar} />{" "}
-                        <FontAwesomeIcon icon={faStar} />
-                        <FontAwesomeIcon icon={faStar} />{" "}
-                        <FontAwesomeIcon icon={faStar} />
-                      </Card.Text>
-                      <Card.Text className="text-gray mb-2 reviews">
-                        (0 Reviews)
-                      </Card.Text>
-
+                      <Rating
+                       readonly={true}
+                       allowHover={false}
+                       size={25}
+                        onClick={handleRating}
+                        ratingValue={getProfileData?.rating ? getProfileData?.rating * 20 : ""} /* Available Props */
+                      />
                       <Card.Text className="text-gray mb-0">
                         {" "}
                         No. of Jobs Completed: <b> 25</b>

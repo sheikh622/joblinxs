@@ -14,6 +14,8 @@ import ReportListing from "../Redux/ReportManagement/reducers";
 import ChatReducer from "../Redux/chat/reducers"
 import PushNotification from "../Redux/settings/reducers";
 import DisputeListing from "../Redux/DisputeManagement/reducers";
+import AdminProfile from "../Redux/AdminProfile/reducers";
+
 const rootReducer = (history) => {
   return combineReducers({
     User,
@@ -30,6 +32,7 @@ const rootReducer = (history) => {
     ReportListing,
     PushNotification,
     DisputeListing,
+    AdminProfile,
     router: connectRouter(history),
   });
 

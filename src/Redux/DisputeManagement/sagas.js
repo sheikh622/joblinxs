@@ -5,10 +5,10 @@ import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
 import { logoutRequest } from "../auth/actions";
 import {
-  getDisputeList, getDisputeListSuccess, getReportBlockSuccess, getReportBlock,DisputeReasonSuccess,addDisputeSuccess
+  getDisputeList, getDisputeListSuccess, getDisputeBlockSuccess, getDisputeBlock, DisputeReasonSuccess, addDisputeSuccess
 } from "./actions";
 import {
-  GET_REPORT_BLOCK,
+  GET_DISPUTE_BLOCK,
   GET_DISPUTE_LIST,
   DISPUTE_REASON,
   ADD_DISPUTE,
@@ -56,7 +56,7 @@ function* DisputeReason({ payload }) {
         },
       }
     );
-    // payload.setLoader(false);
+    // payload.setLoader(false);  
     yield put(DisputeReasonSuccess(response.data));
   } catch (error) {
     if (error?.response?.status == 401) {
@@ -70,6 +70,7 @@ function* watchReasonDispute() {
 }
 function* AddDispute({ payload }) {
   try {
+
     const headers = {
       headers: { authorization: yield select(makeSelectAuthToken()) },
     };
@@ -94,39 +95,46 @@ function* AddDispute({ payload }) {
 function* watchAddDispute() {
   yield takeLatest(ADD_DISPUTE, AddDispute);
 }
-// function* reportBlockSaga({ payload }) {
-//   try {
-//     const token = yield select(makeSelectAuthToken());
-//     const response = yield axios.get(
-//       `/user/admin/change-userStatus/${payload.userId}`,
-//       {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       }
-//     );
-//     toast.success(CapitalizeFirstLetter(response.data.message));
-//     yield put(
-//       getReportList({
-//         page: payload.page,
-//         limit: payload.limit,
-//       })
-//     );
-//     yield put(getReportBlockSuccess());
-//   } catch (error) {
-//     yield sagaErrorHandler(error.response);
-//   }
-// }
+function* disputeBlockSaga({ payload }) {
+  let data = {
+    jobId: payload.jobId,
+    isAccepted: payload.isAccepted,
+    seekerId: payload.seekerId,
+    logHourId: payload.logHourId,
+    providerId: payload.providerId,
+  }
+  try {
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.patch(
+      `disputed-user/disputed-Action`, data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    toast.success(CapitalizeFirstLetter(response.data.message));
+    yield put(getDisputeBlockSuccess());
+    yield put(
+      getDisputeList({
+        page: payload.page,
+        limit: payload.limit,
+      })
+    );
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
 
-// function* watchReportBlock() {
-//   yield takeLatest(GET_REPORT_BLOCK, reportBlockSaga);
-// }
+function* watchDisputeBlock() {
+  yield takeLatest(GET_DISPUTE_BLOCK, disputeBlockSaga);
+}
 
 
 export default function* DisputeSaga() {
   yield all([fork(watchGetReport)]);
   yield all([fork(watchReasonDispute)]);
   yield all([fork(watchAddDispute)]);
-  // yield all([fork(watchReportBlock)]);
+  yield all([fork(watchDisputeBlock)]);
 
 }

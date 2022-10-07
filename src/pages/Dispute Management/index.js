@@ -8,27 +8,35 @@ import {
 } from "@themesberg/react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import NoRecordFound from "../../components/NoRecordFound";
 import Spinner from "../../components/spinner";
 import { getReportBlock, getReportList } from "../../Redux/ReportManagement/actions";
-import { getDisputeList } from "../../Redux/DisputeManagement/actions"
+import { getDisputeList, getDisputeBlock } from "../../Redux/DisputeManagement/actions"
 
 const DisputeManagement = (item) => {
     const label = { inputProps: { "aria-label": "Switch demo" } };
     const dispatch = useDispatch();
     const history = useHistory();
+    const {
+        location: { state },
+    } = history;
+    const params = useLocation();
+
+    let jobId = params.pathname.split("/")[2];
     // const ReportList = useSelector((state) => state.ReportListing?.Reports);
     const DisputeList = useSelector((state) => state.DisputeListing?.Reports?.disputedJobListing);
+    console.log("000000000000000000000-----------", DisputeList)
     const [page, setPage] = useState(1);
     const [limit] = useState("10");
     const [loader, setLoader] = useState(true);
     const [dataList, setDataList] = useState();
-    const [blockUser, setBlockUser] = useState();
+   
+    const [disputeUser, setDisputeUser] = useState();
     useEffect(() => {
         if (DisputeList !== undefined) {
-            setDataList(DisputeList?.reportedUsers);
+            setDataList(DisputeList);
         }
     }, [DisputeList]);
 
@@ -42,22 +50,42 @@ const DisputeManagement = (item) => {
             })
         );
     }, [page, limit]);
-let DisputeUsers = DisputeList?.length > 0 ? DisputeList[0]?.user : "false";
-let DisputeJob = DisputeList?.length > 0 ? DisputeList[0]?.jobs : "false";
-
-    const handleClick = (isActive, index, id) => {
+    const handleClick = (item, isAccepted, index) => {
         let newArray = dataList;
-        newArray[index].reportedTo.isActive = !isActive;
+        newArray[index].isAccepted = !isAccepted;
         setDataList(() => {
             return [...newArray]
         })
-        // dispatch(
-        //     getReportBlock({
-        //         userId: id,
-        //         page: page,
-        //         limit: limit,    
-        //     })
-        // );
+        let providerId;
+        let seekerId;
+        if (item?.user?.role?.name === "provider") {
+            if (item?.user.id === item?.disputedBy?.id) {
+                providerId = item?.disputedBy?.id;
+                seekerId = item?.disputedTo?.id;
+            } else {
+                providerId = item?.disputedTo?.id;
+                seekerId = item?.disputedBy?.id;
+            }
+        } else {
+            if (item?.user.id === item?.disputedBy?.id) {
+                providerId = item?.disputedTo?.id;
+                seekerId = item?.disputedBy?.id;
+            } else {
+                providerId = item?.disputedBy?.id;
+                seekerId = item?.disputedTo?.id;
+            }
+        }
+        dispatch(
+            getDisputeBlock({
+                jobId: item?.jobs?.id,
+                providerId: providerId,
+                seekerId: seekerId,
+                isAccepted: item?.isAccepted,
+                logHourId: item?.logHourId?.id ? item?.logHourId?.id : null,
+                page: page,
+                limit: limit,
+            })
+        );
     };
     const nextPage = () => {
         if (page < DisputeList?.pages) {
@@ -87,6 +115,7 @@ let DisputeJob = DisputeList?.length > 0 ? DisputeList[0]?.jobs : "false";
         return items;
     };
     const TableRow = (props) => {
+
         const {
             status,
             index,
@@ -104,33 +133,45 @@ let DisputeJob = DisputeList?.length > 0 ? DisputeList[0]?.jobs : "false";
             <tr>
                 <td>
                     <span className="fw-normal">
-                        {DisputeJob?.name ? DisputeJob?.name : "N/A"}
+                        {item?.disputedBy?.fullName ? item?.disputedBy?.fullName : "N/A"}
                     </span>
                 </td>
                 <td style={{ paddingLeft: "2%" }}>
-                    <span className="fw-normal">{DisputeList?.description ? DisputeList?.description : "N/A"}</span>
+                    <span className="fw-normal">{item?.description ? item?.description : "N/A"}</span>
                 </td>
                 <td>
                     <span className="fw-normal">
-                        {DisputeUsers?.fullName ? DisputeUsers?.fullName : " N/A"}
+                        {item.jobs.rate ? item.jobs.rate : "N/A"}
                     </span>
                 </td>
-                <td style={{ paddingLeft: "7%" }}>
-                    {/* <span>
+                <td>
+                    <span className="fw-normal">
+                        {item.jobs.reason ? item.jobs.reason : "N/A"}
+                    </span>
+                </td>
+                <td>
+                    <span className="fw-normal">
+                        {item?.disputedTo
+                            ?.fullName ? item?.disputedTo
+                            ?.fullName : "N/A"}
+                    </span>
+                </td>
+
+                <td style={{ paddingLeft: "5%" }}>
+                    <span>
                         <Form.Switch
                             type="switch"
                             // defaultValue="fixed"
                             label=""
                             className="text-left cursorPointer "
-                            name="reportUser"
+                            name="DisputeUser"
                             {...label}
-                            checked={blockUser !== undefined ? blockUser : item?.reportedTo?.isActive}
+                            checked={item?.isAccepted}
                             onChange={(e) => {
-                                handleClick(item?.reportedTo?.isActive, index, item?.reportedTo?.id)
-
+                                handleClick(item, item?.isAccepted, index)
                             }}
                         />
-                    </span> */}
+                    </span>
                 </td>
             </tr>
         );
@@ -177,7 +218,7 @@ let DisputeJob = DisputeList?.length > 0 ? DisputeList[0]?.jobs : "false";
                                 </Pagination.Next>
                             </Pagination>
                         </Nav>
-                        
+
                         <small className="fw-bold">
                             Showing <b>{DisputeList?.length}</b> out of{" "}
                             <b>{DisputeList?.total_reportedUsers}</b> entries

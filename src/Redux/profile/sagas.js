@@ -3,14 +3,14 @@ import { all, fork, put, select, takeLatest } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
-import { getProfileSuccess, blockUserSuccess, blockUser,reportListSuccess, reportedUserSuccess, unblockUserSuccess, hiredApplicantSuccess, getReviewsSuccess } from "./actions";
+import { getProfileSuccess, blockUserSuccess, blockUser, reportListSuccess, reportedUserSuccess, unblockUserSuccess, hiredApplicantSuccess, getReviewsSuccess } from "./actions";
 import { getList } from "../chat/actions";
 import { loginRequestSuccess } from "../auth/actions";
 import { GET_PROFILE, UPDATE_PROFILE, BLOCK_USER, REPORT_USER_LIST, REPORTED_USER, UNBLOCK_USER, HIRED_APPLICANTS, GET_REVIEWS } from "./constants";
 // import { CapitalizeFirstLetter } from "../../utils/Global";
 import { adminUpdatedSuccess } from "../auth/actions";
-import {getReportBlock} from "../../Redux/ReportManagement/actions"
-import {logoutRequest} from "../auth/actions";
+import { getReportBlock } from "../../Redux/ReportManagement/actions"
+import { logoutRequest } from "../auth/actions";
 
 function* getProfileById({ payload }) {
   try {
@@ -23,7 +23,7 @@ function* getProfileById({ payload }) {
     // payload.setLoader(false);
     yield put(getProfileSuccess(response.data.data.user));
   } catch (error) {
-    if(error?.response?.status == 401){
+    if (error?.response?.status == 401) {
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);
@@ -34,14 +34,19 @@ function* watchGetProfile() {
 }
 function* updateAdminProfileSaga({ payload }) {
   let Data = new FormData();
-  Data.append("fullName", payload.fullName);
-  Data.append("address", payload.address);
-  Data.append("dateofBirth", payload.dateofBirth);
-  Data.append("phoneNumber", payload.phoneNumber);
-  Data.append("city", payload.city);
-  Data.append("postalCode", payload.postalCode);
-  Data.append("id", payload.id);
-  Data.append("profileImg", payload.profileImg);
+  if (payload.admin) {
+    Data.append("fullName", payload.fullName ? payload.fullName : null);
+    Data.append("profileImg", payload.profileImg ? payload.profileImg : null);
+  } else {
+    Data.append("fullName", payload.fullName ? payload.fullName : null);
+    Data.append("address", payload.address ? payload.address : null);
+    Data.append("dateofBirth", payload.dateofBirth ? payload.dateofBirth : null);
+    Data.append("phoneNumber", payload.phoneNumber ? payload.phoneNumber : null);
+    Data.append("city", payload.city ? payload.city : null);
+    Data.append("postalCode", payload.postalCode ? payload.postalCode : null);
+    Data.append("id", payload.id ? payload.id : null);
+    Data.append("profileImg", payload.profileImg ? payload.profileImg : null);
+  }
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.patch(`profile/update`, Data, {
@@ -50,11 +55,14 @@ function* updateAdminProfileSaga({ payload }) {
       },
     });
     toast.success(response.data.message);
-    payload.history.push("/profile");
-
-    yield put(getProfileSuccess(response.data.data.user));
-
-    yield put(adminUpdatedSuccess(response.data.data.user));
+    // payload.history.push("/AdminProfile");
+    if (response.data.data.user === undefined) {
+      yield put(getProfileSuccess(response.data.data));
+      yield put(adminUpdatedSuccess(response.data.data));
+    }else{
+      yield put(getProfileSuccess(response.data.data.user));
+      yield put(adminUpdatedSuccess(response.data.data.user));
+    }
     payload.setLoader(false);
 
   } catch (error) {
@@ -76,7 +84,7 @@ function* BlockUserSaga({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     });
-      toast.success(response.data.message);
+    toast.success(response.data.message);
     payload.setBlockedBy(true)
     yield put(
       getList(payload.blockedBy));
@@ -122,7 +130,7 @@ function* getReportUser({ payload }) {
     });
     yield put(reportListSuccess(response.data.data));
   } catch (error) {
-    if(error?.response?.status == 401){
+    if (error?.response?.status == 401) {
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);
@@ -136,7 +144,7 @@ function* reportedSaga({ payload }) {
     let blockedData = {
       blockedTo: payload.reportedTo,
       blockedBy: payload.reportedBy,
-      setBlockedBy:payload.setBlockedBy,
+      setBlockedBy: payload.setBlockedBy,
     };
     let data = {
       reportedTo: payload.reportedTo,
@@ -201,7 +209,7 @@ function* getReviewsById({ payload }) {
     // payload.setLoader(false);
     yield put(getReviewsSuccess(response.data.data));
   } catch (error) {
-    if(error?.response?.status == 401){
+    if (error?.response?.status == 401) {
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);
