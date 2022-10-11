@@ -122,7 +122,7 @@ function* disputeBlockSaga({ payload }) {
         },
       }
     );
-    toast.success(CapitalizeFirstLetter(response.data.message));
+    toast.success(CapitalizeFirstLetter(response.data.Message));
     yield put(getDisputeBlockSuccess());
     yield put(
       getDisputeList({
