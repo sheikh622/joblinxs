@@ -1,10 +1,10 @@
 import {
     faAngleDoubleLeft,
-    faAngleDoubleRight
+    faAngleDoubleRight, faCheck, faEllipsisH, faEye, faMinus, faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    Card, Container, Form, Nav, Pagination, Table
+    Card, Container, Form, Nav, Pagination, Table, Dropdown, ButtonGroup, Button
 } from "@themesberg/react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,7 +31,7 @@ const DisputeManagement = (item) => {
     const [limit] = useState("10");
     const [loader, setLoader] = useState(true);
     const [dataList, setDataList] = useState();
-   
+
     const [disputeUser, setDisputeUser] = useState();
     useEffect(() => {
         if (DisputeList !== undefined) {
@@ -49,6 +49,7 @@ const DisputeManagement = (item) => {
             })
         );
     }, [page, limit]);
+
     const handleClick = (item, isAccepted, index) => {
         let newArray = dataList;
         newArray[index].isAccepted = !isAccepted;
@@ -79,8 +80,8 @@ const DisputeManagement = (item) => {
                 jobId: item?.jobs?.id,
                 providerId: providerId,
                 seekerId: seekerId,
-                isAccepted: item?.isAccepted,
-                logHourId: item?.logHourId?.id ? item?.logHourId?.id : null,
+                isAccepted: isAccepted,
+                logHourId: item?.logHourId ? item?.logHourId : null,
                 page: page,
                 limit: limit,
             })
@@ -113,6 +114,7 @@ const DisputeManagement = (item) => {
         }
         return items;
     };
+
     const TableRow = (props) => {
 
         const {
@@ -136,7 +138,7 @@ const DisputeManagement = (item) => {
                     </span>
                 </td>
                 <td style={{ paddingLeft: "2%" }}>
-                    <span className="fw-normal">{DisputeList?.description ? DisputeList?.description : "N/A"}</span>
+                    <span className="fw-normal">{item?.description ? item?.description : "N/A"}</span>
                 </td>
                 <td>
                     <span className="fw-normal">
@@ -156,7 +158,7 @@ const DisputeManagement = (item) => {
                     </span>
                 </td>
 
-                <td style={{ paddingLeft: "5%" }}>
+                {/* <td style={{ paddingLeft: "5%" }}>
                     <span>
                         <Form.Switch
                             type="switch"
@@ -171,6 +173,48 @@ const DisputeManagement = (item) => {
                             }}
                         />
                     </span>
+                </td> */}
+                <td>
+                    <Dropdown as={ButtonGroup}>
+                        <Dropdown.Toggle
+                            as={Button}
+                            split
+                            variant="link"
+                            className="text-dark m-0 p-0"
+                        >
+                            <span className="icon icon-sm">
+                                <FontAwesomeIcon icon={faEllipsisH} className="icon-dark" />
+                            </span>
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu className="custom_menu">
+
+                            {item?.isAccepted === null ? (
+                                <>
+                                    <Dropdown.Item className="text-success" onClick={(e) => {
+                                        handleClick(item, true, index)
+                                    }}>
+                                        <FontAwesomeIcon icon={faCheck} className="me-2" /> Accepted
+                                    </Dropdown.Item>
+                                    <Dropdown.Item className="text-danger" onClick={() => {
+                                        handleClick(item, false, index)
+                                    }}>
+                                        <FontAwesomeIcon icon={faMinus} className="me-2" /> Rejected
+                                    </Dropdown.Item>
+                                </>
+                            ) : item?.isAccepted === true ? (
+                                <Dropdown.Item className="text-success">
+                                    <FontAwesomeIcon icon={faCheck} className="me-2" /> Accepted
+                                </Dropdown.Item>
+                            ) : (
+                                <Dropdown.Item className="text-danger">
+                                    <FontAwesomeIcon icon={faMinus} className="me-2" /> Rejected
+                                </Dropdown.Item>
+                            )
+                            }
+
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </td>
             </tr>
         );
