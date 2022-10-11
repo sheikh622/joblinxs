@@ -32,14 +32,12 @@ function* loginRequestSaga({ payload }) {
     toast.success("Login Successfully");
     yield put(loginRequestSuccess(response.data.data));
     payload.setLoader(false);
-    console.log(response.data.data.user.role.name, "here is login data")
     let path =
       response.data.data.user.role.name== "Admin"
         ? "/user_management"
         : "/dashboard";
     payload.history.push(path);
     payload.resetForm();
-
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }

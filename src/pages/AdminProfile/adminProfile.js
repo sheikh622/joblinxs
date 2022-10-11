@@ -4,8 +4,9 @@ import {
   Button,
   Card,
   Col,
-  Container, Modal,
-  Row
+  Container,
+  Modal,
+  Row,
 } from "@themesberg/react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,16 +19,14 @@ import { getAdminProfile } from "../../Redux/AdminProfile/actions";
 import { Routes } from "../../routes";
 import { Rating } from "react-simple-star-rating";
 
-
 export default () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const login = useSelector((state) => state.auth.Auther);
-  const getProfileData = useSelector((state) => state.AdminProfile?.Adminprofile);
+  const getProfileData = useSelector(
+    (state) => state.AdminProfile?.Adminprofile
+  );
   const [rating, setRating] = useState(0); // initial rating value
-
-  console.log(
-    "fhdskj", getProfileData)
   const {
     location: { state },
   } = history;
@@ -56,7 +55,6 @@ export default () => {
       <Navbar module={"Admin Profile"} />
       <div className="mx-5">
         <Row>
-
           <div className="mt-2 mb-3 d-flex justify-content-end">
             <Button variant="primary" type="submit" onClick={editProfile}>
               <svg
@@ -109,11 +107,15 @@ export default () => {
                         Overall Rating
                       </Card.Text>
                       <Rating
-                       readonly={true}
-                       allowHover={false}
-                       size={25}
+                        readonly={true}
+                        allowHover={false}
+                        size={25}
                         onClick={handleRating}
-                        ratingValue={getProfileData?.rating ? getProfileData?.rating * 20 : ""} /* Available Props */
+                        ratingValue={
+                          getProfileData?.rating
+                            ? getProfileData?.rating * 20
+                            : ""
+                        } /* Available Props */
                       />
                       <Card.Text className="text-gray mb-0">
                         {" "}
@@ -137,8 +139,14 @@ export default () => {
                       <Card.Title className="text-primary">
                         Basic Information
                       </Card.Title>
-                      <DetailHeading heading={"Full Name"} value={getProfileData?.fullName} />
-                      <DetailHeading heading={"Email"} value={getProfileData?.email} />
+                      <DetailHeading
+                        heading={"Full Name"}
+                        value={getProfileData?.fullName}
+                      />
+                      <DetailHeading
+                        heading={"Email"}
+                        value={getProfileData?.email}
+                      />
                     </div>
                   </Card.Body>
                 </Card>
@@ -164,7 +172,6 @@ export default () => {
               </Col>
             </Row>
           </Col>
-
         </Row>
       </div>
       <Modal as={Modal.Dialog} centered show={showDefault}>

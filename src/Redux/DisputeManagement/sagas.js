@@ -70,19 +70,29 @@ function* watchReasonDispute() {
 }
 function* AddDispute({ payload }) {
   try {
+    let data = {
+      jobId: payload.jobId,
+      isDisputed: payload.isDisputed,
+      disputedBy: payload.disputedBy,
+      description: payload.description,
+      disputedTo: payload.disputedTo,
+      reason: payload.reason,
+      logHourId: payload.logHourId ? payload.logHourId : null
+    }
     const headers = {
       headers: { authorization: yield select(makeSelectAuthToken()) },
     };
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.patch(
-      `disputed-user/disputedJob`,
+      `disputed-user/disputedJob`, data,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-    payload.setLoader(false);
+    toast.success(CapitalizeFirstLetter(response.data.message));
+    payload.setDispute(false);
     yield put(addDisputeSuccess(response.data.data));
   } catch (error) {
     if (error?.response?.status == 401) {

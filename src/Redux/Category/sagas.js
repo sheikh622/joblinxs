@@ -46,7 +46,6 @@ function* addCategoryRequest({ payload }) {
   }
 }
 function* getcategory({ payload }) {
-  console.log("iushoiwurhiq",payload)
   try {
     const token = yield select(makeSelectAuthToken());
     let response;

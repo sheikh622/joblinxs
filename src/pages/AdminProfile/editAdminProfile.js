@@ -5,8 +5,10 @@ import {
   Button,
   Card,
   Col,
-  Container, Dropdown, Form,
-  Row
+  Container,
+  Dropdown,
+  Form,
+  Row,
 } from "@themesberg/react-bootstrap";
 import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -15,16 +17,16 @@ import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import profile from "../../assets/img/team/profile-picture-1.jpg";
 import Navbar from "../../components/Navbar";
-import {  updateAdminProfile } from "../../Redux/profile/actions";
+import { updateAdminProfile } from "../../Redux/profile/actions";
 import { getAdminProfile } from "../../Redux/AdminProfile/actions";
 
 export default () => {
   const history = useHistory();
-
   const dispatch = useDispatch();
   const login = useSelector((state) => state.auth.Auther);
-  const getProfileData = useSelector((state) => state.AdminProfile?.Adminprofile);
-  console.log("0000000000000",getProfileData)
+  const getProfileData = useSelector(
+    (state) => state.AdminProfile?.Adminprofile
+  );
   const [selectedImage, setSelectedImage] = useState();
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().trim().required("Full name is required"),
@@ -40,8 +42,11 @@ export default () => {
   }, [user]);
 
   useEffect(() => {
-    setUser({ fullName: getProfileData?.fullName, email: getProfileData?.email })
-  }, [getProfileData])
+    setUser({
+      fullName: getProfileData?.fullName,
+      email: getProfileData?.email,
+    });
+  }, [getProfileData]);
 
   useEffect(() => {
     dispatch(
@@ -51,18 +56,22 @@ export default () => {
     );
   }, []);
   function onSubmit(data) {
-    console.log("data",data)
+    console.log("data", data);
     // display form data on success
     let Data = new FormData();
-    Data.append("fullName", data.fullName)
-    Data.append("id", getProfileData.id)
-    Data.append("profileImg", selectedImage ? selectedImage : getProfileData?.profileImg)
-    dispatch(updateAdminProfile({
-      fullName: data.fullName,
-      profileImg: selectedImage ? selectedImage : getProfileData?.profileImg,
-      admin:true
-
-    }));
+    Data.append("fullName", data.fullName);
+    Data.append("id", getProfileData.id);
+    Data.append(
+      "profileImg",
+      selectedImage ? selectedImage : getProfileData?.profileImg
+    );
+    dispatch(
+      updateAdminProfile({
+        fullName: data.fullName,
+        profileImg: selectedImage ? selectedImage : getProfileData?.profileImg,
+        admin: true,
+      })
+    );
   }
   // effect runs when user state is updated
   const imageChange = (e) => {
@@ -77,11 +86,22 @@ export default () => {
   return (
     <>
       <Navbar module={"Edit Profile"} />
-      <Col xs={12} xl={12} className={'d-flex justify-content-start mb-2'}>
-        <svg width="11" height="16" viewBox="0 0 11 16" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => history.goBack()}>
-          <path d="M9.79591 14.8435L9.79557 14.8439C9.56284 15.0818 9.2503 15.2 8.93911 15.2C8.65838 15.2 8.37589 15.1036 8.15012 14.9076L8.14971 14.9073L1.18041 8.82491C0.939515 8.61471 0.799112 8.31587 0.799112 7.99906C0.799112 7.68333 0.93963 7.38454 1.18041 7.17445L8.14971 1.09206L8.15005 1.09176C8.62347 0.6805 9.35494 0.706129 9.79539 1.15531L9.79539 1.15531L9.79591 1.15584C10.2386 1.6107 10.2057 2.32402 9.72866 2.74114L9.72851 2.74128L3.7035 7.99908L9.72853 13.2581L9.72866 13.2582C10.2057 13.6753 10.2386 14.3887 9.79591 14.8435Z" fill="#12499C" stroke="#12499C" stroke-width="0.4" />
+      <Col xs={12} xl={12} className={"d-flex justify-content-start mb-2"}>
+        <svg
+          width="11"
+          height="16"
+          viewBox="0 0 11 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          onClick={() => history.goBack()}
+        >
+          <path
+            d="M9.79591 14.8435L9.79557 14.8439C9.56284 15.0818 9.2503 15.2 8.93911 15.2C8.65838 15.2 8.37589 15.1036 8.15012 14.9076L8.14971 14.9073L1.18041 8.82491C0.939515 8.61471 0.799112 8.31587 0.799112 7.99906C0.799112 7.68333 0.93963 7.38454 1.18041 7.17445L8.14971 1.09206L8.15005 1.09176C8.62347 0.6805 9.35494 0.706129 9.79539 1.15531L9.79539 1.15531L9.79591 1.15584C10.2386 1.6107 10.2057 2.32402 9.72866 2.74114L9.72851 2.74128L3.7035 7.99908L9.72853 13.2581L9.72866 13.2582C10.2057 13.6753 10.2386 14.3887 9.79591 14.8435Z"
+            fill="#12499C"
+            stroke="#12499C"
+            stroke-width="0.4"
+          />
         </svg>
-
       </Col>
       <div className="mx-5">
         {user && (
@@ -107,7 +127,11 @@ export default () => {
                       ) : (
                         <Card.Img
                           style={{ cursor: "pointer" }}
-                          src={getProfileData?.profileImg ? getProfileData?.profileImg : profile}
+                          src={
+                            getProfileData?.profileImg
+                              ? getProfileData?.profileImg
+                              : profile
+                          }
                           alt="Neil Portrait"
                           onClick={onButtonClick}
                           ref={inputEl}
@@ -139,7 +163,7 @@ export default () => {
                           className="text-gray mb-2"
                           onClick={onButtonClick}
                           style={{
-                            fontWeight: "bold"
+                            fontWeight: "bold",
                           }}
                         >
                           Change Profile Picture
@@ -164,8 +188,9 @@ export default () => {
                         name="fullName"
                         type="text"
                         {...register("fullName")}
-                        className={`form-control ${errors.fullName ? "is-invalid" : ""
-                          }`}
+                        className={`form-control ${
+                          errors.fullName ? "is-invalid" : ""
+                        }`}
                       />
                       <div className="invalid-feedback">
                         {errors.fullName?.message}
@@ -178,8 +203,9 @@ export default () => {
                         type="text"
                         disabled
                         {...register("email")}
-                        className={`form-control ${errors.email ? "is-invalid" : ""
-                          }`}
+                        className={`form-control ${
+                          errors.email ? "is-invalid" : ""
+                        }`}
                       />
                       <div className="invalid-feedback">
                         {errors.email?.message}
