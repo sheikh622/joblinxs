@@ -25,8 +25,9 @@ const DisputeManagement = (item) => {
     const params = useLocation();
 
     let jobId = params.pathname.split("/")[2];
-    // const ReportList = useSelector((state) => state.ReportListing?.Reports);
     const DisputeList = useSelector((state) => state.DisputeListing?.Reports?.disputedJobListing);
+    const DisputePagination = useSelector((state) => state.DisputeListing?.Reports);
+console.log("Disppppppp",DisputeList)
     const [page, setPage] = useState(1);
     const [limit] = useState("10");
     const [loader, setLoader] = useState(true);
@@ -66,7 +67,7 @@ const DisputeManagement = (item) => {
                 seekerId = item?.disputedBy?.id;
             }
         } else {
-            if (item?.user.id === item?.disputedBy?.id) {
+            if (item?.user?.id === item?.disputedBy?.id) {
                 providerId = item?.disputedTo?.id;
                 seekerId = item?.disputedBy?.id;
             } else {
@@ -87,7 +88,7 @@ const DisputeManagement = (item) => {
         );
     };
     const nextPage = () => {
-        if (page < DisputeList?.pages) {
+        if (page < DisputePagination?.pages) {
             setPage(page + 1);
         }
     };
@@ -98,7 +99,7 @@ const DisputeManagement = (item) => {
     };
     const paginationItems = () => {
         let items = [];
-        for (let number = 1; number <= DisputeList?.pages; number++) {
+        for (let number = 1; number <= DisputePagination?.pages; number++) {
             items.push(
                 <Pagination.Item
                     key={number}
@@ -145,7 +146,7 @@ const DisputeManagement = (item) => {
                 </td>
                 <td>
                     <span className="fw-normal">
-                        {item.jobs.reason ? item.jobs.reason : "N/A"}
+                        {item?.reason?.details ? item?.reason?.details : "N/A"}
                     </span>
                 </td>
                 <td>
@@ -220,7 +221,7 @@ const DisputeManagement = (item) => {
 
                         <small className="fw-bold">
                             Showing <b>{DisputeList?.length}</b> out of{" "}
-                            <b>{DisputeList?.total_reportedUsers}</b> entries
+                            <b>{DisputePagination?.total_disputedJobs}</b> entries
                         </small>
                     </Card.Footer>
                     {/* </>

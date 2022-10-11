@@ -1,5 +1,3 @@
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     Button,
     Card,
@@ -8,34 +6,19 @@ import {
     Form,
     Image,
     Modal,
-    Row,
-    Pagination,
-    Nav,
+    Row
 } from "@themesberg/react-bootstrap";
-import {
-    faAngleDoubleLeft,
-    faAngleDoubleRight,
-    faCheck,
-    faEllipsisH,
-    faMinus,
-} from "@fortawesome/free-solid-svg-icons";
 import React, { useEffect, useState } from "react";
-import ReactHero from "../../assets/img/team/profile-picture-3.jpg";
-import Profile from "../../assets/img/team/profile.png";
-import Navbar from "../../components/Navbar";
-import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-import { getLogHours, getApprovedHours, getApplicantsByUserId, getApplicants } from "../../Redux/addJob/actions";
 import { useHistory, useLocation } from "react-router-dom";
-import { height, width } from "@mui/system";
-import { Link } from "react-router-dom";
-import NoRecordFound from "../../components/NoRecordFound";
 import DetailHeading from "../../components/DetailHeading";
-import { Routes } from "../../routes";
+import Dispute from "../../components/Dispute";
+import Navbar from "../../components/Navbar";
+import NoRecordFound from "../../components/NoRecordFound";
+import { getApplicantsByUserId, getApprovedHours, getLogHours } from "../../Redux/addJob/actions";
 
-const LogHours = (item) => {
+
+const LogHours = (item, id) => {
     const dispatch = useDispatch();
     // let usersId= sessionStorage.getItem("userId");
     const history = useHistory();
@@ -44,15 +27,19 @@ const LogHours = (item) => {
     } = history;
     const hoursLog = item?.location?.state;
     const params = useLocation();
-    let usersId = params.search.split("?")[1]
+    let usersId = params.search.split("?")[1];
     let jobId = params.pathname.split("/")[2];
     const [showDefault, setShowDefault] = useState(false);
     const [selectedItem, setSelectedItem] = useState();
+    console.log("selectedItem",selectedItem)
+    const [show, setShow] = useState(false);
+    const [dispute, setDispute] = useState(false);
     const [page, setPage] = useState(1);
     const [limit] = useState("5");
     const logHours = useSelector(
         (state) => state?.addJob?.logHours?.job
     );
+    
     const Pageination = useSelector(
         (state) => state?.addJob?.hiredApplicants?.data
     );
@@ -92,6 +79,9 @@ const LogHours = (item) => {
                 history: history,
                 id: item.id,
                 status: item.status,
+                userId: usersId,
+                jobId: jobId
+
             })
         );
     };
@@ -109,6 +99,7 @@ const LogHours = (item) => {
                 <Row className="py-2 justify-content-between">
                     {logHours?.log_hours.length > 0 ? (
                         logHours?.log_hours.map((item, value) => {
+                            console.log("iteeeeeeeeeeeeeeeeeeee",item)
                             return (
                                 <>
                                     <Col lg={6} md={12} sm={12} xs={12} className="pb-3">
@@ -145,7 +136,7 @@ const LogHours = (item) => {
                                                 style={{
                                                     width: "100px",
                                                     height: "40px",
-                                                    marginTop: "42px",
+                                                    marginTop: "75px",
                                                     marginRight: "20px",
                                                 }}
                                                 onClick={() => {
@@ -155,8 +146,54 @@ const LogHours = (item) => {
                                             >
                                                 View
                                             </Button>
+                                            {item?.isDispute ? (
+                                                <div>
+                                                    <Button
+                                                        variant="primary"
+                                                        color="dark"
+                                                        size="sm"
+                                                        style={{
+                                                            width: "100px",
+                                                            height: "40px",
+                                                            marginTop: "75px",
+                                                            marginRight: "20px",
+                                                        }}
+                                                    >
+                                                        Disputed
+                                                    </Button>
+                                                </div>
+                                            ) : (
+                                                <div>
+                                                    <Button
+                                                        variant="primary"
+                                                        color="dark"
+                                                        size="sm"
+                                                        style={{
+                                                            width: "100px",
+                                                            height: "40px",
+                                                            marginTop: "75px",
+                                                            marginRight: "20px",
+                                                        }}
+                                                        onClick={() => {
+                                                            setDispute(true);
+                                                        }}
+                                                    >
+                                                        Dispute
+                                                    </Button>
+                                                </div>
+                                            )}
+
                                         </Card>
                                     </Col>
+                                    {dispute && (
+                                        <Dispute
+                                            logHours={logHours}
+                                            dispute={dispute}
+                                            item={item}
+                                            setDispute={setDispute}
+
+                                        />
+                                    )}
                                 </>
                             );
                         })
@@ -238,8 +275,7 @@ const LogHours = (item) => {
                                     </Card>
                                 </Col>
                                 {selectedItem?.status == "pending" && (
-                                    <>
-                                        <div>
+                                        <>
                                             <div class="d-grid gap-2 col-3 mx-auto">
                                                 <Button
                                                     variant="primary"
@@ -258,6 +294,7 @@ const LogHours = (item) => {
                                                     Accept
                                                 </Button>
                                             </div>
+                                            {!selectedItem?.adminkey && 
                                             <div class="d-grid gap-2 col-3 mx-auto">
                                                 <Button
                                                     variant="primary"
@@ -274,8 +311,8 @@ const LogHours = (item) => {
                                                     Decline
                                                 </Button>
                                             </div>
-                                        </div>
-                                    </>
+                                            }
+                                        </>
                                 )}
                             </Row>
                         </Form.Group>
