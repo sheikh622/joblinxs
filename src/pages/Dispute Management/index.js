@@ -27,7 +27,6 @@ const DisputeManagement = (item) => {
     let jobId = params.pathname.split("/")[2];
     const DisputeList = useSelector((state) => state.DisputeListing?.Reports?.disputedJobListing);
     const DisputePagination = useSelector((state) => state.DisputeListing?.Reports);
-console.log("Disppppppp",DisputeList)
     const [page, setPage] = useState(1);
     const [limit] = useState("10");
     const [loader, setLoader] = useState(true);

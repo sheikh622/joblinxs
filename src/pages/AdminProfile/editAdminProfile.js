@@ -24,7 +24,6 @@ export default () => {
   const dispatch = useDispatch();
   const login = useSelector((state) => state.auth.Auther);
   const getProfileData = useSelector((state) => state.AdminProfile?.Adminprofile);
-  console.log("0000000000000",getProfileData)
   const [selectedImage, setSelectedImage] = useState();
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().trim().required("Full name is required"),
@@ -51,7 +50,6 @@ export default () => {
     );
   }, []);
   function onSubmit(data) {
-    console.log("data",data)
     // display form data on success
     let Data = new FormData();
     Data.append("fullName", data.fullName)

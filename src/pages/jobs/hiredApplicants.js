@@ -46,7 +46,6 @@ const Applicants = ({ id }) => {
   );
   const auth = useSelector((state) => state?.auth?.Auther);
   const Pageination = useSelector((state) => state?.addJob?.hiredApplicants?.data);
-  console.log("peeeeginstion", Pageination)
   const [rating, setRating] = useState(0); // initial rating value
 
   useEffect(() => {

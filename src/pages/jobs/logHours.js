@@ -99,7 +99,6 @@ const LogHours = (item, id) => {
                 <Row className="py-2 justify-content-between">
                     {logHours?.log_hours.length > 0 ? (
                         logHours?.log_hours.map((item, value) => {
-                            console.log("iteeeeeeeeeeeeeeeeeeee",item)
                             return (
                                 <>
                                     <Col lg={6} md={12} sm={12} xs={12} className="pb-3">

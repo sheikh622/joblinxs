@@ -24,7 +24,6 @@ const Dispute = ({ item, setDispute, dispute, id, logHours }) => {
   let jobId = params.pathname.split("/")[2];
   const DisputeList = useSelector((state) => state.DisputeListing?.Reports?.disputedJobListing);
   const login = useSelector((state) => state.auth.Auther);
-  console.log("222222222222222222", item)
   const ReasonList = useSelector((state) => state?.DisputeListing?.Reasons?.data);
   const [reportList, setReportList] = useState([]);
   const [categories, setCategories] = useState(null);
@@ -61,7 +60,6 @@ const Dispute = ({ item, setDispute, dispute, id, logHours }) => {
     dispatch(getDisputeReason({}));
   }, []);
   const handleReport = (jobId, profileId, item) => {
-    console.log(profileId, "=============")
     if(profileId === undefined){
       var data ={
           jobId: item?.jobs?.id,
