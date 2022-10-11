@@ -39,18 +39,15 @@ const DisputeManagement = (item) => {
             setDataList(DisputeList);
         }
     }, [DisputeList]);
-
     useEffect(() => {
         dispatch(
             getDisputeList({
                 page: page,
                 limit: limit,
                 setLoader: setLoader,
-
             })
         );
     }, [page, limit]);
-
     const handleClick = (item, isAccepted, index) => {
         let newArray = dataList;
         newArray[index].isAccepted = !isAccepted;
