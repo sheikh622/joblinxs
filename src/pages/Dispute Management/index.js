@@ -137,7 +137,7 @@ console.log("Disppppppp",DisputeList)
                     </span>
                 </td>
                 <td style={{ paddingLeft: "2%" }}>
-                    <span className="fw-normal">{item?.description ? item?.description : "N/A"}</span>
+                    <span className="fw-normal">{DisputeList?.description ? DisputeList?.description : "N/A"}</span>
                 </td>
                 <td>
                     <span className="fw-normal">
@@ -218,7 +218,6 @@ console.log("Disppppppp",DisputeList)
                                 </Pagination.Next>
                             </Pagination>
                         </Nav>
-
                         <small className="fw-bold">
                             Showing <b>{DisputeList?.length}</b> out of{" "}
                             <b>{DisputePagination?.total_disputedJobs}</b> entries
