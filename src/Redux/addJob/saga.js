@@ -370,7 +370,9 @@ function* ApprovedHoursSaga({ payload }) {
   try {
     let data = {
       id: payload.id,
-      status: payload.status
+      status: payload.status,
+      userId:payload.userId,
+      providerId:payload.providerId,
     }
 
     const token = yield select(makeSelectAuthToken());

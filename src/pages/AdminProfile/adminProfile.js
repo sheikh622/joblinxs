@@ -26,8 +26,6 @@ export default () => {
   const getProfileData = useSelector((state) => state.AdminProfile?.Adminprofile);
   const [rating, setRating] = useState(0); // initial rating value
 
-  console.log(
-    "fhdskj", getProfileData)
   const {
     location: { state },
   } = history;

@@ -45,7 +45,7 @@ const Applicants = ({ id }) => {
     (state) => state?.addJob?.hiredApplicants?.data?.applicants
   );
   const auth = useSelector((state) => state?.auth?.Auther);
-  const Pageination = useSelector((state) => state?.addJob?.Applicants?.data);
+  const Pageination = useSelector((state) => state?.addJob?.hiredApplicants?.data);
   const [rating, setRating] = useState(0); // initial rating value
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const Applicants = ({ id }) => {
     }
   }, [page, limit, id]);
   const nextPage = () => {
-    if (page < applicantsData?.pages) {
+    if (page < Pageination?.pages) {
       setPage(page + 1);
     }
   };
@@ -72,7 +72,7 @@ const Applicants = ({ id }) => {
   };
   const paginationItems = () => {
     let items = [];
-    for (let number = 1; number <= applicantsData?.pages; number++) {
+    for (let number = 1; number <= Pageination?.pages; number++) {
       items.push(
         <Pagination.Item
           key={number}
@@ -202,20 +202,36 @@ const Applicants = ({ id }) => {
                                   </Button>
                                 </div>
                               )}
-                              <div class="ml-auto">
-                                <Button
-                                  variant="primary"
-                                  color="dark"
-                                  size="sm"
-                                  style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
-                                  onClick={() => {
-                                    handleMove(item);
-                                  }}
-                                >
-                                  Log Hours
-                                </Button>
-                              </div>
-                              {item?.completedByProvider && !item?.completedBySeeker &&
+                              {item?.jobs?.paymentType === "fixed" || item?.jobs?.paymentType === "Fixed" ? (
+                                <>
+                                  {item?.jobs?.isDisputed ? (
+                                    <div class="ml-auto">
+                                      <Button
+                                        variant="primary"
+                                        color="dark"
+                                        size="sm"
+                                        style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
+                                      >
+                                        Disputed
+                                      </Button>
+                                    </div>
+                                  ) : (
+                                    <div class="ml-auto">
+                                      <Button
+                                        variant="primary"
+                                        color="dark"
+                                        size="sm"
+                                        style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
+                                        onClick={() => {
+                                          setDispute(true);
+                                        }}
+                                      >
+                                        Dispute
+                                      </Button>
+                                    </div>
+                                  )}
+                                </>
+                              ) : (
                                 <div class="ml-auto">
                                   <Button
                                     variant="primary"
@@ -223,13 +239,13 @@ const Applicants = ({ id }) => {
                                     size="sm"
                                     style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
                                     onClick={() => {
-                                      setDispute(true);
+                                      handleMove(item);
                                     }}
                                   >
-                                    Dispute
+                                    Log Hours
                                   </Button>
                                 </div>
-                              }
+                              )}
                             </div>
                           </Card>
                           {show && (
@@ -250,6 +266,7 @@ const Applicants = ({ id }) => {
                             <Dispute
                               dispute={dispute}
                               setDispute={setDispute}
+                              item={item}
 
                             />
                           )}
@@ -278,7 +295,7 @@ const Applicants = ({ id }) => {
             </Nav>
             <small className="fw-bold">
               Showing <b>{applicantsData?.length}</b> out of{" "}
-              <b>{applicantsData?.total_applicants}</b> entries
+              <b>{Pageination?.total_applicants}</b> entries
             </small>
           </Card.Footer>
         </Row>
