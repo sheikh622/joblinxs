@@ -38,7 +38,6 @@ function* loginRequestSaga({ payload }) {
         : "/dashboard";
     payload.history.push(path);
     payload.resetForm();
-
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
