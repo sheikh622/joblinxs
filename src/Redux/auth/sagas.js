@@ -1,23 +1,18 @@
 import { push } from "connected-react-router";
 import { toast } from "react-toastify";
-import { all, fork, put, takeLatest, select } from "redux-saga/effects";
+import { all, fork, put, select, takeLatest } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
 import {
   loginRequestSuccess,
-  resetPasswordSuccess,
-  updatetPasswordSuccess,
-  facebookLoginSuccess,
-  googleLoginSuccess
+  resetPasswordSuccess
 } from "./actions";
 import {
   FORGOT_PASSWORD,
-  LOGIN,
-  RESET_PASSWORD,
-  UPDATE_PASSWORD,
-  LOGIN_FACEBOOK,
-  LOGIN_GOOGLE
+  LOGIN, LOGIN_FACEBOOK,
+  LOGIN_GOOGLE, RESET_PASSWORD,
+  UPDATE_PASSWORD
 } from "./constants";
 
 function* loginRequestSaga({ payload }) {
