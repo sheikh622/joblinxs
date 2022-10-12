@@ -33,7 +33,7 @@ function* loginRequestSaga({ payload }) {
     yield put(loginRequestSuccess(response.data.data));
     payload.setLoader(false);
     let path =
-      response.data.data.user.role.name== "Admin"
+      response.data.data.user.role.name == "Admin"
         ? "/user_management"
         : "/dashboard";
     payload.history.push(path);
@@ -119,11 +119,7 @@ function* LoginFacebookSaga({ payload }) {
   const token = yield select(makeSelectAuthToken());
   let data = {
     email: payload.email,
-    // name: payload.name,
-    // facebookId: payload.facebookId,
-    // firstName: payload.firstName,
-    // lastName: payload.lastName,
-    // fcmToken:payload.fcmToken,
+    web: true,
   };
   try {
     const response = yield axios.post(`facebook-authentication`, data);
@@ -148,9 +144,9 @@ function* watchFacebookLogin() {
 }
 
 function* LogingoogleSaga({ payload }) {
-  let data={
-    token:payload.token,
-    // webFcmToken:payload.webFcmToken
+  let data = {
+    token: payload.token,
+    web: true,
   }
   try {
     const response = yield axios.post(`google-authentication`, data);

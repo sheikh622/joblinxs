@@ -28,6 +28,7 @@ const LoginPage = () => {
   const [isTokenFound, setTokenFound] = useState(false);
   const [token, setToken] = useState("");
   const [loader, setLoader] = useState(true);
+  
 
   useEffect(() => {
     localStorage.clear()
@@ -75,31 +76,27 @@ const LoginPage = () => {
     },
   });
   const responseFacebook = (response) => {
-    // let facebookId = response.id;
-    // let firstName = response.firstName;
-    // let lastName = response.lastName;
-    let email = response.email;
-    // let name = response.name;
-    dispatch(
-      facebookLogin({
-        // facebookId: facebookId,
-        // firstName: firstName,
-        email: email,
-        // name: name,
-        // lastName:lastName,
-        // fcmToken: token,
-      })
-    )
-  };
-
-  const Goolelogin = useGoogleLogin({
-    onSuccess: tokenResponse => {
+    if (response.status !== "unknown") {
+      let email = response.email;
       dispatch(
-        googleLogin({
-          token: tokenResponse?.access_token,
-          // webFcmToken: token,
+        facebookLogin({
+          email: email,
+          web: true,
         })
-      );
+      )
+    }
+  };
+  const Goolelogin = useGoogleLogin({
+
+    onSuccess: tokenResponse => {
+      if (tokenResponse) {
+        dispatch(
+          googleLogin({
+            token: tokenResponse?.access_token,
+            web: true,
+          })
+        );
+      }
     }
     ,
   });
