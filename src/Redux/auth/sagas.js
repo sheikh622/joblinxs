@@ -1,23 +1,18 @@
 import { push } from "connected-react-router";
 import { toast } from "react-toastify";
-import { all, fork, put, takeLatest, select } from "redux-saga/effects";
+import { all, fork, put, select, takeLatest } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
 import {
   loginRequestSuccess,
-  resetPasswordSuccess,
-  updatetPasswordSuccess,
-  facebookLoginSuccess,
-  googleLoginSuccess
+  resetPasswordSuccess
 } from "./actions";
 import {
   FORGOT_PASSWORD,
-  LOGIN,
-  RESET_PASSWORD,
-  UPDATE_PASSWORD,
-  LOGIN_FACEBOOK,
-  LOGIN_GOOGLE
+  LOGIN, LOGIN_FACEBOOK,
+  LOGIN_GOOGLE, RESET_PASSWORD,
+  UPDATE_PASSWORD
 } from "./constants";
 
 function* loginRequestSaga({ payload }) {
@@ -33,7 +28,7 @@ function* loginRequestSaga({ payload }) {
     yield put(loginRequestSuccess(response.data.data));
     payload.setLoader(false);
     let path =
-      response.data.data.user.role.name== "Admin"
+      response.data.data.user.role.name == "Admin"
         ? "/user_management"
         : "/dashboard";
     payload.history.push(path);
@@ -119,11 +114,7 @@ function* LoginFacebookSaga({ payload }) {
   const token = yield select(makeSelectAuthToken());
   let data = {
     email: payload.email,
-    // name: payload.name,
-    // facebookId: payload.facebookId,
-    // firstName: payload.firstName,
-    // lastName: payload.lastName,
-    // fcmToken:payload.fcmToken,
+    web: true,
   };
   try {
     const response = yield axios.post(`facebook-authentication`, data);
@@ -148,9 +139,9 @@ function* watchFacebookLogin() {
 }
 
 function* LogingoogleSaga({ payload }) {
-  let data={
-    token:payload.token,
-    // webFcmToken:payload.webFcmToken
+  let data = {
+    token: payload.token,
+    web: true,
   }
   try {
     const response = yield axios.post(`google-authentication`, data);
