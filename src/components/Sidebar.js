@@ -264,9 +264,9 @@ export default (props = {}) => {
               ) : (
                 <>
                   <NavItem
-                    title="User Management"
+                    title="Dashboard"
                     icon={faThList}
-                    link={Routes.UserManagement.path}
+                    link={Routes.DashboardOverview.path}
                   />
                   <button
                     style={{

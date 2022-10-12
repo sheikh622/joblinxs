@@ -1,5 +1,4 @@
 import {
-  faFacebookF,
   faGoogle
 } from "@fortawesome/free-brands-svg-icons";
 import {
@@ -7,6 +6,7 @@ import {
   faUnlockAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useGoogleLogin } from "@react-oauth/google";
 import {
   Button, Card, Col, Container, Form, InputGroup, Row
 } from "@themesberg/react-bootstrap";
@@ -17,10 +17,8 @@ import { Link, useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import BgImage from "../../assets/img/illustrations/signin.svg";
 import { fetchToken } from "../../firebase";
-import { loginRequest, facebookLogin, googleLogin } from "../../Redux/auth/actions";
+import { facebookLogin, googleLogin, loginRequest } from "../../Redux/auth/actions";
 import { Routes } from "../../routes";
-import { eyeIcon } from "../../assets/img/eyeON.svg";
-import { useGoogleLogin } from "@react-oauth/google";
 // import { useGoogleLogin } from '@react-oauth/google';
 import FacebookLogin from "react-facebook-login";
 
@@ -28,6 +26,7 @@ const LoginPage = () => {
   const [isTokenFound, setTokenFound] = useState(false);
   const [token, setToken] = useState("");
   const [loader, setLoader] = useState(true);
+  
 
   useEffect(() => {
     localStorage.clear()
@@ -75,31 +74,27 @@ const LoginPage = () => {
     },
   });
   const responseFacebook = (response) => {
-    // let facebookId = response.id;
-    // let firstName = response.firstName;
-    // let lastName = response.lastName;
-    let email = response.email;
-    // let name = response.name;
-    dispatch(
-      facebookLogin({
-        // facebookId: facebookId,
-        // firstName: firstName,
-        email: email,
-        // name: name,
-        // lastName:lastName,
-        // fcmToken: token,
-      })
-    )
-  };
-
-  const Goolelogin = useGoogleLogin({
-    onSuccess: tokenResponse => {
+    if (response.status !== "unknown") {
+      let email = response.email;
       dispatch(
-        googleLogin({
-          token: tokenResponse?.access_token,
-          // webFcmToken: token,
+        facebookLogin({
+          email: email,
+          web: true,
         })
-      );
+      )
+    }
+  };
+  const Goolelogin = useGoogleLogin({
+
+    onSuccess: tokenResponse => {
+      if (tokenResponse) {
+        dispatch(
+          googleLogin({
+            token: tokenResponse?.access_token,
+            web: true,
+          })
+        );
+      }
     }
     ,
   });
