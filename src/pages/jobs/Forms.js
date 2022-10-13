@@ -75,6 +75,7 @@ export const GeneralInfoForm = () => {
   const [latitude, setLatitude] = useState();
   const [unit, setUnit] = useState();
   const [postJob, setPostJob] = useState(false);
+  const [buttonDisable, setButtonDisabled] = useState(false);
   let jobId = params.pathname.split("/")[2];
 
   useEffect(() => {
@@ -88,8 +89,10 @@ export const GeneralInfoForm = () => {
     );
     setExperience(experienced.filter((option) => option.label == SingleId?.experienceRequired));
     setLocation(SingleId?.location ? SingleId?.location[0] : "");
-    setCategories({value: [{ id: str.id, title: str.title, details: str.details }],
-      label: str?.title})
+    setCategories({
+      value: [{ id: str.id, title: str.title, details: str.details }],
+      label: str?.title
+    })
   }, [SingleId]);
   useEffect(() => {
     dispatch(
@@ -157,8 +160,10 @@ export const GeneralInfoForm = () => {
     },
     validationSchema: CategorySchema,
     onSubmit: async (values, action) => {
+      console.log("hi I am here")
       setShowDefaultEmergency(true);
       setPostJob(true);
+      setButtonDisabled(true);
       let data = {
         id: values.id,
         name: values.jobName,
@@ -196,17 +201,18 @@ export const GeneralInfoForm = () => {
         existImg: SingleId?.image,
         isPost: isPost,
         setPostJob: setPostJob,
+        setButtonDisabled: setButtonDisabled,
       };
       if (!id) {
         dispatch(addFormJob(data));
       } else {
         if (postItem) {
           if (isPost) {
+            console.log("in if statement");
+            setButtonDisabled(true);
             setShowDefaultEmergency(true);
-
             dispatch(addFormJob(data));
           } else {
-
             dispatch(emergencyJob({
               id: jobId,
               setShowDefaultEmergency: setShowDefaultEmergency,
@@ -214,9 +220,13 @@ export const GeneralInfoForm = () => {
             }));
           }
         }
-        if (!emergency) {
-          dispatch(updateJob(data, id));
+        if(!isPost){
+          if (!emergency) {
+            console.log("in update job");
+            dispatch(updateJob(data, id));
+          }
         }
+       
       }
     },
   });
@@ -708,18 +718,19 @@ export const GeneralInfoForm = () => {
 
             <div className="mt-3 d-flex justify-content-end">
               {SingleId === null || SingleId?.length === 0 || SingleId?.status === "pending" ? (
-                <Button variant="primary" type="submit" show={showDefaults} className="mx-2">
+                <Button variant="primary" type="submit" disabled={buttonDisable} show={showDefaults} className="mx-2">
                   {id ? "Update Job" : "Post Job"}
                 </Button>) : ""}
               {id && (
                 <Button
                   variant="primary"
                   type="submit"
+                  disabled={buttonDisable}
                   onClick={() => {
                     // setShowDefaultEmergency(true);
                     setIsPost(true)
                     // setPostJob(false);
-                    // setPostItem(true);
+                    setPostItem(true);
                   }}
                 >
                   Repost Job
@@ -730,48 +741,6 @@ export const GeneralInfoForm = () => {
         </Card.Body>
       </Card>
 
-      {/* Modal */}
-      {/* <Modal
-        as={Modal.Dialog}
-        centered
-        show={showDefaultEmergency}
-        onHide={handleClose}
-      >
-        <Modal.Header>
-          <Button
-            variant="close"
-            aria-label="Close"
-            onClick={() => {
-              setShowDefaultEmergency(false);
-            }}
-          />
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={CategoryFormik.handleSubmit}>
-            <Form.Group>
-              Are you sure you want to post this Job?
-            </Form.Group>
-            <Form.Group>
-              <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
-                <Button
-                  variant="primary"
-                  type="submit"
-                  onClick={() => {
-                    
-                    CategoryFormik.handleSubmit();
-                   
-                  }}
-                  className="mx-2"
-                >
-                  Post
-                </Button>
-              </div>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-      </Modal> */}
-
-      {/* Congratulations Modal */}
       <Modal
         as={Modal.Dialog}
         centered

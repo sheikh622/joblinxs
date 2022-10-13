@@ -141,7 +141,7 @@ const DisputeManagement = (item) => {
                 </td>
                 <td>
                     <span className="fw-normal">
-                        {item.jobs.rate ? item.jobs.rate : "N/A"}
+                        {item?.jobs?.rate ? item?.jobs?.rate : "N/A"}
                     </span>
                 </td>
                 <td>

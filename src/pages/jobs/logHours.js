@@ -6,8 +6,14 @@ import {
     Form,
     Image,
     Modal,
-    Row
+    Row, Nav, Pagination
 } from "@themesberg/react-bootstrap";
+import {
+    faAngleDoubleLeft,
+    faAngleDoubleRight, faCheck, faEllipsisH, faEye, faMinus, faTrashAlt
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
@@ -31,17 +37,15 @@ const LogHours = (item, id) => {
     let jobId = params.pathname.split("/")[2];
     const [showDefault, setShowDefault] = useState(false);
     const [selectedItem, setSelectedItem] = useState();
-    console.log("selectedItem",selectedItem)
     const [show, setShow] = useState(false);
     const [dispute, setDispute] = useState(false);
     const [page, setPage] = useState(1);
-    const [limit] = useState("5");
+    const [limit] = useState("6");
     const logHours = useSelector(
         (state) => state?.addJob?.logHours?.job
     );
-    
-    const Pageination = useSelector(
-        (state) => state?.addJob?.hiredApplicants?.data
+    const logHoursPage = useSelector(
+        (state) => state?.addJob?.logHours
     );
     const handlefalse = () => {
         setShowDefault(false);
@@ -67,9 +71,31 @@ const LogHours = (item, id) => {
         }
     }, [page, limit]);
     const nextPage = () => {
-        if (page < Pageination?.pages) {
+        if (page < logHoursPage?.pages) {
             setPage(page + 1);
         }
+    };
+    const previousPage = () => {
+        if (page > 1) {
+            setPage(page - 1);
+        }
+    };
+    const paginationItems = () => {
+        let items = [];
+        for (let number = 1; number <= logHoursPage?.pages; number++) {
+            items.push(
+                <Pagination.Item
+                    key={number}
+                    active={number === page}
+                    onClick={() => {
+                        setPage(number);
+                    }}
+                >
+                    {number}
+                </Pagination.Item>
+            );
+        }
+        return items;
     };
     const handleChange = (item) => {
         dispatch(
@@ -79,8 +105,10 @@ const LogHours = (item, id) => {
                 history: history,
                 id: item.id,
                 status: item.status,
-                userId: usersId,
-                jobId: jobId
+                usersId: usersId,
+                jobId: jobId,
+                page: page,
+                limit: limit,
 
             })
         );
@@ -120,79 +148,97 @@ const LogHours = (item, id) => {
                                                     <p className="mt-2">
                                                         Hours Logged:{" "}
                                                         <span>
-                                                            {item?.hours ? item?.hours : "00"}{" : "}
-                                                            {item?.minutes ? item?.minutes : "00"}
+                                                            {item?.hours ? item?.hours : "00"}h{" : "}
+                                                            {item?.minutes ? item?.minutes : "00"}m
                                                         </span>{" "}
                                                     </p>
                                                 </span>
                                             </div>
-                                            <Button
-                                                variant={
-                                                    item?.acceptedBySeeker == true ? "success" : "primary"
-                                                }
-                                                color="dark"
-                                                size="sm"
-                                                style={{
-                                                    width: "100px",
-                                                    height: "40px",
-                                                    marginTop: "75px",
-                                                    marginRight: "20px",
-                                                }}
-                                                onClick={() => {
-                                                    setShowDefault(true);
-                                                    setSelectedItem(item);
-                                                }}
-                                            >
-                                                View
-                                            </Button>
-                                            {item?.isDispute ? (
-                                                <div>
+                                            {item?.status == "pending" ? (
+                                                <>
                                                     <Button
-                                                        variant="primary"
+                                                        variant={
+                                                            item?.acceptedBySeeker == true ? "success" : "primary"
+                                                        }
                                                         color="dark"
                                                         size="sm"
                                                         style={{
                                                             width: "100px",
                                                             height: "40px",
                                                             marginTop: "75px",
-                                                            marginRight: "20px",
-                                                        }}
-                                                    >
-                                                        Disputed
-                                                    </Button>
-                                                </div>
-                                            ) : (
-                                                <div>
-                                                    <Button
-                                                        variant="primary"
-                                                        color="dark"
-                                                        size="sm"
-                                                        style={{
-                                                            width: "100px",
-                                                            height: "40px",
-                                                            marginTop: "75px",
-                                                            marginRight: "20px",
+                                                            marginRight: "5px",
                                                         }}
                                                         onClick={() => {
-                                                            setDispute(true);
+                                                            setShowDefault(true);
+                                                            setSelectedItem(item);
                                                         }}
                                                     >
-                                                        Dispute
+                                                        View
                                                     </Button>
-                                                </div>
-                                            )}
+                                                    {item?.isDispute ? (
+                                                        <div>
+                                                            <Button
+                                                                variant="primary"
+                                                                color="dark"
+                                                                size="sm"
+                                                                style={{
+                                                                    width: "100px",
+                                                                    height: "40px",
+                                                                    marginTop: "75px",
+                                                                    marginRight: "10px",
+                                                                }}
+                                                            >
+                                                                Disputed
+                                                            </Button>
+                                                        </div>
+                                                    ) : (
+                                                        <div>
+                                                            <Button
+                                                                variant="primary"
+                                                                color="dark"
+                                                                size="sm"
+                                                                style={{
+                                                                    width: "100px",
+                                                                    height: "40px",
+                                                                    marginTop: "75px",
+                                                                    marginRight: "10px",
+                                                                }}
+                                                                onClick={() => {
+                                                                    setDispute(true);
+                                                                }}
+                                                            >
+                                                                Dispute
+                                                            </Button>
+                                                        </div>
+                                                    )}
+                                                </>
+
+                                            ) :
+                                                <Button
+                                                    variant={
+                                                        item?.acceptedBySeeker == true ? "success" : "primary"
+                                                    }
+                                                    color="dark"
+                                                    size="sm"
+                                                    style={{
+                                                        width: "100px",
+                                                        height: "40px",
+                                                        marginTop: "75px",
+                                                        marginRight: "5px",
+                                                    }}
+                                                    onClick={() => {
+                                                        setShowDefault(true);
+                                                        setSelectedItem(item);
+                                                    }}
+                                                >
+                                                    View
+                                                </Button>
+                                            }
+
 
                                         </Card>
                                     </Col>
-                                    {dispute && (
-                                        <Dispute
-                                            logHours={logHours}
-                                            dispute={dispute}
-                                            item={item}
-                                            setDispute={setDispute}
 
-                                        />
-                                    )}
                                 </>
                             );
                         })
@@ -200,9 +246,34 @@ const LogHours = (item, id) => {
                         <NoRecordFound>
                         </NoRecordFound>
                     }
-
+                    <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+                        <Nav>
+                            <Pagination size={"sm"} className="mb-2 mb-lg-0">
+                                <Pagination.Prev onClick={() => previousPage()}>
+                                    <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                                </Pagination.Prev>
+                                {paginationItems()}
+                                <Pagination.Next onClick={() => nextPage()}>
+                                    <FontAwesomeIcon icon={faAngleDoubleRight} />
+                                </Pagination.Next>
+                            </Pagination>
+                        </Nav>
+                        <small className="fw-bold">
+                            Showing <b>{logHours?.log_hours?.length}</b> out of{" "}
+                            <b>{logHoursPage?.total_LogHours}</b> entries
+                        </small>
+                    </Card.Footer>
                 </Row>
             </Container>
+            {dispute && (
+                <Dispute
+                    logHours={logHours}
+                    dispute={dispute}
+                    item={item}
+                    setDispute={setDispute}
+
+                />
+            )}
             <Modal as={Modal.Dialog} centered show={showDefault} onHide={handlefalse}>
                 <Modal.Header>
                     <Modal.Title className="h5">Log Hours Details</Modal.Title>
@@ -274,26 +345,26 @@ const LogHours = (item, id) => {
                                     </Card>
                                 </Col>
                                 {selectedItem?.status == "pending" && (
-                                        <>
-                                            <div class="d-grid gap-2 col-3 mx-auto">
-                                                <Button
-                                                    variant="primary"
-                                                    color="dark"
-                                                    size="lg"
-                                                    className="mt-2 me-1"
-                                                    onClick={() =>
-                                                        handleChange({
-                                                            id: selectedItem.id,
-                                                            status: "Accepted"
-                                                        },
-                                                            handlefalse()
-                                                        )
-                                                    }
-                                                >
-                                                    Accept
-                                                </Button>
-                                            </div>
-                                            {!selectedItem?.adminkey && 
+                                    <>
+                                        <div class="d-grid gap-2 col-3 mx-auto">
+                                            <Button
+                                                variant="primary"
+                                                color="dark"
+                                                size="lg"
+                                                className="mt-2 me-1"
+                                                onClick={() =>
+                                                    handleChange({
+                                                        id: selectedItem.id,
+                                                        status: "Accepted"
+                                                    },
+                                                        handlefalse()
+                                                    )
+                                                }
+                                            >
+                                                Accept
+                                            </Button>
+                                        </div>
+                                        {!selectedItem?.adminkey &&
                                             <div class="d-grid gap-2 col-3 mx-auto">
                                                 <Button
                                                     variant="primary"
@@ -310,8 +381,8 @@ const LogHours = (item, id) => {
                                                     Decline
                                                 </Button>
                                             </div>
-                                            }
-                                        </>
+                                        }
+                                    </>
                                 )}
                             </Row>
                         </Form.Group>

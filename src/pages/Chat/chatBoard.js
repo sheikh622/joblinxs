@@ -198,7 +198,7 @@ const Chatboard = ({
                     alt="Neil Portrait"
                     className="user-avatar rounded-circle"
 
-                  /> <p className="black" style={{color:"white"}}>Join Instant Zoom Meeting</p>
+                  /> <p className="black" style={{color:"white"}}>Join Zoom Meeting</p>
                 </div>
               </a>
             ) :
