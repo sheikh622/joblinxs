@@ -43,11 +43,9 @@ const LogHours = (item, id) => {
     const logHours = useSelector(
         (state) => state?.addJob?.logHours?.job
     );
-    console.log("1111111111",logHours)
     const logHoursPage = useSelector(
         (state) => state?.addJob?.logHours
     );
-    console.log("ewewew",logHoursPage)
     const handlefalse = () => {
         setShowDefault(false);
     }
@@ -176,7 +174,7 @@ const LogHours = (item, id) => {
                                                     >
                                                         View
                                                     </Button>
-                                                    {item?.isDispute == true ? (
+                                                    {item?.isDispute ? (
                                                         <div>
                                                             <Button
                                                                 variant="primary"
