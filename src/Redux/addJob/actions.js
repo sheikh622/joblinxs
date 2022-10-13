@@ -27,7 +27,8 @@ import {
   GET_HIRED_APPLICANTS_SUCCESS,
   COMPLETE_JOB,
   CONFIRM_JOB,
-  GET_APPLICANTS_BYUSERID
+  GET_APPLICANTS_BYUSERID,
+  GET_APPLICANTS_BYUSERID_SUCCESS
 } from "./constants";
 
 export const addFormJob = (data) => (
@@ -145,6 +146,10 @@ export const confirmJob = (data) => ({
 
 export const getApplicantsByUserId = (data) => ({
   type: GET_APPLICANTS_BYUSERID,
+  payload: data,
+});
+export const getApplicantsByUserIdSuccess = (data) => ({
+  type: GET_APPLICANTS_BYUSERID_SUCCESS,
   payload: data,
 });
 export const emergencyJob = (data) => ({

@@ -17,13 +17,15 @@ import {
   getApplicants,
   getApplicantsSuccess,
   getConfirmSuccess,
+  getLogHours,
   getLogHoursSuccess,
   getApprovedHoursSuccess,
   getConfirmApplicants,
   getSingleUser,
   getSingleUserSuccess,
   getHiredApplicantsSuccess,
-  getHiredApplicants
+  getHiredApplicants,
+  getApplicantsByUserId
 } from "./actions";
 import {
   ADD_JOB,
@@ -53,8 +55,8 @@ import {
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 
- function* addJob({ payload }) {
-   let repost = payload.isPost;
+function* addJob({ payload }) {
+  let repost = payload.isPost;
   const formData = new FormData();
   formData.append("id", payload.id);
   formData.append("name", payload.name);
@@ -82,7 +84,7 @@ import { CapitalizeFirstLetter } from "../../utils/Global";
   formData.append("isPost", payload.isPost);
   try {
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.post(`${repost ? "job/repost" : "job/seeker"}`, formData, {
+    const response = yield axios.post(`${repost == true ? "job/repost" : "job/seeker"}`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -90,7 +92,9 @@ import { CapitalizeFirstLetter } from "../../utils/Global";
 
     toast.success(CapitalizeFirstLetter(response.data.message));
     payload.setReset();
+    payload.setButtonDisabled(false);
     payload.history.push("/job");
+
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -195,7 +199,7 @@ function* jobByIdSaga(payload) {
       },
     });
     yield put(jobByIdSuccess(response.data.data));
-    payload.setReset(); 
+    payload.setReset();
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -240,11 +244,12 @@ function* updateJobSaga(payload) {
     );
     toast.success(CapitalizeFirstLetter(response.data.message));
     payload.history.push(`/detailJob/${payload.id}`);
-    payload.setReset(); 
+    payload.setReset();
+    payload.setButtonDisabled(false);
     yield put(updateJobSuccess(response.data));
-    
+
     // yield put(getJobListingSuccess(response.data.data));
-    // payload.setPostJob(false);
+
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -274,7 +279,7 @@ function* watchGetApplicants() {
   yield takeLatest(GET_JOB_APPLICANTS, getApplicantsRequest);
 }
 function* gethiredApplicantsSaga(payload) {
-  
+
   try {
     const { id, setLoader } = payload.payload;
     const token = yield select(makeSelectAuthToken());
@@ -323,7 +328,7 @@ function* ConfirmSaga(payload) {
 function* watchConfirmApplicants() {
   yield takeLatest(CONFIRM_APPLICANTS, ConfirmSaga);
 }
-function* getLogHours({ payload }) {
+function* getLogHoursSaga({ payload }) {
   try {
     const { id } = payload;
     const token = yield select(makeSelectAuthToken());
@@ -340,7 +345,7 @@ function* getLogHours({ payload }) {
   }
 }
 function* watchGetLogHours() {
-  yield takeLatest(GET_LOG_HOURS, getLogHours);
+  yield takeLatest(GET_LOG_HOURS, getLogHoursSaga);
 }
 function* RateJobSaga({ payload }) {
   try {
@@ -371,8 +376,8 @@ function* ApprovedHoursSaga({ payload }) {
     let data = {
       id: payload.id,
       status: payload.status,
-      userId:payload.userId,
-      providerId:payload.providerId,
+      userId: payload.userId,
+      providerId: payload.providerId,
     }
 
     const token = yield select(makeSelectAuthToken());
@@ -386,6 +391,13 @@ function* ApprovedHoursSaga({ payload }) {
     );
     toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getApprovedHoursSuccess(response.data.data));
+    yield put(getApplicantsByUserId({
+      id: payload.jobId,
+      page: payload.page,
+      limit: payload.limit,
+      usersId: payload.usersId
+    }));
+
     // window.location.reload()
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -474,7 +486,7 @@ function* watchConfirmJob() {
   yield takeLatest(CONFIRM_JOB, ConfirmjobSaga);
 }
 
-function* getApplicantsByUserId(payload) {
+function* getApplicantsByUserIdSaga(payload) {
   try {
     const { id, usersId, page, limit } = payload.payload;
     const token = yield select(makeSelectAuthToken());
@@ -492,7 +504,7 @@ function* getApplicantsByUserId(payload) {
   }
 }
 function* watchGetApplicantsByUserId() {
-  yield takeLatest(GET_APPLICANTS_BYUSERID, getApplicantsByUserId);
+  yield takeLatest(GET_APPLICANTS_BYUSERID, getApplicantsByUserIdSaga);
 }
 function* emergencyJobSaga({ payload }) {
   try {
