@@ -372,7 +372,6 @@ function* RateJobSaga({ payload }) {
 }
 
 function* ApprovedHoursSaga({ payload }) {
-  console.log(payload, "3223232")
   try {
     let data = {
       id: payload.id,
@@ -392,7 +391,6 @@ function* ApprovedHoursSaga({ payload }) {
     );
     toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(getApprovedHoursSuccess(response.data.data));
-    console.log("890890", response)
     yield put(getApplicantsByUserId({
       id: payload.jobId,
       page: payload.page,
@@ -489,7 +487,6 @@ function* watchConfirmJob() {
 }
 
 function* getApplicantsByUserIdSaga(payload) {
-  console.log("00000000000", payload)
   try {
     const { id, usersId, page, limit } = payload.payload;
     const token = yield select(makeSelectAuthToken());
