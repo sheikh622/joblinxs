@@ -34,7 +34,7 @@ const MyJobDetails = (item, props, data) => {
   const SingleId = useSelector((state) => state?.addJob?.jobById);
   const Login = useSelector((state) => state?.auth?.Auther);
   const [loader, setLoader] = useState(true);
-
+console.log(SingleId)
   const [showDefault, setShowDefault] = useState(false);
   const [rating, setRating] = useState(0); // initial rating value
   const [rate, setRate] = useState();

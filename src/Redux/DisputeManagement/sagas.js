@@ -8,6 +8,9 @@ import {
   getDisputeList, getDisputeListSuccess, getDisputeBlockSuccess, getDisputeBlock, DisputeReasonSuccess, addDisputeSuccess
 } from "./actions";
 import {
+  getLogHours
+} from "../addJob/actions";
+import {
   GET_DISPUTE_BLOCK,
   GET_DISPUTE_LIST,
   DISPUTE_REASON,
@@ -94,6 +97,12 @@ function* AddDispute({ payload }) {
     toast.success(CapitalizeFirstLetter(response.data.message));
     payload.setDispute(false);
     yield put(addDisputeSuccess(response.data.data));
+    yield put(getLogHours({
+      id: payload.jobId,
+      page: payload.page,
+      limit: payload.limit,
+      usersId: payload.usersId
+    }));
   } catch (error) {
     if (error?.response?.status == 401) {
       yield put(logoutRequest());
