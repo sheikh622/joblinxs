@@ -220,7 +220,7 @@ const Mainchat = () => {
                 handleMeeting();
               }}
             >
-              Zoom Meeting
+              Send Meeting Link
             </Dropdown.Item>
 
           </Dropdown.Menu>

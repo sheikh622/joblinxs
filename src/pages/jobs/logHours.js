@@ -1,18 +1,17 @@
 import {
+    faAngleDoubleLeft,
+    faAngleDoubleRight
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
     Button,
     Card,
     Col,
     Container,
     Form,
     Image,
-    Modal,
-    Row, Nav, Pagination
+    Modal, Nav, Pagination, Row
 } from "@themesberg/react-bootstrap";
-import {
-    faAngleDoubleLeft,
-    faAngleDoubleRight, faCheck, faEllipsisH, faEye, faMinus, faTrashAlt
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -71,7 +70,7 @@ const LogHours = (item, id) => {
         }
     }, [page, limit]);
     const nextPage = () => {
-        if (page < logHoursPage?.pages) {
+        if (page < logHours?.pages) {
             setPage(page + 1);
         }
     };
@@ -260,7 +259,8 @@ const LogHours = (item, id) => {
                         </Nav>
                         <small className="fw-bold">
                             Showing <b>{logHours?.log_hours?.length}</b> out of{" "}
-                            <b>{logHoursPage?.total_LogHours}</b> entries
+                            <b>{logHoursPage?.total_logHours
+                            }</b> entries
                         </small>
                     </Card.Footer>
                 </Row>
