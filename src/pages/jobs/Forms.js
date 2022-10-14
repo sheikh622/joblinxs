@@ -160,7 +160,6 @@ export const GeneralInfoForm = () => {
     },
     validationSchema: CategorySchema,
     onSubmit: async (values, action) => {
-      console.log("hi I am here")
       setShowDefaultEmergency(true);
       setPostJob(true);
       setButtonDisabled(true);
@@ -208,7 +207,6 @@ export const GeneralInfoForm = () => {
       } else {
         if (postItem) {
           if (isPost) {
-            console.log("in if statement");
             setButtonDisabled(true);
             setShowDefaultEmergency(true);
             dispatch(addFormJob(data));
@@ -222,7 +220,6 @@ export const GeneralInfoForm = () => {
         }
         if(!isPost){
           if (!emergency) {
-            console.log("in update job");
             dispatch(updateJob(data, id));
           }
         }
