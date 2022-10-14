@@ -174,7 +174,7 @@ const LogHours = (item, id) => {
                                                     >
                                                         View
                                                     </Button>
-                                                    {item?.isDispute == true ? (
+                                                    {item?.isDispute ? (
                                                         <div>
                                                             <Button
                                                                 variant="primary"
