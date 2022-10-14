@@ -70,7 +70,7 @@ const LogHours = (item, id) => {
         }
     }, [page, limit]);
     const nextPage = () => {
-        if (page < logHoursPage?.pages) {
+        if (page < logHours?.pages) {
             setPage(page + 1);
         }
     };
