@@ -56,7 +56,6 @@ export default () => {
     );
   }, []);
   function onSubmit(data) {
-    console.log("data", data);
     // display form data on success
     let Data = new FormData();
     Data.append("fullName", data.fullName);

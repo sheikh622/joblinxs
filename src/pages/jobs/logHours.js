@@ -43,11 +43,9 @@ const LogHours = (item, id) => {
     const logHours = useSelector(
         (state) => state?.addJob?.logHours?.job
     );
-    console.log("1111111111",logHours)
     const logHoursPage = useSelector(
         (state) => state?.addJob?.logHours
     );
-    console.log("ewewew",logHoursPage)
     const handlefalse = () => {
         setShowDefault(false);
     }
@@ -72,7 +70,7 @@ const LogHours = (item, id) => {
         }
     }, [page, limit]);
     const nextPage = () => {
-        if (page < logHours?.pages) {
+        if (page < logHoursPage?.pages) {
             setPage(page + 1);
         }
     };
@@ -261,7 +259,7 @@ const LogHours = (item, id) => {
                         </Nav>
                         <small className="fw-bold">
                             Showing <b>{logHours?.log_hours?.length}</b> out of{" "}
-                            <b>{logHoursPage?.total_logHours
+                            <b>{logHoursPage?.total_LogHours
                             }</b> entries
                         </small>
                     </Card.Footer>
