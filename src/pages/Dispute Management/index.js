@@ -26,7 +26,6 @@ const DisputeManagement = (item) => {
 
     let jobId = params.pathname.split("/")[2];
     const DisputeList = useSelector((state) => state.DisputeListing?.Reports?.disputedJobListing);
-    console.log("DisputeList", DisputeList)
     const DisputePagination = useSelector((state) => state.DisputeListing?.Reports);
     const [page, setPage] = useState(1);
     const [limit] = useState("10");
@@ -120,7 +119,6 @@ const DisputeManagement = (item) => {
             index,
             item,
         } = props;
-        console.log("item", item)
         const statusVariant =
             status === "Paid"
                 ? "success"

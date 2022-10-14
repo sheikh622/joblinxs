@@ -259,7 +259,7 @@ const LogHours = (item, id) => {
                         </Nav>
                         <small className="fw-bold">
                             Showing <b>{logHours?.log_hours?.length}</b> out of{" "}
-                            <b>{logHoursPage?.total_logHours
+                            <b>{logHoursPage?.total_LogHours
                             }</b> entries
                         </small>
                     </Card.Footer>
