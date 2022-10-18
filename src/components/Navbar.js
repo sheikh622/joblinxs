@@ -26,6 +26,7 @@ export default (props) => {
     body: "",
   });
   const auth = useSelector((state) => state.auth.Auther);
+  console.log("22222222222222",auth)
   const notification = useSelector(
     (state) => state.Notifications?.notification?.notifications
   );
@@ -134,7 +135,7 @@ export default (props) => {
         <div className="d-flex align-items-center">
           <h2>{props?.module}</h2>
         </div>
-        {auth?.Auther?.userRole != "Admin" && (
+        {auth?.role?.name !== "Admin" && (
           <Nav className="align-items-center" onScroll={handleScroll}>
 
             {window?.location?.pathname !== "/privacy-public" && window?.location?.pathname !== "/terms-public" && (

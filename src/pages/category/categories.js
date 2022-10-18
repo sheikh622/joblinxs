@@ -194,6 +194,14 @@ const Categories = (item) => {
                       <Col lg={4} md={12} xs={12} sm={12} className="pb-3 introCardParent" >
                         <Card border="light" className="shadow-sm introCard">
                           <Image
+                            style={
+                              {
+                                height: "100%",
+                                width: "100%",
+                                objectFit: "contain",
+                                borderRadius: "10px",
+                              }
+                            }
                             src={value.categoryImg}
                             className="navbar-brand-light"
                           />

@@ -218,12 +218,12 @@ export const GeneralInfoForm = () => {
             }));
           }
         }
-        if(!isPost){
+        if (!isPost) {
           if (!emergency) {
             dispatch(updateJob(data, id));
           }
         }
-       
+
       }
     },
   });
@@ -707,10 +707,17 @@ export const GeneralInfoForm = () => {
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Control ref={ref} style={{ width: "100%" }} />
-                {location ? location : SingleId?.location}
-                {/* {SingleId?.location ?  : ""} */}
               </Col>
-
+              <Col md={6} className="mb-3">
+                <>
+                </>
+              </Col>
+              <Col md={6} className="mb-3">
+                <div className="locationTab"
+                >
+                  {location ? location : SingleId?.location}
+                </div>
+              </Col>
             </Row>
 
             <div className="mt-3 d-flex justify-content-end">
