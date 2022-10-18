@@ -134,7 +134,7 @@ function* getFavoutiteJobList({ payload }) {
         },
       }
     );
-    toast.success(CapitalizeFirstLetter(response.data.message));
+    // toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(favouriteJobListSuccess(response.data.data));
     payload.setLoader(false);
   } catch (error) {
