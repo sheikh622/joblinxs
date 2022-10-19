@@ -53,7 +53,6 @@ export const GeneralInfoForm = () => {
   const [experience, setExperience] = useState(
 
   );
-  console.log("singleId", SingleId)
   const [jobType, setJobType] = useState(
     SingleId?.jobType?.name ? SingleId?.jobType?.name : ""
   );

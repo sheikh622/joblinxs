@@ -59,7 +59,6 @@ const Dispute = ({ item, setDispute, dispute, id, logHours }) => {
   useEffect(() => {
     dispatch(getDisputeReason({}));
   }, []);
-
   const handleReport = (jobId, profileId, item) => {
     if (profileId === undefined) {
       var data = {
