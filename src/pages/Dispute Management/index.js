@@ -134,6 +134,18 @@ const DisputeManagement = (item) => {
                         {item?.disputedBy?.fullName ? item?.disputedBy?.fullName : "N/A"}
                     </span>
                 </td>
+                <td>
+                    <a href={`mailto:${item?.disputedBy?.email ? item?.disputedBy?.email : "support@example.com"}`}>
+                        <span className="fw-normal" >
+                            {item?.disputedBy?.email ? item?.disputedBy?.email : "N/A"}
+                        </span>
+                    </a>
+                </td>
+                <td>
+                    <span className="fw-normal">
+                        {item?.disputedBy?.phoneNumber ? item?.disputedBy?.phoneNumber : "N/A"}
+                    </span>
+                </td>
                 <td style={{ paddingLeft: "2%" }}>
                     <span className="fw-normal">{item?.description ? item?.description : "N/A"}</span>
                 </td>
@@ -231,6 +243,8 @@ const DisputeManagement = (item) => {
                         <thead>
                             <tr>
                                 <th className="border-bottom">Dispute By</th>
+                                <th className="border-bottom">Email</th>
+                                <th className="border-bottom">Phone Number</th>
                                 <th className="border-bottom">Description</th>
                                 <th className="border-bottom">Amount</th>
                                 <th className="border-bottom">Reason</th>
