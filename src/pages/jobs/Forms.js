@@ -53,6 +53,7 @@ export const GeneralInfoForm = () => {
   const [experience, setExperience] = useState(
 
   );
+  console.log("singleId", SingleId)
   const [jobType, setJobType] = useState(
     SingleId?.jobType?.name ? SingleId?.jobType?.name : ""
   );
@@ -488,7 +489,7 @@ export const GeneralInfoForm = () => {
                       // defaultChecked
                       type="radio"
                       checked={jobType == "Part-time"}
-                      label="Part-time,"
+                      label="Part-time"
                       name="jobType"
                       value="Part-time"
                       className="radio1"
@@ -708,7 +709,7 @@ export const GeneralInfoForm = () => {
               <Col md={6} className="mb-3">
                 <Form.Control ref={ref} style={{ width: "100%" }} />
               </Col>
-              <Col md={6} className="mb-3">
+              {/* <Col md={6} className="mb-3">
                 <>
                 </>
               </Col>
@@ -717,7 +718,7 @@ export const GeneralInfoForm = () => {
                 >
                   {location ? location : SingleId?.location}
                 </div>
-              </Col>
+              </Col> */}
             </Row>
 
             <div className="mt-3 d-flex justify-content-end">

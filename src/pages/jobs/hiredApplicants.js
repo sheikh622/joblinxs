@@ -204,7 +204,7 @@ const Applicants = ({ id }) => {
                               )}
                               {item?.jobs?.paymentType === "fixed" || item?.jobs?.paymentType === "Fixed" ? (
                                 <>
-                                  {item?.jobs?.isDisputed ? (
+                                  {item?.jobs?.isDispute ? (
                                     <div class="ml-auto">
                                       <Button
                                         variant="primary"

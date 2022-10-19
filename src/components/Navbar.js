@@ -26,7 +26,6 @@ export default (props) => {
     body: "",
   });
   const auth = useSelector((state) => state.auth.Auther);
-  console.log("22222222222222",auth)
   const notification = useSelector(
     (state) => state.Notifications?.notification?.notifications
   );
