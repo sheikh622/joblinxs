@@ -709,12 +709,18 @@ export const GeneralInfoForm = () => {
                 <Form.Control ref={ref} style={{ width: "100%" }} />
               </Col>
               {id && (
+                <>
+              <Col md={6} className="mb-3">
+                <>
+                </>
+              </Col>
               <Col md={6} className="mb-3">
                 <div className="locationTab"
                 >
                   {location ? location : SingleId?.location}
                 </div>
               </Col>
+              </>
               )}
             </Row>
 
