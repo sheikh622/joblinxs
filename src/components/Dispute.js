@@ -10,7 +10,6 @@ import * as Yup from "yup";
 import { reportedUser, reportUserList } from "../Redux/profile/actions";
 import { getAddDispute, getDisputeReason } from "../Redux/DisputeManagement/actions"
 const Dispute = ({ item, setDispute, dispute, id, logHours }) => {
-
   const dispatch = useDispatch();
   const params = useLocation();
 
@@ -32,6 +31,7 @@ const Dispute = ({ item, setDispute, dispute, id, logHours }) => {
     setDispute(false);
     CategoryFormik.resetForm();
   };
+
   const CategorySchema = Yup.object().shape({});
   const CategoryFormik = useFormik({
     enableReinitialize: true,
@@ -60,21 +60,21 @@ const Dispute = ({ item, setDispute, dispute, id, logHours }) => {
     dispatch(getDisputeReason({}));
   }, []);
   const handleReport = (jobId, profileId, item) => {
-    if(profileId === undefined){
-      var data ={
-          jobId: item?.jobs?.id,
-          disputedTo: item?.users?.id,
-          disputedBy: login?.id,
-          isDisputed: true,
-          setDispute: setDispute,
-          reason: selectedCategory ? selectedCategory : "",
-          description: CategoryFormik?.values?.description
-            ? CategoryFormik?.values?.description
-            : "",
-          logHourId:  null,
+    if (profileId === undefined) {
+      var data = {
+        jobId: item?.jobs?.id,
+        disputedTo: item?.users?.id,
+        disputedBy: login?.id,
+        isDisputed: true,
+        setDispute: setDispute,
+        reason: selectedCategory ? selectedCategory : "",
+        description: CategoryFormik?.values?.description
+          ? CategoryFormik?.values?.description
+          : "",
+        logHourId: null,
       }
-    }else{
-      var data ={
+    } else {
+      var data = {
         jobId: jobId,
         disputedTo: profileId,
         disputedBy: login?.id,
@@ -84,9 +84,9 @@ const Dispute = ({ item, setDispute, dispute, id, logHours }) => {
         description: CategoryFormik?.values?.description
           ? CategoryFormik?.values?.description
           : "",
-          logHourId:  item.id,
+        logHourId: item?.id ? item?.id : "",
+      }
     }
-  }
     dispatch(
       getAddDispute(data)
     );

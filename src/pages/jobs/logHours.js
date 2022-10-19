@@ -204,6 +204,7 @@ const LogHours = (item, id) => {
                                                                 }}
                                                                 onClick={() => {
                                                                     setDispute(true);
+                                                                    setSelectedItem(item);
                                                                 }}
                                                             >
                                                                 Dispute
@@ -269,7 +270,7 @@ const LogHours = (item, id) => {
                 <Dispute
                     logHours={logHours}
                     dispute={dispute}
-                    item={item}
+                    item={selectedItem}
                     setDispute={setDispute}
 
                 />
