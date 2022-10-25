@@ -6,14 +6,13 @@ import {
   Image,
   Modal,
   Nav,
-  Navbar,
+  Navbar
 } from "@themesberg/react-bootstrap";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import SimpleBar from "simplebar-react";
-import ReactHero from "../assets/img/technologies/react-hero-logo.svg";
 import { logoutRequest } from "../Redux/auth/actions";
 import { Routes } from "../routes";
 import { CapitalizeFirstLetter } from "../utils/Global";
