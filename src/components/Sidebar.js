@@ -34,7 +34,6 @@ export default (props = {}) => {
   };
   const auth = useSelector((state) => state.auth);
   const onCollapse = () => setShow(!show);
-
   const NavItem = (props) => {
     const {
       title,
@@ -100,7 +99,7 @@ export default (props = {}) => {
           as={Link}
           to={Routes.DashboardOverview.path}
         >
-          <Image src={ReactHero} className="navbar-brand-light" />
+          {/* <Image src={ReactHero} className="navbar-brand-light" /> */}
         </Navbar.Brand>
         <Navbar.Toggle
           as={Button}
@@ -498,15 +497,26 @@ export default (props = {}) => {
         show={showDefaultCategory}
         onHide={handleClosesCategory}
       >
-        <Modal.Body className="pt-3">
-          <Modal.Title className="text-center">
-            <h2>Confirmation</h2>
-          </Modal.Title>
-          <Modal.Title className="h5 text-center">
+        <Modal.Header>
+          <Modal.Title className="h5">{"Confirmation"}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="">
+          <Modal.Title className="h5 text-left">
             Are you sure you want to logout?
           </Modal.Title>
 
-          <div class="d-flex justify-content-between mt-5">
+          <div class="d-flex justify-content-between mt-3">
+            <Button
+              variant="white shadow"
+              color="dark"
+              onClick={() => {
+                handleClosesCategory();
+              }}
+              type="button"
+              size="sm"
+            >
+              Cancel
+            </Button>
             <Button
               variant="primary"
               color="dark"
@@ -519,17 +529,7 @@ export default (props = {}) => {
               Logout
             </Button>
 
-            <Button
-              variant="white"
-              color="dark"
-              onClick={() => {
-                handleClosesCategory();
-              }}
-              type="button"
-              size="sm"
-            >
-              Cancel
-            </Button>
+
           </div>
         </Modal.Body>
       </Modal>
