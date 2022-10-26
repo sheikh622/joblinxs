@@ -106,6 +106,7 @@ const ProviderProfile = (props) => {
                             img={item.image}
                             name={item.name}
                             type={item.name}
+                            isFavourite={item.isFavourite}
                             rate={item.rate}
                             id={item.id}
                             completed={"10"}

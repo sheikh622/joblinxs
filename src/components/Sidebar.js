@@ -6,14 +6,13 @@ import {
   Image,
   Modal,
   Nav,
-  Navbar,
+  Navbar
 } from "@themesberg/react-bootstrap";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import SimpleBar from "simplebar-react";
-import ReactHero from "../assets/img/technologies/react-hero-logo.svg";
 import { logoutRequest } from "../Redux/auth/actions";
 import { Routes } from "../routes";
 import { CapitalizeFirstLetter } from "../utils/Global";
@@ -34,7 +33,6 @@ export default (props = {}) => {
   };
   const auth = useSelector((state) => state.auth);
   const onCollapse = () => setShow(!show);
-
   const NavItem = (props) => {
     const {
       title,
@@ -100,7 +98,7 @@ export default (props = {}) => {
           as={Link}
           to={Routes.DashboardOverview.path}
         >
-          <Image src={ReactHero} className="navbar-brand-light" />
+          {/* <Image src={ReactHero} className="navbar-brand-light" /> */}
         </Navbar.Brand>
         <Navbar.Toggle
           as={Button}
@@ -498,15 +496,26 @@ export default (props = {}) => {
         show={showDefaultCategory}
         onHide={handleClosesCategory}
       >
-        <Modal.Body className="pt-3">
-          <Modal.Title className="text-center">
-            <h2>Confirmation</h2>
-          </Modal.Title>
-          <Modal.Title className="h5 text-center">
+        <Modal.Header>
+          <Modal.Title className="h5">{"Confirmation"}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="">
+          <Modal.Title className="h5 text-left">
             Are you sure you want to logout?
           </Modal.Title>
 
-          <div class="d-flex justify-content-between mt-5">
+          <div class="d-flex justify-content-between mt-3">
+            <Button
+              variant="white shadow"
+              color="dark"
+              onClick={() => {
+                handleClosesCategory();
+              }}
+              type="button"
+              size="sm"
+            >
+              Cancel
+            </Button>
             <Button
               variant="primary"
               color="dark"
@@ -519,17 +528,7 @@ export default (props = {}) => {
               Logout
             </Button>
 
-            <Button
-              variant="white"
-              color="dark"
-              onClick={() => {
-                handleClosesCategory();
-              }}
-              type="button"
-              size="sm"
-            >
-              Cancel
-            </Button>
+
           </div>
         </Modal.Body>
       </Modal>
