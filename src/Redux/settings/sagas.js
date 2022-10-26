@@ -31,6 +31,7 @@ function* NotificationSaga({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     });
+    payload.setLoader(false);
     yield put(getUserNotificationSuccess(response.data));
   } catch (error) {
     if(error?.response?.status == 401){

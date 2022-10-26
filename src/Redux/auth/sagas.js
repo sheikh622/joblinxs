@@ -93,10 +93,8 @@ function* updatePasswordSaga({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     });
-
-    toast.success(response.data.message);
     payload.setLoader(false);
-
+    toast.success(response.data.message);
     // yield put(updatetPasswordSuccess(response.data.data));
     // payload.setShowDefault(false);
     payload.reset();

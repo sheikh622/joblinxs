@@ -12,7 +12,6 @@ import { useHistory, useLocation } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import NoRecordFound from "../../components/NoRecordFound";
 import Spinner from "../../components/spinner";
-import { getReportBlock, getReportList } from "../../Redux/ReportManagement/actions";
 import { getDisputeList, getDisputeBlock } from "../../Redux/DisputeManagement/actions"
 
 const DisputeManagement = (item) => {
@@ -232,58 +231,58 @@ const DisputeManagement = (item) => {
         <>
             <Navbar module={"Dispute Managment"} />
             <div className="mx-5">
-                {/* {loader ? (
+                {loader ? (
                     <Spinner />
                 ) : (
-                    <> */}
-                <Card.Body className="pt-0">
-                    {/* {dataList?.length > 0 ? (
+                    <>
+                        <Card.Body className="pt-0">
+                            {/* {dataList?.length > 0 ? (
                                 <> */}
-                    <Table hover className="user-table align-items-center">
-                        <thead>
-                            <tr>
-                                <th className="border-bottom">Dispute By</th>
-                                <th className="border-bottom">Email</th>
-                                <th className="border-bottom">Phone Number</th>
-                                <th className="border-bottom">Description</th>
-                                <th className="border-bottom">Amount</th>
-                                <th className="border-bottom">Reason</th>
-                                <th className="border-bottom">Dispute To</th>
-                                <th className="border-bottom ">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {dataList?.map((obj, index) => {
-                                return (
-                                    <TableRow index={index} item={obj} />
-                                )
-                            })}
-                        </tbody>
-                    </Table>
-                    <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
-                        <Nav>
-                            <Pagination size={"sm"} className="mb-2 mb-lg-0">
-                                <Pagination.Prev onClick={() => previousPage()}>
-                                    <FontAwesomeIcon icon={faAngleDoubleLeft} />
-                                </Pagination.Prev>
-                                {paginationItems()}
-                                <Pagination.Next onClick={() => nextPage()}>
-                                    <FontAwesomeIcon icon={faAngleDoubleRight} />
-                                </Pagination.Next>
-                            </Pagination>
-                        </Nav>
-                        <small className="fw-bold">
-                            Showing <b>{DisputeList?.length}</b> out of{" "}
-                            <b>{DisputePagination?.total_disputedJobs}</b> entries
-                        </small>
-                    </Card.Footer>
-                    {/* </>
+                            <Table hover className="user-table align-items-center">
+                                <thead>
+                                    <tr>
+                                        <th className="border-bottom">Dispute By</th>
+                                        <th className="border-bottom">Email</th>
+                                        <th className="border-bottom">Phone Number</th>
+                                        <th className="border-bottom">Description</th>
+                                        <th className="border-bottom">Amount</th>
+                                        <th className="border-bottom">Reason</th>
+                                        <th className="border-bottom">Dispute To</th>
+                                        <th className="border-bottom ">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {dataList?.map((obj, index) => {
+                                        return (
+                                            <TableRow index={index} item={obj} />
+                                        )
+                                    })}
+                                </tbody>
+                            </Table>
+                            <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+                                <Nav>
+                                    <Pagination size={"sm"} className="mb-2 mb-lg-0">
+                                        <Pagination.Prev onClick={() => previousPage()}>
+                                            <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                                        </Pagination.Prev>
+                                        {paginationItems()}
+                                        <Pagination.Next onClick={() => nextPage()}>
+                                            <FontAwesomeIcon icon={faAngleDoubleRight} />
+                                        </Pagination.Next>
+                                    </Pagination>
+                                </Nav>
+                                <small className="fw-bold">
+                                    Showing <b>{DisputeList?.length}</b> out of{" "}
+                                    <b>{DisputePagination?.total_disputedJobs}</b> entries
+                                </small>
+                            </Card.Footer>
+                            {/* </>
                             ) : (
                                 <NoRecordFound />
                             )} */}
-                </Card.Body>
-                {/* </>
-                )} */}
+                        </Card.Body>
+                    </>
+                )}
             </div>
 
         </>

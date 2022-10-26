@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { getONNotification, getUserNotification } from "../../Redux/settings/actions";
+import Spinner from "../../components/spinner";
 
 const Settings = (props, row) => {
     const label = { inputProps: { "aria-label": "Switch demo" } };
@@ -16,19 +17,22 @@ const Settings = (props, row) => {
     const login = useSelector((state) => state.auth.Auther);
     const NotificationData = useSelector((state) => state?.PushNotification?.Notification);
     const [data, setData] = useState();
+    const [loader, setLoader] = useState(true);
     const [blockUser, setBlockUser] = useState();
-    useEffect(()=>{
-    if(NotificationData !== undefined){
-        setData(NotificationData)
-        setBlockUser(NotificationData.NotificationKey)
-    }
-    },[NotificationData])
+    useEffect(() => {
+        if (NotificationData !== undefined) {
+            setData(NotificationData)
+            setBlockUser(NotificationData.NotificationKey)
+        }
+    }, [NotificationData])
     const handleJobAction = (blockUser) => {
         setBlockUser(!blockUser)
         dispatch(
             getONNotification({
                 userId: login.id,
                 isShowNotification: !blockUser,
+                setLoader: setLoader,
+
             })
         );
     }
@@ -36,60 +40,68 @@ const Settings = (props, row) => {
         dispatch(
             getUserNotification({
                 userId: login.id,
+                setLoader: setLoader,
+
             })
         );
-    },[]);
+    }, []);
     return (
         <>
             <Navbar module={"Settings"} />
             <div className="mx-5">
-                <Row>
-                    <Col xs={12} xl={12}>
-                        <Card.Body className="">
-                            <div className="border_bottom pb-2 mb-4">
-                                <Card.Title className="text-primary d-flex justify-content-between">
-                                    Push Notification
-                                    <Form.Switch
-                                        type="switch"
-                                        defaultValue="fixed"
-                                        label=""
-                                        className="text-center cursorPointer display-inline-block"
-                                        name="paymentType"
-                                        {...label}
-                                        checked={blockUser}
-                                        onClick={(e) => {
-                                            handleJobAction(blockUser);
-                                        }}
-                                    />
-                                </Card.Title>
-                            </div>
-                            <div className="border_bottom pb-2 mb-4">
-                                <Link className="fw-bold" to={`/changePassword`}>
-                                    <Card.Title className="text-primary">
-                                        Change Password
-                                    </Card.Title>
-                                </Link>
-                            </div>
-                            <div className="border_bottom pb-2 mb-4">
-                                <Link className="fw-bold" target="blank" to={`/terms`}>
-                                    <Card.Title className="text-primary">
-                                        Terms and Conditions
-                                    </Card.Title>
-                                </Link>
-                            </div>
-                            <div className="border_bottom pb-2 mb-4">
-                                <Link className="fw-bold" target="blank" to={`/privacy`}>
-                                    <Card.Title className="text-primary">
-                                        Privacy Policy
-                                    </Card.Title>
-                                </Link>
-                            </div>
+                {loader ? (
+                    <Spinner />
+                ) : (
+                    <>
+                        <Row>
+                            <Col xs={12} xl={12}>
+                                <Card.Body className="">
+                                    <div className="border_bottom pb-2 mb-4">
+                                        <Card.Title className="text-primary d-flex justify-content-between">
+                                            Push Notification
+                                            <Form.Switch
+                                                type="switch"
+                                                defaultValue="fixed"
+                                                label=""
+                                                className="text-center cursorPointer display-inline-block"
+                                                name="paymentType"
+                                                {...label}
+                                                checked={blockUser}
+                                                onClick={(e) => {
+                                                    handleJobAction(blockUser);
+                                                }}
+                                            />
+                                        </Card.Title>
+                                    </div>
+                                    <div className="border_bottom pb-2 mb-4">
+                                        <Link className="fw-bold" to={`/changePassword`}>
+                                            <Card.Title className="text-primary">
+                                                Change Password
+                                            </Card.Title>
+                                        </Link>
+                                    </div>
+                                    <div className="border_bottom pb-2 mb-4">
+                                        <Link className="fw-bold" target="blank" to={`/terms`}>
+                                            <Card.Title className="text-primary">
+                                                Terms and Conditions
+                                            </Card.Title>
+                                        </Link>
+                                    </div>
+                                    <div className="border_bottom pb-2 mb-4">
+                                        <Link className="fw-bold" target="blank" to={`/privacy`}>
+                                            <Card.Title className="text-primary">
+                                                Privacy Policy
+                                            </Card.Title>
+                                        </Link>
+                                    </div>
 
-                        </Card.Body>
+                                </Card.Body>
 
-                    </Col>
+                            </Col>
 
-                </Row>
+                        </Row>
+                    </>
+                )}
             </div>
         </>
     );
