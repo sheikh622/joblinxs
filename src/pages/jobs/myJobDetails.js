@@ -32,6 +32,7 @@ const MyJobDetails = (item, props, data) => {
     }
   }, [newArrivalData])
   const SingleId = useSelector((state) => state?.addJob?.jobById);
+  console.log("signle",SingleId)
   const Login = useSelector((state) => state?.auth?.Auther);
   const [loader, setLoader] = useState(true);
   const [showDefault, setShowDefault] = useState(false);
@@ -46,7 +47,7 @@ const MyJobDetails = (item, props, data) => {
   const [reason, setReason] = useState(false);
   const [showDefaultEmergency, setShowDefaultEmergency] = useState(false);
   useEffect(() => {
-    dispatch(jobById({ id: jobId }));
+    dispatch(jobById({ id: jobId, setLoader: setLoader, }));
   }, []);
   const handleDelete = (id) => {
     dispatch(
@@ -92,7 +93,7 @@ const MyJobDetails = (item, props, data) => {
     let data = {
       job: jobId,
       providerId: SingleId?.user?.id,
-      seekerId: Login?.id
+      seekerId: Login?.id,
 
     }
     dispatch(
@@ -156,7 +157,12 @@ const MyJobDetails = (item, props, data) => {
             >
 
               {SingleId?.createdBy === "provider" && profileCard()}
+
               <Card.Body className="pb-2 border_bottom mb-1">
+                {/* {loader ? (
+                  <Spinner />
+                ) : (
+                  <> */}
                 <div className="pb-2 d-flex justify-content-between align-items-baseline">
 
                   <Card.Title className="text-primary">
@@ -222,6 +228,8 @@ const MyJobDetails = (item, props, data) => {
                     />
                   </>
                 )}
+                {/* </>
+                )} */}
               </Card.Body>
               {SingleId?.createdBy === "seeker" ? (
                 <>
@@ -251,6 +259,10 @@ const MyJobDetails = (item, props, data) => {
                 </>
               ) : (
                 <>
+                  {/* {loader ? (
+                    <Spinner />
+                  ) : (
+                    <> */}
                   <div>
                     <div class="d-grid gap-2 col-3 mx-auto my-2">
                       <Button
@@ -272,6 +284,8 @@ const MyJobDetails = (item, props, data) => {
                       View Profile
                     </a>
                   </div>
+                  {/* </>
+                  )} */}
                 </>
               )}
             </Card>

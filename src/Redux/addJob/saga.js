@@ -200,6 +200,7 @@ function* jobByIdSaga(payload) {
     });
     yield put(jobByIdSuccess(response.data.data));
     payload.setReset();
+    payload.setLoader(false);
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -439,7 +440,7 @@ function* CompletejobSaga({ payload }) {
 
     };
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.patch(`job/completdBySeeker`, Data, {
+    const response = yield axios.patch(`job/completedBySeeker`, Data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
