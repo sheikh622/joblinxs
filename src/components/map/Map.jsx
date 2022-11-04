@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import GoogleMapReact from "google-map-react";
 import { Icon } from "@iconify/react";
-import "./map.css";
-import placeholder from "../../assets/img/placeholder.svg";
-import pin from "../../assets/img/pin.svg";
+import GoogleMapReact from "google-map-react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import pin from "../../assets/img/pin.svg";
+import placeholder from "../../assets/img/placeholder.svg";
 import { getProfile } from "../../Redux/profile/actions";
+import "./map.css";
 const AnyReactComponent = (item) => (
   <div>
     <img
