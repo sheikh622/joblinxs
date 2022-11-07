@@ -46,7 +46,6 @@ const Applicants = ({ id }) => {
   const [limit] = useState("5");
   const [loader, setLoader] = useState(true);
   const [selectedProfileId, setSelectedProfileId] = useState();
-
   const applicantsData = useSelector(
     (state) => state?.addJob?.hiredApplicants?.data?.applicants
   );
@@ -232,12 +231,21 @@ const Applicants = ({ id }) => {
                                         </div>
                                       )}
                                     </Dropdown.Item>
-                                    <Dropdown.Item onClick={() => {
-                                      setShowLocation(true);
-                                      setSelectedProfileId(item);
-                                    }}>
-                                      Live Location
-                                    </Dropdown.Item>
+                                    {item?.jobs?.status === "upcoming" ? (
+                                      <>
+                                        <Dropdown.Item onClick={() => {
+                                          setShowLocation(true);
+                                          setSelectedProfileId(item);
+                                        }}>
+
+                                          Live Location
+                                        </Dropdown.Item>
+                                      </>
+                                    ) : (
+                                      <>
+                                      </>
+                                    )
+                                    }
                                   </Dropdown.Menu>
                                 </Dropdown>
                               </span>
