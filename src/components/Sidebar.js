@@ -142,6 +142,11 @@ export default (props = {}) => {
               {auth?.Auther?.role?.name == "Admin" ? (
                 <>
                   <NavItem
+                    title="DashBoard"
+                    icon={faThList}
+                    link={Routes.AdminDashBoard.path}
+                  />
+                  <NavItem
                     title="User Management"
                     icon={faThList}
                     link={Routes.UserManagement.path}

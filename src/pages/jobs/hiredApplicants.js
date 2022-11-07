@@ -33,7 +33,7 @@ const location123 = {
   address: '',
   lat: 31.4854897,
   lng: 74.3470055,
- 
+
 } // our location object from earlier
 
 const Applicants = ({ id }) => {
@@ -195,23 +195,13 @@ const Applicants = ({ id }) => {
                                     </span>
                                   </Dropdown.Toggle>
                                   <Dropdown.Menu className="custom_menu">
-                                    <Dropdown.Item 
-                                     >
+                                    <Dropdown.Item
+                                    >
                                       {item?.completedBySeeker ? (
-                                        <div  onClick={() => {
+                                        <div onClick={() => {
                                           setShow(true);
                                         }}>
-                                          {/* <Button
-                                            variant="primary"
-                                            color="dark"
-                                            size="sm"
-                                            style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
-                                            onClick={() => {
-                                              setShow(true);
-                                            }}
-                                          > */}
-                                            Rate Provider
-                                          {/* </Button> */}
+                                          Rate Provider
                                         </div>
                                       ) : (
                                         <div onClick={() => {
@@ -225,25 +215,7 @@ const Applicants = ({ id }) => {
                                             })
                                           )
                                         }}>
-                                          {/* <Button
-                                            variant="primary"
-                                            color="dark"
-                                            size="sm"
-                                            style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
-                                            onClick={() => {
-                                              item.completedByProvider == true ? (handleConfirm({
-                                                id: item?.users?.id,
-                                                isCompleted: true,
-                                              })) : handleComplete(
-                                                ({
-                                                  id: item?.users?.id,
-                                                  jobStatus: true,
-                                                })
-                                              )
-                                            }}
-                                          > */}
-                                            Complete Job
-                                          {/* </Button> */}
+                                          Complete Job
                                         </div>
                                       )}
                                     </Dropdown.Item>
@@ -253,54 +225,27 @@ const Applicants = ({ id }) => {
                                         <>
                                           {item?.jobs?.isDispute ? (
                                             <div >
-                                              {/* <Button
-                                                variant="primary"
-                                                color="dark"
-                                                size="sm"
-                                                style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
-                                              > */}
-                                                Disputed
-                                              {/* </Button> */}
+                                              Disputed
                                             </div>
                                           ) : (
-                                            <div  onClick={() => {
+                                            <div onClick={() => {
                                               setDispute(true);
                                             }}>
-                                              {/* <Button
-                                                variant="primary"
-                                                color="dark"
-                                                size="sm"
-                                                style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
-                                                onClick={() => {
-                                                  setDispute(true);
-                                                }}
-                                              > */}
-                                                Dispute
-                                              {/* </Button> */}
+                                              Dispute
                                             </div>
                                           )}
                                         </>
                                       ) : (
-                                        <div  onClick={() => {
+                                        <div onClick={() => {
                                           handleMove(item);
                                         }}>
-                                          {/* <Button
-                                            variant="primary"
-                                            color="dark"
-                                            size="sm"
-                                            style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
-                                            onClick={() => {
-                                              handleMove(item);
-                                            }}
-                                          > */}
-                                            Log Hours
-                                          {/* </Button> */}
+                                          Log Hours
                                         </div>
                                       )}
                                     </Dropdown.Item>
                                     <Dropdown.Item onClick={() => {
                                       setShowLocation(true);
-                                      setSelectedProfileId(item?.users?.id);
+                                      setSelectedProfileId(item);
                                     }}>
                                       Live Location
                                     </Dropdown.Item>
@@ -309,7 +254,6 @@ const Applicants = ({ id }) => {
                               </span>
                             </div>
 
-                            {/* {handleClick(item)} */}
                             <div style={{ display: "flex", marginLeft: "auto" }}>
 
 
@@ -375,7 +319,7 @@ const Applicants = ({ id }) => {
         <Modal.Body>
           <Form>
             <Form.Group>
-              <MapSection location={location123} zoomLevel={17} profileId={selectedProfileId}/>
+              <MapSection location={location123} zoomLevel={17} profileId={selectedProfileId} />
             </Form.Group>
           </Form>
         </Modal.Body>

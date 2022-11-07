@@ -16,13 +16,13 @@ const AnyReactComponent = (item) => (
     />
   </div>
 );
-const defaultProps = {
-  center: {
-    lat: 31.48597,
-    lng: 74.3470055,
-  },
-  zoom: 11,
-};
+// const defaultProps = {
+//   center: {
+//     lat: 31.48597,
+//     lng: 74.3470055,
+//   },
+//   zoom: 11,
+// };
 const LocationPin = ({ text }) => (
   <div className="pin">
     <Icon className="pin-icon"></Icon>
@@ -36,6 +36,7 @@ const Map = ({ location, zoomLevel, profileId }) => {
   const params = useLocation();
   const SingleId = useSelector((state) => state?.addJob?.jobById);
   const getById = useSelector((state) => state.ProfileReducer.profile);
+  const [count, setCount] = useState(0);
   const [providerLocation, SetProviderLocation] = useState({
     lat: getById?.latitude,
     lng: getById?.longitude,
@@ -49,9 +50,22 @@ const Map = ({ location, zoomLevel, profileId }) => {
     lng: 74.3470055,
   });
   useEffect(() => {
+    setInterval(() => {
+      setCount((prevCount) => prevCount + 1);
+      dispatch(
+        getProfile({
+          profileId: profileId?.users?.id,
+          id: profileId?.jobs?.id,
+        })
+      );
+    }, 10000);
+  }, []);
+
+  useEffect(() => {
     dispatch(
       getProfile({
-        id: profileId,
+        profileId: profileId?.users?.id,
+        id: profileId?.jobs?.id,
       })
     );
   }, []);
@@ -70,7 +84,7 @@ const Map = ({ location, zoomLevel, profileId }) => {
           });
         }}
       >
-        Provider Location
+        <span>Provider Location</span>
       </div>
       <div
         onClick={() => {
@@ -84,7 +98,7 @@ const Map = ({ location, zoomLevel, profileId }) => {
           });
         }}
       >
-        Job Location
+        <span>Job Location</span>
       </div>
       <div className="google-map">
         <GoogleMapReact
@@ -93,13 +107,6 @@ const Map = ({ location, zoomLevel, profileId }) => {
           center={centerLocation}
           defaultZoom={11}
         >
-          {/* <LocationPin
-          lat={31.4854897}
-          lng={74.3470055}
-      
-          // text={location.address}
-        /> */}
-
           <AnyReactComponent
             lat={providerLocation.lat}
             lng={providerLocation.lng}
