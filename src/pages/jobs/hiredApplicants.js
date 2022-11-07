@@ -46,7 +46,6 @@ const Applicants = ({ id }) => {
   const [limit] = useState("5");
   const [loader, setLoader] = useState(true);
   const [selectedProfileId, setSelectedProfileId] = useState();
-
   const applicantsData = useSelector(
     (state) => state?.addJob?.hiredApplicants?.data?.applicants
   );
