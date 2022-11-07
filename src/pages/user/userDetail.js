@@ -16,7 +16,7 @@ import Navbar from "../../components/Navbar";
 const UserDetails = ({ }) => {
   const history = useHistory();
   const location = useLocation();
-  const [userData] = useState(location.state.item);
+  const [userData] = useState(location?.state?.item);
   const {
     location: { state },
   } = history;
@@ -92,7 +92,7 @@ const UserDetails = ({ }) => {
                       />
                       <DetailHeading
                         heading={"Member Since"}
-                        value={"24/02/2022"}
+                        value={userData?.memberSince ? moment(userData?.memberSince).format("DD-MM-YYYY") : " "}
                       />
                       <DetailHeading
                         heading={"Date of Birth"}
@@ -150,7 +150,7 @@ const UserDetails = ({ }) => {
                         }
                       />
 
-                      {userData.account_type === "provider" && (
+                      {userData?.account_type === "provider" && (
                         <>
                           <DetailHeading
                             heading={"Carrier Overview"}

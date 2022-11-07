@@ -31,7 +31,7 @@ const PrivacyPolicy = (props, row) => {
                     >
                         <span>
                             <p>
-                                Joblinxs Inc of 318 Mclevin Ave, Toronto, ON, M1B 6C4 (hereinafter “Joblinxs”, “we” or “us”) is committed to protecting and respecting your privacy. This policy sets out the basis on which any Personal Information as defined in Canada`s Personal Information Protection and Electronic Documents Act (the “Personal Information”) we collect from account holders or individual users or visitors to our iOS and Android mobile application (hereinafter “APP”), or that is uploaded to our APP, will be processed by us. If you are using the Joblinxs through our website, please refer to our Privacy Policy posted on the website.
+                                Joblinxs Inc of 406-1896 Kennedy Rd, Toronto, ON, M1P 2L8(hereinafter “Joblinxs”, “we” or “us”) is committed to protecting and respecting your privacy. This policy sets out the basis on which any Personal Information as defined in Canada`s Personal Information Protection and Electronic Documents Act (the “Personal Information”) we collect from account holders or individual users or visitors to our iOS and Android mobile application (hereinafter “APP”), or that is uploaded to our APP, will be processed by us. If you are using the Joblinxs through our website, please refer to our Privacy Policy posted on the website.
                             </p>
                         </span>
                         <span>

@@ -1,6 +1,7 @@
 
 export const Routes = {
     DashboardOverview: { path: "/dashboard" },
+    AdminDashBoard: { path: "/adminDashBoard"},
     NewArrivalProvider: { path: "/Newarrivalproviders" },
     TopRatedProviders: { path: "/TopRatedProviders" },
     Recommended: { path: "/recommended" },

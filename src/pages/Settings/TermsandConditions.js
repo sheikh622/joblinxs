@@ -28,7 +28,7 @@ const TermsandConditions = (props, row) => {
 
                         <span>
                             <p>
-                                The following Terms and Conditions (“Terms”) shall apply to all business relations between Joblinxs Inc of 318 Mclevin Ave, Toronto, ON, M1B 6C4 (hereinafter “Joblinxs”, “we” or “us”) and you the User of our iOS and Android mobile application (hereinafter “APP”), and our services. Please read these Terms carefully before using our APP. These Terms constitute a legal agreement between you and Joblinxs governing the use of our APP and our services. We license use of our APP and our services to you on the basis of these Terms.
+                                The following Terms and Conditions (“Terms”) shall apply to all business relations between Joblinxs Inc of 406-1896 Kennedy Rd, Toronto, ON, M1P 2L8 (hereinafter “Joblinxs”, “we” or “us”) and you the User of our iOS and Android mobile application (hereinafter “APP”), and our services. Please read these Terms carefully before using our APP. These Terms constitute a legal agreement between you and Joblinxs governing the use of our APP and our services. We license use of our APP and our services to you on the basis of these Terms.
                             </p>
                         </span>
                         <span>

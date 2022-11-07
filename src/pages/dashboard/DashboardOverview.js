@@ -50,6 +50,26 @@ const DashboardOverview = (props) => {
   const [featured, setFeatured] = useState();
   const [topRatedProvider, setTopRatedProvider] = useState()
   const [newArrivalProvider, setNewArrivalProvider] = useState()
+  const [lat, setLat] = useState(null);
+  const [lng, setLng] = useState(null);
+  const [status, setStatus] = useState(null);
+
+  // const getLocation = () => {
+  //   if (!navigator.geolocation) {
+  //     setStatus('Geolocation is not supported by your browser');
+  //   } else {
+  //     setStatus('Locating...');
+  //     navigator.geolocation.getCurrentPosition((position) => {
+  //       setStatus(null);
+  //       setLat(position.coords.latitude);
+  //       setLng(position.coords.longitude);
+  //     }, () => {
+  //       setStatus('Unable to retrieve your location');
+  //     });
+  //   }
+  // }
+
+
   useEffect(() => {
     if (SeekerList !== undefined) {
       setData(SeekerList)
@@ -88,6 +108,7 @@ const DashboardOverview = (props) => {
     setShowDefault(false);
   }
   useEffect(() => {
+    // getLocation();
     dispatch(
       newArrival({
         page: 1,
@@ -147,6 +168,14 @@ const DashboardOverview = (props) => {
               <a href="/recommended">view all</a>
             )}
           </div>
+          {/* <div className="App">
+            <button onClick={getLocation}>Get Location</button>
+            <h1>Coordinates</h1>
+            <p>{status}</p>
+            {lat && <p>Latitude: {lat}</p>}
+            {lng && <p>Longitude: {lng}</p>}
+          </div> */}
+          {/* include it here */}
           {loader ? (
             <Spinner />
           ) : (

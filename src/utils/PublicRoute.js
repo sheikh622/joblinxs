@@ -6,7 +6,7 @@ const PublicRoute = ({ component: Component, restricted, ...props }) => {
   const userDetail = useSelector((state) => state.auth);
 
   if (userDetail.token) {
-    return <Redirect to={userDetail?.Auther?.role?.name == "Admin" ? "/user_management" : "/dashboard"} />;
+    return <Redirect to={userDetail?.Auther?.role?.name == "Admin" ? "/adminDashBoard" : "/dashboard"} />;
   }
   else {
     return (
