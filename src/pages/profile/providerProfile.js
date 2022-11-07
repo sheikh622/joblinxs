@@ -31,10 +31,8 @@ const ProviderProfile = (props) => {
   const [showDefault, setShowDefault] = useState(false);
   const [adminId, setAdminId] = useState(0);
   const [rating, setRating] = useState(0); // initial rating value
-
   const params = useLocation();
   let profileId = params.pathname.split("/")[2];
-
   useEffect(() => {
     dispatch(
       getProfile({

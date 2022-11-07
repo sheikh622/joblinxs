@@ -45,6 +45,7 @@
     "fetch": "^1.1.0",
     "firebase": "^9.9.1",
     "formik": "^2.2.9",
+    "google-map-react": "^2.2.0",
     "grid": "^4.10.8",
     "history": "^4.10.1",
     "moment": "^2.29.4",

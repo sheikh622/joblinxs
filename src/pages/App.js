@@ -34,6 +34,7 @@ import editAdminProfile from "./AdminProfile/editAdminProfile";
 import adminProfile from "./AdminProfile/adminProfile";
 import MyJobDetails from "./jobs/myJobDetails";
 import BusinessCategories from "./businessCategory/index";
+import adminDashBoard from "./AdminPanelDashboard/adminDashBoard";
 import Settings from "./Settings/index";
 import Chat from "./Chat/main";
 import ReportManagement from "./Report Management";
@@ -142,7 +143,11 @@ export default () => (
         path={Routes.LogHoursDetails.path}
         component={LogHourDetails}
       />
-
+      <PrivateRoute
+        exact
+        path={Routes.AdminDashBoard.path}
+        component={adminDashBoard}
+      />
       <PrivateRoute
         exact
         path={Routes.Favourites.path}

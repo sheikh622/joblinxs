@@ -29,7 +29,7 @@ function* loginRequestSaga({ payload }) {
     payload.setLoader(false);
     let path =
       response.data.data.user.role.name == "Admin"
-        ? "/user_management"
+        ? "/adminDashBoard"
         : "/dashboard";
     payload.history.push(path);
     payload.resetForm();
@@ -123,7 +123,7 @@ function* LoginFacebookSaga({ payload }) {
     // payload.setLoader(false);
     let path =
       response.data.data.user.userRole == "Admin"
-        ? "/user_management"
+        ? "/adminDashBoard"
         : "/dashboard";
     payload.history.push(path);
 
@@ -150,7 +150,7 @@ function* LogingoogleSaga({ payload }) {
     // payload.setLoader(false);
     let path =
       response.data.data.user.userRole == "Admin"
-        ? "/user_management"
+        ? "/adminDashBoard"
         : "/dashboard";
     payload.history.push(path);
 

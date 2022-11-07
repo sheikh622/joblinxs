@@ -1,28 +1,29 @@
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Spinner from "../../components/spinner";
-import {
-  Button,
-  Card,
-  Col,
-  Container,
-  Image,
-  Row,
-  Pagination,
-  Nav,
-} from "@themesberg/react-bootstrap";
 import {
   faAngleDoubleLeft,
-  faAngleDoubleRight,
+  faAngleDoubleRight, faEllipsisV
 } from "@fortawesome/free-solid-svg-icons";
-import { getHiredApplicants, completeJob, confirmJob } from "../../Redux/addJob/actions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  Button, ButtonGroup, Card,
+  Col, Dropdown, Form, Image, Modal, Nav, Pagination, Row
+} from "@themesberg/react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import NoRecordFound from "../../components/NoRecordFound";
-import RateModal from "../../components/modal";
 import { Rating } from "react-simple-star-rating";
 import Dispute from "../../components/Dispute";
+import MapSection from '../../components/map/Map'; // import the map here
+import RateModal from "../../components/modal";
+import NoRecordFound from "../../components/NoRecordFound";
+import Spinner from "../../components/spinner";
+import { completeJob, confirmJob, getHiredApplicants } from "../../Redux/addJob/actions";
+
+const location123 = {
+  address: '',
+  lat: 31.4854897,
+  lng: 74.3470055,
+
+} // our location object from earlier
 
 const Applicants = ({ id }) => {
   const [show, setShow] = useState(false);
@@ -37,17 +38,21 @@ const Applicants = ({ id }) => {
   let jobId = params.pathname.split("/")[2];
   const login = useSelector((state) => state?.auth.Auther);
   const [showDefault, setShowDefault] = useState(false);
-  const handleClose = () => setShowDefault(false);
+  const handleClose = () => {
+    setShowDefault(false);
+    setShowLocation(false);
+  };
   const [page, setPage] = useState(1);
   const [limit] = useState("5");
   const [loader, setLoader] = useState(true);
+  const [selectedProfileId, setSelectedProfileId] = useState();
   const applicantsData = useSelector(
     (state) => state?.addJob?.hiredApplicants?.data?.applicants
   );
   const auth = useSelector((state) => state?.auth?.Auther);
   const Pageination = useSelector((state) => state?.addJob?.hiredApplicants?.data);
   const [rating, setRating] = useState(0); // initial rating value
-
+  const [showLocation, setShowLocation] = useState(false);
   useEffect(() => {
     if (id === "Hired") {
       dispatch(
@@ -136,6 +141,7 @@ const Applicants = ({ id }) => {
                               src={item?.users ? item?.users?.profileImg : ""}
                               className="navbar-brand-light"
                             />
+
                               <div className="detailSection">
                                 <span className="">
                                   <h3 className="mb-1 mt-2">
@@ -161,91 +167,93 @@ const Applicants = ({ id }) => {
                                 </span>
 
                               </div>
+                              <span className="right">
+                                <Dropdown as={ButtonGroup} className="me-3 mt-1">
+                                  <Dropdown.Toggle
+                                    as={Button}
+                                    split
+                                    variant="link"
+                                    className="text-dark m-0 p-0"
+                                  >
+                                    <span className="icon icon-sm">
+                                      <FontAwesomeIcon
+                                        icon={faEllipsisV}
+                                        className="icon-dark"
+                                      />
+                                    </span>
+                                  </Dropdown.Toggle>
+                                  <Dropdown.Menu className="custom_menu">
+                                    <Dropdown.Item
+                                    >
+                                      {item?.completedBySeeker ? (
+                                        <div onClick={() => {
+                                          setShow(true);
+                                        }}>
+                                          Rate Provider
+                                        </div>
+                                      ) : (
+                                        <div onClick={() => {
+                                          item.completedByProvider == true ? (handleConfirm({
+                                            id: item?.users?.id,
+                                            isCompleted: true,
+                                          })) : handleComplete(
+                                            ({
+                                              id: item?.users?.id,
+                                              jobStatus: true,
+                                            })
+                                          )
+                                        }}>
+                                          Complete Job
+                                        </div>
+                                      )}
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                    >
+                                      {item?.jobs?.paymentType === "fixed" || item?.jobs?.paymentType === "Fixed" ? (
+                                        <>
+                                          {item?.jobs?.isDispute ? (
+                                            <div >
+                                              Disputed
+                                            </div>
+                                          ) : (
+                                            <div onClick={() => {
+                                              setDispute(true);
+                                            }}>
+                                              Dispute
+                                            </div>
+                                          )}
+                                        </>
+                                      ) : (
+                                        <div onClick={() => {
+                                          handleMove(item);
+                                        }}>
+                                          Log Hours
+                                        </div>
+                                      )}
+                                    </Dropdown.Item>
+                                    {item?.jobs?.status === "upcoming" ? (
+                                      <>
+                                        <Dropdown.Item onClick={() => {
+                                          setShowLocation(true);
+                                          setSelectedProfileId(item);
+                                        }}>
+
+                                          Live Location
+                                        </Dropdown.Item>
+                                      </>
+                                    ) : (
+                                      <>
+                                      </>
+                                    )
+                                    }
+                                  </Dropdown.Menu>
+                                </Dropdown>
+                              </span>
                             </div>
 
-                            {/* {handleClick(item)} */}
                             <div style={{ display: "flex", marginLeft: "auto" }}>
-                              {item?.completedBySeeker ? (
-                                <div>
-                                  <Button
-                                    variant="primary"
-                                    color="dark"
-                                    size="sm"
-                                    style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
-                                    onClick={() => {
-                                      setShow(true);
-                                    }}
-                                  >
-                                    Rate Provider
-                                  </Button>
-                                </div>
-                              ) : (
-                                <div class="">
-                                  <Button
-                                    variant="primary"
-                                    color="dark"
-                                    size="sm"
-                                    style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
-                                    onClick={() => {
-                                      item.completedByProvider == true ? (handleConfirm({
-                                        id: item?.users?.id,
-                                        isCompleted: true,
-                                      })) : handleComplete(
-                                        ({
-                                          id: item?.users?.id,
-                                          jobStatus: true,
-                                        })
-                                      )
-                                    }}
-                                  >
-                                    Complete Job
-                                  </Button>
-                                </div>
-                              )}
-                              {item?.jobs?.paymentType === "fixed" || item?.jobs?.paymentType === "Fixed" ? (
-                                <>
-                                  {item?.jobs?.isDispute ? (
-                                    <div class="ml-auto">
-                                      <Button
-                                        variant="primary"
-                                        color="dark"
-                                        size="sm"
-                                        style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
-                                      >
-                                        Disputed
-                                      </Button>
-                                    </div>
-                                  ) : (
-                                    <div class="ml-auto">
-                                      <Button
-                                        variant="primary"
-                                        color="dark"
-                                        size="sm"
-                                        style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
-                                        onClick={() => {
-                                          setDispute(true);
-                                        }}
-                                      >
-                                        Dispute
-                                      </Button>
-                                    </div>
-                                  )}
-                                </>
-                              ) : (
-                                <div class="ml-auto">
-                                  <Button
-                                    variant="primary"
-                                    color="dark"
-                                    size="sm"
-                                    style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
-                                    onClick={() => {
-                                      handleMove(item);
-                                    }}
-                                  >
-                                    Log Hours
-                                  </Button>
-                                </div>
-                              )}
+
+
                             </div>
                           </Card>
                           {show && (
@@ -300,7 +308,22 @@ const Applicants = ({ id }) => {
           </Card.Footer>
         </Row>
       </div>
+      <Modal as={Modal.Dialog} centered show={showLocation} onHide={handleClose}>
+        <Modal.Header>
+          <Modal.Title className="h5">Live Location</Modal.Title>
+          <Button variant="close" aria-label="Close" onClick={handleClose} />
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group>
+              <MapSection location={location123} zoomLevel={17} profileId={selectedProfileId} />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+      </Modal>
+
     </>
+
   );
 };
 

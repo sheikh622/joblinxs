@@ -11,17 +11,20 @@ import { GET_PROFILE, UPDATE_PROFILE, BLOCK_USER, REPORT_USER_LIST, REPORTED_USE
 import { adminUpdatedSuccess } from "../auth/actions";
 import { getReportBlock } from "../../Redux/ReportManagement/actions"
 import { logoutRequest } from "../auth/actions";
+import {jobById} from "../addJob/actions"
 
 function* getProfileById({ payload }) {
   try {
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.get(`profile/${payload.id}`, {
+    const response = yield axios.get(`profile/${payload.profileId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     // payload.setLoader(false);
     yield put(getProfileSuccess(response.data.data.user));
+
+    yield put(jobById(payload))
   } catch (error) {
     if (error?.response?.status == 401) {
       yield put(logoutRequest());
