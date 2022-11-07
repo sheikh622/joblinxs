@@ -50,6 +50,7 @@ const Applicants = ({ id }) => {
   const applicantsData = useSelector(
     (state) => state?.addJob?.hiredApplicants?.data?.applicants
   );
+  console.log("323232", applicantsData)
   const auth = useSelector((state) => state?.auth?.Auther);
   const Pageination = useSelector((state) => state?.addJob?.hiredApplicants?.data);
   const [rating, setRating] = useState(0); // initial rating value
@@ -232,12 +233,21 @@ const Applicants = ({ id }) => {
                                         </div>
                                       )}
                                     </Dropdown.Item>
-                                    <Dropdown.Item onClick={() => {
-                                      setShowLocation(true);
-                                      setSelectedProfileId(item);
-                                    }}>
-                                      Live Location
-                                    </Dropdown.Item>
+                                    {item?.jobs?.status === "upcoming" ? (
+                                      <>
+                                        <Dropdown.Item onClick={() => {
+                                          setShowLocation(true);
+                                          setSelectedProfileId(item);
+                                        }}>
+
+                                          Live Location
+                                        </Dropdown.Item>
+                                      </>
+                                    ) : (
+                                      <>
+                                      </>
+                                    )
+                                    }
                                   </Dropdown.Menu>
                                 </Dropdown>
                               </span>
