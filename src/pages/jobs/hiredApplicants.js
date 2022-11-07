@@ -1,33 +1,22 @@
-import { faStar, faEllipsisV, } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Spinner from "../../components/spinner";
-import {
-  Button,
-  Card,
-  Col,
-  Container,
-  Image,
-  Row,
-  Pagination,
-  Nav,
-  ButtonGroup,
-  Dropdown,
-  Modal,
-  Form
-} from "@themesberg/react-bootstrap";
 import {
   faAngleDoubleLeft,
-  faAngleDoubleRight,
+  faAngleDoubleRight, faEllipsisV
 } from "@fortawesome/free-solid-svg-icons";
-import { getHiredApplicants, completeJob, confirmJob } from "../../Redux/addJob/actions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  Button, ButtonGroup, Card,
+  Col, Dropdown, Form, Image, Modal, Nav, Pagination, Row
+} from "@themesberg/react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import NoRecordFound from "../../components/NoRecordFound";
-import RateModal from "../../components/modal";
 import { Rating } from "react-simple-star-rating";
 import Dispute from "../../components/Dispute";
-import MapSection from '../../components/map/Map' // import the map here
+import MapSection from '../../components/map/Map'; // import the map here
+import RateModal from "../../components/modal";
+import NoRecordFound from "../../components/NoRecordFound";
+import Spinner from "../../components/spinner";
+import { completeJob, confirmJob, getHiredApplicants } from "../../Redux/addJob/actions";
 
 const location123 = {
   address: '',
