@@ -15,7 +15,6 @@ import {jobById} from "../addJob/actions"
 
 function* getProfileById({ payload }) {
   try {
-    console.log(payload, "==========")
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(`profile/${payload.profileId}`, {
       headers: {
