@@ -17,7 +17,6 @@ const UserDetails = ({ }) => {
   const history = useHistory();
   const location = useLocation();
   const [userData] = useState(location?.state?.item);
-  console.log("1111111111111",userData)
   const {
     location: { state },
   } = history;

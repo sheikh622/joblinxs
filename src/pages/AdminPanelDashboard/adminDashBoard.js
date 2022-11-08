@@ -111,32 +111,16 @@ const AdminDashBoard = () => {
       </Row>
 
       <Row>
-        <Col xs={12} xl={12} className="mb-4">
-          <Row>
-            <Col xs={12} xl={8} className="mb-4">
-              <Row>
-
-                {/* <Col xs={12} lg={6} className="mb-4">
-                  <AcquisitionWidget />
-                </Col> */}
-                <Col xs={12} lg={6} className="mb-4">
+        <Col xs={12} xl={6} className="mb-4">
                   <ProgressTrackWidget />
-                </Col>
-              </Row>
             </Col>
 
-            <Col xs={12} xl={4}>
-              <Row>
-                <Col xs={12} className="mb-4">
+            <Col xs={12} xl={6}>
                   <BarChartWidget
                     title="Total orders"
                     value={452}
                     percentage={18.2}
                     data={totalOrders} />
-                </Col>
-              </Row>
-            </Col>
-          </Row>
         </Col>
       </Row>
     </>
