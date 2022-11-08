@@ -176,21 +176,16 @@ export default () => {
       </div>
       <Modal as={Modal.Dialog} centered show={showDefault}>
         <Modal.Header>
-          <Modal.Title className="h5">Change Password</Modal.Title>
-          <Button
-            variant="close"
-            aria-label="Close"
-            onClick={() => {
-              handleClose();
-            }}
-          />
+          <Modal.Title className="h5">{"Change Password"}</Modal.Title>
+          <Button variant="close" aria-label="Close" onClick={handleClose} />
         </Modal.Header>
-        <Modal.Body>
-          <ChangePassword
-            setShowDefault={setShowDefault}
-            showDefault={showDefault}
-          />
-        </Modal.Body>
+        
+          <Modal.Body>
+            <ChangePassword
+              setShowDefault={setShowDefault}
+              showDefault={showDefault}
+            />
+          </Modal.Body>
       </Modal>
     </>
   );

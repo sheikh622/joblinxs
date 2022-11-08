@@ -168,10 +168,10 @@ const ProviderProfile = (props) => {
                   value={getById?.dateOfBirth ? getById?.dateOfBirth : "-"}
                 />
                 <DetailHeading
-                  heading={"Personal Attributes"}
+                  heading={"language"}
                   value={
-                    getById?.personalAttributes
-                      ? getById?.personalAttributes
+                    getById?.language
+                      ? getById?.language
                       : "-"
                   }
                 />

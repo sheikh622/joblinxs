@@ -8,6 +8,12 @@ import { CircleChart, BarChart, SalesValueChart, SalesValueChartphone } from "./
 
 import Profile1 from "../assets/img/team/profile-picture-1.jpg";
 import ProfileCover from "../assets/img/profile-cover.jpg";
+import providerImg from "../assets/Dashboard Icons/provider.svg";
+import Personalseeker from "../assets/Dashboard Icons/personal seeker.svg";
+import Businessseeker from "../assets/Dashboard Icons/Business seeker.svg";
+import TotalJob from "../assets/Dashboard Icons/total jobs.svg";
+import totalpersonal from "../assets/Dashboard Icons/total personal.svg";
+import TotalSeeker from "../assets/Dashboard Icons/total seeker.svg";
 
 // import teamMembers from "../data/teamMembers";
 
@@ -62,7 +68,7 @@ export const ChoosePhotoWidget = (props) => {
   );
 };
 
-export const CounterWidget = (props) => {
+export const ProviderCard = (props) => {
   const { icon, iconColor, category, title, period, percentage } = props;
   const percentageIcon = percentage < 0 ? faAngleDown : faAngleUp;
   const percentageColor = percentage < 0 ? "text-danger" : "text-success";
@@ -73,7 +79,8 @@ export const CounterWidget = (props) => {
         <Row className="d-block d-xl-flex align-items-center">
           <Col xl={5} className="text-xl-center d-flex align-items-center justify-content-xl-center mb-3 mb-xl-0">
             <div className={`icon icon-shape icon-md icon-${iconColor} rounded me-4 me-sm-0`}>
-              <FontAwesomeIcon icon={icon} />
+              
+              <img src={providerImg} alt="" width="80px" />
             </div>
             <div className="d-sm-none">
               <h5>{category}</h5>
@@ -99,6 +106,231 @@ export const CounterWidget = (props) => {
   );
 };
 
+export const BusinessSeeker = (props) => {
+  const { icon, iconColor, category, title, period, percentage } = props;
+  const percentageIcon = percentage < 0 ? faAngleDown : faAngleUp;
+  const percentageColor = percentage < 0 ? "text-danger" : "text-success";
+
+  return (
+    <Card border="light" className="shadow-sm">
+      <Card.Body>
+        <Row className="d-block d-xl-flex align-items-center">
+          <Col xl={5} className="text-xl-center d-flex align-items-center justify-content-xl-center mb-3 mb-xl-0">
+            <div className={`icon icon-shape icon-md icon-${iconColor} rounded me-4 me-sm-0`}>
+              
+              <img src={Businessseeker} alt="" width="80px" />
+            </div>
+            <div className="d-sm-none">
+              <h5>{category}</h5>
+              <h3 className="mb-1">{title}</h3>
+            </div>
+          </Col>
+          <Col xs={12} xl={7} className="px-xl-0">
+            <div className="d-none d-sm-block">
+              <h5>{category}</h5>
+              <h3 className="mb-1">{title}</h3>
+            </div>
+            <small>{period}, <FontAwesomeIcon icon={faGlobeEurope} size="xs" /> WorldWide</small>
+            <div className="small mt-2">
+              <FontAwesomeIcon icon={percentageIcon} className={`${percentageColor} me-1`} />
+              <span className={`${percentageColor} fw-bold`}>
+                {percentage}%
+              </span> Since last month
+            </div>
+          </Col>
+        </Row>
+      </Card.Body>
+    </Card>
+  );
+};
+
+export const PersonalSeeker = (props) => {
+  const { icon, iconColor, category, title, period, percentage } = props;
+  const percentageIcon = percentage < 0 ? faAngleDown : faAngleUp;
+  const percentageColor = percentage < 0 ? "text-danger" : "text-success";
+
+  return (
+    <Card border="light" className="shadow-sm">
+      <Card.Body>
+        <Row className="d-block d-xl-flex align-items-center">
+          <Col xl={5} className="text-xl-center d-flex align-items-center justify-content-xl-center mb-3 mb-xl-0">
+            <div className={`icon icon-shape icon-md icon-${iconColor} rounded me-4 me-sm-0`}>
+              
+              <img src={Personalseeker} alt="" width="80px" />
+            </div>
+            <div className="d-sm-none">
+              <h5>{category}</h5>
+              <h3 className="mb-1">{title}</h3>
+            </div>
+          </Col>
+          <Col xs={12} xl={7} className="px-xl-0">
+            <div className="d-none d-sm-block">
+              <h5>{category}</h5>
+              <h3 className="mb-1">{title}</h3>
+            </div>
+            <small>{period}, <FontAwesomeIcon icon={faGlobeEurope} size="xs" /> WorldWide</small>
+            <div className="small mt-2">
+              <FontAwesomeIcon icon={percentageIcon} className={`${percentageColor} me-1`} />
+              <span className={`${percentageColor} fw-bold`}>
+                {percentage}%
+              </span> Since last month
+            </div>
+          </Col>
+        </Row>
+      </Card.Body>
+    </Card>
+  );
+};
+
+export const TotalJobs = (props) => {
+  const { icon, iconColor, category, title, period, percentage } = props;
+  const percentageIcon = percentage < 0 ? faAngleDown : faAngleUp;
+  const percentageColor = percentage < 0 ? "text-danger" : "text-success";
+
+  return (
+    <Card border="light" className="shadow-sm">
+      <Card.Body>
+        <Row className="d-block d-xl-flex align-items-center">
+          <Col xl={5} className="text-xl-center d-flex align-items-center justify-content-xl-center mb-3 mb-xl-0">
+            <div className={`icon icon-shape icon-md icon-${iconColor} rounded me-4 me-sm-0`}>
+              
+              <img src={TotalJob} alt="" width="80px" />
+            </div>
+            <div className="d-sm-none">
+              <h5>{category}</h5>
+              <h3 className="mb-1">{title}</h3>
+            </div>
+          </Col>
+          <Col xs={12} xl={7} className="px-xl-0">
+            <div className="d-none d-sm-block">
+              <h5>{category}</h5>
+              <h3 className="mb-1">{title}</h3>
+            </div>
+            <small>{period}, <FontAwesomeIcon icon={faGlobeEurope} size="xs" /> WorldWide</small>
+            <div className="small mt-2">
+              <FontAwesomeIcon icon={percentageIcon} className={`${percentageColor} me-1`} />
+              <span className={`${percentageColor} fw-bold`}>
+                {percentage}%
+              </span> Since last month
+            </div>
+          </Col>
+        </Row>
+      </Card.Body>
+    </Card>
+  );
+};
+
+export const TotalProviders = (props) => {
+  const { icon, iconColor, category, title, period, percentage } = props;
+  const percentageIcon = percentage < 0 ? faAngleDown : faAngleUp;
+  const percentageColor = percentage < 0 ? "text-danger" : "text-success";
+
+  return (
+    <Card border="light" className="shadow-sm">
+      <Card.Body>
+        <Row className="d-block d-xl-flex align-items-center">
+          <Col xl={5} className="text-xl-center d-flex align-items-center justify-content-xl-center mb-3 mb-xl-0">
+            <div className={`icon icon-shape icon-md icon-${iconColor} rounded me-4 me-sm-0`}>
+              
+              <img src={totalpersonal} alt="" width="80px" />
+            </div>
+            <div className="d-sm-none">
+              <h5>{category}</h5>
+              <h3 className="mb-1">{title}</h3>
+            </div>
+          </Col>
+          <Col xs={12} xl={7} className="px-xl-0">
+            <div className="d-none d-sm-block">
+              <h5>{category}</h5>
+              <h3 className="mb-1">{title}</h3>
+            </div>
+            <small>{period}, <FontAwesomeIcon icon={faGlobeEurope} size="xs" /> WorldWide</small>
+            <div className="small mt-2">
+              <FontAwesomeIcon icon={percentageIcon} className={`${percentageColor} me-1`} />
+              <span className={`${percentageColor} fw-bold`}>
+                {percentage}%
+              </span> Since last month
+            </div>
+          </Col>
+        </Row>
+      </Card.Body>
+    </Card>
+  );
+};
+export const TotalSeekers = (props) => {
+  const { icon, iconColor, category, title, period, percentage } = props;
+  const percentageIcon = percentage < 0 ? faAngleDown : faAngleUp;
+  const percentageColor = percentage < 0 ? "text-danger" : "text-success";
+
+  return (
+    <Card border="light" className="shadow-sm">
+      <Card.Body>
+        <Row className="d-block d-xl-flex align-items-center">
+          <Col xl={5} className="text-xl-center d-flex align-items-center justify-content-xl-center mb-3 mb-xl-0">
+            <div className={`icon icon-shape icon-md icon-${iconColor} rounded me-4 me-sm-0`}>
+              
+              <img src={TotalSeeker} alt="" width="80px" />
+            </div>
+            <div className="d-sm-none">
+              <h5>{category}</h5>
+              <h3 className="mb-1">{title}</h3>
+            </div>
+          </Col>
+          <Col xs={12} xl={7} className="px-xl-0">
+            <div className="d-none d-sm-block">
+              <h5>{category}</h5>
+              <h3 className="mb-1">{title}</h3>
+            </div>
+            <small>{period}, <FontAwesomeIcon icon={faGlobeEurope} size="xs" /> WorldWide</small>
+            <div className="small mt-2">
+              <FontAwesomeIcon icon={percentageIcon} className={`${percentageColor} me-1`} />
+              <span className={`${percentageColor} fw-bold`}>
+                {percentage}%
+              </span> Since last month
+            </div>
+          </Col>
+        </Row>
+      </Card.Body>
+    </Card>
+  );
+};
+export const RevenueCard = (props) => {
+  const { icon, iconColor, category, title, period, percentage } = props;
+  const percentageIcon = percentage < 0 ? faAngleDown : faAngleUp;
+  const percentageColor = percentage < 0 ? "text-danger" : "text-success";
+
+  return (
+    <Card border="light" className="shadow-sm">
+      <Card.Body>
+        <Row className="d-block d-xl-flex align-items-center">
+          <Col xl={5} className="text-xl-center d-flex align-items-center justify-content-xl-center mb-3 mb-xl-0">
+            <div className={`icon icon-shape icon-md icon-${iconColor} rounded me-4 me-sm-0`}>
+              
+              <img src={totalpersonal} alt="" width="80px" />
+            </div>
+            <div className="d-sm-none">
+              <h5>{category}</h5>
+              <h3 className="mb-1">{title}</h3>
+            </div>
+          </Col>
+          <Col xs={12} xl={7} className="px-xl-0">
+            <div className="d-none d-sm-block">
+              <h5>{category}</h5>
+              <h3 className="mb-1">{title}</h3>
+            </div>
+            <small>{period}, <FontAwesomeIcon icon={faGlobeEurope} size="xs" /> WorldWide</small>
+            <div className="small mt-2">
+              <FontAwesomeIcon icon={percentageIcon} className={`${percentageColor} me-1`} />
+              <span className={`${percentageColor} fw-bold`}>
+                {percentage}%
+              </span> Since last month
+            </div>
+          </Col>
+        </Row>
+      </Card.Body>
+    </Card>
+  );
+};
 export const CircleChartWidget = (props) => {
   const { title, data = [] } = props;
   const series = data.map(d => d.value);
@@ -128,7 +360,7 @@ export const CircleChartWidget = (props) => {
 
 export const BarChartWidget = (props) => {
   const { title, value, percentage, data = [] } = props;
-  const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June','July','Aug','Sep','Oct','Nov','Dec'];
   const series = data.map(d => d.value);
   const percentageIcon = percentage < 0 ? faAngleDown : faAngleUp;
   const percentageColor = percentage < 0 ? "text-danger" : "text-success";
@@ -311,7 +543,7 @@ export const SalesValueWidget = (props) => {
   return (
     <Card className="bg-secondary-alt shadow-sm">
       <Card.Header className="d-flex flex-row align-items-center flex-0">
-        <div className="d-block">
+        {/* <div className="d-block">
           <h5 className="fw-normal mb-2">
             {title}
           </h5>
@@ -323,11 +555,11 @@ export const SalesValueWidget = (props) => {
               {percentage}%
             </span>
           </small>
-        </div>
-        <div className="d-flex ms-auto">
+        </div> */}
+        {/* <div className="d-flex ms-auto">
           <Button variant="secondary" size="sm" className="me-2">Month</Button>
           <Button variant="primary" size="sm" className="me-3">Week</Button>
-        </div>
+        </div> */}
       </Card.Header>
       <Card.Body className="p-2">
         <SalesValueChart />

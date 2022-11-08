@@ -252,130 +252,118 @@ const PrivacyPolicy = (props, row) => {
                             </p>
                         </span>
                         <Row>
-                            <Col xs={3} xl={3}>
-                                <span>
-                                    <Card.Title>
-                                        <p>
-                                            <h3>
-                                                Personal Service Seekers:
-                                            </h3>
-                                        </p>
-                                    </Card.Title>
-                                    <p>
-                                        •	Name
-                                    </p>
-                                    <p>
-                                        •	Address
-                                    </p>
-                                    <p>
-                                        •	Telephone Number
-                                    </p>
-                                    <p>
-                                        •	Email Address
-                                    </p>
-                                    <p>
-                                        •	Date of Birth
-                                    </p>
-                                    <p>
-                                        •	Profile Picture
-                                    </p>
-                                </span>
-                            </Col>
-                            <Col xs={3} xl={3}>
-                                <span>
-                                    <Card.Title>
-                                        <p>
-                                            <h3>
-                                                Business Service Seekers:
-                                            </h3>
-                                        </p>
-                                    </Card.Title>
-                                    <p>
-                                        •	Name
-                                    </p>
-                                    <p>
-                                        •	Address
-                                    </p>
-                                    <p>
-                                        •	Telephone Number
-                                    </p>
-                                    <p>
-                                        •	Email Address
-                                    </p>
-                                    <p>
-                                        •	Business Registration
-                                    </p>
-                                    <p>
-                                        •	Business Logo
-                                    </p>
-                                </span>
-                            </Col>
-                            <Col xs={3} xl={3}>
-                                <span>
-                                    <Card.Title>
-                                        <p>
-                                            <h3>
-                                                Service Provider :
-                                            </h3>
-                                        </p>
-                                    </Card.Title>
-                                    <p>
-                                        •	Name
-                                    </p>
-                                    <p>
-                                        •	Address
-                                    </p>
-                                    <p>
-                                        •	Telephone Number
-                                    </p>
-                                    <p>
-                                        •	Email Address
-                                    </p>
-                                    <p>
-                                        •	Date of Birth
-                                    </p>
-                                    <p>
-                                        •	Profile Picture
-                                    </p>
-                                    <p>
-                                        •	List of Skills
-                                    </p>
-                                    <p>
-                                        •	List of Technical/ Software Skills
-                                    </p>
-                                    <p>
-                                        •	Personal Attributes
-                                    </p>
-                                    <p>
-                                        •	Career Overview
-                                    </p>
-                                    <p>
-                                        •	Educational Qualifications
-                                    </p>
-                                    <p>
-                                        •	Employment History
-                                    </p>
-                                    <p>
-                                        •	Volunteering History
-                                    </p>
-                                    <p>
-                                        •	Work Placements
-                                    </p>
-                                    <p>
-                                        •	Tools Available
-                                    </p>
-                                    <p>
-                                        •	Transportation Available
-                                    </p>
-                                    <p>
-                                        •	Upload Banking Information
-                                    </p>
-                                    <p>
-                                        •	Social Insurance information (for employees only)
-                                    </p>
-                                </span>
 
-                            </Col>
+                            <Card.Title>
+                                <p>
+                                    <h3>
+                                        Personal Service Seekers:
+                                    </h3>
+                                </p>
+                            </Card.Title>
+                            <p>
+                                •	Name
+                            </p>
+                            <p>
+                                •	Address
+                            </p>
+                            <p>
+                                •	Telephone Number
+                            </p>
+                            <p>
+                                •	Email Address
+                            </p>
+                            <p>
+                                •	Date of Birth
+                            </p>
+                            <p>
+                                •	Profile Picture
+                            </p>
+                            <Card.Title>
+                                <p>
+                                    <h3>
+                                        Business Service Seekers:
+                                    </h3>
+                                </p>
+                            </Card.Title>
+                            <p>
+                                •	Name
+                            </p>
+                            <p>
+                                •	Address
+                            </p>
+                            <p>
+                                •	Telephone Number
+                            </p>
+                            <p>
+                                •	Email Address
+                            </p>
+                            <p>
+                                •	Business Registration
+                            </p>
+                            <p>
+                                •	Business Logo
+                            </p>
+                            <Card.Title>
+                                <p>
+                                    <h3>
+                                        Service Provider :
+                                    </h3>
+                                </p>
+                            </Card.Title>
+                            <p>
+                                •	Name
+                            </p>
+                            <p>
+                                •	Address
+                            </p>
+                            <p>
+                                •	Telephone Number
+                            </p>
+                            <p>
+                                •	Email Address
+                            </p>
+                            <p>
+                                •	Date of Birth
+                            </p>
+                            <p>
+                                •	Profile Picture
+                            </p>
+                            <p>
+                                •	List of Skills
+                            </p>
+                            <p>
+                                •	List of Technical/ Software Skills
+                            </p>
+                            <p>
+                                •	Personal Attributes
+                            </p>
+                            <p>
+                                •	Career Overview
+                            </p>
+                            <p>
+                                •	Educational Qualifications
+                            </p>
+                            <p>
+                                •	Employment History
+                            </p>
+                            <p>
+                                •	Volunteering History
+                            </p>
+                            <p>
+                                •	Work Placements
+                            </p>
+                            <p>
+                                •	Tools Available
+                            </p>
+                            <p>
+                                •	Transportation Available
+                            </p>
+                            <p>
+                                •	Upload Banking Information
+                            </p>
+                            <p>
+                                •	Social Insurance information (for employees only)
+                            </p>
                         </Row>
                         <span>
                             <p>

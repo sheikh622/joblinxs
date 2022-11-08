@@ -15,6 +15,7 @@ import {jobById} from "../addJob/actions"
 
 function* getProfileById({ payload }) {
   try {
+    console.log(payload, "==========")
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(`profile/${payload.profileId}`, {
       headers: {
@@ -23,8 +24,9 @@ function* getProfileById({ payload }) {
     });
     // payload.setLoader(false);
     yield put(getProfileSuccess(response.data.data.user));
-
-    yield put(jobById(payload))
+    if(payload.id !== undefined){
+      yield put(jobById(payload))
+    }
   } catch (error) {
     if (error?.response?.status == 401) {
       yield put(logoutRequest());

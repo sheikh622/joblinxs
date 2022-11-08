@@ -5,8 +5,8 @@ import ChartistTooltip from 'chartist-plugin-tooltips-updated';
 
 export const SalesValueChart = () => {
   const data = {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    series: [[1, 2, 2, 3, 3, 4, 3]]
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June','July','Aug','Sep','Oct','Nov','Dec'],
+    series: [[4, 2, 5, 3, 2, 4, 3, 5, 3, 5, 4, 2]]
   };
 
   const options = {
