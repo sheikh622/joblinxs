@@ -35,8 +35,10 @@ export default (props) => {
   //   true
   // );
   useEffect(() => {
-    if (notificationData?.body != "") {
-      toast.success(notificationData?.body ? notificationData?.body : "");
+    if(auth?.role?.name !== "Admin"){
+      if (notificationData?.body != "") {
+        toast.success(notificationData?.body ? notificationData?.body : "");
+      }
     }
   }, [notificationData]);
   onMessageListener()

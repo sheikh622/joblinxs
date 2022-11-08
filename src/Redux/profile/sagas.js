@@ -23,8 +23,9 @@ function* getProfileById({ payload }) {
     });
     // payload.setLoader(false);
     yield put(getProfileSuccess(response.data.data.user));
-
-    yield put(jobById(payload))
+    if(payload.id !== undefined){
+      yield put(jobById(payload))
+    }
   } catch (error) {
     if (error?.response?.status == 401) {
       yield put(logoutRequest());

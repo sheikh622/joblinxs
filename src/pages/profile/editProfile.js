@@ -70,7 +70,7 @@ export default () => {
   useEffect(() => {
     dispatch(
       getProfile({
-        id: login?.id,
+        profileId: login?.id,
         setLoader: setLoader,
 
       })

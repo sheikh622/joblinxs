@@ -161,10 +161,10 @@ const UserDetails = ({ }) => {
                             }
                           />
                           <DetailHeading
-                            heading={"Personal Attributes"}
+                            heading={"Language"}
                             value={
-                              userData?.personalAttributes
-                                ? userData?.personalAttributes
+                              userData?.language
+                                ? userData?.language
                                 : " --"
                             }
                           />
@@ -177,12 +177,14 @@ const UserDetails = ({ }) => {
                             <Col xs={6}>
                               <Card.Text className="text-black mb-2">
                                 <span className="text-black">
+                                  {userData?.criminalRecord ? (
                                   <a
                                     href={userData?.criminalRecord}
                                     target="_blank"
                                   >
                                     Record
                                   </a>
+                                  ):"N/A" }
                                 </span>
                               </Card.Text>
                             </Col>
