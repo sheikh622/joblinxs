@@ -2,7 +2,8 @@ import {
   Button,
   Card,
   Col,
-  Container, Row
+  Image,
+  Container, Row,
 } from "@themesberg/react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,9 +19,17 @@ import { getProfile } from "../../Redux/profile/actions";
 
 export default () => {
   const dispatch = useDispatch();
+  const [checked, setChecked] = useState([]);
   const login = useSelector((state) => state.auth.Auther);
   const getById = useSelector((state) => state.ProfileReducer.profile);
+  const getByIdCategory = useSelector((state) => state.ProfileReducer.profile.user_categories);
+  console.log(checked, "00000000000")
   const history = useHistory();
+  useEffect(() => {
+    if (getByIdCategory !== undefined) {
+      setChecked(getByIdCategory)
+    }
+  }, [getByIdCategory])
   const [loader, setLoader] = useState(true);
 
   // const {
@@ -181,9 +190,36 @@ export default () => {
                       <Card.Title className="text-primary">
                         Categories
                       </Card.Title>
-                      <Card.Text className="text-gray mb-2">
-                        <span className="text-black">Plumber</span>
-                      </Card.Text>
+                      <Row>
+                      {checked?.map((value, index, row) => {
+                        return (
+                          <>
+                            <Col
+                              lg={6}
+                              md={6}
+                              xs={12}
+                              sm={12}
+                              className="pb-3 "
+                            >
+                              <Card.Text className="text-gray mb-2">
+                                <Card border="light" className="shadow-sm introCard">
+                                  <Image
+                                    src={value?.category?.categoryImg}
+                                    className="navbar-brand-light"
+                                  />
+                                  <div className="detailSection">
+                                    <span className="left">
+                                      <h3>{value?.category?.title}</h3>
+                                      <p>{value?.category?.details}</p>
+                                    </span>
+                                  </div>
+                                </Card>
+                              </Card.Text>
+                            </Col>
+                          </>
+                        );
+                      })}
+                      </Row>
                     </div>
                   </Card.Body>
                 </Card>

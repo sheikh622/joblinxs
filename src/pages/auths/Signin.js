@@ -87,11 +87,13 @@ const LoginPage = () => {
   const Goolelogin = useGoogleLogin({
 
     onSuccess: tokenResponse => {
+    
       if (tokenResponse) {
         dispatch(
           googleLogin({
             token: tokenResponse?.access_token,
             web: true,
+              
           })
         );
       }
