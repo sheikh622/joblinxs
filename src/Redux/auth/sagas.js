@@ -23,15 +23,21 @@ function* loginRequestSaga({ payload }) {
   };
   try {
     const response = yield axios.post(`user/web/login`, data);
-    localStorage.setItem("Token", response.data.data.access_token);
-    toast.success("Login Successfully");
-    yield put(loginRequestSuccess(response.data.data));
-    payload.setLoader(false);
-    let path =
-      response.data.data.user.role.name == "Admin"
-        ? "/adminDashBoard"
-        : "/dashboard";
-    payload.history.push(path);
+
+    console.log("isCompleteProfile",response.data.data)
+    if (response.data.data.user.isCompleteProfile) {
+      localStorage.setItem("Token", response.data.data.access_token);
+      toast.success("Login Successfully");
+      yield put(loginRequestSuccess(response.data.data));
+      payload.setLoader(false);
+      let path =
+        response.data.data.user.role.name == "Admin"
+          ? "/adminDashBoard"
+          : "/dashboard";
+      payload.history.push(path);
+    } else {
+      toast.error("Please complete your profile to login.")
+    }
     payload.resetForm();
   } catch (error) {
     yield sagaErrorHandler(error.response);
@@ -116,17 +122,21 @@ function* LoginFacebookSaga({ payload }) {
   };
   try {
     const response = yield axios.post(`facebook-authentication`, data);
-    localStorage.setItem("Token", response.data.data.access_token);
-    toast.success(response.data.message);
-    // payload.setLoader(false);
-    yield put(loginRequestSuccess(response.data.data));
-    // payload.setLoader(false);
-    let path =
-      response.data.data.user.userRole == "Admin"
-        ? "/adminDashBoard"
-        : "/dashboard";
-    payload.history.push(path);
 
+    if (response.data.data.user.isCompleteProfile) {
+      localStorage.setItem("Token", response.data.data.access_token);
+      toast.success(response.data.message);
+      // payload.setLoader(false);
+      yield put(loginRequestSuccess(response.data.data));
+      // payload.setLoader(false);
+      let path =
+        response.data.data.user.userRole == "Admin"
+          ? "/adminDashBoard"
+          : "/dashboard";
+      payload.history.push(path);
+    } else {
+      toast.error("Please complete your profile to login.")
+    }
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
@@ -143,16 +153,21 @@ function* LogingoogleSaga({ payload }) {
   }
   try {
     const response = yield axios.post(`google-authentication`, data);
-    localStorage.setItem("Token", response.data.data.access_token);
-    toast.success(response.data.message);
-    // payload.setLoader(false);
-    yield put(loginRequestSuccess(response.data.data));
-    // payload.setLoader(false);
-    let path =
-      response.data.data.user.userRole == "Admin"
-        ? "/adminDashBoard"
-        : "/dashboard";
-    payload.history.push(path);
+
+    if (response.data.data.user.isCompleteProfile) {
+      localStorage.setItem("Token", response.data.data.access_token);
+      toast.success(response.data.message);
+      // payload.setLoader(false);
+      yield put(loginRequestSuccess(response.data.data));
+      // payload.setLoader(false);
+      let path =
+        response.data.data.user.userRole == "Admin"
+          ? "/adminDashBoard"
+          : "/dashboard";
+      payload.history.push(path);
+    } else {
+      toast.error("Please complete your profile to login.")
+    }
 
   } catch (error) {
     yield sagaErrorHandler(error.response);
