@@ -33,10 +33,11 @@ const ProviderProfile = (props) => {
   const [rating, setRating] = useState(0); // initial rating value
   const params = useLocation();
   let profileId = params.pathname.split("/")[2];
+  console.log(profileId, "===")
   useEffect(() => {
     dispatch(
       getProfile({
-        id: profileId,
+        profileId: profileId,
       })
     );
   }, []);

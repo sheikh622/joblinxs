@@ -184,7 +184,7 @@ export default () => {
                             fontWeight: "bold",
                           }}
                         >
-                          Change Profile Picture
+                          Business Logo
                         </Card.Subtitle>
                       </Card.Body>
                     </Card>
