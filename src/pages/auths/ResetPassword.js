@@ -68,9 +68,9 @@ const ResetPassword = () => {
   });
   return (
     <main>
-      <section className="bg-soft d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
+      {/* <section className="bg-soft d-flex align-items-center my-5 mt-lg-6 mb-lg-5"> */}
         <div className="mx-5">
-          <Row className="justify-content-center">
+          <Row className="justify-content-center my-5 mt-lg-6 mb-lg-5">
             <p className="text-center">
               <Card.Link as={Link} to={Routes.Signin.path} className="text-gray-700">
                 <FontAwesomeIcon icon={faAngleLeft} className="me-2" /> Back to sign in
@@ -132,7 +132,7 @@ const ResetPassword = () => {
             </Col>
           </Row>
         </div>
-      </section>
+      {/* </section> */}
     </main>
   );
 };
