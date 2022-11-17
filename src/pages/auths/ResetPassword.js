@@ -19,7 +19,7 @@ const ResetPassword = () => {
   let Array = history.location.search;
   const newToken = Array.split("=")[1];
 
-  useEffect(()=>{
+  useEffect(() => {
     localStorage.clear()
   }, [])
 
@@ -87,8 +87,8 @@ const ResetPassword = () => {
                         <FontAwesomeIcon icon={faUnlockAlt} />
                       </InputGroup.Text>
                       <Form.Control
-                      //  required
-                       type="password" placeholder="Password"
+                        //  required
+                        type="password" placeholder="Password"
                         value={resetPasswordFormik.values.password}
                         label="Password"
                         name="password"
@@ -96,10 +96,11 @@ const ResetPassword = () => {
                           resetPasswordFormik.setFieldValue("password", e.target.value);
                         }}
                       />
-                      {resetPasswordFormik.touched.password && resetPasswordFormik.errors.password ? (
-                        <div style={{ color: "red" }}>{resetPasswordFormik.errors.password}</div>
-                      ) : null}
+
                     </InputGroup>
+                    {resetPasswordFormik.touched.password && resetPasswordFormik.errors.password ? (
+                      <div style={{ color: "red" }}>{resetPasswordFormik.errors.password}</div>
+                    ) : null}
                   </Form.Group>
                   <Form.Group id="confirmPassword" className="mb-4">
                     <Form.Label>Confirm Password</Form.Label>
@@ -108,7 +109,7 @@ const ResetPassword = () => {
                         <FontAwesomeIcon icon={faUnlockAlt} />
                       </InputGroup.Text>
                       <Form.Control
-                      //  required
+                        //  required
                         type="password" placeholder="Confirm Password"
                         name="confirmPassword"
                         label="Retype Password"
@@ -117,10 +118,11 @@ const ResetPassword = () => {
                           resetPasswordFormik.setFieldValue("confirmPassword", e.target.value);
                         }}
                       />
-                      {resetPasswordFormik.touched.confirmPassword && resetPasswordFormik.errors.confirmPassword ? (
-                        <div style={{ color: "red" }}>{resetPasswordFormik.errors.confirmPassword}</div>
-                      ) : null}
+
                     </InputGroup>
+                    {resetPasswordFormik.touched.confirmPassword && resetPasswordFormik.errors.confirmPassword ? (
+                      <div style={{ color: "red" }}>{resetPasswordFormik.errors.confirmPassword}</div>
+                    ) : null}
                   </Form.Group>
                   <Button variant="primary" type="submit" className="w-100">
                     Reset password

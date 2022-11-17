@@ -41,7 +41,7 @@ const AdminDashBoard = () => {
         </Col>
         <Col xs={12} sm={6} xl={4} className="mb-4">
           <TotalSeekers
-            category="Toatal Seekers"
+            category="Total Seekers"
             title="5k"
             icon={faChartLine}
             iconColor="shape-secondary"
@@ -78,9 +78,9 @@ const AdminDashBoard = () => {
         </Col>
       </Row>
       <Row>
-        <Col xs={12} xl={6} className="mb-4">
-          <ProgressTrackWidget />
-        </Col>
+        {/* <Col xs={12} xl={6} className="mb-4">
+            <ProgressTrackWidget />
+          </Col> */}
         <Col xs={12} xl={6}>
           <BarChartWidget
             title="Total orders"
