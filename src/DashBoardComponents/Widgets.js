@@ -402,7 +402,7 @@ export const ProgressTrackWidget = () => {
       <Row className={`align-items-center ${extraClassName}`}>
         <Col xs="auto">
           <span className={`icon icon-md text-${color}`}>
-            <FontAwesomeIcon icon={icon} className="me-1" />
+         <img src={icon} height="40" width="40"/>
           </span>
         </Col>
         <Col>
@@ -427,11 +427,11 @@ export const ProgressTrackWidget = () => {
       </Card.Header>
       <Card.Body>
 
-        <Progress title="Rocket - SaaS Template" color="purple"  icon={faBootstrap} percentage={34} />
-        <Progress title="Pixel - Design System" color="danger" icon={faAngular} percentage={60} />
-        <Progress title="Spaces - Listings Template" color="tertiary" icon={faVuejs} percentage={45} />
-        <Progress title="Stellar - Dashboard" color="info" icon={faReact} percentage={35} />
-        <Progress last title="Volt - Dashboard" color="purple" icon={faBootstrap} percentage={34} />
+        <Progress title="Personalseeker" color="purple"  icon={Personalseeker} percentage={34} />
+        <Progress title="Businessseeker" color="danger" icon={Businessseeker} percentage={51} />
+        <Progress title="TotalJob" color="tertiary" icon={TotalJob} percentage={90} />
+        <Progress title="totalpersonal" color="info" icon={totalpersonal} percentage={35} />
+        <Progress last title="TotalSeeker" color="purple" icon={TotalSeeker} percentage={34} />
       </Card.Body>
     </Card>
   );

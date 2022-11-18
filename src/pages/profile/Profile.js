@@ -15,15 +15,19 @@ import { Routes } from "../../routes";
 // saga actions here
 import moment from "moment";
 import { Rating } from "react-simple-star-rating";
-import { getProfile } from "../../Redux/profile/actions";
+import { getProfile, getReviews } from "../../Redux/profile/actions";
+import NoRecordFound from "../../components/NoRecordFound";
+
+
 
 export default () => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState([]);
   const login = useSelector((state) => state.auth.Auther);
   const getById = useSelector((state) => state.ProfileReducer.profile);
+  const Reviews = useSelector((state) => state.ProfileReducer.Reviews);
+  console.log("Reviews", Reviews)
   const getByIdCategory = useSelector((state) => state.ProfileReducer.profile.user_categories);
-  console.log(checked, "00000000000")
   const history = useHistory();
   useEffect(() => {
     if (getByIdCategory !== undefined) {
@@ -50,6 +54,13 @@ export default () => {
         profileId: login?.id,
         // setLoader: setLoader,
 
+      })
+    );
+  }, []);
+  useEffect(() => {
+    dispatch(
+      getReviews({
+        userId: login?.id,
       })
     );
   }, []);
@@ -137,6 +148,46 @@ export default () => {
                   </Card.Body>
                 </Card>
               </Col>
+              {login?.userRole == "Admin"
+                ? ""
+                :
+                <Card
+                  border="light"
+                  className="card-box-shadow py-1 px-4 mb-2 job-list"
+                >
+                  <h3 className="mb-3 mt-2 text-start">  <Card.Title className="text-primary">
+                    Categories
+                  </Card.Title></h3>
+                  {checked?.map((value, index, row) => {
+                    return (
+                      <>
+                        <Col
+                          lg={12}
+                          md={12}
+                          xs={12}
+                          sm={12}
+                          className="pb-3 "
+                        >
+                          <Card.Text className="text-gray mb-2">
+                            <Card border="light" className="shadow-sm introCard">
+                              <Image
+                                src={value?.category?.categoryImg}
+                                className="navbar-brand-light"
+                              />
+                              <div className="detailSection">
+                                <span className="left">
+                                  <h3>{value?.category?.title}</h3>
+                                  <p>{value?.category?.details}</p>
+                                </span>
+                              </div>
+                            </Card>
+                          </Card.Text>
+                        </Col>
+                      </>
+                    );
+                  })}
+                </Card>
+              }
             </Row>
           </Col>
           <Col xs={12} xl={8}>
@@ -187,40 +238,58 @@ export default () => {
                       />
                     </div>
                     <div className="pb-2 mb-4">
-                      <Card.Title className="text-primary">
-                        Categories
-                      </Card.Title>
+
                       <Row>
-                      {checked?.map((value, index, row) => {
-                        return (
-                          <>
-                            <Col
-                              lg={6}
-                              md={6}
-                              xs={12}
-                              sm={12}
-                              className="pb-3 "
-                            >
-                              <Card.Text className="text-gray mb-2">
+
+                      </Row>
+                    </div>
+                    <Card
+                      border="light"
+                      className="card-box-shadow py-1 px-4 mb-2 job-list"
+                    >
+                      <h3 className="mb-3 mt-2 text-start">  <Card.Title className="text-primary">
+                        Reviews
+                      </Card.Title></h3>
+                      {Reviews?.length > 0 ? (
+                        <>
+                          {Reviews?.map((item) => {
+                            return (
+                              <Col xs={12} className="pb-3">
                                 <Card border="light" className="shadow-sm introCard">
-                                  <Image
-                                    src={value?.category?.categoryImg}
-                                    className="navbar-brand-light"
-                                  />
                                   <div className="detailSection">
                                     <span className="left">
-                                      <h3>{value?.category?.title}</h3>
-                                      <p>{value?.category?.details}</p>
+                                      {/* <Link className="fw-bold" to={`/detailJob/${props.id}`}> */}
+                                      <h3><span>{item.jobs.name}
+                                        -
+                                        <Rating
+                                          style={{ marginTop: "-7%" }}
+                                          size={20}
+                                          onClick={handleRating}
+                                          readonly={true}
+                                          allowHover={false}
+                                          ratingValue={item?.rating ? item?.rating * 20 : "0"} /* Available Props */
+                                        />
+                                      </span>
+                                      </h3>
+                                      {/* <h5>{item.description}</h5> */}
+                                    </span>
+                                    <span className="right p-2">
+                                      <h6>{item.jobs.paymentType}</h6>
+                                      <h6>{item?.insertedDate ? moment(item?.insertedDate).format("DD-MM-YYYY") : " --"}</h6>
+                                      <h6>
+                                        Rate: <span>${item.jobs.rate}hr</span>{" "}
+                                      </h6>
                                     </span>
                                   </div>
                                 </Card>
-                              </Card.Text>
-                            </Col>
-                          </>
-                        );
-                      })}
-                      </Row>
-                    </div>
+                              </Col>
+                            );
+                          })}
+                        </>
+                      ) : (
+                        <NoRecordFound />
+                      )}
+                    </Card>
                   </Card.Body>
                 </Card>
               </Col>
