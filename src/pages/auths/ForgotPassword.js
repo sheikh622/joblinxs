@@ -66,12 +66,13 @@ const ForgetPage = () => {
                         }}
                         placeholder="john@company.com"
                       />
-                      {forgetFormik.touched.email && forgetFormik.errors.email ? (
-                        <div style={{ color: "red" }}>
-                          {forgetFormik.errors.email}
-                        </div>
-                      ) : null}
+
                     </InputGroup>
+                    {forgetFormik.touched.email && forgetFormik.errors.email ? (
+                      <div style={{ color: "red" }}>
+                        {forgetFormik.errors.email}
+                      </div>
+                    ) : null}
                   </div>
                   <p className="d-flex justify-content-end my-3">
                     <Card.Link

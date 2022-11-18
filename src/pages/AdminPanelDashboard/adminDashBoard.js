@@ -78,9 +78,9 @@ const AdminDashBoard = () => {
         </Col>
       </Row>
       <Row>
-        {/* <Col xs={12} xl={6} className="mb-4">
+        <Col xs={12} xl={6} className="mb-4">
             <ProgressTrackWidget />
-          </Col> */}
+          </Col>
         <Col xs={12} xl={6}>
           <BarChartWidget
             title="Total orders"
