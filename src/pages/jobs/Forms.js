@@ -91,7 +91,6 @@ export const GeneralInfoForm = () => {
   const [categoryList, setCategoryList] = useState([]);
   const [postItem, setPostItem] = useState(false);
   const [startDate, setStartDate] = React.useState(new Date());
-  console.log("jobType", jobType);
   const [endDate, setEndDate] = React.useState(new Date());
   const [adminId, setAdminId] = useState(0);
   const [rate, setRate] = useState("");
