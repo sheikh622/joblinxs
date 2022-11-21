@@ -199,7 +199,7 @@ const MyJobDetails = (item, props, data) => {
                 />
                 <DetailHeading
                   heading={"Job Type"}
-                  value={SingleId?.jobType ? SingleId.jobType?.name : "-"}
+                  value={SingleId?.jobType ? SingleId?.jobType?.name === "Permanent" ? "Full-Time" : SingleId?.jobType?.name : "-"}
                 />
                 <DetailHeading
                   heading={"Job Nature"}

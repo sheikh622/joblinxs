@@ -47,7 +47,7 @@ export const GeneralInfoForm = () => {
     { value: "23", label: "23" },
     { value: "24", label: "24" },
     { value: "25", label: "25" },
-   
+
   ];
   const experienced = [
     { value: "None", label: "None" },
@@ -79,7 +79,7 @@ export const GeneralInfoForm = () => {
   const [jobType, setJobType] = useState(
     SingleId?.jobType?.name ? SingleId?.jobType?.name : ""
   );
-  const [onGoing, setOngoing] = useState("");
+  const [onGoing, setOngoing] = useState(false);
   const [paymentType, setPaymentType] = useState(
     SingleId?.paymentType ? SingleId?.paymentType : ""
   );
@@ -116,6 +116,9 @@ export const GeneralInfoForm = () => {
       value: [{ id: str.id, title: str.title, details: str.details }],
       label: str?.title
     })
+    setStartDate(SingleId?.startDate ? new Date(SingleId?.startDate) : new Date());
+    setEndDate(SingleId?.endDtae ? new Date(SingleId?.endDtae) : new Date());
+    setOngoing(SingleId?.isOngoing ? SingleId?.isOngoing : false);
   }, [SingleId]);
   useEffect(() => {
     dispatch(
@@ -152,6 +155,10 @@ export const GeneralInfoForm = () => {
     toolsNeeded: Yup.string().trim().required("Tools is required"),
     rate: Yup.string()
       .required("rate is required")
+      .matches(/^[1-9]+[0-9]*$/,{
+        message:'Rate should be Greater 0',
+        excludeEmptyString: true
+    })
       .max(8, "Number should not exceed 6 digits")
       .min(1, "Number should not be less than 0"),
     unit: Yup.string().trim().required("Unit Number is required"),
@@ -166,7 +173,7 @@ export const GeneralInfoForm = () => {
       toolsNeeded: SingleId?.toolsNeeded ? SingleId?.toolsNeeded : "",
       rate: SingleId?.rate ? SingleId?.rate : "--",
       unit: SingleId?.unit ? SingleId?.unit : "0",
-      onGoing: SingleId?.onGoing ? SingleId?.onGoing : "",
+      onGoing: SingleId?.isOngoing ? SingleId?.isOngoing : false,
       jobType: SingleId?.jobType ? SingleId?.jobType : "",
       // jobImg: SingleId?.image ? SingleId?.image : "",
       paymentType: SingleId?.paymentType ? SingleId?.paymentType : "",
@@ -183,6 +190,7 @@ export const GeneralInfoForm = () => {
     },
     validationSchema: CategorySchema,
     onSubmit: async (values, action) => {
+      
       setShowDefaultEmergency(true);
       setPostJob(true);
       setButtonDisabled(true);
@@ -521,10 +529,10 @@ export const GeneralInfoForm = () => {
                     />
                     <Form.Check
                       type="radio"
-                      checked={jobType == "Full-time"}
+                      checked={jobType == "Permanent"}
                       label="Full-time"
                       name="jobType"
-                      value="Full-time"
+                      value="Permanent"
                       onChange={(event) => {
                         setJobType(event.target.value);
                       }}
@@ -553,7 +561,8 @@ export const GeneralInfoForm = () => {
                       type="checkbox"
                       label="onGoing"
                       name="isOngoing"
-                      value="onGoing"
+                    checked={onGoing}
+                      value={onGoing}
                       className="radio1"
                       onChange={(event) => {
                         setOngoing(event.target.checked);
@@ -733,17 +742,17 @@ export const GeneralInfoForm = () => {
               </Col>
               {id && (
                 <>
-              <Col md={6} className="mb-3">
-                <>
+                  <Col md={6} className="mb-3">
+                    <>
+                    </>
+                  </Col>
+                  <Col md={6} className="mb-3">
+                    <div className="locationTab"
+                    >
+                      {location ? location : SingleId?.location}
+                    </div>
+                  </Col>
                 </>
-              </Col>
-              <Col md={6} className="mb-3">
-                <div className="locationTab"
-                >
-                  {location ? location : SingleId?.location}
-                </div>
-              </Col>
-              </>
               )}
             </Row>
 
