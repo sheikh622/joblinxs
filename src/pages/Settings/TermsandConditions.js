@@ -24,7 +24,7 @@ const TermsandConditions = (props, row) => {
             )}
             <div className="mx-5">
                 <Row>
-                    <Col xs={9} xl={9}>
+                    <Col xs={12} xl={12} style={{textAlign:"justify"}} >
 
                         <span>
                             <p>
