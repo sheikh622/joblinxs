@@ -738,7 +738,9 @@ export const GeneralInfoForm = () => {
                 </Form.Group>
               </Col>
               <Col md={6} className="mb-3">
-                <Form.Control ref={ref} style={{ width: "100%" }} />
+                <Form.Control 
+                // value={location ? location : SingleId?.location}
+                ref={ref} style={{ width: "100%" }} />
               </Col>
               {id && (
                 <>

@@ -32,6 +32,7 @@ const MyJobDetails = (item, props, data) => {
     }
   }, [newArrivalData])
   const SingleId = useSelector((state) => state?.addJob?.jobById);
+  console.log(SingleId,"SingleId")
   const Login = useSelector((state) => state?.auth?.Auther);
   const [loader, setLoader] = useState(true);
   const [showDefault, setShowDefault] = useState(false);
