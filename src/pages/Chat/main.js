@@ -306,7 +306,6 @@ const Mainchat = () => {
     });
     if (userId !== undefined) {
       const index = data?.map((object) => object?.id).indexOf(userId);
-      console.log(index, "====")
       selectedIndex = index;
       if (index < 0) {
         newArray.push({
