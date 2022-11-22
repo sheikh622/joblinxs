@@ -230,7 +230,7 @@ export default () => {
                       />
                       <DetailHeading
                         heading={"IndustryType"}
-                        value={getById?.IndustryType ? getById?.IndustryType : "N/A"}
+                        value={getById?.industryType ? getById?.industryType : "N/A"}
                       />
                       <DetailHeading
                         heading={"Postal Code"}

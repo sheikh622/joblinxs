@@ -38,6 +38,7 @@ import Zoom from "../../assets/img/zoom.svg";
 import { toast } from "react-toastify";
 
 let selectedIndex;
+let selectIndex;
 let finalData = {
   blockListing: "",
   blockedDataListing: "",
@@ -163,14 +164,20 @@ const Mainchat = () => {
       setChatId(firebaseId);
       setUserId(id);
       setCurrentUsers(true);
-      selectedIndex = index;
+      // selectedIndex = index;
     }
   };
   const renderChat = (item, index, list) => {
-    selectedIndex = index;
+    selectIndex = index;
     setCurrentUsers(true);
-    handleChat(item?.firebaseId, index, item?.id);
     handleClick(list?.blockedBy?.id);
+    if (item !== undefined) {
+      console.log(item, index, list)
+      console.log(item,"111111111111111111111111")
+      handleChat(item?.firebaseId, index, item?.id);
+    } else {
+      handleChat(list?.firebaseId, index, list?.id);
+    }
   };
   const handleClick = (id) => {
     if (id === undefined) {
@@ -263,7 +270,7 @@ const Mainchat = () => {
   const renderListUser = (item, index, blockedId, data) => {
     return (
       <li
-        className={`align-items-center list-group-item d-flex pt-2 ${selectedIndex === index ? "active" : ""
+        className={`align-items-center list-group-item d-flex pt-2 ${selectIndex === index ? "active" : ""
           }`}
         onClick={() =>
           renderChat(item, index, data)
@@ -283,6 +290,7 @@ const Mainchat = () => {
 
     );
   };
+
   useEffect(() => {
     let data = [];
     let newArray = contactsList;
@@ -306,18 +314,21 @@ const Mainchat = () => {
     });
     if (userId !== undefined) {
       const index = data?.map((object) => object?.id).indexOf(userId);
-      selectedIndex = index;
-      if (index < 0) {
-        newArray.push({
-          id: userId,
-          fullName: "Provider",
-          firebaseId: fireId,
-          profileImg:
-            "https://wohk-bucket.s3.us-east-2.amazonaws.com/166125681470230.png",
-        });
-        setDataList(() => {
-          return [...newArray];
-        });
+      const indexs = dataList?.map((object) => object?.id).indexOf(userId);
+      // selectedIndex = index;
+      if (indexs < 0) {
+        if (index <= -1) {
+          newArray.push({
+            id: userId,
+            fullName: "Provider",
+            firebaseId: fireId,
+            profileImg:
+              "https://wohk-bucket.s3.us-east-2.amazonaws.com/166125681470230.png",
+          });
+          setDataList(() => {
+            return [...newArray];
+          });
+        }
       }
     }
     let id = data[selectedIndex]?.id;
@@ -334,9 +345,9 @@ const Mainchat = () => {
       blockListing: blockedlist?.list,
       blockedDataListing: blockedData?.data,
     };
-
     handleChat(firebaseId?.firebaseId, selectedIndex, id);
   }, [selectedIndex, contactsList, userId]);
+
   return (
     <>
       <Navbar module={"Chat"} />
