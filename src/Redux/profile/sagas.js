@@ -50,7 +50,7 @@ function* updateAdminProfileSaga({ payload }) {
     Data.append("postalCode", payload.postalCode ? payload.postalCode : null);
     Data.append("id", payload.id ? payload.id : null);
     Data.append("profileImg", payload.profileImg ? payload.profileImg : null);
-    Data.append("IndustryType", payload.IndustryType ? payload.IndustryType : null);
+    Data.append("industryType", payload.industryType ? payload.industryType : null);
 
   }
   try {

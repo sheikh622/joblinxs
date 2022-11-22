@@ -49,6 +49,7 @@ const Applicants = ({ id }) => {
   const applicantsData = useSelector(
     (state) => state?.addJob?.hiredApplicants?.data?.applicants
   );
+  console.log(applicantsData)
   const auth = useSelector((state) => state?.auth?.Auther);
   const Pageination = useSelector((state) => state?.addJob?.hiredApplicants?.data);
   const [rating, setRating] = useState(0); // initial rating value
@@ -168,6 +169,7 @@ const Applicants = ({ id }) => {
 
                               </div>
                               <span className="right">
+                                {item?.jobStatus !== "canceled" && (
                                 <Dropdown as={ButtonGroup} className="me-3 mt-1">
                                   <Dropdown.Toggle
                                     as={Button}
@@ -248,6 +250,7 @@ const Applicants = ({ id }) => {
                                     }
                                   </Dropdown.Menu>
                                 </Dropdown>
+                                )}
                               </span>
                             </div>
 
