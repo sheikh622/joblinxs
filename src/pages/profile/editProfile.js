@@ -43,7 +43,7 @@ export default () => {
     // phoneNumber: Yup.string().required("phoneNumber is required"),
     address: Yup.string().required("address is required"),
     city: Yup.string().required("city is required"),
-    IndustryType: Yup.string().trim().required("IndustryType is Required")
+    industryType: Yup.string().trim().required("industryType is Required")
   });
   const formOptions = { resolver: yupResolver(validationSchema) };
   // get functions to build form with useForm() hook
@@ -63,7 +63,7 @@ export default () => {
       phoneNumber: getById.phoneNumber,
       city: getById.city,
       postalCode: getById.postalCode,
-      IndustryType: getById.IndustryType,
+      industryType: getById.industryType,
       // setLoader: setLoader,
 
     });
@@ -94,7 +94,7 @@ export default () => {
           postalCode: data.postalCode,
           id: getById.id,
           profileImg: selectedImage ? selectedImage : getById?.profileImg,
-          IndustryType: data.IndustryType,
+          industryType: data.industryType,
           history: history,
           setLoader: setLoader,
 
@@ -267,12 +267,12 @@ export default () => {
                       <Form.Control
                         name="IndustryType"
                         type="text"
-                        {...register("IndustryType")}
-                        className={`form-control ${errors.IndustryType ? "is-invalid" : ""
+                        {...register("industryType")}
+                        className={`form-control ${errors.industryType ? "is-invalid" : ""
                           }`}
                       />
                       <div className="invalid-feedback">
-                        {errors.IndustryType?.message}
+                        {errors.industryType?.message}
                       </div>
                     </Form.Group>
                     {/* <Form.Group className="col my-2">
