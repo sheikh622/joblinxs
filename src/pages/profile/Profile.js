@@ -136,13 +136,9 @@ export default () => {
                         allowHover={false}
                         ratingValue={getById?.profile_rating ? getById?.profile_rating * 20 : "0"} /* Available Props */
                       />
-                      <Card.Text className="text-gray mb-2 reviews">
-                        (0 Reviews)
-                      </Card.Text>
-
                       <Card.Text className="text-gray mb-0">
                         {" "}
-                        Jobs Completed: <b> 25</b>
+                        Jobs Completed: <b>{getById?.completeJobs}</b>
                       </Card.Text>
                     </div>
                   </Card.Body>
@@ -231,6 +227,10 @@ export default () => {
                       <DetailHeading
                         heading={"Address"}
                         value={getById?.address}
+                      />
+                      <DetailHeading
+                        heading={"IndustryType"}
+                        value={getById?.IndustryType ? getById?.IndustryType : "N/A"}
                       />
                       <DetailHeading
                         heading={"Postal Code"}

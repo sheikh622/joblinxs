@@ -6,13 +6,15 @@ import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
 import {
   loginRequestSuccess,
-  resetPasswordSuccess
+  resetPasswordSuccess,
+  logoutRequest,
+  logoutRequestSuccess,
 } from "./actions";
 import {
   FORGOT_PASSWORD,
   LOGIN, LOGIN_FACEBOOK,
   LOGIN_GOOGLE, RESET_PASSWORD,
-  UPDATE_PASSWORD
+  UPDATE_PASSWORD, LOGOUT,
 } from "./constants";
 
 function* loginRequestSaga({ payload }) {
@@ -24,7 +26,7 @@ function* loginRequestSaga({ payload }) {
   try {
     const response = yield axios.post(`user/web/login`, data);
 
-    console.log("isCompleteProfile",response.data.data)
+    console.log("isCompleteProfile", response.data.data)
     if (response.data.data.user.isCompleteProfile) {
       localStorage.setItem("Token", response.data.data.access_token);
       toast.success("Login Successfully");
@@ -46,6 +48,22 @@ function* loginRequestSaga({ payload }) {
 
 function* watchLogin() {
   yield takeLatest(LOGIN, loginRequestSaga);
+}
+function* logoutRequestSaga({ payload }) {
+
+  let {user} = payload;
+  try {
+    if(user.role.name !== "Admin"){
+      const response = yield axios.post(`user/logout/${user.id}`);
+    }
+    yield put(logoutRequestSuccess());
+    toast.success("Logout Successfullyssss")
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchLogout() {
+  yield takeLatest(LOGOUT, logoutRequestSaga);
 }
 function* forgetRequestSaga({ payload }) {
   let data = {
@@ -185,6 +203,7 @@ export default function* AuthSaga() {
     fork(watchUpdatePassword),
     fork(watchFacebookLogin),
     fork(watchGoogleLogin),
+    fork(watchLogout),
 
   ]);
 }

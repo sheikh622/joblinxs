@@ -227,7 +227,7 @@ const Applicants = ({ id }) => {
                                         <div onClick={() => {
                                           handleMove(item);
                                         }}>
-                                          Log Hours
+                                          Logged Hours
                                         </div>
                                       )}
                                     </Dropdown.Item>

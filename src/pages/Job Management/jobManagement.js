@@ -223,19 +223,7 @@ const JobManagement = (row) => {
                     <FontAwesomeIcon icon={faMinus} className="me-2" /> Rejected
                   </Dropdown.Item>
                 </>
-              ) : item?.status === "Rejected" ? (
-                <Dropdown.Item className="text-success" onClick={() => {
-                  handleJobAction({ id: item?.id, isApproved: true })
-                }}>
-                  <FontAwesomeIcon icon={faCheck} className="me-2" /> Accepted
-                </Dropdown.Item>
-              ) : (
-                <Dropdown.Item className="text-danger" onClick={() => {
-                  handleJobAction({ id: item?.id, isApproved: false })
-                }}>
-                  <FontAwesomeIcon icon={faMinus} className="me-2" /> Rejected
-                </Dropdown.Item>
-              )
+              ) :""
               }
               <Dropdown.Item
                 className="text-danger"

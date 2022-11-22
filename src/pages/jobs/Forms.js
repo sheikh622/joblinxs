@@ -77,14 +77,14 @@ export const GeneralInfoForm = () => {
 
   );
   const [jobType, setJobType] = useState(
-    SingleId?.jobType?.name ? SingleId?.jobType?.name : ""
+    SingleId?.jobType?.name ? SingleId?.jobType?.name : "Part-time"
   );
   const [onGoing, setOngoing] = useState(false);
   const [paymentType, setPaymentType] = useState(
-    SingleId?.paymentType ? SingleId?.paymentType : ""
+    SingleId?.paymentType ? SingleId?.paymentType : "hourly"
   );
   const [jobNature, setJobNature] = useState(
-    SingleId?.jobNature ? SingleId?.jobNature : ""
+    SingleId?.jobNature ? SingleId?.jobNature : "One-time"
   );
   const [categories, setCategories] = useState(null);
   const [location, setLocation] = useState([]);
@@ -102,9 +102,9 @@ export const GeneralInfoForm = () => {
   let jobId = params.pathname.split("/")[2];
 
   useEffect(() => {
-    setPaymentType(SingleId?.paymentType ? SingleId?.paymentType : "");
-    setJobType(SingleId?.jobType?.name ? SingleId?.jobType?.name : "");
-    setJobNature(SingleId?.jobNature?.name ? SingleId?.jobNature?.name : "");
+    setPaymentType(SingleId?.paymentType ? SingleId?.paymentType : "hourly");
+    setJobType(SingleId?.jobType?.name ? SingleId?.jobType?.name : "Part-time");
+    setJobNature(SingleId?.jobNature?.name ? SingleId?.jobNature?.name : "One-time");
     setUnit(SingleId?.unit ? SingleId?.unit : "");
     setRate(SingleId?.rate ? SingleId?.rate : "")
     setProviders(

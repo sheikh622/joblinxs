@@ -1,5 +1,6 @@
 export const LOGIN = "login";
 export const LOGOUT = "logout";
+export const LOGOUT_SUCCESS = "logout_success";
 export const LOGIN_SUCCESS = "login_success";
 export const FORGOT_PASSWORD = 'forgot_password';
 export const RESET_PASSWORD = 'reset_password';

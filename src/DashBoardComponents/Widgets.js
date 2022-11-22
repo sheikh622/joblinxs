@@ -427,11 +427,11 @@ export const ProgressTrackWidget = () => {
       </Card.Header>
       <Card.Body>
 
-        <Progress title="Personalseeker" color="purple"  icon={Personalseeker} percentage={34} />
-        <Progress title="Businessseeker" color="danger" icon={Businessseeker} percentage={51} />
-        <Progress title="TotalJob" color="tertiary" icon={TotalJob} percentage={90} />
-        <Progress title="totalpersonal" color="info" icon={totalpersonal} percentage={35} />
-        <Progress last title="TotalSeeker" color="purple" icon={TotalSeeker} percentage={34} />
+        <Progress title="Personal Seeker" color="purple"  icon={Personalseeker} percentage={34} />
+        <Progress title="Business Seeker" color="danger" icon={Businessseeker} percentage={51} />
+        <Progress title="Total Jobs" color="tertiary" icon={TotalJob} percentage={90} />
+        <Progress title="Total Personal" color="info" icon={totalpersonal} percentage={35} />
+        <Progress last title="Total Seeker" color="purple" icon={TotalSeeker} percentage={34} />
       </Card.Body>
     </Card>
   );

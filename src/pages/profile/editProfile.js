@@ -43,6 +43,7 @@ export default () => {
     // phoneNumber: Yup.string().required("phoneNumber is required"),
     address: Yup.string().required("address is required"),
     city: Yup.string().required("city is required"),
+    IndustryType: Yup.string().trim().required("IndustryType is Required")
   });
   const formOptions = { resolver: yupResolver(validationSchema) };
   // get functions to build form with useForm() hook
@@ -62,6 +63,7 @@ export default () => {
       phoneNumber: getById.phoneNumber,
       city: getById.city,
       postalCode: getById.postalCode,
+      IndustryType: getById.IndustryType,
       // setLoader: setLoader,
 
     });
@@ -92,6 +94,7 @@ export default () => {
           postalCode: data.postalCode,
           id: getById.id,
           profileImg: selectedImage ? selectedImage : getById?.profileImg,
+          IndustryType: data.IndustryType,
           history: history,
           setLoader: setLoader,
 
@@ -259,7 +262,7 @@ export default () => {
                         {errors.address?.message}
                       </div>
                     </Form.Group>
-                    {/* <Form.Group className="col my-2">
+                    <Form.Group className="col my-2">
                       <Form.Label>Industry Type</Form.Label>
                       <Form.Control
                         name="IndustryType"
@@ -271,7 +274,7 @@ export default () => {
                       <div className="invalid-feedback">
                         {errors.IndustryType?.message}
                       </div>
-                    </Form.Group> */}
+                    </Form.Group>
                     {/* <Form.Group className="col my-2">
                       <Form.Label>Postal Code</Form.Label>
                       <Form.Control
