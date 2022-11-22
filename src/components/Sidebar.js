@@ -548,7 +548,7 @@ export default (props = {}) => {
               color="dark"
               type="button"
               onClick={() => {
-                dispatch(logoutRequest({}));
+                dispatch(logoutRequest({ user: auth?.Auther }));
               }}
               size="sm"
             >

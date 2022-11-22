@@ -5,10 +5,16 @@ import {
   LOGIN_GOOGLE_SUCCESS,LOGIN_GOOGLE
 } from "./constants";
   
-  export const logoutRequest = () => ({
+  export const logoutRequest = (data) => ({
     type: LOGOUT,
+    payload: data,
   });
   
+  
+  export const logoutRequestSuccess = () => ({
+    type: LOGOUT,
+  });
+
   export const loginRequest = (data) => ({
     type: LOGIN,
     payload: data,
