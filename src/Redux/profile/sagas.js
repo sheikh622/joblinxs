@@ -14,7 +14,6 @@ import { logoutRequest } from "../auth/actions";
 import {jobById} from "../addJob/actions"
 
 function* getProfileById({ payload }) {
-  console.log(payload, "===payload")
   try {
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(`profile/${payload.profileId}`, {
