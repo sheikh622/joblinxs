@@ -104,7 +104,7 @@ const Job = () => {
     },
     {
       value: "canceled",
-      label: "Canceled"
+      label: "cancelled"
     },
   ];
   useEffect(

@@ -13,7 +13,7 @@ import Navbar from "../../components/Navbar";
 const AdminDashBoard = () => {
   return (
     <>
-      <Navbar module={"DashBoard"} />
+      <Navbar module={"Dashboard"} />
       <Row className="justify-content-md-center">
         <Col xs={12} sm={6} xl={4} className="mb-4">
           <ProviderCard

@@ -243,15 +243,15 @@ const ProviderProfile = (props) => {
                             <span className="left">
                               {/* <Link className="fw-bold" to={`/detailJob/${props.id}`}> */}
                               <h3><span>{item.jobs.name}
-                                -
-                                <Rating
-                                  style={{ marginTop: "-7%" }}
-                                  size={20}
-                                  onClick={handleRating}
-                                  readonly={true}
-                                  allowHover={false}
-                                  ratingValue={item?.rating ? item?.rating * 20 : "0"} /* Available Props */
-                                />
+                                <h5>
+                                  <Rating
+                                    style={{ marginTop: "-7%" }}
+                                    size={20}
+                                    onClick={handleRating}
+                                    readonly={true}
+                                    allowHover={false}
+                                    ratingValue={item?.rating ? item?.rating * 20 : "0"} /* Available Props */
+                                  /></h5>
                               </span>
                               </h3>
                               {/* <h5>{item.description}</h5> */}

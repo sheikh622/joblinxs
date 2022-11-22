@@ -251,7 +251,7 @@ const MyJobDetails = (item, props, data) => {
                   >
                     <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">
                       <Card.Text className="text-black mb-2">
-                        Log Hours
+                        Logged Hours
                       </Card.Text>
                     </Card.Body>
                   </Link>
