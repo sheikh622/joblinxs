@@ -245,7 +245,7 @@ const Job = () => {
                         <CommonCard
                           img={item?.image ? item?.image : Profile}
                           name={item?.name ? item?.name : "N/A"}
-                          jobType={item?.jobType ? item?.jobType : "N/A"}
+                          // jobType={item?.jobType ? item?.jobType : "N/A"}
                           id={item.id}
                           item={item ? item : null}
                           rate={item?.rate ? item?.rate : "N/A"}

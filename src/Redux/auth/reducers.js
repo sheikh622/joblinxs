@@ -35,6 +35,7 @@ const Auth = produce((state = initialState, action) => {
     case LOGOUT:
       state.Auther = null;
       state.token = null;
+      state.userRole = "";
       break;
     case ADMIN_UPDATED_SUCCESS:
       state.Auther = action.payload;
