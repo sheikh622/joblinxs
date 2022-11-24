@@ -36,6 +36,7 @@ import { blockUser, unblockUser } from "../../Redux/profile/actions";
 import phone from "../../assets/img/phone-call.svg";
 import Zoom from "../../assets/img/zoom.svg";
 import { toast } from "react-toastify";
+import Condition from "yup/lib/Condition";
 
 let selectedIndex;
 let selectIndex;
@@ -67,6 +68,7 @@ const Mainchat = () => {
   const [chatId, setChatId] = useState(fireId);
   const [zoom, setZoom] = useState(false);
   const [zoomUrl, setZoomUrl] = useState("");
+  const [selectedChat, setSelectedChat] = useState();
   const onSend = useCallback(
     (message) => {
       let data = {
@@ -197,14 +199,14 @@ const Mainchat = () => {
         <Card.Img
           src={
             blockedDataListing != undefined
-              ? blockedDataListing?.profileImg
+              ? selectedChat?.profileImg
               : profile
           }
           alt="Neil Portrait"
           className="user-avatar rounded-circle"
         />
         <span className="mx-2 listedName">
-          {blockedDataListing != undefined ? blockedDataListing?.fullName : ""}
+          {blockedDataListing != undefined ? selectedChat?.fullName : ""}
         </span>
         <Dropdown as={ButtonGroup} className="me-2 mt-1 ms-2">
           <Dropdown.Toggle
@@ -215,7 +217,6 @@ const Mainchat = () => {
           >
             <span className="icon icon-sm">
               <img src={phone} alt="" width="25px" />
-
             </span>
 
           </Dropdown.Toggle>
@@ -266,19 +267,20 @@ const Mainchat = () => {
       </li>
     );
   };
-
+console.log("^^^^^^^^^^^^",selectedChat);
   const renderListUser = (item, index, blockedId, data) => {
+    console.log("dataaaaaaaaa",data)
     return (
       <li
         className={`align-items-center list-group-item d-flex pt-2 ${selectIndex === index ? "active" : ""
           }`}
         onClick={() =>
-          renderChat(item, index, data)
-          // setCurrentUsers(true)
+         { renderChat(item, index, data)
+          setSelectedChat(data)}
         }
       >
         <Card.Img
-          src={item?.profileImg ? item?.profileImg : profile}
+          src={data?.profileImg ? data?.profileImg : profile}
           alt="Neil Portrait"
           className="user-avatar rounded-circle"
         />

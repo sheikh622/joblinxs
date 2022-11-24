@@ -33,7 +33,7 @@ function* loginRequestSaga({ payload }) {
       yield put(loginRequestSuccess(response.data.data));
       payload.setLoader(false);
       let path =
-        response.data.data.user.role.name == "Admin"
+        response.data.data.user.role.name === "Admin"
           ? "/adminDashBoard"
           : "/dashboard";
       payload.history.push(path);
@@ -51,13 +51,18 @@ function* watchLogin() {
 }
 function* logoutRequestSaga({ payload }) {
 
-  let {user} = payload;
+  let { user } = payload;
   try {
-    if(user.role.name !== "Admin"){
+    if (user.role.name !== "Admin") {
       const response = yield axios.post(`user/logout/${user.id}`);
     }
-    yield put(logoutRequestSuccess());
-    toast.success("Logout Successfullyssss")
+    // yield put(logoutRequestSuccess());
+    yield put(loginRequestSuccess(null));
+
+    payload.setLoader(false);
+    toast.success("Logout Successfully.")
+    payload.resetForm();
+
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
