@@ -174,8 +174,6 @@ const Mainchat = () => {
     setCurrentUsers(true);
     handleClick(list?.blockedBy?.id);
     if (item !== undefined) {
-      console.log(item, index, list)
-      console.log(item,"111111111111111111111111")
       handleChat(item?.firebaseId, index, item?.id);
     } else {
       handleChat(list?.firebaseId, index, list?.id);
@@ -267,9 +265,7 @@ const Mainchat = () => {
       </li>
     );
   };
-console.log("^^^^^^^^^^^^",selectedChat);
   const renderListUser = (item, index, blockedId, data) => {
-    console.log("dataaaaaaaaa",data)
     return (
       <li
         className={`align-items-center list-group-item d-flex pt-2 ${selectIndex === index ? "active" : ""

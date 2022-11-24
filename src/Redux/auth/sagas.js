@@ -26,7 +26,6 @@ function* loginRequestSaga({ payload }) {
   try {
     const response = yield axios.post(`user/web/login`, data);
 
-    console.log("isCompleteProfile", response.data.data)
     if (response.data.data.user.isCompleteProfile) {
       localStorage.setItem("Token", response.data.data.access_token);
       toast.success("Login Successfully");
