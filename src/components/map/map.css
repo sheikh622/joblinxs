@@ -27,9 +27,9 @@
 }
 
 @media screen and (min-width: 799px) {
-  .google-map {
+  /* .google-map {
     height: 80vh;
-  }
+  } */
 
   .map-h2 {
     font-size: 1.3rem;

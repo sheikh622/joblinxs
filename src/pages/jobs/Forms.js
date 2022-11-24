@@ -112,6 +112,8 @@ export const GeneralInfoForm = () => {
     );
     setExperience(experienced.filter((option) => option.label == SingleId?.experienceRequired));
     setLocation(SingleId?.location ? SingleId?.location[0] : "");
+    setLatitude(SingleId?.latitude ? SingleId?.latitude : "");
+    setLogintude(SingleId?.longitude ? SingleId?.longitude : "");
     setCategories({
       value: [{ id: str.id, title: str.title, details: str.details }],
       label: str?.title
@@ -155,13 +157,14 @@ export const GeneralInfoForm = () => {
     toolsNeeded: Yup.string().trim().required("Tools is required"),
     rate: Yup.string()
       .required("rate is required")
-      .matches(/^[1-9]+[0-9]*$/,{
-        message:'Rate should be Greater 0',
+      .matches(/^[1-9]+[0-9]*$/, {
+        message: 'Rate should be Greater 0',
         excludeEmptyString: true
-    })
+      })
       .max(8, "Number should not exceed 6 digits")
       .min(1, "Number should not be less than 0"),
     unit: Yup.string().trim().required("Unit Number is required"),
+
   });
   const CategoryFormik = useFormik({
     enableReinitialize: true,
@@ -182,6 +185,8 @@ export const GeneralInfoForm = () => {
       startDate: SingleId?.startDate ? SingleId?.startDate : "",
       endDate: SingleId?.endDate ? SingleId?.endDate : null,
       location: SingleId?.location ? SingleId?.location : "",
+      latitude: SingleId?.latitude ? SingleId?.latitude : "",
+      latitude: SingleId?.latitude ? SingleId?.latitude : "",
       days: SingleId?.days ? SingleId?.days : "",
       hours: SingleId?.hours ? SingleId?.hours : "",
       providers: SingleId?.noOfProviders ? SingleId?.noOfProviders : "",
@@ -190,7 +195,7 @@ export const GeneralInfoForm = () => {
     },
     validationSchema: CategorySchema,
     onSubmit: async (values, action) => {
-      
+
       setShowDefaultEmergency(true);
       setPostJob(true);
       setButtonDisabled(true);
@@ -561,7 +566,7 @@ export const GeneralInfoForm = () => {
                       type="checkbox"
                       label="onGoing"
                       name="isOngoing"
-                    checked={onGoing}
+                      checked={onGoing}
                       value={onGoing}
                       className="radio1"
                       onChange={(event) => {
@@ -737,12 +742,16 @@ export const GeneralInfoForm = () => {
                   />
                 </Form.Group>
               </Col>
+
               <Col md={6} className="mb-3">
-                <Form.Control 
-                // value={location ? location : SingleId?.location}
-                ref={ref} style={{ width: "100%" }} />
+                <Form.Control
+                  value={location ? location : SingleId?.location}
+                  ref={ref} style={{ width: "100%" }} />
               </Col>
-              {id && (
+
+
+
+              {/* {id && (
                 <>
                   <Col md={6} className="mb-3">
                     <>
@@ -755,7 +764,7 @@ export const GeneralInfoForm = () => {
                     </div>
                   </Col>
                 </>
-              )}
+              )} */}
             </Row>
 
             <div className="mt-3 d-flex justify-content-end">
