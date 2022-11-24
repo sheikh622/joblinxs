@@ -29,7 +29,6 @@ export default (props) => {
   const notification = useSelector(
     (state) => state.Notifications?.notification?.notifications
   );
-  console.log("notification",notification)
   // const [notifications, setNotifications] = useState(notification);
   // const areNotificationsRead = notifications.reduce(
   //   (acc, notif) => acc && notif.read,
