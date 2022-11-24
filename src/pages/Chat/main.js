@@ -32,14 +32,12 @@ import { sendMessage } from "./FirestoreMethods";
 import createChatId from "./CreateChatId.js";
 import { getList, getToken, getMeeting } from "../../Redux/chat/actions";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-import { blockUser, unblockUser } from "../../Redux/profile/actions";
+import { blockUser, unblockUser,getProfile,getProfileSuccess } from "../../Redux/profile/actions";
 import phone from "../../assets/img/phone-call.svg";
 import Zoom from "../../assets/img/zoom.svg";
 import { toast } from "react-toastify";
-import Condition from "yup/lib/Condition";
 
 let selectedIndex;
-let selectIndex;
 let finalData = {
   blockListing: "",
   blockedDataListing: "",
@@ -53,6 +51,7 @@ const Mainchat = () => {
   const currentUser = useSelector((state) => state.auth.Auther);
   const contactsList = useSelector((state) => state?.ChatReducer?.ListData);
   const TokenResponse = useSelector((state) => state?.ChatReducer?.Token);
+  const getById = useSelector((state) => state.ProfileReducer.profile);
   const MeetingResponse = useSelector((state) => state?.ChatReducer?.Meeting?.join_url);
   const [currentUsers, setCurrentUsers] = useState(false);
   const [oneToOneChat, setOneToOneChat] = useState([]);
@@ -68,7 +67,7 @@ const Mainchat = () => {
   const [chatId, setChatId] = useState(fireId);
   const [zoom, setZoom] = useState(false);
   const [zoomUrl, setZoomUrl] = useState("");
-  const [selectedChat, setSelectedChat] = useState();
+  console.log(getById, "getByIdgetByIdgetById")
   const onSend = useCallback(
     (message) => {
       let data = {
@@ -122,6 +121,19 @@ const Mainchat = () => {
 
   useEffect(() => {
     dispatch(getList(currentUser.id));
+    if(id !== undefined){
+      dispatch(
+        getProfile({
+          profileId: id,
+  
+        })
+      );
+    }else{
+      let response = "";
+      dispatch(
+      getProfileSuccess(response)
+      )
+    }
   }, []);
 
   const handleMeeting = () => {
@@ -170,7 +182,8 @@ const Mainchat = () => {
     }
   };
   const renderChat = (item, index, list) => {
-    selectIndex = index;
+    console.log(item, index, list)
+    selectedIndex = index;
     setCurrentUsers(true);
     handleClick(list?.blockedBy?.id);
     if (item !== undefined) {
@@ -192,19 +205,18 @@ const Mainchat = () => {
     }
   };
   const HeaderList = ({ blockListing, blockedDataListing }) => {
+    console.log(getById, "blockedDataListing", blockedDataListing)
     return (
       <li className={`align-items-center list-group-item d-flex pt-2`}>
         <Card.Img
           src={
-            blockedDataListing != undefined
-              ? selectedChat?.profileImg
-              : profile
+            blockedDataListing === "" ? getById?.profileImg : blockedDataListing?.profileImg
           }
           alt="Neil Portrait"
           className="user-avatar rounded-circle"
         />
         <span className="mx-2 listedName">
-          {blockedDataListing != undefined ? selectedChat?.fullName : ""}
+          { blockedDataListing === "" ? getById?.fullName : blockedDataListing?.fullName}
         </span>
         <Dropdown as={ButtonGroup} className="me-2 mt-1 ms-2">
           <Dropdown.Toggle
@@ -215,6 +227,7 @@ const Mainchat = () => {
           >
             <span className="icon icon-sm">
               <img src={phone} alt="" width="25px" />
+
             </span>
 
           </Dropdown.Toggle>
@@ -265,30 +278,30 @@ const Mainchat = () => {
       </li>
     );
   };
+
   const renderListUser = (item, index, blockedId, data) => {
     return (
       <li
-        className={`align-items-center list-group-item d-flex pt-2 ${selectIndex === index ? "active" : ""
+        className={`align-items-center list-group-item d-flex pt-2 ${selectedIndex === index ? "active" : ""
           }`}
         onClick={() =>
-         { renderChat(item, index, data)
-          setSelectedChat(data)}
+          renderChat(item, index, data)
+          // setCurrentUsers(true)
         }
       >
         <Card.Img
-          src={data?.profileImg ? data?.profileImg : profile}
+          src={item?.profileImg ? item?.profileImg : getById ? getById?.profileImg : profile}
           alt="Neil Portrait"
           className="user-avatar rounded-circle"
         />
         <span className="mx-2 listedName">
-          {data?.fullName !== undefined ? data?.fullName : item?.fullName}
+          {item?.fullName ? item?.fullName : getById ? getById?.fullName : "provider"}
         </span>
 
       </li>
 
     );
   };
-
   useEffect(() => {
     let data = [];
     let newArray = contactsList;
@@ -313,23 +326,24 @@ const Mainchat = () => {
     if (userId !== undefined) {
       const index = data?.map((object) => object?.id).indexOf(userId);
       const indexs = dataList?.map((object) => object?.id).indexOf(userId);
-      // selectedIndex = index;
-      if (indexs < 0) {
-        if (index <= -1) {
-          newArray.push({
-            id: userId,
-            fullName: "Provider",
-            firebaseId: fireId,
-            profileImg:
-              "https://wohk-bucket.s3.us-east-2.amazonaws.com/166125681470230.png",
-          });
-          setDataList(() => {
-            return [...newArray];
-          });
-        }
+      console.log(indexs, "asdasdasd", userId, index)
+      selectedIndex = index;
+      if(indexs < 1){
+      if (index <= -1) {
+        newArray.push({
+          id: userId,
+          fullName:getById ? getById?.fullName: "Provider",
+          firebaseId: fireId,
+          profileImg:getById ? getById?.profileImg:profile,
+        });
+        setDataList(() => {
+          return [...newArray];
+        });
       }
     }
+    }
     let id = data[selectedIndex]?.id;
+    console.log(id, "id")
     const firebase = data.filter((element) => {
       if (element?.id === id) {
         return element;
@@ -343,9 +357,9 @@ const Mainchat = () => {
       blockListing: blockedlist?.list,
       blockedDataListing: blockedData?.data,
     };
+
     handleChat(firebaseId?.firebaseId, selectedIndex, id);
   }, [selectedIndex, contactsList, userId]);
-
   return (
     <>
       <Navbar module={"Chat"} />
