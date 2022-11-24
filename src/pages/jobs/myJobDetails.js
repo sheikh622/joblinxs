@@ -306,9 +306,7 @@ const MyJobDetails = (item, props, data) => {
                     </Link>
                   </>
                 ) : hiredId !== undefined ? <>
-                  {/* <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">
-                  <Dropdown.Item onClick={() => setReason(true)}>Dispute</Dropdown.Item>
-                </Card.Body> */}
+
                   <Link
                     className="text-white fw-bold"
                     to={`/Applicants/${jobId}`}
@@ -361,98 +359,7 @@ const MyJobDetails = (item, props, data) => {
                   </>
                 )}
               </Card>
-              {SingleId?.createdBy === "seeker" ? (
-                <>
-                  {SingleId?.status === "completed" || SingleId?.status === "inprogress" || SingleId?.status === "upcoming" ? (
-                    <>
-                      <div class="float-end">
-                        <Button
-                          variant="primary"
-                          color="dark"
-                          size="lg"
-                          className="mt-2 me-1"
-                          onClick={handleRepost}
-                        >
-                          Repost Job
-                        </Button>
-                      </div>
-                    </>
-                  ) : (
-                    <div>
-                      <div class="float-end">
-                        {SingleId?.status === "Accepted" || SingleId?.status === "canceled" ? (
-                          <>
-                            <Button
-                              variant="primary"
-                              color="dark"
-                              size="lg"
-                              className="mt-2 me-1"
-                              onClick={handleEdit}
-                            >
-                              Repost
-                            </Button>
-                            {SingleId?.isEmergency === true ? (<>
-                              <Button
-                                variant="primary"
-                                color="dark"
-                                size="lg"
-                                className="mt-2 me-1"
-                              >
-                                Emergency Post
-                              </Button>
-                            </>
-                            ) : (
-                              <>
-                                <Button
-                                  variant="primary"
-                                  color="dark"
-                                  size="lg"
-                                  className="mt-2 me-1"
-                                  onClick={() => {
-                                    // setShowDefaultEmergency(true);
-                                    setEmergency(true)
-                                    setIsPost(false)
-                                    handleChange();
-                                  }}
-                                >
-                                  Emergency Post
-                                </Button>
-                              </>
-                            )}
-
-                          </>
-                        ) : (
-                          <Button
-                            variant="primary"
-                            color="dark"
-                            size="lg"
-                            className="mt-2 me-1"
-                            onClick={handleEdit}
-                          >
-                            Edit Job
-                          </Button>
-                        )}
-                      </div>
-                      {SingleId?.status !== "Accepted" && (
-                        <div class="float-end">
-                          <Button
-                            variant="primary"
-                            color="dark"
-                            size="lg"
-                            className="mt-2 me-1"
-                            onClick={() => {
-                              // setAdminId(item.id)
-                              setShowDefault(true);
-                            }}
-                          >
-                            Delete Job
-                          </Button>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </>
-              ) : hiredId !== undefined && (
+              {SingleId?.createdBy === "seeker" && (
                 <>
                   {SingleId?.status === "completed" || SingleId?.status === "inprogress" || SingleId?.status === "upcoming" ? (
                     <>
