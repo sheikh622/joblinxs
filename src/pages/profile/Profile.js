@@ -26,7 +26,6 @@ export default () => {
   const login = useSelector((state) => state.auth.Auther);
   const getById = useSelector((state) => state.ProfileReducer.profile);
   const Reviews = useSelector((state) => state.ProfileReducer.Reviews);
-  console.log("Reviews", Reviews)
   const getByIdCategory = useSelector((state) => state.ProfileReducer.profile.user_categories);
   const history = useHistory();
   useEffect(() => {

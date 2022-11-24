@@ -36,19 +36,14 @@ const MyJobDetails = (item, props, data) => {
   }, [newArrivalData])
   const [checked, setChecked] = useState([]);
   const SingleId = useSelector((state) => state?.addJob?.jobById);
-  // console.log(SingleId, "SingleId")
   const Login = useSelector((state) => state?.auth?.Auther);
-  // console.log("login----", Login)
   // const HiredID = useSelector((state) => state?.addJob?.jobById?.user_job[0]?.hiredby);
-  // console.log("hiredBy", SingleId.user_job)
   useEffect(() => {
     if (SingleId !== undefined) {
-      // console.log(Login?.id, "datadatadata", SingleId)
       let datas = SingleId?.user_job?.find(data => data.hiredBy.id === Login?.id)
       sethiredId(datas)
     }
   }, [SingleId])
-  console.log(hiredId, "valuevaluevaluevalue")
   const [loader, setLoader] = useState(true);
   const [showDefault, setShowDefault] = useState(false);
   const [rating, setRating] = useState(0); // initial rating value
