@@ -26,7 +26,6 @@ export default () => {
   const login = useSelector((state) => state.auth.Auther);
   const getById = useSelector((state) => state.ProfileReducer.profile);
   const Reviews = useSelector((state) => state.ProfileReducer.Reviews);
-  console.log("Reviews", Reviews)
   const getByIdCategory = useSelector((state) => state.ProfileReducer.profile.user_categories);
   const history = useHistory();
   useEffect(() => {
@@ -261,17 +260,17 @@ export default () => {
                                       {/* <Link className="fw-bold" to={`/detailJob/${props.id}`}> */}
                                       <h3><span>{item.jobs.name}
                                         -
-                                        <Rating
-                                          style={{ marginTop: "-7%" }}
-                                          size={20}
-                                          onClick={handleRating}
-                                          readonly={true}
-                                          allowHover={false}
-                                          ratingValue={item?.rating ? item?.rating * 20 : "0"} /* Available Props */
-                                        />
                                       </span>
                                       </h3>
-                                      {/* <h5>{item.description}</h5> */}
+                                      <Rating
+                                        style={{ marginTop: "-7%" }}
+                                        size={20}
+                                        onClick={handleRating}
+                                        readonly={true}
+                                        allowHover={false}
+                                        ratingValue={item?.rating ? item?.rating * 20 : "0"} /* Available Props */
+                                      />
+                                      <h5>{item?.description}</h5>
                                     </span>
                                     <span className="right p-2">
                                       <h6>{item.jobs.paymentType}</h6>
