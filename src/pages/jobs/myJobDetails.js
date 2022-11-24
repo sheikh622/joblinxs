@@ -15,11 +15,14 @@ import { deleteAddJob, emergencyJob } from "../../Redux/addJob/actions";
 import { hiredApplicant } from "../../Redux/profile/actions";
 import Spinner from "../../components/spinner";
 
+
 const MyJobDetails = (item, props, data) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const params = useLocation();
   let DisputeId = params?.search.split("?")[1];
+
+  const [hiredId, sethiredId] = useState();
   let id = params.pathname.split("/")[2];
   let jobId = params.pathname.split("/")[2];
   const newArrivalData = useSelector(
@@ -31,9 +34,21 @@ const MyJobDetails = (item, props, data) => {
       setNewArrivalProvider(newArrivalData)
     }
   }, [newArrivalData])
+  const [checked, setChecked] = useState([]);
   const SingleId = useSelector((state) => state?.addJob?.jobById);
-  console.log(SingleId,"SingleId")
+  // console.log(SingleId, "SingleId")
   const Login = useSelector((state) => state?.auth?.Auther);
+  // console.log("login----", Login)
+  // const HiredID = useSelector((state) => state?.addJob?.jobById?.user_job[0]?.hiredby);
+  // console.log("hiredBy", SingleId.user_job)
+  useEffect(() => {
+    if (SingleId !== undefined) {
+      // console.log(Login?.id, "datadatadata", SingleId)
+      let datas = SingleId?.user_job?.find(data => data.hiredBy.id === Login?.id)
+      sethiredId(datas)
+    }
+  }, [SingleId])
+  console.log(hiredId, "valuevaluevaluevalue")
   const [loader, setLoader] = useState(true);
   const [showDefault, setShowDefault] = useState(false);
   const [rating, setRating] = useState(0); // initial rating value
@@ -60,7 +75,6 @@ const MyJobDetails = (item, props, data) => {
     );
   };
   const [adminId, setAdminId] = useState(0);
-  const [selectedItem, setSelectedItem] = useState();
 
   useEffect(() => {
     dispatch(jobById({ id: jobId }));
@@ -132,86 +146,109 @@ const MyJobDetails = (item, props, data) => {
       <div className="mx-5">
         <Row>
 
-          {SingleId?.createdBy === "seeker" && (
+          <>
+            {SingleId?.createdBy === "seeker" ? (
 
-            <Col lg={4} md={6} xs={12} className="pb-3 mb-3 mt-2">
+              <Col lg={4} md={6} xs={12} className="pb-3 mb-3 mt-2">
 
-              <Card border="light" className="card-box-shadow py-3 px-4 mb-3">
-                {profileCard()}
-              </Card>
+                <Card border="light" className="card-box-shadow py-3 px-4 mb-3">
+                  {profileCard()}
+                </Card>
 
-            </Col>
-          )}
+              </Col>
+            ) : hiredId !== undefined && (
+              <Col lg={4} md={6} xs={12} className="pb-3 mb-3 mt-2">
+                <Card border="light" className="card-box-shadow py-3 px-4 mb-3">
+                  {profileCard()}
+                </Card>
+              </Col>
+            )}
 
-          <Col
-            lg={SingleId?.createdBy === "provider" ? 12 : 8}
-            md={SingleId?.createdBy === "provider" ? 12 : 6}
-            xs={12}
-            className="pb-3 mb-3"
-          >
-
-
-            <Card
-              border="light"
-              className="text-left p-0 mb-4 profileView info p-3 mt-2 mt-2"
+            <Col
+              lg={SingleId?.createdBy === "seeker" ? 8 : hiredId !== undefined ? 8 : 12}
+              md={SingleId?.createdBy === "seeker" ? 8 : hiredId !== undefined ? 8 : 12}
+              xs={12}
+              className="pb-3 mb-3"
             >
 
-              {SingleId?.createdBy === "provider" && profileCard()}
 
-              <Card.Body className="pb-2 border_bottom mb-1">
-                {/* {loader ? (
+              <Card
+                border="light"
+                className="text-left p-0 mb-4 profileView info p-3 mt-2 mt-2"
+              >
+
+                {SingleId?.createdBy === "seeker" ? "" : hiredId !== undefined ? "" : (profileCard())}
+
+                <Card.Body className="pb-2 border_bottom mb-1">
+                  {/* {loader ? (
                   <Spinner />
                 ) : (
                   <> */}
-                <div className="pb-2 d-flex justify-content-between align-items-baseline">
+                  <div className="pb-2 d-flex justify-content-between align-items-baseline">
 
-                  <Card.Title className="text-primary">
-                    User Information
-                  </Card.Title>
-                </div>
-                {SingleId?.createdBy === "seeker" && (
-                  <>
-                    <DetailHeading
-                      heading={"JobRequirement"}
-                      value={
-                        SingleId?.requirement ? SingleId?.requirement : "-"
-                      }
-                    />
-                    <DetailHeading
-                      heading={"ToolsNeeded"}
-                      value={
-                        SingleId?.toolsNeeded ? SingleId?.toolsNeeded : "-"
-                      }
-                    />
-                  </>
-                )}
+                    <Card.Title className="text-primary">
+                      User Information
+                    </Card.Title>
+                  </div>
+                  {SingleId?.createdBy === "seeker" ? (
+                    <>
+                      <DetailHeading
+                        heading={"JobRequirement"}
+                        value={
+                          SingleId?.requirement ? SingleId?.requirement : "-"
+                        }
+                      />
+                      <DetailHeading
+                        heading={"ToolsNeeded"}
+                        value={
+                          SingleId?.toolsNeeded ? SingleId?.toolsNeeded : "-"
+                        }
+                      />
+                    </>
+                  ) : hiredId !== undefined && (
+                    <>
+                      <DetailHeading
+                        heading={"JobRequirement"}
+                        value={
+                          SingleId?.requirement ? SingleId?.requirement : "-"
+                        }
+                      />
+                      <DetailHeading
+                        heading={"ToolsNeeded"}
+                        value={
+                          SingleId?.toolsNeeded ? SingleId?.toolsNeeded : "-"
+                        }
+                      />
+                    </>
+                  )}
 
-                <DetailHeading
-                  heading={"Payment Type"}
-                  value={SingleId?.paymentType ? SingleId?.paymentType : "-"}
-                />
-                <DetailHeading
-                  heading={"Rate"}
-                  value={SingleId?.rate ? SingleId?.rate : SingleId?.rate}
-                />
-                <DetailHeading
-                  heading={"TimeRequired"}
-                  value={SingleId?.days ? SingleId?.days : "-"}
-                />
-                <DetailHeading
-                  heading={"Job Type"}
-                  value={SingleId?.jobType ? SingleId?.jobType?.name === "Permanent" ? "Full-Time" : SingleId?.jobType?.name : "-"}
-                />
-                <DetailHeading
-                  heading={"Job Nature"}
-                  value={SingleId?.jobNature ? SingleId?.jobNature?.name : "-"}
-                />
-                <DetailHeading
-                  heading={"Location"}
-                  value={SingleId?.location ? SingleId?.location?.[0] : "-"}
-                />
-                {SingleId?.createdBy === "seeker" && (
-                  <>
+                  <DetailHeading
+                    heading={"Payment Type"}
+                    value={SingleId?.paymentType ? SingleId?.paymentType : "-"}
+                  />
+                  <DetailHeading
+                    heading={"Rate"}
+                    value={SingleId?.rate ? SingleId?.rate : SingleId?.rate}
+                  />
+                  <DetailHeading
+                    heading={"TimeRequired"}
+                    value={SingleId?.days ? SingleId?.days : "-"}
+                  />
+                  <DetailHeading
+                    heading={"Job Type"}
+                    value={SingleId?.jobType ? SingleId?.jobType?.name === "Permanent" ? "Full-Time" : SingleId?.jobType?.name : "-"}
+                  />
+                  <DetailHeading
+                    heading={"Job Nature"}
+                    value={SingleId?.jobNature ? SingleId?.jobNature?.name : "-"}
+                  />
+                  <DetailHeading
+                    heading={"Location"}
+                    value={SingleId?.location ? SingleId?.location?.[0] : "-"}
+                  />
+
+
+                  {SingleId?.createdBy === "seeker" ? (<>
                     <DetailHeading
                       heading={"Providers Required"}
                       value={
@@ -226,16 +263,57 @@ const MyJobDetails = (item, props, data) => {
                           : "-"
                       }
                     />
-                  </>
-                )}
-                {/* </>
+                  </>) : hiredId !== undefined && (
+                    <>
+                      <DetailHeading
+                        heading={"Providers Required"}
+                        value={
+                          SingleId?.noOfProviders ? SingleId.noOfProviders : "-"
+                        }
+                      />
+                      <DetailHeading
+                        heading={"Experience Required"}
+                        value={
+                          SingleId?.experienceRequired
+                            ? SingleId.experienceRequired
+                            : "-"
+                        }
+                      />
+                    </>
+                  )}
+                  {/* </>
                 )} */}
-              </Card.Body>
-              {SingleId?.createdBy === "seeker" ? (
-                <>
-                  {/* <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">
+                </Card.Body>
+                {SingleId?.createdBy === "seeker" ? (
+                  <>
+                    {/* <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">
                     <Dropdown.Item onClick={() => setReason(true)}>Dispute</Dropdown.Item>
                   </Card.Body> */}
+                    <Link
+                      className="text-white fw-bold"
+                      to={`/Applicants/${jobId}`}
+                    >
+                      <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">
+                        <Card.Text className="text-black mb-2">
+                          Job Applicants
+                        </Card.Text>
+                      </Card.Body>
+                    </Link>
+                    <Link
+                      className="text-white fw-bold"
+                      to={`/LogHours/${jobId}`}
+                    >
+                      <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">
+                        <Card.Text className="text-black mb-2">
+                          Logged Hours
+                        </Card.Text>
+                      </Card.Body>
+                    </Link>
+                  </>
+                ) : hiredId !== undefined ? <>
+                  {/* <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">
+                  <Dropdown.Item onClick={() => setReason(true)}>Dispute</Dropdown.Item>
+                </Card.Body> */}
                   <Link
                     className="text-white fw-bold"
                     to={`/Applicants/${jobId}`}
@@ -256,60 +334,99 @@ const MyJobDetails = (item, props, data) => {
                       </Card.Text>
                     </Card.Body>
                   </Link>
-                </>
-              ) : (
-                <>
-                  {/* {loader ? (
+                </> : (
+                  <>
+                    {/* {loader ? (
                     <Spinner />
                   ) : (
                     <> */}
-                  <div>
-                    <div class="d-grid gap-2 col-3 mx-auto my-2">
-                      <Button
-                        variant="primary"
-                        color="dark"
-                        size="lg"
-                        className="mt-2 me-1"
-                        onClick={() => {
+                    <div>
+                      <div class="d-grid gap-2 col-3 mx-auto my-2">
+                        <Button
+                          variant="primary"
+                          color="dark"
+                          size="lg"
+                          className="mt-2 me-1"
+                          onClick={() => {
 
-                          handleClick();
-                        }}
-                      >
-                        Hire Now
-                      </Button>
+                            handleClick();
+                          }}
+                        >
+                          Hire Now
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-12 mx-auto text-center my-2">
-                    <a href={`/detailProvider/${SingleId?.user?.id}`}>
-                      View Profile
-                    </a>
-                  </div>
-                  {/* </>
+                    <div class="col-12 mx-auto text-center my-2">
+                      <a href={`/detailProvider/${SingleId?.user?.id}`}>
+                        View Profile
+                      </a>
+                    </div>
+                    {/* </>
                   )} */}
-                </>
-              )}
-            </Card>
-            {SingleId?.createdBy === "seeker" && (
-              <>
-                {SingleId?.status === "completed" || SingleId?.status === "inprogress" || SingleId?.status === "upcoming" ? (
-                  <>
-                    <div class="float-end">
-                      <Button
-                        variant="primary"
-                        color="dark"
-                        size="lg"
-                        className="mt-2 me-1"
-                        onClick={handleRepost}
-                      >
-                        Repost Job
-                      </Button>
-                    </div>
                   </>
-                ) : (
-                  <div>
-                    <div class="float-end">
-                      {SingleId?.status === "Accepted" || SingleId?.status === "canceled" ? (
-                        <>
+                )}
+              </Card>
+              {SingleId?.createdBy === "seeker" ? (
+                <>
+                  {SingleId?.status === "completed" || SingleId?.status === "inprogress" || SingleId?.status === "upcoming" ? (
+                    <>
+                      <div class="float-end">
+                        <Button
+                          variant="primary"
+                          color="dark"
+                          size="lg"
+                          className="mt-2 me-1"
+                          onClick={handleRepost}
+                        >
+                          Repost Job
+                        </Button>
+                      </div>
+                    </>
+                  ) : (
+                    <div>
+                      <div class="float-end">
+                        {SingleId?.status === "Accepted" || SingleId?.status === "canceled" ? (
+                          <>
+                            <Button
+                              variant="primary"
+                              color="dark"
+                              size="lg"
+                              className="mt-2 me-1"
+                              onClick={handleEdit}
+                            >
+                              Repost
+                            </Button>
+                            {SingleId?.isEmergency === true ? (<>
+                              <Button
+                                variant="primary"
+                                color="dark"
+                                size="lg"
+                                className="mt-2 me-1"
+                              >
+                                Emergency Post
+                              </Button>
+                            </>
+                            ) : (
+                              <>
+                                <Button
+                                  variant="primary"
+                                  color="dark"
+                                  size="lg"
+                                  className="mt-2 me-1"
+                                  onClick={() => {
+                                    // setShowDefaultEmergency(true);
+                                    setEmergency(true)
+                                    setIsPost(false)
+                                    handleChange();
+                                  }}
+                                >
+                                  Emergency Post
+                                </Button>
+                              </>
+                            )}
+
+                          </>
+                        ) : (
                           <Button
                             variant="primary"
                             color="dark"
@@ -317,72 +434,125 @@ const MyJobDetails = (item, props, data) => {
                             className="mt-2 me-1"
                             onClick={handleEdit}
                           >
-                            Repost
+                            Edit Job
                           </Button>
-                          {SingleId?.isEmergency === true ? (<>
-                            <Button
-                              variant="primary"
-                              color="dark"
-                              size="lg"
-                              className="mt-2 me-1"
-                            >
-                              Emergency Post
-                            </Button>
-                          </>
-                          ) : (
-                            <>
-                              <Button
-                                variant="primary"
-                                color="dark"
-                                size="lg"
-                                className="mt-2 me-1"
-                                onClick={() => {
-                                  // setShowDefaultEmergency(true);
-                                  setEmergency(true)
-                                  setIsPost(false)
-                                  handleChange();
-                                }}
-                              >
-                                Emergency Post
-                              </Button>
-                            </>
-                          )}
-
-                        </>
-                      ) : (
-                        <Button
-                          variant="primary"
-                          color="dark"
-                          size="lg"
-                          className="mt-2 me-1"
-                          onClick={handleEdit}
-                        >
-                          Edit Job
-                        </Button>
+                        )}
+                      </div>
+                      {SingleId?.status !== "Accepted" && (
+                        <div class="float-end">
+                          <Button
+                            variant="primary"
+                            color="dark"
+                            size="lg"
+                            className="mt-2 me-1"
+                            onClick={() => {
+                              // setAdminId(item.id)
+                              setShowDefault(true);
+                            }}
+                          >
+                            Delete Job
+                          </Button>
+                        </div>
                       )}
                     </div>
-                    {SingleId?.status !== "Accepted" && (
+                  )}
+                </>
+              ) : hiredId !== undefined && (
+                <>
+                  {SingleId?.status === "completed" || SingleId?.status === "inprogress" || SingleId?.status === "upcoming" ? (
+                    <>
                       <div class="float-end">
                         <Button
                           variant="primary"
                           color="dark"
                           size="lg"
                           className="mt-2 me-1"
-                          onClick={() => {
-                            // setAdminId(item.id)
-                            setShowDefault(true);
-                          }}
+                          onClick={handleRepost}
                         >
-                          Delete Job
+                          Repost Job
                         </Button>
                       </div>
-                    )}
-                  </div>
-                )}
-              </>
-            )}
+                    </>
+                  ) : (
+                    <div>
+                      <div class="float-end">
+                        {SingleId?.status === "Accepted" || SingleId?.status === "canceled" ? (
+                          <>
+                            <Button
+                              variant="primary"
+                              color="dark"
+                              size="lg"
+                              className="mt-2 me-1"
+                              onClick={handleEdit}
+                            >
+                              Repost
+                            </Button>
+                            {SingleId?.isEmergency === true ? (<>
+                              <Button
+                                variant="primary"
+                                color="dark"
+                                size="lg"
+                                className="mt-2 me-1"
+                              >
+                                Emergency Post
+                              </Button>
+                            </>
+                            ) : (
+                              <>
+                                <Button
+                                  variant="primary"
+                                  color="dark"
+                                  size="lg"
+                                  className="mt-2 me-1"
+                                  onClick={() => {
+                                    // setShowDefaultEmergency(true);
+                                    setEmergency(true)
+                                    setIsPost(false)
+                                    handleChange();
+                                  }}
+                                >
+                                  Emergency Post
+                                </Button>
+                              </>
+                            )}
 
-          </Col>
+                          </>
+                        ) : (
+                          <Button
+                            variant="primary"
+                            color="dark"
+                            size="lg"
+                            className="mt-2 me-1"
+                            onClick={handleEdit}
+                          >
+                            Edit Job
+                          </Button>
+                        )}
+                      </div>
+                      {SingleId?.status !== "Accepted" && (
+                        <div class="float-end">
+                          <Button
+                            variant="primary"
+                            color="dark"
+                            size="lg"
+                            className="mt-2 me-1"
+                            onClick={() => {
+                              // setAdminId(item.id)
+                              setShowDefault(true);
+                            }}
+                          >
+                            Delete Job
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </>
+              )}
+
+            </Col>
+          </>
+
         </Row>
       </div>
       <Dispute setReason={setReason} reason={reason} id={userId} />
