@@ -25,6 +25,7 @@ const ProviderProfile = (props) => {
   const history = useHistory();
   const login = useSelector((state) => state.auth.Auther);
   const getById = useSelector((state) => state.ProfileReducer.profile);
+  console.log("getBy0000000000",getById)
   const Reviews = useSelector((state) => state.ProfileReducer.Reviews);
   const [show, setShow] = useState();
   const [BlockUserSaga, setBlockUserSaga] = useState(false)

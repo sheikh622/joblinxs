@@ -67,7 +67,6 @@ const Mainchat = () => {
   const [chatId, setChatId] = useState(fireId);
   const [zoom, setZoom] = useState(false);
   const [zoomUrl, setZoomUrl] = useState("");
-  console.log(getById, "getByIdgetByIdgetById")
   const onSend = useCallback(
     (message) => {
       let data = {
@@ -182,7 +181,6 @@ const Mainchat = () => {
     }
   };
   const renderChat = (item, index, list) => {
-    console.log(item, index, list)
     selectedIndex = index;
     setCurrentUsers(true);
     handleClick(list?.blockedBy?.id);
@@ -205,7 +203,6 @@ const Mainchat = () => {
     }
   };
   const HeaderList = ({ blockListing, blockedDataListing }) => {
-    console.log(getById, "blockedDataListing", blockedDataListing)
     return (
       <li className={`align-items-center list-group-item d-flex pt-2`}>
         <Card.Img
@@ -324,9 +321,8 @@ const Mainchat = () => {
       }
     });
     if (userId !== undefined) {
-      const index = data?.map((object) => object?.id).indexOf(userId);
       const indexs = dataList?.map((object) => object?.id).indexOf(userId);
-      console.log(indexs, "asdasdasd", userId, index)
+      const index = data?.map((object) => object?.id).indexOf(userId);
       selectedIndex = index;
       if(indexs < 1){
       if (index <= -1) {
@@ -343,7 +339,6 @@ const Mainchat = () => {
     }
     }
     let id = data[selectedIndex]?.id;
-    console.log(id, "id")
     const firebase = data.filter((element) => {
       if (element?.id === id) {
         return element;
@@ -359,7 +354,27 @@ const Mainchat = () => {
     };
 
     handleChat(firebaseId?.firebaseId, selectedIndex, id);
-  }, [selectedIndex, contactsList, userId]);
+  }, [contactsList, userId]);
+//   useEffect(()=>{
+//     if(userId !== undefined){
+//     const indexs = contactsList?.filter(id => id.receiver.includes(userId));
+//     let newArray = contactsList;
+//     selectedIndex = indexs;
+//     if(indexs < 1){
+//     // if (index <= -1) {
+//       newArray.push({
+//         id: userId,
+//         fullName:getById ? getById?.fullName: "Provider",
+//         firebaseId: fireId,
+//         profileImg:getById ? getById?.profileImg:profile,
+//       });
+//       setDataList(() => {
+//         return [...newArray];
+//       });
+//     // }
+//   }
+// }
+//   },[userId])
   return (
     <>
       <Navbar module={"Chat"} />
