@@ -511,6 +511,7 @@ function* emergencyJobSaga({ payload }) {
   try {
     const data = {
       id: payload.id,
+      userId:payload.userId
     };
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.patch(

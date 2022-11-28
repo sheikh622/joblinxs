@@ -14,6 +14,7 @@ import RateModal from "../../components/modal";
 import { deleteAddJob, emergencyJob } from "../../Redux/addJob/actions";
 import { hiredApplicant } from "../../Redux/profile/actions";
 import Spinner from "../../components/spinner";
+import { getProfile } from "../../Redux/profile/actions";
 
 
 const MyJobDetails = (item, props, data) => {
@@ -21,13 +22,13 @@ const MyJobDetails = (item, props, data) => {
   const history = useHistory();
   const params = useLocation();
   let DisputeId = params?.search.split("?")[1];
-
   const [hiredId, sethiredId] = useState();
   let id = params.pathname.split("/")[2];
   let jobId = params.pathname.split("/")[2];
   const newArrivalData = useSelector(
     (state) => state?.Seeker?.newArrival?.data
   );
+  let profileId = params.pathname.split("/")[2];
   const [newArrivalProvider, setNewArrivalProvider] = useState()
   useEffect(() => {
     if (newArrivalData !== undefined) {
@@ -44,6 +45,8 @@ const MyJobDetails = (item, props, data) => {
       sethiredId(datas)
     }
   }, [SingleId])
+  const getById = useSelector((state) => state.ProfileReducer.profile);
+
   const [loader, setLoader] = useState(true);
   const [showDefault, setShowDefault] = useState(false);
   const [rating, setRating] = useState(0); // initial rating value
@@ -56,6 +59,7 @@ const MyJobDetails = (item, props, data) => {
   const [userId, setUserId] = useState(DisputeId);
   const [reason, setReason] = useState(false);
   const [showDefaultEmergency, setShowDefaultEmergency] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
   useEffect(() => {
     dispatch(jobById({ id: jobId, setLoader: setLoader, }));
   }, []);
@@ -74,6 +78,9 @@ const MyJobDetails = (item, props, data) => {
   useEffect(() => {
     dispatch(jobById({ id: jobId }));
   }, []);
+  const handleClose = () => {
+    setConfirmModal(false);
+  }
   const handlefalse = () => {
     setShowDefault(false);
   };
@@ -93,8 +100,10 @@ const MyJobDetails = (item, props, data) => {
     dispatch(
       emergencyJob({
         id: jobId,
+        userId: Login?.id,
         setShowDefaultEmergency: setShowDefaultEmergency,
         history: history,
+
       })
     );
   };
@@ -103,7 +112,7 @@ const MyJobDetails = (item, props, data) => {
       job: jobId,
       providerId: SingleId?.user?.id,
       seekerId: Login?.id,
-
+      setConfirmModal: setConfirmModal,
     }
     dispatch(
       hiredApplicant(data)
@@ -130,6 +139,18 @@ const MyJobDetails = (item, props, data) => {
       </div>
     );
   };
+  // let profileId = params.pathname.split("/")[2];
+  // useEffect(() => {
+  //   dispatch(
+  //     getProfile({
+  //       profileId: SingleId?.user?.id,
+  //     })
+  //   );
+  // }, [getById]);
+  const handleMove = () => {
+    history.push(`/chat?${SingleId?.user?.id}?${SingleId?.user?.firebaseId}`)
+  }
+
   return (
     <>
       <Navbar module={"Job Detail"} />
@@ -223,11 +244,11 @@ const MyJobDetails = (item, props, data) => {
                   />
                   <DetailHeading
                     heading={"Rate"}
-                    value={SingleId?.rate ? SingleId?.rate : SingleId?.rate}
+                    value={`$ ${SingleId?.rate ? SingleId?.rate : SingleId?.rate}`}
                   />
                   <DetailHeading
                     heading={"TimeRequired"}
-                    value={SingleId?.days ? SingleId?.days : "-"}
+                  value={`${SingleId?.days} Days and ${SingleId?.hours} hours`}
                   />
                   <DetailHeading
                     heading={"Job Type"}
@@ -341,8 +362,7 @@ const MyJobDetails = (item, props, data) => {
                           size="lg"
                           className="mt-2 me-1"
                           onClick={() => {
-
-                            handleClick();
+                            setConfirmModal(true);
                           }}
                         >
                           Hire Now
@@ -497,6 +517,52 @@ const MyJobDetails = (item, props, data) => {
           isDisputed={isDisputed}
         />
       )}
+      <Modal as={Modal.Dialog} centered show={confirmModal} onHide={handlefalse}>
+        <Modal.Header>
+          <Modal.Title className="h5 text-align-center">Confirmation</Modal.Title>
+          <Button variant="close" aria-label="Close" onClick={handleClose} />
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group>
+              <span>
+                {`You will be charged $${SingleId?.rate} ${SingleId?.paymentType == 'fixed' ? 'for Complete Job' : 'per Hour'
+                  }. If you want any change in days or amount don't hesitate to`}
+              </span>
+              <h5 className="" onClick={handleMove} style={{ cursor: "pointer" }} > <a>contact me.</a> </h5>
+            </Form.Group>
+            <Form.Group>
+              <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
+                <Button
+                  variant="primary"
+                  onHide={handleClose}
+                  color="dark"
+                  size="sm"
+                  onClick={() => {
+                    handleClick();
+                  }}
+                >
+                  Confirm
+                </Button>
+              </div>
+              <div class="d-grid gap-2 col-4 text-center mt-2 mx-auto">
+                <Button
+                  variant="primary"
+                  onHide={handleClose}
+                  color="dark"
+                  size="sm"
+                  onClick={() => {
+                    handleClose();
+                  }}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </Form.Group>
+          </Form>
+
+        </Modal.Body>
+      </Modal>
 
     </>
   );

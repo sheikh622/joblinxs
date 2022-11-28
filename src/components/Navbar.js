@@ -20,6 +20,18 @@ import Spinner from "./spinner";
 export default (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const Login = useSelector((state) => state?.auth?.Auther);
+  console.log("Login00000000000", Login)
+  const SingleId = useSelector((state) => state?.addJob?.jobById);
+  console.log("SignleId", SingleId)
+  const [hiredId, sethiredId] = useState();
+  console.log("singleId", SingleId)
+  useEffect(() => {
+    if (SingleId !== undefined) {
+      let datas = SingleId?.user_job?.find(data => data.hiredBy.id === Login?.id)
+      sethiredId(datas)
+    }
+  }, [SingleId])
   const [loader, setLoader] = useState(true);
   const [notificationData, setNotificationData] = useState({
     title: "",
@@ -35,8 +47,16 @@ export default (props) => {
   //   true
   // );
   useEffect(() => {
-    if(auth?.role?.name !== "Admin"){
+    if (auth?.role?.name !== "Admin") {
       if (notificationData?.body != "") {
+        toast.success(notificationData?.body ? notificationData?.body : "");
+      }
+    } else {
+      if (notificationData?.title === "Job Request" ||
+        notificationData?.title === "Report User" ||
+        notificationData?.title === "Disputed User" ||
+        notificationData?.title === "Category User"
+      ) {
         toast.success(notificationData?.body ? notificationData?.body : "");
       }
     }
@@ -67,19 +87,44 @@ export default (props) => {
       history.push(`/Applicants/${jobs.id}`);
     }
     if (
-      title === "provider mark job as completed" ||
-      title === "job completed by provider" ||
-      title === "seeker mark job as completed" ||
-      title === "job accepted by Admin" ||
-      title === "job rejected by admin" ||
-      title === "provider mark job as disputed" ||
-      title === "job canceled by provider" ||
-      title === "provider started the job"
+      title === "JOB_COMPLETED_BY_PROVIDER" ||
+      title === "Job Status" ||
+      title === " Job is Confirmed" ||
+
+      title === "Logged Hours" ||
+      title === "Job Started"
     ) {
       history.push(`/detailJob/${jobs.id}`);
     }
     if (title === "log hours added by provider") {
       history.push(`/LogHours/${jobs.id}`);
+    }
+    if (
+      title === "Location Updated" ||
+      title === "Job Applied" ||
+      title === "Job Completed" 
+    ) {
+      history.push(`/Applicants/${jobs.id}`)
+    }
+    if (
+      title === "Msg Sent By Hassan''Ali"
+    ) {
+      history.push(`/chat?${Login?.user?.id}?${Login?.user?.firebaseId}`)
+    }
+    if (
+      title === "You received the New Job Request"
+    ) {
+      history.push(`/dispute-management`)
+    }
+    if (
+      title === "You received the Disputed Request"
+    ) {
+      history.push(`/dispute-management`)
+    }
+    if (
+      title === "You received the report request"
+    ) {
+      history.push(`/Report-management`)
     }
   };
   const Notification = (props) => {
@@ -136,7 +181,7 @@ export default (props) => {
         <div className="d-flex align-items-center">
           <h2>{props?.module}</h2>
         </div>
-        {auth?.role?.name !== "Admin" && (
+        {auth?.role?.name && (
           <Nav className="align-items-center" onScroll={handleScroll}>
 
             {window?.location?.pathname !== "/privacy-public" && window?.location?.pathname !== "/terms-public" && (
