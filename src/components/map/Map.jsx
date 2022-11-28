@@ -1,4 +1,5 @@
 import { Icon } from "@iconify/react";
+import { Button } from "@themesberg/react-bootstrap";
 import GoogleMapReact from "google-map-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -84,7 +85,18 @@ const Map = ({ location, zoomLevel, profileId }) => {
           });
         }}
       >
-        <span>Provider Location</span>
+        <div className="display-block">
+          <Button className="mt-2 mb-2">Provider Location</Button>
+          <Button
+            className="mb-2 mt-2"
+            style={{
+              width: "27%",
+              marginLeft:"43%"
+            }}
+          >
+            Job Location
+          </Button>
+        </div>
       </div>
       <div
         onClick={() => {
@@ -97,9 +109,7 @@ const Map = ({ location, zoomLevel, profileId }) => {
             lng: SingleId?.longitude,
           });
         }}
-      >
-        <span>Job Location</span>
-      </div>
+      ></div>
       <div className="google-map">
         <GoogleMapReact
           bootstrapURLKeys={{ key: "AIzaSyCUa_Y2wBjW8vT699pfTGG3k28ks9O17mA" }}
