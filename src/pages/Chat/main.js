@@ -67,7 +67,6 @@ const Mainchat = () => {
   const [chatId, setChatId] = useState(fireId);
   const [zoom, setZoom] = useState(false);
   const [zoomUrl, setZoomUrl] = useState("");
-  // console.log(getById, "getByIdgetByIdgetById")
   const onSend = useCallback(
     (message) => {
       let data = {
@@ -182,7 +181,6 @@ const Mainchat = () => {
     }
   };
   const renderChat = (item, index, list) => {
-    // console.log(item, index, list)
     selectedIndex = index;
     setCurrentUsers(true);
     handleClick(list?.blockedBy?.id);
@@ -205,7 +203,6 @@ const Mainchat = () => {
     }
   };
   const HeaderList = ({ blockListing, blockedDataListing }) => {
-    // console.log(getById, "blockedDataListing", blockedDataListing)
     return (
       <li className={`align-items-center list-group-item d-flex pt-2`}>
         <Card.Img
@@ -326,7 +323,6 @@ const Mainchat = () => {
     if (userId !== undefined) {
       const indexs = dataList?.map((object) => object?.id).indexOf(userId);
       const index = data?.map((object) => object?.id).indexOf(userId);
-      console.log(indexs, "asdasdasd", index, data, dataList)
       selectedIndex = index;
       if(indexs < 1){
       if (index <= -1) {
@@ -343,7 +339,6 @@ const Mainchat = () => {
     }
     }
     let id = data[selectedIndex]?.id;
-    // console.log(id, "id")
     const firebase = data.filter((element) => {
       if (element?.id === id) {
         return element;
@@ -363,7 +358,6 @@ const Mainchat = () => {
 //   useEffect(()=>{
 //     if(userId !== undefined){
 //     const indexs = contactsList?.filter(id => id.receiver.includes(userId));
-//     console.log(indexs, "asdasdasd", contactsList)
 //     let newArray = contactsList;
 //     selectedIndex = indexs;
 //     if(indexs < 1){
