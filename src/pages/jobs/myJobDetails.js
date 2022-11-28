@@ -248,7 +248,7 @@ const MyJobDetails = (item, props, data) => {
                   />
                   <DetailHeading
                     heading={"TimeRequired"}
-                  value={`${SingleId?.days} Days and ${SingleId?.hours} hours`}
+                    value={`${SingleId?.days} Days and ${SingleId?.hours} hours`}
                   />
                   <DetailHeading
                     heading={"Job Type"}
@@ -525,11 +525,13 @@ const MyJobDetails = (item, props, data) => {
         <Modal.Body>
           <Form>
             <Form.Group>
-              <span>
-                {`You will be charged $${SingleId?.rate} ${SingleId?.paymentType == 'fixed' ? 'for Complete Job' : 'per Hour'
-                  }. If you want any change in days or amount don't hesitate to`}
-              </span>
-              <h5 className="" onClick={handleMove} style={{ cursor: "pointer" }} > <a>contact me.</a> </h5>
+              <h4 style={{ marginLeft: "30%" }}>
+                You will be charged
+              </h4>
+              <h4 style={{ color: "blue", marginLeft: "38%", marginTop: "20px" }}>
+                {`$${SingleId?.rate} ${SingleId?.paymentType == 'fixed' ? 'for Complete Job' : 'per Hour'
+                  } `}
+              </h4>
             </Form.Group>
             <Form.Group>
               <div class="d-grid gap-2 col-4 text-center mt-3 mx-auto">
@@ -558,6 +560,11 @@ const MyJobDetails = (item, props, data) => {
                   Cancel
                 </Button>
               </div>
+              <h6 style={{ marginTop: "20px", marginLeft:"20px"}} onClick={handleMove} >
+                If you want any change in days or amount don't hesitate to <a style={{ color: "blue", cursor: "pointer", }}> contact me.
+                </a>
+              </h6>
+
             </Form.Group>
           </Form>
 

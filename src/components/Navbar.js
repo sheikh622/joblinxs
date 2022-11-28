@@ -89,40 +89,46 @@ export default (props) => {
     if (
       title === "JOB_COMPLETED_BY_PROVIDER" ||
       title === "Job Status" ||
-      title === " Job is Confirmed" ||
 
       title === "Logged Hours" ||
       title === "Job Started"
     ) {
       history.push(`/detailJob/${jobs.id}`);
     }
-    if (title === "log hours added by provider") {
+    if (title === "Logged Hours") {
       history.push(`/LogHours/${jobs.id}`);
     }
     if (
-      title === "Location Updated" ||
+      title === "Location Shared" ||
       title === "Job Applied" ||
-      title === "Job Completed" 
+      title === "Job Completed" ||
+      title === "job completed" ||
+      title === "Job is Confirmed"
     ) {
       history.push(`/Applicants/${jobs.id}`)
     }
     if (
-      title === "Msg Sent By Hassan''Ali"
+      title.slice(0, 12) === "Message Sent"
     ) {
-      history.push(`/chat?${Login?.user?.id}?${Login?.user?.firebaseId}`)
+      history.push(`/chat?${users?.id}?${users?.firebaseId}`)
     }
     if (
-      title === "You received the New Job Request"
+      title === "Category User"
+    ) {
+      history.push(`/category-management`)
+    }
+    if (
+      title === "Emergency Job Post" || title === "Job Request"
+    ) {
+      history.push(`/Job-management`)
+    }
+    if (
+      title === "Disputed User"
     ) {
       history.push(`/dispute-management`)
     }
     if (
-      title === "You received the Disputed Request"
-    ) {
-      history.push(`/dispute-management`)
-    }
-    if (
-      title === "You received the report request"
+      title === "Report User"
     ) {
       history.push(`/Report-management`)
     }
