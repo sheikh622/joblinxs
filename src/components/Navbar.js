@@ -6,7 +6,7 @@ import {
   Dropdown, ListGroup,
   Nav,
   Navbar,
-  Row
+  Row, Card
 } from "@themesberg/react-bootstrap";
 import { id } from "date-fns/locale";
 import moment from "moment";
@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import { onMessageListener } from "../firebase";
 import { getNotifiaction } from "../Redux/notification/actions";
 import Spinner from "./spinner";
+import Profile from "../assets/img/team/profile-picture-1.jpg";
 
 export default (props) => {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ export default (props) => {
   //     id:SingleId?.id
   //   }
   // }, [SingleId])
-  const [loader, setLoader] = useState(true);
+  const [loader, setLoader] = useState();
   const [notificationData, setNotificationData] = useState({
     title: "",
     body: "",
@@ -44,6 +45,7 @@ export default (props) => {
   const notification = useSelector(
     (state) => state.Notifications?.notification?.notifications
   );
+
   useEffect(() => {
     if (auth?.role?.name !== "Admin") {
       if (notificationData?.body != "") {
@@ -142,6 +144,7 @@ export default (props) => {
       read = false,
       jobs,
       users,
+      Image
     } = props;
     const readClassName = read ? "" : "text-danger";
     return (
@@ -151,12 +154,29 @@ export default (props) => {
         className="border-bottom border-light"
       >
         <Row className="align-items-center">
-          {/* <Col className="col-auto">
-            <Image
-              src={image}
+            {
+              title.slice(0, 12) === "Message Sent" ? (
+                <Col className="col-auto">
+            <img
+              src={
+                users?.profileImg
+                  ? users?.profileImg
+                  : Profile}
               className="user-avatar lg-avatar rounded-circle"
             />
-          </Col> */}
+          </Col>
+              ) :(
+                <Col className="col-auto">
+                <img
+                  src={
+                    jobs?.image
+                      ? jobs?.image
+                      : Profile}
+                  className="user-avatar lg-avatar rounded-circle"
+                />
+              </Col>
+              )
+            }
           <Col className="ps-0 ms--2 mx-3">
             <div className="d-flex justify-content-between align-items-center">
               <div>
@@ -213,12 +233,16 @@ export default (props) => {
                     >
                       Notifications
                     </Nav.Link>
+
                     {loader ? (
                       <Spinner />
                     ) : (
                       <>
+
                         {notification?.map((n) => (
-                          <Notification key={`notification-${n.id}`} {...n} />
+                          <Notification key={`notification-${n.id}`} {...n}
+                          />
+
                         ))}
                       </>
                     )

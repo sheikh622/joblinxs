@@ -11,17 +11,18 @@ import {
 
 function* getNotificationById({ payload }) {
   try {
+    payload.setLoader(true);
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      `job/notification/${payload.id}?page=1&count=50`,
+      `job/notification/${payload.id}?page=1&count=500`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-    yield put(getNotifiactionSuccess(response.data.data));
     payload.setLoader(false);
+    yield put(getNotifiactionSuccess(response.data.data));
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
