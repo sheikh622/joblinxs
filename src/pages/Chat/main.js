@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import ChatBoard from "./chatBoard";
 import {
@@ -32,7 +32,7 @@ import { sendMessage } from "./FirestoreMethods";
 import createChatId from "./CreateChatId.js";
 import { getList, getToken, getMeeting } from "../../Redux/chat/actions";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-import { blockUser, unblockUser,getProfile,getProfileSuccess } from "../../Redux/profile/actions";
+import { blockUser, unblockUser, getProfile, getProfileSuccess } from "../../Redux/profile/actions";
 import phone from "../../assets/img/phone-call.svg";
 import Zoom from "../../assets/img/zoom.svg";
 import { toast } from "react-toastify";
@@ -63,10 +63,21 @@ const Mainchat = () => {
   const [search, setSearch] = useState("");
   const [jobId, setJobId] = useState();
   const [dataList, setDataList] = useState();
+  const [searchData, setSearchData] = useState();
   const [users, setUsers] = useState([]);
   const [chatId, setChatId] = useState(fireId);
   const [zoom, setZoom] = useState(false);
   const [zoomUrl, setZoomUrl] = useState("");
+  const handleSearch = (event) => {
+    console.log("searchhhhh0", searchData);
+    let searcjQery = event.toLowerCase(),
+      displayedCollections = searchData.filter((el) => {
+        let searchValue = el.receiver.fullName.toLowerCase();
+        return searchValue.indexOf(searcjQery) !== -1;
+      });
+    setDataList(displayedCollections);
+  };
+
   const onSend = useCallback(
     (message) => {
       let data = {
@@ -86,9 +97,11 @@ const Mainchat = () => {
     },
     [users]
   );
+
   useEffect(() => {
     if (contactsList !== undefined) {
       setDataList(contactsList);
+      setSearchData(contactsList);
     }
   }, [contactsList]);
   useEffect(() => {
@@ -120,17 +133,17 @@ const Mainchat = () => {
 
   useEffect(() => {
     dispatch(getList(currentUser.id));
-    if(id !== undefined){
+    if (id !== undefined) {
       dispatch(
         getProfile({
           profileId: id,
-  
+
         })
       );
-    }else{
+    } else {
       let response = "";
       dispatch(
-      getProfileSuccess(response)
+        getProfileSuccess(response)
       )
     }
   }, []);
@@ -213,7 +226,7 @@ const Mainchat = () => {
           className="user-avatar rounded-circle"
         />
         <span className="mx-2 listedName">
-          { blockedDataListing === "" ? getById?.fullName : blockedDataListing?.fullName}
+          {blockedDataListing === "" ? getById?.fullName : blockedDataListing?.fullName}
         </span>
         <Dropdown as={ButtonGroup} className="me-2 mt-1 ms-2">
           <Dropdown.Toggle
@@ -324,19 +337,22 @@ const Mainchat = () => {
       const indexs = dataList?.map((object) => object?.id).indexOf(userId);
       const index = data?.map((object) => object?.id).indexOf(userId);
       selectedIndex = index;
-      if(indexs < 1){
-      if (index <= -1) {
-        newArray.push({
-          id: userId,
-          fullName:getById ? getById?.fullName: "Provider",
-          firebaseId: fireId,
-          profileImg:getById ? getById?.profileImg:profile,
-        });
-        setDataList(() => {
-          return [...newArray];
-        });
+      if (indexs < 1) {
+        if (index <= -1) {
+          newArray.push({
+            id: userId,
+            fullName: getById ? getById?.fullName : "Provider",
+            firebaseId: fireId,
+            profileImg: getById ? getById?.profileImg : profile,
+          });
+          setDataList(() => {
+            return [...newArray];
+          });
+          setSearchData(() => {
+            return [...newArray];
+          });
+        }
       }
-    }
     }
     let id = data[selectedIndex]?.id;
     const firebase = data.filter((element) => {
@@ -355,26 +371,26 @@ const Mainchat = () => {
 
     handleChat(firebaseId?.firebaseId, selectedIndex, id);
   }, [contactsList, userId]);
-//   useEffect(()=>{
-//     if(userId !== undefined){
-//     const indexs = contactsList?.filter(id => id.receiver.includes(userId));
-//     let newArray = contactsList;
-//     selectedIndex = indexs;
-//     if(indexs < 1){
-//     // if (index <= -1) {
-//       newArray.push({
-//         id: userId,
-//         fullName:getById ? getById?.fullName: "Provider",
-//         firebaseId: fireId,
-//         profileImg:getById ? getById?.profileImg:profile,
-//       });
-//       setDataList(() => {
-//         return [...newArray];
-//       });
-//     // }
-//   }
-// }
-//   },[userId])
+  //   useEffect(()=>{
+  //     if(userId !== undefined){
+  //     const indexs = contactsList?.filter(id => id.receiver.includes(userId));
+  //     let newArray = contactsList;
+  //     selectedIndex = indexs;
+  //     if(indexs < 1){
+  //     // if (index <= -1) {
+  //       newArray.push({
+  //         id: userId,
+  //         fullName:getById ? getById?.fullName: "Provider",
+  //         firebaseId: fireId,
+  //         profileImg:getById ? getById?.profileImg:profile,
+  //       });
+  //       setDataList(() => {
+  //         return [...newArray];
+  //       });
+  //     // }
+  //   }
+  // }
+  //   },[userId])
   return (
     <>
       <Navbar module={"Chat"} />
@@ -396,6 +412,7 @@ const Mainchat = () => {
                       value={search}
                       onChange={(event) => {
                         setSearch(event.target.value);
+                        handleSearch(event.target.value);
                       }}
                     />
                   </Form.Group>

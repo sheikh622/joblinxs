@@ -8,6 +8,7 @@ import {
   Navbar,
   Row
 } from "@themesberg/react-bootstrap";
+import { id } from "date-fns/locale";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,17 +22,19 @@ export default (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const Login = useSelector((state) => state?.auth?.Auther);
-  console.log("Login00000000000", Login)
   const SingleId = useSelector((state) => state?.addJob?.jobById);
-  console.log("SignleId", SingleId)
   const [hiredId, sethiredId] = useState();
-  console.log("singleId", SingleId)
   useEffect(() => {
     if (SingleId !== undefined) {
       let datas = SingleId?.user_job?.find(data => data.hiredBy.id === Login?.id)
       sethiredId(datas)
     }
   }, [SingleId])
+  // useEffect(() => {
+  //   if(SingleId !== undefined){
+  //     id:SingleId?.id
+  //   }
+  // }, [SingleId])
   const [loader, setLoader] = useState(true);
   const [notificationData, setNotificationData] = useState({
     title: "",
@@ -41,11 +44,6 @@ export default (props) => {
   const notification = useSelector(
     (state) => state.Notifications?.notification?.notifications
   );
-  // const [notifications, setNotifications] = useState(notification);
-  // const areNotificationsRead = notifications.reduce(
-  //   (acc, notif) => acc && notif.read,
-  //   true
-  // );
   useEffect(() => {
     if (auth?.role?.name !== "Admin") {
       if (notificationData?.body != "") {
@@ -89,17 +87,19 @@ export default (props) => {
     if (
       title === "JOB_COMPLETED_BY_PROVIDER" ||
       title === "Job Status" ||
-
       title === "Logged Hours" ||
-      title === "Job Started"
+      title === "job started" ||
+      title === "job canceled"
     ) {
       history.push(`/detailJob/${jobs.id}`);
     }
-    if (title === "Logged Hours") {
+    if (title === "Logged Hours" ||
+      title === "Hours Approval request") {
       history.push(`/LogHours/${jobs.id}`);
     }
     if (
       title === "Location Shared" ||
+      title === "Location Updated" ||
       title === "Job Applied" ||
       title === "Job Completed" ||
       title === "job completed" ||

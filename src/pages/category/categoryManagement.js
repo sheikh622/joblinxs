@@ -95,7 +95,7 @@ const CategoryManagement = (row) => {
               </span>
             </Dropdown.Toggle>
             <Dropdown.Menu className="custom_menu">
-              {(item?.categoryStatus == 'Pending' || item?.categoryStatus == 'Rejected') && (
+              {(item?.categoryStatus === 'Pending' || item?.categoryStatus === 'Category Rejected') && (
                 <Dropdown.Item className="text-success" onClick={() => {
                   handleCategoryAction(item?.id)
                 }}
@@ -104,7 +104,7 @@ const CategoryManagement = (row) => {
                   <FontAwesomeIcon icon={faCheck} className="me-2" /> Accept
                 </Dropdown.Item>
               )}
-              {(item?.categoryStatus == 'Pending' || item?.categoryStatus == 'Accepted') && (
+              {(item?.categoryStatus === 'Pending' || item?.categoryStatus === 'Category Accepted') && (
 
                 <Dropdown.Item className="text-danger" onClick={() => {
                   handleCategoryAction(item?.id)
