@@ -32,6 +32,7 @@ export default (props = {}) => {
     setShowDefaultCategory(false);
   };
   const auth = useSelector((state) => state.auth);
+  console.log(auth.Auther,"000");
   const onCollapse = () => setShow(!show);
   const NavItem = (props) => {
     const {
@@ -548,7 +549,7 @@ export default (props = {}) => {
               color="dark"
               type="button"
               onClick={() => {
-                dispatch(logoutRequest({ user: auth?.Auther }));
+                dispatch(logoutRequest({ user: auth?.Auther?.id }));
               }}
               size="sm"
             >

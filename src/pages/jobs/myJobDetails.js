@@ -62,7 +62,7 @@ const MyJobDetails = (item, props, data) => {
   const [confirmModal, setConfirmModal] = useState(false);
   useEffect(() => {
     dispatch(jobById({ id: jobId, setLoader: setLoader, }));
-  }, []);
+  }, [jobId]);
   const handleDelete = (id) => {
     dispatch(
       deleteAddJob({
@@ -542,6 +542,7 @@ const MyJobDetails = (item, props, data) => {
                   size="sm"
                   onClick={() => {
                     handleClick();
+                    handleClose();
                   }}
                 >
                   Confirm
@@ -560,7 +561,7 @@ const MyJobDetails = (item, props, data) => {
                   Cancel
                 </Button>
               </div>
-              <h6 style={{ marginTop: "20px", marginLeft:"20px"}} onClick={handleMove} >
+              <h6 style={{ marginTop: "20px", marginLeft: "20px" }} onClick={handleMove} >
                 If you want any change in days or amount don't hesitate to <a style={{ color: "blue", cursor: "pointer", }}> contact me.
                 </a>
               </h6>
