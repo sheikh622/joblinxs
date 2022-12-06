@@ -60,7 +60,6 @@ function* CategoryProfileSaga({ payload }) {
       })
     );
     // yield put(getCategoryProfileSuccess());
-    // console.log("444444444444444", response.data.message)
 
   } catch (error) {
     yield sagaErrorHandler(error.response);
