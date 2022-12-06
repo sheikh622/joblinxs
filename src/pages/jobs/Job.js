@@ -19,7 +19,7 @@ import { getJobs, jobByIdSuccess } from "../../Redux/addJob/actions";
 import { Routes } from "../../routes";
 import AddCard from "../../components/addCard";
 import { getCardDetails } from "../../Redux/settings/actions";
-import { getCategoryList } from "../../Redux/Category/actions";
+import { getCategoryList, getUserCategoryList } from "../../Redux/Category/actions";
 
 const Job = () => {
   const dispatch = useDispatch();
@@ -65,14 +65,16 @@ const Job = () => {
     }
   }, [cardDetail]);
   const CategoryList = useSelector((state) => state?.Category?.getCategoryList);
+  const SelectedCategory = useSelector((state) => state?.Category?.UserCatergory?.selctedCategories);
   useEffect(() => {
+    if(SelectedCategory !== undefined){
     let array = [
       {
         value: "ALL",
         label: "All"
       }
     ];
-    CategoryList.map((item) => {
+    SelectedCategory.map((item) => {
       array.push({
         value: item?.title,
         label: item?.title,
@@ -80,7 +82,8 @@ const Job = () => {
       })
     })
     setCategory(array);
-  }, [CategoryList])
+  }
+  }, [SelectedCategory])
   const currencies = [
     {
       value: "all",
@@ -123,16 +126,29 @@ const Job = () => {
     },
     [page, limit, type, categoryType]
   );
+  // useEffect(() => {
+  //   dispatch(
+  //     getCategoryList(
+  //       {
+  //         search: "",
+  //         role: "user"
+  //       }
+  //     )
+  //   );
+  // }, []);
   useEffect(() => {
     dispatch(
-      getCategoryList(
+      getUserCategoryList(
         {
+          page: page,
+          limit: limit,
           search: "",
-          role: "user"
+          setLoader: setLoader,
+
         }
       )
     );
-  }, []);
+  }, [page, limit]);
   const nextPage = () => {
     if (page < JobList?.pages) {
       setPage(page + 1);

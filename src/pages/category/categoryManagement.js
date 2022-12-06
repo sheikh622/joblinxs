@@ -30,7 +30,6 @@ const CategoryManagement = (row) => {
   );
 
   const handleCategoryAction = (id) => {
-
     dispatch(
       getCategoryProfile({
         categoryId: id,
@@ -47,7 +46,6 @@ const CategoryManagement = (row) => {
         limit: limit,
         search: search,
         setLoader: setLoader,
-
       })
     );
   },

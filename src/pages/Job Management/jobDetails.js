@@ -142,6 +142,14 @@ const JobDetails = (item) => {
                                                         : " --"
                                                 }
                                             />
+                                            <DetailHeading
+                                                heading={"Unit"}
+                                                value={
+                                                    item?.location?.state?.item?.unit
+                                                        ? item?.location?.state?.item?.unit
+                                                        : " --"
+                                                }
+                                            />
 
 
                                         </div>

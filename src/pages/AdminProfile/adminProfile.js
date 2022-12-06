@@ -103,10 +103,10 @@ export default () => {
                       <Card.Subtitle className="fw-normal">
                         Senior Software Engineer
                       </Card.Subtitle>
-                      <Card.Text className="text-gray mb-2">
+                      {/* <Card.Text className="text-gray mb-2">
                         Overall Rating
-                      </Card.Text>
-                      <Rating
+                      </Card.Text> */}
+                      {/* <Rating
                         readonly={true}
                         allowHover={false}
                         size={25}
@@ -115,12 +115,12 @@ export default () => {
                           getProfileData?.rating
                             ? getProfileData?.rating * 20
                             : ""
-                        } /* Available Props */
-                      />
-                      <Card.Text className="text-gray mb-0">
+                        } 
+                      /> */}
+                      {/* <Card.Text className="text-gray mb-0">
                         {" "}
                         Jobs Completed: <b> 25</b>
-                      </Card.Text>
+                      </Card.Text> */}
                     </div>
                   </Card.Body>
                 </Card>
@@ -179,13 +179,13 @@ export default () => {
           <Modal.Title className="h5">{"Change Password"}</Modal.Title>
           <Button variant="close" aria-label="Close" onClick={handleClose} />
         </Modal.Header>
-        
-          <Modal.Body>
-            <ChangePassword
-              setShowDefault={setShowDefault}
-              showDefault={showDefault}
-            />
-          </Modal.Body>
+
+        <Modal.Body>
+          <ChangePassword
+            setShowDefault={setShowDefault}
+            showDefault={showDefault}
+          />
+        </Modal.Body>
       </Modal>
     </>
   );

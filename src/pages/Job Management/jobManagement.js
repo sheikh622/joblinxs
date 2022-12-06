@@ -25,7 +25,7 @@ const JobManagement = (row) => {
   const JobList = useSelector(
     (state) => state?.Job?.Jobs
   );
- 
+
   const [adminId, setAdminId] = useState(0);
   const [type, setType] = React.useState("");
   const [loader, setLoader] = useState(true);
@@ -182,13 +182,16 @@ const JobManagement = (row) => {
           : status === "Canceled"
             ? "danger"
             : "primary";
+    const str = 'pending' || 'completed' || 'upcoming' || 'inprogress';
+    const str2 = item?.status.charAt(0).toUpperCase() + item?.status.slice(1);
+    console.log(str2);
     return (
       <tr>
         <td>
           <span className="fw-normal">{item?.name ? item?.name : "N/A"}</span>
         </td>
         <td>
-          <span className="fw-normal">{item?.status ? item?.status : "N/A"}</span>
+          <span className="fw-normal">{str2 ? str2 : "N/A"}</span>
         </td>
         <td>
           <Dropdown as={ButtonGroup}>
@@ -223,7 +226,7 @@ const JobManagement = (row) => {
                     <FontAwesomeIcon icon={faMinus} className="me-2" /> Rejected
                   </Dropdown.Item>
                 </>
-              ) :""
+              ) : ""
               }
               <Dropdown.Item
                 className="text-danger"

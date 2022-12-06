@@ -3,7 +3,7 @@ import { all, fork, put, select, takeLatest } from "redux-saga/effects";
 import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
-import {logoutRequest} from "../auth/actions";
+import { logoutRequest } from "../auth/actions";
 import {
   getCategoryListing,
   getCategoryListingSuccess,
@@ -23,10 +23,11 @@ function* getcategory({ payload }) {
         },
       }
     );
-    payload.setLoader(false);
     yield put(getCategoryListingSuccess(response.data.data));
+    payload.setLoader(false);
+
   } catch (error) {
-    if(error?.response?.status == 401){
+    if (error?.response?.status == 401) {
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);
@@ -43,15 +44,24 @@ function* CategoryProfileSaga({ payload }) {
         },
       }
     );
+    // let data = {
+    //  page: payload.page,
+    //     limit: payload.limit,
+    //     search: payload.search,
+    //     setLoader: payload.setLoader,
+    // };
     toast.success(CapitalizeFirstLetter(response.data.message));
-    yield put(getCategoryProfileSuccess());
     yield put(
       getCategoryListing({
         page: payload.page,
         limit: payload.limit,
         search: payload.search,
+        setLoader: payload.setLoader,
       })
     );
+    // yield put(getCategoryProfileSuccess());
+    // console.log("444444444444444", response.data.message)
+
   } catch (error) {
     yield sagaErrorHandler(error.response);
   }
