@@ -146,6 +146,8 @@ const Applicants = ({ id }) => {
                             </div>
 
                             <div style={{ display: "flex", marginLeft: "auto" }}>
+                              {item?.acceptedBySeeker === null ? (
+                                <>
                               <div class="">
                                 <Button
                                   variant="primary"
@@ -163,10 +165,24 @@ const Applicants = ({ id }) => {
                                   color="dark"
                                   size="sm"
                                   style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
+                                  onClick={() => handleConfirm({ id: item, isAccepted: false })}
                                 >
                                   Decline
                                 </Button>
                               </div>
+                              </>
+                              ):(
+                                <div class="">
+                                <Button
+                                  variant="primary"
+                                  color="dark"
+                                  size="sm"
+                                  style={{ width: "100px", height: "40px", display: "inline-block", marginRight: "10px" }}
+                                >
+                                  Rejected
+                                </Button>
+                              </div>
+                              )}
                               {/* <div class="">
                                 <Button
                                   variant="danger"
