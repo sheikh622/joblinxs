@@ -4,19 +4,22 @@ import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
 import { CapitalizeFirstLetter } from "../../utils/Global";
-import {logoutRequest} from "../auth/actions";
+import { logoutRequest } from "../auth/actions";
 import {
   addCategorySuccess,
   getCategoryList,
   // deleteCategory,
   getCategoryListSuccess,
   updateCategorySuccess,
+  getUserCategoryListSuccess
 } from "./actions";
 import {
   ADD_ADMIN_CATEGORY,
   DELETE_CATEGORY,
   GET_CATEGORY_LIST,
   UPDATE_CATEGORY,
+  GET_USERCATEGORY_LIST
+
 } from "./constants";
 
 function* addCategoryRequest({ payload }) {
@@ -45,7 +48,34 @@ function* addCategoryRequest({ payload }) {
     yield sagaErrorHandler(error.response);
   }
 }
-function* getcategory({ payload }) {
+// function* getcategory({ payload }) {
+//   try {
+//     const token = yield select(makeSelectAuthToken());
+//     let response;
+//     if (payload.role == "admin") {
+//       response = yield axios.get(`category/list?keyword=${payload.search}`, {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       });
+//     } else {
+//       response = yield axios.get(`category/user/list`, {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       });
+//     }
+//     yield put(getCategoryListSuccess(response.data.data));
+//     payload.setLoader(false);
+
+//   } catch (error) {
+//     if (error?.response?.status == 401) {
+//       yield put(logoutRequest());
+//     }
+//     yield sagaErrorHandler(error.response);
+//   }
+// }
+function* getUserCategory({ payload }) {
   try {
     const token = yield select(makeSelectAuthToken());
     let response;
@@ -56,22 +86,23 @@ function* getcategory({ payload }) {
         },
       });
     } else {
-      response = yield axios.get(`category/user/list`, {
+      response = yield axios.get(`category/user/all/selected?page=${payload.page}&count=${payload.limit}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
     }
-    yield put(getCategoryListSuccess(response.data.data));
+    yield put(getUserCategoryListSuccess(response.data.data));
     payload.setLoader(false);
 
   } catch (error) {
-    if(error?.response?.status == 401){
+    if (error?.response?.status == 401) {
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);
   }
 }
+
 function* updateCategorySaga({ payload }) {
   const formData = new FormData();
   formData.append("id", payload.id);
@@ -129,15 +160,19 @@ function* watchUpdateCategory() {
 function* watchAddCategory() {
   yield takeLatest(ADD_ADMIN_CATEGORY, addCategoryRequest);
 }
-function* watchGetCategory() {
-  yield takeLatest(GET_CATEGORY_LIST, getcategory);
+// function* watchGetCategory() {
+//   yield takeLatest(GET_CATEGORY_LIST, getcategory);
+// }
+function* watchGetUserCategory() {
+  yield takeLatest(GET_USERCATEGORY_LIST, getUserCategory);
 }
 function* watchDeleteCategory() {
   yield takeLatest(DELETE_CATEGORY, deleteCategory);
 }
 export default function* CategorySaga() {
   yield all([fork(watchAddCategory)]);
-  yield all([fork(watchGetCategory)]);
+  // yield all([fork(watchGetCategory)]);
+  yield all([fork(watchGetUserCategory)]);
   yield all([fork(watchUpdateCategory)]);
   yield all([fork(watchDeleteCategory)]);
 }

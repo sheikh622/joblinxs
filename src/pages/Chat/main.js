@@ -69,7 +69,6 @@ const Mainchat = () => {
   const [zoom, setZoom] = useState(false);
   const [zoomUrl, setZoomUrl] = useState("");
   const handleSearch = (event) => {
-    console.log("searchhhhh0", searchData);
     let searcjQery = event.toLowerCase(),
       displayedCollections = searchData.filter((el) => {
         let searchValue = el.receiver.fullName.toLowerCase();

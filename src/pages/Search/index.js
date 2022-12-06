@@ -19,7 +19,7 @@ import {
     getCategoryListing,
     getJobFilter, getSeekerListing
 } from "../../Redux/Dashboard/actions";
-
+import { getUserCategoryList } from "../../Redux/Category/actions";
 
 const Search = (props) => {
     const dispatch = useDispatch();
@@ -34,6 +34,9 @@ const Search = (props) => {
     const place = useSelector((state) => state?.geometry?.location?.lat);
     const Filter = useSelector((state) => state?.Seeker?.FilterList?.jobs);
     const CategoryData = useSelector((state) => state?.Seeker?.CategoryList);
+    console.log("23232", CategoryData)
+    const SelectedCategory = useSelector((state) => state?.Category?.UserCatergory?.selctedCategories);
+    console.log("SelectedCategory", SelectedCategory)
     const [valuetext, setValuetext] = useState()
     const [data, setData] = useState()
     const [type, setType] = useState("");
@@ -84,15 +87,17 @@ const Search = (props) => {
         return items;
     };
     useEffect(() => {
-        let array = [];
-        CategoryData.map((item) => {
-            array.push({
-                value: [{ id: item.id, title: item.title, details: item.details }],
-                label: item?.title,
+        if (SelectedCategory !== undefined) {
+            let array = [];
+            SelectedCategory.map((item) => {
+                array.push({
+                    value: [{ id: item.id, title: item.title, details: item.details }],
+                    label: item?.title,
+                });
             });
-        });
-        setCategoryList(array);
-    }, [CategoryData]);
+            setCategoryList(array);
+        }
+    }, [SelectedCategory]);
     useEffect(() => {
         dispatch(
             getSeekerListing({
@@ -167,11 +172,25 @@ const Search = (props) => {
     const handleHourly = (event) => {
         setHourlyRate(event.target.value);
     };
+    // useEffect(() => {
+    //     dispatch(
+    //         getCategoryListing({
+    //             role: "user",
+    //         })
+    //     );
+    // }, []);
     useEffect(() => {
         dispatch(
-            getCategoryListing({
-                role: "user",
-            })
+            getUserCategoryList(
+                {
+                    role: "user",
+                    page: page,
+                    limit: limit,
+                    search: "",
+                    setLoader: setLoader,
+
+                }
+            )
         );
     }, []);
     const { ref } = usePlacesWidget({
@@ -214,7 +233,7 @@ const Search = (props) => {
     }
     return (
         <>
-            <Navbar module={"Search By Category"} />
+            <Navbar module={"Job Filters"} />
             <div className="mx-5">
                 <Row className="pt-2 pb-4">
                     <Col lg={12} md={12} xs={12} className="pb-3 mb-3">
