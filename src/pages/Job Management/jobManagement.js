@@ -184,7 +184,6 @@ const JobManagement = (row) => {
             : "primary";
     const str = 'pending' || 'completed' || 'upcoming' || 'inprogress';
     const str2 = item?.status.charAt(0).toUpperCase() + item?.status.slice(1);
-    console.log(str2);
     return (
       <tr>
         <td>

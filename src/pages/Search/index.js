@@ -34,9 +34,7 @@ const Search = (props) => {
     const place = useSelector((state) => state?.geometry?.location?.lat);
     const Filter = useSelector((state) => state?.Seeker?.FilterList?.jobs);
     const CategoryData = useSelector((state) => state?.Seeker?.CategoryList);
-    console.log("23232", CategoryData)
     const SelectedCategory = useSelector((state) => state?.Category?.UserCatergory?.selctedCategories);
-    console.log("SelectedCategory", SelectedCategory)
     const [valuetext, setValuetext] = useState()
     const [data, setData] = useState()
     const [type, setType] = useState("");
