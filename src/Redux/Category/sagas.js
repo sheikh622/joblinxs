@@ -48,33 +48,33 @@ function* addCategoryRequest({ payload }) {
     yield sagaErrorHandler(error.response);
   }
 }
-// function* getcategory({ payload }) {
-//   try {
-//     const token = yield select(makeSelectAuthToken());
-//     let response;
-//     if (payload.role == "admin") {
-//       response = yield axios.get(`category/list?keyword=${payload.search}`, {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       });
-//     } else {
-//       response = yield axios.get(`category/user/list`, {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       });
-//     }
-//     yield put(getCategoryListSuccess(response.data.data));
-//     payload.setLoader(false);
+function* getcategory({ payload }) {
+  try {
+    const token = yield select(makeSelectAuthToken());
+    let response;
+    if (payload.role == "admin") {
+      response = yield axios.get(`category/list?keyword=${payload.search}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } else {
+      response = yield axios.get(`category/user/list`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
+    yield put(getCategoryListSuccess(response.data.data));
+    payload.setLoader(false);
 
-//   } catch (error) {
-//     if (error?.response?.status == 401) {
-//       yield put(logoutRequest());
-//     }
-//     yield sagaErrorHandler(error.response);
-//   }
-// }
+  } catch (error) {
+    if (error?.response?.status == 401) {
+      yield put(logoutRequest());
+    }
+    yield sagaErrorHandler(error.response);
+  }
+}
 function* getUserCategory({ payload }) {
   try {
     const token = yield select(makeSelectAuthToken());
@@ -160,9 +160,9 @@ function* watchUpdateCategory() {
 function* watchAddCategory() {
   yield takeLatest(ADD_ADMIN_CATEGORY, addCategoryRequest);
 }
-// function* watchGetCategory() {
-//   yield takeLatest(GET_CATEGORY_LIST, getcategory);
-// }
+function* watchGetCategory() {
+  yield takeLatest(GET_CATEGORY_LIST, getcategory);
+}
 function* watchGetUserCategory() {
   yield takeLatest(GET_USERCATEGORY_LIST, getUserCategory);
 }
@@ -171,7 +171,7 @@ function* watchDeleteCategory() {
 }
 export default function* CategorySaga() {
   yield all([fork(watchAddCategory)]);
-  // yield all([fork(watchGetCategory)]);
+  yield all([fork(watchGetCategory)]);
   yield all([fork(watchGetUserCategory)]);
   yield all([fork(watchUpdateCategory)]);
   yield all([fork(watchDeleteCategory)]);
