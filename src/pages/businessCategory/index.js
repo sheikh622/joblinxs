@@ -29,6 +29,7 @@ const BusinessCategories = (item) => {
   const [loader, setLoader] = useState(true);
   const [search, setSearch] = useState("");
   const [checked, setChecked] = useState([]);
+  const [handleChecked, setHandleChecked] = useState([]);
   const [checkedItem, setCheckedItem] = useState([]);
   const [adminId, setAdminId] = useState(0);
   const [delCategory, setDelCategory] = useState(false);
@@ -36,16 +37,16 @@ const BusinessCategories = (item) => {
   const [isEdit, setEdit] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [page, setPage] = useState(1);
-  const [limit] = useState("12");
+  const [limit] = useState("100");
   const {
     location: { state },
   } = history;
   const CategoryData = useSelector((state) => state?.BusinessCategory?.getBusinessCategoryList);
-  useEffect(()=>{
-    if(CategoryData !== undefined){
+  useEffect(() => {
+    if (CategoryData !== undefined) {
       setChecked(CategoryData?.updatedArray)
     }
-  },[CategoryData])
+  }, [CategoryData])
   useEffect(() => {
     dispatch(
       getBusinessCategoryList({
@@ -104,31 +105,31 @@ const BusinessCategories = (item) => {
       selectedItem
         ? dispatch()
         : // updateCategory({
-          //     id: values.id,
-          //     title: values.title,
+        //     id: values.id,
+        //     title: values.title,
 
-          //     details: values.details,
-          //     setReset: action.resetForm,
-          //     setShowDefault: setShowDefault,
-          //     // showDefault: showDefault,
-          //     setSelectedImage: setSelectedImage,
+        //     details: values.details,
+        //     setReset: action.resetForm,
+        //     setShowDefault: setShowDefault,
+        //     // showDefault: showDefault,
+        //     setSelectedImage: setSelectedImage,
 
-          //     history: history,
-          // })
-          dispatch(
-            addCategory({
-              title: values.title,
-              details: values.details,
-              page: page,
-              limit: limit,
-              search: search,
-              setReset: action.resetForm,
-              setShowDefault: setShowDefault,
-              showDefault: showDefault,
-              setSelectedImage: setSelectedImage,
-              setLoader: setLoader,
-            })
-          );
+        //     history: history,
+        // })
+        dispatch(
+          addCategory({
+            title: values.title,
+            details: values.details,
+            page: page,
+            limit: limit,
+            search: search,
+            setReset: action.resetForm,
+            setShowDefault: setShowDefault,
+            showDefault: showDefault,
+            setSelectedImage: setSelectedImage,
+            setLoader: setLoader,
+          })
+        );
     },
   });
   const imageChange = (e) => {
@@ -136,18 +137,26 @@ const BusinessCategories = (item) => {
       setSelectedImage(e.target.files[0]);
     }
   };
-  useEffect(() => {}, [CategoryFormik.values]);
+  useEffect(() => { }, [CategoryFormik.values]);
   const addCategories = () => {
     setEdit(false);
     setSelectedItem(null);
     setShowDefault(true);
   };
-  const handlechecked = (index, value) => {
-    let newArray = checked;
-    newArray[index].selected = !value.selected;
-    setChecked(() => {
-      return [...newArray];
-    });
+  const handlechecked = (index, value, e) => {
+    let newValue = checked.find((item) => item.id === value.id);
+    if (e.target.checked) {
+      newValue = { ...newValue, selected: e.target.checked }
+    } if (!e.target.checked) {
+      newValue = { ...newValue, selected: false }
+    }
+    let newArray = checked.map(item => {
+      if (item.id === newValue.id) {
+        return { ...newValue }
+      }
+      return item;
+    })
+    setChecked(newArray)
   };
   const nextPage = () => {
     if (page < CategoryData?.pages) {
@@ -261,9 +270,9 @@ const BusinessCategories = (item) => {
                                 <label>
                                   <input
                                     type="checkbox"
-                                    checked={value.selected}
+                                    checked={value.selected ? true : false}
                                     onChange={(event) =>
-                                      handlechecked(index, value)
+                                      handlechecked(index, value, event)
                                     }
                                   />
                                 </label>
@@ -364,7 +373,7 @@ const BusinessCategories = (item) => {
                 }}
               />
               {CategoryFormik.touched.details &&
-              CategoryFormik.errors.details ? (
+                CategoryFormik.errors.details ? (
                 <div style={{ color: "red" }}>
                   {CategoryFormik.errors.details}
                 </div>

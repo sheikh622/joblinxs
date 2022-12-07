@@ -121,9 +121,9 @@ function* updatePasswordSaga({ payload }) {
         Authorization: `Bearer ${token}`,
       },
     });
-    payload.setLoader(false);
     toast.success(response.data.message);
-    // yield put(updatetPasswordSuccess(response.data.data));
+    payload.setLoader(false);
+    // yield put(updatePasswordSuccess(response.data.data));
     // payload.setShowDefault(false);
     payload.reset();
   } catch (error) {
