@@ -11,7 +11,7 @@ import { GET_PROFILE, UPDATE_PROFILE, BLOCK_USER, REPORT_USER_LIST, REPORTED_USE
 import { adminUpdatedSuccess } from "../auth/actions";
 import { getReportBlock } from "../../Redux/ReportManagement/actions"
 import { logoutRequest } from "../auth/actions";
-import {jobById} from "../addJob/actions"
+import { jobById } from "../addJob/actions"
 
 function* getProfileById({ payload }) {
   try {
@@ -23,7 +23,7 @@ function* getProfileById({ payload }) {
     });
     // payload.setLoader(false);
     yield put(getProfileSuccess(response.data.data.user));
-    if(payload.id !== undefined){
+    if (payload.id !== undefined) {
       yield put(jobById(payload))
     }
   } catch (error) {
@@ -65,9 +65,10 @@ function* updateAdminProfileSaga({ payload }) {
     if (response.data.data.user === undefined) {
       yield put(getProfileSuccess(response.data.data));
       yield put(adminUpdatedSuccess(response.data.data));
-    }else{
+    } else {
       yield put(getProfileSuccess(response.data.data.user));
       yield put(adminUpdatedSuccess(response.data.data.user));
+
     }
     payload.setLoader(false);
 

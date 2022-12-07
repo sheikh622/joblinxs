@@ -67,33 +67,27 @@ const JobDetails = (item) => {
                                             />
 
                                             <DetailHeading
-                                                heading={"description"}
+                                                heading={"Description"}
                                                 value={
                                                     item?.location?.state?.item?.description
                                                         ? item?.location?.state?.item?.description
                                                         : " --"
                                                 }
                                             />
-
-
-
                                             <DetailHeading
-                                                heading={"rate"}
+                                                heading={"Rate"}
                                                 value={item?.location?.state?.item?.rate ? item?.location?.state?.item?.rate : " --"}
                                             />
-
                                             <DetailHeading
-                                                heading={"experienceRequired"}
+                                                heading={"ExperienceRequired"}
                                                 value={item?.location?.state?.item?.experienceRequired ? item?.location?.state?.item?.experienceRequired : " --"}
                                             />
-
                                             <DetailHeading
-                                                heading={"toolsNeeded"}
+                                                heading={"ToolsNeeded"}
                                                 value={
                                                     item?.location?.state?.item?.toolsNeeded ? item?.location?.state?.item?.toolsNeeded : " --"
                                                 }
                                             />
-
                                             <DetailHeading
                                                 heading={"Days"}
                                                 value={
@@ -111,7 +105,7 @@ const JobDetails = (item) => {
                                                 }
                                             />
                                             <DetailHeading
-                                                heading={"NO of Providers"}
+                                                heading={"No of Providers"}
                                                 value={
                                                     item?.location?.state?.item?.noOfProviders
                                                         ? item?.location?.state?.item?.noOfProviders
@@ -143,22 +137,14 @@ const JobDetails = (item) => {
                                                 }
                                             />
                                             <DetailHeading
-                                                heading={"Unit"}
+                                                heading={"Unit No"}
                                                 value={
                                                     item?.location?.state?.item?.unit
                                                         ? item?.location?.state?.item?.unit
                                                         : " --"
                                                 }
                                             />
-
-
                                         </div>
-
-
-
-
-
-
                                     </Card.Body>
                                 </Card>
                             </Col>
