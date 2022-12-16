@@ -15,7 +15,7 @@ import {
   Image,
   Modal,
   Row
-} from "@themesberg/react-bootstrap";
+} from "@themesberg/react-bootstrap"; 
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

@@ -28,10 +28,14 @@ const CategoryManagement = (row) => {
   const CategoryList = useSelector(
     (state) => state?.CategoryListing?.getCategoryListing
   );
+  const auth = useSelector((state) => state.auth.Auther);
+
 
   const handleCategoryAction = (id) => {
+    console.log("3333333333", auth)
     dispatch(
       getCategoryProfile({
+        id: auth.id,
         categoryId: id,
         page: page,
         limit: limit,
