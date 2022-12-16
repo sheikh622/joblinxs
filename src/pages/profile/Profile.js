@@ -27,6 +27,7 @@ export default () => {
   const getById = useSelector((state) => state.ProfileReducer.profile);
   const Reviews = useSelector((state) => state.ProfileReducer.Reviews);
   const getByIdCategory = useSelector((state) => state.ProfileReducer.profile.user_categories);
+  console.log("00000000000",getById)
   const history = useHistory();
   useEffect(() => {
     if (getByIdCategory !== undefined) {
@@ -122,7 +123,7 @@ export default () => {
                     )}
 
                     <div className="border_bottom pb-3 mb-4">
-                      <Card.Title>{getById?.fullName}</Card.Title>
+                      <Card.Title>{getById?.businessName}</Card.Title>
                       <Card.Subtitle className="fw-normal">
                         Senior Software Engineer
                       </Card.Subtitle>
@@ -199,6 +200,10 @@ export default () => {
                       </Card.Title>
                       <DetailHeading
                         heading={"Business Name"}
+                        value={getById?.businessName}
+                      />
+                      <DetailHeading
+                        heading={"Full Name"}
                         value={getById?.fullName}
                       />
                       <DetailHeading

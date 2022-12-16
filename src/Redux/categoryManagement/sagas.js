@@ -35,9 +35,12 @@ function* getcategory({ payload }) {
 }
 function* CategoryProfileSaga({ payload }) {
   try {
+    let data= {
+      id: payload.id
+    };
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.patch(
-      `category/approve/${payload.categoryId}`,
+      `category/approve/${payload.categoryId}`,data,
       {
         headers: {
           Authorization: `Bearer ${token}`,
