@@ -39,6 +39,7 @@ export default () => {
   // const phoneRegExp =
   //   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
   const validationSchema = Yup.object().shape({
+    businessName: Yup.string().required("Business Name is required"),
     fullName: Yup.string().required("Business Name is required"),
     // phoneNumber: Yup.string().required("phoneNumber is required"),
     address: Yup.string().required("address is required"),
@@ -57,6 +58,7 @@ export default () => {
   }, [user]);
   useEffect(() => {
     setUser({
+      businessName: getById.businessName,
       fullName: getById.fullName,
       address: getById.address,
       dateofBirth: getById.dateofBirth,
@@ -84,6 +86,7 @@ export default () => {
     } else {
       dispatch(
         updateAdminProfile({
+          businessName:data.businessName,
           fullName: data.fullName,
           address: data.address,
           dateofBirth: dateofBirth
@@ -205,6 +208,19 @@ export default () => {
                     </Card.Title>
                     <Form.Group className="col my-2">
                       <Form.Label>Business Name</Form.Label>
+                      <Form.Control
+                        name="businessName"
+                        type="text"
+                        {...register("businessName")}
+                        className={`form-control ${errors.businessName ? "is-invalid" : ""
+                          }`}
+                      />
+                      <div className="invalid-feedback">
+                        {errors.businessName?.message}
+                      </div>
+                    </Form.Group>
+                    <Form.Group className="col my-2">
+                      <Form.Label>full Name</Form.Label>
                       <Form.Control
                         name="fullName"
                         type="text"

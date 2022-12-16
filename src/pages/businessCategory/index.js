@@ -21,7 +21,8 @@ import Spinner from "../../components/spinner";
 import {
   addCategory,
   getBusinessCategoryList,
-  saveCategory
+  saveCategory,
+  CopyBusinessCategoryList
 } from "../../Redux/BusinessCategory/actions";
 const BusinessCategories = (item) => {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const BusinessCategories = (item) => {
   const [loader, setLoader] = useState(true);
   const [search, setSearch] = useState("");
   const [checked, setChecked] = useState([]);
-  const [handleChecked, setHandleChecked] = useState([]);
+  const [copyChecked, setCopyChecked] = useState([]);
   const [checkedItem, setCheckedItem] = useState([]);
   const [adminId, setAdminId] = useState(0);
   const [delCategory, setDelCategory] = useState(false);
@@ -37,16 +38,24 @@ const BusinessCategories = (item) => {
   const [isEdit, setEdit] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [page, setPage] = useState(1);
-  const [limit] = useState("100");
+  const [limit] = useState(12);
   const {
     location: { state },
   } = history;
   const CategoryData = useSelector((state) => state?.BusinessCategory?.getBusinessCategoryList);
+  const CopyCategoryData = useSelector((state) => state?.BusinessCategory?.CopyBusinessCategoryList);
+  console.log("222222222222", CopyCategoryData)
+
   useEffect(() => {
     if (CategoryData !== undefined) {
       setChecked(CategoryData?.updatedArray)
     }
   }, [CategoryData])
+  useEffect(() => {
+    if (CopyCategoryData !== undefined) {
+      setCopyChecked(CopyCategoryData?.updatedArray)
+    }
+  }, [CopyCategoryData])
   useEffect(() => {
     dispatch(
       getBusinessCategoryList({
@@ -59,10 +68,25 @@ const BusinessCategories = (item) => {
   },
     [page, limit, search]
   );
+  useEffect(() => {
+    if (CategoryData?.pages != undefined) {
+      dispatch(
+        CopyBusinessCategoryList({
+          page: 1,
+          limit: CategoryData?.pages * limit,
+          search: search,
+          setLoader: false,
+        })
+      );
+    }
+  },
+    [CategoryData]
+  );
 
+  console.log("totalpages", CategoryData)
   const handleClick = () => {
     let arr = [];
-    checked.map((obj) => {
+    copyChecked.map((obj) => {
       if (obj.selected === true) {
         arr.push(obj.id);
       }
@@ -73,6 +97,7 @@ const BusinessCategories = (item) => {
         setLoader: setLoader,
       })
     );
+    console.log('copy', copyChecked)
   };
   const [showDefault, setShowDefault] = useState(false);
   const handleClose = () => {
@@ -80,7 +105,6 @@ const BusinessCategories = (item) => {
     setShowDefault(false);
     setDelCategory(false);
     CategoryFormik.resetForm();
-
   };
   const activeButton = (value) => {
     setEdit(true);
@@ -157,6 +181,23 @@ const BusinessCategories = (item) => {
       return item;
     })
     setChecked(newArray)
+
+
+
+    let valueNew = copyChecked.find((item) => item.id === value.id);
+    if (e.target.checked) {
+      valueNew = { ...valueNew, selected: e.target.checked }
+    } if (!e.target.checked) {
+      valueNew = { ...valueNew, selected: false }
+    }
+    let newNewArray = copyChecked.map(item => {
+      if (item.id === valueNew.id) {
+        return { ...valueNew }
+      }
+      return item;
+    })
+    setCopyChecked(newNewArray)
+
   };
   const nextPage = () => {
     if (page < CategoryData?.pages) {
@@ -168,7 +209,6 @@ const BusinessCategories = (item) => {
       setPage(page - 1);
     }
   };
-
   const paginationItems = () => {
     let items = [];
     for (let number = 1; number <= CategoryData?.pages; number++) {
@@ -189,7 +229,7 @@ const BusinessCategories = (item) => {
   return (
     <>
       <Navbar module={"Categories"} />
-      <div className="mx-5">
+      <div className="mx-50">
         <Row className="py-2 justify-content-between align-items-baseline">
           <Col lg={3} md={5}>
             <Form.Group className="mt-3">

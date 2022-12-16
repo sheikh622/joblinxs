@@ -4,13 +4,14 @@ import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
 import { CapitalizeFirstLetter } from "../../utils/Global";
-import {logoutRequest} from "../auth/actions";
+import { logoutRequest } from "../auth/actions";
 import {
   addCategorySuccess,
   getBusinessCategoryList,
   saveCategory,
   saveCategorySuccess,
   getBusinessCategoryListSuccess,
+  CopyBusinessCategoryListSuccess,
   updateCategorySuccess,
 } from "./actions";
 import {
@@ -18,6 +19,7 @@ import {
   GET_BUSNIESSCATEGORY_LIST,
   SAVE_CATEGORY,
   SAVE_CATEGORY_SUCCESS,
+  Copy_BUSNIESSCATEGORY_LIST
 } from "./constants";
 
 function* addCategoryRequest({ payload }) {
@@ -44,7 +46,7 @@ function* addCategoryRequest({ payload }) {
     );
     payload.setLoader(false);
   } catch (error) {
-    if(error?.response?.status == 401){
+    if (error?.response?.status == 401) {
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);
@@ -74,20 +76,56 @@ function* getcategory({ payload }) {
       }
       return category;
     });
-    let finalResponse ={
-      updatedArray:updatedArray,
-      pages:data.pages
+    let finalResponse = {
+      updatedArray: updatedArray,
+      pages: data.pages
     }
     yield put(getBusinessCategoryListSuccess(finalResponse));
     payload.setLoader(false);
   } catch (error) {
-    if(error?.response?.status == 401){
+    if (error?.response?.status == 401) {
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);
   }
 }
-
+function* copycategory({ payload }) {
+  try {
+    const token = yield select(makeSelectAuthToken());
+    let response = yield axios.get(
+      `category/user/all/selected?page=${payload.page}&count=${payload.limit}&search=${payload.search}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    let data = response.data.data;
+    const updatedArray = data?.allCategories?.map((category) => {
+      if (data?.selctedCategories.length > 0) {
+        let selectedData = data?.selctedCategories?.forEach((selected) => {
+          if (category?.id == selected?.id) {
+            category["selected"] = true;
+          }
+        });
+      } else {
+        category["selected"] = false;
+      }
+      return category;
+    });
+    let finalResponse = {
+      updatedArray: updatedArray,
+      pages: data.pages
+    }
+    yield put(CopyBusinessCategoryListSuccess(finalResponse));
+    payload.setLoader(false);
+  } catch (error) {
+    if (error?.response?.status == 401) {
+      yield put(logoutRequest());
+    }
+    yield sagaErrorHandler(error.response);
+  }
+}
 function* saveCategorySaga({ payload }) {
   let Data = {
     categoriesId: payload.categoriesId,
@@ -105,7 +143,7 @@ function* saveCategorySaga({ payload }) {
     yield put(saveCategorySuccess(response.data.data));
     payload.setLoader(false);
   } catch (error) {
-    if(error?.response?.status == 401){
+    if (error?.response?.status == 401) {
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);
@@ -121,9 +159,14 @@ function* watchAddCategory() {
 function* watchGetCategory() {
   yield takeLatest(GET_BUSNIESSCATEGORY_LIST, getcategory);
 }
+function* watchCopyCategory() {
+  yield takeLatest(Copy_BUSNIESSCATEGORY_LIST, copycategory);
+}
 
 export default function* BusinessCategorySaga() {
   yield all([fork(watchAddCategory)]);
   yield all([fork(watchGetCategory)]);
   yield all([fork(watchSaveCategory)]);
+  yield all([fork(watchCopyCategory)]);
+
 }
