@@ -42,7 +42,7 @@ function* updateAdminProfileSaga({ payload }) {
     Data.append("fullName", payload.fullName ? payload.fullName : null);
     Data.append("profileImg", payload.profileImg ? payload.profileImg : null);
   } else {
-    Data.append("BusinessName", payload.BusinessName ? payload.BusinessName : null);
+    Data.append("businessName", payload.businessName ? payload.businessName : null);
     Data.append("fullName", payload.fullName ? payload.fullName : null);
     Data.append("address", payload.address ? payload.address : null);
     Data.append("dateofBirth", payload.dateofBirth ? payload.dateofBirth : null);
