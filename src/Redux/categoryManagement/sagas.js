@@ -36,7 +36,8 @@ function* getcategory({ payload }) {
 function* CategoryProfileSaga({ payload }) {
   try {
     let data= {
-      id: payload.id
+      id: payload.id,
+      isApproved: payload.isApproved,
     };
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.patch(

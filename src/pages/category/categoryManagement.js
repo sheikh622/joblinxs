@@ -31,12 +31,12 @@ const CategoryManagement = (row) => {
   const auth = useSelector((state) => state.auth.Auther);
 
 
-  const handleCategoryAction = (id) => {
-    console.log("3333333333", auth)
+  const handleCategoryAction = (id, status) => {
     dispatch(
       getCategoryProfile({
         id: auth.id,
         categoryId: id,
+        isApproved:status,
         page: page,
         limit: limit,
         search: search,
@@ -99,7 +99,7 @@ const CategoryManagement = (row) => {
             <Dropdown.Menu className="custom_menu">
               {(item?.categoryStatus === 'Pending' || item?.categoryStatus === 'Category Rejected') && (
                 <Dropdown.Item className="text-success" onClick={() => {
-                  handleCategoryAction(item?.id)
+                  handleCategoryAction(item?.id, true)
                 }}
                 >
 
@@ -109,7 +109,7 @@ const CategoryManagement = (row) => {
               {(item?.categoryStatus === 'Pending' || item?.categoryStatus === 'Category Accepted') && (
 
                 <Dropdown.Item className="text-danger" onClick={() => {
-                  handleCategoryAction(item?.id)
+                  handleCategoryAction(item?.id, false)
                 }}>
                   <FontAwesomeIcon icon={faMinus} className="me-2" /> Decline
                 </Dropdown.Item>
