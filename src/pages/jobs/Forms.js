@@ -157,11 +157,11 @@ export const GeneralInfoForm = () => {
     toolsNeeded: Yup.string().trim().required("Tools is required"),
     rate: Yup.string()
       .required("rate is required")
-      .matches(/^[1-9]+[0-9]*$/, {
-        message: 'Rate should be Greater 0',
-        excludeEmptyString: true
-      })
-      .max(8, "Number should not exceed 6 digits")
+      // .matches(/^[1-9]+[0-9]*$/, {
+      //   message: 'Rate should be Greater 0',
+      //   excludeEmptyString: true
+      // })
+      // .max(8, "Number should not exceed 6 digits")
       .min(1, "Number should not be less than 0"),
     unit: Yup.string().trim().required("Unit Number is required"),
 
@@ -506,7 +506,7 @@ export const GeneralInfoForm = () => {
                     <Form.Check
                       type="radio"
                       checked={paymentType == "fixed"}
-                      label="Fixed"
+                      label="Fixed (per job)"
                       value="fixed"
                       name="paymentType"
                       onChange={(event) => {
