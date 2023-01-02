@@ -18,6 +18,7 @@ import { onMessageListener } from "../firebase";
 import { getNotifiaction } from "../Redux/notification/actions";
 import Spinner from "./spinner";
 import Profile from "../assets/img/team/profile-picture-1.jpg";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default (props) => {
   const dispatch = useDispatch();
@@ -45,6 +46,10 @@ export default (props) => {
   const notification = useSelector(
     (state) => state.Notifications?.notification?.notifications
   );
+
+  //loadmore
+
+
 
   useEffect(() => {
     if (auth?.role?.name !== "Admin") {
@@ -79,9 +84,12 @@ export default (props) => {
   };
   const handleScroll = (e) => {
     var heightBound = (window.height = 400);
-    if (heightBound > window.scrollY) {
-    }
+    console.log(window.scrollY, "heightbound")
+    // if (heightBound > window.scrollY) {
+    //   alert("yes")
+    // }
   };
+  
   const handleRedirection = (jobs, users, title) => {
     if (title === "provider appply for job" || title === "provider confirm the job") {
       history.push(`/Applicants/${jobs.id}`);
@@ -154,19 +162,19 @@ export default (props) => {
         className="border-bottom border-light"
       >
         <Row className="align-items-center">
-            {
-              title.slice(0, 12) === "Message Sent" ? (
-                <Col className="col-auto">
-            <img
-              src={
-                users?.profileImg
-                  ? users?.profileImg
-                  : Profile}
-              className="user-avatar lg-avatar rounded-circle"
-            />
-          </Col>
-              ) :(
-                <Col className="col-auto">
+          {
+            title.slice(0, 12) === "Message Sent" ? (
+              <Col className="col-auto">
+                <img
+                  src={
+                    users?.profileImg
+                      ? users?.profileImg
+                      : Profile}
+                  className="user-avatar lg-avatar rounded-circle"
+                />
+              </Col>
+            ) : (
+              <Col className="col-auto">
                 <img
                   src={
                     jobs?.image
@@ -175,8 +183,8 @@ export default (props) => {
                   className="user-avatar lg-avatar rounded-circle"
                 />
               </Col>
-              )
-            }
+            )
+          }
           <Col className="ps-0 ms--2 mx-3">
             <div className="d-flex justify-content-between align-items-center">
               <div>
@@ -200,6 +208,7 @@ export default (props) => {
       </ListGroup.Item>
     );
   };
+  
   return (
     <Navbar variant="dark" expanded className="mb-3">
 
@@ -219,9 +228,9 @@ export default (props) => {
                 >
                   <span className="icon icon-sm" onClick={notificationList}>
                     <FontAwesomeIcon icon={faBell} className="bell-shake" />
-                    {notification?.length > 0 && (
+                    {/* {notification?.length > 0 && (
                       <span className="icon-badge rounded-circle unread-notifications" />
-                    )}
+                    )} */}
                   </span>
                 </Dropdown.Toggle>
 

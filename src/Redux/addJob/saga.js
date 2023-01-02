@@ -73,18 +73,21 @@ function* addJob({ payload }) {
   formData.append("noOfProviders", payload.noOfProviders);
   formData.append("toolsNeeded", payload.toolsNeeded);
   formData.append("experienceRequired", payload.experienceRequired);
-  formData.append("jobType", payload.jobType);
-  formData.append("jobNature", payload.jobNature);
+  // formData.append("jobType", payload.jobType);
+  formData.append("jobType", payload.paymentType === "fixed" ? null : payload.jobType);
+  formData.append("jobNature", payload.paymentType === "fixed" ? null : payload.jobNature);
+  // formData.append("jobNature", payload.jobNature);
   formData.append("startDate", JSON.stringify(payload.startDate));
   formData.append("endDate", JSON.stringify(payload.endDate));
-  formData.append("isOngoing", payload.isOngoing);
+  formData.append("jobType", payload.isOngoing === "fixed" ? null : payload.isOngoing);
+  // formData.append("isOngoing", payload.isOngoing);
   formData.append("category", JSON.stringify(payload.category));
   formData.append("jobImg", payload.jobImg);
   formData.append("existImg", payload.existImg);
   formData.append("isPost", payload.isPost);
   try {
     const token = yield select(makeSelectAuthToken());
-    const response = yield axios.post(`${repost == true ? "job/repost" : "job/seeker"}`, formData, {
+    const response = yield axios.post(`${repost === true ? "job/repost" : "job/seeker"}`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -511,7 +514,7 @@ function* emergencyJobSaga({ payload }) {
   try {
     const data = {
       id: payload.id,
-      userId:payload.userId
+      userId: payload.userId
     };
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.patch(

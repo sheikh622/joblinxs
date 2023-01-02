@@ -52,7 +52,6 @@ function* updateAdminProfileSaga({ payload }) {
     Data.append("id", payload.id ? payload.id : null);
     Data.append("profileImg", payload.profileImg ? payload.profileImg : null);
     Data.append("industryType", payload.industryType ? payload.industryType : null);
-
   }
   try {
     const token = yield select(makeSelectAuthToken());
