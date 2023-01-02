@@ -27,7 +27,6 @@ export default () => {
   const getById = useSelector((state) => state.ProfileReducer.profile);
   const Reviews = useSelector((state) => state.ProfileReducer.Reviews);
   const getByIdCategory = useSelector((state) => state.ProfileReducer.profile.user_categories);
-  console.log("00000000000",getById)
   const history = useHistory();
   useEffect(() => {
     if (getByIdCategory !== undefined) {
