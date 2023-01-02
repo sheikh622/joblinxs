@@ -83,7 +83,6 @@ const BusinessCategories = (item) => {
     [CategoryData]
   );
 
-  console.log("totalpages", CategoryData)
   const handleClick = () => {
     let arr = [];
     copyChecked.map((obj) => {
