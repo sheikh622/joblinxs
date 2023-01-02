@@ -50,7 +50,7 @@ export const GeneralInfoForm = () => {
 
   ];
   const experienced = [
-    { value: "None", label: "None" },
+    { value: "Entry", label: "Entry" },
     { value: "professional", label: "professional" },
     { value: "Expert", label: "Expert" },
   ];
@@ -163,7 +163,7 @@ export const GeneralInfoForm = () => {
       })
       .max(8, "Number should not exceed 6 digits")
       .min(1, "Number should not be less than 0"),
-    unit: Yup.string().trim().required("Unit Number is required"),
+    // unit: Yup.string().trim().required("Unit Number is required"),
 
   });
   const CategoryFormik = useFormik({
@@ -175,7 +175,7 @@ export const GeneralInfoForm = () => {
       jobRequirements: SingleId?.requirement ? SingleId?.requirement : "",
       toolsNeeded: SingleId?.toolsNeeded ? SingleId?.toolsNeeded : "",
       rate: SingleId?.rate ? SingleId?.rate : "--",
-      unit: SingleId?.unit ? SingleId?.unit : "0",
+      unit: SingleId?.unit ? SingleId?.unit : "",
       onGoing: SingleId?.isOngoing ? SingleId?.isOngoing : false,
       jobType: SingleId?.jobType ? SingleId?.jobType : "",
       // jobImg: SingleId?.image ? SingleId?.image : "",
@@ -359,37 +359,39 @@ export const GeneralInfoForm = () => {
                   ) : null}
                 </Form.Group>
               </Col>
-              <Col md={6} className="mb-3">
-                <Form.Group id="jobNature">
-                  <Form.Label>Job Nature</Form.Label>
-                  <fieldset className="d-flex radioButton">
-                    <Form.Check
-                      // defaultChecked
-                      checked={jobNature == "One-time"}
-                      type="radio"
-                      label="One-time"
-                      value="One-time"
-                      name="jobNature"
-                      className="radio1"
-                      Description
-                      onChange={(event) => {
-                        setJobNature(event.target.value);
-                      }}
-                    />
+              {paymentType !== "fixed" && (
+                <Col md={6} className="mb-3">
+                  <Form.Group id="jobNature">
+                    <Form.Label>Job Nature</Form.Label>
+                    <fieldset className="d-flex radioButton">
+                      <Form.Check
+                        // defaultChecked
+                        checked={jobNature == "One-time"}
+                        type="radio"
+                        label="One-time"
+                        value="One-time"
+                        name="jobNature"
+                        className="radio1"
+                        Description
+                        onChange={(event) => {
+                          setJobNature(event.target.value);
+                        }}
+                      />
 
-                    <Form.Check
-                      checked={jobNature == "Recurring"}
-                      type="radio"
-                      label="Recurring"
-                      value="Recurring"
-                      name="jobNature"
-                      onChange={(event) => {
-                        setJobNature(event.target.value);
-                      }}
-                    />
-                  </fieldset>
-                </Form.Group>
-              </Col>
+                      <Form.Check
+                        checked={jobNature == "Recurring"}
+                        type="radio"
+                        label="Recurring"
+                        value="Recurring"
+                        name="jobNature"
+                        onChange={(event) => {
+                          setJobNature(event.target.value);
+                        }}
+                      />
+                    </fieldset>
+                  </Form.Group>
+                </Col>
+              )}
             </Row>
 
             <Row>
@@ -486,14 +488,14 @@ export const GeneralInfoForm = () => {
             </Row>
 
             <Row>
-              <Col md={3} className="mb-3">
+              {paymentType === "fixed" ? <Col md={6} className="mb-3">
                 <Form.Group id="PaymentType">
                   <Form.Label>Payment Type</Form.Label>
                   <fieldset className="d-flex radioButton">
                     <Form.Check
                       // defaultChecked
                       type="radio"
-                      checked={paymentType == "hourly"}
+                      checked={paymentType === "hourly"}
                       // defaultValue=""
                       label="Hourly"
                       value="hourly"
@@ -505,7 +507,7 @@ export const GeneralInfoForm = () => {
                     />
                     <Form.Check
                       type="radio"
-                      checked={paymentType == "fixed"}
+                      checked={paymentType === "fixed"}
                       label="Fixed"
                       value="fixed"
                       name="paymentType"
@@ -516,35 +518,68 @@ export const GeneralInfoForm = () => {
                   </fieldset>
                 </Form.Group>
               </Col>
-              <Col md={3} className="mb-3">
-                <Form.Group id="jobType">
-                  <Form.Label>Job Type</Form.Label>
-                  <fieldset className="d-flex radioButton">
-                    <Form.Check
-                      // defaultChecked
-                      type="radio"
-                      checked={jobType == "Part-time"}
-                      label="Part-time"
-                      name="jobType"
-                      value="Part-time"
-                      className="radio1"
-                      onChange={(event) => {
-                        setJobType(event.target.value);
-                      }}
-                    />
-                    <Form.Check
-                      type="radio"
-                      checked={jobType == "Permanent"}
-                      label="Full-time"
-                      name="jobType"
-                      value="Permanent"
-                      onChange={(event) => {
-                        setJobType(event.target.value);
-                      }}
-                    />
-                  </fieldset>
-                </Form.Group>
-              </Col>
+                : <Col md={3} className="mb-3">
+                  <Form.Group id="PaymentType">
+                    <Form.Label>Payment Type</Form.Label>
+                    <fieldset className="d-flex radioButton">
+                      <Form.Check
+                        // defaultChecked
+                        type="radio"
+                        checked={paymentType === "hourly"}
+                        // defaultValue=""
+                        label="Hourly"
+                        value="hourly"
+                        name="paymentType"
+                        className="radio1"
+                        onChange={(event) => {
+                          setPaymentType(event.target.value);
+                        }}
+                      />
+                      <Form.Check
+                        type="radio"
+                        checked={paymentType === "fixed"}
+                        label="Fixed"
+                        value="fixed"
+                        name="paymentType"
+                        onChange={(event) => {
+                          setPaymentType(event.target.value);
+                        }}
+                      />
+                    </fieldset>
+                  </Form.Group>
+                </Col>}
+
+              {paymentType !== "fixed" && (
+                <Col md={3} className="mb-3">
+                  <Form.Group id="jobType">
+                    <Form.Label>Job Type</Form.Label>
+                    <fieldset className="d-flex radioButton">
+                      <Form.Check
+                        // defaultChecked
+                        type="radio"
+                        checked={jobType === "Part-time"}
+                        label="Part-time"
+                        name="jobType"
+                        value="Part-time"
+                        className="radio1"
+                        onChange={(event) => {
+                          setJobType(event.target.value);
+                        }}
+                      />
+                      <Form.Check
+                        type="radio"
+                        checked={jobType === "Permanent"}
+                        label="Full-time"
+                        name="jobType"
+                        value="Permanent"
+                        onChange={(event) => {
+                          setJobType(event.target.value);
+                        }}
+                      />
+                    </fieldset>
+                  </Form.Group>
+                </Col>
+              )}
               <Col md={2} className="mb-3">
                 <Form.Label>Start Date</Form.Label>
                 <DatePicker
@@ -557,25 +592,27 @@ export const GeneralInfoForm = () => {
                   }}
                 />
               </Col>
-              <Col md={2} className="mb-3 ">
-                <Form.Group id="onGoing">
-                  <Form.Label></Form.Label>
-                  <fieldset className="d-flex radioButton">
-                    <Form.Check
-                      // defaultChecked
-                      type="checkbox"
-                      label="onGoing"
-                      name="isOngoing"
-                      checked={onGoing}
-                      value={onGoing}
-                      className="radio1"
-                      onChange={(event) => {
-                        setOngoing(event.target.checked);
-                      }}
-                    />
-                  </fieldset>
-                </Form.Group>
-              </Col>
+              {paymentType !== "fixed" && (
+                <Col md={2} className="mb-3 ">
+                  <Form.Group id="onGoing">
+                    <Form.Label></Form.Label>
+                    <fieldset className="d-flex radioButton">
+                      <Form.Check
+                        // defaultChecked
+                        type="checkbox"
+                        label="onGoing"
+                        name="isOngoing"
+                        checked={onGoing}
+                        value={onGoing}
+                        className="radio1"
+                        onChange={(event) => {
+                          setOngoing(event.target.checked);
+                        }}
+                      />
+                    </fieldset>
+                  </Form.Group>
+                </Col>
+              )}
               {!onGoing && (
                 <Col md={2} className="mb-3">
                   <Form.Label>End Date</Form.Label>
