@@ -262,6 +262,11 @@ const MyJobDetails = (item, props, data) => {
                     heading={"Location"}
                     value={SingleId?.location ? SingleId?.location?.[0] : "-"}
                   />
+                  {SingleId?.unit && <DetailHeading
+                    heading={"Unit No "}
+                    value={SingleId?.unit ? SingleId?.unit : "-"}
+                  />}
+
 
 
                   {SingleId?.createdBy === "seeker" ? (<>
