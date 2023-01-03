@@ -44,8 +44,6 @@ const BusinessCategories = (item) => {
   } = history;
   const CategoryData = useSelector((state) => state?.BusinessCategory?.getBusinessCategoryList);
   const CopyCategoryData = useSelector((state) => state?.BusinessCategory?.CopyBusinessCategoryList);
-  console.log("222222222222", CopyCategoryData)
-
   useEffect(() => {
     if (CategoryData !== undefined) {
       setChecked(CategoryData?.updatedArray)
@@ -96,7 +94,6 @@ const BusinessCategories = (item) => {
         setLoader: setLoader,
       })
     );
-    console.log('copy', copyChecked)
   };
   const [showDefault, setShowDefault] = useState(false);
   const handleClose = () => {
