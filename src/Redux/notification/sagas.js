@@ -14,7 +14,7 @@ function* getNotificationById({ payload }) {
     payload.setLoader(true);
     const token = yield select(makeSelectAuthToken());
     const response = yield axios.get(
-      `job/notification/${payload.id}?page=1&count=20`,
+      `job/notification/${payload.id}?page=${payload.page}&count=5`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

@@ -43,13 +43,48 @@ export default (props) => {
     body: "",
   });
   const auth = useSelector((state) => state.auth.Auther);
-  const notification = useSelector(
-    (state) => state.Notifications?.notification?.notifications
+  const notifications = useSelector(
+    (state) => state.Notifications?.notification
   );
+  const [notification, setNotification] = useState(
+    notifications?.notifications
+  );
+  const [page, setPage] = useState(1);
+  useEffect(() => {
+    if (notifications?.notifications) {
+      if (notifications.pages === 1 || page === 1) {
+        setNotification([...notifications?.notifications]);
+      } else {
+        setNotification([...notification, ...notifications?.notifications]);
+      }
+    }
+  }, [notifications?.notifications]);
 
+  useEffect(() => {
+    if (
+      page <= notifications?.pages ||
+      notifications?.pages === undefined
+    ) {
+      dispatch(
+        getNotifiaction({
+          id: auth?.id,
+          page: page,
+          setLoader: setLoader,
+        })
+      );
+    }
+  }, [page]);
+
+  const pageNumber = (pageNumber) => {
+    if (notifications?.pages >= page) {
+      setPage(pageNumber + 1);
+    }
+  };
   //loadmore
 
-
+  // useEffect(() => {
+  //   setNotification(notifications?.notifications)
+  // }, [notifications]);
 
   useEffect(() => {
     if (auth?.role?.name !== "Admin") {
@@ -78,6 +113,7 @@ export default (props) => {
     dispatch(
       getNotifiaction({
         id: auth?.id,
+        page: page,
         setLoader: setLoader,
       })
     );
@@ -89,7 +125,8 @@ export default (props) => {
     //   alert("yes")
     // }
   };
-  
+
+
   const handleRedirection = (jobs, users, title) => {
     if (title === "provider appply for job" || title === "provider confirm the job") {
       history.push(`/Applicants/${jobs.id}`);
@@ -208,7 +245,7 @@ export default (props) => {
       </ListGroup.Item>
     );
   };
-  
+
   return (
     <Navbar variant="dark" expanded className="mb-3">
 
@@ -247,12 +284,20 @@ export default (props) => {
                       <Spinner />
                     ) : (
                       <>
+                        <InfiniteScroll
+                          dataLength={notification?.length}
+                          hasMore={true}
+                          // loader={<h4>Loading...</h4>}
+                          next={() => pageNumber(page)}
+                          // height="300px"
+                          scrollableTarget="scrollableDiv"
+                        >
+                          {notification?.map((n) => (
+                            <Notification key={`notification-${n.id}`} {...n}
+                            />
 
-                        {notification?.map((n) => (
-                          <Notification key={`notification-${n.id}`} {...n}
-                          />
-
-                        ))}
+                          ))}
+                        </InfiniteScroll>
                       </>
                     )
                     }
@@ -267,7 +312,9 @@ export default (props) => {
             )}
           </Nav>
         )}
+
       </div>
+
 
     </Navbar>
   );
