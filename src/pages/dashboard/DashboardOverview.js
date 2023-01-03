@@ -203,6 +203,7 @@ const DashboardOverview = (props) => {
                           index={index}
                           id={value.id}
                           handleClick={handleClick}
+                          paymentType = {value.paymentType}
                           rate={value.rate}
                           completed={"10"}
                           star={value.rating}
