@@ -15,7 +15,7 @@ import ReportSaga from "../Redux/ReportManagement/sagas";
 import PushNotificationSaga from "../Redux/settings/sagas";
 import DisputeSaga from "../Redux/DisputeManagement/sagas";
 import AdminProfileSaga from "../Redux/AdminProfile/sagas";
-
+import DashBoardUsersSaga from "../Redux/AdminDashBoard/sagas";
 export default function* rootSaga() {
   yield all([
     AuthSaga(),
@@ -33,6 +33,7 @@ export default function* rootSaga() {
     PushNotificationSaga(),
     DisputeSaga(),
     AdminProfileSaga(),
+    DashBoardUsersSaga(),
 
   ]);
 }
