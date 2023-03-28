@@ -19,13 +19,14 @@ function* getAdminUser({ payload }) {
       },
     });
     // payload.setLoader(false);
-    yield put(getAdminUsersSuccess(response.data));
+    yield put(getAdminUsersSuccess(response.data.message));
 
   } catch (error) {
     if (error?.response?.status === 401) {
       yield put(logoutRequest());
     }
     yield sagaErrorHandler(error.response);
+
   }
 }
 function* watchGetAdminUsers() {

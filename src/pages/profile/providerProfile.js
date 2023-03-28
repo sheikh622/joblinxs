@@ -207,6 +207,10 @@ const ProviderProfile = (props) => {
                   heading={" Job Type"}
                   value={getById?.account_type ? getById?.account_type : "-"}
                 />
+                <DetailHeading
+                  heading={"Service Location"}
+                  value={getById?.jobPlace ? getById?.jobPlace : "-"}
+                />
               </Card.Body>
 
               <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">

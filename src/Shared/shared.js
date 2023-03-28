@@ -17,8 +17,8 @@ export function* sagaErrorHandler(error) {
   else if(error?.data?.statusCode === 403) {
     toast.error(error.data.message)    
   }
-  else if(error.data.error) {
-    toast.error(error.data.error)    
+  else if(error.data.message) {
+    toast.error(error.data.message)    
   }
   else {
     // yield put(setNotification(error));

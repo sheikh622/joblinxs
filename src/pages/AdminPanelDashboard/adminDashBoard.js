@@ -20,7 +20,6 @@ const AdminDashBoard = () => {
   const UsersCount = useSelector(
     (state) => state?.DashboardUsersCount?.UsersCounts?.message
   );
-  console.log("Users ", UsersCount)
   useEffect(() => {
     dispatch(
       getAdminUsers()

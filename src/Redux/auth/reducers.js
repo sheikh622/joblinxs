@@ -4,7 +4,8 @@ import {
   RESET_PASSWORD_SUCCESS, SET_LOADER,
   ADMIN_UPDATED_SUCCESS,
   LOGIN_FACEBOOK_SUCCESS,
-  LOGIN_GOOGLE_SUCCESS
+  LOGIN_GOOGLE_SUCCESS,
+  UPDATE_AUTH_SUCCESS
 } from "./constants";
 
 
@@ -16,7 +17,6 @@ const initialState = {
   userRole: "",
   LoginFacebook: "",
   LoginGoogle: "",
-
 };
 
 const Auth = produce((state = initialState, action) => {
@@ -25,6 +25,10 @@ const Auth = produce((state = initialState, action) => {
       state.Auther = action.payload.user;
       state.token = action.payload.access_token;
       state.userRole = action.payload.user?.userRole
+      break;
+      case UPDATE_AUTH_SUCCESS:
+      state.Auther = action.payload.user;
+      
       break;
     case RESET_PASSWORD_SUCCESS:
       state.resetPasswordToken = action.payload;

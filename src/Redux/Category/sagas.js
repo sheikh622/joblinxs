@@ -11,14 +11,15 @@ import {
   // deleteCategory,
   getCategoryListSuccess,
   updateCategorySuccess,
-  getUserCategoryListSuccess
+  getUserCategoryListSuccess,
+  addSubCategorySuccess, getSingleListSuccess, getSingleList
 } from "./actions";
 import {
   ADD_ADMIN_CATEGORY,
   DELETE_CATEGORY,
   GET_CATEGORY_LIST,
   UPDATE_CATEGORY,
-  GET_USERCATEGORY_LIST
+  GET_USERCATEGORY_LIST, ADD_SUB_ADMIN_CATEGORY, GET_SINGLE_LIST
 
 } from "./constants";
 
@@ -106,7 +107,6 @@ function* getUserCategory({ payload }) {
 function* updateCategorySaga({ payload }) {
   const formData = new FormData();
   formData.append("id", payload.id);
-
   formData.append("categoryImg", payload.categoryImg);
   formData.append("title", payload.title);
   formData.append("details", payload.details);
@@ -169,10 +169,75 @@ function* watchGetUserCategory() {
 function* watchDeleteCategory() {
   yield takeLatest(DELETE_CATEGORY, deleteCategory);
 }
+function* addSubCategoryRequest({ payload }) {
+
+  const formData = new FormData();
+  formData.append("categoryId", payload.categoryId);
+  formData.append("categoryImg", payload.categoryImg);
+  formData.append("title", payload.title);
+  formData.append("details", payload.details);
+  try {
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.post(`category/add/sub_category`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    toast.success(CapitalizeFirstLetter(response.data.message));
+    yield put(addSubCategorySuccess(response.data.data));
+    yield put(
+      getSingleList({
+        id: payload.categoryId,
+        search: "",
+      })
+    );
+    payload.setSubModel(false);
+    payload.setReset();
+    payload.setSelectedImage("");
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+    // toast.error(CapitalizeFirstLetter(response.data.message));
+  }
+}
+function* watchSubCategory() {
+  yield takeLatest(ADD_SUB_ADMIN_CATEGORY, addSubCategoryRequest);
+}
+function* SingleListSaga({ payload }) {
+  try {
+    let { id } = payload;
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.get(
+      `/category/single/categories_list/${payload?.id}?keyword=${payload.search}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    // if (payload.search == '') {
+    //   yield put(getSingleListSuccess(response.data.data.sub_Categories));
+
+    // }
+    // else {
+      
+    // }
+    yield put(getSingleListSuccess(response.data.data?.sub_Categories));
+    console.log("response-------------",response.data.data)
+    // toast.success(CapitalizeFirstLetter(response.data.message));
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchSingleCategory() {
+  yield takeLatest(GET_SINGLE_LIST, SingleListSaga);
+}
 export default function* CategorySaga() {
   yield all([fork(watchAddCategory)]);
   yield all([fork(watchGetCategory)]);
   yield all([fork(watchGetUserCategory)]);
   yield all([fork(watchUpdateCategory)]);
   yield all([fork(watchDeleteCategory)]);
+  yield all([fork(watchSubCategory)]);
+  yield all([fork(watchSingleCategory)]);
+
 }

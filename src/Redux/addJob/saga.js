@@ -75,13 +75,14 @@ function* addJob({ payload }) {
   formData.append("experienceRequired", payload.experienceRequired);
   // formData.append("jobType", payload.jobType);
   formData.append("jobType", payload.paymentType === "fixed" ? null : payload.jobType);
+  formData.append("jobPlace", payload.jobPlace);
   formData.append("jobNature", payload.paymentType === "fixed" ? null : payload.jobNature);
   // formData.append("jobNature", payload.jobNature);
   formData.append("startDate", JSON.stringify(payload.startDate));
   formData.append("endDate", JSON.stringify(payload.endDate));
   formData.append("jobType", payload.isOngoing === "fixed" ? null : payload.isOngoing);
   // formData.append("isOngoing", payload.isOngoing);
-  formData.append("category", JSON.stringify(payload.category));
+  formData.append("category",payload.category);
   formData.append("jobImg", payload.jobImg);
   formData.append("existImg", payload.existImg);
   formData.append("isPost", payload.isPost);
@@ -229,11 +230,12 @@ function* updateJobSaga(payload) {
   formData.append("toolsNeeded", payload.payload.toolsNeeded);
   formData.append("experienceRequired", payload.payload.experienceRequired);
   formData.append("jobType", payload.payload.jobType);
+  formData.append("jobPlace", payload.payload.jobPlace);
   formData.append("jobNature", payload.payload.jobNature);
   formData.append("startDate", JSON.stringify(payload.payload.startDate));
   formData.append("endDate", JSON.stringify(payload.payload.endDate));
   formData.append("isOngoing", payload.payload.isOngoing);
-  formData.append("category", JSON.stringify(payload.payload.category));
+  formData.append("category", payload.payload.category);
   formData.append("jobImg", payload.payload.jobImg);
   try {
     const token = yield select(makeSelectAuthToken());

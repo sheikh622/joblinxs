@@ -4,7 +4,7 @@ import axios from "../../Routes/axiosConfig";
 import { sagaErrorHandler } from "../../Shared/shared";
 import { makeSelectAuthToken } from "../../Store/selector";
 import { CapitalizeFirstLetter } from "../../utils/Global";
-import { logoutRequest } from "../auth/actions";
+import { logoutRequest, UpdateAuthResponseSuccess } from "../auth/actions";
 import {
   addCategorySuccess,
   getBusinessCategoryList,
@@ -14,6 +14,9 @@ import {
   CopyBusinessCategoryListSuccess,
   updateCategorySuccess,
 } from "./actions";
+import {
+  UpdateAuthResponseS
+} from "../auth/actions";
 import {
   ADD_CATEGORY,
   GET_BUSNIESSCATEGORY_LIST,
@@ -39,6 +42,7 @@ function* addCategoryRequest({ payload }) {
     yield put(addCategorySuccess(response.data.data));
     yield put(
       getBusinessCategoryList({
+        id:payload.id,
         search: payload.search,
         page: payload.page,
         limit: payload.limit,
@@ -54,28 +58,61 @@ function* addCategoryRequest({ payload }) {
 }
 function* getcategory({ payload }) {
   try {
+    let { id } = payload;
     const token = yield select(makeSelectAuthToken());
     let response = yield axios.get(
-      `category/user/all/selected?page=${payload.page}&count=${payload.limit}&search=${payload.search}`,
+      `category/single/categories_list/${payload?.id}?keyword=${payload.search}&page=${payload.page}&count=${payload.limit}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
+    console.log("0000000000000000", response.data.data)
     let data = response.data.data;
-    const updatedArray = data?.allCategories?.map((category) => {
-      if (data?.selctedCategories.length > 0) {
-        let selectedData = data?.selctedCategories?.forEach((selected) => {
-          if (category?.id == selected?.id) {
-            category["selected"] = true;
-          }
-        });
+
+    // const updatedArray = data?.sub_Categories?.map((category) => {
+    //   if (payload.SubLogin.length > 0) {
+    //     let selectedData = data?.selctedCategories?.forEach((selected) => {
+    //       if (category?.id == selected?.id) {
+    //         category["selected"] = true;
+    //       }
+    //     });
+    //   } else {
+    //     category["selected"] = false;
+    //   }
+    //   return category;
+    // });
+    const updatedArray = data.sub_Categories.map((category) => {
+      let val = payload.SubLogin.filter((val) => val.id == category.id)
+      console.log('val', val)
+
+      if (val?.length > 0) {
+        console.log('1')
+        category['select'] = true;
       } else {
-        category["selected"] = false;
+
+        category['select'] = false;
+        console.log("I am in else");
       }
+
+
+
+      // if (payload.SubLogin.some(item=>item.id==category.name)) {
+      //   console.log("I am in iffff");
+      //   // let selectedData = data?.selctedCategories?.forEach((selected) => {
+      //   //   if (category?.id == selected?.id) {
+      //       category["selected"] = true;
+      //   //   }
+      //   // });
+      // } else {
+      //   console.log("I am in else");
+
+      //   category["selected"] = false;
+      // }
       return category;
     });
+    console.log("67890-", updatedArray)
     let finalResponse = {
       updatedArray: updatedArray,
       pages: data.pages
@@ -93,7 +130,7 @@ function* copycategory({ payload }) {
   try {
     const token = yield select(makeSelectAuthToken());
     let response = yield axios.get(
-      `category/user/all/selected?page=${payload.page}&count=${payload.limit}&search=${payload.search}`,
+      `category/single/categories_list/${payload?.id}?keyword=${payload.search}&page=${payload.page}&count=${payload.limit}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -128,6 +165,7 @@ function* copycategory({ payload }) {
 }
 function* saveCategorySaga({ payload }) {
   let Data = {
+    mainCategoryId: payload.mainCategoryId,
     categoriesId: payload.categoriesId,
   };
   try {
@@ -141,6 +179,15 @@ function* saveCategorySaga({ payload }) {
     });
     toast.success(CapitalizeFirstLetter(response.data.message));
     yield put(saveCategorySuccess(response.data.data));
+    yield put(UpdateAuthResponseSuccess(response.data.data));
+    // yield put(
+    //   getBusinessCategoryList({
+    //     id:payload.payload.id,
+    //     search: payload.search,
+    //     page: payload.page,
+    //     limit: payload.limit,
+    //   })
+    // );
     payload.setLoader(false);
   } catch (error) {
     if (error?.response?.status == 401) {

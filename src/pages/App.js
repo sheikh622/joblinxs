@@ -34,6 +34,7 @@ import editAdminProfile from "./AdminProfile/editAdminProfile";
 import adminProfile from "./AdminProfile/adminProfile";
 import MyJobDetails from "./jobs/myJobDetails";
 import BusinessCategories from "./businessCategory/index";
+import BusinessSubCategory from "./businessSubCategory/index";
 import adminDashBoard from "./AdminPanelDashboard/adminDashBoard";
 import Settings from "./Settings/index";
 import Chat from "./Chat/main";
@@ -45,6 +46,7 @@ import PayementMethod from "./payementMethod"
 import WorkExperience from "./WorkExperience";
 import Achievement from "./Achievement"
 import DisputeManagement from "./Dispute Management";
+import SubCategories from "./SubCategories/SubCategories";
 // changes merge
 
 
@@ -181,6 +183,11 @@ export default () => (
       />
       <PrivateRoute
         exact
+        path={Routes.SubCategories.path}
+        component={SubCategories}
+      />
+      <PrivateRoute
+        exact
         path={Routes.Categories_Management.path}
         component={CategoryManagement}
       />
@@ -198,6 +205,11 @@ export default () => (
         exact
         path={Routes.BusinessCategory.path}
         component={BusinessCategories}
+      />
+      <PrivateRoute
+        exact
+        path={Routes.BusinessSubCategory.path}
+        component={BusinessSubCategory}
       />
       <PrivateRoute
         exact

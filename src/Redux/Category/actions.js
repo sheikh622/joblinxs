@@ -6,7 +6,8 @@ import {
   UPDATE_CATEGORY,
   UPDATE_CATEGORY_SUCCESS,
   GET_USERCATEGORY_LIST_SUCCESS,
-  GET_USERCATEGORY_LIST
+  GET_USERCATEGORY_LIST,ADD_SUB_ADMIN_CATEGORY_SUCCESS,ADD_SUB_ADMIN_CATEGORY,
+  GET_SINGLE_LIST,GET_SINGLE_LIST_SUCCESS
 } from "./constants";
 export const addAdminCategory = (data) => ({
   type: ADD_ADMIN_CATEGORY,
@@ -49,5 +50,21 @@ export const deleteCategory = (data) => {
 }
 export const changeUsersActivePage = (data) => ({
   type: CHANGE_USERS_ACTIVE_PAGE,
+  payload: data,
+});
+export const addSubAdminCategory = (data) => ({
+  type: ADD_SUB_ADMIN_CATEGORY,
+  payload: data,
+});
+export const addSubCategorySuccess = (data) => ({
+  type: ADD_SUB_ADMIN_CATEGORY_SUCCESS,
+  payload: data,
+});
+export const getSingleList = (data) => ({
+  type: GET_SINGLE_LIST,
+  payload: data,
+});
+export const getSingleListSuccess = (data) => ({
+  type: GET_SINGLE_LIST_SUCCESS,
   payload: data,
 });

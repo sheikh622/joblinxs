@@ -13,3 +13,5 @@ export const LOGIN_FACEBOOK = 'LOGIN_FACEBOOK';
 export const LOGIN_FACEBOOK_SUCCESS = 'LOGIN_FACEBOOK_success';
 export const LOGIN_GOOGLE = 'LOGIN_GOOGLE';
 export const LOGIN_GOOGLE_SUCCESS = 'LOGIN_GOOGLE_success';
+export const UPDATE_AUTH = 'UPDATE_AUTH';
+export const UPDATE_AUTH_SUCCESS = 'UPDATE_AUTH_success';
