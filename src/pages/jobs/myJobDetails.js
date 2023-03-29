@@ -255,6 +255,10 @@ const MyJobDetails = (item, props, data) => {
                     value={SingleId?.jobType ? SingleId?.jobType?.name === "Permanent" ? "Full-Time" : SingleId?.jobType?.name : "-"}
                   />
                   <DetailHeading
+                    heading={"Service Location"}
+                    value={SingleId?.jobPlace ? SingleId?.jobPlace : "-"}
+                  />
+                  <DetailHeading
                     heading={"Job Nature"}
                     value={SingleId?.jobNature ? SingleId?.jobNature?.name : "-"}
                   />
@@ -564,6 +568,19 @@ const MyJobDetails = (item, props, data) => {
                   }}
                 >
                   Cancel
+                </Button>
+              </div>
+              <div class="d-grid gap-2 col-4 text-center mt-2 mx-auto">
+                <Button
+                  variant="primary"
+                  onHide={handleClose}
+                  color="dark"
+                  size="sm"
+                  onClick={() => {
+                    handleClose();
+                  }}
+                >
+                  Edit Details
                 </Button>
               </div>
               <h6 style={{ marginTop: "20px", marginLeft: "20px" }} onClick={handleMove} >

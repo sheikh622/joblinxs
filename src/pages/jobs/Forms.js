@@ -62,6 +62,10 @@ export const GeneralInfoForm = () => {
 
   const dispatch = useDispatch();
   const history = useHistory();
+  const {
+    location: { state },
+  } = history;
+  const login = useSelector((state) => state?.auth?.Auther?.user_categories);
   const activeForm = history?.location?.state
   const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
   const SingleId = useSelector((state) => state?.addJob?.jobById);
@@ -73,11 +77,12 @@ export const GeneralInfoForm = () => {
   const [providers, setProviders] = useState();
   const [showDefaultEmergency, setShowDefaultEmergency] = useState(false);
   // provide.filter((option) => option.label == SingleId.noOfProviders)
-  const [experience, setExperience] = useState(
-
-  );
+  const [experience, setExperience] = useState();
   const [jobType, setJobType] = useState(
     SingleId?.jobType?.name ? SingleId?.jobType?.name : "Part-time"
+  );
+  const [jobPlace, setJobPlace] = useState(
+    SingleId?.jobPlace ? SingleId?.jobPlace : "Business Location"
   );
   const [onGoing, setOngoing] = useState(false);
   const [paymentType, setPaymentType] = useState(
@@ -104,6 +109,7 @@ export const GeneralInfoForm = () => {
   useEffect(() => {
     setPaymentType(SingleId?.paymentType ? SingleId?.paymentType : "hourly");
     setJobType(SingleId?.jobType?.name ? SingleId?.jobType?.name : "Part-time");
+    setJobPlace(SingleId?.jobPlace ? SingleId?.jobPlace : "Business Location");
     setJobNature(SingleId?.jobNature?.name ? SingleId?.jobNature?.name : "One-time");
     setUnit(SingleId?.unit ? SingleId?.unit : "");
     setRate(SingleId?.rate ? SingleId?.rate : "")
@@ -132,14 +138,14 @@ export const GeneralInfoForm = () => {
 
   useEffect(() => {
     let array = [];
-    CategoryData.map((item) => {
+    login.map((item) => {
       array.push({
         value: [{ id: item.id, title: item.title, details: item.details }],
         label: item?.title,
       });
     });
     setCategoryList(array);
-  }, [CategoryData]);
+  }, [login]);
   const inputEl = useRef(null);
   const onButtonClick = () => {
     inputEl.current.click();
@@ -166,6 +172,7 @@ export const GeneralInfoForm = () => {
     // unit: Yup.string().trim().required("Unit Number is required"),
 
   });
+  console.log("76890-", SingleId)
   const CategoryFormik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -178,6 +185,7 @@ export const GeneralInfoForm = () => {
       unit: SingleId?.unit ? SingleId?.unit : "",
       onGoing: SingleId?.isOngoing ? SingleId?.isOngoing : false,
       jobType: SingleId?.jobType ? SingleId?.jobType : "",
+      jobPlace: SingleId?.jobPlace ? SingleId?.jobPlace : "",
       // jobImg: SingleId?.image ? SingleId?.image : "",
       paymentType: SingleId?.paymentType ? SingleId?.paymentType : "",
       isPost: SingleId?.isPost ? SingleId?.isPost : "",
@@ -208,9 +216,10 @@ export const GeneralInfoForm = () => {
         rate: values.rate,
         unit: values.unit,
         jobType: jobType,
+        jobPlace: jobPlace,
         paymentType: paymentType,
         jobNature: jobNature,
-        category: categories.value,
+        category: categories.value[0].id,
         noOfProviders:
           Array.isArray(providers) === true
             ? providers[0].value
@@ -628,6 +637,35 @@ export const GeneralInfoForm = () => {
                 </Col>
               )}
               <Col md={6} className="mb-3">
+                <Form.Group id="jobPlace Location">
+                  <Form.Label>Service Location</Form.Label>
+                  <fieldset className="d-flex radioButton">
+                    <Form.Check
+                      // defaultChecked
+                      type="radio"
+                      checked={jobPlace === "Mobile Services"}
+                      label="Mobile Services"
+                      name="jobPlace"
+                      value="Mobile Services"
+                      className="radio1"
+                      onChange={(event) => {
+                        setJobPlace(event.target.value);
+                      }}
+                    />
+                    <Form.Check
+                      type="radio"
+                      checked={jobPlace === "Business Location"}
+                      label="Business Location"
+                      name="jobPlace"
+                      value="Business Location"
+                      onChange={(event) => {
+                        setJobPlace(event.target.value);
+                      }}
+                    />
+                  </fieldset>
+                </Form.Group>
+              </Col>
+              <Col md={6} className="mb-3">
                 <Form.Group id="fixedRate">
                   <Form.Label>{`${paymentType} Rate`}</Form.Label>
                   <Form.Control
@@ -764,12 +802,7 @@ export const GeneralInfoForm = () => {
 
             <Row className="align-items-end">
               <Col md={6} className="mb-3">
-                <Form.Label
-                  onClick={() => setShowDefaultCategory(true)}
-                  className="text-underline"
-                >
-                  Add New
-                </Form.Label>
+                <Form.Label>Select Sub-Category</Form.Label>
                 <Form.Group>
                   <Select
                     placeholder={str?.title}
@@ -975,33 +1008,6 @@ export const GeneralInfoForm = () => {
               </svg>
             </Col>
           </Row>
-        </Modal.Body>
-      </Modal>
-
-      {/* Add Category Modal */}
-      <Modal
-        as={Modal.Dialog}
-        centered
-        show={showDefaultCategory}
-        onHide={handleClosesCategory}
-      >
-        <Modal.Header>
-          <Modal.Title className="h5">Add Category</Modal.Title>
-          <Button
-            variant="close"
-            aria-label="Close"
-            onClick={handleClosesCategory}
-          />
-        </Modal.Header>
-        <Modal.Body>
-          <AddCategory
-            setShowDefault={setShowDefault}
-            showDefault={showDefault}
-            categories={categories}
-            setCategories={setCategories}
-            onHide={() => setShowDefaultCategory(false)}
-          />
-
         </Modal.Body>
       </Modal>
 

@@ -128,6 +128,10 @@ const JobDetails = (item) => {
                                                         : " --"
                                                 }
                                             />
+                                              <DetailHeading
+                                                heading={"Service Location"}
+                                                value={item?.location?.state?.item?.jobPlace ? item?.location?.state?.item?.jobPlace : " --"}
+                                            />
                                             <DetailHeading
                                                 heading={"Location"}
                                                 value={

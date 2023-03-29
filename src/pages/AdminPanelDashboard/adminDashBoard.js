@@ -1,16 +1,32 @@
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCashRegister, faChartLine, faCloudUploadAlt, faPlus, faRocket, faTasks, faUserShield } from '@fortawesome/free-solid-svg-icons';
 import { Col, Row, Button, Dropdown, ButtonGroup } from '@themesberg/react-bootstrap';
-
 import { ProviderCard, BusinessSeeker, PersonalSeeker, TotalJobs, TotalProviders, TotalSeekers, RevenueCard, CircleChartWidget, BarChartWidget, ProgressTrackWidget, RankingWidget, SalesValueWidget, SalesValueWidgetPhone, AcquisitionWidget } from "../../DashBoardComponents/Widgets";
 // import { PageVisitsTable } from "../../DashBoardComponents/Tables";
 import { trafficShares, totalOrders } from "../../DashBoardComponents/DashBoardChart";
 import Navbar from "../../components/Navbar";
-
+import { getAdminUsers } from "../../Redux/AdminDashBoard/actions"
 
 const AdminDashBoard = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const {
+    location: { state },
+  } = history;
+  const UsersCount = useSelector(
+    (state) => state?.DashboardUsersCount?.UsersCounts?.message
+  );
+  useEffect(() => {
+    dispatch(
+      getAdminUsers()
+    );
+  }, []);
+
+
   return (
     <>
       <Navbar module={"Dashboard"} />
@@ -18,7 +34,8 @@ const AdminDashBoard = () => {
         <Col xs={12} sm={6} xl={4} className="mb-4">
           <ProviderCard
             category="Provider"
-            title="3.5k"
+            // title="12"
+            title={UsersCount?.provider}
             icon={faChartLine}
             iconColor="shape-secondary"
           />
@@ -26,15 +43,17 @@ const AdminDashBoard = () => {
         <Col xs={12} sm={6} xl={4} className="mb-4">
           <BusinessSeeker
             category="Business Seeker"
-            title="5k"
+            // title="30"
+            title={UsersCount?.bussinese_seeker}
             icon={faChartLine}
             iconColor="shape-secondary"
           />
         </Col>
         <Col xs={12} sm={6} xl={4} className="mb-4">
           <PersonalSeeker
-            category="Personal Seeker"
-            title="3k"
+            category="Seeker"
+            // title="21"
+            title={UsersCount?.seeker}
             icon={faChartLine}
             iconColor="shape-secondary"
           />
@@ -42,7 +61,8 @@ const AdminDashBoard = () => {
         <Col xs={12} sm={6} xl={4} className="mb-4">
           <TotalSeekers
             category="Total Seekers"
-            title="5k"
+            // title="93"
+            title={UsersCount?.seeker}
             icon={faChartLine}
             iconColor="shape-secondary"
           />
@@ -50,7 +70,8 @@ const AdminDashBoard = () => {
         <Col xs={12} sm={6} xl={4} className="mb-4">
           <RevenueCard
             category="Revenue"
-            title="$43,594"
+            // title="50111"
+            title={`$ ${UsersCount?.Revenue}`}
             period="Feb 1 - Apr 1"
             percentage={28.4}
             icon={faCashRegister}
@@ -79,8 +100,8 @@ const AdminDashBoard = () => {
       </Row>
       <Row>
         <Col xs={12} xl={6} className="mb-4">
-            <ProgressTrackWidget />
-          </Col>
+          <ProgressTrackWidget />
+        </Col>
         <Col xs={12} xl={6}>
           <BarChartWidget
             title="Total orders"

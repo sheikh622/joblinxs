@@ -37,30 +37,53 @@ const BusinessCategories = (item) => {
   const [selectedImage, setSelectedImage] = useState("");
   const [isEdit, setEdit] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [categoriesItem, setCategoriesItem] = useState([]);
+
   const [page, setPage] = useState(1);
   const [limit] = useState(12);
   const {
     location: { state },
   } = history;
+  const login = useSelector((state) => state?.auth?.Auther?.Category)
+  const SubLogin = useSelector((state) => state?.auth?.Auther)
   const CategoryData = useSelector((state) => state?.BusinessCategory?.getBusinessCategoryList);
-  const CopyCategoryData = useSelector((state) => state?.BusinessCategory?.CopyBusinessCategoryList);
+  console.log("loginid", SubLogin?.Category?.id)
+
+  const CopyCategoryData = useSelector((state) => state?.BusinessCategory?.getBusinessCategoryList);
+  const subCategories = useSelector((state) => state?.BusinessCategory?.getBusinessCategoryList);
   useEffect(() => {
     if (CategoryData !== undefined) {
       setChecked(CategoryData?.updatedArray)
+      console.log("Categouryy", CategoryData)
+
     }
+
   }, [CategoryData])
+  console.log("Categouryy", CategoryData);
+
   useEffect(() => {
     if (CopyCategoryData !== undefined) {
       setCopyChecked(CopyCategoryData?.updatedArray)
     }
   }, [CopyCategoryData])
+  // useEffect(() => {
+  //   if (subCategories !== undefined) {
+  //     {subCategories.map((item)=>{
+  //       if(item.id==login.id){
+  //         setCategoriesItem(item.sub_Categories)
+  //       }
+  //     })}
+  //   }
+  // }, [subCategories])
   useEffect(() => {
     dispatch(
       getBusinessCategoryList({
+        id: login.id,
         page: page,
         limit: limit,
         search: search,
         setLoader: setLoader,
+        SubLogin: SubLogin?.user_categories,
       })
     );
   },
@@ -69,27 +92,28 @@ const BusinessCategories = (item) => {
   useEffect(() => {
     if (CategoryData?.pages != undefined) {
       dispatch(
-        CopyBusinessCategoryList({
-          page: 1,
-          limit: CategoryData?.pages * limit,
+        getBusinessCategoryList({
+          id: login.id,
+          page: page,
+          limit: limit,
           search: search,
-          setLoader: false,
+          setLoader: setLoader,
         })
       );
     }
   },
     [CategoryData]
   );
-
   const handleClick = () => {
     let arr = [];
     copyChecked.map((obj) => {
-      if (obj.selected === true) {
+      if (obj.select === true) {
         arr.push(obj.id);
       }
     });
     dispatch(
       saveCategory({
+        mainCategoryId:SubLogin?.Category?.id,
         categoriesId: arr,
         setLoader: setLoader,
       })
@@ -166,9 +190,9 @@ const BusinessCategories = (item) => {
   const handlechecked = (index, value, e) => {
     let newValue = checked.find((item) => item.id === value.id);
     if (e.target.checked) {
-      newValue = { ...newValue, selected: e.target.checked }
+      newValue = { ...newValue, select: e.target.checked }
     } if (!e.target.checked) {
-      newValue = { ...newValue, selected: false }
+      newValue = { ...newValue, select: false }
     }
     let newArray = checked.map(item => {
       if (item.id === newValue.id) {
@@ -182,9 +206,9 @@ const BusinessCategories = (item) => {
 
     let valueNew = copyChecked.find((item) => item.id === value.id);
     if (e.target.checked) {
-      valueNew = { ...valueNew, selected: e.target.checked }
+      valueNew = { ...valueNew, select: e.target.checked }
     } if (!e.target.checked) {
-      valueNew = { ...valueNew, selected: false }
+      valueNew = { ...valueNew, select: false }
     }
     let newNewArray = copyChecked.map(item => {
       if (item.id === valueNew.id) {
@@ -229,6 +253,7 @@ const BusinessCategories = (item) => {
         <Row className="py-2 justify-content-between align-items-baseline">
           <Col lg={3} md={5}>
             <Form.Group className="mt-3">
+              <Form.Label>Search Category</Form.Label>
               <Form.Control
                 type="text"
                 select
@@ -241,36 +266,15 @@ const BusinessCategories = (item) => {
               />
             </Form.Group>
           </Col>
-          <Col lg={3} md={5} className="justify-content-end d-flex">
-            <Button
-              variant="primary"
-              className="mx-2"
-              onClick={() => addCategories()}
-            >
-              <svg
-                width="17"
-                height="17"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 12H8M12 8V12V8ZM12 12V16V12ZM12 12H16H12Z"
-                  stroke="white"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-                  stroke="white"
-                  stroke-width="2"
-                />
-              </svg>
-              {"  "}
-              Add Category
-            </Button>
+          <Col lg={3} md={5}>
+            <Form.Group className="mt-3">
+              <Form.Label>Main Category</Form.Label>
+              <Form.Control
+                disabled={true}
+                value={login?.title}
+              />
+            </Form.Group>
           </Col>
-
           <Col lg={12} md={12} sm={12} xs={12} className="pt-4 pb-1">
             <div className="d-flex justify-content-between"></div>
           </Col>
@@ -306,7 +310,7 @@ const BusinessCategories = (item) => {
                                 <label>
                                   <input
                                     type="checkbox"
-                                    checked={value.selected ? true : false}
+                                    checked={value.select ? true : false}
                                     onChange={(event) =>
                                       handlechecked(index, value, event)
                                     }
