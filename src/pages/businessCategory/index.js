@@ -146,20 +146,6 @@ const BusinessCategories = (item) => {
     },
     validationSchema: CategorySchema,
     onSubmit: async (values, action) => {
-      selectedItem
-        ? dispatch()
-        : // updateCategory({
-        //     id: values.id,
-        //     title: values.title,
-
-        //     details: values.details,
-        //     setReset: action.resetForm,
-        //     setShowDefault: setShowDefault,
-        //     // showDefault: showDefault,
-        //     setSelectedImage: setSelectedImage,
-
-        //     history: history,
-        // })
         dispatch(
           addCategory({
             title: values.title,
