@@ -68,7 +68,6 @@ function* getcategory({ payload }) {
         },
       }
     );
-    console.log("0000000000000000", response.data.data)
     let data = response.data.data;
 
     // const updatedArray = data?.sub_Categories?.map((category) => {
@@ -85,31 +84,12 @@ function* getcategory({ payload }) {
     // });
     const updatedArray = data.sub_Categories.map((category) => {
       let val = payload.SubLogin.filter((val) => val.id == category.id)
-      console.log('val', val)
-
       if (val?.length > 0) {
-        console.log('1')
         category['select'] = true;
       } else {
 
         category['select'] = false;
-        console.log("I am in else");
       }
-
-
-
-      // if (payload.SubLogin.some(item=>item.id==category.name)) {
-      //   console.log("I am in iffff");
-      //   // let selectedData = data?.selctedCategories?.forEach((selected) => {
-      //   //   if (category?.id == selected?.id) {
-      //       category["selected"] = true;
-      //   //   }
-      //   // });
-      // } else {
-      //   console.log("I am in else");
-
-      //   category["selected"] = false;
-      // }
       return category;
     });
     console.log("67890-", updatedArray)
