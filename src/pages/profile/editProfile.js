@@ -58,14 +58,14 @@ export default () => {
   }, [user]);
   useEffect(() => {
     setUser({
-      businessName: getById.businessName,
-      fullName: getById.fullName,
-      address: getById.address,
-      dateofBirth: getById.dateofBirth,
-      phoneNumber: getById.phoneNumber,
-      city: getById.city,
-      postalCode: getById.postalCode,
-      industryType: getById.industryType,
+      businessName: getById?.businessName,
+      fullName: getById?.fullName,
+      address: getById?.address,
+      dateofBirth: getById?.dateofBirth,
+      phoneNumber: getById?.phoneNumber,
+      city: getById?.city,
+      postalCode: getById?.postalCode,
+      industryType: getById?.industryType,
       // setLoader: setLoader,
 
     });

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import { getONNotification, getUserNotification } from "../../Redux/settings/actions";
+import { getONNotification, getUserNotification, getUpgradeBusiness } from "../../Redux/settings/actions";
 import Spinner from "../../components/spinner";
 
 const Settings = (props, row) => {
@@ -19,6 +19,7 @@ const Settings = (props, row) => {
     const [data, setData] = useState();
     const [loader, setLoader] = useState(true);
     const [blockUser, setBlockUser] = useState();
+    const [upgrade, setUpgrade] = useState(false);
     useEffect(() => {
         if (NotificationData !== undefined) {
             setData(NotificationData)
@@ -45,6 +46,16 @@ const Settings = (props, row) => {
             })
         );
     }, []);
+    const handleUpgradeBusiness = (upgrade) => {
+        setUpgrade(!upgrade)
+        dispatch(
+            getUpgradeBusiness({
+                userId: login.id,
+                role: login?.role?.name,
+                setLoader: setLoader,
+            })
+        );
+    };
     return (
         <>
             <Navbar module={"Settings"} />
@@ -94,7 +105,25 @@ const Settings = (props, row) => {
                                             </Card.Title>
                                         </Link>
                                     </div>
-
+                                    {login?.role?.name == "seeker"
+                                        ? <div className="border_bottom pb-2 mb-4">
+                                            <Card.Title className="text-primary d-flex justify-content-between">
+                                                Upgrade to Business
+                                                <Form.Switch
+                                                    type="switch"
+                                                    defaultValue="fixed"
+                                                    label=""
+                                                    className="text-center cursorPointer display-inline-block"
+                                                    name="upgradeToBusiness"
+                                                    {...label}
+                                                    checked={upgrade}
+                                                    onClick={(e) => {
+                                                        handleUpgradeBusiness(upgrade);
+                                                    }}
+                                                />
+                                            </Card.Title>
+                                        </div>
+                                        : ""}
                                 </Card.Body>
 
                             </Col>

@@ -1,12 +1,22 @@
 
-import React from "react";
+import React, { useEffect,useState } from "react";
 import Chartist from "react-chartist";
 import ChartistTooltip from 'chartist-plugin-tooltips-updated';
 
-export const SalesValueChart = () => {
+export const SalesValueChart = (props) => {
+const [revenueCount, setRevenueCount]=useState([]);
+  console.log("-------------props------------------", props.data?.revenuecount);
+  useEffect(() => {
+    if (props.data.providers !== undefined) {
+      let data1 = props.data?.revenuecount;
+      setRevenueCount(Object.values(data1));
+      console.log(Object.values(data1));
+    }
+  }, [props.data]);
+
   const data = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June','July','Aug','Sep','Oct','Nov','Dec'],
-    series: [[4, 2, 5, 3, 2, 4, 3, 5, 3, 5, 4, 2]]
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    series: [revenueCount]
   };
 
   const options = {
@@ -30,7 +40,7 @@ export const SalesValueChart = () => {
   ]
 
   return (
-    <Chartist data={data} options={{...options, plugins}} type="Line" className="ct-series-g ct-double-octave" />
+    <Chartist data={data} options={{ ...options, plugins }} type="Line" className="ct-series-g ct-double-octave" />
   );
 };
 
@@ -61,7 +71,7 @@ export const SalesValueChartphone = () => {
   ]
 
   return (
-    <Chartist data={data} options={{...options, plugins}} type="Line" className="ct-series-g ct-major-tenth" />
+    <Chartist data={data} options={{ ...options, plugins }} type="Line" className="ct-series-g ct-major-tenth" />
   );
 };
 
@@ -85,7 +95,7 @@ export const CircleChart = (props) => {
   ]
 
   return (
-    <Chartist data={{ series }} options={{...options, plugins}} type="Pie" className="ct-golden-section" />
+    <Chartist data={{ series }} options={{ ...options, plugins }} type="Pie" className="ct-golden-section" />
   );
 };
 
@@ -111,6 +121,6 @@ export const BarChart = (props) => {
   ]
 
   return (
-    <Chartist data={data} options={{...options, plugins}} type="Bar" className={chartClassName} />
+    <Chartist data={data} options={{ ...options, plugins }} type="Bar" className={chartClassName} />
   );
 };

@@ -22,7 +22,7 @@ function* getProfileById({ payload }) {
       },
     });
     // payload.setLoader(false);
-    yield put(getProfileSuccess(response.data.data.user));
+    yield put(getProfileSuccess(response.data.data));
     if (payload.id !== undefined) {
       yield put(jobById(payload))
     }
@@ -66,8 +66,8 @@ function* updateAdminProfileSaga({ payload }) {
       yield put(getProfileSuccess(response.data.data));
       yield put(adminUpdatedSuccess(response.data.data));
     } else {
-      yield put(getProfileSuccess(response.data.data.user));
-      yield put(adminUpdatedSuccess(response.data.data.user));
+      yield put(getProfileSuccess(response.data.data));
+      yield put(adminUpdatedSuccess(response.data.data));
 
     }
     payload.setLoader(false);

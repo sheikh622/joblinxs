@@ -59,7 +59,6 @@ const Categories = (item) => {
   const handleClick = (event) => {
     setCategoryType(event.target.value)
   }
-  console.log("2121", categoryType);
   const CategoryList = useSelector((state) => state?.Category?.getCategoryList);
   const Category = useSelector((state) => state?.Category?.getCategoryList);
   useEffect(() => {
@@ -380,7 +379,7 @@ const Categories = (item) => {
             </>
             }
 
-            {auth.Auther.userRole != "Admin" && (
+            {/* {auth.Auther.userRole != "Admin" && (
               <Row className="py-2 justify-content-between">
                 <div class="d-grid gap-2 col-3 text-center  mx-auto">
                   <span className="text-gray">
@@ -391,7 +390,7 @@ const Categories = (item) => {
                   </Button>
                 </div>
               </Row>
-            )}
+            )} */}
           </>
         )}
       </div>

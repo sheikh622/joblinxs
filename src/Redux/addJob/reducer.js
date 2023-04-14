@@ -10,7 +10,10 @@ import {
   GET_LOG_HOURS_SUCCESS,
   APPROVED_LOG_HOURS_SUCCESS,
   GET_SINGLE_USER_SUCCESS,
-  GET_HIRED_APPLICANTS_SUCCESS
+  GET_HIRED_APPLICANTS_SUCCESS,
+  SEND_OFFER_SUCCESS,
+  EXTEND_TIME_SUCCESS,
+  GET_EXTEND_SUCCESS
 } from "./constants";
 const initialState = {
   addJob: [],
@@ -19,12 +22,15 @@ const initialState = {
   jobById: [],
   updateJob: [],
   Applicants: [],
-  hiredApplicants:[],
+  hiredApplicants: [],
   favouriteJob: [],
   ConfirmApplicants: [],
   logHours: [],
-  AppvoedHours:[],
-  getSingle:[],
+  AppvoedHours: [],
+  getSingle: [],
+  sendOffer: [],
+  extendTime: [],
+  getExtend: [],
 };
 const addJob = produce((state = initialState, action) => {
   switch (action.type) {
@@ -46,7 +52,7 @@ const addJob = produce((state = initialState, action) => {
     case GET_JOB_APPLICANTS_SUCCESS:
       state.Applicants = action.payload;
       break;
-      case GET_JOB_APPLICANTS_SUCCESS:
+    case GET_JOB_APPLICANTS_SUCCESS:
       state.Applicants = action.payload;
       break;
     case GET_HIRED_APPLICANTS_SUCCESS:
@@ -55,12 +61,21 @@ const addJob = produce((state = initialState, action) => {
     case GET_LOG_HOURS_SUCCESS:
       state.logHours = action.payload;
       break;
-      case APPROVED_LOG_HOURS_SUCCESS:
+    case APPROVED_LOG_HOURS_SUCCESS:
       state.AppvoedHours = action.payload;
       break;
-      case GET_SINGLE_USER_SUCCESS:
-        state.getSingle = action.payload;
-        break;
+    case GET_SINGLE_USER_SUCCESS:
+      state.getSingle = action.payload;
+      break;
+    case SEND_OFFER_SUCCESS:
+      state.sendOffer = action.payload;
+      break;
+    case EXTEND_TIME_SUCCESS:
+      state.extendTime = action.payload;
+      break;
+    case GET_EXTEND_SUCCESS:
+      state.getExtend = action.payload;
+      break;
     default:
   }
 }, initialState);

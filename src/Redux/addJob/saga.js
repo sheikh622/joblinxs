@@ -25,7 +25,11 @@ import {
   getSingleUserSuccess,
   getHiredApplicantsSuccess,
   getHiredApplicants,
-  getApplicantsByUserId
+  getApplicantsByUserId,
+  sendOfferJobSuccess,
+  extendJobTime,
+  extendJobTimeSuccess,
+  getExtendSuccess
 } from "./actions";
 import {
   ADD_JOB,
@@ -51,7 +55,9 @@ import {
   COMPLETE_JOB,
   CONFIRM_JOB,
   GET_APPLICANTS_BYUSERID,
-  EMERGENCY_JOB
+  EMERGENCY_JOB,
+  SEND_OFFER,
+  EXTEND_TIME, GET_EXTEND
 } from "./constants";
 import { CapitalizeFirstLetter } from "../../utils/Global";
 
@@ -82,7 +88,7 @@ function* addJob({ payload }) {
   formData.append("endDate", JSON.stringify(payload.endDate));
   formData.append("jobType", payload.isOngoing === "fixed" ? null : payload.isOngoing);
   // formData.append("isOngoing", payload.isOngoing);
-  formData.append("category",payload.category);
+  formData.append("category", payload.category);
   formData.append("jobImg", payload.jobImg);
   formData.append("existImg", payload.existImg);
   formData.append("isPost", payload.isPost);
@@ -539,7 +545,101 @@ function* emergencyJobSaga({ payload }) {
 function* watchemergencyJob() {
   yield takeLatest(EMERGENCY_JOB, emergencyJobSaga);
 }
+function* sendOfferSaga({ payload }) {
+  let repost = payload.isPost;
+  const formData = new FormData();
+  formData.append("id", payload.id);
+  formData.append("name", payload.name);
+  formData.append("description", payload.description);
+  formData.append("requirement", payload.requirement);
+  formData.append("paymentType", payload.paymentType);
+  formData.append("rate", payload.rate);
+  formData.append("unit", payload.unit);
+  formData.append("hours", payload.hours);
+  formData.append("days", payload.days);
+  formData.append("location", JSON.stringify([payload.location]));
+  formData.append("longitude", payload.longitude);
+  formData.append("latitude", payload.latitude);
+  formData.append("noOfProviders", payload.noOfProviders);
+  formData.append("toolsNeeded", payload.toolsNeeded);
+  formData.append("experienceRequired", payload.experienceRequired);
+  formData.append("jobType", payload.paymentType === "fixed" ? null : payload.jobType);
+  formData.append("jobPlace", payload.jobPlace);
+  formData.append("jobNature", payload.paymentType === "fixed" ? null : payload.jobNature);
+  formData.append("startDate", JSON.stringify(payload.startDate));
+  formData.append("endDate", JSON.stringify(payload.endDate));
+  formData.append("jobType", payload.isOngoing === "fixed" ? null : payload.isOngoing);
+  formData.append("category", payload.category);
+  formData.append("jobImg", payload.jobImg);
+  // formData.append("existImg", payload.existImg);
+  formData.append("isPost", payload.isPost);
+  formData.append("isOffer", payload.isOffer);
+  formData.append("serviceId", payload.serviceId);
 
+
+  try {
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.post(`job/offer`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    toast.success(CapitalizeFirstLetter(response.data.message));
+    payload.setReset();
+    payload.setButtonDisabled(false);
+    payload.history.push("/dashboard");
+
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchSendOfferSaga() {
+  yield takeLatest(SEND_OFFER, sendOfferSaga);
+}
+function* ExtendTimeSaga({ payload }) {
+  try {
+    let Data = {
+      serviceId: payload.jobId,
+      endDate: payload.endDate,
+    };
+    const token = yield select(makeSelectAuthToken());
+    const response = axios.post(`job/timeExtend`, Data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    );
+    toast.success(CapitalizeFirstLetter(response.data.message));
+    yield put(extendJobTimeSuccess(response.data.data));
+    payload.showModal(false);
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchExtendTimeSaga() {
+  yield takeLatest(EXTEND_TIME, ExtendTimeSaga);
+}
+function* getExtendSaga(payload) {
+  try {
+    const { id, usersId, page, limit } = payload.payload;
+    const token = yield select(makeSelectAuthToken());
+    const response = yield axios.get(
+      `job/timeExtend/confirm`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    yield put(getExtendSuccess(response.data.data));
+  } catch (error) {
+    yield sagaErrorHandler(error.response);
+  }
+}
+function* watchGetExtend() {
+  yield takeLatest(GET_EXTEND, getExtendSaga);
+}
 export default function* addJobSaga() {
   yield all([fork(watchAddJob)]);
   yield all([fork(watchGetJob)]);
@@ -559,4 +659,8 @@ export default function* addJobSaga() {
   yield all([fork(watchConfirmJob)]);
   yield all([fork(watchGetApplicantsByUserId)]);
   yield all([fork(watchemergencyJob)]);
+  yield all([fork(watchSendOfferSaga)]);
+  yield all([fork(watchExtendTimeSaga)]);
+  yield all([fork(watchGetExtend)]);
+
 }

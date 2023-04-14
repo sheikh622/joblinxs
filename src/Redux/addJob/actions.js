@@ -28,7 +28,7 @@ import {
   COMPLETE_JOB,
   CONFIRM_JOB,
   GET_APPLICANTS_BYUSERID,
-  GET_APPLICANTS_BYUSERID_SUCCESS
+  GET_APPLICANTS_BYUSERID_SUCCESS, SEND_OFFER, SEND_OFFER_SUCCESS, EXTEND_TIME_SUCCESS, EXTEND_TIME, GET_EXTEND_SUCCESS, GET_EXTEND
 } from "./constants";
 
 export const addFormJob = (data) => (
@@ -154,5 +154,30 @@ export const getApplicantsByUserIdSuccess = (data) => ({
 });
 export const emergencyJob = (data) => ({
   type: EMERGENCY_JOB,
+  payload: data,
+});
+export const sendOfferJob = (data) => (
+  {
+    type: SEND_OFFER,
+    payload: data,
+  });
+export const sendOfferJobSuccess = (data) => ({
+  type: SEND_OFFER_SUCCESS,
+  payload: data,
+});
+export const extendJobTime = (data) => ({
+  type: EXTEND_TIME,
+  payload: data,
+});
+export const extendJobTimeSuccess = (data) => ({
+  type: EXTEND_TIME_SUCCESS,
+  payload: data,
+});
+export const getExtend = (data) => ({
+  type: GET_EXTEND,
+  payload: data,
+});
+export const getExtendSuccess = (data) => ({
+  type: GET_EXTEND_SUCCESS,
   payload: data,
 });

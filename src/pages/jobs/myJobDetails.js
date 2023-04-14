@@ -46,7 +46,6 @@ const MyJobDetails = (item, props, data) => {
     }
   }, [SingleId])
   const getById = useSelector((state) => state.ProfileReducer.profile);
-
   const [loader, setLoader] = useState(true);
   const [showDefault, setShowDefault] = useState(false);
   const [rating, setRating] = useState(0); // initial rating value
@@ -89,6 +88,9 @@ const MyJobDetails = (item, props, data) => {
   };
   const handleRepost = () => {
     history.push({ pathname: `/updateJob/${jobId}`, state: "repost" });
+  };
+  const handleSendOffer = () => {
+    history.push({ pathname: `/updateJob/${jobId}`, state: "Send Offer" });
   };
   const handleRating = (rating) => {
     setRating(rating);
@@ -331,6 +333,16 @@ const MyJobDetails = (item, props, data) => {
                       <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">
                         <Card.Text className="text-black mb-2">
                           Logged Hours
+                        </Card.Text>
+                      </Card.Body>
+                    </Link>
+                    <Link
+                      className="text-white fw-bold"
+                      to={`/extendTime/${jobId}`}
+                    >
+                      <Card.Body className="pb-2 border_bottom mb-1 d-flex justify-content-between align-items-baseline">
+                        <Card.Text className="text-black mb-2">
+                          Extend Time Request
                         </Card.Text>
                       </Card.Body>
                     </Link>
@@ -577,7 +589,8 @@ const MyJobDetails = (item, props, data) => {
                   color="dark"
                   size="sm"
                   onClick={() => {
-                    handleClose();
+                    handleClose()
+                    handleSendOffer();
                   }}
                 >
                   Edit Details

@@ -20,7 +20,6 @@ function* getAdminUser({ payload }) {
     });
     // payload.setLoader(false);
     yield put(getAdminUsersSuccess(response.data.message));
-
   } catch (error) {
     if (error?.response?.status === 401) {
       yield put(logoutRequest());
@@ -41,8 +40,7 @@ function* getAdminChart({ payload }) {
       },
     });
     // payload.setLoader(false);
-    yield put(getAdminChartSuccess(response.data));
-
+    yield put(getAdminChartSuccess(response.data.message));
   } catch (error) {
     if (error?.response?.status === 401) {
       yield put(logoutRequest());

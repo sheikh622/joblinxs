@@ -21,7 +21,6 @@ const CommonCard = (props) => {
   const handleFavourite = (id, value, isFavourite, title) => {
     props.handleClick(id, value, isFavourite, title);
   };
-  console.log("111", props)
   return (
     <>
       <Card border="light" className="shadow-sm selfCard">

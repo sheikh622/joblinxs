@@ -221,7 +221,7 @@ function* SingleListSaga({ payload }) {
     // else {
       
     // }
-    yield put(getSingleListSuccess(response.data.data?.sub_Categories));
+    yield put(getSingleListSuccess(response.data.data));
     // toast.success(CapitalizeFirstLetter(response.data.message));
   } catch (error) {
     yield sagaErrorHandler(error.response);

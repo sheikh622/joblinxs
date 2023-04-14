@@ -21,7 +21,7 @@ import AddCard from "../../components/addCard";
 import { getCardDetails } from "../../Redux/settings/actions";
 import { getCategoryList, getUserCategoryList } from "../../Redux/Category/actions";
 
-const Job = () => {
+const Job = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const {
