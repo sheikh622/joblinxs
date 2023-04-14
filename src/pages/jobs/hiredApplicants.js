@@ -16,7 +16,8 @@ import MapSection from '../../components/map/Map'; // import the map here
 import RateModal from "../../components/modal";
 import NoRecordFound from "../../components/NoRecordFound";
 import Spinner from "../../components/spinner";
-import { completeJob, confirmJob, getHiredApplicants } from "../../Redux/addJob/actions";
+import { completeJob, confirmJob, getHiredApplicants, extendJobTime } from "../../Redux/addJob/actions";
+import DatePicker from "react-datepicker";
 
 const location123 = {
   address: '',
@@ -53,6 +54,12 @@ const Applicants = ({ id }) => {
   const Pageination = useSelector((state) => state?.addJob?.hiredApplicants?.data);
   const [rating, setRating] = useState(0); // initial rating value
   const [showLocation, setShowLocation] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [endDate, setEndDate] = React.useState(new Date());
+  const handleOff = () => {
+    // setShowDefault(false);
+    setShowModal(false);
+  };
   useEffect(() => {
     if (id === "Hired") {
       dispatch(
@@ -91,6 +98,15 @@ const Applicants = ({ id }) => {
       );
     }
     return items;
+  };
+  const handleTime = (time) => {
+    dispatch(
+      extendJobTime({
+        jobId: jobId,
+        endDate: time,
+        setLoader: setLoader,
+      })
+    );
   };
   const handleConfirm = (data) => {
     dispatch(
@@ -169,86 +185,101 @@ const Applicants = ({ id }) => {
                               </div>
                               <span className="right">
                                 {item?.jobStatus !== "canceled" && (
-                                <Dropdown as={ButtonGroup} className="me-3 mt-1">
-                                  <Dropdown.Toggle
-                                    as={Button}
-                                    split
-                                    variant="link"
-                                    className="text-dark m-0 p-0"
-                                  >
-                                    <span className="icon icon-sm">
-                                      <FontAwesomeIcon
-                                        icon={faEllipsisV}
-                                        className="icon-dark"
-                                      />
-                                    </span>
-                                  </Dropdown.Toggle>
-                                  <Dropdown.Menu className="custom_menu">
-                                    <Dropdown.Item
+                                  <Dropdown as={ButtonGroup} className="me-3 mt-1">
+                                    <Dropdown.Toggle
+                                      as={Button}
+                                      split
+                                      variant="link"
+                                      className="text-dark m-0 p-0"
                                     >
-                                      {item?.completedBySeeker ? (
-                                        <div onClick={() => {
-                                          setShow(true);
-                                        }}>
-                                          Rate Provider
-                                        </div>
-                                      ) : (
-                                        <div onClick={() => {
-                                          item.completedByProvider == true ? (handleConfirm({
-                                            id: item?.users?.id,
-                                            isCompleted: true,
-                                          })) : handleComplete(
-                                            ({
+                                      <span className="icon icon-sm">
+                                        <FontAwesomeIcon
+                                          icon={faEllipsisV}
+                                          className="icon-dark"
+                                        />
+                                      </span>
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu className="custom_menu">
+                                      <Dropdown.Item
+                                      >
+                                        {item?.completedBySeeker ? (
+                                          <div onClick={() => {
+                                            setShow(true);
+                                          }}>
+                                            Rate Provider
+                                          </div>
+                                        ) : (
+                                          <div onClick={() => {
+                                            item.completedByProvider == true ? (handleConfirm({
                                               id: item?.users?.id,
-                                              jobStatus: true,
-                                            })
-                                          )
-                                        }}>
-                                          Complete Job
-                                        </div>
-                                      )}
-                                    </Dropdown.Item>
-                                    <Dropdown.Item
-                                    >
-                                      {item?.jobs?.paymentType === "fixed" || item?.jobs?.paymentType === "Fixed" ? (
+                                              isCompleted: true,
+                                            })) : handleComplete(
+                                              ({
+                                                id: item?.users?.id,
+                                                jobStatus: true,
+                                              })
+                                            )
+                                          }}>
+                                            Complete Job
+                                          </div>
+                                        )}
+                                      </Dropdown.Item>
+                                      <Dropdown.Item
+                                      >
+                                        {item?.jobs?.paymentType === "fixed" || item?.jobs?.paymentType === "Fixed" ? (
+                                          <>
+                                            {item?.jobs?.isDispute ? (
+                                              <div >
+                                                Disputed
+                                              </div>
+                                            ) : (
+                                              <div onClick={() => {
+                                                setDispute(true);
+                                              }}>
+                                                Dispute
+                                              </div>
+                                            )}
+                                          </>
+                                        ) : (
+                                          <div onClick={() => {
+                                            handleMove(item);
+                                          }}>
+                                            Logged Hours
+                                          </div>
+                                        )}
+                                      </Dropdown.Item>
+                                      {item?.jobs?.status === "inprogress" ? (
                                         <>
-                                          {item?.jobs?.isDispute ? (
-                                            <div >
-                                              Disputed
-                                            </div>
-                                          ) : (
-                                            <div onClick={() => {
-                                              setDispute(true);
-                                            }}>
-                                              Dispute
-                                            </div>
-                                          )}
+                                          <Dropdown.Item onClick={() => {
+                                            setShowModal(true);
+                                            // setSelectedProfileId(item);
+                                          }}>
+
+                                            Extend Time
+                                          </Dropdown.Item>
                                         </>
                                       ) : (
-                                        <div onClick={() => {
-                                          handleMove(item);
-                                        }}>
-                                          Logged Hours
-                                        </div>
-                                      )}
-                                    </Dropdown.Item>
-                                    {item?.jobs?.status === "upcoming" ? (
-                                      <>
-                                        <Dropdown.Item onClick={() => {
-                                          setShowLocation(true);
-                                          setSelectedProfileId(item);
-                                        }}>
+                                        <>
+                                        </>
+                                      )
+                                      }
+                                      {item?.jobs?.status === "upcoming" ? (
+                                        <>
+                                          <Dropdown.Item onClick={() => {
+                                            setShowLocation(true);
+                                            setSelectedProfileId(item);
+                                          }}>
 
-                                          Live Location
-                                        </Dropdown.Item>
-                                      </>
-                                    ) : (
-                                      <>
-                                      </>
-                                    )
-                                    }
-                                  </Dropdown.Menu>
-                                </Dropdown>
+                                            Live Location
+                                          </Dropdown.Item>
+                                        </>
+                                      ) : (
+                                        <>
+                                        </>
+                                      )
+                                      }
+                                    </Dropdown.Menu>
+                                  </Dropdown>
                                 )}
                               </span>
                             </div>
@@ -323,7 +354,44 @@ const Applicants = ({ id }) => {
           </Form>
         </Modal.Body>
       </Modal>
-
+      {/* // Extend Time */}
+      <Modal as={Modal.Dialog} centered show={showModal} onHide={handleOff}>
+        <Modal.Header>
+          <Modal.Title className="h5">Extend Job Time</Modal.Title>
+          <Button variant="close" aria-label="Close" onClick={handleOff} />
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group>
+              <h5 className="my-4">Time Required</h5>
+              <Row>
+                <Col md={3} className="mb-3">
+                  <Form.Label>End Date</Form.Label>
+                  <DatePicker
+                    selected={endDate}
+                    label="endDate"
+                    name="endDate"
+                    value={endDate}
+                    onChange={(newValue) => {
+                      setEndDate(newValue);
+                    }}
+                  />
+                </Col>
+              </Row>
+            </Form.Group>
+            <Button
+              variant="primary"
+              // type="submit"
+              onClick={() => {
+                handleTime(endDate);
+                setShowModal(false);
+              }}
+            >
+              Submit
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </>
 
   );

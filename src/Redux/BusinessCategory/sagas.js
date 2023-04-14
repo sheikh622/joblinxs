@@ -92,7 +92,6 @@ function* getcategory({ payload }) {
       }
       return category;
     });
-    console.log("67890-", updatedArray)
     let finalResponse = {
       updatedArray: updatedArray,
       pages: data.pages

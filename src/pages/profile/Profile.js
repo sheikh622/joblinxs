@@ -24,9 +24,9 @@ export default () => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState([]);
   const login = useSelector((state) => state.auth.Auther);
-  const getById = useSelector((state) => state.ProfileReducer.profile);
-  const Reviews = useSelector((state) => state.ProfileReducer.Reviews);
-  const getByIdCategory = useSelector((state) => state.ProfileReducer.profile.user_categories);
+  const getById = useSelector((state) => state.ProfileReducer?.profile);
+  const Reviews = useSelector((state) => state.ProfileReducer?.Reviews);
+  const getByIdCategory = useSelector((state) => state.ProfileReducer?.profile?.user_categories);
   const history = useHistory();
   useEffect(() => {
     if (getByIdCategory !== undefined) {
@@ -166,13 +166,13 @@ export default () => {
                           <Card.Text className="text-gray mb-2">
                             <Card border="light" className="shadow-sm introCard">
                               <Image
-                                src={value?.category?.categoryImg}
+                                src={value?.categoryImg}
                                 className="navbar-brand-light"
                               />
                               <div className="detailSection">
                                 <span className="left">
-                                  <h3>{value?.category?.title}</h3>
-                                  <p>{value?.category?.details}</p>
+                                  <h3>{value?.title}</h3>
+                                  <p>{value?.details}</p>
                                 </span>
                               </div>
                             </Card>

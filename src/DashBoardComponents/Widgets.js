@@ -14,6 +14,8 @@ import Businessseeker from "../assets/Dashboard Icons/Business seeker.svg";
 import TotalJob from "../assets/Dashboard Icons/total jobs.svg";
 import totalpersonal from "../assets/Dashboard Icons/total personal.svg";
 import TotalSeeker from "../assets/Dashboard Icons/total seeker.svg";
+import { useState } from "react";
+import { useEffect } from "react";
 
 // import teamMembers from "../data/teamMembers";
 
@@ -79,7 +81,7 @@ export const ProviderCard = (props) => {
         <Row className="d-block d-xl-flex align-items-center">
           <Col xl={5} className="text-xl-center d-flex align-items-center justify-content-xl-center mb-3 mb-xl-0">
             <div className={`icon icon-shape icon-md icon-${iconColor} rounded me-4 me-sm-0`}>
-              
+
               <img src={providerImg} alt="" width="80px" />
             </div>
             <div className="d-sm-none">
@@ -117,7 +119,7 @@ export const BusinessSeeker = (props) => {
         <Row className="d-block d-xl-flex align-items-center">
           <Col xl={5} className="text-xl-center d-flex align-items-center justify-content-xl-center mb-3 mb-xl-0">
             <div className={`icon icon-shape icon-md icon-${iconColor} rounded me-4 me-sm-0`}>
-              
+
               <img src={Businessseeker} alt="" width="80px" />
             </div>
             <div className="d-sm-none">
@@ -155,7 +157,7 @@ export const PersonalSeeker = (props) => {
         <Row className="d-block d-xl-flex align-items-center">
           <Col xl={5} className="text-xl-center d-flex align-items-center justify-content-xl-center mb-3 mb-xl-0">
             <div className={`icon icon-shape icon-md icon-${iconColor} rounded me-4 me-sm-0`}>
-              
+
               <img src={Personalseeker} alt="" width="80px" />
             </div>
             <div className="d-sm-none">
@@ -193,7 +195,7 @@ export const TotalJobs = (props) => {
         <Row className="d-block d-xl-flex align-items-center">
           <Col xl={5} className="text-xl-center d-flex align-items-center justify-content-xl-center mb-3 mb-xl-0">
             <div className={`icon icon-shape icon-md icon-${iconColor} rounded me-4 me-sm-0`}>
-              
+
               <img src={TotalJob} alt="" width="80px" />
             </div>
             <div className="d-sm-none">
@@ -231,7 +233,7 @@ export const TotalProviders = (props) => {
         <Row className="d-block d-xl-flex align-items-center">
           <Col xl={5} className="text-xl-center d-flex align-items-center justify-content-xl-center mb-3 mb-xl-0">
             <div className={`icon icon-shape icon-md icon-${iconColor} rounded me-4 me-sm-0`}>
-              
+
               <img src={totalpersonal} alt="" width="80px" />
             </div>
             <div className="d-sm-none">
@@ -268,7 +270,7 @@ export const TotalSeekers = (props) => {
         <Row className="d-block d-xl-flex align-items-center">
           <Col xl={5} className="text-xl-center d-flex align-items-center justify-content-xl-center mb-3 mb-xl-0">
             <div className={`icon icon-shape icon-md icon-${iconColor} rounded me-4 me-sm-0`}>
-              
+
               <img src={TotalSeeker} alt="" width="80px" />
             </div>
             <div className="d-sm-none">
@@ -305,7 +307,7 @@ export const RevenueCard = (props) => {
         <Row className="d-block d-xl-flex align-items-center">
           <Col xl={5} className="text-xl-center d-flex align-items-center justify-content-xl-center mb-3 mb-xl-0">
             <div className={`icon icon-shape icon-md icon-${iconColor} rounded me-4 me-sm-0`}>
-              
+
               <img src={totalpersonal} alt="" width="80px" />
             </div>
             <div className="d-sm-none">
@@ -360,11 +362,25 @@ export const CircleChartWidget = (props) => {
 
 export const BarChartWidget = (props) => {
   const { title, value, percentage, data = [] } = props;
-  const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June','July','Aug','Sep','Oct','Nov','Dec'];
+  const [seriesData, setSeriesData] = useState([]);
+
+  console.log("value=", props.data1);
+  const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const series = data.map(d => d.value);
+  console.log("series-------------", series);
   const percentageIcon = percentage < 0 ? faAngleDown : faAngleUp;
   const percentageColor = percentage < 0 ? "text-danger" : "text-success";
+  useEffect(() => {
+    if (props.data1?.providers !== undefined) {
+      let data = props.data1?.providers;
+      let data2=props.data1?.Seekers;
+      console.log("hereeeeeeeeeeeee",data,data2);
+      console.log(Object.values(data), Object.values(data2))
+      setSeriesData([Object.values(data), Object.values(data2)])
+    }
 
+  }, [props?.data1])
+  console.log("@@@@@@@@@@@", seriesData);
   return (
     <Card border="light" className="shadow-sm">
       <Card.Body className="d-flex flex-row align-items-center flex-0 border-bottom">
@@ -388,12 +404,12 @@ export const BarChartWidget = (props) => {
         </div>
       </Card.Body>
       <Card.Body className="p-2">
-        <BarChart labels={labels} series={series} />
+        <BarChart labels={labels} series={seriesData} />
       </Card.Body>
     </Card>
   );
 };
-export const ProgressTrackWidget = () => {
+export const ProgressTrackWidget = ({ progress }) => {
   const Progress = (props) => {
     const { title, percentage, icon, color, last = false } = props;
     const extraClassName = last ? "" : "mb-2";
@@ -402,7 +418,7 @@ export const ProgressTrackWidget = () => {
       <Row className={`align-items-center ${extraClassName}`}>
         <Col xs="auto">
           <span className={`icon icon-md text-${color}`}>
-         <img src={icon} height="40" width="40"/>
+            <img src={icon} height="40" width="40" />
           </span>
         </Col>
         <Col>
@@ -427,9 +443,9 @@ export const ProgressTrackWidget = () => {
       </Card.Header>
       <Card.Body>
 
-        <Progress title="Personal Seeker" color="purple"  icon={Personalseeker} percentage={34} />
-        <Progress title="Business Seeker" color="danger" icon={Businessseeker} percentage={51} />
-        <Progress title="Total Jobs" color="tertiary" icon={TotalJob} percentage={90} />
+        <Progress title="Personal Seeker" color="purple" icon={Personalseeker} percentage={progress.seeker} />
+        <Progress title="Business Seeker" color="danger" icon={Businessseeker} percentage={progress.bussinese_seeker} />
+        <Progress title="Total Jobs" color="tertiary" icon={TotalJob} percentage={progress.totalJobs} />
         <Progress title="Total Personal" color="info" icon={totalpersonal} percentage={35} />
         <Progress last title="Total Seeker" color="purple" icon={TotalSeeker} percentage={34} />
       </Card.Body>
@@ -492,7 +508,7 @@ export const SalesValueWidget = (props) => {
       <Card.Header className="d-flex flex-row align-items-center flex-0">
       </Card.Header>
       <Card.Body className="p-2">
-        <SalesValueChart />
+        <SalesValueChart data={props.data} />
       </Card.Body>
     </Card>
   );

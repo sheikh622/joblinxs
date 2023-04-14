@@ -9,7 +9,7 @@ import { ProviderCard, BusinessSeeker, PersonalSeeker, TotalJobs, TotalProviders
 // import { PageVisitsTable } from "../../DashBoardComponents/Tables";
 import { trafficShares, totalOrders } from "../../DashBoardComponents/DashBoardChart";
 import Navbar from "../../components/Navbar";
-import { getAdminUsers } from "../../Redux/AdminDashBoard/actions"
+import { getAdminUsers, getAdminCharts } from "../../Redux/AdminDashBoard/actions"
 
 const AdminDashBoard = () => {
   const dispatch = useDispatch();
@@ -18,7 +18,10 @@ const AdminDashBoard = () => {
     location: { state },
   } = history;
   const UsersCount = useSelector(
-    (state) => state?.DashboardUsersCount?.UsersCounts?.message
+    (state) => state?.DashboardUsersCount?.UsersCounts
+  );
+  const MonthCount = useSelector(
+    (state) => state?.DashboardUsersCount?.UsersChartMonths
   );
   useEffect(() => {
     dispatch(
@@ -26,7 +29,11 @@ const AdminDashBoard = () => {
     );
   }, []);
 
-
+  useEffect(() => {
+    dispatch(
+      getAdminCharts()
+    );
+  }, []);
   return (
     <>
       <Navbar module={"Dashboard"} />
@@ -83,11 +90,16 @@ const AdminDashBoard = () => {
             title="Traffic Share"
             data={trafficShares} />
         </Col>
+
         <Col xs={12} className="mb-4 d-none d-sm-block">
+          <h4>
+            Total Revenue Chart
+          </h4>
           <SalesValueWidget
             title="Sales Value"
             value="10,567"
             percentage={10.57}
+            data={MonthCount}
           />
         </Col>
         <Col xs={12} className="mb-4 d-sm-none">
@@ -100,14 +112,17 @@ const AdminDashBoard = () => {
       </Row>
       <Row>
         <Col xs={12} xl={6} className="mb-4">
-          <ProgressTrackWidget />
+          <ProgressTrackWidget progress={UsersCount} />
         </Col>
         <Col xs={12} xl={6}>
           <BarChartWidget
-            title="Total orders"
-            value={452}
+            title="Total Seekers"
+            value={UsersCount?.seeker}
             percentage={18.2}
-            data={totalOrders} />
+            data={totalOrders}
+            data1={MonthCount}
+
+          />
         </Col>
       </Row>
     </>

@@ -17,7 +17,7 @@ import Select from "react-select";
 import * as Yup from "yup";
 import profile from "../../assets/img/upload.png";
 import AddCategory from "../../components/addCategory";
-import { addFormJob, emergencyJob, jobById, updateJob } from "../../Redux/addJob/actions";
+import { addFormJob, emergencyJob, jobById, updateJob, sendOfferJob } from "../../Redux/addJob/actions";
 import { getCategoryList } from "../../Redux/Category/actions";
 
 export const GeneralInfoForm = () => {
@@ -69,7 +69,7 @@ export const GeneralInfoForm = () => {
   const activeForm = history?.location?.state
   const CategoryData = useSelector((state) => state?.Category?.getCategoryList);
   const SingleId = useSelector((state) => state?.addJob?.jobById);
-  let str = SingleId?.job_categories?.length > 0 ? SingleId?.job_categories[0]?.category : "false";
+  let str = SingleId?.category?.length > 0 ? SingleId?.category[0]?.category : "false";
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
   const [hours, setHours] = useState("1");
@@ -103,9 +103,11 @@ export const GeneralInfoForm = () => {
   const [latitude, setLatitude] = useState();
   const [unit, setUnit] = useState();
   const [postJob, setPostJob] = useState(false);
+  const [activeButton, setActiveButton] = useState("");
+  const [isOffer, setIsOffer] = useState(true);
+
   const [buttonDisable, setButtonDisabled] = useState(false);
   let jobId = params.pathname.split("/")[2];
-
   useEffect(() => {
     setPaymentType(SingleId?.paymentType ? SingleId?.paymentType : "hourly");
     setJobType(SingleId?.jobType?.name ? SingleId?.jobType?.name : "Part-time");
@@ -121,8 +123,8 @@ export const GeneralInfoForm = () => {
     setLatitude(SingleId?.latitude ? SingleId?.latitude : "");
     setLogintude(SingleId?.longitude ? SingleId?.longitude : "");
     setCategories({
-      value: [{ id: str.id, title: str.title, details: str.details }],
-      label: str?.title
+      value: [{ id: SingleId?.category?.id, title: SingleId?.category?.title, details: str.details }],
+      label: SingleId?.category?.title
     })
     setStartDate(SingleId?.startDate ? new Date(SingleId?.startDate) : new Date());
     setEndDate(SingleId?.endDtae ? new Date(SingleId?.endDtae) : new Date());
@@ -172,7 +174,6 @@ export const GeneralInfoForm = () => {
     // unit: Yup.string().trim().required("Unit Number is required"),
 
   });
-  console.log("76890-", SingleId)
   const CategoryFormik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -246,6 +247,8 @@ export const GeneralInfoForm = () => {
         isPost: isPost,
         setPostJob: setPostJob,
         setButtonDisabled: setButtonDisabled,
+        isOffer:isOffer,
+        serviceId:jobId,
       };
       if (!id) {
         dispatch(addFormJob(data));
@@ -263,12 +266,14 @@ export const GeneralInfoForm = () => {
             }));
           }
         }
-        if (!isPost) {
-          if (!emergency) {
-            dispatch(updateJob(data, id));
-          }
+        // if (!isPost) {
+        if (activeButton == "update") {
+          dispatch(updateJob(data, id));
         }
-
+        // }
+        if (activeButton == "send offer") {
+          dispatch(sendOfferJob(data, jobId))
+        }
       }
     },
   });
@@ -333,6 +338,7 @@ export const GeneralInfoForm = () => {
           />
         )}
         <Form.Control
+          disabled={activeForm == "Send Offer" ? true : false}
           accept="image/*"
           type="file"
           id="file"
@@ -352,6 +358,7 @@ export const GeneralInfoForm = () => {
                   <Form.Control
                     // required
                     type="text"
+                    disabled={activeForm == "Send Offer" ? true : false}
                     placeholder="Enter your Job name"
                     value={CategoryFormik.values.jobName}
                     name="jobName"
@@ -409,6 +416,7 @@ export const GeneralInfoForm = () => {
                   <Form.Label>Description</Form.Label>
                   <Form.Control
                     as="textarea"
+                    disabled={activeForm == "Send Offer" ? true : false}
                     rows="3"
                     placeholder="Description"
                     value={CategoryFormik.values.description}
@@ -839,24 +847,45 @@ export const GeneralInfoForm = () => {
 
             <div className="mt-3 d-flex justify-content-end">
               {SingleId === null || SingleId?.length === 0 || SingleId?.status === "pending" ? (
-                <Button variant="primary" type="submit" disabled={buttonDisable} show={showDefaults} className="mx-2">
+                <Button variant="primary" type="submit" disabled={buttonDisable} show={showDefaults} className="mx-2" onClick={() => {
+                  // setShowDefaultEmergency(true);
+                  // setIsPost(true)
+                  // setPostJob(false);
+                  // setPostItem(true);
+                  { id ? setActiveButton('update') : setActiveButton("add") }
+                }}>
                   {id ? "Update Job" : "Post Job"}
                 </Button>) : ""}
-              {id && (
+              {id && activeForm == "Send Offer" && (
                 <Button
                   variant="primary"
                   type="submit"
                   disabled={buttonDisable}
                   onClick={() => {
                     // setShowDefaultEmergency(true);
-                    setIsPost(true)
+                    // setIsPost(true)
                     // setPostJob(false);
-                    setPostItem(true);
+                    // setPostItem(true);
+                    setActiveButton("send offer");
+
                   }}
                 >
-                  Repost Job
+                  Send Offer
                 </Button>
-              )}
+              )}{id && activeForm !== "Send Offer" && <Button
+                variant="primary"
+                type="submit"
+                disabled={buttonDisable}
+                onClick={() => {
+                  // setShowDefaultEmergency(true);
+                  setIsPost(true)
+                  // setPostJob(false);
+                  setPostItem(true);
+                  setActiveButton("repost");
+                }}
+              >
+                Repost Job
+              </Button>}
             </div>
           </Form>
         </Card.Body>

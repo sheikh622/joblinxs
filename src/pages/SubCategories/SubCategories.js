@@ -45,7 +45,6 @@ const SubCategories = (item) => {
   const auth = useSelector((state) => state.auth);
   const forAction = history?.location?.state?.from;
   const categoryId = history.location.state;
-  console.log("11111111111111111",categoryId)
   useEffect(() => {
     dispatch(
       getSingleList({
@@ -74,10 +73,9 @@ const SubCategories = (item) => {
     setCategoryType(event.target.value)
   }
   // const CategoryList = useSelector((state) => state?.Category?.getCategoryList);
-  const SingleList = useSelector((state) => state?.Category?.SingleList);
+  const SingleList = useSelector((state) => state?.Category?.SingleList?.sub_Categories);
   const Single = useSelector((state) => state?.Category);
-  const MainCategory = useSelector((state) => state?.Category);
-  console.log("00000000000000000000",MainCategory)
+  const MainCategory = useSelector((state) => state?.Category?.SingleList);
   // useEffect(() => {
   //   let array = [
   //     {
@@ -360,7 +358,7 @@ const SubCategories = (item) => {
       </>
       }
 
-      {auth.Auther.userRole != "Admin" && (
+      {/* {auth.Auther.userRole != "Admin" && (
         <Row className="py-2 justify-content-between">
           <div class="d-grid gap-2 col-3 text-center  mx-auto">
             <span className="text-gray">
@@ -371,7 +369,7 @@ const SubCategories = (item) => {
             </Button>
           </div>
         </Row>
-      )}
+      )} */}
       {/* </>
         )}
       </div> */}

@@ -47,19 +47,14 @@ const BusinessCategories = (item) => {
   const login = useSelector((state) => state?.auth?.Auther?.Category)
   const SubLogin = useSelector((state) => state?.auth?.Auther)
   const CategoryData = useSelector((state) => state?.BusinessCategory?.getBusinessCategoryList);
-  console.log("loginid", SubLogin?.Category?.id)
-
   const CopyCategoryData = useSelector((state) => state?.BusinessCategory?.getBusinessCategoryList);
   const subCategories = useSelector((state) => state?.BusinessCategory?.getBusinessCategoryList);
   useEffect(() => {
     if (CategoryData !== undefined) {
       setChecked(CategoryData?.updatedArray)
-      console.log("Categouryy", CategoryData)
-
     }
 
   }, [CategoryData])
-  console.log("Categouryy", CategoryData);
 
   useEffect(() => {
     if (CopyCategoryData !== undefined) {
@@ -310,7 +305,7 @@ const BusinessCategories = (item) => {
                     );
                   })}
                 </Row>
-                <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+                {/* <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
                   <Nav>
                     <Pagination size={"sm"} className="mb-2 mb-lg-0">
                       <Pagination.Prev onClick={() => previousPage()}>
@@ -322,11 +317,11 @@ const BusinessCategories = (item) => {
                       </Pagination.Next>
                     </Pagination>
                   </Nav>
-                  {/* <small className="fw-bold">
+                  <small className="fw-bold">
                     Showing <b>{checked?.length}</b> out of{" "}
                     <b>{checked?.total_categories}</b> entries
-                  </small> */}
-                </Card.Footer>
+                  </small>
+                </Card.Footer> */}
               </>
             ) : (
               <>

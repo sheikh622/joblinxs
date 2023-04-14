@@ -36,6 +36,7 @@ const UserManagement = (row, item) => {
   const label = { inputProps: { "aria-label": "Switch demo" } };
   const dispatch = useDispatch();
   const history = useHistory();
+  const Login = useSelector ((state) => state?.auth ?.Auther )
   const userList = useSelector((state) => state.User.Users);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -182,6 +183,9 @@ const UserManagement = (row, item) => {
           <span className="fw-normal">
             {item?.phoneNumber ? item?.phoneNumber : " N/A"}
           </span>
+        </td>
+        <td>
+          <span className="fw-normal">{item?.account_type ? item?.account_type : "N/A"}</span>
         </td>
         <td>
           <Button
@@ -360,6 +364,7 @@ const UserManagement = (row, item) => {
                               <th className="border-bottom">Full Name</th>
                               <th className="border-bottom">Email</th>
                               <th className="border-bottom">Phone number</th>
+                              <th className="border-bottom">User Role</th>
                               <th className="border-bottom">User status</th>
                               <th className="border-bottom">Unblock / Block</th>
                               <th className="border-bottom">Action</th>
