@@ -6,7 +6,6 @@ import { Link, useHistory } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { getONNotification, getUserNotification, getUpgradeBusiness } from "../../Redux/settings/actions";
 import Spinner from "../../components/spinner";
-
 const Settings = (props, row) => {
     const label = { inputProps: { "aria-label": "Switch demo" } };
     const dispatch = useDispatch();

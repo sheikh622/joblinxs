@@ -9,8 +9,6 @@ const PrivacyPolicy = (props, row) => {
     const label = { inputProps: { "aria-label": "Switch demo" } };
     const dispatch = useDispatch();
     const history = useHistory();
-
-
     return (
         <>
             <Navbar module={"Privacy Policy"} />
