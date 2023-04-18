@@ -108,7 +108,7 @@ const BusinessCategories = (item) => {
     });
     dispatch(
       saveCategory({
-        mainCategoryId:SubLogin?.Category?.id,
+        mainCategoryId: SubLogin?.Category?.id,
         categoriesId: arr,
         setLoader: setLoader,
       })
@@ -141,20 +141,20 @@ const BusinessCategories = (item) => {
     },
     validationSchema: CategorySchema,
     onSubmit: async (values, action) => {
-        dispatch(
-          addCategory({
-            title: values.title,
-            details: values.details,
-            page: page,
-            limit: limit,
-            search: search,
-            setReset: action.resetForm,
-            setShowDefault: setShowDefault,
-            showDefault: showDefault,
-            setSelectedImage: setSelectedImage,
-            setLoader: setLoader,
-          })
-        );
+      dispatch(
+        addCategory({
+          title: values.title,
+          details: values.details,
+          page: page,
+          limit: limit,
+          search: search,
+          setReset: action.resetForm,
+          setShowDefault: setShowDefault,
+          showDefault: showDefault,
+          setSelectedImage: setSelectedImage,
+          setLoader: setLoader,
+        })
+      );
     },
   });
   const imageChange = (e) => {
@@ -260,52 +260,52 @@ const BusinessCategories = (item) => {
             <div className="d-flex justify-content-between"></div>
           </Col>
         </Row>
-        {loader ? (
+        {/* {loader ? (
           <Spinner />
-        ) : (
-          <>
-            {checked?.length ? (
-              <>
-                <Row className="pb-1">
-                  {checked?.map((value, index, row) => {
-                    return (
-                      <>
-                        <Col
-                          lg={4}
-                          md={12}
-                          xs={12}
-                          sm={12}
-                          className="pb-3 introCardParent"
-                        >
-                          <Card border="light" className="shadow-sm introCard">
-                            <Image
-                              src={value.categoryImg}
-                              className="navbar-brand-light"
-                            />
-                            <div className="detailSection">
-                              <span className="left">
-                                <h3>{value.title}</h3>
-                                <p>{value.details}</p>
-                              </span>
-                              <span className="right">
-                                <label>
-                                  <input
-                                    type="checkbox"
-                                    checked={value.select ? true : false}
-                                    onChange={(event) =>
-                                      handlechecked(index, value, event)
-                                    }
-                                  />
-                                </label>
-                              </span>
-                            </div>
-                          </Card>
-                        </Col>
-                      </>
-                    );
-                  })}
-                </Row>
-                {/* <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+        ) : ( */}
+        <>
+          {checked?.length ? (
+            <>
+              <Row className="pb-1">
+                {checked?.map((value, index, row) => {
+                  return (
+                    <>
+                      <Col
+                        lg={4}
+                        md={12}
+                        xs={12}
+                        sm={12}
+                        className="pb-3 introCardParent"
+                      >
+                        <Card border="light" className="shadow-sm introCard">
+                          <Image
+                            src={value.categoryImg}
+                            className="navbar-brand-light"
+                          />
+                          <div className="detailSection">
+                            <span className="left">
+                              <h3>{value.title}</h3>
+                              <p>{value.details}</p>
+                            </span>
+                            <span className="right">
+                              <label>
+                                <input
+                                  type="checkbox"
+                                  checked={value.select ? true : false}
+                                  onChange={(event) =>
+                                    handlechecked(index, value, event)
+                                  }
+                                />
+                              </label>
+                            </span>
+                          </div>
+                        </Card>
+                      </Col>
+                    </>
+                  );
+                })}
+              </Row>
+              {/* <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
                   <Nav>
                     <Pagination size={"sm"} className="mb-2 mb-lg-0">
                       <Pagination.Prev onClick={() => previousPage()}>
@@ -322,14 +322,14 @@ const BusinessCategories = (item) => {
                     <b>{checked?.total_categories}</b> entries
                   </small>
                 </Card.Footer> */}
-              </>
-            ) : (
-              <>
-                <NoRecordFound />
-              </>
-            )}
-          </>
-        )}
+            </>
+          ) : (
+            <>
+              <NoRecordFound />
+            </>
+          )}
+        </>
+        {/* )} */}
 
         <Row className="py-2 justify-content-between">
           <div class="d-grid gap-2 col-3 text-center  mx-auto">

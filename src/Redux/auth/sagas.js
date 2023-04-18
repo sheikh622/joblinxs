@@ -171,6 +171,7 @@ function* watchFacebookLogin() {
 function* LogingoogleSaga({ payload }) {
   let data = {
     token: payload.token,
+    fcmToken: payload.fcmToken,
     web: true,
   }
   try {

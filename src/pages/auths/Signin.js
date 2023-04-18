@@ -26,7 +26,7 @@ const LoginPage = () => {
   const [isTokenFound, setTokenFound] = useState(false);
   const [token, setToken] = useState("");
   const [loader, setLoader] = useState(true);
-  
+
 
   useEffect(() => {
     localStorage.clear()
@@ -87,13 +87,14 @@ const LoginPage = () => {
   const Goolelogin = useGoogleLogin({
 
     onSuccess: tokenResponse => {
-    
+
       if (tokenResponse) {
         dispatch(
           googleLogin({
             token: tokenResponse?.access_token,
+            fcmToken: token,
             web: true,
-              
+
           })
         );
       }

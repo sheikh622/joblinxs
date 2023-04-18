@@ -114,7 +114,7 @@ const Job = (props) => {
     (action) => {
       dispatch(
         getJobs({
-          userId: login.id,
+          userId: login?.id,
           page: page,
           limit: limit,
           type: type,

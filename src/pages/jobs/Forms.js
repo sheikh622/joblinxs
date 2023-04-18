@@ -142,7 +142,7 @@ export const GeneralInfoForm = () => {
     let array = [];
     login.map((item) => {
       array.push({
-        value: [{ id: item.id, title: item.title, details: item.details }],
+        value: [{ id: item?.id, title: item?.title, details: item?.details }],
         label: item?.title,
       });
     });

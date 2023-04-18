@@ -125,7 +125,7 @@ function* UpgradeProfileSaga({ payload }) {
     yield put(getUpgradeBusinessSuccess(response.data));
     yield put(getSwitchAccount({
       userId: payload.userId,
-      role: payload.role,
+      role:"business-seeker",
     }));
 
   } catch (error) {
@@ -142,7 +142,7 @@ function* SwitchSaga({ payload }) {
   try {
     let data = {
       userId: payload.userId,
-      userRole: payload.role,
+      userRole: "business-seeker",
     };
     const headers = {
       headers: { authorization: yield select(makeSelectAuthToken()) },
