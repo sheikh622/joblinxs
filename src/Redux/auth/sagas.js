@@ -130,7 +130,6 @@ function* updatePasswordSaga({ payload }) {
     yield sagaErrorHandler(error.response);
   }
 }
-
 function* watchUpdatePassword() {
   yield takeLatest(UPDATE_PASSWORD, updatePasswordSaga);
 }
@@ -163,11 +162,9 @@ function* LoginFacebookSaga({ payload }) {
     yield sagaErrorHandler(error.response);
   }
 }
-
 function* watchFacebookLogin() {
   yield takeLatest(LOGIN_FACEBOOK, LoginFacebookSaga);
 }
-
 function* LogingoogleSaga({ payload }) {
   let data = {
     token: payload.token,
